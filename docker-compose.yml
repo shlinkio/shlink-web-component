@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+    shlink_web_component:
+        container_name: shlink_web_component
+        image: node:20.5-alpine
+        volumes:
+            - ./:/shlink-web-component
+        ports:
+            - '3002:3002'

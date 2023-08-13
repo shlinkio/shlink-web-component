@@ -36,7 +36,7 @@ export default defineConfig({
         'src/**/*.tsx',
         '!src/index.ts',
       ],
-      reporter: ['text', 'text-summary', 'clover'],
+      reporter: ['text', 'text-summary', 'clover', 'html'],
 
       // Required code coverage. Lower than this will make the check fail
       statements: 95,

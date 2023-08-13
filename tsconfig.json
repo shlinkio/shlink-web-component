@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "lib": ["dom", "esnext"],
+    "esModuleInterop": true,
+    "module": "esnext",
+    "skipLibCheck": true,
+    "types": ["vite/client", "vitest/globals"]
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": ["node_modules", "vite.config.ts"]
+}

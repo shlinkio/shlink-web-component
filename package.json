@@ -1,0 +1,98 @@
+{
+  "name": "@shlinkio/shlink-web-component",
+  "description": "Minimal UI to interact with Shlink on React applications",
+  "private": false,
+  "repository": "https://github.com/shlinkio/shlink-web-component",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest run",
+    "test:ci": "npm run test -- --coverage",
+    "lint": "eslint --ext ts,tsx ./dev ./src ./test",
+    "lint:fix": "npm run lint -- --fix",
+    "types": "tsc",
+    "dev": "vite serve --host=0.0.0.0 --port 3002"
+  },
+  "peerDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@shlinkio/shlink-frontend-kit": "^0.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.2",
+    "react-router-dom": "^6.14.2",
+    "reactstrap": "^9.2.0"
+  },
+  "dependencies": {
+    "@json2csv/plainjs": "^7.0.1",
+    "bottlejs": "^2.0.1",
+    "bowser": "^2.11.0",
+    "chart.js": "^4.3.3",
+    "classnames": "^2.3.2",
+    "compare-versions": "^6.1.0",
+    "date-fns": "^2.30.0",
+    "event-source-polyfill": "^1.0.31",
+    "leaflet": "^1.9.4",
+    "ramda": "^0.27.2",
+    "react-chartjs-2": "^5.2.0",
+    "react-colorful": "^5.6.1",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-datepicker": "^4.16.0",
+    "react-external-link": "^2.2.0",
+    "react-leaflet": "^4.2.1",
+    "react-swipeable": "^7.0.1",
+    "react-tag-autocomplete": "^7.0.0"
+  },
+  "devDependencies": {
+    "@shlinkio/eslint-config-js-coding-standard": "~2.2.0",
+    "@shlinkio/stylelint-config-css-coding-standard": "~1.1.1",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@total-typescript/shoehorn": "^0.1.1",
+    "@types/leaflet": "^1.9.3",
+    "@types/ramda": "^0.27.66",
+    "@types/react": "^18.2.19",
+    "@types/react-color": "^3.0.6",
+    "@types/react-copy-to-clipboard": "^5.0.4",
+    "@types/react-datepicker": "^4.15.0",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.4",
+    "@vitest/coverage-v8": "^0.34.1",
+    "bootstrap": "5.2.3",
+    "eslint": "^8.46.0",
+    "history": "^5.3.0",
+    "jsdom": "^22.1.0",
+    "resize-observer-polyfill": "^1.5.1",
+    "sass": "^1.64.2",
+    "stylelint": "^15.10.2",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.9",
+    "vite-plugin-dts": "^3.5.1",
+    "vitest": "^0.34.1",
+    "vitest-canvas-mock": "^0.3.2"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

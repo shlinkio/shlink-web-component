@@ -1,6 +1,6 @@
-import type { ShlinkCreateShortUrlData } from '@shlinkio/shlink-web-component/api-contract';
 import type { FC } from 'react';
 import { useMemo } from 'react';
+import type { ShlinkCreateShortUrlData } from '../api-contract';
 import type { ShortUrlCreationSettings } from '../utils/settings';
 import { useSetting } from '../utils/settings';
 import type { CreateShortUrlResultProps } from './helpers/CreateShortUrlResult';

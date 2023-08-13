@@ -10,9 +10,11 @@ export default defineConfig({
 
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'shlink-web-component',
-      fileName: 'index'
+      entry: {
+        index: resolve(__dirname, 'src/index.ts'),
+        'api-contract': resolve(__dirname, 'src/api-contract/index.ts'),
+      },
+      name: 'shlink-web-component'
     },
     rollupOptions: {
       external: [...Object.keys(pack.peerDependencies ?? {}), 'react/jsx-runtime'],

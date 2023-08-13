@@ -11,7 +11,13 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "require": "./dist/index.umd.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./api-contract": {
+      "import": "./dist/api-contract.js",
+      "require": "./dist/api-contract.umd.cjs",
+      "types": "./dist/api-contract.d.ts"
     }
   },
   "files": [
@@ -21,8 +27,12 @@
     "build": "vite build",
     "test": "vitest run",
     "test:ci": "npm run test -- --coverage",
-    "lint": "eslint --ext ts,tsx ./dev ./src ./test",
-    "lint:fix": "npm run lint -- --fix",
+    "lint": "npm run lint:css && npm run lint:js",
+    "lint:css": "stylelint src/*.scss src/**/*.scss dev/*.scss dev/**/*.scss",
+    "lint:js": "eslint --ext .ts,.tsx dev src test",
+    "lint:fix": "npm run lint:css:fix && npm run lint:js:fix",
+    "lint:css:fix": "npm run lint:css -- --fix",
+    "lint:js:fix": "npm run lint:js -- --fix",
     "types": "tsc",
     "dev": "vite serve --host=0.0.0.0 --port 3002"
   },

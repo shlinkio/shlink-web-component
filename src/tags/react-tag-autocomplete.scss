@@ -1,4 +1,4 @@
-@import '../../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
+@import '../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
 
 // Main wrapper
 .react-tags {
@@ -50,6 +50,7 @@
 .react-tags__list-item {
   display: inline-block;
 }
+
 .react-tags__list-item:not(:last-child) {
   margin-right: 3px;
 }

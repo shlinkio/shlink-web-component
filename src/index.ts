@@ -1,5 +1,6 @@
 import { bottle } from './container';
 import { createShlinkWebComponent } from './ShlinkWebComponent';
+import './index.scss';
 
 export const ShlinkWebComponent = createShlinkWebComponent(bottle);
 

@@ -19,9 +19,9 @@ describe('<Overview />', () => {
     pagination: { totalItems: 83710 },
   };
   const routesPrefix = '/server/123';
-  const setUp = (loading = false, excludeBots = false) => renderWithEvents(
+  const setUp = (loading = false, visits: { excludeBots?: boolean } = {}) => renderWithEvents(
     <MemoryRouter>
-      <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
+      <SettingsProvider value={fromPartial({ visits })}>
         <RoutesPrefixProvider value={routesPrefix}>
           <Overview
             listShortUrls={listShortUrls}
@@ -52,7 +52,7 @@ describe('<Overview />', () => {
     [false, 3456, 28],
     [true, 2456, 13],
   ])('displays amounts in cards after finishing loading', (excludeBots, expectedVisits, expectedOrphanVisits) => {
-    setUp(false, excludeBots);
+    setUp(false, { excludeBots });
 
     const headingElements = screen.getAllByRole('heading');
 
@@ -89,10 +89,11 @@ describe('<Overview />', () => {
   });
 
   it.each([
-    [true],
-    [false],
-  ])('displays amounts of bots when hovering visits cards', async (excludeBots) => {
-    const { user } = setUp(false, excludeBots);
+    [{ excludeBots: true }, true],
+    [{ excludeBots: false }, false],
+    [{}, false],
+  ])('displays amounts of bots when hovering visits cards', async (visits, excludeBots) => {
+    const { user } = setUp(false, visits);
     const expectTooltipToBeInTheDocument = async (tooltip: string) => waitFor(
       () => expect(screen.getByText(/potential bot visits$/)).toHaveTextContent(tooltip),
     );

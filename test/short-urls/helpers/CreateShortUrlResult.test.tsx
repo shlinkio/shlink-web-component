@@ -9,8 +9,8 @@ describe('<CreateShortUrlResult />', () => {
   const copyToClipboard = vi.fn();
   const useTimeoutToggle = vi.fn(() => [false, copyToClipboard]) as TimeoutToggle;
   const CreateShortUrlResult = createResult(useTimeoutToggle);
-  const setUp = (creation: ShortUrlCreation) => renderWithEvents(
-    <CreateShortUrlResult resetCreateShortUrl={() => {}} creation={creation} />,
+  const setUp = (creation: ShortUrlCreation, canBeClosed?: boolean) => renderWithEvents(
+    <CreateShortUrlResult resetCreateShortUrl={() => {}} creation={creation} canBeClosed={canBeClosed} />,
   );
 
   it('renders an error when error is true', () => {
@@ -38,5 +38,19 @@ describe('<CreateShortUrlResult />', () => {
     expect(copyToClipboard).not.toHaveBeenCalled();
     await user.click(screen.getByRole('button'));
     expect(copyToClipboard).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([
+    [
+      { result: fromPartial({ shortUrl: 'https://s.test/abc123' }), saving: false, saved: true, error: false },
+      'success-close-button',
+      'error-close-button',
+    ],
+    [{ error: true, saved: false, saving: false }, 'error-close-button', 'success-close-button'],
+  ])('displays close button if the result can be closed', (data, foundElement, notFoundElement) => {
+    setUp(data as any, true);
+
+    expect(screen.getByTestId(foundElement)).toBeInTheDocument();
+    expect(screen.queryByTestId(notFoundElement)).not.toBeInTheDocument();
   });
 });

@@ -1,20 +1,24 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import { DeleteTagConfirmModal } from '../../../src/tags/helpers/DeleteTagConfirmModal';
 import type { TagDeletion } from '../../../src/tags/reducers/tagDelete';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
+import { TestModalWrapper } from '../../__helpers__/TestModalWrapper';
 
 describe('<DeleteTagConfirmModal />', () => {
   const tag = 'nodejs';
   const deleteTag = vi.fn();
-  const toggle = vi.fn();
+  const tagDeleted = vi.fn();
   const setUp = (tagDelete: TagDeletion) => renderWithEvents(
-    <DeleteTagConfirmModal
-      tag={tag}
-      toggle={toggle}
-      isOpen
-      deleteTag={deleteTag}
-      tagDeleted={vi.fn()}
-      tagDelete={tagDelete}
+    <TestModalWrapper
+      renderModal={(args) => (
+        <DeleteTagConfirmModal
+          {...args}
+          tag={tag}
+          deleteTag={deleteTag}
+          tagDeleted={tagDeleted}
+          tagDelete={tagDelete}
+        />
+      )}
     />,
   );
 
@@ -50,17 +54,21 @@ describe('<DeleteTagConfirmModal />', () => {
 
     await user.click(screen.getByRole('button', { name: 'Delete tag' }));
 
-    expect(deleteTag).toHaveBeenCalledTimes(1);
+    expect(deleteTag).toHaveBeenCalledOnce();
     expect(deleteTag).toHaveBeenCalledWith(tag);
-    expect(toggle).toHaveBeenCalledTimes(1);
+
+    await waitFor(() => expect(tagDeleted).toHaveBeenCalledOnce());
   });
 
   it('does no further actions when modal is closed without deleting tag', async () => {
-    const { user } = setUp({ error: false, deleted: true, deleting: false });
+    const { user } = setUp({ error: false, deleted: false, deleting: false });
 
     await user.click(screen.getByLabelText('Close'));
 
     expect(deleteTag).not.toHaveBeenCalled();
-    expect(toggle).toHaveBeenCalled();
+
+    // After the modal is closed, the callback is still not invoked
+    await waitForElementToBeRemoved(screen.getByLabelText('Close'));
+    expect(tagDeleted).not.toHaveBeenCalled();
   });
 });

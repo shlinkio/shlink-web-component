@@ -29,7 +29,14 @@ export const CreateShortUrlResult = (useTimeoutToggle: TimeoutToggle) => (
   if (error) {
     return (
       <Result type="error" className="mt-3">
-        {canBeClosed && <FontAwesomeIcon icon={closeIcon} className="float-end pointer" onClick={resetCreateShortUrl} />}
+        {canBeClosed && (
+          <FontAwesomeIcon
+            data-testid="error-close-button"
+            icon={closeIcon}
+            className="float-end pointer"
+            onClick={resetCreateShortUrl}
+          />
+        )}
         <ShlinkApiError errorData={creation.errorData} fallbackMessage="An error occurred while creating the URL :(" />
       </Result>
     );
@@ -43,7 +50,14 @@ export const CreateShortUrlResult = (useTimeoutToggle: TimeoutToggle) => (
 
   return (
     <Result type="success" className="mt-3">
-      {canBeClosed && <FontAwesomeIcon icon={closeIcon} className="float-end pointer" onClick={resetCreateShortUrl} />}
+      {canBeClosed && (
+        <FontAwesomeIcon
+          data-testid="success-close-button"
+          icon={closeIcon}
+          className="float-end pointer"
+          onClick={resetCreateShortUrl}
+        />
+      )}
       <span><b>Great!</b> The short URL is <b>{shortUrl}</b></span>
 
       <CopyToClipboard text={shortUrl} onCopy={setShowCopyTooltip}>

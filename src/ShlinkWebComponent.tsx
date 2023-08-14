@@ -1,8 +1,9 @@
 import type { Store } from '@reduxjs/toolkit';
 import type Bottle from 'bottlejs';
 import type { FC, ReactNode } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { Provider as ReduxStoreProvider } from 'react-redux';
+import { BrowserRouter, useInRouterContext } from 'react-router-dom';
 import type { ShlinkApiClient } from './api-contract';
 import { FeaturesProvider, useFeatures } from './utils/features';
 import type { SemVer } from './utils/helpers/version';
@@ -34,6 +35,13 @@ export const createShlinkWebComponent = (
   const mainContent = useRef<ReactNode>();
   const [theStore, setStore] = useState<Store | undefined>();
 
+  const inRouterContext = useInRouterContext();
+  const [RouterOrFragment, props] = useMemo(() => (
+    inRouterContext
+      ? [Fragment, {}]
+      : [BrowserRouter, { basename: routesPrefix }]
+  ), [inRouterContext, routesPrefix]);
+
   useEffect(() => {
     apiClientRef = apiClient;
     bottle.value('apiClientFactory', () => apiClientRef);
@@ -58,7 +66,9 @@ export const createShlinkWebComponent = (
       <SettingsProvider value={settings}>
         <FeaturesProvider value={features}>
           <RoutesPrefixProvider value={routesPrefix}>
-            {mainContent.current}
+            <RouterOrFragment {...props}>
+              {mainContent.current}
+            </RouterOrFragment>
           </RoutesPrefixProvider>
         </FeaturesProvider>
       </SettingsProvider>

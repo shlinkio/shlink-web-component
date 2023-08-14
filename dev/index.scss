@@ -1,0 +1,13 @@
+@import '../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../node_modules/@shlinkio/shlink-frontend-kit/dist/index';
+@import '../src/index.scss';
+
+.header {
+  height: $headerHeight;
+  background-color: var(--brand-color);
+}
+
+.wrapper {
+  padding: $headerHeight 0;
+}

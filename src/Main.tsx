@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useToggle } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
 import type { FC, ReactNode } from 'react';
-import { Fragment, useEffect, useMemo } from 'react';
-import { BrowserRouter, Navigate, Route, Routes, useInRouterContext, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AsideMenu } from './common/AsideMenu';
 import { useFeature } from './utils/features';
 import { useSwipeable } from './utils/helpers/hooks';
@@ -30,12 +30,6 @@ export const Main = (
 ): FC<MainProps> => ({ createNotFound }) => {
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
-  const inRouterContext = useInRouterContext();
-  const [Wrapper, props] = useMemo(() => (
-    inRouterContext
-      ? [Fragment, {}]
-      : [BrowserRouter, { basename: routesPrefix }]
-  ), [inRouterContext]);
 
   const [sidebarVisible, toggleSidebar, showSidebar, hideSidebar] = useToggle();
   useEffect(() => hideSidebar(), [location]);
@@ -44,10 +38,8 @@ export const Main = (
   const burgerClasses = classNames('shlink-layout__burger-icon', { 'shlink-layout__burger-icon--active': sidebarVisible });
   const swipeableProps = useSwipeable(showSidebar, hideSidebar);
 
-  // FIXME Check if this works when not currently wrapped in a router
-
   return (
-    <Wrapper {...props}>
+    <>
       <FontAwesomeIcon icon={burgerIcon} className={burgerClasses} onClick={toggleSidebar} />
 
       <div {...swipeableProps} className="shlink-layout__swipeable">
@@ -74,6 +66,6 @@ export const Main = (
           </div>
         </div>
       </div>
-    </Wrapper>
+    </>
   );
 };

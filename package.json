@@ -11,14 +11,15 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs",
+      "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     },
     "./api-contract": {
       "import": "./dist/api-contract.js",
-      "require": "./dist/api-contract.umd.cjs",
+      "require": "./dist/api-contract.cjs",
       "types": "./dist/api-contract.d.ts"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
@@ -80,7 +81,6 @@
     "@types/leaflet": "^1.9.3",
     "@types/ramda": "^0.27.66",
     "@types/react": "^18.2.19",
-    "@types/react-color": "^3.0.6",
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-datepicker": "^4.15.0",
     "@types/react-dom": "^18.2.7",

@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Fixed
-* *Nothing*
+* [#1](https://github.com/shlinkio/shlink-web-component/issues/1) Avoid tag removal on TagsSelector when adding a duplicated tag
 
 
 ## [0.1.1] - 2023-08-14

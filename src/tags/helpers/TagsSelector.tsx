@@ -22,11 +22,18 @@ type TagsSelectorConnectProps = TagsSelectorProps & {
   tagsList: TagsList;
 };
 
+let tagId = 1;
+
 const NOT_FOUND_TAG = 'Tag not found';
 const NEW_TAG = 'Add tag';
 const isSelectableOption = (tag: string) => tag !== NOT_FOUND_TAG;
 const isNewOption = (tag: string) => tag === NEW_TAG;
-const toTagObject = (tag: string): TagSuggestion => ({ label: tag, value: tag });
+const toTagObject = (tag: string): TagSuggestion => {
+  // react-tag-autocomplete uses the value to determine if a tag is already added, removing it in that case.
+  // Using a unique value ensures all tags are always considered new, together with a `Set` to ignore duplicates later.
+  tagId += 1;
+  return { label: tag, value: `${tag}${tagId}` };
+};
 
 const buildTagRenderer = (colorGenerator: ColorGenerator) => ({ tag, onClick: deleteTag }: TagRendererProps) => (
   <Tag colorGenerator={colorGenerator} text={tag.label} clearable className="react-tags__tag" onClose={deleteTag} />
@@ -93,8 +100,9 @@ export const TagsSelector = (colorGenerator: ColorGenerator) => (
         onChange(tagsCopy);
       }}
       onAdd={({ label: newTag }) => onChange(
+        // Use a Set to ignore duplicated tags.
         // Split any of the new tags by comma, allowing to paste multiple comma-separated tags at once.
-        [...selectedTags, ...newTag.split(',').map(normalizeTag)],
+        [...new Set([...selectedTags, ...newTag.split(',').map(normalizeTag)])],
       )}
     />
   );

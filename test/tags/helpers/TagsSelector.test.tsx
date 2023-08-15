@@ -77,7 +77,7 @@ describe('<TagsSelector />', () => {
   it.each([
     ['The-New-Tag', [...tags, 'the-new-tag']],
     ['AnOTH   er  tag  ', [...tags, 'anoth-er-tag']],
-    // ['foo', tags], TODO Test that existing tags are ignored
+    ['foo', tags], // Already added tags should be ignored
   ])('invokes onChange when new tags are added', async (newTag, expectedTags) => {
     const { user } = setUp();
 

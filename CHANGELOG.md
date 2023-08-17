@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.2.0] - 2023-08-17
 ### Added
 * [#4](https://github.com/shlinkio/shlink-web-component/issues/4) Add dev sandbox to test component
 

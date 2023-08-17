@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* [#5](https://github.com/shlinkio/shlink-web-component/issues/5) Add basic documentation in README file.
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* Remove `ui` settings from this component's contract, as theme is implicit by "surrounding" styles.
+* Do not require `baseUrl` and `apiKey` on `ShlinkApiClient` implementors. That's an implementation detail which depends on the specific use case.
+
+### Fixed
+* *Nothing*
+
+
 ## [0.2.0] - 2023-08-17
 ### Added
 * [#4](https://github.com/shlinkio/shlink-web-component/issues/4) Add dev sandbox to test component

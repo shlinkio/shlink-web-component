@@ -16,9 +16,6 @@ import type {
 } from './types';
 
 export type ShlinkApiClient = {
-  readonly baseUrl: string;
-  readonly apiKey: string;
-
   listShortUrls(params?: ShlinkShortUrlsListParams): Promise<ShlinkShortUrlsResponse>;
 
   createShortUrl(options: ShlinkCreateShortUrlData): Promise<ShlinkShortUrl>;

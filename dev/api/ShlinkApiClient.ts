@@ -67,8 +67,8 @@ export class ShlinkApiClient implements BaseShlinkApiClient {
   private readonly httpClient: HttpClient;
 
   public constructor(
-    public readonly baseUrl: string,
-    public readonly apiKey: string,
+    private readonly baseUrl: string,
+    private readonly apiKey: string,
   ) {
     this.apiVersion = 3;
     this.httpClient = new HttpClient(window.fetch.bind(window));

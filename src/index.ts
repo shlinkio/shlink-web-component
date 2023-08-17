@@ -15,7 +15,6 @@ export type {
   RealTimeUpdatesSettings,
   ShortUrlCreationSettings,
   ShortUrlsListSettings,
-  UiSettings,
   VisitsSettings,
   TagsSettings,
   Settings,

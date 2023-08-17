@@ -1,4 +1,3 @@
-import type { Theme } from '@shlinkio/shlink-frontend-kit';
 import { createContext, useContext } from 'react';
 import type { ShortUrlsOrder } from '../short-urls/data';
 import type { TagsOrder } from '../tags/data/TagsListChildrenProps';
@@ -27,10 +26,6 @@ export interface ShortUrlCreationSettings {
   forwardQuery?: boolean;
 }
 
-export interface UiSettings {
-  theme: Theme;
-}
-
 export interface VisitsSettings {
   defaultInterval: DateInterval;
   excludeBots?: boolean;
@@ -48,7 +43,6 @@ export interface Settings {
   realTimeUpdates?: RealTimeUpdatesSettings;
   shortUrlCreation?: ShortUrlCreationSettings;
   shortUrlsList?: ShortUrlsListSettings;
-  ui?: UiSettings;
   visits?: VisitsSettings;
   tags?: TagsSettings;
 }
@@ -59,9 +53,6 @@ const defaultSettings: Settings = {
   },
   shortUrlCreation: {
     validateUrls: false,
-  },
-  ui: {
-    theme: 'light',
   },
   visits: {
     defaultInterval: 'last30Days',

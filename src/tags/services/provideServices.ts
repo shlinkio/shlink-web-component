@@ -1,4 +1,3 @@
-import type { IContainer } from 'bottlejs';
 import type Bottle from 'bottlejs';
 import { prop } from 'ramda';
 import type { ConnectDecorator } from '../../container';
@@ -29,7 +28,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('TagsList', TagsList, 'TagsTable');
   bottle.decorator('TagsList', connect(
     ['tagsList', 'mercureInfo'],
-    ['forceListTags', 'filterTags', 'createNewVisits', 'loadMercureInfo'],
+    ['filterTags', 'createNewVisits', 'loadMercureInfo'],
   ));
 
   // Reducers
@@ -43,13 +42,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('tagsListReducer', prop('reducer'), 'tagsListReducerCreator');
 
   // Actions
-  const listTagsActionFactory = (force: boolean) => ({ apiClientFactory }: IContainer) => listTags(
-    apiClientFactory,
-    force,
-  );
-
-  bottle.factory('listTags', listTagsActionFactory(false));
-  bottle.factory('forceListTags', listTagsActionFactory(true));
+  bottle.serviceFactory('listTags', listTags, 'apiClientFactory');
   bottle.serviceFactory('filterTags', () => filterTags);
 
   bottle.serviceFactory('deleteTag', prop('deleteTag'), 'tagDeleteReducerCreator');

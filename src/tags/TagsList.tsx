@@ -1,7 +1,7 @@
 import { determineOrderDir, Message, OrderingDropdown, Result, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
 import { pipe } from 'ramda';
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Row } from 'reactstrap';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
@@ -15,12 +15,11 @@ import type { TagsTableProps } from './TagsTable';
 
 export interface TagsListProps {
   filterTags: (searchTerm: string) => void;
-  forceListTags: Function;
   tagsList: TagsListState;
 }
 
 export const TagsList = (TagsTable: FC<TagsTableProps>) => boundToMercureHub((
-  { filterTags, forceListTags, tagsList }: TagsListProps,
+  { filterTags, tagsList }: TagsListProps,
 ) => {
   const settings = useSettings();
   const [order, setOrder] = useState<TagsOrder>(settings.tags?.defaultOrdering ?? {});
@@ -39,10 +38,6 @@ export const TagsList = (TagsTable: FC<TagsTableProps>) => boundToMercureHub((
     }),
     (simplifiedTags) => sortList<SimplifiedTag>(simplifiedTags, order),
   );
-
-  useEffect(() => {
-    forceListTags();
-  }, []);
 
   if (tagsList.loading) {
     return <Message loading />;

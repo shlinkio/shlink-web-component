@@ -1,6 +1,5 @@
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
-import { useEffect } from 'react';
 import type { OptionRendererProps, ReactTagsAPI, TagRendererProps, TagSuggestion } from 'react-tag-autocomplete';
 import { ReactTags } from 'react-tag-autocomplete';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
@@ -18,7 +17,6 @@ export type TagsSelectorProps = {
 };
 
 type TagsSelectorConnectProps = TagsSelectorProps & {
-  listTags: () => void;
   tagsList: TagsList;
 };
 
@@ -62,13 +60,10 @@ const buildOptionRenderer = (colorGenerator: ColorGenerator, api: ReactTagsAPI |
   );
 };
 
+// FIXME Decouple from reducer
 export const TagsSelector = (colorGenerator: ColorGenerator) => (
-  { selectedTags, onChange, placeholder, listTags, tagsList, allowNew = true }: TagsSelectorConnectProps,
+  { selectedTags, onChange, placeholder, tagsList, allowNew = true }: TagsSelectorConnectProps,
 ) => {
-  useEffect(() => {
-    listTags();
-  }, []);
-
   const shortUrlCreation = useSetting('shortUrlCreation');
   const searchMode = shortUrlCreation?.tagFilteringMode ?? 'startsWith';
   const apiRef = useElementRef<ReactTagsAPI>();

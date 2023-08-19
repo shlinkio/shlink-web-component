@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 * [#14](https://github.com/shlinkio/shlink-web-component/issues/14) Fix error in `OpenMapModalBtn`.
+* [#8](https://github.com/shlinkio/shlink-web-component/issues/8) Fix tags not getting reloaded from `APIClient.listTags`, except when loading tags list section.
 
 
 ## [0.2.0] - 2023-08-17

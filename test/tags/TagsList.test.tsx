@@ -1,6 +1,5 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { identity } from 'ramda';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import type { TagsList } from '../../src/tags/reducers/tagsList';
 import type { TagsListProps } from '../../src/tags/TagsList';
@@ -16,7 +15,6 @@ describe('<TagsList />', () => {
       <TagsListComp
         {...fromPartial<TagsListProps>({})}
         {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-        forceListTags={identity}
         filterTags={filterTags}
         tagsList={fromPartial(tagsList)}
       />

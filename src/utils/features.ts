@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo } from 'react';
-import type { SemVer } from './helpers/version';
+import type { SemVer, SemVerOrLatest } from './helpers/version';
 import { versionMatch } from './helpers/version';
 
 const supportedFeatures = {
@@ -13,17 +13,17 @@ Object.freeze(supportedFeatures);
 
 export type Feature = keyof typeof supportedFeatures;
 
-export const isFeatureEnabledForVersion = (feature: Feature, serverVersion: SemVer): boolean =>
-  versionMatch(serverVersion, { minVersion: supportedFeatures[feature] });
+export const isFeatureEnabledForVersion = (feature: Feature, serverVersion: SemVerOrLatest): boolean =>
+  serverVersion === 'latest' || versionMatch(serverVersion, { minVersion: supportedFeatures[feature] });
 
-const getFeaturesForVersion = (serverVersion: SemVer): Record<Feature, boolean> => ({
+const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, boolean> => ({
   domainVisits: isFeatureEnabledForVersion('domainVisits', serverVersion),
   excludeBotsOnShortUrls: isFeatureEnabledForVersion('excludeBotsOnShortUrls', serverVersion),
   filterDisabledUrls: isFeatureEnabledForVersion('filterDisabledUrls', serverVersion),
   deviceLongUrls: isFeatureEnabledForVersion('deviceLongUrls', serverVersion),
 });
 
-export const useFeatures = (serverVersion: SemVer) => useMemo(
+export const useFeatures = (serverVersion: SemVerOrLatest) => useMemo(
   () => getFeaturesForVersion(serverVersion),
   [serverVersion],
 );

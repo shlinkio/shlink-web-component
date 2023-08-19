@@ -31,13 +31,7 @@ export const App: FC = () => {
         </div>
       </header>
       <div className="wrapper">
-        {apiClient && (
-          <ShlinkWebComponent
-            serverVersion="3.6.2"
-            apiClient={apiClient}
-            settings={{}}
-          />
-        )}
+        {apiClient && <ShlinkWebComponent serverVersion="latest" apiClient={apiClient} />}
       </div>
     </>
   );

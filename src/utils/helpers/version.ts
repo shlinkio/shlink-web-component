@@ -11,7 +11,9 @@ type Versions = {
   minVersion?: SemVerPattern;
 };
 
-export type SemVer = `${bigint}.${bigint}.${bigint}` | 'latest';
+export type SemVer = `${bigint}.${bigint}.${bigint}`;
+
+export type SemVerOrLatest = SemVer | 'latest';
 
 export const versionMatch = (versionToMatch: SemVer, { maxVersion, minVersion }: Versions): boolean => {
   const matchesMinVersion = !minVersion || compare(versionToMatch, minVersion, '>=');

@@ -6,14 +6,14 @@ import { Provider as ReduxStoreProvider } from 'react-redux';
 import { BrowserRouter, useInRouterContext } from 'react-router-dom';
 import type { ShlinkApiClient } from './api-contract';
 import { FeaturesProvider, useFeatures } from './utils/features';
-import type { SemVer } from './utils/helpers/version';
+import type { SemVerOrLatest } from './utils/helpers/version';
 import { RoutesPrefixProvider } from './utils/routesPrefix';
 import type { TagColorsStorage } from './utils/services/TagColorsStorage';
 import type { Settings } from './utils/settings';
 import { SettingsProvider } from './utils/settings';
 
 type ShlinkWebComponentProps = {
-  serverVersion: SemVer; // FIXME Consider making this optional and trying to resolve it if not set
+  serverVersion: SemVerOrLatest; // FIXME Consider making this optional and trying to resolve it if not set
   apiClient: ShlinkApiClient;
   tagColorsStorage?: TagColorsStorage;
   routesPrefix?: string;

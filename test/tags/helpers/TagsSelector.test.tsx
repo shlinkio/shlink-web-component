@@ -26,7 +26,6 @@ describe('<TagsSelector />', () => {
       <TagsSelector
         selectedTags={tags}
         tagsList={fromPartial<TagsList>({ tags: allTags ?? [...tags, 'baz'] })}
-        listTags={vi.fn()}
         onChange={onChange}
         allowNew={allowNew}
       />

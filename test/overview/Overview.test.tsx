@@ -12,7 +12,6 @@ describe('<Overview />', () => {
   const ShortUrlsTable = () => <>ShortUrlsTable</>;
   const CreateShortUrl = () => <>CreateShortUrl</>;
   const listShortUrls = vi.fn();
-  const listTags = vi.fn();
   const loadVisitsOverview = vi.fn();
   const Overview = overviewCreator(ShortUrlsTable, CreateShortUrl);
   const shortUrls = {
@@ -25,7 +24,6 @@ describe('<Overview />', () => {
         <RoutesPrefixProvider value={routesPrefix}>
           <Overview
             listShortUrls={listShortUrls}
-            listTags={listTags}
             loadVisitsOverview={loadVisitsOverview}
             shortUrlsList={fromPartial({ loading, shortUrls })}
             tagsList={fromPartial({ loading, tags: ['foo', 'bar', 'baz'] })}

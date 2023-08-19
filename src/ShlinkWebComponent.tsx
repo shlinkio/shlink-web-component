@@ -53,12 +53,14 @@ export const createShlinkWebComponent = (
     // It's important to not try to resolve services before the API client has been registered, as many other services
     // depend on it
     const { container } = bottle;
-    const { Main, store, loadMercureInfo } = container;
+    const { Main, store, loadMercureInfo, listTags } = container;
     mainContent.current = <Main createNotFound={createNotFound} />;
     setStore(store);
 
     // Load mercure info
     store.dispatch(loadMercureInfo(settings));
+    // Load tags, as they are used by multiple components
+    store.dispatch(listTags());
   }, [apiClient, tagColorsStorage]);
 
   return !theStore ? <></> : (

@@ -1,6 +1,5 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
-import type { RootState } from '../../../src/container/store';
 import { createShortUrl as createShortUrlCreator } from '../../../src/short-urls/reducers/shortUrlCreation';
 import { tagDeleted } from '../../../src/tags/reducers/tagDelete';
 import { tagEdited } from '../../../src/tags/reducers/tagEdit';
@@ -17,20 +16,20 @@ import type { CreateVisit } from '../../../src/visits/types';
 describe('tagsListReducer', () => {
   const state = (props: Partial<TagsList>) => fromPartial<TagsList>(props);
   const buildShlinkApiClient = vi.fn();
-  const listTags = listTagsCreator(buildShlinkApiClient, true);
+  const listTags = listTagsCreator(buildShlinkApiClient);
   const createShortUrl = createShortUrlCreator(buildShlinkApiClient);
   const { reducer } = tagsListReducerCreator(listTags, createShortUrl);
 
   describe('reducer', () => {
     it('returns loading on LIST_TAGS_START', () => {
-      expect(reducer(undefined, listTags.pending(''))).toEqual(expect.objectContaining({
+      expect(reducer(undefined, listTags.pending('', {}))).toEqual(expect.objectContaining({
         loading: true,
         error: false,
       }));
     });
 
     it('returns error on LIST_TAGS_ERROR', () => {
-      expect(reducer(undefined, listTags.rejected(null, ''))).toEqual(expect.objectContaining({
+      expect(reducer(undefined, listTags.rejected(null, '', {}))).toEqual(expect.objectContaining({
         loading: false,
         error: true,
       }));
@@ -39,7 +38,7 @@ describe('tagsListReducer', () => {
     it('returns provided tags as filtered and regular tags on LIST_TAGS', () => {
       const tags = ['foo', 'bar', 'baz'];
 
-      expect(reducer(undefined, listTags.fulfilled(fromPartial({ tags }), ''))).toEqual({
+      expect(reducer(undefined, listTags.fulfilled(fromPartial({ tags }), '', {}))).toEqual({
         tags,
         filteredTags: tags,
         loading: false,
@@ -195,24 +194,7 @@ describe('tagsListReducer', () => {
 
   describe('listTags', () => {
     const dispatch = vi.fn();
-    const getState = vi.fn(() => fromPartial<RootState>({}));
     const listTagsMock = vi.fn();
-
-    const assertNoAction = async (tagsList: TagsList) => {
-      getState.mockReturnValue(fromPartial<RootState>({ tagsList }));
-
-      await listTagsCreator(buildShlinkApiClient, false)()(dispatch, getState, {});
-
-      expect(buildShlinkApiClient).not.toHaveBeenCalled();
-      expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(getState).toHaveBeenCalledTimes(1);
-    };
-
-    it('does nothing when loading', async () => assertNoAction(state({ loading: true })));
-    it(
-      'does nothing when list is not empty',
-      async () => assertNoAction(state({ loading: false, tags: ['foo', 'bar'] })),
-    );
 
     it('dispatches loaded lists when no error occurs', async () => {
       const tags = ['foo', 'bar', 'baz'];
@@ -220,10 +202,9 @@ describe('tagsListReducer', () => {
       listTagsMock.mockResolvedValue({ tags, stats: [] });
       buildShlinkApiClient.mockReturnValue({ tagsStats: listTagsMock });
 
-      await listTags()(dispatch, getState, {});
+      await listTags(undefined)(dispatch, vi.fn(), {});
 
       expect(buildShlinkApiClient).toHaveBeenCalledTimes(1);
-      expect(getState).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { tags, stats: {} },

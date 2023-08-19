@@ -9,6 +9,7 @@ describe('<ShlinkWebComponent />', () => {
   let bottle: Bottle;
   const dispatch = vi.fn();
   const loadMercureInfo = vi.fn();
+  const listTags = vi.fn();
   const apiClient = fromPartial<ShlinkApiClient>({});
 
   const setUp = (tagColorsStorage?: TagColorsStorage) => {
@@ -28,6 +29,7 @@ describe('<ShlinkWebComponent />', () => {
       subscribe: vi.fn(),
     });
     bottle.value('loadMercureInfo', loadMercureInfo);
+    bottle.value('listTags', listTags);
   });
 
   it('registers services when mounted', async () => {
@@ -45,10 +47,11 @@ describe('<ShlinkWebComponent />', () => {
     await waitFor(() => expect(screen.getByText('Main')).toBeInTheDocument());
   });
 
-  it('loads mercure on mount', async () => {
+  it('dispatches some redux actions on mount', async () => {
     setUp();
 
-    await waitFor(() => expect(dispatch).toHaveBeenCalledOnce());
+    await waitFor(() => expect(dispatch).toHaveBeenCalledTimes(2));
     expect(loadMercureInfo).toHaveBeenCalledOnce();
+    expect(listTags).toHaveBeenCalledOnce();
   });
 });

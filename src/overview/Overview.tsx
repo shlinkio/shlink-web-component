@@ -20,7 +20,6 @@ import { VisitsHighlightCard } from './helpers/VisitsHighlightCard';
 interface OverviewConnectProps {
   shortUrlsList: ShortUrlsListState;
   listShortUrls: (params: ShlinkShortUrlsListParams) => void;
-  listTags: Function;
   tagsList: TagsList;
   visitsOverview: VisitsOverview;
   loadVisitsOverview: Function;
@@ -32,7 +31,6 @@ export const Overview = (
 ) => boundToMercureHub(({
   shortUrlsList,
   listShortUrls,
-  listTags,
   tagsList,
   loadVisitsOverview,
   visitsOverview,
@@ -46,7 +44,6 @@ export const Overview = (
 
   useEffect(() => {
     listShortUrls({ itemsPerPage: ITEMS_IN_OVERVIEW_PAGE, orderBy: { field: 'dateCreated', dir: 'DESC' } });
-    listTags();
     loadVisitsOverview();
   }, []);
 

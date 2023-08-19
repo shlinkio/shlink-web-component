@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * Do not require `baseUrl` and `apiKey` on `ShlinkApiClient` implementors. That's an implementation detail which depends on the specific use case.
 
 ### Fixed
-* [#8](https://github.com/shlinkio/shlink-web-component/issues/8) Fix error in `OpenMapModalBtn`.
+* [#14](https://github.com/shlinkio/shlink-web-component/issues/14) Fix error in `OpenMapModalBtn`.
 
 
 ## [0.2.0] - 2023-08-17

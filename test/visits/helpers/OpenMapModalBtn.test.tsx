@@ -39,9 +39,7 @@ describe('<OpenMapModalBtn />', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  // FIXME This test is throwing an uncaught error, which makes vitest fail execution.
-  //       The error is "TypeError: Cannot read properties of null (reading 'contains')"
-  it.skip.each([
+  it.each([
     ['Show all locations'],
     ['Show locations in current page'],
   ])('filters out non-active cities from list of locations', async (name) => {

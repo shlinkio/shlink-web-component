@@ -1,8 +1,8 @@
 import { faMapMarkedAlt as mapIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDomId, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { useState } from 'react';
-import { Button, Dropdown, DropdownItem, DropdownMenu, UncontrolledTooltip } from 'reactstrap';
+import { useCallback, useState } from 'react';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledTooltip } from 'reactstrap';
 import type { CityStats } from '../types';
 import { MapModal } from './MapModal';
 import './OpenMapModalBtn.scss';
@@ -15,40 +15,43 @@ interface OpenMapModalBtnProps {
 
 export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: OpenMapModalBtnProps) => {
   const [mapIsOpened, , openMap, closeMap] = useToggle();
-  const [dropdownIsOpened, toggleDropdown, openDropdown] = useToggle();
+  const [dropdownIsOpened, toggleDropdown] = useToggle();
   const [locationsToShow, setLocationsToShow] = useState<CityStats[]>([]);
   const id = useDomId();
 
-  const filterLocations = (cities: CityStats[]) => (
-    !activeCities ? cities : cities.filter(({ cityName }) => activeCities?.includes(cityName))
-  );
-  const onClick = () => {
-    if (!activeCities) {
-      setLocationsToShow(locations);
-      openMap();
-
-      return;
-    }
-
-    openDropdown();
-  };
-  const openMapWithLocations = (filtered: boolean) => () => {
-    setLocationsToShow(filtered ? filterLocations(locations) : locations);
+  const openMapWithCities = useCallback((cities: CityStats[] = locations) => {
+    setLocationsToShow(cities);
     openMap();
-  };
+  }, [locations]);
 
   return (
     <>
-      <Button color="link" className="open-map-modal-btn__btn" id={id} onClick={onClick}>
-        <FontAwesomeIcon icon={mapIcon} />
-      </Button>
+      {!activeCities && (
+        <Button
+          color="link"
+          className="open-map-modal-btn__btn"
+          id={id}
+          onClick={() => openMapWithCities()}
+        >
+          <FontAwesomeIcon icon={mapIcon} />
+        </Button>
+      )}
+      {activeCities && (
+        <Dropdown isOpen={dropdownIsOpened} toggle={toggleDropdown}>
+          <DropdownToggle color="link" className="open-map-modal-btn__btn" id={id}>
+            <FontAwesomeIcon icon={mapIcon} />
+          </DropdownToggle>
+          <DropdownMenu end>
+            <DropdownItem onClick={() => openMapWithCities()}>Show all locations</DropdownItem>
+            <DropdownItem
+              onClick={() => openMapWithCities(locations.filter(({ cityName }) => activeCities.includes(cityName)))}
+            >
+              Show locations in current page
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      )}
       <UncontrolledTooltip placement="left" target={id}>Show in map</UncontrolledTooltip>
-      <Dropdown isOpen={dropdownIsOpened} toggle={toggleDropdown} inNavbar>
-        <DropdownMenu end>
-          <DropdownItem onClick={openMapWithLocations(false)}>Show all locations</DropdownItem>
-          <DropdownItem onClick={openMapWithLocations(true)}>Show locations in current page</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
       <MapModal toggle={closeMap} isOpen={mapIsOpened} title={modalTitle} locations={locationsToShow} />
     </>
   );

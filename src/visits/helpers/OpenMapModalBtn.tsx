@@ -19,8 +19,8 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
   const [locationsToShow, setLocationsToShow] = useState<CityStats[]>([]);
   const id = useDomId();
 
-  const openMapWithCities = useCallback((cities: CityStats[] = locations) => {
-    setLocationsToShow(cities);
+  const openMapWithCities = useCallback((filterCallback?: (city: CityStats) => boolean) => {
+    setLocationsToShow(!filterCallback ? locations : locations.filter(filterCallback));
     openMap();
   }, [locations]);
 
@@ -43,9 +43,7 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
           </DropdownToggle>
           <DropdownMenu end>
             <DropdownItem onClick={() => openMapWithCities()}>Show all locations</DropdownItem>
-            <DropdownItem
-              onClick={() => openMapWithCities(locations.filter(({ cityName }) => activeCities.includes(cityName)))}
-            >
+            <DropdownItem onClick={() => openMapWithCities(({ cityName }) => activeCities.includes(cityName))}>
               Show locations in current page
             </DropdownItem>
           </DropdownMenu>

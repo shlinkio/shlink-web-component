@@ -7,6 +7,7 @@ import { isEmpty, pipe } from 'ramda';
 import type { FC } from 'react';
 import { Button, InputGroup, Row, UncontrolledTooltip } from 'reactstrap';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
+import type { TagsList } from '../tags/reducers/tagsList';
 import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import type { DateRange } from '../utils/dates/helpers/dateIntervals';
@@ -20,17 +21,21 @@ import { useShortUrlsQuery } from './helpers/hooks';
 import { ShortUrlsFilterDropdown } from './helpers/ShortUrlsFilterDropdown';
 import './ShortUrlsFilteringBar.scss';
 
-interface ShortUrlsFilteringProps {
+export type ShortUrlsFilteringBarProps = {
   order: ShortUrlsOrder;
   handleOrderBy: (orderField?: ShortUrlsOrderableFields, orderDir?: OrderDir) => void;
   className?: string;
   shortUrlsAmount?: number;
-}
+};
+
+type ShortUrlsFilteringConnectProps = ShortUrlsFilteringBarProps & {
+  tagsList: TagsList;
+};
 
 export const ShortUrlsFilteringBar = (
   ExportShortUrlsBtn: FC<ExportShortUrlsBtnProps>,
   TagsSelector: FC<TagsSelectorProps>,
-): FC<ShortUrlsFilteringProps> => ({ className, shortUrlsAmount, order, handleOrderBy }) => {
+): FC<ShortUrlsFilteringConnectProps> => ({ className, shortUrlsAmount, order, handleOrderBy, tagsList }) => {
   const [filter, toFirstPage] = useShortUrlsQuery();
   const {
     search,
@@ -67,7 +72,13 @@ export const ShortUrlsFilteringBar = (
       <SearchField initialValue={search} onChange={setSearch} />
 
       <InputGroup className="mt-3">
-        <TagsSelector allowNew={false} placeholder="With tags..." selectedTags={tags} onChange={changeTagSelection} />
+        <TagsSelector
+          immutable
+          placeholder="With tags..."
+          tags={tagsList.tags}
+          selectedTags={tags}
+          onChange={changeTagSelection}
+        />
         {tags.length > 1 && (
           <>
             <Button outline color="secondary" onClick={toggleTagsMode} id="tagsModeBtn" aria-label="Change tags mode">
@@ -117,5 +128,3 @@ export const ShortUrlsFilteringBar = (
     </div>
   );
 };
-
-export type ShortUrlsFilteringBarType = ReturnType<typeof ShortUrlsFilteringBar>;

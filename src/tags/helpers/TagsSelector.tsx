@@ -4,20 +4,17 @@ import type { OptionRendererProps, ReactTagsAPI, TagRendererProps, TagSuggestion
 import { ReactTags } from 'react-tag-autocomplete';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import { useSetting } from '../../utils/settings';
-import type { TagsList } from '../reducers/tagsList';
 import { normalizeTag } from './index';
 import { Tag } from './Tag';
 import { TagBullet } from './TagBullet';
 
 export type TagsSelectorProps = {
+  tags: string[];
   selectedTags: string[];
   onChange: (tags: string[]) => void;
   placeholder?: string;
-  allowNew?: boolean;
-};
-
-type TagsSelectorConnectProps = TagsSelectorProps & {
-  tagsList: TagsList;
+  /** If true, it won't allow adding new tags */
+  immutable?: boolean;
 };
 
 let tagId = 1;
@@ -60,9 +57,8 @@ const buildOptionRenderer = (colorGenerator: ColorGenerator, api: ReactTagsAPI |
   );
 };
 
-// FIXME Decouple from reducer
 export const TagsSelector = (colorGenerator: ColorGenerator) => (
-  { selectedTags, onChange, placeholder, tagsList, allowNew = true }: TagsSelectorConnectProps,
+  { selectedTags, onChange, placeholder, tags, immutable = false }: TagsSelectorProps,
 ) => {
   const shortUrlCreation = useSetting('shortUrlCreation');
   const searchMode = shortUrlCreation?.tagFilteringMode ?? 'startsWith';
@@ -72,11 +68,11 @@ export const TagsSelector = (colorGenerator: ColorGenerator) => (
     <ReactTags
       ref={apiRef}
       selected={selectedTags.map(toTagObject)}
-      suggestions={tagsList.tags.filter((tag) => !selectedTags.includes(tag)).map(toTagObject)}
+      suggestions={tags.filter((tag) => !selectedTags.includes(tag)).map(toTagObject)}
       renderTag={buildTagRenderer(colorGenerator)}
       renderOption={buildOptionRenderer(colorGenerator, apiRef.current)}
       activateFirstOption
-      allowNew={allowNew}
+      allowNew={!immutable}
       newOptionText={NEW_TAG}
       noOptionsText={NOT_FOUND_TAG}
       placeholderText={placeholder ?? 'Add tags to the URL'}

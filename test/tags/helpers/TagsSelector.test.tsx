@@ -1,7 +1,6 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { TagsSelector as createTagsSelector } from '../../../src/tags/helpers/TagsSelector';
-import type { TagsList } from '../../../src/tags/reducers/tagsList';
 import type { TagFilteringMode } from '../../../src/utils/settings';
 import { SettingsProvider } from '../../../src/utils/settings';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
@@ -23,12 +22,7 @@ describe('<TagsSelector />', () => {
         shortUrlCreation: { tagFilteringMode },
       })}
     >
-      <TagsSelector
-        selectedTags={tags}
-        tagsList={fromPartial<TagsList>({ tags: allTags ?? [...tags, 'baz'] })}
-        onChange={onChange}
-        allowNew={allowNew}
-      />
+      <TagsSelector immutable={!allowNew} tags={allTags ?? [...tags, 'baz']} selectedTags={tags} onChange={onChange} />
     </SettingsProvider>,
   );
 

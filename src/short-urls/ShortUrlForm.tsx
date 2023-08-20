@@ -12,6 +12,7 @@ import type { InputType } from 'reactstrap/types/lib/Input';
 import type { ShlinkCreateShortUrlData, ShlinkDeviceLongUrls, ShlinkEditShortUrlData } from '../api-contract';
 import type { DomainSelectorProps } from '../domains/DomainSelector';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
+import type { TagsList } from '../tags/reducers/tagsList';
 import { IconInput } from '../utils/components/IconInput';
 import type { DateTimeInputProps } from '../utils/dates/DateTimeInput';
 import { DateTimeInput } from '../utils/dates/DateTimeInput';
@@ -35,6 +36,10 @@ export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEd
   onSave: (shortUrlData: T) => Promise<unknown>;
 }
 
+type ShortUrlFormConnectProps<T extends ShlinkCreateShortUrlData | ShlinkEditShortUrlData> = ShortUrlFormProps<T> & {
+  tagsList: TagsList;
+};
+
 const toDate = (date?: string | Date): Date | undefined => (typeof date === 'string' ? parseISO(date) : date);
 
 const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData): data is ShlinkCreateShortUrlData =>
@@ -44,7 +49,7 @@ export const ShortUrlForm = (
   TagsSelector: FC<TagsSelectorProps>,
   DomainSelector: FC<DomainSelectorProps>,
 ) => function ShortUrlFormComp<T extends ShlinkCreateShortUrlData | ShlinkEditShortUrlData>(
-  { mode, saving, onSave, initialState }: ShortUrlFormProps<T>,
+  { mode, saving, onSave, initialState, tagsList }: ShortUrlFormConnectProps<T>,
 ) {
   const [shortUrlData, setShortUrlData] = useState(initialState);
   const reset = () => setShortUrlData(initialState);
@@ -134,7 +139,7 @@ export const ShortUrlForm = (
       <Row>
         {isBasicMode && renderOptionalInput('customSlug', 'Custom slug', 'text', { bsSize: 'lg' }, { className: 'col-lg-6' })}
         <div className={isBasicMode ? 'col-lg-6 mb-3' : 'col-12'}>
-          <TagsSelector selectedTags={shortUrlData.tags ?? []} onChange={changeTags} />
+          <TagsSelector tags={tagsList.tags} selectedTags={shortUrlData.tags ?? []} onChange={changeTags} />
         </div>
       </Row>
     </>

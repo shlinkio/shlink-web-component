@@ -31,7 +31,9 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('ShortUrlsRow', ShortUrlsRow, 'ShortUrlsRowMenu', 'ColorGenerator', 'useTimeoutToggle');
   bottle.serviceFactory('ShortUrlsRowMenu', ShortUrlsRowMenu, 'DeleteShortUrlModal', 'QrCodeModal');
   bottle.serviceFactory('CreateShortUrlResult', CreateShortUrlResult, 'useTimeoutToggle');
+
   bottle.serviceFactory('ShortUrlForm', ShortUrlForm, 'TagsSelector', 'DomainSelector');
+  bottle.decorator('ShortUrlForm', connect(['tagsList']));
 
   bottle.serviceFactory('CreateShortUrl', CreateShortUrl, 'ShortUrlForm', 'CreateShortUrlResult');
   bottle.decorator(
@@ -52,9 +54,10 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   ));
 
   bottle.serviceFactory('QrCodeModal', QrCodeModal, 'ImageDownloader');
-  bottle.serviceFactory('ShortUrlsFilteringBar', ShortUrlsFilteringBar, 'ExportShortUrlsBtn', 'TagsSelector');
-
   bottle.serviceFactory('ExportShortUrlsBtn', ExportShortUrlsBtn, 'apiClientFactory', 'ReportExporter');
+
+  bottle.serviceFactory('ShortUrlsFilteringBar', ShortUrlsFilteringBar, 'ExportShortUrlsBtn', 'TagsSelector');
+  bottle.decorator('ShortUrlsFilteringBar', connect(['tagsList']));
 
   // Reducers
   bottle.serviceFactory(

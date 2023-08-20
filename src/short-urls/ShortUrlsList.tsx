@@ -1,6 +1,7 @@
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir } from '@shlinkio/shlink-frontend-kit';
 import { pipe } from 'ramda';
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { Card } from 'reactstrap';
@@ -14,7 +15,7 @@ import type { ShortUrlsOrder, ShortUrlsOrderableFields } from './data';
 import { useShortUrlsQuery } from './helpers/hooks';
 import { Paginator } from './Paginator';
 import type { ShortUrlsList as ShortUrlsListState } from './reducers/shortUrlsList';
-import type { ShortUrlsFilteringBarType } from './ShortUrlsFilteringBar';
+import type { ShortUrlsFilteringBarProps } from './ShortUrlsFilteringBar';
 import type { ShortUrlsTableType } from './ShortUrlsTable';
 
 interface ShortUrlsListProps {
@@ -29,7 +30,7 @@ const DEFAULT_SHORT_URLS_ORDERING: ShortUrlsOrder = {
 
 export const ShortUrlsList = (
   ShortUrlsTable: ShortUrlsTableType,
-  ShortUrlsFilteringBar: ShortUrlsFilteringBarType,
+  ShortUrlsFilteringBar: FC<ShortUrlsFilteringBarProps>,
 ) => boundToMercureHub(({ listShortUrls, shortUrlsList }: ShortUrlsListProps) => {
   const { page } = useParams();
   const location = useLocation();

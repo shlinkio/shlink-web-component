@@ -14,7 +14,6 @@ import { TagsTableRow } from '../TagsTableRow';
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   // Components
   bottle.serviceFactory('TagsSelector', TagsSelector, 'ColorGenerator');
-  bottle.decorator('TagsSelector', connect(['tagsList'], ['listTags']));
 
   bottle.serviceFactory('DeleteTagConfirmModal', () => DeleteTagConfirmModal);
   bottle.decorator('DeleteTagConfirmModal', connect(['tagDelete'], ['deleteTag', 'tagDeleted']));

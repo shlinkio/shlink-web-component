@@ -31,7 +31,7 @@ describe('<ShortUrlsFilteringBar />', () => {
         <SettingsProvider value={fromPartial({ visits: {} })}>
           <FeaturesProvider value={fromPartial({ filterDisabledUrls })}>
             <RoutesPrefixProvider value="/server/1">
-              <ShortUrlsFilteringBar order={{}} handleOrderBy={handleOrderBy} />
+              <ShortUrlsFilteringBar order={{}} handleOrderBy={handleOrderBy} tagsList={fromPartial({ tags: [] })} />
             </RoutesPrefixProvider>
           </FeaturesProvider>
         </SettingsProvider>

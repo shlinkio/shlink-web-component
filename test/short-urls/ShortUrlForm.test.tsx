@@ -27,6 +27,7 @@ describe('<ShortUrlForm />', () => {
             domain: undefined,
           }}
           onSave={createShortUrl}
+          tagsList={fromPartial({ tags: [] })}
         />
       </FeaturesProvider>,
     );

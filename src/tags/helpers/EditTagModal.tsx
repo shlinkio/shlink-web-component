@@ -1,3 +1,5 @@
+import { faPalette as colorIcon } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Result } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useState } from 'react';
 import { Button, Input, InputGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
@@ -36,7 +38,14 @@ export const EditTagModal = ({ getColorForKey }: ColorGenerator) => (
         <ModalHeader toggle={toggle}>Edit tag</ModalHeader>
         <ModalBody>
           <InputGroup>
-            <div className="input-group-text p-0" style={{ backgroundColor: color, borderColor: color }}>
+            <div
+              className="input-group-text p-0 position-relative"
+              style={{ backgroundColor: color, borderColor: color }}
+            >
+              <FontAwesomeIcon
+                icon={colorIcon}
+                className="position-absolute top-50 start-50 translate-middle text-white"
+              />
               <Input
                 className="form-control-color opacity-0"
                 type="color"

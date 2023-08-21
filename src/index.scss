@@ -1,2 +1,6 @@
 @import './tags/react-tag-autocomplete';
 @import './utils/StickyCardPaginator.scss';
+
+.input-group-text.input-group-text {
+  border-color: var(--input-border-color);
+}

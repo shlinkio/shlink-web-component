@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 * [#34](https://github.com/shlinkio/shlink-web-component/issues/34) Decouple `TagsSelector` from `tagsList` reducer.
+* [#37](https://github.com/shlinkio/shlink-web-component/issues/37) Replace `react-colorful` with native color input for tag colors.
 
 ### Deprecated
 * *Nothing*

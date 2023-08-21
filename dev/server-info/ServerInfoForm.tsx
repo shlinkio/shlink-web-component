@@ -16,7 +16,7 @@ export const ServerInfoForm: FC<ServerInfoFormProps> = ({ onChange }) => {
 
     // @ts-expect-error - Entries is not recognized for some reason
     updateServerInfo(Object.fromEntries(new FormData(e.target).entries()));
-  }, []);
+  }, [updateServerInfo]);
   const resetForm = () => updateServerInfo({ baseUrl: undefined, apiKey: undefined });
   const inputRef = useCallback((el: HTMLInputElement | HTMLTextAreaElement | null, key: keyof typeof serverInfo) => {
     if (el) {
@@ -27,7 +27,7 @@ export const ServerInfoForm: FC<ServerInfoFormProps> = ({ onChange }) => {
 
   useEffect(() => {
     onChange(serverInfo);
-  }, [serverInfo]);
+  }, [onChange, serverInfo]);
 
   return (
     <form className="py-2 ps-2 d-flex gap-2" onSubmit={handleSubmit}>

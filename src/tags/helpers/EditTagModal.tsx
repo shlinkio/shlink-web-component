@@ -1,16 +1,11 @@
-import { faPalette as colorIcon } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Result, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { pipe } from 'ramda';
-import { useState } from 'react';
-import { HexColorPicker } from 'react-colorful';
-import { Button, Input, InputGroup, Modal, ModalBody, ModalFooter, ModalHeader, Popover } from 'reactstrap';
+import { Result } from '@shlinkio/shlink-frontend-kit';
+import { useCallback, useState } from 'react';
+import { Button, Input, InputGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import { handleEventPreventingDefault } from '../../utils/helpers';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import type { TagModalProps } from '../data';
 import type { EditTag, TagEdition } from '../reducers/tagEdit';
-import './EditTagModal.scss';
 
 interface EditTagModalProps extends TagModalProps {
   tagEdit: TagEdition;
@@ -23,7 +18,6 @@ export const EditTagModal = ({ getColorForKey }: ColorGenerator) => (
 ) => {
   const [newTagName, setNewTagName] = useState(tag);
   const [color, setColor] = useState(getColorForKey(tag));
-  const [showColorPicker, toggleColorPicker, , hideColorPicker] = useToggle();
   const { editing, error, edited, errorData } = tagEdit;
   const saveTag = handleEventPreventingDefault(
     async () => {
@@ -31,7 +25,10 @@ export const EditTagModal = ({ getColorForKey }: ColorGenerator) => (
       toggle();
     },
   );
-  const onClosed = pipe(hideColorPicker, () => edited && tagEdited({ oldName: tag, newName: newTagName, color }));
+  const onClosed = useCallback(
+    () => edited && tagEdited({ oldName: tag, newName: newTagName, color }),
+    [edited, tagEdited],
+  );
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} centered onClosed={onClosed}>
@@ -39,24 +36,14 @@ export const EditTagModal = ({ getColorForKey }: ColorGenerator) => (
         <ModalHeader toggle={toggle}>Edit tag</ModalHeader>
         <ModalBody>
           <InputGroup>
-            <div
-              id="colorPickerBtn"
-              className="input-group-text edit-tag-modal__color-picker-toggle"
-              style={{ backgroundColor: color, borderColor: color }}
-              onClick={toggleColorPicker}
-            >
-              <FontAwesomeIcon icon={colorIcon} className="edit-tag-modal__color-icon" />
+            <div className="input-group-text p-0" style={{ backgroundColor: color, borderColor: color }}>
+              <Input
+                className="form-control-color opacity-0"
+                type="color"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+              />
             </div>
-            <Popover
-              isOpen={showColorPicker}
-              toggle={toggleColorPicker}
-              target="colorPickerBtn"
-              placement="right"
-              hideArrow
-              popperClassName="edit-tag-modal__popover"
-            >
-              <HexColorPicker color={color} onChange={setColor} />
-            </Popover>
             <Input
               value={newTagName}
               placeholder="Tag"

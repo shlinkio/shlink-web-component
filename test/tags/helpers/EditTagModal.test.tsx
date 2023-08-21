@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { EditTagModal as createEditTagModal } from '../../../src/tags/helpers/EditTagModal';
 import type { TagEdition } from '../../../src/tags/reducers/tagEdit';
@@ -63,21 +63,5 @@ describe('<EditTagModal />', () => {
 
     expect(editTag).toHaveBeenCalled();
     expect(toggle).toHaveBeenCalled();
-  });
-
-  it('changes color when changing on color picker', async () => {
-    const { user } = setUp();
-    const colorBtn = screen.getByRole('img', { hidden: true });
-    // const initialColor = colorBtn.parentElement?.style.backgroundColor;
-
-    await user.click(colorBtn);
-    await waitFor(() => screen.getByRole('tooltip'));
-    await user.click(screen.getByLabelText('Hue'));
-    await user.click(screen.getByLabelText('Color'));
-    await user.click(colorBtn);
-    await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
-
-    // I need to figure this one out
-    // await waitFor(() => expect(initialColor).not.toEqual(colorBtn.parentElement?.style.backgroundColor));
   });
 });

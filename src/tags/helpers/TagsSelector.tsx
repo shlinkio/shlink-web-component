@@ -1,5 +1,6 @@
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
+import type { MutableRefObject } from 'react';
 import type { OptionRendererProps, ReactTagsAPI, TagRendererProps, TagSuggestion } from 'react-tag-autocomplete';
 import { ReactTags } from 'react-tag-autocomplete';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
@@ -33,7 +34,7 @@ const toTagObject = (tag: string): TagSuggestion => {
 const buildTagRenderer = (colorGenerator: ColorGenerator) => ({ tag, onClick: deleteTag }: TagRendererProps) => (
   <Tag colorGenerator={colorGenerator} text={tag.label} clearable className="react-tags__tag" onClose={deleteTag} />
 );
-const buildOptionRenderer = (colorGenerator: ColorGenerator, api: ReactTagsAPI | null) => (
+const buildOptionRenderer = (colorGenerator: ColorGenerator, api: MutableRefObject<ReactTagsAPI | null>) => (
   { option, classNames: classes, ...rest }: OptionRendererProps,
 ) => {
   const isSelectable = isSelectableOption(option.label);
@@ -50,7 +51,7 @@ const buildOptionRenderer = (colorGenerator: ColorGenerator, api: ReactTagsAPI |
       {!isSelectable ? <i>{option.label}</i> : (
         <>
           {!isNew && <TagBullet tag={`${option.label}`} colorGenerator={colorGenerator} />}
-          {!isNew ? option.label : <i>Add &quot;{normalizeTag(api?.input.value ?? '')}&quot;</i>}
+          {!isNew ? option.label : <i>Add &quot;{normalizeTag(api.current?.input.value ?? '')}&quot;</i>}
         </>
       )}
     </div>
@@ -70,7 +71,7 @@ export const TagsSelector = (colorGenerator: ColorGenerator) => (
       selected={selectedTags.map(toTagObject)}
       suggestions={tags.filter((tag) => !selectedTags.includes(tag)).map(toTagObject)}
       renderTag={buildTagRenderer(colorGenerator)}
-      renderOption={buildOptionRenderer(colorGenerator, apiRef.current)}
+      renderOption={buildOptionRenderer(colorGenerator, apiRef)}
       activateFirstOption
       allowNew={!immutable}
       newOptionText={NEW_TAG}

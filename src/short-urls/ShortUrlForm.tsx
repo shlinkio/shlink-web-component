@@ -58,7 +58,7 @@ export const ShortUrlForm = (
   const isEdit = mode === 'edit';
   const isCreation = isCreationData(shortUrlData);
   const isBasicMode = mode === 'create-basic';
-  const changeTags = (tags: string[]) => setShortUrlData({ ...shortUrlData, tags });
+  const changeTags = (tags: string[]) => setShortUrlData((prev) => ({ ...prev, tags }));
   const setResettableValue = (value: string, initialValue?: any) => {
     if (hasValue(value)) {
       return value;
@@ -89,12 +89,13 @@ export const ShortUrlForm = (
   ) => (
     <FormGroup {...fromGroupProps}>
       <Input
+        name={id}
         id={id}
         type={type}
         placeholder={placeholder}
         // @ts-expect-error FIXME Make sure id is a key from T
         value={shortUrlData[id] ?? ''}
-        onChange={props.onChange ?? ((e) => setShortUrlData({ ...shortUrlData, [id]: e.target.value }))}
+        onChange={props.onChange ?? ((e) => setShortUrlData((prev) => ({ ...prev, [id]: e.target.value })))}
         {...props}
       />
     </FormGroup>
@@ -102,25 +103,27 @@ export const ShortUrlForm = (
   const renderDeviceLongUrlInput = (id: keyof ShlinkDeviceLongUrls, placeholder: string, icon: IconProp) => (
     <IconInput
       icon={icon}
+      name={id}
       id={id}
       type="url"
       placeholder={placeholder}
       value={shortUrlData.deviceLongUrls?.[id] ?? ''}
-      onChange={(e) => setShortUrlData({
-        ...shortUrlData,
+      onChange={(e) => setShortUrlData((prev) => ({
+        ...prev,
         deviceLongUrls: {
-          ...(shortUrlData.deviceLongUrls ?? {}),
+          ...(prev.deviceLongUrls ?? {}),
           [id]: setResettableValue(e.target.value, initialState.deviceLongUrls?.[id]),
         },
-      })}
+      }))}
     />
   );
   const renderDateInput = (id: DateFields, placeholder: string, props: Partial<DateTimeInputProps> = {}) => (
     <DateTimeInput
+      name={id}
       selected={shortUrlData[id] ? toDate(shortUrlData[id] as string | Date) : null}
       placeholderText={placeholder}
       isClearable
-      onChange={(date) => setShortUrlData({ ...shortUrlData, [id]: date })}
+      onChange={(date) => setShortUrlData((prev) => ({ ...prev, [id]: date }))}
       {...props}
     />
   );
@@ -128,12 +131,13 @@ export const ShortUrlForm = (
     <>
       <FormGroup>
         <Input
+          name="longUrl"
           bsSize="lg"
           type="url"
           placeholder="URL to be shortened"
           required
           value={shortUrlData.longUrl}
-          onChange={(e) => setShortUrlData({ ...shortUrlData, longUrl: e.target.value })}
+          onChange={(e) => setShortUrlData((prev) => ({ ...prev, longUrl: e.target.value }))}
         />
       </FormGroup>
       <Row>
@@ -177,10 +181,10 @@ export const ShortUrlForm = (
             <div className="col-sm-6 mb-3">
               <SimpleCard title="Customize the short URL">
                 {renderOptionalInput('title', 'Title', 'text', {
-                  onChange: ({ target }: ChangeEvent<HTMLInputElement>) => setShortUrlData({
-                    ...shortUrlData,
+                  onChange: ({ target }: ChangeEvent<HTMLInputElement>) => setShortUrlData((prev) => ({
+                    ...prev,
                     title: setResettableValue(target.value, initialState.title),
-                  }),
+                  })),
                 })}
                 {!isEdit && isCreation && (
                   <>
@@ -199,7 +203,7 @@ export const ShortUrlForm = (
                     </Row>
                     <DomainSelector
                       value={shortUrlData.domain}
-                      onChange={(domain?: string) => setShortUrlData({ ...shortUrlData, domain })}
+                      onChange={(domain?: string) => setShortUrlData((prev) => ({ ...prev, domain }))}
                     />
                   </>
                 )}
@@ -223,7 +227,7 @@ export const ShortUrlForm = (
                 <ShortUrlFormCheckboxGroup
                   infoTooltip="If checked, Shlink will try to reach the long URL, failing in case it's not publicly accessible."
                   checked={shortUrlData.validateUrl}
-                  onChange={(validateUrl) => setShortUrlData({ ...shortUrlData, validateUrl })}
+                  onChange={(validateUrl) => setShortUrlData((prev) => ({ ...prev, validateUrl }))}
                 >
                   Validate URL
                 </ShortUrlFormCheckboxGroup>
@@ -233,7 +237,7 @@ export const ShortUrlForm = (
                       inline
                       className="me-2"
                       checked={shortUrlData.findIfExists}
-                      onChange={(findIfExists) => setShortUrlData({ ...shortUrlData, findIfExists })}
+                      onChange={(findIfExists) => setShortUrlData((prev) => ({ ...prev, findIfExists }))}
                     >
                       Use existing URL if found
                     </Checkbox>
@@ -247,14 +251,14 @@ export const ShortUrlForm = (
                 <ShortUrlFormCheckboxGroup
                   infoTooltip="This short URL will be included in the robots.txt for your Shlink instance, allowing web crawlers (like Google) to index it."
                   checked={shortUrlData.crawlable}
-                  onChange={(crawlable) => setShortUrlData({ ...shortUrlData, crawlable })}
+                  onChange={(crawlable) => setShortUrlData((prev) => ({ ...prev, crawlable }))}
                 >
                   Make it crawlable
                 </ShortUrlFormCheckboxGroup>
                 <ShortUrlFormCheckboxGroup
                   infoTooltip="When this short URL is visited, any query params appended to it will be forwarded to the long URL."
                   checked={shortUrlData.forwardQuery}
-                  onChange={(forwardQuery) => setShortUrlData({ ...shortUrlData, forwardQuery })}
+                  onChange={(forwardQuery) => setShortUrlData((prev) => ({ ...prev, forwardQuery }))}
                 >
                   Forward query params on redirect
                 </ShortUrlFormCheckboxGroup>

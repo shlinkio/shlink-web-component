@@ -1,5 +1,7 @@
 @import './tags/react-tag-autocomplete';
 @import './utils/StickyCardPaginator.scss';
+@import 'leaflet/dist/leaflet.css';
+@import 'react-datepicker/dist/react-datepicker.min.css';
 
 .input-group-text.input-group-text {
   border-color: var(--input-border-color);

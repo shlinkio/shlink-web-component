@@ -1,7 +1,7 @@
 import { fromPartial } from '@total-typescript/shoehorn';
-import type { ShlinkVisitsParams } from '../../../src/api-contract';
+import type { ShlinkOrphanVisit, ShlinkVisitsParams } from '../../../src/api-contract';
 import { formatIsoDate, parseDate } from '../../../src/utils/dates/helpers/date';
-import type { CreateVisit, OrphanVisit, VisitsParams } from '../../../src/visits/types';
+import type { CreateVisit, VisitsParams } from '../../../src/visits/types';
 import type { GroupedNewVisits } from '../../../src/visits/types/helpers';
 import { groupNewVisitsByType, toApiParams } from '../../../src/visits/types/helpers';
 
@@ -11,8 +11,8 @@ describe('visitsTypeHelpers', () => {
       [[], { orphanVisits: [], nonOrphanVisits: [] }],
       ((): [CreateVisit[], GroupedNewVisits] => {
         const orphanVisits: CreateVisit[] = [
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
         ];
         const nonOrphanVisits: CreateVisit[] = [
           fromPartial({ visit: {} }),
@@ -29,9 +29,9 @@ describe('visitsTypeHelpers', () => {
       })(),
       ((): [CreateVisit[], GroupedNewVisits] => {
         const orphanVisits: CreateVisit[] = [
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
         ];
 
         return [orphanVisits, { orphanVisits, nonOrphanVisits: [] }];

@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import type { Visit } from '../../src/visits/types';
+import type { ShlinkVisit } from '../../src/api-contract';
 import { VisitsHeader } from '../../src/visits/VisitsHeader';
 
 describe('<VisitsHeader />', () => {
-  const visits: Visit[] = [fromPartial({}), fromPartial({}), fromPartial({})];
+  const visits: ShlinkVisit[] = [fromPartial({}), fromPartial({}), fromPartial({})];
   const title = 'My header title';
   const goBack = vi.fn();
   const setUp = () => render(<VisitsHeader visits={visits} goBack={goBack} title={title} />);

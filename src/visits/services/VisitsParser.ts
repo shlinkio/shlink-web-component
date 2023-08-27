@@ -1,6 +1,7 @@
 import { isNil, map } from 'ramda';
+import type { ShlinkVisit } from '../../api-contract';
 import { hasValue } from '../../utils/helpers';
-import type { CityStats, NormalizedVisit, Stats, Visit, VisitsStats } from '../types';
+import type { CityStats, NormalizedVisit, Stats, VisitsStats } from '../types';
 import { isNormalizedOrphanVisit, isOrphanVisit } from '../types/helpers';
 import { extractDomain, parseUserAgent } from '../utils';
 
@@ -81,7 +82,7 @@ export const processStatsFromVisits = (visits: NormalizedVisit[]) => visits.redu
   { os: {}, browsers: {}, referrers: {}, countries: {}, cities: {}, citiesForMap: {}, visitedUrls: {} },
 );
 
-export const normalizeVisits = map((visit: Visit): NormalizedVisit => {
+export const normalizeVisits = map((visit: ShlinkVisit): NormalizedVisit => {
   const { userAgent, date, referer, visitLocation, potentialBot } = visit;
   const common = {
     date,
@@ -103,5 +104,5 @@ export const normalizeVisits = map((visit: Visit): NormalizedVisit => {
 
 export interface VisitsParser {
   processStatsFromVisits: (normalizedVisits: NormalizedVisit[]) => VisitsStats;
-  normalizeVisits: (visits: Visit[]) => NormalizedVisit[];
+  normalizeVisits: (visits: ShlinkVisit[]) => NormalizedVisit[];
 }

@@ -1,9 +1,10 @@
 import { fromPartial } from '@total-typescript/shoehorn';
+import type { ShlinkOrphanVisit, ShlinkVisit } from '../../../src/api-contract';
 import { normalizeVisits, processStatsFromVisits } from '../../../src/visits/services/VisitsParser';
-import type { OrphanVisit, Visit, VisitsStats } from '../../../src/visits/types';
+import type { VisitsStats } from '../../../src/visits/types';
 
 describe('VisitsParser', () => {
-  const visits: Visit[] = [
+  const visits: ShlinkVisit[] = [
     fromPartial({
       userAgent: 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0',
       referer: 'https://google.com',
@@ -50,7 +51,7 @@ describe('VisitsParser', () => {
       potentialBot: true,
     }),
   ];
-  const orphanVisits: OrphanVisit[] = [
+  const orphanVisits: ShlinkOrphanVisit[] = [
     fromPartial({
       type: 'base_url',
       visitedUrl: 'foo',

@@ -2,12 +2,11 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 import { Button, Card } from 'reactstrap';
-import type { ShlinkShortUrl } from '../api-contract';
+import type { ShlinkShortUrl, ShlinkVisit } from '../api-contract';
 import { ShortUrlVisitsCount } from '../short-urls/helpers/ShortUrlVisitsCount';
-import type { Visit } from './types';
 
 type VisitsHeaderProps = PropsWithChildren<{
-  visits: Visit[];
+  visits: ShlinkVisit[];
   goBack: () => void;
   title: ReactNode;
   shortUrl?: ShlinkShortUrl;

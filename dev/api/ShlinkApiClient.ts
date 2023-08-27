@@ -1,4 +1,4 @@
-import { orderToString, stringifyQuery } from '@shlinkio/shlink-frontend-kit';
+import { stringifyQuery } from '@shlinkio/shlink-frontend-kit';
 import { isEmpty, isNil, reject } from 'ramda';
 import type {
   RegularNotFound,
@@ -13,6 +13,7 @@ import type {
   ShlinkShortUrl,
   ShlinkShortUrlsListNormalizedParams,
   ShlinkShortUrlsListParams,
+  ShlinkShortUrlsOrder,
   ShlinkShortUrlsResponse,
   ShlinkTags,
   ShlinkTagsResponse,
@@ -37,6 +38,9 @@ type RequestOptions = {
   domain?: string;
 };
 
+const orderToString = (order: ShlinkShortUrlsOrder): string | undefined => (
+  order.dir ? `${order.field}-${order.dir}` : undefined
+);
 const buildShlinkBaseUrl = (url: string, version: ApiVersion) => `${url}/rest/v${version}`;
 const rejectNilProps = reject(isNil);
 const normalizeListParams = (

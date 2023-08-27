@@ -2,15 +2,15 @@ import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
+import type { ShlinkVisit } from '../../src/api-contract';
 import { rangeOf } from '../../src/utils/helpers';
 import { SettingsProvider } from '../../src/utils/settings';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
-import type { Visit } from '../../src/visits/types';
 import { VisitsStats } from '../../src/visits/VisitsStats';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<VisitsStats />', () => {
-  const visits = rangeOf(3, () => fromPartial<Visit>({ date: '2020-01-01' }));
+  const visits = rangeOf(3, () => fromPartial<ShlinkVisit>({ date: '2020-01-01' }));
   const getVisitsMock = vi.fn();
   const exportCsv = vi.fn();
   const setUp = (visitsInfo: Partial<VisitsInfo>, activeRoute = '/by-time') => {

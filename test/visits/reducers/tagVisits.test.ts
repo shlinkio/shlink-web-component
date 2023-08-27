@@ -1,6 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
-import type { ShlinkApiClient, ShlinkVisits } from '../../../src/api-contract';
+import type { ShlinkApiClient, ShlinkVisit, ShlinkVisits } from '../../../src/api-contract';
 import type { RootState } from '../../../src/container/store';
 import { formatIsoDate } from '../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
@@ -12,11 +12,10 @@ import {
   tagVisitsReducerCreator,
 } from '../../../src/visits/reducers/tagVisits';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
-import type { Visit } from '../../../src/visits/types';
 
 describe('tagVisitsReducer', () => {
   const now = new Date();
-  const visitsMocks = rangeOf(2, () => fromPartial<Visit>({}));
+  const visitsMocks = rangeOf(2, () => fromPartial<ShlinkVisit>({}));
   const getTagVisitsCall = vi.fn();
   const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getTagVisits: getTagVisitsCall });
   const getTagVisits = getTagVisitsCreator(buildShlinkApiClientMock);
@@ -51,7 +50,7 @@ describe('tagVisitsReducer', () => {
     });
 
     it('return visits on GET_TAG_VISITS', () => {
-      const actionVisits: Visit[] = [fromPartial({}), fromPartial({})];
+      const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, error, visits } = reducer(
         buildState({ loading: true, error: false }),
         getTagVisits.fulfilled({ visits: actionVisits }, '', { tag: '' }),
@@ -171,12 +170,12 @@ describe('tagVisitsReducer', () => {
 
     it.each([
       [
-        [fromPartial<Visit>({ date: formatISO(subDays(now, 20)) })],
+        [fromPartial<ShlinkVisit>({ date: formatISO(subDays(now, 20)) })],
         getTagVisits.fallbackToInterval('last30Days'),
         3,
       ],
       [
-        [fromPartial<Visit>({ date: formatISO(subDays(now, 100)) })],
+        [fromPartial<ShlinkVisit>({ date: formatISO(subDays(now, 100)) })],
         getTagVisits.fallbackToInterval('last180Days'),
         3,
       ],
@@ -186,7 +185,7 @@ describe('tagVisitsReducer', () => {
       expectedSecondDispatch,
       expectedDispatchCalls,
     ) => {
-      const buildVisitsResult = (data: Visit[] = []): ShlinkVisits => ({
+      const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisits => ({
         data,
         pagination: {
           currentPage: 1,

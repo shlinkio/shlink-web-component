@@ -2,7 +2,8 @@ import type {
   InvalidArgumentError,
   InvalidShortUrlDeletion,
   ProblemDetailsError,
-  RegularNotFound } from './errors';
+  RegularNotFound,
+} from './errors';
 import {
   ErrorTypeV2,
   ErrorTypeV3,

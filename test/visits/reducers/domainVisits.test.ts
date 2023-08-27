@@ -1,6 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
-import type { ShlinkApiClient, ShlinkShortUrl, ShlinkVisits } from '../../../src/api-contract';
+import type { ShlinkApiClient, ShlinkShortUrl, ShlinkVisit, ShlinkVisits } from '../../../src/api-contract';
 import type { RootState } from '../../../src/container/store';
 import { formatIsoDate } from '../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
@@ -14,11 +14,10 @@ import {
   getDomainVisits as getDomainVisitsCreator,
 } from '../../../src/visits/reducers/domainVisits';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
-import type { Visit } from '../../../src/visits/types';
 
 describe('domainVisitsReducer', () => {
   const now = new Date();
-  const visitsMocks = rangeOf(2, () => fromPartial<Visit>({}));
+  const visitsMocks = rangeOf(2, () => fromPartial<ShlinkVisit>({}));
   const getDomainVisitsCall = vi.fn();
   const buildApiClientMock = () => fromPartial<ShlinkApiClient>({ getDomainVisits: getDomainVisitsCall });
   const getDomainVisits = getDomainVisitsCreator(buildApiClientMock);
@@ -57,7 +56,7 @@ describe('domainVisitsReducer', () => {
     });
 
     it('return visits on GET_DOMAIN_VISITS', () => {
-      const actionVisits: Visit[] = [fromPartial({}), fromPartial({})];
+      const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, error, visits } = reducer(
         buildState({ loading: true, error: false }),
         getDomainVisits.fulfilled({ visits: actionVisits }, '', fromPartial({})),
@@ -179,12 +178,12 @@ describe('domainVisitsReducer', () => {
 
     it.each([
       [
-        [fromPartial<Visit>({ date: formatISO(subDays(now, 20)) })],
+        [fromPartial<ShlinkVisit>({ date: formatISO(subDays(now, 20)) })],
         getDomainVisits.fallbackToInterval('last30Days'),
         3,
       ],
       [
-        [fromPartial<Visit>({ date: formatISO(subDays(now, 100)) })],
+        [fromPartial<ShlinkVisit>({ date: formatISO(subDays(now, 100)) })],
         getDomainVisits.fallbackToInterval('last180Days'),
         3,
       ],
@@ -194,7 +193,7 @@ describe('domainVisitsReducer', () => {
       expectedSecondDispatch,
       expectedDispatchCalls,
     ) => {
-      const buildVisitsResult = (data: Visit[] = []): ShlinkVisits => ({
+      const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisits => ({
         data,
         pagination: {
           currentPage: 1,

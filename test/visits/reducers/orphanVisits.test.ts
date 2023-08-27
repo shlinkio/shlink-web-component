@@ -1,6 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
-import type { ShlinkApiClient, ShlinkVisits } from '../../../src/api-contract';
+import type { ShlinkApiClient, ShlinkVisit, ShlinkVisits } from '../../../src/api-contract';
 import type { RootState } from '../../../src/container/store';
 import { formatIsoDate } from '../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
@@ -11,11 +11,10 @@ import {
 } from '../../../src/visits/reducers/orphanVisits';
 import type { VisitsInfo } from '../../../src/visits/reducers/types';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
-import type { Visit } from '../../../src/visits/types';
 
 describe('orphanVisitsReducer', () => {
   const now = new Date();
-  const visitsMocks = rangeOf(2, () => fromPartial<Visit>({}));
+  const visitsMocks = rangeOf(2, () => fromPartial<ShlinkVisit>({}));
   const getOrphanVisitsCall = vi.fn();
   const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getOrphanVisits: getOrphanVisitsCall });
   const getOrphanVisits = getOrphanVisitsCreator(buildShlinkApiClientMock);
@@ -50,7 +49,7 @@ describe('orphanVisitsReducer', () => {
     });
 
     it('return visits on GET_ORPHAN_VISITS', () => {
-      const actionVisits: Visit[] = [fromPartial({}), fromPartial({})];
+      const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, error, visits } = reducer(
         buildState({ loading: true, error: false }),
         getOrphanVisits.fulfilled({ visits: actionVisits }, '', {}),
@@ -95,7 +94,7 @@ describe('orphanVisitsReducer', () => {
       ],
     ])('prepends new visits on CREATE_VISIT', (state, expectedVisits) => {
       const prevState = buildState({ ...state, visits: visitsMocks });
-      const visit = fromPartial<Visit>({ date: formatIsoDate(now) ?? undefined });
+      const visit = fromPartial<ShlinkVisit>({ date: formatIsoDate(now) ?? undefined });
 
       const { visits } = reducer(prevState, createNewVisits([{ visit }, { visit }]));
 
@@ -146,12 +145,12 @@ describe('orphanVisitsReducer', () => {
 
     it.each([
       [
-        [fromPartial<Visit>({ date: formatISO(subDays(now, 5)) })],
+        [fromPartial<ShlinkVisit>({ date: formatISO(subDays(now, 5)) })],
         getOrphanVisits.fallbackToInterval('last7Days'),
         3,
       ],
       [
-        [fromPartial<Visit>({ date: formatISO(subDays(now, 200)) })],
+        [fromPartial<ShlinkVisit>({ date: formatISO(subDays(now, 200)) })],
         getOrphanVisits.fallbackToInterval('last365Days'),
         3,
       ],
@@ -161,7 +160,7 @@ describe('orphanVisitsReducer', () => {
       expectedSecondDispatch,
       expectedDispatchCalls,
     ) => {
-      const buildVisitsResult = (data: Visit[] = []): ShlinkVisits => ({
+      const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisits => ({
         data,
         pagination: {
           currentPage: 1,

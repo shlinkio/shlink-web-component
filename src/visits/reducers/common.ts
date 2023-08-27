@@ -1,12 +1,12 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { flatten, prop, range, splitEvery } from 'ramda';
-import type { ShlinkPaginator, ShlinkVisits, ShlinkVisitsParams } from '../../api-contract';
+import type { ShlinkPaginator, ShlinkVisit, ShlinkVisits, ShlinkVisitsParams } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import type { RootState } from '../../container/store';
 import type { DateInterval } from '../../utils/dates/helpers/dateIntervals';
 import { dateToMatchingInterval } from '../../utils/dates/helpers/dateIntervals';
 import { createAsyncThunk } from '../../utils/redux';
-import type { CreateVisit, Visit } from '../types';
+import type { CreateVisit } from '../types';
 import type { LoadVisits, VisitsInfo, VisitsLoaded } from './types';
 import { createNewVisits } from './visitCreation';
 
@@ -18,7 +18,7 @@ const isLastPage = ({ currentPage, pagesCount }: ShlinkPaginator): boolean => cu
 const calcProgress = (total: number, current: number): number => (current * 100) / total;
 
 type VisitsLoader = (page: number, itemsPerPage: number) => Promise<ShlinkVisits>;
-type LastVisitLoader = (excludeBots?: boolean) => Promise<Visit | undefined>;
+type LastVisitLoader = (excludeBots?: boolean) => Promise<ShlinkVisit | undefined>;
 
 interface VisitsAsyncThunkOptions<T extends LoadVisits = LoadVisits, R extends VisitsLoaded = VisitsLoaded> {
   typePrefix: string;
@@ -37,10 +37,10 @@ export const createVisitsAsyncThunk = <T extends LoadVisits = LoadVisits, R exte
   const asyncThunk = createAsyncThunk(typePrefix, async (params: T, { getState, dispatch }): Promise<Partial<R>> => {
     const [visitsLoader, lastVisitLoader] = createLoaders(params);
 
-    const loadVisitsInParallel = async (pages: number[]): Promise<Visit[]> =>
+    const loadVisitsInParallel = async (pages: number[]): Promise<ShlinkVisit[]> =>
       Promise.all(pages.map(async (page) => visitsLoader(page, ITEMS_PER_PAGE).then(prop('data')))).then(flatten);
 
-    const loadPagesBlocks = async (pagesBlocks: number[][], index = 0): Promise<Visit[]> => {
+    const loadPagesBlocks = async (pagesBlocks: number[][], index = 0): Promise<ShlinkVisit[]> => {
       if (shouldCancel(getState)) {
         return [];
       }

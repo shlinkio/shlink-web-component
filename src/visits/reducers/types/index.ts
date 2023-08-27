@@ -1,9 +1,8 @@
-import type { ProblemDetailsError, ShlinkVisitsParams } from '../../../api-contract';
+import type { ProblemDetailsError, ShlinkVisit, ShlinkVisitsParams } from '../../../api-contract';
 import type { DateInterval } from '../../../utils/dates/helpers/dateIntervals';
-import type { Visit } from '../../types';
 
 export interface VisitsInfo {
-  visits: Visit[];
+  visits: ShlinkVisit[];
   loading: boolean;
   loadingLarge: boolean;
   error: boolean;
@@ -20,6 +19,6 @@ export interface LoadVisits {
 }
 
 export type VisitsLoaded<T = {}> = T & {
-  visits: Visit[];
+  visits: ShlinkVisit[];
   query?: ShlinkVisitsParams;
 };

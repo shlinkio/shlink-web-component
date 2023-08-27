@@ -1,9 +1,7 @@
 import { isEmpty, isNil, pipe, range } from 'ramda';
 import type { SyntheticEvent } from 'react';
 
-type Optional<T> = T | null | undefined;
-
-export type OptionalString = Optional<string>;
+export type OptionalString = string | null | undefined;
 
 export const handleEventPreventingDefault = <T>(handler: () => T) => pipe(
   (e: SyntheticEvent) => e.preventDefault(),
@@ -16,10 +14,6 @@ export const rangeOf = <T>(size: number, mappingFn: (value: number) => T, startA
 export type Empty = null | undefined | '' | never[];
 
 export const hasValue = <T>(value: T | Empty): value is T => !isNil(value) && !isEmpty(value);
-
-export type Nullable<T> = {
-  [P in keyof T]: T[P] | null
-};
 
 export const nonEmptyValueOrNull = <T>(value: T): T | null => (isEmpty(value) ? null : value);
 

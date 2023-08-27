@@ -1,5 +1,5 @@
 import { fromPartial } from '@total-typescript/shoehorn';
-import type { ShlinkApiClient, ShlinkVisitsOverview } from '../../../src/api-contract';
+import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkVisitsOverview } from '../../../src/api-contract';
 import type { RootState } from '../../../src/container/store';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
 import type {
@@ -10,7 +10,6 @@ import {
   loadVisitsOverview as loadVisitsOverviewCreator,
   visitsOverviewReducerCreator,
 } from '../../../src/visits/reducers/visitsOverview';
-import type { OrphanVisit } from '../../../src/visits/types';
 
 describe('visitsOverviewReducer', () => {
   const getVisitsOverview = vi.fn();
@@ -63,9 +62,9 @@ describe('visitsOverviewReducer', () => {
         createNewVisits([
           fromPartial({ visit: {} }),
           fromPartial({ visit: {} }),
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
         ]),
       );
 
@@ -113,9 +112,9 @@ describe('visitsOverviewReducer', () => {
           fromPartial({ visit: {} }),
           fromPartial({ visit: { potentialBot: true } }),
           fromPartial({ visit: { potentialBot: true } }),
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<OrphanVisit>({ visitedUrl: '', potentialBot: true }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '', potentialBot: true }) }),
         ]),
       );
 

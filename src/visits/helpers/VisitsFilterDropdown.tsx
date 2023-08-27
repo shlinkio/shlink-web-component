@@ -1,8 +1,9 @@
 import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
 import type { DropdownItemProps } from 'reactstrap';
 import { DropdownItem } from 'reactstrap';
+import type { ShlinkOrphanVisitType } from '../../api-contract';
 import { hasValue } from '../../utils/helpers';
-import type { OrphanVisitType, VisitsFilter } from '../types';
+import type { VisitsFilter } from '../types';
 
 interface VisitsFilterDropdownProps {
   onChange: (filters: VisitsFilter) => void;
@@ -15,7 +16,7 @@ export const VisitsFilterDropdown = (
   { onChange, selected = {}, className, isOrphanVisits }: VisitsFilterDropdownProps,
 ) => {
   const { orphanVisitsType, excludeBots = false } = selected;
-  const propsForOrphanVisitsTypeItem = (type: OrphanVisitType): DropdownItemProps => ({
+  const propsForOrphanVisitsTypeItem = (type: ShlinkOrphanVisitType): DropdownItemProps => ({
     active: orphanVisitsType === type,
     onClick: () => onChange({ ...selected, orphanVisitsType: type === selected?.orphanVisitsType ? undefined : type }),
   });

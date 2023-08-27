@@ -1,9 +1,10 @@
 import { countBy, groupBy, pipe, prop } from 'ramda';
-import type { ShlinkVisitsParams } from '../../api-contract';
+import type { ShlinkOrphanVisit, ShlinkVisit, ShlinkVisitsParams } from '../../api-contract';
 import { formatIsoDate } from '../../utils/dates/helpers/date';
-import type { CreateVisit, NormalizedOrphanVisit, NormalizedVisit, OrphanVisit, Stats, Visit, VisitsParams } from './index';
+import type { CreateVisit, NormalizedOrphanVisit, NormalizedVisit, Stats, VisitsParams } from './index';
 
-export const isOrphanVisit = (visit: Visit): visit is OrphanVisit => (visit as OrphanVisit).visitedUrl !== undefined;
+export const isOrphanVisit = (visit: ShlinkVisit): visit is ShlinkOrphanVisit =>
+  (visit as ShlinkOrphanVisit).visitedUrl !== undefined;
 
 export const isNormalizedOrphanVisit = (visit: NormalizedVisit): visit is NormalizedOrphanVisit =>
   (visit as NormalizedOrphanVisit).visitedUrl !== undefined;

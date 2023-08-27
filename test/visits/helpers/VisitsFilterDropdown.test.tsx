@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
+import type { ShlinkOrphanVisitType } from '../../../src/api-contract';
 import { VisitsFilterDropdown } from '../../../src/visits/helpers/VisitsFilterDropdown';
-import type { OrphanVisitType, VisitsFilter } from '../../../src/visits/types';
+import type { VisitsFilter } from '../../../src/visits/types';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<VisitsFilterDropdown />', () => {
@@ -31,9 +32,9 @@ describe('<VisitsFilterDropdown />', () => {
   });
 
   it.each([
-    ['base_url' as OrphanVisitType, 1, 1],
-    ['invalid_short_url' as OrphanVisitType, 2, 1],
-    ['regular_404' as OrphanVisitType, 3, 1],
+    ['base_url' as ShlinkOrphanVisitType, 1, 1],
+    ['invalid_short_url' as ShlinkOrphanVisitType, 2, 1],
+    ['regular_404' as ShlinkOrphanVisitType, 3, 1],
     [undefined, -1, 0],
   ])('sets expected item as active', async (orphanVisitsType, expectedSelectedIndex, expectedActiveItems) => {
     const { user } = setUp({ orphanVisitsType });

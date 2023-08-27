@@ -1,33 +1,5 @@
-import type { ShlinkShortUrl } from '../../api-contract';
+import type { ShlinkOrphanVisitType, ShlinkShortUrl, ShlinkVisit } from '../../api-contract';
 import type { DateRange } from '../../utils/dates/helpers/dateIntervals';
-
-export type OrphanVisitType = 'base_url' | 'invalid_short_url' | 'regular_404';
-
-interface VisitLocation {
-  countryCode: string | null;
-  countryName: string | null;
-  regionName: string | null;
-  cityName: string | null;
-  latitude: number | null;
-  longitude: number | null;
-  timezone: string | null;
-  isEmpty: boolean;
-}
-
-export interface RegularVisit {
-  referer: string;
-  date: string;
-  userAgent: string;
-  visitLocation: VisitLocation | null;
-  potentialBot: boolean;
-}
-
-export interface OrphanVisit extends RegularVisit {
-  visitedUrl: string;
-  type: OrphanVisitType;
-}
-
-export type Visit = RegularVisit | OrphanVisit;
 
 export interface UserAgent {
   browser: string;
@@ -46,14 +18,14 @@ export interface NormalizedRegularVisit extends UserAgent {
 
 export interface NormalizedOrphanVisit extends NormalizedRegularVisit {
   visitedUrl: string;
-  type: OrphanVisitType;
+  type: ShlinkOrphanVisitType;
 }
 
 export type NormalizedVisit = NormalizedRegularVisit | NormalizedOrphanVisit;
 
 export interface CreateVisit {
   shortUrl?: ShlinkShortUrl;
-  visit: Visit;
+  visit: ShlinkVisit;
 }
 
 export type Stats = Record<string, number>;
@@ -77,7 +49,7 @@ export interface VisitsStats {
 }
 
 export interface VisitsFilter {
-  orphanVisitsType?: OrphanVisitType | undefined;
+  orphanVisitsType?: ShlinkOrphanVisitType | undefined;
   excludeBots?: boolean;
 }
 

@@ -1,6 +1,5 @@
-import type { ShlinkApiClient } from '../../api-contract';
+import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkOrphanVisitType } from '../../api-contract';
 import { isBetween } from '../../utils/dates/helpers/date';
-import type { OrphanVisit, OrphanVisitType } from '../types';
 import { isOrphanVisit } from '../types/helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { LoadVisits, VisitsInfo } from './types';
@@ -8,7 +7,7 @@ import type { LoadVisits, VisitsInfo } from './types';
 const REDUCER_PREFIX = 'shlink/orphanVisits';
 
 export interface LoadOrphanVisits extends LoadVisits {
-  orphanVisitsType?: OrphanVisitType;
+  orphanVisitsType?: ShlinkOrphanVisitType;
 }
 
 const initialState: VisitsInfo = {
@@ -20,7 +19,7 @@ const initialState: VisitsInfo = {
   progress: 0,
 };
 
-const matchesType = (visit: OrphanVisit, orphanVisitsType?: OrphanVisitType) =>
+const matchesType = (visit: ShlinkOrphanVisit, orphanVisitsType?: ShlinkOrphanVisitType) =>
   !orphanVisitsType || orphanVisitsType === visit.type;
 
 export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({

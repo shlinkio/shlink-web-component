@@ -1,6 +1,8 @@
-import type { Order } from '@shlinkio/shlink-frontend-kit';
-import type { Nullable, OptionalString } from '../utils/helpers';
-import type { Visit } from '../visits/types';
+type OptionalString = string | null | undefined;
+
+type Nullable<T> = {
+  [P in keyof T]: T[P] | null
+};
 
 export interface ShlinkDeviceLongUrls {
   android?: OptionalString;
@@ -110,8 +112,36 @@ export interface ShlinkVisitsSummary {
   bots: number;
 }
 
+export type ShlinkOrphanVisitType = 'base_url' | 'invalid_short_url' | 'regular_404';
+
+export interface ShlinkVisitLocation {
+  countryCode: string | null;
+  countryName: string | null;
+  regionName: string | null;
+  cityName: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  timezone: string | null;
+  isEmpty: boolean;
+}
+
+export interface ShlinkRegularVisit {
+  referer: string;
+  date: string;
+  userAgent: string;
+  visitLocation: ShlinkVisitLocation | null;
+  potentialBot: boolean;
+}
+
+export interface ShlinkOrphanVisit extends ShlinkRegularVisit {
+  visitedUrl: string;
+  type: ShlinkOrphanVisitType;
+}
+
+export type ShlinkVisit = ShlinkRegularVisit | ShlinkOrphanVisit;
+
 export interface ShlinkVisits {
-  data: Visit[];
+  data: ShlinkVisit[];
   pagination: ShlinkPaginator;
 }
 
@@ -157,9 +187,10 @@ export interface ShlinkDomainsResponse {
 
 export type TagsFilteringMode = 'all' | 'any';
 
-type ShlinkShortUrlsOrderableFields = 'dateCreated' | 'shortCode' | 'longUrl' | 'title' | 'visits' | 'nonBotVisits';
-
-export type ShlinkShortUrlsOrder = Order<ShlinkShortUrlsOrderableFields>;
+export type ShlinkShortUrlsOrder = {
+  field?: 'dateCreated' | 'shortCode' | 'longUrl' | 'title' | 'visits' | 'nonBotVisits';
+  dir?: 'ASC' | 'DESC';
+};
 
 export interface ShlinkShortUrlsListParams {
   page?: string;

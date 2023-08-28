@@ -1,15 +1,17 @@
+import { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
+import { FetchHttpClient } from '@shlinkio/shlink-js-sdk/browser';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import { ShlinkWebComponent } from '../src';
-import { ShlinkApiClient } from './api/ShlinkApiClient';
 import { ServerInfoForm } from './server-info/ServerInfoForm';
 import type { ServerInfo } from './server-info/useServerInfo';
+import { isServerInfoSet } from './server-info/useServerInfo';
 import { ThemeToggle } from './ThemeToggle';
 
 export const App: FC = () => {
   const [serverInfo, setServerInfo] = useState<ServerInfo>({});
   const apiClient = useMemo(
-    () => serverInfo.apiKey && serverInfo.baseUrl && new ShlinkApiClient(serverInfo.baseUrl, serverInfo.apiKey),
+    () => isServerInfoSet(serverInfo) && new ShlinkApiClient(new FetchHttpClient(), serverInfo),
     [serverInfo],
   );
 

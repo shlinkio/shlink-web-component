@@ -72,6 +72,7 @@
   },
   "devDependencies": {
     "@shlinkio/eslint-config-js-coding-standard": "~2.3.0",
+    "@shlinkio/shlink-js-sdk": "^0.1.0",
     "@shlinkio/stylelint-config-css-coding-standard": "~1.1.1",
     "@testing-library/jest-dom": "^6.1.2",
     "@testing-library/react": "^14.0.0",

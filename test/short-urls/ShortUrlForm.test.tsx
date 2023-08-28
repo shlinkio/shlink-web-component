@@ -1,5 +1,4 @@
 import { screen } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event/setup/setup';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import type { Mode } from '../../src/short-urls/ShortUrlForm';
@@ -31,6 +30,8 @@ describe('<ShortUrlForm />', () => {
         />
       </FeaturesProvider>,
     );
+
+  type UserEvent = ReturnType<typeof setUp>['user'];
 
   it.each([
     [

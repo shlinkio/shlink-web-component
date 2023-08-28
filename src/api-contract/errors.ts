@@ -47,8 +47,3 @@ export interface InvalidShortUrlDeletion extends ProblemDetailsError {
   type: 'INVALID_SHORTCODE_DELETION' | ErrorTypeV2.INVALID_SHORT_URL_DELETION | ErrorTypeV3.INVALID_SHORT_URL_DELETION;
   threshold: number;
 }
-
-export interface RegularNotFound extends ProblemDetailsError {
-  type: ErrorTypeV2.NOT_FOUND | ErrorTypeV3.NOT_FOUND;
-  status: 404;
-}

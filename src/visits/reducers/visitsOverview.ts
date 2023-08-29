@@ -1,6 +1,5 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient, ShlinkVisitsOverview } from '../../api-contract';
+import type { ShlinkApiClient } from '../../api-contract';
 import { createAsyncThunk } from '../../utils/redux';
 import type { CreateVisit } from '../types';
 import { groupNewVisitsByType } from '../types/helpers';
@@ -23,8 +22,6 @@ export interface VisitsOverview extends ParsedVisitsOverview {
   loading: boolean;
   error: boolean;
 }
-
-export type GetVisitsOverviewAction = PayloadAction<ShlinkVisitsOverview>;
 
 const initialState: VisitsOverview = {
   nonOrphanVisits: {

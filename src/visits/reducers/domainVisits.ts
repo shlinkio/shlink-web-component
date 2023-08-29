@@ -29,12 +29,15 @@ const initialState: DomainVisits = {
 export const getDomainVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getDomainVisits`,
   createLoaders: ({ domain, query = {}, doIntervalFallback = false }: LoadDomainVisits) => {
-    const { getDomainVisits: getVisits } = apiClientFactory();
-    const visitsLoader = async (page: number, itemsPerPage: number) => getVisits(
+    const apiClient = apiClientFactory();
+    const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getDomainVisits(
       domain,
       { ...query, page, itemsPerPage },
     );
-    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (params) => getVisits(domain, params));
+    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (params) => apiClient.getDomainVisits(
+      domain,
+      params,
+    ));
 
     return [visitsLoader, lastVisitLoader];
   },

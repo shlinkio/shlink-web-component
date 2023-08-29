@@ -17,10 +17,13 @@ const initialState: VisitsInfo = {
 export const getNonOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getNonOrphanVisits`,
   createLoaders: ({ query = {}, doIntervalFallback = false }) => {
-    const { getNonOrphanVisits: shlinkGetNonOrphanVisits } = apiClientFactory();
+    const apiClient = apiClientFactory();
     const visitsLoader = async (page: number, itemsPerPage: number) =>
-      shlinkGetNonOrphanVisits({ ...query, page, itemsPerPage });
-    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, shlinkGetNonOrphanVisits);
+      apiClient.getNonOrphanVisits({ ...query, page, itemsPerPage });
+    const lastVisitLoader = lastVisitLoaderForLoader(
+      doIntervalFallback,
+      (params) => apiClient.getNonOrphanVisits(params),
+    );
 
     return [visitsLoader, lastVisitLoader];
   },

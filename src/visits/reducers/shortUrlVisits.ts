@@ -27,14 +27,14 @@ const initialState: ShortUrlVisits = {
 export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getShortUrlVisits`,
   createLoaders: ({ shortCode, query = {}, doIntervalFallback = false }: LoadShortUrlVisits) => {
-    const { getShortUrlVisits: shlinkGetShortUrlVisits } = apiClientFactory();
-    const visitsLoader = async (page: number, itemsPerPage: number) => shlinkGetShortUrlVisits(
+    const apiClient = apiClientFactory();
+    const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
       shortCode,
       { ...query, page, itemsPerPage },
     );
     const lastVisitLoader = lastVisitLoaderForLoader(
       doIntervalFallback,
-      async (params) => shlinkGetShortUrlVisits(shortCode, { ...params, domain: query.domain }),
+      async (params) => apiClient.getShortUrlVisits(shortCode, { ...params, domain: query.domain }),
     );
 
     return [visitsLoader, lastVisitLoader];

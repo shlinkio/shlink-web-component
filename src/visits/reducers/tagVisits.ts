@@ -26,12 +26,15 @@ const initialState: TagVisits = {
 export const getTagVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getTagVisits`,
   createLoaders: ({ tag, query = {}, doIntervalFallback = false }: LoadTagVisits) => {
-    const { getTagVisits: getVisits } = apiClientFactory();
-    const visitsLoader = async (page: number, itemsPerPage: number) => getVisits(
+    const apiClient = apiClientFactory();
+    const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getTagVisits(
       tag,
       { ...query, page, itemsPerPage },
     );
-    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (params) => getVisits(tag, params));
+    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (params) => apiClient.getTagVisits(
+      tag,
+      params,
+    ));
 
     return [visitsLoader, lastVisitLoader];
   },

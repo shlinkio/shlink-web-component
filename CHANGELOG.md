@@ -4,21 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.3.2] - 2023-08-29
 ### Added
 * *Nothing*
 
 ### Changed
-* Replace copy-pasted `ShlinkApiClient` used in dev with official JS SDK.
+* Replace copy-pasted `ShlinkApiClient` used in dev, with official JS SDK.
+* Add `@shlinkio/shlink-js-sdk` as an optional peer dependency.
 
 ### Deprecated
 * *Nothing*
 
 ### Removed
-* *Nothing*
+* Remove `api-contract` types. Now the `/api-contract` entry point re-exposes types from `@shlinkio/shlink-js-sdk/api-contract`.
 
 ### Fixed
-* *Nothing*
+* Do not unpack methods from `ShlinkApiClient`, and instead invoke them from the object itself, to avoid loosing binding to `this`.
 
 
 ## [0.3.1] - 2023-08-27

@@ -25,7 +25,7 @@ Its implementation is up to the consumer, which gives you the flexibility to dir
 
 ```tsx
 import { ShlinkWebComponent } from '@shlinkio/shlink-web-component';
-import type { ShlinkApiClient } from '@shlinkio/shlink-web-component/api-contract';
+import type { ShlinkApiClient } from '@shlinkio/shlink-js-sdk/api-contract';
 
 export function App() {
   const apiClient: ShlinkApiClient = {
@@ -35,6 +35,12 @@ export function App() {
   return <ShlinkWebComponent apiClient={apiClient} />;
 };
 ```
+
+> **Note**
+> The API client has to fulfil the type defined in `@shlinkio/shlink-js-sdk`, but that package is an optional peer dependency.
+> If you don't need to import from it to define your own implementation or to use the implementation provided there, feel free to skip it.
+>
+> Also, this component re-exports the SDK types for your convenience, so you can choose to import from `@shlinkio/shlink-js-sdk/api-contract` or `@shlinkio/shlink-web-component/api-contract`.
 
 ### Settings
 

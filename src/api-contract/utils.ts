@@ -2,11 +2,11 @@ import type {
   InvalidArgumentError,
   InvalidShortUrlDeletion,
   ProblemDetailsError,
-} from './errors';
+} from '.';
 import {
   ErrorTypeV2,
   ErrorTypeV3,
-} from './errors';
+} from '.';
 
 export const isInvalidArgumentError = (error?: ProblemDetailsError): error is InvalidArgumentError =>
   error?.type === ErrorTypeV2.INVALID_ARGUMENT || error?.type === ErrorTypeV3.INVALID_ARGUMENT;

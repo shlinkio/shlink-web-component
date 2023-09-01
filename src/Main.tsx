@@ -45,7 +45,7 @@ export const Main = (
       <div {...swipeableProps} className="shlink-layout__swipeable">
         <div className="shlink-layout__swipeable-inner">
           <AsideMenu routePrefix={routesPrefix} showOnMobile={sidebarVisible} />
-          <div className="shlink-layout__container" onClick={() => hideSidebar()}>
+          <div className="shlink-layout__container" onPointerDown={() => hideSidebar()}>
             <div className="container-xl">
               <Routes>
                 <Route index element={<Navigate replace to="overview" />} />

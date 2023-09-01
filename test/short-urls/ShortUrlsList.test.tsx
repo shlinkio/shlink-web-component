@@ -18,7 +18,9 @@ vi.mock('react-router-dom', async () => ({
 }));
 
 describe('<ShortUrlsList />', () => {
-  const ShortUrlsTable: ShortUrlsTableType = ({ onTagClick }) => <span onClick={() => onTagClick?.('foo')}>ShortUrlsTable</span>;
+  const ShortUrlsTable: ShortUrlsTableType = ({ onTagClick }) => (
+    <button type="button" onClick={() => onTagClick?.('foo')}>ShortUrlsTable</button>
+  );
   const ShortUrlsFilteringBar = () => <span>ShortUrlsFilteringBar</span>;
   const listShortUrlsMock = vi.fn();
   const navigate = vi.fn();

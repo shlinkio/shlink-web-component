@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { isEmpty } from 'ramda';
 import type { ReactNode } from 'react';
+import { UnstyledButton } from '../utils/components/UnstyledButton';
 import type { ShortUrlsOrderableFields } from './data';
 import type { ShortUrlsRowType } from './helpers/ShortUrlsRow';
 import type { ShortUrlsList as ShortUrlsListState } from './reducers/shortUrlsList';
@@ -65,19 +66,19 @@ export const ShortUrlsTable = (ShortUrlsRow: ShortUrlsRowType) => ({
             Short URL {renderOrderIcon?.('shortCode')}
           </th>
           <th className="short-urls-table__header-cell">
-            <span className={actionableFieldClasses} onClick={orderByColumn?.('title')}>
+            <UnstyledButton className={classNames('p-0', actionableFieldClasses)} onClick={orderByColumn?.('title')}>
               Title {renderOrderIcon?.('title')}
-            </span>
+            </UnstyledButton>
             &nbsp;&nbsp;/&nbsp;&nbsp;
-            <span className={actionableFieldClasses} onClick={orderByColumn?.('longUrl')}>
+            <UnstyledButton className={classNames('p-0', actionableFieldClasses)} onClick={orderByColumn?.('longUrl')}>
               <span className="indivisible">Long URL</span> {renderOrderIcon?.('longUrl')}
-            </span>
+            </UnstyledButton>
           </th>
           <th className="short-urls-table__header-cell">Tags</th>
           <th className={orderableColumnsClasses} onClick={orderByColumn?.('visits')}>
             <span className="indivisible">Visits {renderOrderIcon?.('visits')}</span>
           </th>
-          <th className="short-urls-table__header-cell" colSpan={2} />
+          <th className="short-urls-table__header-cell" colSpan={2} aria-hidden />
         </tr>
       </thead>
       <tbody>

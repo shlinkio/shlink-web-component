@@ -24,9 +24,9 @@ describe('<ShortUrlsTable />', () => {
     expect(screen.getAllByRole('rowgroup')).toHaveLength(2);
   });
 
-  it('should render 6 table header cells by default', () => {
+  it('should render expected amount of table header cells', () => {
     setUp();
-    expect(screen.getAllByRole('columnheader')).toHaveLength(6);
+    expect(screen.getAllByRole('columnheader', { hidden: true })).toHaveLength(6);
   });
 
   it('should render table header cells without "order by" icon by default', () => {

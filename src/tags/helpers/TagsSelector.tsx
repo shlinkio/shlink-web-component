@@ -32,7 +32,7 @@ const toTagObject = (tag: string): TagSuggestion => {
 };
 
 const buildTagRenderer = (colorGenerator: ColorGenerator) => ({ tag, onClick: deleteTag }: TagRendererProps) => (
-  <Tag colorGenerator={colorGenerator} text={tag.label} clearable className="react-tags__tag" onClose={deleteTag} />
+  <Tag colorGenerator={colorGenerator} text={tag.label} className="react-tags__tag" onClose={deleteTag} />
 );
 const buildOptionRenderer = (colorGenerator: ColorGenerator, api: MutableRefObject<ReactTagsAPI | null>) => (
   { option, classNames: classes, ...rest }: OptionRendererProps,

@@ -25,11 +25,14 @@ describe('<Tag />', () => {
   const isColorLightForKey = vi.fn(() => false);
   const getColorForKey = vi.fn(() => MAIN_COLOR);
   const colorGenerator = fromPartial<ColorGenerator>({ getColorForKey, isColorLightForKey });
-  const setUp = (text: string, clearable?: boolean, children?: ReactNode) => renderWithEvents(
-    <Tag text={text} clearable={clearable} colorGenerator={colorGenerator} onClick={onClick} onClose={onClose}>
-      {children}
-    </Tag>,
-  );
+  const setUp = (text: string, clearable?: boolean, children?: ReactNode) => {
+    const props = !clearable ? { onClick } : { onClose };
+    return renderWithEvents(
+      <Tag text={text} colorGenerator={colorGenerator} {...props}>
+        {children}
+      </Tag>,
+    );
+  };
 
   it.each([
     [true],
@@ -64,28 +67,36 @@ describe('<Tag />', () => {
     );
   });
 
-  it('invokes expected callbacks when appropriate events are triggered', async () => {
-    const { container, user } = setUp('foo', true);
+  it.each([[true], [false]])('invokes expected callbacks when appropriate events are triggered', async (clearable) => {
+    const { user } = setUp('foo', clearable);
 
     expect(onClick).not.toHaveBeenCalled();
     expect(onClose).not.toHaveBeenCalled();
 
-    container.firstElementChild && await user.click(container.firstElementChild);
-    expect(onClick).toHaveBeenCalledTimes(1);
+    await user.click(screen.getByRole('button'));
 
-    await user.click(screen.getByLabelText(/^Remove/));
-    expect(onClose).toHaveBeenCalledTimes(1);
+    if (clearable) {
+      expect(onClick).not.toHaveBeenCalledOnce();
+      expect(onClose).toHaveBeenCalledOnce();
+    } else {
+      expect(onClick).toHaveBeenCalledOnce();
+      expect(onClose).not.toHaveBeenCalledOnce();
+    }
   });
 
   it.each([
-    [true, 1, 'auto'],
-    [false, 0, 'pointer'],
-    [undefined, 0, 'pointer'],
-  ])('includes a close component when the tag is clearable', (clearable, expectedCloseBtnAmount, expectedCursor) => {
+    [true, 1, false],
+    [false, 0, true],
+    [undefined, 0, true],
+  ])('includes a close component when the tag is clearable', (clearable, expectedCloseBtnAmount, expectedPointer) => {
     const { container } = setUp('foo', clearable);
 
     expect(screen.queryAllByLabelText(/^Remove/)).toHaveLength(expectedCloseBtnAmount);
-    expect(container.firstChild).toHaveAttribute('style', expect.stringContaining(`cursor: ${expectedCursor}`));
+    if (expectedPointer) {
+      expect(container.firstChild).toHaveClass('pointer');
+    } else {
+      expect(container.firstChild).not.toHaveClass('pointer');
+    }
   });
 
   it.each([

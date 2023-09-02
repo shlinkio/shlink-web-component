@@ -40,8 +40,9 @@ export const QrCodeModal = (imageDownloader: ImageDownloader) => (
       <ModalBody>
         <Row>
           <FormGroup className="d-grid col-md-6">
-            <label>Size: {size}px</label>
+            <label htmlFor="sizeControl">Size: {size}px</label>
             <input
+              id="sizeControl"
               type="range"
               className="form-control-range"
               value={size}

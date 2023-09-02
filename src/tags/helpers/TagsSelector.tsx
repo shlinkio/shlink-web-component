@@ -77,7 +77,7 @@ export const TagsSelector = (colorGenerator: ColorGenerator) => (
       newOptionText={NEW_TAG}
       noOptionsText={NOT_FOUND_TAG}
       placeholderText={placeholder ?? 'Add tags to the URL'}
-      delimiterKeys={['Enter', 'Tab', ',']}
+      delimiterKeys={['Enter', ',']}
       suggestionsTransform={
         (query, suggestions) => {
           const searchTerm = query.toLowerCase().trim();

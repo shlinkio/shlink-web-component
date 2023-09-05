@@ -1,7 +1,7 @@
 import { parseQuery, stringifyQuery } from '@shlinkio/shlink-frontend-kit';
 import type { DependencyList, EffectCallback } from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSwipeable as useReactSwipeable } from 'react-swipeable';
 
 export const useSwipeable = (showSidebar: () => void, hideSidebar: () => void) => {
@@ -49,5 +49,10 @@ export const useEffectExceptFirstTime = (callback: EffectCallback, deps: Depende
 
 export const useGoBack = () => {
   const navigate = useNavigate();
-  return () => navigate(-1);
+  return useCallback(() => navigate(-1), [navigate]);
+};
+
+export const useParsedQuery = <T>(): T => {
+  const { search } = useLocation();
+  return useMemo(() => parseQuery<T>(search), [search]);
 };

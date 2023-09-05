@@ -1,14 +1,15 @@
 import type { DeepPartial } from '@reduxjs/toolkit';
-import { parseQuery, stringifyQuery } from '@shlinkio/shlink-frontend-kit';
-import { isEmpty, isNil, mergeDeepRight, pipe } from 'ramda';
-import { useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { stringifyQuery } from '@shlinkio/shlink-frontend-kit';
+import { isEmpty, isNil, mergeDeepRight } from 'ramda';
+import { useCallback, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { ShlinkOrphanVisitType } from '../../api-contract';
 import { formatIsoDate } from '../../utils/dates/helpers/date';
 import type { DateRange } from '../../utils/dates/helpers/dateIntervals';
 import { datesToDateRange } from '../../utils/dates/helpers/dateIntervals';
 import type { BooleanString } from '../../utils/helpers';
 import { parseBooleanToString } from '../../utils/helpers';
+import { useParsedQuery } from '../../utils/helpers/hooks';
 import type { VisitsFilter } from '../types';
 
 interface VisitsQuery {
@@ -33,36 +34,36 @@ type UpdateFiltering = (extra: DeepPartial<VisitsFiltering>) => void;
 
 export const useVisitsQuery = (): [VisitsFiltering, UpdateFiltering] => {
   const navigate = useNavigate();
-  const { search } = useLocation();
+  const query = useParsedQuery<VisitsQuery>();
 
   const { filtering, domain: theDomain } = useMemo(
-    pipe(
-      () => parseQuery<VisitsQuery>(search),
-      ({ startDate, endDate, orphanVisitsType, excludeBots, domain }: VisitsQuery): VisitsFilteringAndDomain => ({
+    (): VisitsFilteringAndDomain => {
+      const { startDate, endDate, orphanVisitsType, excludeBots, domain } = query;
+      return {
         domain,
         filtering: {
           dateRange: startDate != null || endDate != null ? datesToDateRange(startDate, endDate) : undefined,
           visitsFilter: { orphanVisitsType, excludeBots: !isNil(excludeBots) ? excludeBots === 'true' : undefined },
         },
-      }),
-    ),
-    [search],
+      };
+    },
+    [query],
   );
-  const updateFiltering = (extra: DeepPartial<VisitsFiltering>) => {
+  const updateFiltering = useCallback((extra: DeepPartial<VisitsFiltering>) => {
     const { dateRange, visitsFilter } = mergeDeepRight(filtering, extra);
     const { excludeBots, orphanVisitsType } = visitsFilter;
-    const query: VisitsQuery = {
+    const newQuery: VisitsQuery = {
       startDate: (dateRange?.startDate && formatIsoDate(dateRange.startDate)) || '',
       endDate: (dateRange?.endDate && formatIsoDate(dateRange.endDate)) || '',
       excludeBots: excludeBots === undefined ? undefined : parseBooleanToString(excludeBots),
       orphanVisitsType,
       domain: theDomain,
     };
-    const stringifiedQuery = stringifyQuery(query);
+    const stringifiedQuery = stringifyQuery(newQuery);
     const queryString = isEmpty(stringifiedQuery) ? '' : `?${stringifiedQuery}`;
 
     navigate(queryString, { replace: true, relative: 'route' });
-  };
+  }, [filtering, navigate, theDomain]);
 
   return [filtering, updateFiltering];
 };

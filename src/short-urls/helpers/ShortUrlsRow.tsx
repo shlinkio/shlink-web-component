@@ -1,7 +1,8 @@
-import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 import { ExternalLink } from 'react-external-link';
 import type { ShlinkShortUrl } from '../../api-contract';
+import type { FCWithDeps } from '../../container/utils';
+import { componentFactory, useDependencies } from '../../container/utils';
 import { CopyToClipboardIcon } from '../../utils/components/CopyToClipboardIcon';
 import { Time } from '../../utils/dates/Time';
 import type { TimeoutToggle } from '../../utils/helpers/hooks';
@@ -14,18 +15,21 @@ import { ShortUrlVisitsCount } from './ShortUrlVisitsCount';
 import { Tags } from './Tags';
 import './ShortUrlsRow.scss';
 
-interface ShortUrlsRowProps {
+type ShortUrlsRowProps = {
   onTagClick?: (tag: string) => void;
   shortUrl: ShlinkShortUrl;
-}
+};
 
-export type ShortUrlsRowType = FC<ShortUrlsRowProps>;
-
-export const ShortUrlsRow = (
+type ShortUrlsRowDeps = {
   ShortUrlsRowMenu: ShortUrlsRowMenuType,
-  colorGenerator: ColorGenerator,
+  ColorGenerator: ColorGenerator,
   useTimeoutToggle: TimeoutToggle,
-) => ({ shortUrl, onTagClick }: ShortUrlsRowProps) => {
+};
+
+export type ShortUrlsRowType = typeof ShortUrlsRow;
+
+const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUrl, onTagClick }) => {
+  const { ShortUrlsRowMenu, ColorGenerator: colorGenerator, useTimeoutToggle } = useDependencies(ShortUrlsRow);
   const [copiedToClipboard, setCopiedToClipboard] = useTimeoutToggle();
   const [active, setActive] = useTimeoutToggle(false, 500);
   const isFirstRun = useRef(true);
@@ -87,3 +91,8 @@ export const ShortUrlsRow = (
     </tr>
   );
 };
+
+export const ShortUrlsRowFactory = componentFactory(
+  ShortUrlsRow,
+  ['ShortUrlsRowMenu', 'ColorGenerator', 'useTimeoutToggle'],
+);

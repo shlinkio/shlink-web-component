@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import { isEmpty, pipe } from 'ramda';
 import type { FC } from 'react';
 import { Button, InputGroup, Row, UncontrolledTooltip } from 'reactstrap';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
 import type { TagsList } from '../tags/reducers/tagsList';
 import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
@@ -32,10 +34,15 @@ type ShortUrlsFilteringConnectProps = ShortUrlsFilteringBarProps & {
   tagsList: TagsList;
 };
 
-export const ShortUrlsFilteringBar = (
-  ExportShortUrlsBtn: FC<ExportShortUrlsBtnProps>,
-  TagsSelector: FC<TagsSelectorProps>,
-): FC<ShortUrlsFilteringConnectProps> => ({ className, shortUrlsAmount, order, handleOrderBy, tagsList }) => {
+type ShortUrlsFilteringBarDeps = {
+  ExportShortUrlsBtn: FC<ExportShortUrlsBtnProps>;
+  TagsSelector: FC<TagsSelectorProps>;
+};
+
+const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrlsFilteringBarDeps> = (
+  { className, shortUrlsAmount, order, handleOrderBy, tagsList },
+) => {
+  const { ExportShortUrlsBtn, TagsSelector } = useDependencies(ShortUrlsFilteringBar);
   const [filter, toFirstPage] = useShortUrlsQuery();
   const {
     search,
@@ -128,3 +135,8 @@ export const ShortUrlsFilteringBar = (
     </div>
   );
 };
+
+export const ShortUrlsFilteringBarFactory = componentFactory(
+  ShortUrlsFilteringBar,
+  ['ExportShortUrlsBtn', 'TagsSelector'],
+);

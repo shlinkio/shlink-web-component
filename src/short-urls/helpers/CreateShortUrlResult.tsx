@@ -6,20 +6,27 @@ import { useEffect } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Tooltip } from 'reactstrap';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
+import type { FCWithDeps } from '../../container/utils';
+import { componentFactory, useDependencies } from '../../container/utils';
 import type { TimeoutToggle } from '../../utils/helpers/hooks';
 import type { ShortUrlCreation } from '../reducers/shortUrlCreation';
 import './CreateShortUrlResult.scss';
 
-export interface CreateShortUrlResultProps {
+export type CreateShortUrlResultProps = {
   creation: ShortUrlCreation;
   resetCreateShortUrl: () => void;
   canBeClosed?: boolean;
-}
+};
 
-export const CreateShortUrlResult = (useTimeoutToggle: TimeoutToggle) => (
+type CreateShortUrlResultDeps = {
+  useTimeoutToggle: TimeoutToggle;
+};
+
+const CreateShortUrlResult: FCWithDeps<CreateShortUrlResultProps, CreateShortUrlResultDeps> = (
   { creation, resetCreateShortUrl, canBeClosed = false }: CreateShortUrlResultProps,
 ) => {
-  const [showCopyTooltip, setShowCopyTooltip] = useTimeoutToggle();
+  const { useTimeoutToggle } = useDependencies(CreateShortUrlResult);
+  const [showCopyTooltip, toggleShowCopyTooltip] = useTimeoutToggle();
   const { error, saved } = creation;
 
   useEffect(() => {
@@ -60,7 +67,7 @@ export const CreateShortUrlResult = (useTimeoutToggle: TimeoutToggle) => (
       )}
       <span><b>Great!</b> The short URL is <b>{shortUrl}</b></span>
 
-      <CopyToClipboard text={shortUrl} onCopy={setShowCopyTooltip}>
+      <CopyToClipboard text={shortUrl} onCopy={toggleShowCopyTooltip}>
         <button
           className="btn btn-light btn-sm create-short-url-result__copy-btn"
           id="copyBtn"
@@ -76,3 +83,5 @@ export const CreateShortUrlResult = (useTimeoutToggle: TimeoutToggle) => (
     </Result>
   );
 };
+
+export const CreateShortUrlResultFactory = componentFactory(CreateShortUrlResult, ['useTimeoutToggle']);

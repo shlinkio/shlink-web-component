@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { Card } from 'reactstrap';
 import type { ShlinkShortUrlsListParams, ShlinkShortUrlsOrder } from '../api-contract';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
+import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useFeature } from '../utils/features';
@@ -18,20 +21,25 @@ import type { ShortUrlsList as ShortUrlsListState } from './reducers/shortUrlsLi
 import type { ShortUrlsFilteringBarProps } from './ShortUrlsFilteringBar';
 import type { ShortUrlsTableType } from './ShortUrlsTable';
 
-interface ShortUrlsListProps {
+type ShortUrlsListProps = MercureBoundProps & {
   shortUrlsList: ShortUrlsListState;
   listShortUrls: (params: ShlinkShortUrlsListParams) => void;
-}
+};
+
+type ShortUrlsListDeps = {
+  ShortUrlsTable: ShortUrlsTableType,
+  ShortUrlsFilteringBar: FC<ShortUrlsFilteringBarProps>,
+};
 
 const DEFAULT_SHORT_URLS_ORDERING: ShortUrlsOrder = {
   field: 'dateCreated',
   dir: 'DESC',
 };
 
-export const ShortUrlsList = (
-  ShortUrlsTable: ShortUrlsTableType,
-  ShortUrlsFilteringBar: FC<ShortUrlsFilteringBarProps>,
-) => boundToMercureHub(({ listShortUrls, shortUrlsList }: ShortUrlsListProps) => {
+const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundToMercureHub((
+  { listShortUrls, shortUrlsList },
+) => {
+  const { ShortUrlsTable, ShortUrlsFilteringBar } = useDependencies(ShortUrlsList);
   const { page } = useParams();
   const location = useLocation();
   const [filter, toFirstPage] = useShortUrlsQuery();
@@ -119,3 +127,5 @@ export const ShortUrlsList = (
     </>
   );
 }, () => [Topics.visits]);
+
+export const ShortUrlsListFactory = componentFactory(ShortUrlsList, ['ShortUrlsTable', 'ShortUrlsFilteringBar']);

@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { CreateShortUrlResult as createResult } from '../../../src/short-urls/helpers/CreateShortUrlResult';
+import { CreateShortUrlResultFactory } from '../../../src/short-urls/helpers/CreateShortUrlResult';
 import type { ShortUrlCreation } from '../../../src/short-urls/reducers/shortUrlCreation';
 import type { TimeoutToggle } from '../../../src/utils/helpers/hooks';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
@@ -8,7 +8,7 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<CreateShortUrlResult />', () => {
   const copyToClipboard = vi.fn();
   const useTimeoutToggle = vi.fn(() => [false, copyToClipboard]) as TimeoutToggle;
-  const CreateShortUrlResult = createResult(useTimeoutToggle);
+  const CreateShortUrlResult = CreateShortUrlResultFactory(fromPartial({ useTimeoutToggle }));
   const setUp = (creation: ShortUrlCreation, canBeClosed?: boolean) => renderWithEvents(
     <CreateShortUrlResult resetCreateShortUrl={() => {}} creation={creation} canBeClosed={canBeClosed} />,
   );

@@ -5,7 +5,7 @@ import { last } from 'ramda';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 import type { Settings } from '../../../src';
 import type { ShlinkShortUrl, ShlinkShortUrlMeta } from '../../../src/api-contract';
-import { ShortUrlsRow as createShortUrlsRow } from '../../../src/short-urls/helpers/ShortUrlsRow';
+import { ShortUrlsRowFactory } from '../../../src/short-urls/helpers/ShortUrlsRow';
 import { now, parseDate } from '../../../src/utils/dates/helpers/date';
 import type { TimeoutToggle } from '../../../src/utils/helpers/hooks';
 import { SettingsProvider } from '../../../src/utils/settings';
@@ -46,7 +46,11 @@ describe('<ShortUrlsRow />', () => {
       maxVisits: null,
     },
   };
-  const ShortUrlsRow = createShortUrlsRow(() => <span>ShortUrlsRowMenu</span>, colorGeneratorMock, useTimeoutToggle);
+  const ShortUrlsRow = ShortUrlsRowFactory(fromPartial({
+    ShortUrlsRowMenu: () => <span>ShortUrlsRowMenu</span>,
+    ColorGenerator: colorGeneratorMock,
+    useTimeoutToggle,
+  }));
 
   const setUp = ({ title, tags = [], meta = {}, settings = {} }: SetUpOptions = {}, search = '') => {
     (useLocation as any).mockReturnValue({ search });

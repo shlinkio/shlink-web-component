@@ -5,7 +5,7 @@ import type { Settings } from '../../src';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import type { ShortUrlsOrder } from '../../src/short-urls/data';
 import type { ShortUrlsList as ShortUrlsListModel } from '../../src/short-urls/reducers/shortUrlsList';
-import { ShortUrlsList as createShortUrlsList } from '../../src/short-urls/ShortUrlsList';
+import { ShortUrlsListFactory } from '../../src/short-urls/ShortUrlsList';
 import type { ShortUrlsTableType } from '../../src/short-urls/ShortUrlsTable';
 import { FeaturesProvider } from '../../src/utils/features';
 import { SettingsProvider } from '../../src/utils/settings';
@@ -37,7 +37,7 @@ describe('<ShortUrlsList />', () => {
       pagination: { pagesCount: 3 },
     },
   });
-  const ShortUrlsList = createShortUrlsList(ShortUrlsTable, ShortUrlsFilteringBar);
+  const ShortUrlsList = ShortUrlsListFactory(fromPartial({ ShortUrlsTable, ShortUrlsFilteringBar }));
   const setUp = (settings: Partial<Settings> = {}, excludeBotsOnShortUrls = true) => renderWithEvents(
     <MemoryRouter>
       <SettingsProvider value={fromPartial(settings)}>

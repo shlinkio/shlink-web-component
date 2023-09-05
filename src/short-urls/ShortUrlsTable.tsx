@@ -1,27 +1,34 @@
 import classNames from 'classnames';
 import { isEmpty } from 'ramda';
 import type { ReactNode } from 'react';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
 import { UnstyledButton } from '../utils/components/UnstyledButton';
 import type { ShortUrlsOrderableFields } from './data';
 import type { ShortUrlsRowType } from './helpers/ShortUrlsRow';
 import type { ShortUrlsList as ShortUrlsListState } from './reducers/shortUrlsList';
 import './ShortUrlsTable.scss';
 
-interface ShortUrlsTableProps {
+type ShortUrlsTableProps = {
   orderByColumn?: (column: ShortUrlsOrderableFields) => () => void;
   renderOrderIcon?: (column: ShortUrlsOrderableFields) => ReactNode;
   shortUrlsList: ShortUrlsListState;
   onTagClick?: (tag: string) => void;
   className?: string;
-}
+};
 
-export const ShortUrlsTable = (ShortUrlsRow: ShortUrlsRowType) => ({
+type ShortUrlsTableDeps = {
+  ShortUrlsRow: ShortUrlsRowType;
+};
+
+const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
   orderByColumn,
   renderOrderIcon,
   shortUrlsList,
   onTagClick,
   className,
 }: ShortUrlsTableProps) => {
+  const { ShortUrlsRow } = useDependencies(ShortUrlsTable);
   const { error, loading, shortUrls } = shortUrlsList;
   const actionableFieldClasses = classNames({ 'short-urls-table__header-cell--with-action': !!orderByColumn });
   const orderableColumnsClasses = classNames('short-urls-table__header-cell', actionableFieldClasses);
@@ -88,4 +95,6 @@ export const ShortUrlsTable = (ShortUrlsRow: ShortUrlsRowType) => ({
   );
 };
 
-export type ShortUrlsTableType = ReturnType<typeof ShortUrlsTable>;
+export type ShortUrlsTableType = typeof ShortUrlsTable;
+
+export const ShortUrlsTableFactory = componentFactory(ShortUrlsTable, ['ShortUrlsRow']);

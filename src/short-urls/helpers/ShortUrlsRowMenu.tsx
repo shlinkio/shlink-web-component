@@ -9,18 +9,24 @@ import { RowDropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { DropdownItem } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
+import type { FCWithDeps } from '../../container/utils';
+import { componentFactory, useDependencies } from '../../container/utils';
 import type { ShortUrlModalProps } from '../data';
 import { ShortUrlDetailLink } from './ShortUrlDetailLink';
 
-interface ShortUrlsRowMenuProps {
+type ShortUrlsRowMenuProps = {
   shortUrl: ShlinkShortUrl;
-}
+};
+
+type ShortUrlsRowMenuDeps = {
+  DeleteShortUrlModal: ShortUrlModal;
+  QrCodeModal: ShortUrlModal;
+};
+
 type ShortUrlModal = FC<ShortUrlModalProps>;
 
-export const ShortUrlsRowMenu = (
-  DeleteShortUrlModal: ShortUrlModal,
-  QrCodeModal: ShortUrlModal,
-) => ({ shortUrl }: ShortUrlsRowMenuProps) => {
+const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuProps, ShortUrlsRowMenuDeps> = ({ shortUrl }) => {
+  const { DeleteShortUrlModal, QrCodeModal } = useDependencies(ShortUrlsRowMenu);
   const [isQrModalOpen,, openQrCodeModal, closeQrCodeModal] = useToggle();
   const [isDeleteModalOpen,, openDeleteModal, closeDeleteModal] = useToggle();
 
@@ -49,4 +55,6 @@ export const ShortUrlsRowMenu = (
   );
 };
 
-export type ShortUrlsRowMenuType = ReturnType<typeof ShortUrlsRowMenu>;
+export type ShortUrlsRowMenuType = typeof ShortUrlsRowMenu;
+
+export const ShortUrlsRowMenuFactory = componentFactory(ShortUrlsRowMenu, ['DeleteShortUrlModal', 'QrCodeModal']);

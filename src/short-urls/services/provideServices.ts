@@ -1,47 +1,47 @@
 import type Bottle from 'bottlejs';
 import { prop } from 'ramda';
 import type { ConnectDecorator } from '../../container';
-import { CreateShortUrl } from '../CreateShortUrl';
-import { EditShortUrl } from '../EditShortUrl';
-import { CreateShortUrlResult } from '../helpers/CreateShortUrlResult';
+import { CreateShortUrlFactory } from '../CreateShortUrl';
+import { EditShortUrlFactory } from '../EditShortUrl';
+import { CreateShortUrlResultFactory } from '../helpers/CreateShortUrlResult';
 import { DeleteShortUrlModal } from '../helpers/DeleteShortUrlModal';
-import { ExportShortUrlsBtn } from '../helpers/ExportShortUrlsBtn';
-import { QrCodeModal } from '../helpers/QrCodeModal';
-import { ShortUrlsRow } from '../helpers/ShortUrlsRow';
-import { ShortUrlsRowMenu } from '../helpers/ShortUrlsRowMenu';
+import { ExportShortUrlsBtnFactory } from '../helpers/ExportShortUrlsBtn';
+import { QrCodeModalFactory } from '../helpers/QrCodeModal';
+import { ShortUrlsRowFactory } from '../helpers/ShortUrlsRow';
+import { ShortUrlsRowMenuFactory } from '../helpers/ShortUrlsRowMenu';
 import { createShortUrl, shortUrlCreationReducerCreator } from '../reducers/shortUrlCreation';
 import { deleteShortUrl, shortUrlDeleted, shortUrlDeletionReducerCreator } from '../reducers/shortUrlDeletion';
 import { shortUrlDetailReducerCreator } from '../reducers/shortUrlDetail';
 import { editShortUrl, shortUrlEditionReducerCreator } from '../reducers/shortUrlEdition';
 import { listShortUrls, shortUrlsListReducerCreator } from '../reducers/shortUrlsList';
-import { ShortUrlForm } from '../ShortUrlForm';
-import { ShortUrlsFilteringBar } from '../ShortUrlsFilteringBar';
-import { ShortUrlsList } from '../ShortUrlsList';
-import { ShortUrlsTable } from '../ShortUrlsTable';
+import { ShortUrlFormFactory } from '../ShortUrlForm';
+import { ShortUrlsFilteringBarFactory } from '../ShortUrlsFilteringBar';
+import { ShortUrlsListFactory } from '../ShortUrlsList';
+import { ShortUrlsTableFactory } from '../ShortUrlsTable';
 
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   // Components
-  bottle.serviceFactory('ShortUrlsList', ShortUrlsList, 'ShortUrlsTable', 'ShortUrlsFilteringBar');
+  bottle.factory('ShortUrlsList', ShortUrlsListFactory);
   bottle.decorator('ShortUrlsList', connect(
     ['mercureInfo', 'shortUrlsList'],
     ['listShortUrls', 'createNewVisits', 'loadMercureInfo'],
   ));
 
-  bottle.serviceFactory('ShortUrlsTable', ShortUrlsTable, 'ShortUrlsRow');
-  bottle.serviceFactory('ShortUrlsRow', ShortUrlsRow, 'ShortUrlsRowMenu', 'ColorGenerator', 'useTimeoutToggle');
-  bottle.serviceFactory('ShortUrlsRowMenu', ShortUrlsRowMenu, 'DeleteShortUrlModal', 'QrCodeModal');
-  bottle.serviceFactory('CreateShortUrlResult', CreateShortUrlResult, 'useTimeoutToggle');
+  bottle.factory('ShortUrlsTable', ShortUrlsTableFactory);
+  bottle.factory('ShortUrlsRow', ShortUrlsRowFactory);
+  bottle.factory('ShortUrlsRowMenu', ShortUrlsRowMenuFactory);
+  bottle.factory('CreateShortUrlResult', CreateShortUrlResultFactory);
 
-  bottle.serviceFactory('ShortUrlForm', ShortUrlForm, 'TagsSelector', 'DomainSelector');
+  bottle.factory('ShortUrlForm', ShortUrlFormFactory);
   bottle.decorator('ShortUrlForm', connect(['tagsList']));
 
-  bottle.serviceFactory('CreateShortUrl', CreateShortUrl, 'ShortUrlForm', 'CreateShortUrlResult');
+  bottle.factory('CreateShortUrl', CreateShortUrlFactory);
   bottle.decorator(
     'CreateShortUrl',
     connect(['shortUrlCreation'], ['createShortUrl', 'resetCreateShortUrl']),
   );
 
-  bottle.serviceFactory('EditShortUrl', EditShortUrl, 'ShortUrlForm');
+  bottle.factory('EditShortUrl', EditShortUrlFactory);
   bottle.decorator('EditShortUrl', connect(
     ['shortUrlDetail', 'shortUrlEdition'],
     ['getShortUrlDetail', 'editShortUrl'],
@@ -53,10 +53,10 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     ['deleteShortUrl', 'shortUrlDeleted', 'resetDeleteShortUrl'],
   ));
 
-  bottle.serviceFactory('QrCodeModal', QrCodeModal, 'ImageDownloader');
-  bottle.serviceFactory('ExportShortUrlsBtn', ExportShortUrlsBtn, 'apiClientFactory', 'ReportExporter');
+  bottle.factory('QrCodeModal', QrCodeModalFactory);
+  bottle.factory('ExportShortUrlsBtn', ExportShortUrlsBtnFactory);
 
-  bottle.serviceFactory('ShortUrlsFilteringBar', ShortUrlsFilteringBar, 'ExportShortUrlsBtn', 'TagsSelector');
+  bottle.factory('ShortUrlsFilteringBar', ShortUrlsFilteringBarFactory);
   bottle.decorator('ShortUrlsFilteringBar', connect(['tagsList']));
 
   // Reducers

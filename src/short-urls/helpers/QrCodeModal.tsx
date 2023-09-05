@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMemo, useState } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { Button, FormGroup, Modal, ModalBody, ModalHeader, Row } from 'reactstrap';
+import type { FCWithDeps } from '../../container/utils';
+import { componentFactory, useDependencies } from '../../container/utils';
 import { CopyToClipboardIcon } from '../../utils/components/CopyToClipboardIcon';
 import type { QrCodeFormat, QrErrorCorrection } from '../../utils/helpers/qrCodes';
 import { buildQrCodeUrl } from '../../utils/helpers/qrCodes';
@@ -12,9 +14,14 @@ import { QrErrorCorrectionDropdown } from './qr-codes/QrErrorCorrectionDropdown'
 import { QrFormatDropdown } from './qr-codes/QrFormatDropdown';
 import './QrCodeModal.scss';
 
-export const QrCodeModal = (imageDownloader: ImageDownloader) => (
-  { shortUrl: { shortUrl, shortCode }, toggle, isOpen }: ShortUrlModalProps,
+type QrCodeModalDeps = {
+  ImageDownloader: ImageDownloader
+};
+
+const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
+  { shortUrl: { shortUrl, shortCode }, toggle, isOpen },
 ) => {
+  const { ImageDownloader: imageDownloader } = useDependencies(QrCodeModal);
   const [size, setSize] = useState(300);
   const [margin, setMargin] = useState(0);
   const [format, setFormat] = useState<QrCodeFormat>('png');
@@ -94,3 +101,5 @@ export const QrCodeModal = (imageDownloader: ImageDownloader) => (
     </Modal>
   );
 };
+
+export const QrCodeModalFactory = componentFactory(QrCodeModal, ['ImageDownloader']);

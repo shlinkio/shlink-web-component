@@ -6,6 +6,8 @@ import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AsideMenu } from './common/AsideMenu';
+import type { FCWithDeps } from './container/utils';
+import { componentFactory, useDependencies } from './container/utils';
 import { useFeature } from './utils/features';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
@@ -15,7 +17,7 @@ export type MainProps = {
   createNotFound?: (nonPrefixedHomePath: string) => ReactNode;
 };
 
-export const Main = (
+type MainDeps = {
   TagsList: FC,
   ShortUrlsList: FC,
   CreateShortUrl: FC,
@@ -27,7 +29,22 @@ export const Main = (
   Overview: FC,
   EditShortUrl: FC,
   ManageDomains: FC,
-): FC<MainProps> => ({ createNotFound }) => {
+};
+
+const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
+  const {
+    TagsList,
+    ShortUrlsList,
+    CreateShortUrl,
+    ShortUrlVisits,
+    TagVisits,
+    DomainVisits,
+    OrphanVisits,
+    NonOrphanVisits,
+    Overview,
+    EditShortUrl,
+    ManageDomains,
+  } = useDependencies(Main);
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
 
@@ -69,3 +86,17 @@ export const Main = (
     </>
   );
 };
+
+export const MainFactory = componentFactory(Main, [
+  'TagsList',
+  'ShortUrlsList',
+  'CreateShortUrl',
+  'ShortUrlVisits',
+  'TagVisits',
+  'DomainVisits',
+  'OrphanVisits',
+  'NonOrphanVisits',
+  'Overview',
+  'EditShortUrl',
+  'ManageDomains',
+]);

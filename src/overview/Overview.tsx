@@ -3,6 +3,9 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Row } from 'reactstrap';
 import type { ShlinkShortUrlsListParams } from '../api-contract';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
+import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { CreateShortUrlProps } from '../short-urls/CreateShortUrl';
@@ -17,24 +20,27 @@ import type { VisitsOverview } from '../visits/reducers/visitsOverview';
 import { HighlightCard } from './helpers/HighlightCard';
 import { VisitsHighlightCard } from './helpers/VisitsHighlightCard';
 
-interface OverviewConnectProps {
+type OverviewProps = MercureBoundProps & {
   shortUrlsList: ShortUrlsListState;
   listShortUrls: (params: ShlinkShortUrlsListParams) => void;
   tagsList: TagsList;
   visitsOverview: VisitsOverview;
   loadVisitsOverview: Function;
-}
+};
 
-export const Overview = (
-  ShortUrlsTable: ShortUrlsTableType,
-  CreateShortUrl: FC<CreateShortUrlProps>,
-) => boundToMercureHub(({
+type OverviewDeps = {
+  ShortUrlsTable: ShortUrlsTableType;
+  CreateShortUrl: FC<CreateShortUrlProps>;
+};
+
+const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub(({
   shortUrlsList,
   listShortUrls,
   tagsList,
   loadVisitsOverview,
   visitsOverview,
-}: OverviewConnectProps) => {
+}) => {
+  const { ShortUrlsTable, CreateShortUrl } = useDependencies(Overview);
   const { loading, shortUrls } = shortUrlsList;
   const { loading: loadingTags } = tagsList;
   const { loading: loadingVisits, nonOrphanVisits, orphanVisits } = visitsOverview;
@@ -107,3 +113,5 @@ export const Overview = (
     </>
   );
 }, () => [Topics.visits, Topics.orphanVisits]);
+
+export const OverviewFactory = componentFactory(Overview, ['ShortUrlsTable', 'CreateShortUrl']);

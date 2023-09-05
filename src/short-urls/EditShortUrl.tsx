@@ -8,6 +8,8 @@ import { useLocation, useParams } from 'react-router-dom';
 import { Button, Card } from 'reactstrap';
 import type { ShlinkEditShortUrlData } from '../api-contract';
 import { ShlinkApiError } from '../common/ShlinkApiError';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
 import { useGoBack } from '../utils/helpers/hooks';
 import { useSetting } from '../utils/settings';
 import type { ShortUrlIdentifier } from './data';
@@ -16,19 +18,21 @@ import type { ShortUrlDetail } from './reducers/shortUrlDetail';
 import type { EditShortUrl as EditShortUrlInfo, ShortUrlEdition } from './reducers/shortUrlEdition';
 import type { ShortUrlFormProps } from './ShortUrlForm';
 
-interface EditShortUrlConnectProps {
+type EditShortUrlProps = {
   shortUrlDetail: ShortUrlDetail;
   shortUrlEdition: ShortUrlEdition;
   getShortUrlDetail: (shortUrl: ShortUrlIdentifier) => void;
   editShortUrl: (editShortUrl: EditShortUrlInfo) => void;
-}
+};
 
-export const EditShortUrl = (ShortUrlForm: FC<ShortUrlFormProps<ShlinkEditShortUrlData>>) => ({
-  shortUrlDetail,
-  getShortUrlDetail,
-  shortUrlEdition,
-  editShortUrl,
-}: EditShortUrlConnectProps) => {
+type EditShortUrlDeps = {
+  ShortUrlForm: FC<ShortUrlFormProps<ShlinkEditShortUrlData>>;
+};
+
+const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
+  { shortUrlDetail, getShortUrlDetail, shortUrlEdition, editShortUrl },
+) => {
+  const { ShortUrlForm } = useDependencies(EditShortUrl);
   const { search } = useLocation();
   const params = useParams<{ shortCode: string }>();
   const goBack = useGoBack();
@@ -93,3 +97,5 @@ export const EditShortUrl = (ShortUrlForm: FC<ShortUrlFormProps<ShlinkEditShortU
     </>
   );
 };
+
+export const EditShortUrlFactory = componentFactory(EditShortUrl, ['ShortUrlForm']);

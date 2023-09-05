@@ -1,3 +1,4 @@
+import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
@@ -7,7 +8,6 @@ import type { Settings } from '../../../src';
 import type { ShlinkShortUrl, ShlinkShortUrlMeta } from '../../../src/api-contract';
 import { ShortUrlsRowFactory } from '../../../src/short-urls/helpers/ShortUrlsRow';
 import { now, parseDate } from '../../../src/utils/dates/helpers/date';
-import type { TimeoutToggle } from '../../../src/utils/helpers/hooks';
 import { SettingsProvider } from '../../../src/utils/settings';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
@@ -26,7 +26,7 @@ vi.mock('react-router-dom', async () => ({
 
 describe('<ShortUrlsRow />', () => {
   const timeoutToggle = vi.fn(() => true);
-  const useTimeoutToggle = vi.fn(() => [false, timeoutToggle]) as TimeoutToggle;
+  const useTimeoutToggle: TimeoutToggle = vi.fn(() => [false, timeoutToggle]);
   const shortUrl: ShlinkShortUrl = {
     shortCode: 'abc123',
     shortUrl: 'https://s.test/abc123',

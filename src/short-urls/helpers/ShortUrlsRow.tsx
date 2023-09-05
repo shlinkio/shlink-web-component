@@ -1,3 +1,4 @@
+import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { useEffect, useRef } from 'react';
 import { ExternalLink } from 'react-external-link';
 import type { ShlinkShortUrl } from '../../api-contract';
@@ -5,7 +6,6 @@ import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
 import { CopyToClipboardIcon } from '../../utils/components/CopyToClipboardIcon';
 import { Time } from '../../utils/dates/Time';
-import type { TimeoutToggle } from '../../utils/helpers/hooks';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import { useSetting } from '../../utils/settings';
 import { useShortUrlsQuery } from './hooks';

@@ -1,7 +1,8 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { useLocation } from 'react-router-dom';
-import { TagsTable as createTagsTable } from '../../src/tags/TagsTable';
+import { TagsTableFactory } from '../../src/tags/TagsTable';
+import type { TagsTableRowProps } from '../../src/tags/TagsTableRow';
 import { rangeOf } from '../../src/utils/helpers';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
@@ -12,7 +13,9 @@ vi.mock('react-router-dom', async () => ({
 
 describe('<TagsTable />', () => {
   const orderByColumn = vi.fn();
-  const TagsTable = createTagsTable(({ tag }) => <tr><td>TagsTableRow [{tag.tag}]</td></tr>);
+  const TagsTable = TagsTableFactory(fromPartial({
+    TagsTableRow: ({ tag }: TagsTableRowProps) => <tr><td>TagsTableRow [{tag.tag}]</td></tr>,
+  }));
   const tags = (amount: number) => rangeOf(amount, (i) => `tag_${i}`);
   const setUp = (sortedTags: string[] = [], search = '') => {
     (useLocation as any).mockReturnValue({ search });

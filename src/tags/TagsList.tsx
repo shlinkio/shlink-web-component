@@ -4,6 +4,9 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { Row } from 'reactstrap';
 import { ShlinkApiError } from '../common/ShlinkApiError';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
+import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useSettings } from '../utils/settings';
@@ -13,14 +16,19 @@ import { TAGS_ORDERABLE_FIELDS } from './data/TagsListChildrenProps';
 import type { TagsList as TagsListState } from './reducers/tagsList';
 import type { TagsTableProps } from './TagsTable';
 
-export interface TagsListProps {
+export type TagsListProps = {
   filterTags: (searchTerm: string) => void;
   tagsList: TagsListState;
-}
+};
 
-export const TagsList = (TagsTable: FC<TagsTableProps>) => boundToMercureHub((
-  { filterTags, tagsList }: TagsListProps,
-) => {
+type TagsListActualProps = MercureBoundProps & TagsListProps;
+
+type TagsListDeps = {
+  TagsTable: FC<TagsTableProps>;
+};
+
+const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHub(({ filterTags, tagsList }) => {
+  const { TagsTable } = useDependencies(TagsList);
   const settings = useSettings();
   const [order, setOrder] = useState<TagsOrder>(settings.tags?.defaultOrdering ?? {});
   const resolveSortedTags = pipe(
@@ -89,3 +97,5 @@ export const TagsList = (TagsTable: FC<TagsTableProps>) => boundToMercureHub((
     </>
   );
 }, () => [Topics.visits]);
+
+export const TagsListFactory = componentFactory(TagsList, ['TagsTable']);

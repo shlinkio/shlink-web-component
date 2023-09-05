@@ -1,6 +1,7 @@
 import { faClone as copyIcon } from '@fortawesome/free-regular-svg-icons';
 import { faTimes as closeIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { Result } from '@shlinkio/shlink-frontend-kit';
 import { useEffect } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -8,7 +9,6 @@ import { Tooltip } from 'reactstrap';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
-import type { TimeoutToggle } from '../../utils/helpers/hooks';
 import type { ShortUrlCreation } from '../reducers/shortUrlCreation';
 import './CreateShortUrlResult.scss';
 

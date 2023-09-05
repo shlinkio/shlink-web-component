@@ -1,13 +1,13 @@
+import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { CreateShortUrlResultFactory } from '../../../src/short-urls/helpers/CreateShortUrlResult';
 import type { ShortUrlCreation } from '../../../src/short-urls/reducers/shortUrlCreation';
-import type { TimeoutToggle } from '../../../src/utils/helpers/hooks';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<CreateShortUrlResult />', () => {
   const copyToClipboard = vi.fn();
-  const useTimeoutToggle = vi.fn(() => [false, copyToClipboard]) as TimeoutToggle;
+  const useTimeoutToggle: TimeoutToggle = vi.fn(() => [false, copyToClipboard]);
   const CreateShortUrlResult = CreateShortUrlResultFactory(fromPartial({ useTimeoutToggle }));
   const setUp = (creation: ShortUrlCreation, canBeClosed?: boolean) => renderWithEvents(
     <CreateShortUrlResult resetCreateShortUrl={() => {}} creation={creation} canBeClosed={canBeClosed} />,

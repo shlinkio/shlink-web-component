@@ -1,10 +1,10 @@
 import type Bottle from 'bottlejs';
 import { prop } from 'ramda';
 import type { ConnectDecorator } from '../../container';
-import { DomainVisits } from '../DomainVisits';
+import { DomainVisitsFactory } from '../DomainVisits';
 import { MapModal } from '../helpers/MapModal';
-import { NonOrphanVisits } from '../NonOrphanVisits';
-import { OrphanVisits } from '../OrphanVisits';
+import { NonOrphanVisitsFactory } from '../NonOrphanVisits';
+import { OrphanVisitsFactory } from '../OrphanVisits';
 import { domainVisitsReducerCreator, getDomainVisits } from '../reducers/domainVisits';
 import { getNonOrphanVisits, nonOrphanVisitsReducerCreator } from '../reducers/nonOrphanVisits';
 import { getOrphanVisits, orphanVisitsReducerCreator } from '../reducers/orphanVisits';
@@ -12,39 +12,39 @@ import { getShortUrlVisits, shortUrlVisitsReducerCreator } from '../reducers/sho
 import { getTagVisits, tagVisitsReducerCreator } from '../reducers/tagVisits';
 import { createNewVisits } from '../reducers/visitCreation';
 import { loadVisitsOverview, visitsOverviewReducerCreator } from '../reducers/visitsOverview';
-import { ShortUrlVisits } from '../ShortUrlVisits';
-import { TagVisits } from '../TagVisits';
+import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
+import { TagVisitsFactory } from '../TagVisits';
 import * as visitsParser from './VisitsParser';
 
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   // Components
   bottle.serviceFactory('MapModal', () => MapModal);
 
-  bottle.serviceFactory('ShortUrlVisits', ShortUrlVisits, 'ReportExporter');
+  bottle.factory('ShortUrlVisits', ShortUrlVisitsFactory);
   bottle.decorator('ShortUrlVisits', connect(
     ['shortUrlVisits', 'shortUrlDetail', 'mercureInfo'],
     ['getShortUrlVisits', 'getShortUrlDetail', 'cancelGetShortUrlVisits', 'createNewVisits', 'loadMercureInfo'],
   ));
 
-  bottle.serviceFactory('TagVisits', TagVisits, 'ColorGenerator', 'ReportExporter');
+  bottle.factory('TagVisits', TagVisitsFactory);
   bottle.decorator('TagVisits', connect(
     ['tagVisits', 'mercureInfo'],
     ['getTagVisits', 'cancelGetTagVisits', 'createNewVisits', 'loadMercureInfo'],
   ));
 
-  bottle.serviceFactory('DomainVisits', DomainVisits, 'ReportExporter');
+  bottle.factory('DomainVisits', DomainVisitsFactory);
   bottle.decorator('DomainVisits', connect(
     ['domainVisits', 'mercureInfo'],
     ['getDomainVisits', 'cancelGetDomainVisits', 'createNewVisits', 'loadMercureInfo'],
   ));
 
-  bottle.serviceFactory('OrphanVisits', OrphanVisits, 'ReportExporter');
+  bottle.factory('OrphanVisits', OrphanVisitsFactory);
   bottle.decorator('OrphanVisits', connect(
     ['orphanVisits', 'mercureInfo'],
     ['getOrphanVisits', 'cancelGetOrphanVisits', 'createNewVisits', 'loadMercureInfo'],
   ));
 
-  bottle.serviceFactory('NonOrphanVisits', NonOrphanVisits, 'ReportExporter');
+  bottle.factory('NonOrphanVisits', NonOrphanVisitsFactory);
   bottle.decorator('NonOrphanVisits', connect(
     ['nonOrphanVisits', 'mercureInfo'],
     ['getNonOrphanVisits', 'cancelGetNonOrphanVisits', 'createNewVisits', 'loadMercureInfo'],

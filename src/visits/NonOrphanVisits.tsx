@@ -1,3 +1,6 @@
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
+import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useGoBack } from '../utils/helpers/hooks';
@@ -8,19 +11,22 @@ import { toApiParams } from './types/helpers';
 import { VisitsHeader } from './VisitsHeader';
 import { VisitsStats } from './VisitsStats';
 
-export interface NonOrphanVisitsProps {
+export type NonOrphanVisitsProps = {
   getNonOrphanVisits: (params: LoadVisits) => void;
   nonOrphanVisits: VisitsInfo;
   cancelGetNonOrphanVisits: () => void;
-}
+};
 
-export const NonOrphanVisits = ({ exportVisits }: ReportExporter) => boundToMercureHub(({
-  getNonOrphanVisits,
-  nonOrphanVisits,
-  cancelGetNonOrphanVisits,
-}: NonOrphanVisitsProps) => {
+type NonOrphanVisitsDeps = {
+  ReportExporter: ReportExporter;
+};
+
+const NonOrphanVisits: FCWithDeps<MercureBoundProps & NonOrphanVisitsProps, NonOrphanVisitsDeps> = boundToMercureHub((
+  { getNonOrphanVisits, nonOrphanVisits, cancelGetNonOrphanVisits },
+) => {
+  const { ReportExporter: reportExporter } = useDependencies(NonOrphanVisits);
   const goBack = useGoBack();
-  const exportCsv = (visits: NormalizedVisit[]) => exportVisits('non_orphan_visits.csv', visits);
+  const exportCsv = (visits: NormalizedVisit[]) => reportExporter.exportVisits('non_orphan_visits.csv', visits);
   const loadVisits = (params: VisitsParams, doIntervalFallback?: boolean) =>
     getNonOrphanVisits({ query: toApiParams(params), doIntervalFallback });
 
@@ -35,3 +41,5 @@ export const NonOrphanVisits = ({ exportVisits }: ReportExporter) => boundToMerc
     </VisitsStats>
   );
 }, () => [Topics.visits]);
+
+export const NonOrphanVisitsFactory = componentFactory(NonOrphanVisits, ['ReportExporter']);

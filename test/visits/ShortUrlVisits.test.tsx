@@ -7,14 +7,16 @@ import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercure
 import { SettingsProvider } from '../../src/utils/settings';
 import type { ShortUrlVisits as ShortUrlVisitsState } from '../../src/visits/reducers/shortUrlVisits';
 import type { ShortUrlVisitsProps } from '../../src/visits/ShortUrlVisits';
-import { ShortUrlVisits as createShortUrlVisits } from '../../src/visits/ShortUrlVisits';
+import { ShortUrlVisitsFactory } from '../../src/visits/ShortUrlVisits';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<ShortUrlVisits />', () => {
   const getShortUrlVisitsMock = vi.fn();
   const exportVisits = vi.fn();
   const shortUrlVisits = fromPartial<ShortUrlVisitsState>({ visits: [{ date: formatISO(new Date()) }] });
-  const ShortUrlVisits = createShortUrlVisits(fromPartial({ exportVisits }));
+  const ShortUrlVisits = ShortUrlVisitsFactory(fromPartial({
+    ReportExporter: fromPartial({ exportVisits }),
+  }));
   const setUp = () => renderWithEvents(
     <MemoryRouter>
       <SettingsProvider value={fromPartial({})}>

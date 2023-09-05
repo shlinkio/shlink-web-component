@@ -1,5 +1,8 @@
 import { useParams } from 'react-router-dom';
 import type { ShlinkVisitsParams } from '../api-contract';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
+import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useGoBack } from '../utils/helpers/hooks';
@@ -10,23 +13,26 @@ import { toApiParams } from './types/helpers';
 import { VisitsHeader } from './VisitsHeader';
 import { VisitsStats } from './VisitsStats';
 
-export interface DomainVisitsProps {
+export type DomainVisitsProps = {
   getDomainVisits: (params: LoadDomainVisits) => void;
   domainVisits: DomainVisitsState;
   cancelGetDomainVisits: () => void;
-}
+};
 
-export const DomainVisits = ({ exportVisits }: ReportExporter) => boundToMercureHub(({
-  getDomainVisits,
-  domainVisits,
-  cancelGetDomainVisits,
-}: DomainVisitsProps) => {
+type DomainVisitsDeps = {
+  ReportExporter: ReportExporter
+};
+
+const DomainVisits: FCWithDeps<MercureBoundProps & DomainVisitsProps, DomainVisitsDeps> = boundToMercureHub((
+  { getDomainVisits, domainVisits, cancelGetDomainVisits },
+) => {
+  const { ReportExporter: exporter } = useDependencies(DomainVisits);
   const goBack = useGoBack();
   const { domain = '' } = useParams();
   const [authority, domainId = authority] = domain.split('_');
   const loadVisits = (params: ShlinkVisitsParams, doIntervalFallback?: boolean) =>
     getDomainVisits({ domain: domainId, query: toApiParams(params), doIntervalFallback });
-  const exportCsv = (visits: NormalizedVisit[]) => exportVisits(`domain_${authority}_visits.csv`, visits);
+  const exportCsv = (visits: NormalizedVisit[]) => exporter.exportVisits(`domain_${authority}_visits.csv`, visits);
 
   return (
     <VisitsStats
@@ -39,3 +45,5 @@ export const DomainVisits = ({ exportVisits }: ReportExporter) => boundToMercure
     </VisitsStats>
   );
 }, () => [Topics.visits]);
+
+export const DomainVisitsFactory = componentFactory(DomainVisits, ['ReportExporter']);

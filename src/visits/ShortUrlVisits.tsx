@@ -1,6 +1,9 @@
 import { parseQuery } from '@shlinkio/shlink-frontend-kit';
 import { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
+import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ShortUrlIdentifier } from '../short-urls/data';
@@ -14,21 +17,26 @@ import type { NormalizedVisit, VisitsParams } from './types';
 import { toApiParams } from './types/helpers';
 import { VisitsStats } from './VisitsStats';
 
-export interface ShortUrlVisitsProps {
+export type ShortUrlVisitsProps = {
   getShortUrlVisits: (params: LoadShortUrlVisits) => void;
   shortUrlVisits: ShortUrlVisitsState;
   getShortUrlDetail: (shortUrl: ShortUrlIdentifier) => void;
   shortUrlDetail: ShortUrlDetail;
   cancelGetShortUrlVisits: () => void;
-}
+};
 
-export const ShortUrlVisits = ({ exportVisits }: ReportExporter) => boundToMercureHub(({
+type ShortUrlVisitsDeps = {
+  ReportExporter: ReportExporter
+};
+
+const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortUrlVisitsDeps> = boundToMercureHub(({
   shortUrlVisits,
   shortUrlDetail,
   getShortUrlVisits,
   getShortUrlDetail,
   cancelGetShortUrlVisits,
 }: ShortUrlVisitsProps) => {
+  const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
   const { shortCode = '' } = useParams<{ shortCode: string }>();
   const { search } = useLocation();
   const goBack = useGoBack();
@@ -38,7 +46,7 @@ export const ShortUrlVisits = ({ exportVisits }: ReportExporter) => boundToMercu
     query: { ...toApiParams(params), domain },
     doIntervalFallback,
   });
-  const exportCsv = (visits: NormalizedVisit[]) => exportVisits(
+  const exportCsv = (visits: NormalizedVisit[]) => reportExporter.exportVisits(
     `short-url_${shortUrlDetail.shortUrl?.shortUrl.replace(/https?:\/\//g, '')}_visits.csv`,
     visits,
   );
@@ -58,3 +66,5 @@ export const ShortUrlVisits = ({ exportVisits }: ReportExporter) => boundToMercu
     </VisitsStats>
   );
 }, (_, params) => (params.shortCode ? [Topics.shortUrlVisits(urlDecodeShortCode(params.shortCode))] : []));
+
+export const ShortUrlVisitsFactory = componentFactory(ShortUrlVisits, ['ReportExporter']);

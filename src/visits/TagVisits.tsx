@@ -1,5 +1,8 @@
 import { useParams } from 'react-router-dom';
 import type { ShlinkVisitsParams } from '../api-contract';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
+import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useGoBack } from '../utils/helpers/hooks';
@@ -11,22 +14,26 @@ import type { NormalizedVisit } from './types';
 import { toApiParams } from './types/helpers';
 import { VisitsStats } from './VisitsStats';
 
-export interface TagVisitsProps {
+export type TagVisitsProps = {
   getTagVisits: (params: LoadTagVisits) => void;
   tagVisits: TagVisitsState;
   cancelGetTagVisits: () => void;
-}
+};
 
-export const TagVisits = (colorGenerator: ColorGenerator, { exportVisits }: ReportExporter) => boundToMercureHub(({
-  getTagVisits,
-  tagVisits,
-  cancelGetTagVisits,
-}: TagVisitsProps) => {
+type TagVisitsDeps = {
+  ColorGenerator: ColorGenerator;
+  ReportExporter: ReportExporter;
+};
+
+const TagVisits: FCWithDeps<MercureBoundProps & TagVisitsProps, TagVisitsDeps> = boundToMercureHub((
+  { getTagVisits, tagVisits, cancelGetTagVisits },
+) => {
+  const { ColorGenerator: colorGenerator, ReportExporter: reportExporter } = useDependencies(TagVisits);
   const goBack = useGoBack();
   const { tag = '' } = useParams();
   const loadVisits = (params: ShlinkVisitsParams, doIntervalFallback?: boolean) =>
     getTagVisits({ tag, query: toApiParams(params), doIntervalFallback });
-  const exportCsv = (visits: NormalizedVisit[]) => exportVisits(`tag_${tag}_visits.csv`, visits);
+  const exportCsv = (visits: NormalizedVisit[]) => reportExporter.exportVisits(`tag_${tag}_visits.csv`, visits);
 
   return (
     <VisitsStats
@@ -39,3 +46,5 @@ export const TagVisits = (colorGenerator: ColorGenerator, { exportVisits }: Repo
     </VisitsStats>
   );
 }, () => [Topics.visits]);
+
+export const TagVisitsFactory = componentFactory(TagVisits, ['ColorGenerator', 'ReportExporter']);

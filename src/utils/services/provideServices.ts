@@ -1,5 +1,5 @@
+import { useTimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import type Bottle from 'bottlejs';
-import { useTimeoutToggle } from '../helpers/hooks';
 import { jsonToCsv } from '../helpers/json';
 import { ColorGenerator } from './ColorGenerator';
 import { ImageDownloader } from './ImageDownloader';
@@ -15,7 +15,5 @@ export function provideServices(bottle: Bottle) {
   bottle.constant('jsonToCsv', jsonToCsv);
   bottle.service('ReportExporter', ReportExporter, 'window', 'jsonToCsv');
 
-  bottle.constant('setTimeout', window.setTimeout);
-  bottle.constant('clearTimeout', window.clearTimeout);
-  bottle.serviceFactory('useTimeoutToggle', useTimeoutToggle, 'setTimeout', 'clearTimeout');
+  bottle.serviceFactory('useTimeoutToggle', () => useTimeoutToggle);
 }

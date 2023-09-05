@@ -3,13 +3,16 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import type { TagsList } from '../../src/tags/reducers/tagsList';
 import type { TagsListProps } from '../../src/tags/TagsList';
-import { TagsList as createTagsList } from '../../src/tags/TagsList';
+import { TagsListFactory } from '../../src/tags/TagsList';
+import type { TagsTableProps } from '../../src/tags/TagsTable';
 import { SettingsProvider } from '../../src/utils/settings';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<TagsList />', () => {
   const filterTags = vi.fn();
-  const TagsListComp = createTagsList(({ sortedTags }) => <>TagsTable ({sortedTags.map((t) => t.visits).join(',')})</>);
+  const TagsListComp = TagsListFactory(fromPartial({
+    TagsTable: ({ sortedTags }: TagsTableProps) => <>TagsTable ({sortedTags.map((t) => t.visits).join(',')})</>,
+  }));
   const setUp = (tagsList: Partial<TagsList>, excludeBots = false) => renderWithEvents(
     <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
       <TagsListComp

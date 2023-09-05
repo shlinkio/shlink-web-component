@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
-import { EditShortUrl as createEditShortUrl } from '../../src/short-urls/EditShortUrl';
+import { EditShortUrlFactory } from '../../src/short-urls/EditShortUrl';
 import type { ShortUrlDetail } from '../../src/short-urls/reducers/shortUrlDetail';
 import type { ShortUrlEdition } from '../../src/short-urls/reducers/shortUrlEdition';
 import { SettingsProvider } from '../../src/utils/settings';
 
 describe('<EditShortUrl />', () => {
   const shortUrlCreation = { validateUrls: true };
-  const EditShortUrl = createEditShortUrl(() => <span>ShortUrlForm</span>);
+  const EditShortUrl = EditShortUrlFactory(fromPartial({ ShortUrlForm: () => <span>ShortUrlForm</span> }));
   const setUp = (detail: Partial<ShortUrlDetail> = {}, edition: Partial<ShortUrlEdition> = {}) => render(
     <MemoryRouter>
       <SettingsProvider value={fromPartial({ shortUrlCreation })}>

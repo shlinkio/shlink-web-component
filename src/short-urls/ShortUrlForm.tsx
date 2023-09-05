@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 import { Button, FormGroup, Input, Row } from 'reactstrap';
 import type { InputType } from 'reactstrap/types/lib/Input';
 import type { ShlinkCreateShortUrlData, ShlinkDeviceLongUrls, ShlinkEditShortUrlData } from '../api-contract';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainSelectorProps } from '../domains/DomainSelector';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
 import type { TagsList } from '../tags/reducers/tagsList';
@@ -36,8 +38,13 @@ export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEd
   onSave: (shortUrlData: T) => Promise<unknown>;
 }
 
-type ShortUrlFormConnectProps<T extends ShlinkCreateShortUrlData | ShlinkEditShortUrlData> = ShortUrlFormProps<T> & {
+type ShortUrlFormConnectProps = ShortUrlFormProps<ShlinkCreateShortUrlData | ShlinkEditShortUrlData> & {
   tagsList: TagsList;
+};
+
+type ShortUrlFormDeps = {
+  TagsSelector: FC<TagsSelectorProps>;
+  DomainSelector: FC<DomainSelectorProps>;
 };
 
 const toDate = (date?: string | Date): Date | undefined => (typeof date === 'string' ? parseISO(date) : date);
@@ -45,12 +52,10 @@ const toDate = (date?: string | Date): Date | undefined => (typeof date === 'str
 const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData): data is ShlinkCreateShortUrlData =>
   'shortCodeLength' in data && 'customSlug' in data && 'domain' in data;
 
-export const ShortUrlForm = (
-  TagsSelector: FC<TagsSelectorProps>,
-  DomainSelector: FC<DomainSelectorProps>,
-) => function ShortUrlFormComp<T extends ShlinkCreateShortUrlData | ShlinkEditShortUrlData>(
-  { mode, saving, onSave, initialState, tagsList }: ShortUrlFormConnectProps<T>,
-) {
+const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
+  { mode, saving, onSave, initialState, tagsList },
+) => {
+  const { TagsSelector, DomainSelector } = useDependencies(ShortUrlForm as unknown as ShortUrlFormDeps);
   const [shortUrlData, setShortUrlData] = useState(initialState);
   const reset = () => setShortUrlData(initialState);
   const supportsDeviceLongUrls = useFeature('deviceLongUrls');
@@ -281,3 +286,5 @@ export const ShortUrlForm = (
     </form>
   );
 };
+
+export const ShortUrlFormFactory = componentFactory(ShortUrlForm, ['TagsSelector', 'DomainSelector']);

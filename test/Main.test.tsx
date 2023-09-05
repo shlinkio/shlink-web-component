@@ -3,7 +3,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import type { MainProps } from '../src/Main';
-import { Main as createMain } from '../src/Main';
+import { MainFactory } from '../src/Main';
 import { FeaturesProvider } from '../src/utils/features';
 
 type SetUpOptions = {
@@ -13,19 +13,19 @@ type SetUpOptions = {
 };
 
 describe('<Main />', () => {
-  const Main = createMain(
-    () => <>TagsList</>,
-    () => <>ShortUrlsList</>,
-    () => <>CreateShortUrl</>,
-    () => <>ShortUrlVisits</>,
-    () => <>TagVisits</>,
-    () => <>DomainVisits</>,
-    () => <>OrphanVisits</>,
-    () => <>NonOrphanVisits</>,
-    () => <>OverviewRoute</>,
-    () => <>EditShortUrl</>,
-    () => <>ManageDomains</>,
-  );
+  const Main = MainFactory(fromPartial({
+    TagsList: () => <>TagsList</>,
+    ShortUrlsList: () => <>ShortUrlsList</>,
+    CreateShortUrl: () => <>CreateShortUrl</>,
+    ShortUrlVisits: () => <>ShortUrlVisits</>,
+    TagVisits: () => <>TagVisits</>,
+    DomainVisits: () => <>DomainVisits</>,
+    OrphanVisits: () => <>OrphanVisits</>,
+    NonOrphanVisits: () => <>NonOrphanVisits</>,
+    Overview: () => <>OverviewRoute</>,
+    EditShortUrl: () => <>EditShortUrl</>,
+    ManageDomains: () => <>ManageDomains</>,
+  }));
   const setUp = ({ createNotFound, currentPath, domainVisitsSupported = true }: SetUpOptions) => {
     const history = createMemoryHistory();
     history.push(currentPath);

@@ -2,7 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { endOfDay, formatISO, startOfDay } from 'date-fns';
 import { MemoryRouter, useLocation, useNavigate } from 'react-router-dom';
-import { ShortUrlsFilteringBar as filteringBarCreator } from '../../src/short-urls/ShortUrlsFilteringBar';
+import { ShortUrlsFilteringBarFactory } from '../../src/short-urls/ShortUrlsFilteringBar';
 import { formatIsoDate } from '../../src/utils/dates/helpers/date';
 import type { DateRange } from '../../src/utils/dates/helpers/dateIntervals';
 import { FeaturesProvider } from '../../src/utils/features';
@@ -18,7 +18,10 @@ vi.mock('react-router-dom', async () => ({
 }));
 
 describe('<ShortUrlsFilteringBar />', () => {
-  const ShortUrlsFilteringBar = filteringBarCreator(() => <>ExportShortUrlsBtn</>, () => <>TagsSelector</>);
+  const ShortUrlsFilteringBar = ShortUrlsFilteringBarFactory(fromPartial({
+    ExportShortUrlsBtn: () => <>ExportShortUrlsBtn</>,
+    TagsSelector: () => <>TagsSelector</>,
+  }));
   const navigate = vi.fn();
   const handleOrderBy = vi.fn();
   const now = new Date();

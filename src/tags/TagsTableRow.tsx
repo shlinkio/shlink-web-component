@@ -4,21 +4,26 @@ import { RowDropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { DropdownItem } from 'reactstrap';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
 import { prettify } from '../utils/helpers/numbers';
 import { useRoutesPrefix } from '../utils/routesPrefix';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
 import type { SimplifiedTag, TagModalProps } from './data';
 import { TagBullet } from './helpers/TagBullet';
 
-export interface TagsTableRowProps {
+export type TagsTableRowProps = {
   tag: SimplifiedTag;
-}
+};
 
-export const TagsTableRow = (
-  DeleteTagConfirmModal: FC<TagModalProps>,
-  EditTagModal: FC<TagModalProps>,
-  colorGenerator: ColorGenerator,
-) => ({ tag }: TagsTableRowProps) => {
+type TagsTableRowDeps = {
+  DeleteTagConfirmModal: FC<TagModalProps>;
+  EditTagModal: FC<TagModalProps>;
+  ColorGenerator: ColorGenerator;
+};
+
+const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) => {
+  const { DeleteTagConfirmModal, EditTagModal, ColorGenerator: colorGenerator } = useDependencies(TagsTableRow);
   const [isDeleteModalOpen, toggleDelete] = useToggle();
   const [isEditModalOpen, toggleEdit] = useToggle();
   const routesPrefix = useRoutesPrefix();
@@ -54,3 +59,8 @@ export const TagsTableRow = (
     </tr>
   );
 };
+
+export const TagsTableRowFactory = componentFactory(
+  TagsTableRow,
+  ['DeleteTagConfirmModal', 'EditTagModal', 'ColorGenerator'],
+);

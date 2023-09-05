@@ -3,20 +3,13 @@ import classNames from 'classnames';
 import type { MutableRefObject } from 'react';
 import type { OptionRendererProps, ReactTagsAPI, TagRendererProps, TagSuggestion } from 'react-tag-autocomplete';
 import { ReactTags } from 'react-tag-autocomplete';
+import type { FCWithDeps } from '../../container/utils';
+import { componentFactory, useDependencies } from '../../container/utils';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import { useSetting } from '../../utils/settings';
 import { normalizeTag } from './index';
 import { Tag } from './Tag';
 import { TagBullet } from './TagBullet';
-
-export type TagsSelectorProps = {
-  tags: string[];
-  selectedTags: string[];
-  onChange: (tags: string[]) => void;
-  placeholder?: string;
-  /** If true, it won't allow adding new tags */
-  immutable?: boolean;
-};
 
 let tagId = 1;
 
@@ -58,9 +51,23 @@ const buildOptionRenderer = (colorGenerator: ColorGenerator, api: MutableRefObje
   );
 };
 
-export const TagsSelector = (colorGenerator: ColorGenerator) => (
-  { selectedTags, onChange, placeholder, tags, immutable = false }: TagsSelectorProps,
+export type TagsSelectorProps = {
+  tags: string[];
+  selectedTags: string[];
+  onChange: (tags: string[]) => void;
+  placeholder?: string;
+  /** If true, it won't allow adding new tags */
+  immutable?: boolean;
+};
+
+type TagsSelectorDeps = {
+  ColorGenerator: ColorGenerator;
+};
+
+const TagsSelector: FCWithDeps<TagsSelectorProps, TagsSelectorDeps> = (
+  { selectedTags, onChange, placeholder, tags, immutable = false },
 ) => {
+  const { ColorGenerator: colorGenerator } = useDependencies(TagsSelector);
   const shortUrlCreation = useSetting('shortUrlCreation');
   const searchMode = shortUrlCreation?.tagFilteringMode ?? 'startsWith';
   const apiRef = useElementRef<ReactTagsAPI>();
@@ -99,3 +106,5 @@ export const TagsSelector = (colorGenerator: ColorGenerator) => (
     />
   );
 };
+
+export const TagsSelectorFactory = componentFactory(TagsSelector, ['ColorGenerator']);

@@ -3,13 +3,13 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShortUrlsOrderableFields } from '../../src/short-urls/data';
 import { SHORT_URLS_ORDERABLE_FIELDS } from '../../src/short-urls/data';
 import type { ShortUrlsList } from '../../src/short-urls/reducers/shortUrlsList';
-import { ShortUrlsTable as shortUrlsTableCreator } from '../../src/short-urls/ShortUrlsTable';
+import { ShortUrlsTableFactory } from '../../src/short-urls/ShortUrlsTable';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<ShortUrlsTable />', () => {
   const shortUrlsList = fromPartial<ShortUrlsList>({});
   const orderByColumn = vi.fn();
-  const ShortUrlsTable = shortUrlsTableCreator(() => <span>ShortUrlsRow</span>);
+  const ShortUrlsTable = ShortUrlsTableFactory(fromPartial({ ShortUrlsRow: () => <span>ShortUrlsRow</span> }));
   const setUp = () => renderWithEvents(
     <ShortUrlsTable shortUrlsList={shortUrlsList} orderByColumn={() => orderByColumn} />,
   );

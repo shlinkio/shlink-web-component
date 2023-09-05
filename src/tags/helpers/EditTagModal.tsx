@@ -4,6 +4,8 @@ import { Result } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useState } from 'react';
 import { Button, Input, InputGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
+import type { FCWithDeps } from '../../container/utils';
+import { componentFactory, useDependencies } from '../../container/utils';
 import { handleEventPreventingDefault } from '../../utils/helpers';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import type { TagModalProps } from '../data';
@@ -15,11 +17,16 @@ interface EditTagModalProps extends TagModalProps {
   tagEdited: (tagEdited: EditTag) => void;
 }
 
-export const EditTagModal = ({ getColorForKey }: ColorGenerator) => (
-  { tag, editTag, toggle, tagEdited, isOpen, tagEdit }: EditTagModalProps,
+type EditTagModalDeps = {
+  ColorGenerator: ColorGenerator;
+};
+
+const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
+  { tag, editTag, toggle, tagEdited, isOpen, tagEdit },
 ) => {
+  const { ColorGenerator: colorGenerator } = useDependencies(EditTagModal);
   const [newTagName, setNewTagName] = useState(tag);
-  const [color, setColor] = useState(getColorForKey(tag));
+  const [color, setColor] = useState(colorGenerator.getColorForKey(tag));
   const { editing, error, edited, errorData } = tagEdit;
   const saveTag = handleEventPreventingDefault(
     async () => {
@@ -75,3 +82,5 @@ export const EditTagModal = ({ getColorForKey }: ColorGenerator) => (
     </Modal>
   );
 };
+
+export const EditTagModalFactory = componentFactory(EditTagModal, ['ColorGenerator']);

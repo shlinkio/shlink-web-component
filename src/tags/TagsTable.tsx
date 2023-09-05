@@ -3,6 +3,8 @@ import { splitEvery } from 'ramda';
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import type { FCWithDeps } from '../container/utils';
+import { componentFactory, useDependencies } from '../container/utils';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
 import { useQueryState } from '../utils/helpers/hooks';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
@@ -15,11 +17,14 @@ export interface TagsTableProps extends TagsListChildrenProps {
   currentOrder: TagsOrder;
 }
 
+type TagsTableDeps = {
+  TagsTableRow: FC<TagsTableRowProps>;
+};
+
 const TAGS_PER_PAGE = 20; // TODO Allow customizing this value in settings
 
-export const TagsTable = (TagsTableRow: FC<TagsTableRowProps>) => (
-  { sortedTags, orderByColumn, currentOrder }: TagsTableProps,
-) => {
+const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orderByColumn, currentOrder }) => {
+  const { TagsTableRow } = useDependencies(TagsTable);
   const isFirstLoad = useRef(true);
   const { search } = useLocation();
   const { page: pageFromQuery = 1 } = parseQuery<{ page?: number | string }>(search);
@@ -68,3 +73,5 @@ export const TagsTable = (TagsTableRow: FC<TagsTableRowProps>) => (
     </SimpleCard>
   );
 };
+
+export const TagsTableFactory = componentFactory(TagsTable, ['TagsTableRow']);

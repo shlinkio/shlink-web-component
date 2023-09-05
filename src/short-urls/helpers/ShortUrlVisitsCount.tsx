@@ -19,6 +19,7 @@ interface ShortUrlVisitsCountProps {
 export const ShortUrlVisitsCount = (
   { visitsCount, shortUrl, active = false, asLink = false }: ShortUrlVisitsCountProps,
 ) => {
+  const tooltipRef = useElementRef<HTMLElement>();
   const { maxVisits, validSince, validUntil } = shortUrl?.meta ?? {};
   const hasLimit = !!maxVisits || !!validSince || !!validUntil;
   const visitsLink = (
@@ -34,8 +35,6 @@ export const ShortUrlVisitsCount = (
   if (!hasLimit) {
     return visitsLink;
   }
-
-  const tooltipRef = useElementRef<HTMLElement>();
 
   return (
     <>

@@ -4,7 +4,7 @@ import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router-dom';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/utils/settings';
-import { DomainVisits as createDomainVisits } from '../../src/visits/DomainVisits';
+import { DomainVisitsFactory } from '../../src/visits/DomainVisits';
 import type { DomainVisits } from '../../src/visits/reducers/domainVisits';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
@@ -18,7 +18,9 @@ describe('<DomainVisits />', () => {
   const getDomainVisits = vi.fn();
   const cancelGetDomainVisits = vi.fn();
   const domainVisits = fromPartial<DomainVisits>({ visits: [{ date: formatISO(new Date()) }] });
-  const DomainVisits = createDomainVisits(fromPartial({ exportVisits }));
+  const DomainVisits = DomainVisitsFactory(fromPartial({
+    ReportExporter: fromPartial({ exportVisits }),
+  }));
   const setUp = () => renderWithEvents(
     <MemoryRouter>
       <SettingsProvider value={fromPartial({})}>

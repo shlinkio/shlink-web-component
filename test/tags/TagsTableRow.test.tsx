@@ -1,16 +1,18 @@
 import { screen } from '@testing-library/react';
+import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
-import { TagsTableRow as createTagsTableRow } from '../../src/tags/TagsTableRow';
+import type { ModalProps } from 'reactstrap';
+import { TagsTableRowFactory } from '../../src/tags/TagsTableRow';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<TagsTableRow />', () => {
-  const TagsTableRow = createTagsTableRow(
-    ({ isOpen }) => <td>DeleteTagConfirmModal {isOpen ? 'OPEN' : 'CLOSED'}</td>,
-    ({ isOpen }) => <td>EditTagModal {isOpen ? 'OPEN' : 'CLOSED'}</td>,
-    colorGeneratorMock,
-  );
+  const TagsTableRow = TagsTableRowFactory(fromPartial({
+    DeleteTagConfirmModal: ({ isOpen }: ModalProps) => <td>DeleteTagConfirmModal {isOpen ? 'OPEN' : 'CLOSED'}</td>,
+    EditTagModal: ({ isOpen }: ModalProps) => <td>EditTagModal {isOpen ? 'OPEN' : 'CLOSED'}</td>,
+    ColorGenerator: colorGeneratorMock,
+  }));
   const setUp = (tagStats?: { visits?: number; shortUrls?: number }) => renderWithEvents(
     <MemoryRouter>
       <RoutesPrefixProvider value="/server/abc123">

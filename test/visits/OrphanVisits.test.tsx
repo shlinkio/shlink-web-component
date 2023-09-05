@@ -4,7 +4,7 @@ import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router-dom';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/utils/settings';
-import { OrphanVisits as createOrphanVisits } from '../../src/visits/OrphanVisits';
+import { OrphanVisitsFactory } from '../../src/visits/OrphanVisits';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
@@ -12,7 +12,9 @@ describe('<OrphanVisits />', () => {
   const getOrphanVisits = vi.fn();
   const exportVisits = vi.fn();
   const orphanVisits = fromPartial<VisitsInfo>({ visits: [{ date: formatISO(new Date()) }] });
-  const OrphanVisits = createOrphanVisits(fromPartial({ exportVisits }));
+  const OrphanVisits = OrphanVisitsFactory(fromPartial({
+    ReportExporter: fromPartial({ exportVisits }),
+  }));
   const setUp = () => renderWithEvents(
     <MemoryRouter>
       <SettingsProvider value={fromPartial({})}>

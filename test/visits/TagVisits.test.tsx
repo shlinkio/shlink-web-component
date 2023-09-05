@@ -6,7 +6,7 @@ import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercure
 import { SettingsProvider } from '../../src/utils/settings';
 import type { TagVisits as TagVisitsStats } from '../../src/visits/reducers/tagVisits';
 import type { TagVisitsProps } from '../../src/visits/TagVisits';
-import { TagVisits as createTagVisits } from '../../src/visits/TagVisits';
+import { TagVisitsFactory } from '../../src/visits/TagVisits';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 vi.mock('react-router-dom', async () => ({
@@ -18,10 +18,10 @@ describe('<TagVisits />', () => {
   const getTagVisitsMock = vi.fn();
   const exportVisits = vi.fn();
   const tagVisits = fromPartial<TagVisitsStats>({ visits: [{ date: formatISO(new Date()) }] });
-  const TagVisits = createTagVisits(
-    fromPartial({ isColorLightForKey: () => false, getColorForKey: () => 'red' }),
-    fromPartial({ exportVisits }),
-  );
+  const TagVisits = TagVisitsFactory(fromPartial({
+    ColorGenerator: fromPartial({ isColorLightForKey: () => false, getColorForKey: () => 'red' }),
+    ReportExporter: fromPartial({ exportVisits }),
+  }));
   const setUp = () => renderWithEvents(
     <MemoryRouter>
       <SettingsProvider value={fromPartial({})}>

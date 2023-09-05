@@ -1,21 +1,25 @@
 import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import type { FC } from 'react';
 import { useCallback } from 'react';
 import type { ShlinkApiClient, ShlinkShortUrl } from '../../api-contract';
+import type { FCWithDeps } from '../../container/utils';
+import { componentFactory, useDependencies } from '../../container/utils';
 import { ExportBtn } from '../../utils/components/ExportBtn';
 import type { ReportExporter } from '../../utils/services/ReportExporter';
 import { useShortUrlsQuery } from './hooks';
 
-export interface ExportShortUrlsBtnProps {
+export type ExportShortUrlsBtnProps = {
   amount?: number;
-}
+};
+
+type ExportShortUrlsBtnDeps = {
+  apiClientFactory: () => ShlinkApiClient,
+  ReportExporter: ReportExporter,
+};
 
 const itemsPerPage = 20;
 
-export const ExportShortUrlsBtn = (
-  apiClientFactory: () => ShlinkApiClient,
-  { exportShortUrls }: ReportExporter,
-): FC<ExportShortUrlsBtnProps> => ({ amount = 0 }) => {
+const ExportShortUrlsBtn: FCWithDeps<ExportShortUrlsBtnProps, ExportShortUrlsBtnDeps> = ({ amount = 0 }) => {
+  const { apiClientFactory, ReportExporter: reportExporter } = useDependencies(ExportShortUrlsBtn);
   const [{ tags, search, startDate, endDate, orderBy, tagsMode }] = useShortUrlsQuery();
   const [loading,, startLoading, stopLoading] = useToggle();
   const exportAllUrls = useCallback(async () => {
@@ -36,7 +40,7 @@ export const ExportShortUrlsBtn = (
     startLoading();
     const shortUrls = await loadAllUrls();
 
-    exportShortUrls(shortUrls.map((shortUrl) => {
+    reportExporter.exportShortUrls(shortUrls.map((shortUrl) => {
       const { hostname: domain, pathname } = new URL(shortUrl.shortUrl);
       const shortCode = pathname.substring(1); // Remove trailing slash
 
@@ -56,3 +60,5 @@ export const ExportShortUrlsBtn = (
 
   return <ExportBtn loading={loading} className="btn-md-block" amount={amount} onClick={exportAllUrls} />;
 };
+
+export const ExportShortUrlsBtnFactory = componentFactory(ExportShortUrlsBtn, ['apiClientFactory', 'ReportExporter']);

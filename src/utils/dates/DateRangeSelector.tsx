@@ -43,12 +43,16 @@ export const DateRangeSelector = (
     onDatesChange(intervalToDateRange(dateInterval));
   };
 
-  updatable && useEffectExceptFirstTime(() => {
+  useEffectExceptFirstTime(() => {
+    if (!updatable) {
+      return;
+    }
+
     const isDateInterval = rangeIsInterval(initialDateRange);
 
     isDateInterval && updateInterval(initialDateRange);
     initialDateRange && !isDateInterval && updateDateRange(initialDateRange);
-  }, [initialDateRange]);
+  }, [initialDateRange, updatable]);
 
   return (
     <DropdownBtn disabled={disabled} text={rangeOrIntervalToString(activeInterval ?? activeDateRange) ?? defaultText}>

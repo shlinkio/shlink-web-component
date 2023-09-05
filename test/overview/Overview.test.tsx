@@ -2,7 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { MercureInfo } from '../../src/mercure/reducers/mercureInfo';
-import { Overview as overviewCreator } from '../../src/overview/Overview';
+import { OverviewFactory } from '../../src/overview/Overview';
 import { prettify } from '../../src/utils/helpers/numbers';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { SettingsProvider } from '../../src/utils/settings';
@@ -13,7 +13,7 @@ describe('<Overview />', () => {
   const CreateShortUrl = () => <>CreateShortUrl</>;
   const listShortUrls = vi.fn();
   const loadVisitsOverview = vi.fn();
-  const Overview = overviewCreator(ShortUrlsTable, CreateShortUrl);
+  const Overview = OverviewFactory(fromPartial({ ShortUrlsTable, CreateShortUrl }));
   const shortUrls = {
     pagination: { totalItems: 83710 },
   };

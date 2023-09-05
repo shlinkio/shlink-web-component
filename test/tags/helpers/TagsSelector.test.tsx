@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { TagsSelector as createTagsSelector } from '../../../src/tags/helpers/TagsSelector';
+import { TagsSelectorFactory } from '../../../src/tags/helpers/TagsSelector';
 import type { TagFilteringMode } from '../../../src/utils/settings';
 import { SettingsProvider } from '../../../src/utils/settings';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
@@ -14,7 +14,7 @@ type SetUpOptions = {
 
 describe('<TagsSelector />', () => {
   const onChange = vi.fn();
-  const TagsSelector = createTagsSelector(colorGeneratorMock);
+  const TagsSelector = TagsSelectorFactory(fromPartial({ ColorGenerator: colorGeneratorMock }));
   const tags = ['foo', 'bar'];
   const setUp = ({ allowNew = true, allTags, tagFilteringMode }: SetUpOptions = {}) => renderWithEvents(
     <SettingsProvider

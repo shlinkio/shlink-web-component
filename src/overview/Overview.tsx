@@ -51,7 +51,7 @@ const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub(({
   useEffect(() => {
     listShortUrls({ itemsPerPage: ITEMS_IN_OVERVIEW_PAGE, orderBy: { field: 'dateCreated', dir: 'DESC' } });
     loadVisitsOverview();
-  }, []);
+  }, [listShortUrls, loadVisitsOverview]);
 
   return (
     <>

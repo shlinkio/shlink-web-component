@@ -6,9 +6,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { UncontrolledTooltip } from 'reactstrap';
+import { useMaxResolution } from '../../utils/helpers/hooks';
 import type { MediaMatcher } from '../../utils/types';
 import type { DomainStatus } from '../data';
 
@@ -19,16 +19,7 @@ interface DomainStatusIconProps {
 
 export const DomainStatusIcon: FC<DomainStatusIconProps> = ({ status, matchMedia = window.matchMedia }) => {
   const ref = useElementRef<HTMLSpanElement>();
-  const matchesMobile = () => matchMedia('(max-width: 991px)').matches;
-  const [isMobile, setIsMobile] = useState<boolean>(matchesMobile());
-
-  useEffect(() => {
-    const listener = () => setIsMobile(matchesMobile());
-
-    window.addEventListener('resize', listener);
-
-    return () => window.removeEventListener('resize', listener);
-  }, []);
+  const isMobile = useMaxResolution(991, matchMedia);
 
   if (status === 'validating') {
     return <FontAwesomeIcon fixedWidth icon={loadingStatusIcon} spin />;
@@ -43,7 +34,7 @@ export const DomainStatusIcon: FC<DomainStatusIconProps> = ({ status, matchMedia
       </span>
       <UncontrolledTooltip
         target={ref}
-        placement={isMobile ? 'top-start' : 'left'}
+        placement={isMobile ? 'right' : 'left'}
         autohide={status === 'valid'}
       >
         {status === 'valid' ? 'Congratulations! This domain is properly configured.' : (

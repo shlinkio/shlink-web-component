@@ -4,10 +4,11 @@ import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
 import { min, splitEvery } from 'ramda';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
 import { Time } from '../utils/dates/Time';
+import { useMaxResolution } from '../utils/helpers/hooks';
 import { prettify } from '../utils/helpers/numbers';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import type { MediaMatcher } from '../utils/types';
@@ -50,9 +51,8 @@ export const VisitsTable = ({
   isOrphanVisits = false,
 }: VisitsTableProps) => {
   const headerCellsClass = 'visits-table__header-cell visits-table__sticky';
-  const matchMobile = useCallback(() => matchMedia('(max-width: 767px)').matches, [matchMedia]);
 
-  const [isMobileDevice, setIsMobileDevice] = useState(matchMobile());
+  const isMobileDevice = useMaxResolution(767, matchMedia);
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
   const [order, setOrder] = useState<VisitsOrder>({});
   const resultSet = useMemo(() => calculateVisits(visits, searchTerm, order), [visits, searchTerm, order]);
@@ -65,14 +65,6 @@ export const VisitsTable = ({
     () => setOrder({ field, dir: determineOrderDir(field, order.field, order.dir) });
   const renderOrderIcon = (field: OrderableFields) =>
     <TableOrderIcon currentOrder={order} field={field} className="visits-table__header-icon" />;
-
-  useEffect(() => {
-    const listener = () => setIsMobileDevice(matchMobile());
-
-    window.addEventListener('resize', listener);
-
-    return () => window.removeEventListener('resize', listener);
-  }, [matchMobile]);
 
   // Move to first page and clear selected visits every time the filter changes
   useEffect(() => {

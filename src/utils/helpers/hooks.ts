@@ -3,6 +3,7 @@ import type { DependencyList, EffectCallback } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSwipeable as useReactSwipeable } from 'react-swipeable';
+import type { MediaMatcher } from '../types';
 
 export const useSwipeable = (showSidebar: () => void, hideSidebar: () => void) => {
   const swipeMenuIfNoModalExists = (callback: () => void) => (e: any) => {
@@ -24,16 +25,16 @@ export const useSwipeable = (showSidebar: () => void, hideSidebar: () => void) =
   });
 };
 
-export const useQueryState = <T>(paramName: string, initialState: T): [ T, (newValue: T) => void ] => {
+export const useQueryState = <T>(paramName: string, initialState: T): [T, (newValue: T) => void] => {
   const [value, setValue] = useState(initialState);
-  const setValueWithLocation = (valueToSet: T) => {
+  const setValueWithLocation = useCallback((valueToSet: T) => {
     const { location, history } = window;
     const query = parseQuery<any>(location.search);
 
     query[paramName] = valueToSet;
     history.pushState(null, '', `${location.pathname}?${stringifyQuery(query)}`);
     setValue(valueToSet);
-  };
+  }, [paramName]);
 
   return [value, setValueWithLocation];
 };
@@ -55,4 +56,22 @@ export const useGoBack = () => {
 export const useParsedQuery = <T>(): T => {
   const { search } = useLocation();
   return useMemo(() => parseQuery<T>(search), [search]);
+};
+
+export const useMaxResolution = (maxResolution: number, matchMedia: MediaMatcher) => {
+  const matchResolution = useCallback(
+    () => matchMedia(`(max-width: ${maxResolution}px)`).matches,
+    [matchMedia, maxResolution],
+  );
+  const [doesMatchResolution, setResolutionIsMatched] = useState(matchResolution());
+
+  useEffect(() => {
+    const listener = () => setResolutionIsMatched(matchResolution());
+
+    window.addEventListener('resize', listener);
+
+    return () => window.removeEventListener('resize', listener);
+  }, [matchResolution]);
+
+  return doesMatchResolution;
 };

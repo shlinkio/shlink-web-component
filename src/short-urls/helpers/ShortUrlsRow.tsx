@@ -40,7 +40,7 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
   useEffect(() => {
     !isFirstRun.current && setActive();
     isFirstRun.current = false;
-  }, [shortUrl.visitsSummary?.total, shortUrl.visitsSummary?.nonBots, shortUrl.visitsCount]);
+  }, [shortUrl.visitsSummary?.total, shortUrl.visitsSummary?.nonBots, shortUrl.visitsCount, setActive]);
 
   return (
     <tr className="responsive-table__row">

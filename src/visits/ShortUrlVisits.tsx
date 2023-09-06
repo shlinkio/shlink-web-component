@@ -53,7 +53,7 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
 
   useEffect(() => {
     getShortUrlDetail({ shortCode: urlDecodeShortCode(shortCode), domain });
-  }, []);
+  }, [domain, getShortUrlDetail, shortCode]);
 
   return (
     <VisitsStats

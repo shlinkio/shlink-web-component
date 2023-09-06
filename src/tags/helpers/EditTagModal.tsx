@@ -36,7 +36,7 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
   );
   const onClosed = useCallback(
     () => edited && tagEdited({ oldName: tag, newName: newTagName, color }),
-    [edited, tagEdited],
+    [color, edited, newTagName, tag, tagEdited],
   );
 
   return (

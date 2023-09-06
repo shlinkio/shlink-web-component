@@ -36,7 +36,8 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
   useEffect(() => {
     !isFirstLoad.current && setPage(1);
     isFirstLoad.current = false;
-  }, [sortedTags]);
+  }, [setPage, sortedTags]);
+
   useEffect(() => {
     scrollTo(0, 0);
   }, [page]);

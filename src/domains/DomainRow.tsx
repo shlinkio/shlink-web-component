@@ -36,7 +36,7 @@ export const DomainRow: FC<DomainRowProps> = (
 
   useEffect(() => {
     checkDomainHealth(domain.domain);
-  }, []);
+  }, [checkDomainHealth, domain.domain]);
 
   return (
     <tr className="responsive-table__row">

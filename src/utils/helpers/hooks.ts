@@ -45,6 +45,10 @@ export const useEffectExceptFirstTime = (callback: EffectCallback, deps: Depende
   useEffect(() => {
     !isFirstLoad.current && callback();
     isFirstLoad.current = false;
+
+    // FIXME This hooks very much feels like a workaround for some other problem (probably useEffect dependencies that
+    //  were not properly wrapped in useCallback/useMemo and cause too many re-renders)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };
 

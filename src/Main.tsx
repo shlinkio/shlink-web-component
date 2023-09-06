@@ -49,7 +49,9 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
   const routesPrefix = useRoutesPrefix();
 
   const [sidebarVisible, toggleSidebar, showSidebar, hideSidebar] = useToggle();
-  useEffect(() => hideSidebar(), [location]);
+
+  // Hide sidebar every time the route changes
+  useEffect(() => hideSidebar(), [location, hideSidebar]);
 
   const addDomainVisitsRoute = useFeature('domainVisits');
   const burgerClasses = classNames('shlink-layout__burger-icon', { 'shlink-layout__burger-icon--active': sidebarVisible });

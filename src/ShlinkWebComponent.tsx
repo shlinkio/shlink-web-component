@@ -61,7 +61,7 @@ export const createShlinkWebComponent = (
     store.dispatch(loadMercureInfo(settings));
     // Load tags, as they are used by multiple components
     store.dispatch(listTags());
-  }, [apiClient, tagColorsStorage]);
+  }, [apiClient, createNotFound, settings, tagColorsStorage]);
 
   return !theStore ? <></> : (
     <ReduxStoreProvider store={theStore}>

@@ -4,7 +4,7 @@ import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
 import { min, splitEvery } from 'ramda';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
 import { Time } from '../utils/dates/Time';
@@ -50,13 +50,12 @@ export const VisitsTable = ({
   isOrphanVisits = false,
 }: VisitsTableProps) => {
   const headerCellsClass = 'visits-table__header-cell visits-table__sticky';
-  const matchMobile = () => matchMedia('(max-width: 767px)').matches;
+  const matchMobile = useCallback(() => matchMedia('(max-width: 767px)').matches, [matchMedia]);
 
   const [isMobileDevice, setIsMobileDevice] = useState(matchMobile());
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
   const [order, setOrder] = useState<VisitsOrder>({});
-  const resultSet = useMemo(() => calculateVisits(visits, searchTerm, order), [searchTerm, order]);
-  const isFirstLoad = useRef(true);
+  const resultSet = useMemo(() => calculateVisits(visits, searchTerm, order), [visits, searchTerm, order]);
   const [page, setPage] = useState(1);
   const end = page * PAGE_SIZE;
   const start = end - PAGE_SIZE;
@@ -73,13 +72,13 @@ export const VisitsTable = ({
     window.addEventListener('resize', listener);
 
     return () => window.removeEventListener('resize', listener);
-  }, []);
+  }, [matchMobile]);
+
+  // Move to first page and clear selected visits every time the filter changes
   useEffect(() => {
     setPage(1);
-
-    !isFirstLoad.current && setSelectedVisits([]);
-    isFirstLoad.current = false;
-  }, [searchTerm]);
+    setSelectedVisits([]);
+  }, [searchTerm, setSelectedVisits]);
 
   return (
     <div className="table-responsive-md">

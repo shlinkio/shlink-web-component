@@ -5,7 +5,7 @@ import { Message, NavPillItem, NavPills, Result } from '@shlinkio/shlink-fronten
 import classNames from 'classnames';
 import { isEmpty, pipe, propEq, values } from 'ramda';
 import type { FC, PropsWithChildren } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Button, Progress, Row } from 'reactstrap';
 import { ShlinkApiError } from '../common/ShlinkApiError';
@@ -90,14 +90,14 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
   const resolvedFilter = useMemo(() => ({
     ...visitsFilter,
     excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
-  }), [visitsFilter]);
+  }), [visitsFilter, visitsSettings?.excludeBots]);
   const mapLocations = values(citiesForMap);
 
-  const setSelectedVisits = (selectedVisits: NormalizedVisit[]) => {
+  const setSelectedVisits = useCallback((selectedVisits: NormalizedVisit[]) => {
     selectedBar = undefined;
     setHighlightedVisits(selectedVisits);
-  };
-  const highlightVisitsForProp = (prop: HighlightableProps<NormalizedOrphanVisit>) => (value: string) => {
+  }, []);
+  const highlightVisitsForProp = useCallback((prop: HighlightableProps<NormalizedOrphanVisit>, value: string) => {
     const newSelectedBar = `${prop}_${value}`;
 
     if (selectedBar === newSelectedBar) {
@@ -109,20 +109,23 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
       setHighlightedLabel(value);
       selectedBar = newSelectedBar;
     }
-  };
+  }, [normalizedVisits]);
 
-  useEffect(() => cancelGetVisits, []);
+  useEffect(() => cancelGetVisits, [cancelGetVisits]);
   useEffect(() => {
     const resolvedDateRange = !isFirstLoad.current ? dateRange : (dateRange ?? toDateRange(initialInterval.current));
     getVisits({ dateRange: resolvedDateRange, filter: resolvedFilter }, isFirstLoad.current);
     isFirstLoad.current = false;
+
+    // TODO Adding proper list of dependencies here results in an infinite re-render. Refactor this
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateRange, visitsFilter]);
   useEffect(() => {
     // As soon as the fallback is loaded, if the initial interval used the settings one, we do fall back
     if (fallbackInterval && initialInterval.current === (visitsSettings?.defaultInterval ?? 'last30Days')) {
       initialInterval.current = fallbackInterval;
     }
-  }, [fallbackInterval]);
+  }, [fallbackInterval, visitsSettings?.defaultInterval]);
 
   const renderVisitsContent = () => {
     if (loadingLarge) {
@@ -198,7 +201,7 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
                         name: 'Referrer name',
                         amount: 'Visits amount',
                       }}
-                      onClick={highlightVisitsForProp('referer')}
+                      onClick={(value) => highlightVisitsForProp('referer', value)}
                     />
                   </div>
                   {isOrphanVisits && (
@@ -212,7 +215,7 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
                           visitedUrl: 'Visited URL',
                           amount: 'Visits amount',
                         }}
-                        onClick={highlightVisitsForProp('visitedUrl')}
+                        onClick={(value) => highlightVisitsForProp('visitedUrl', value)}
                       />
                     </div>
                   )}
@@ -234,7 +237,7 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
                         name: 'Country name',
                         amount: 'Visits amount',
                       }}
-                      onClick={highlightVisitsForProp('country')}
+                      onClick={(value) => highlightVisitsForProp('country', value)}
                     />
                   </div>
                   <div className="col-lg-6 mt-3">
@@ -250,7 +253,7 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
                         name: 'City name',
                         amount: 'Visits amount',
                       }}
-                      onClick={highlightVisitsForProp('city')}
+                      onClick={(value) => highlightVisitsForProp('city', value)}
                     />
                   </div>
                 </>

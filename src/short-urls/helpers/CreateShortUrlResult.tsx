@@ -31,7 +31,7 @@ const CreateShortUrlResult: FCWithDeps<CreateShortUrlResultProps, CreateShortUrl
 
   useEffect(() => {
     resetCreateShortUrl();
-  }, []);
+  }, [resetCreateShortUrl]);
 
   if (error) {
     return (

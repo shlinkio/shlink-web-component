@@ -22,7 +22,7 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
   const openMapWithCities = useCallback((filterCallback?: (city: CityStats) => boolean) => {
     setLocationsToShow(!filterCallback ? locations : locations.filter(filterCallback));
     openMap();
-  }, [locations]);
+  }, [locations, openMap]);
 
   return (
     <>

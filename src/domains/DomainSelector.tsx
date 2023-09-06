@@ -26,7 +26,7 @@ export const DomainSelector = ({ listDomains, value, domainsList, onChange }: Do
 
   useEffect(() => {
     listDomains();
-  }, []);
+  }, [listDomains]);
 
   return inputDisplayed ? (
     <InputGroup>

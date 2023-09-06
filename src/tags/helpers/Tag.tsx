@@ -25,7 +25,7 @@ export const Tag: FC<TagProps> = (props) => {
   const { text, children, className, colorGenerator } = props;
   const actionable = isActionable(props);
   const Wrapper = actionable ? UnstyledButton : 'span';
-  const isLightColor = useMemo(() => colorGenerator.isColorLightForKey(text), [text]);
+  const isLightColor = useMemo(() => colorGenerator.isColorLightForKey(text), [text, colorGenerator]);
 
   return (
     <Wrapper

@@ -1,7 +1,12 @@
 import { EventSourcePolyfill as EventSource } from 'event-source-polyfill';
 import type { MercureInfo } from '../reducers/mercureInfo';
 
-export const bindToMercureTopic = <T>(mercureInfo: MercureInfo, topics: string[], onMessage: (message: T) => void, onTokenExpired: () => void) => { // eslint-disable-line max-len
+export const bindToMercureTopic = <T>(
+  mercureInfo: MercureInfo,
+  topics: string[],
+  onMessage: (message: T) => void,
+  onTokenExpired: () => void,
+) => {
   const { mercureHubUrl, token, loading, error } = mercureInfo;
 
   if (loading || error || !mercureHubUrl) {

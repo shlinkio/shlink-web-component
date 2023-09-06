@@ -5,7 +5,7 @@ export const UnstyledButton: FC<Omit<HTMLProps<HTMLButtonElement>, 'type'>> = ({
   <button
     type="button"
     className={classNames('border-0', className)}
-    style={{ backgroundColor: 'inherit', ...style }}
+    style={{ backgroundColor: 'inherit', fontWeight: 'inherit', ...style }}
     {...rest}
   />
 );

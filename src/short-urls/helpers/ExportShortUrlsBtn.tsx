@@ -33,7 +33,7 @@ const ExportShortUrlsBtn: FCWithDeps<ExportShortUrlsBtnProps, ExportShortUrlsBtn
         return data;
       }
 
-      // TODO Support paralelization
+      // TODO Support parallelization
       return data.concat(await loadAllUrls(page + 1));
     };
 
@@ -56,7 +56,19 @@ const ExportShortUrlsBtn: FCWithDeps<ExportShortUrlsBtnProps, ExportShortUrlsBtn
       };
     }));
     stopLoading();
-  }, []);
+  }, [
+    amount,
+    apiClientFactory,
+    endDate,
+    orderBy,
+    reportExporter,
+    search,
+    startDate,
+    startLoading,
+    stopLoading,
+    tags,
+    tagsMode,
+  ]);
 
   return <ExportBtn loading={loading} className="btn-md-block" amount={amount} onClick={exportAllUrls} />;
 };

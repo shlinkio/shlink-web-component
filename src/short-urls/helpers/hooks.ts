@@ -1,10 +1,11 @@
-import { orderToString, parseQuery, stringifyQuery, stringToOrder } from '@shlinkio/shlink-frontend-kit';
-import { isEmpty, pipe } from 'ramda';
+import { orderToString, stringifyQuery, stringToOrder } from '@shlinkio/shlink-frontend-kit';
+import { isEmpty } from 'ramda';
 import { useCallback, useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import type { TagsFilteringMode } from '../../api-contract';
 import type { BooleanString } from '../../utils/helpers';
 import { parseOptionalBooleanToString } from '../../utils/helpers';
+import { useParsedQuery } from '../../utils/helpers/hooks';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
 import type { ShortUrlsOrder, ShortUrlsOrderableFields } from '../data';
 
@@ -35,31 +36,29 @@ type ToFirstPage = (extra: Partial<ShortUrlsFiltering>) => void;
 
 export const useShortUrlsQuery = (): [ShortUrlsFiltering, ToFirstPage] => {
   const navigate = useNavigate();
-  const { search } = useLocation();
   const routesPrefix = useRoutesPrefix();
+  const query = useParsedQuery<ShortUrlsQuery>();
 
   const filtering = useMemo(
-    pipe(
-      () => parseQuery<ShortUrlsQuery>(search),
-      ({ orderBy, tags, excludeBots, excludeMaxVisitsReached, excludePastValidUntil, ...rest }): ShortUrlsFiltering => {
-        const parsedOrderBy = orderBy ? stringToOrder<ShortUrlsOrderableFields>(orderBy) : undefined;
-        const parsedTags = tags?.split(',') ?? [];
-        return {
-          ...rest,
-          orderBy: parsedOrderBy,
-          tags: parsedTags,
-          excludeBots: excludeBots !== undefined ? excludeBots === 'true' : undefined,
-          excludeMaxVisitsReached: excludeMaxVisitsReached !== undefined ? excludeMaxVisitsReached === 'true' : undefined,
-          excludePastValidUntil: excludePastValidUntil !== undefined ? excludePastValidUntil === 'true' : undefined,
-        };
-      },
-    ),
-    [search],
+    (): ShortUrlsFiltering => {
+      const { orderBy, tags, excludeBots, excludeMaxVisitsReached, excludePastValidUntil, ...rest } = query;
+      const parsedOrderBy = orderBy ? stringToOrder<ShortUrlsOrderableFields>(orderBy) : undefined;
+      const parsedTags = tags?.split(',') ?? [];
+      return {
+        ...rest,
+        orderBy: parsedOrderBy,
+        tags: parsedTags,
+        excludeBots: excludeBots !== undefined ? excludeBots === 'true' : undefined,
+        excludeMaxVisitsReached: excludeMaxVisitsReached !== undefined ? excludeMaxVisitsReached === 'true' : undefined,
+        excludePastValidUntil: excludePastValidUntil !== undefined ? excludePastValidUntil === 'true' : undefined,
+      };
+    },
+    [query],
   );
   const toFirstPageWithExtra = useCallback((extra: Partial<ShortUrlsFiltering>) => {
     const merged = { ...filtering, ...extra };
     const { orderBy, tags, excludeBots, excludeMaxVisitsReached, excludePastValidUntil, ...mergedFiltering } = merged;
-    const query: ShortUrlsQuery = {
+    const newQuery: ShortUrlsQuery = {
       ...mergedFiltering,
       orderBy: orderBy && orderToString(orderBy),
       tags: tags.length > 0 ? tags.join(',') : undefined,
@@ -67,7 +66,7 @@ export const useShortUrlsQuery = (): [ShortUrlsFiltering, ToFirstPage] => {
       excludeMaxVisitsReached: parseOptionalBooleanToString(excludeMaxVisitsReached),
       excludePastValidUntil: parseOptionalBooleanToString(excludePastValidUntil),
     };
-    const stringifiedQuery = stringifyQuery(query);
+    const stringifiedQuery = stringifyQuery(newQuery);
     const queryString = isEmpty(stringifiedQuery) ? '' : `?${stringifiedQuery}`;
 
     navigate(`${routesPrefix}/list-short-urls/1${queryString}`);

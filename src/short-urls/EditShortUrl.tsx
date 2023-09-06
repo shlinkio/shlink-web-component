@@ -47,7 +47,7 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
 
   useEffect(() => {
     params.shortCode && getShortUrlDetail({ shortCode: urlDecodeShortCode(params.shortCode), domain });
-  }, []);
+  }, [domain, getShortUrlDetail, params.shortCode]);
 
   if (loading) {
     return <Message loading />;

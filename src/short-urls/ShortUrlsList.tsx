@@ -2,7 +2,7 @@ import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir } from '@shlinkio/shlink-frontend-kit';
 import { pipe } from 'ramda';
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { Card } from 'reactstrap';
 import type { ShlinkShortUrlsListParams, ShlinkShortUrlsOrder } from '../api-contract';
@@ -60,7 +60,10 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
     orderBy ?? settings.shortUrlsList?.defaultOrdering ?? DEFAULT_SHORT_URLS_ORDERING,
   );
   const { pagination } = shortUrlsList?.shortUrls ?? {};
-  const doExcludeBots = excludeBots ?? settings.visits?.excludeBots;
+  const doExcludeBots = useMemo(
+    () => excludeBots ?? settings.visits?.excludeBots,
+    [excludeBots, settings.visits?.excludeBots],
+  );
   const supportsExcludingBots = useFeature('excludeBotsOnShortUrls');
   const handleOrderBy = (field?: ShortUrlsOrderableFields, dir?: OrderDir) => {
     toFirstPage({ orderBy: { field, dir } });
@@ -74,13 +77,13 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
     (newTag: string) => [...new Set([...tags, newTag])],
     (updatedTags) => toFirstPage({ tags: updatedTags }),
   );
-  const parseOrderByForShlink = ({ field, dir }: ShortUrlsOrder): ShlinkShortUrlsOrder => {
+  const parseOrderByForShlink = useCallback(({ field, dir }: ShortUrlsOrder): ShlinkShortUrlsOrder => {
     if (supportsExcludingBots && doExcludeBots && field === 'visits') {
       return { field: 'nonBotVisits', dir };
     }
 
     return { field, dir };
-  };
+  }, [doExcludeBots, supportsExcludingBots]);
 
   useEffect(() => {
     listShortUrls({
@@ -95,13 +98,14 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
       excludeMaxVisitsReached,
     });
   }, [
+    listShortUrls,
+    parseOrderByForShlink,
     page,
     search,
     tags,
     startDate,
     endDate,
-    actualOrderBy.field,
-    actualOrderBy.dir,
+    actualOrderBy,
     tagsMode,
     excludePastValidUntil,
     excludeMaxVisitsReached,

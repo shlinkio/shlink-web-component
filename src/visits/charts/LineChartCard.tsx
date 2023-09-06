@@ -186,7 +186,7 @@ export const LineChartCard = (
   const groupedVisitsWithGaps = useMemo(() => groupVisitsByStep(step, reverse(visits)), [step, visits]);
   const [labels, groupedVisits] = useMemo(
     () => generateLabelsAndGroupedVisits(visits, groupedVisitsWithGaps, step, skipNoVisits),
-    [visits, step, skipNoVisits],
+    [visits, groupedVisitsWithGaps, step, skipNoVisits],
   );
   const groupedHighlighted = useMemo(
     () => fillTheGaps(groupVisitsByStep(step, reverse(highlightedVisits)), labels),

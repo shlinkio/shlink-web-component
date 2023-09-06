@@ -1,10 +1,10 @@
 import { Result } from '@shlinkio/shlink-frontend-kit';
 import { pipe } from 'ramda';
-import { useEffect, useState } from 'react';
+import type { SyntheticEvent } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { isInvalidDeletionError } from '../../api-contract/utils';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
-import { handleEventPreventingDefault } from '../../utils/helpers';
 import type { ShortUrlIdentifier, ShortUrlModalProps } from '../data';
 import type { ShortUrlDeletion } from '../reducers/shortUrlDeletion';
 
@@ -28,11 +28,14 @@ export const DeleteShortUrlModal = ({
 }: DeleteShortUrlModalConnectProps) => {
   const [inputValue, setInputValue] = useState('');
 
-  useEffect(() => resetDeleteShortUrl, []);
+  useEffect(() => resetDeleteShortUrl, [resetDeleteShortUrl]);
 
   const { loading, error, deleted, errorData } = shortUrlDeletion;
   const close = pipe(resetDeleteShortUrl, toggle);
-  const handleDeleteUrl = handleEventPreventingDefault(() => deleteShortUrl(shortUrl).then(toggle));
+  const handleDeleteUrl = useCallback((e: SyntheticEvent) => {
+    e.preventDefault();
+    return deleteShortUrl(shortUrl).then(toggle);
+  }, [deleteShortUrl, shortUrl, toggle]);
 
   return (
     <Modal isOpen={isOpen} toggle={close} centered onClosed={() => deleted && shortUrlDeleted(shortUrl)}>

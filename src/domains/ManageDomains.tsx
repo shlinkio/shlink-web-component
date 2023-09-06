@@ -24,7 +24,7 @@ export const ManageDomains: FC<ManageDomainsProps> = (
 
   useEffect(() => {
     listDomains();
-  }, []);
+  }, [listDomains]);
 
   if (loading) {
     return <Message loading />;

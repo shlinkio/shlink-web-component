@@ -2,6 +2,7 @@ import { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
 import { FetchHttpClient } from '@shlinkio/shlink-js-sdk/browser';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
+import type { Settings } from '../src';
 import { ShlinkWebComponent } from '../src';
 import { ServerInfoForm } from './server-info/ServerInfoForm';
 import type { ServerInfo } from './server-info/useServerInfo';
@@ -14,6 +15,9 @@ export const App: FC = () => {
     () => isServerInfoSet(serverInfo) && new ShlinkApiClient(new FetchHttpClient(), serverInfo),
     [serverInfo],
   );
+  const settings = useMemo((): Settings => ({
+    realTimeUpdates: { enabled: true },
+  }), []);
 
   return (
     <>
@@ -24,7 +28,7 @@ export const App: FC = () => {
         </div>
       </header>
       <div className="wrapper">
-        {apiClient && <ShlinkWebComponent serverVersion="latest" apiClient={apiClient} />}
+        {apiClient && <ShlinkWebComponent serverVersion="latest" apiClient={apiClient} settings={settings} />}
       </div>
     </>
   );

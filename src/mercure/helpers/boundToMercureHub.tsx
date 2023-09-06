@@ -14,19 +14,19 @@ export interface MercureBoundProps {
 
 export function boundToMercureHub<T = {}>(
   WrappedComponent: FC<MercureBoundProps & T>,
-  getTopicsForProps: (props: T, routeParams: any) => string[],
+  getTopicsForParams: (routeParams: any) => string[],
 ) {
   const pendingUpdates = new Set<CreateVisit>();
 
   return (props: MercureBoundProps & T) => {
     const { createNewVisits, loadMercureInfo, mercureInfo } = props;
-    const { interval } = mercureInfo;
     const params = useParams();
 
     // Every time mercure info changes, re-bind
     useEffect(() => {
+      const { interval } = mercureInfo;
       const onMessage = (visit: CreateVisit) => (interval ? pendingUpdates.add(visit) : createNewVisits([visit]));
-      const topics = getTopicsForProps(props, params);
+      const topics = getTopicsForParams(params);
       const closeEventSource = bindToMercureTopic(mercureInfo, topics, onMessage, loadMercureInfo);
 
       if (!interval) {
@@ -39,7 +39,7 @@ export function boundToMercureHub<T = {}>(
       }, interval * 1000 * 60);
 
       return pipe(() => clearInterval(timer), () => closeEventSource?.());
-    }, [mercureInfo]);
+    }, [createNewVisits, loadMercureInfo, mercureInfo, params]);
 
     return <WrappedComponent {...props} />;
   };

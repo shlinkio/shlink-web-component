@@ -65,6 +65,6 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
       <ShortUrlVisitsHeader shortUrlDetail={shortUrlDetail} shortUrlVisits={shortUrlVisits} goBack={goBack} />
     </VisitsStats>
   );
-}, (_, params) => (params.shortCode ? [Topics.shortUrlVisits(urlDecodeShortCode(params.shortCode))] : []));
+}, (params) => (params.shortCode ? [Topics.shortUrlVisits(urlDecodeShortCode(params.shortCode))] : []));
 
 export const ShortUrlVisitsFactory = componentFactory(ShortUrlVisits, ['ReportExporter']);

@@ -74,7 +74,7 @@
     "react-external-link": "^2.2.0",
     "react-leaflet": "^4.2.1",
     "react-swipeable": "^7.0.1",
-    "react-tag-autocomplete": "^7.0.1"
+    "react-tag-autocomplete": "^7.1.0"
   },
   "devDependencies": {
     "@shlinkio/eslint-config-js-coding-standard": "~2.3.0",

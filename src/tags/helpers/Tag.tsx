@@ -29,7 +29,7 @@ export const Tag: FC<TagProps> = (props) => {
 
   return (
     <Wrapper
-      className={classNames('badge tag', className, { 'tag--light-bg': isLightColor, pointer: actionable })}
+      className={classNames('badge tag fw-bold', className, { 'tag--light-bg': isLightColor, pointer: actionable })}
       style={{ backgroundColor: colorGenerator.getColorForKey(text) }}
       onClick={actionable ? props.onClick : undefined}
     >

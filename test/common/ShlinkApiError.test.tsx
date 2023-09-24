@@ -4,9 +4,12 @@ import type { InvalidArgumentError, ProblemDetailsError } from '../../src/api-co
 import { ErrorTypeV2, ErrorTypeV3 } from '../../src/api-contract';
 import type { ShlinkApiErrorProps } from '../../src/common/ShlinkApiError';
 import { ShlinkApiError } from '../../src/common/ShlinkApiError';
+import { checkAccessibility } from '../__helpers__/accessibility';
 
 describe('<ShlinkApiError />', () => {
   const setUp = (props: ShlinkApiErrorProps) => render(<ShlinkApiError {...props} />);
+
+  it('passes a11y checks', () => checkAccessibility(setUp({})));
 
   it.each([
     [undefined, 'the fallback', 'the fallback'],

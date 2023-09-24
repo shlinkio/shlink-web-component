@@ -1,7 +1,9 @@
 import { screen, waitFor } from '@testing-library/react';
+import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { DomainSelector } from '../../src/domains/DomainSelector';
 import type { DomainsList } from '../../src/domains/reducers/domainsList';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<DomainSelector />', () => {
@@ -15,6 +17,21 @@ describe('<DomainSelector />', () => {
   const setUp = (value = '') => renderWithEvents(
     <DomainSelector value={value} domainsList={domainsList} listDomains={vi.fn()} onChange={vi.fn()} />,
   );
+
+  const switchToInputMode = async (user: UserEvent) => {
+    await user.click(screen.getByRole('button', { name: 'Domain' }));
+    await user.click(await screen.findByText('New domain'));
+  };
+
+  it.each([
+    [setUp],
+    [async () => {
+      const { user, container } = setUp();
+      await switchToInputMode(user);
+
+      return { container };
+    }],
+  ])('passes a11y checks', async (setUp) => checkAccessibility(await setUp()));
 
   it.each([
     ['', 'Domain', 'domains-dropdown__toggle-btn'],
@@ -39,8 +56,7 @@ describe('<DomainSelector />', () => {
     expect(screen.queryByPlaceholderText('Domain')).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Domain' })).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Domain' }));
-    await user.click(await screen.findByText('New domain'));
+    await switchToInputMode(user);
 
     expect(screen.getByPlaceholderText('Domain')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Domain' })).not.toBeInTheDocument();

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { AsideMenu } from '../../src/common/AsideMenu';
+import { checkAccessibility } from '../__helpers__/accessibility';
 
 describe('<AsideMenu />', () => {
   const setUp = () => render(
@@ -8,6 +9,8 @@ describe('<AsideMenu />', () => {
       <AsideMenu routePrefix="/abc123" />
     </MemoryRouter>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('contains links to different sections', () => {
     setUp();

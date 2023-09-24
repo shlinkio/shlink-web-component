@@ -1,10 +1,12 @@
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { Domain } from '../../../src/domains/data';
 import { DomainDropdown } from '../../../src/domains/helpers/DomainDropdown';
 import { FeaturesProvider } from '../../../src/utils/features';
 import { RoutesPrefixProvider } from '../../../src/utils/routesPrefix';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<DomainDropdown />', () => {
@@ -21,6 +23,21 @@ describe('<DomainDropdown />', () => {
       </RoutesPrefixProvider>
     </MemoryRouter>,
   );
+
+  const openMenu = async (user: UserEvent) => {
+    // Search by "Options" name, as that's the default aria-label
+    await user.click(screen.getByRole('button', { name: 'Options' }));
+  };
+
+  it.each([
+    [setUp],
+    [async () => {
+      const { user, container } = setUp();
+      await openMenu(user);
+
+      return { container };
+    }],
+  ])('passes a11y checks', async (setUp) => checkAccessibility(await setUp()));
 
   it('renders expected menu items', () => {
     setUp({ withVisits: false });
@@ -61,7 +78,7 @@ describe('<DomainDropdown />', () => {
     const { user } = setUp();
 
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
-    await user.click(screen.getByRole('button', { expanded: false }));
+    await openMenu(user);
     expect(await screen.findByRole('menu')).toBeInTheDocument();
   });
 });

@@ -3,6 +3,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { ProblemDetailsError, ShlinkDomain } from '../../src/api-contract';
 import { ManageDomains } from '../../src/domains/ManageDomains';
 import type { DomainsList } from '../../src/domains/reducers/domainsList';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<ManageDomains />', () => {
@@ -17,6 +18,10 @@ describe('<ManageDomains />', () => {
       domainsList={domainsList}
     />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(
+    setUp(fromPartial({ loading: false, error: false, filteredDomains: [] })),
+  ));
 
   it('shows loading message while domains are loading', () => {
     setUp(fromPartial({ loading: true, filteredDomains: [] }));

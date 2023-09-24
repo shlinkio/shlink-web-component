@@ -14,7 +14,36 @@ interface ManageDomainsProps {
   domainsList: DomainsList;
 }
 
-const headers = ['', 'Domain', 'Base path redirect', 'Regular 404 redirect', 'Invalid short URL redirect', '', ''];
+const headers: Array<{ value: string; isHidden: boolean }> = [
+  {
+    value: 'Is default domain',
+    isHidden: true,
+  },
+  {
+    value: 'Domain',
+    isHidden: false,
+  },
+  {
+    value: 'Base path redirect',
+    isHidden: false,
+  },
+  {
+    value: 'Regular 404 redirect',
+    isHidden: false,
+  },
+  {
+    value: 'Invalid short URL redirect',
+    isHidden: false,
+  },
+  {
+    value: 'Domain status',
+    isHidden: true,
+  },
+  {
+    value: 'Options',
+    isHidden: true,
+  },
+];
 
 export const ManageDomains: FC<ManageDomainsProps> = (
   { listDomains, domainsList, filterDomains, editDomainRedirects, checkDomainHealth },
@@ -43,7 +72,13 @@ export const ManageDomains: FC<ManageDomainsProps> = (
       <SimpleCard>
         <table className="table table-hover responsive-table mb-0">
           <thead className="responsive-table__header">
-            <tr>{headers.map((column, index) => <th key={index}>{column}</th>)}</tr>
+            <tr>
+              {headers.map((column, index) => (
+                <th key={index}>
+                  <span className={column.isHidden ? 'sr-only' : undefined}>{column.value}</span>
+                </th>
+              ))}
+            </tr>
           </thead>
           <tbody>
             {domains.length < 1 && <tr><td colSpan={headers.length} className="text-center">No results found</td></tr>}

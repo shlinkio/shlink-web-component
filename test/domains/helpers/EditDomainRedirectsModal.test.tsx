@@ -2,6 +2,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkDomain } from '../../../src/api-contract';
 import { EditDomainRedirectsModal } from '../../../src/domains/helpers/EditDomainRedirectsModal';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<EditDomainRedirectsModal />', () => {
@@ -16,6 +17,8 @@ describe('<EditDomainRedirectsModal />', () => {
   const setUp = () => renderWithEvents(
     <EditDomainRedirectsModal domain={domain} isOpen toggle={toggle} editDomainRedirects={editDomainRedirects} />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders domain in header', () => {
     setUp();

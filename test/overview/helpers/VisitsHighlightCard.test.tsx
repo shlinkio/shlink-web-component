@@ -2,6 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import type { VisitsHighlightCardProps } from '../../../src/overview/helpers/VisitsHighlightCard';
 import { VisitsHighlightCard } from '../../../src/overview/helpers/VisitsHighlightCard';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<VisitsHighlightCard />', () => {
@@ -11,12 +12,14 @@ describe('<VisitsHighlightCard />', () => {
         loading={false}
         visitsSummary={{ total: 0 }}
         excludeBots={false}
-        title=""
+        title="title"
         link=""
         {...props}
       />
     </MemoryRouter>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it.each([
     [true, () => expect(screen.getByText('Loading...')).toBeInTheDocument()],

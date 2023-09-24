@@ -12,17 +12,15 @@ export type HighlightCardProps = PropsWithChildren<{
   tooltip?: ReactNode;
 }>;
 
-const buildExtraProps = (link: string) => ({ tag: Link, to: link });
-
 export const HighlightCard: FC<HighlightCardProps> = ({ children, title, link, tooltip }) => {
   const ref = useElementRef<HTMLElement>();
 
   return (
     <>
-      <Card innerRef={ref} className="highlight-card" body {...buildExtraProps(link)}>
+      <Card innerRef={ref} className="highlight-card" body tag={Link} to={link}>
         <FontAwesomeIcon size="3x" className="highlight-card__link-icon" icon={linkIcon} />
-        <CardTitle tag="h5" className="highlight-card__title">{title}</CardTitle>
-        <CardText tag="h2">{children}</CardText>
+        <CardTitle className="lh-sm fw-semibold text-uppercase fs-5 highlight-card__title">{title}</CardTitle>
+        <CardText className="fs-2 fw-semibold lh-sm">{children}</CardText>
       </Card>
       {tooltip && <UncontrolledTooltip target={ref} placement="bottom">{tooltip}</UncontrolledTooltip>}
     </>

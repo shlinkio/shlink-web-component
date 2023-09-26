@@ -4,6 +4,7 @@ import type { InvalidShortUrlDeletion, ShlinkShortUrl } from '../../../src/api-c
 import { ErrorTypeV2, ErrorTypeV3 } from '../../../src/api-contract';
 import { DeleteShortUrlModal } from '../../../src/short-urls/helpers/DeleteShortUrlModal';
 import type { ShortUrlDeletion } from '../../../src/short-urls/reducers/shortUrlDeletion';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 import { TestModalWrapper } from '../../__helpers__/TestModalWrapper';
 
@@ -30,11 +31,16 @@ describe('<DeleteShortUrlModal />', () => {
     />,
   );
 
+  it.each([
+    [{ loading: false, error: false }],
+    [{ loading: true, error: false }],
+    [{ loading: false, error: true }],
+  ])('passes a11y checks', (props) => checkAccessibility(setUp(props)));
+
   it('shows generic error when non-threshold error occurs', () => {
     setUp({
       loading: false,
       error: true,
-      shortCode: 'abc123',
       errorData: fromPartial({ type: 'OTHER_ERROR' }),
     });
     expect(screen.getByText('Something went wrong while deleting the URL :(').parentElement).not.toHaveClass(
@@ -46,25 +52,17 @@ describe('<DeleteShortUrlModal />', () => {
     [fromPartial<InvalidShortUrlDeletion>({ type: ErrorTypeV3.INVALID_SHORT_URL_DELETION })],
     [fromPartial<InvalidShortUrlDeletion>({ type: ErrorTypeV2.INVALID_SHORT_URL_DELETION })],
   ])('shows specific error when threshold error occurs', (errorData) => {
-    setUp({ loading: false, error: true, shortCode: 'abc123', errorData });
+    setUp({ loading: false, error: true, errorData });
     expect(screen.getByText('Something went wrong while deleting the URL :(').parentElement).toHaveClass('bg-warning');
   });
 
   it('disables submit button when loading', () => {
-    setUp({
-      loading: true,
-      error: false,
-      shortCode: 'abc123',
-    });
+    setUp({ loading: true, error: false });
     expect(screen.getByRole('button', { name: 'Deleting...' })).toHaveAttribute('disabled');
   });
 
   it('enables submit button when proper short code is provided', async () => {
-    const { user } = setUp({
-      loading: false,
-      error: false,
-      shortCode: 'abc123',
-    });
+    const { user } = setUp({ loading: false, error: false });
     const getDeleteBtn = () => screen.getByRole('button', { name: 'Delete' });
 
     expect(getDeleteBtn()).toHaveAttribute('disabled');
@@ -77,7 +75,6 @@ describe('<DeleteShortUrlModal />', () => {
       loading: false,
       error: false,
       deleted: true,
-      shortCode: 'abc123',
     });
 
     expect(deleteShortUrl).not.toHaveBeenCalled();

@@ -6,11 +6,11 @@ import { urlEncodeShortCode } from './index';
 
 export type LinkSuffix = 'visits' | 'edit';
 
-export interface ShortUrlDetailLinkProps {
+export type ShortUrlDetailLinkProps = {
   shortUrl?: ShlinkShortUrl | null;
   suffix: LinkSuffix;
   asLink?: boolean;
-}
+};
 
 const buildUrl = (routePrefix: string, { shortCode, domain }: ShlinkShortUrl, suffix: LinkSuffix) => {
   const query = domain ? `?domain=${domain}` : '';

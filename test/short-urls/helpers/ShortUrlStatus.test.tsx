@@ -3,12 +3,17 @@ import userEvent from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkShortUrl, ShlinkShortUrlMeta, ShlinkVisitsSummary } from '../../../src/api-contract';
 import { ShortUrlStatus } from '../../../src/short-urls/helpers/ShortUrlStatus';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<ShortUrlStatus />', () => {
   const setUp = (shortUrl: ShlinkShortUrl) => ({
     user: userEvent.setup(),
     ...render(<ShortUrlStatus shortUrl={shortUrl} />),
   });
+
+  it('passes a11y checks', () => checkAccessibility(setUp(fromPartial({
+    meta: fromPartial({ maxVisits: 10 }),
+  }))));
 
   it.each([
     [

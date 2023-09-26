@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { CreateShortUrlResultFactory } from '../../../src/short-urls/helpers/CreateShortUrlResult';
 import type { ShortUrlCreation } from '../../../src/short-urls/reducers/shortUrlCreation';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<CreateShortUrlResult />', () => {
@@ -12,6 +13,11 @@ describe('<CreateShortUrlResult />', () => {
   const setUp = (creation: ShortUrlCreation, canBeClosed?: boolean) => renderWithEvents(
     <CreateShortUrlResult resetCreateShortUrl={() => {}} creation={creation} canBeClosed={canBeClosed} />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp(
+    { result: fromPartial({ shortUrl: 'https://s.test/abc123' }), saving: false, saved: true, error: false },
+    true,
+  )));
 
   it('renders an error when error is true', () => {
     setUp({ error: true, saved: false, saving: false });
@@ -30,7 +36,7 @@ describe('<CreateShortUrlResult />', () => {
     expect(screen.getByText(/The short URL is/)).toHaveTextContent('Great! The short URL is https://s.test/abc123');
   });
 
-  it('Invokes tooltip timeout when copy to clipboard button is clicked', async () => {
+  it('invokes tooltip timeout when copy to clipboard button is clicked', async () => {
     const { user } = setUp(
       { result: fromPartial({ shortUrl: 'https://s.test/abc123' }), saving: false, saved: true, error: false },
     );

@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import { ExportShortUrlsBtnFactory } from '../../../src/short-urls/helpers/ExportShortUrlsBtn';
 import type { ReportExporter } from '../../../src/utils/services/ReportExporter';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<ExportShortUrlsBtn />', () => {
@@ -19,6 +20,8 @@ describe('<ExportShortUrlsBtn />', () => {
       <ExportShortUrlsBtn amount={amount} />
     </MemoryRouter>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp(497135)));
 
   it.each([
     [undefined, '0'],

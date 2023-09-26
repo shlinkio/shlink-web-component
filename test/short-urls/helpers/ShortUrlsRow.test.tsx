@@ -9,6 +9,7 @@ import type { ShlinkShortUrl, ShlinkShortUrlMeta } from '../../../src/api-contra
 import { ShortUrlsRowFactory } from '../../../src/short-urls/helpers/ShortUrlsRow';
 import { now, parseDate } from '../../../src/utils/dates/helpers/date';
 import { SettingsProvider } from '../../../src/utils/settings';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
@@ -69,6 +70,8 @@ describe('<ShortUrlsRow />', () => {
       </MemoryRouter>,
     );
   };
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it.each([
     [null, 7],

@@ -2,6 +2,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { QrCodeModalFactory } from '../../../src/short-urls/helpers/QrCodeModal';
 import type { ImageDownloader } from '../../../src/utils/services/ImageDownloader';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<QrCodeModal />', () => {
@@ -17,6 +18,8 @@ describe('<QrCodeModal />', () => {
       toggle={() => {}}
     />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('shows an external link to the URL in the header', () => {
     setUp();

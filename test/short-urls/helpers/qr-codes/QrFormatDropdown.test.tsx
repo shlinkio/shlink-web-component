@@ -1,12 +1,23 @@
 import { screen } from '@testing-library/react';
 import { QrFormatDropdown } from '../../../../src/short-urls/helpers/qr-codes/QrFormatDropdown';
 import type { QrCodeFormat } from '../../../../src/utils/helpers/qrCodes';
+import { checkAccessibility } from '../../../__helpers__/accessibility';
 import { renderWithEvents } from '../../../__helpers__/setUpTest';
 
 describe('<QrFormatDropdown />', () => {
   const initialFormat: QrCodeFormat = 'svg';
   const setFormat = vi.fn();
   const setUp = () => renderWithEvents(<QrFormatDropdown format={initialFormat} setFormat={setFormat} />);
+
+  it.each([
+    [setUp],
+    [async () => {
+      const { user, container } = setUp();
+      await user.click(screen.getByRole('button'));
+
+      return { container };
+    }],
+  ])('passes a11y checks', async (setUp) => checkAccessibility(await setUp()));
 
   it('renders initial state', async () => {
     const { user } = setUp();

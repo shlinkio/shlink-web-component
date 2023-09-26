@@ -6,6 +6,7 @@ import type { TagsListProps } from '../../src/tags/TagsList';
 import { TagsListFactory } from '../../src/tags/TagsList';
 import type { TagsTableProps } from '../../src/tags/TagsTable';
 import { SettingsProvider } from '../../src/utils/settings';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<TagsList />', () => {
@@ -13,16 +14,18 @@ describe('<TagsList />', () => {
   const TagsListComp = TagsListFactory(fromPartial({
     TagsTable: ({ sortedTags }: TagsTableProps) => <>TagsTable ({sortedTags.map((t) => t.visits).join(',')})</>,
   }));
-  const setUp = (tagsList: Partial<TagsList>, excludeBots = false) => renderWithEvents(
+  const setUp = (tagsList: Partial<TagsList> = {}, excludeBots = false) => renderWithEvents(
     <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
       <TagsListComp
         {...fromPartial<TagsListProps>({})}
         {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
         filterTags={filterTags}
-        tagsList={fromPartial(tagsList)}
+        tagsList={fromPartial({ filteredTags: [], ...tagsList })}
       />
     </SettingsProvider>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('shows a loading message when tags are being loaded', () => {
     setUp({ loading: true });
@@ -47,7 +50,7 @@ describe('<TagsList />', () => {
   });
 
   it('triggers tags filtering when search field changes', async () => {
-    const { user } = setUp({ filteredTags: [] });
+    const { user } = setUp();
 
     expect(filterTags).not.toHaveBeenCalled();
     await user.type(screen.getByPlaceholderText('Search...'), 'Hello');

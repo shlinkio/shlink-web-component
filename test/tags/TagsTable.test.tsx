@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { TagsTableFactory } from '../../src/tags/TagsTable';
 import type { TagsTableRowProps } from '../../src/tags/TagsTableRow';
 import { rangeOf } from '../../src/utils/helpers';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 vi.mock('react-router-dom', async () => ({
@@ -27,6 +28,8 @@ describe('<TagsTable />', () => {
       />,
     );
   };
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders empty result if there are no tags', () => {
     setUp();

@@ -4,6 +4,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { ReactNode } from 'react';
 import { Tag } from '../../../src/tags/helpers/Tag';
 import type { ColorGenerator } from '../../../src/utils/services/ColorGenerator';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 const hexToRgb = (hex: string) => {
@@ -33,6 +34,8 @@ describe('<Tag />', () => {
       </Tag>,
     );
   };
+
+  it('passes a11y checks', () => checkAccessibility(setUp('the-tag')));
 
   it.each([
     [true],

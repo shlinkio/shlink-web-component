@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import type { ModalProps } from 'reactstrap';
 import { TagsTableRowFactory } from '../../src/tags/TagsTableRow';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
@@ -26,6 +27,8 @@ describe('<TagsTableRow />', () => {
       </RoutesPrefixProvider>
     </MemoryRouter>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it.each([
     [undefined, '0', '0'],

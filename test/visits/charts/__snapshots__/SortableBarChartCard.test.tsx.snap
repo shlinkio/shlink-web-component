@@ -490,7 +490,7 @@ exports[`<SortableBarChartCard /> > renders properly paginated stats when pagina
             </b>
              items per page
           </button>
-          <div
+          <hr
             class="dropdown-divider"
             tabindex="-1"
           />
@@ -738,7 +738,7 @@ exports[`<SortableBarChartCard /> > renders properly paginated stats when pagina
             </b>
              items per page
           </button>
-          <div
+          <hr
             class="dropdown-divider"
             tabindex="-1"
           />
@@ -966,7 +966,7 @@ exports[`<SortableBarChartCard /> > renders properly paginated stats when pagina
             </b>
              items per page
           </button>
-          <div
+          <hr
             class="dropdown-divider"
             tabindex="-1"
           />
@@ -1123,7 +1123,7 @@ exports[`<SortableBarChartCard /> > renders properly paginated stats when pagina
             </b>
              items per page
           </button>
-          <div
+          <hr
             class="dropdown-divider"
             tabindex="-1"
           />

@@ -16,7 +16,7 @@ export const PaginationDropdown = ({ toggleClassName, ranges, value, setValue }:
           <b>{itemsPerPage}</b> items per page
         </DropdownItem>
       ))}
-      <DropdownItem divider />
+      <DropdownItem divider tag="hr" />
       <DropdownItem disabled={value === Infinity} onClick={() => setValue(Infinity)}>
         <i>Clear pagination</i>
       </DropdownItem>

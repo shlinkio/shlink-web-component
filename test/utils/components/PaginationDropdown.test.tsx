@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react';
 import { PaginationDropdown } from '../../../src/utils/components/PaginationDropdown';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<PaginationDropdown />', () => {
@@ -12,6 +13,8 @@ describe('<PaginationDropdown />', () => {
 
     return result;
   };
+
+  it('passes a11y checks', async () => checkAccessibility(await setUp()));
 
   it('renders expected amount of items', async () => {
     await setUp();

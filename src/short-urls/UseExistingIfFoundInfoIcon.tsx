@@ -2,6 +2,7 @@ import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useToggle } from '@shlinkio/shlink-frontend-kit';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { UnstyledButton } from '../utils/components/UnstyledButton';
 import './UseExistingIfFoundInfoIcon.scss';
 
 const InfoModal = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }) => (
@@ -39,11 +40,12 @@ const InfoModal = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }) 
 export const UseExistingIfFoundInfoIcon = () => {
   const [isModalOpen, toggleModal] = useToggle();
 
+  // TODO Replace native title with bootstrap tooltip + aria-label for accessibility
   return (
     <>
-      <span title="What does this mean?">
-        <FontAwesomeIcon icon={infoIcon} style={{ cursor: 'pointer' }} onClick={toggleModal} />
-      </span>
+      <UnstyledButton className="p-0" title="What does this mean?" onClick={toggleModal}>
+        <FontAwesomeIcon icon={infoIcon} />
+      </UnstyledButton>
       <InfoModal isOpen={isModalOpen} toggle={toggleModal} />
     </>
   );

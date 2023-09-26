@@ -4,6 +4,7 @@ import type { ShortUrlsOrderableFields } from '../../src/short-urls/data';
 import { SHORT_URLS_ORDERABLE_FIELDS } from '../../src/short-urls/data';
 import type { ShortUrlsList } from '../../src/short-urls/reducers/shortUrlsList';
 import { ShortUrlsTableFactory } from '../../src/short-urls/ShortUrlsTable';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<ShortUrlsTable />', () => {
@@ -13,6 +14,8 @@ describe('<ShortUrlsTable />', () => {
   const setUp = () => renderWithEvents(
     <ShortUrlsTable shortUrlsList={shortUrlsList} orderByColumn={() => orderByColumn} />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('should render inner table by default', () => {
     setUp();

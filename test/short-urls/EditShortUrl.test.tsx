@@ -5,6 +5,7 @@ import { EditShortUrlFactory } from '../../src/short-urls/EditShortUrl';
 import type { ShortUrlDetail } from '../../src/short-urls/reducers/shortUrlDetail';
 import type { ShortUrlEdition } from '../../src/short-urls/reducers/shortUrlEdition';
 import { SettingsProvider } from '../../src/utils/settings';
+import { checkAccessibility } from '../__helpers__/accessibility';
 
 describe('<EditShortUrl />', () => {
   const shortUrlCreation = { validateUrls: true };
@@ -21,6 +22,23 @@ describe('<EditShortUrl />', () => {
       </SettingsProvider>
     </MemoryRouter>,
   );
+
+  it.each([
+    [{ loading: true }, {}],
+    [{ error: true }, {}],
+    [{}, {}],
+    [{}, { error: true, saved: true }],
+    [{}, { error: false, saved: true }],
+  ])('passes a11y checks', (detail, edition) => checkAccessibility(setUp(
+    {
+      shortUrl: fromPartial({
+        shortUrl: 'https://s.test/abc123',
+        meta: {},
+      }),
+      ...detail,
+    },
+    edition,
+  )));
 
   it('renders loading message while loading detail', () => {
     setUp({ loading: true });

@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import type { ShlinkPaginator } from '../../src/api-contract';
 import { Paginator } from '../../src/short-urls/Paginator';
 import { ELLIPSIS } from '../../src/utils/helpers/pagination';
+import { checkAccessibility } from '../__helpers__/accessibility';
 
 describe('<Paginator />', () => {
   const buildPaginator = (pagesCount?: number) => fromPartial<ShlinkPaginator>({ pagesCount, currentPage: 1 });
@@ -12,6 +13,16 @@ describe('<Paginator />', () => {
       <Paginator paginator={paginator} currentQueryString={currentQueryString} />
     </MemoryRouter>,
   );
+
+  it.each([
+    [undefined],
+    [buildPaginator()],
+    [buildPaginator(0)],
+    [buildPaginator(1)],
+    [buildPaginator(2)],
+    [buildPaginator(5)],
+    [buildPaginator(25)],
+  ])('passes a11y checks', (paginator) => checkAccessibility(setUp(paginator)));
 
   it.each([
     [undefined],

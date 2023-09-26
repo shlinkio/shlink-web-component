@@ -8,6 +8,7 @@ import type { DateRange } from '../../src/utils/dates/helpers/dateIntervals';
 import { FeaturesProvider } from '../../src/utils/features';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { SettingsProvider } from '../../src/utils/settings';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 vi.mock('react-router-dom', async () => ({
@@ -41,6 +42,8 @@ describe('<ShortUrlsFilteringBar />', () => {
       </MemoryRouter>,
     );
   };
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders expected children components', () => {
     setUp();

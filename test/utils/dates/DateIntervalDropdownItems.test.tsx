@@ -3,6 +3,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { DateIntervalDropdownItems } from '../../../src/utils/dates/DateIntervalDropdownItems';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
 import { DATE_INTERVALS, rangeOrIntervalToString } from '../../../src/utils/dates/helpers/dateIntervals';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<DateIntervalDropdownItems />', () => {
@@ -19,6 +20,8 @@ describe('<DateIntervalDropdownItems />', () => {
 
     return { user, ...renderResult };
   };
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders expected amount of items', async () => {
     await setUp();

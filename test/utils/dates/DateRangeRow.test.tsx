@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react';
 import { DateRangeRow } from '../../../src/utils/dates/DateRangeRow';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<DateRangeRow />', () => {
@@ -8,6 +9,8 @@ describe('<DateRangeRow />', () => {
   const setUp = () => renderWithEvents(
     <DateRangeRow onEndDateChange={onEndDateChange} onStartDateChange={onStartDateChange} />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders two date inputs', () => {
     setUp();

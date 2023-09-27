@@ -14,7 +14,7 @@ describe('<PaginationDropdown />', () => {
     return result;
   };
 
-  it('passes a11y checks', async () => checkAccessibility(await setUp()));
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders expected amount of items', async () => {
     await setUp();

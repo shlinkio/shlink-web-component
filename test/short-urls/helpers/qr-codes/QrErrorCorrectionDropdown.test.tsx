@@ -19,7 +19,7 @@ describe('<QrErrorCorrectionDropdown />', () => {
 
       return { container };
     }],
-  ])('passes a11y checks', async (setUp) => checkAccessibility(await setUp()));
+  ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders initial state', async () => {
     const { user } = setUp();

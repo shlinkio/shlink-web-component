@@ -1,6 +1,12 @@
 import { run } from 'axe-core';
 
-export const checkAccessibility = async ({ container }: { container: HTMLElement }) => {
-  const result = await run(container);
-  expect(result.violations).toStrictEqual([]);
+type ContainerWrapper = { container: HTMLElement };
+
+type AccessibilityTestSubject = ContainerWrapper | Promise<ContainerWrapper>;
+
+export const checkAccessibility = async (subject: AccessibilityTestSubject) => {
+  const { container } = await subject;
+  const { violations } = await run(container);
+
+  expect(violations).toStrictEqual([]);
 };

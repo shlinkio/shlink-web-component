@@ -16,7 +16,7 @@ describe('<UseExistingIfFoundInfoIcon />', () => {
 
       return { container };
     }],
-  ])('passes a11y checks', async (setUp) => checkAccessibility(await setUp()));
+  ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('shows modal when icon is clicked', async () => {
     const { user } = setUp();

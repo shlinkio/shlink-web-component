@@ -31,7 +31,7 @@ describe('<DomainSelector />', () => {
 
       return { container };
     }],
-  ])('passes a11y checks', async (setUp) => checkAccessibility(await setUp()));
+  ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it.each([
     ['', 'Domain', 'domains-dropdown__toggle-btn'],

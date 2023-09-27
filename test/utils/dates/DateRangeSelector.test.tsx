@@ -3,6 +3,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { DateRangeSelectorProps } from '../../../src/utils/dates/DateRangeSelector';
 import { DateRangeSelector } from '../../../src/utils/dates/DateRangeSelector';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<DateRangeSelector />', () => {
@@ -26,7 +27,7 @@ describe('<DateRangeSelector />', () => {
     const { container } = await setUp();
 
     expect(screen.getAllByRole('menuitem')).toHaveLength(8);
-    expect(screen.getByRole('heading')).toHaveTextContent('Custom:');
+    expect(screen.getByRole('heading', { hidden: true })).toHaveTextContent('Custom:');
     expect(container.querySelector('.dropdown-divider')).toBeInTheDocument();
     expect(container.querySelector('.dropdown-item-text')).toBeInTheDocument();
   });

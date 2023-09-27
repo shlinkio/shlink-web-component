@@ -31,7 +31,7 @@ describe('<ShortUrlsRowMenu />', () => {
 
       return { container };
     }],
-  ])('passes a11y checks', async (setUp) => checkAccessibility(await setUp()));
+  ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders modal windows', () => {
     setUp();

@@ -4,7 +4,8 @@
 .react-datepicker__close-icon.react-datepicker__close-icon {
   @include vertical-align();
 
-  right: 0;
+  padding: 0;
+  right: .75rem;
 }
 
 .react-datepicker__close-icon.react-datepicker__close-icon:after {

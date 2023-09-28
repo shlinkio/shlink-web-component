@@ -3,7 +3,6 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { DateRangeSelectorProps } from '../../../src/utils/dates/DateRangeSelector';
 import { DateRangeSelector } from '../../../src/utils/dates/DateRangeSelector';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
-import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<DateRangeSelector />', () => {

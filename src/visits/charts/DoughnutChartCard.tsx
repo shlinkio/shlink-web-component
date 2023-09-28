@@ -10,6 +10,6 @@ interface DoughnutChartCardProps {
 
 export const DoughnutChartCard: FC<DoughnutChartCardProps> = ({ title, stats }) => (
   <ChartCard title={title}>
-    <DoughnutChart stats={stats} />
+    <DoughnutChart stats={stats} label={title} />
   </ChartCard>
 );

@@ -5,9 +5,10 @@ import { Router } from 'react-router-dom';
 import type { MainProps } from '../src/Main';
 import { MainFactory } from '../src/Main';
 import { FeaturesProvider } from '../src/utils/features';
+import { checkAccessibility } from './__helpers__/accessibility';
 
 type SetUpOptions = {
-  currentPath: string
+  currentPath?: string
   createNotFound?: MainProps['createNotFound'];
   domainVisitsSupported?: boolean;
 };
@@ -26,7 +27,7 @@ describe('<Main />', () => {
     EditShortUrl: () => <>EditShortUrl</>,
     ManageDomains: () => <>ManageDomains</>,
   }));
-  const setUp = ({ createNotFound, currentPath, domainVisitsSupported = true }: SetUpOptions) => {
+  const setUp = ({ createNotFound, currentPath = '', domainVisitsSupported = true }: SetUpOptions) => {
     const history = createMemoryHistory();
     history.push(currentPath);
 
@@ -38,6 +39,8 @@ describe('<Main />', () => {
       </Router>,
     );
   };
+
+  it('passes a11y checks', () => checkAccessibility(setUp({})));
 
   it.each([
     ['/overview', 'OverviewRoute'],

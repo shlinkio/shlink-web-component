@@ -1,16 +1,17 @@
 import { isDarkThemeEnabled, PRIMARY_DARK_COLOR, PRIMARY_LIGHT_COLOR } from '@shlinkio/shlink-frontend-kit';
-import type { Chart, ChartData, ChartDataset, ChartOptions } from 'chart.js';
-import { keys, values } from 'ramda';
+import type { ChartData, ChartDataset, ChartOptions } from 'chart.js';
 import type { FC } from 'react';
 import { memo, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { renderPieChartLabel } from '../../utils/helpers/charts';
 import type { Stats } from '../types';
+import type { DoughnutChart as DoughnutChartType } from './DoughnutChartLegend';
 import { DoughnutChartLegend } from './DoughnutChartLegend';
 
-interface DoughnutChartProps {
+type DoughnutChartProps = {
+  label: string;
   stats: Stats;
-}
+};
 
 const generateChartDatasets = (data: number[]): ChartDataset[] => [
   {
@@ -37,11 +38,11 @@ const generateChartData = (labels: string[], data: number[]): ChartData => ({
   datasets: generateChartDatasets(data),
 });
 
-export const DoughnutChart: FC<DoughnutChartProps> = memo(({ stats }) => {
+export const DoughnutChart: FC<DoughnutChartProps> = memo(({ label, stats }) => {
   // Cannot use useRef here, as we need to re-render as soon as the ref is set
-  const [chartRef, setChartRef] = useState<Chart>();
-  const labels = keys(stats);
-  const data = values(stats);
+  const [chartRef, setChartRef] = useState<DoughnutChartType>();
+  const labels = Object.keys(stats);
+  const data = Object.values(stats);
 
   const options: ChartOptions = {
     plugins: {
@@ -58,12 +59,13 @@ export const DoughnutChart: FC<DoughnutChartProps> = memo(({ stats }) => {
     <div className="row">
       <div className="col-sm-12 col-md-7">
         <Doughnut
+          aria-label={label}
           height={300}
           data={chartData as any}
-          options={options as any}
+          options={options}
           ref={(element) => {
             if (element) {
-              setChartRef(element as Chart);
+              setChartRef(element);
             }
           }}
         />

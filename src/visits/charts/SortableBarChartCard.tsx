@@ -12,8 +12,8 @@ import { ChartCard } from './ChartCard';
 import type { HorizontalBarChartProps } from './HorizontalBarChart';
 import { HorizontalBarChart } from './HorizontalBarChart';
 
-interface SortableBarChartCardProps extends Omit<HorizontalBarChartProps, 'max'> {
-  title: Function | string;
+interface SortableBarChartCardProps extends Omit<HorizontalBarChartProps, 'max' | 'label'> {
+  title: string;
   sortingItems: Record<string, string>;
   withPagination?: boolean;
   extraHeaderContent?: (activeCities?: string[]) => ReactNode;
@@ -135,7 +135,13 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
       title={computeTitle}
       footer={pagination}
     >
-      <HorizontalBarChart stats={currentPageStats} highlightedStats={currentPageHighlightedStats} max={max} {...rest} />
+      <HorizontalBarChart
+        stats={currentPageStats}
+        highlightedStats={currentPageHighlightedStats}
+        max={max}
+        label={title}
+        {...rest}
+      />
     </ChartCard>
   );
 };

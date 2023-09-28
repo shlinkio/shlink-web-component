@@ -4,6 +4,7 @@ import Bottle from 'bottlejs';
 import type { TagColorsStorage } from '../src';
 import type { ShlinkApiClient } from '../src/api-contract';
 import { createShlinkWebComponent } from '../src/ShlinkWebComponent';
+import { checkAccessibility } from './__helpers__/accessibility';
 
 describe('<ShlinkWebComponent />', () => {
   let bottle: Bottle;
@@ -31,6 +32,8 @@ describe('<ShlinkWebComponent />', () => {
     bottle.value('loadMercureInfo', loadMercureInfo);
     bottle.value('listTags', listTags);
   });
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('registers services when mounted', async () => {
     expect(bottle.container.TagColorsStorage).not.toBeDefined();

@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { rangeOf } from '../../../src/utils/helpers';
 import { SortableBarChartCard } from '../../../src/visits/charts/SortableBarChartCard';
 import type { Stats } from '../../../src/visits/types';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<SortableBarChartCard />', () => {
@@ -24,6 +25,8 @@ describe('<SortableBarChartCard />', () => {
       extraHeaderContent={extra}
     />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders stats unchanged when no ordering is set', () => {
     const { container } = setUp();

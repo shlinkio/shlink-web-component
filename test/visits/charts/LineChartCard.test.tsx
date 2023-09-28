@@ -4,6 +4,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO, subDays, subMonths, subYears } from 'date-fns';
 import { LineChartCard } from '../../../src/visits/charts/LineChartCard';
 import type { NormalizedVisit } from '../../../src/visits/types';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { setUpCanvas } from '../../__helpers__/setUpTest';
 
 describe('<LineChartCard />', () => {
@@ -12,8 +13,11 @@ describe('<LineChartCard />', () => {
     ...setUpCanvas(<LineChartCard title="Cool title" visits={visits} highlightedVisits={highlightedVisits} />),
   });
 
+  it('passes a11y checks', () => checkAccessibility(setUp()));
+
   it('renders provided title', () => {
     setUp();
+    expect(screen.getByLabelText('Cool title')).toBeInTheDocument();
     expect(screen.getByRole('heading')).toHaveTextContent('Cool title');
   });
 

@@ -3,12 +3,15 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { parseISO } from 'date-fns';
 import type { DateInputProps } from '../../../src/utils/dates/DateInput';
 import { DateInput } from '../../../src/utils/dates/DateInput';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<DateInput />', () => {
   const setUp = (props: Partial<DateInputProps> = {}) => renderWithEvents(
     <DateInput {...fromPartial<DateInputProps>(props)} />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp({ placeholderText: 'The date' })));
 
   it('shows calendar icon when input is not clearable', () => {
     setUp({ isClearable: false });

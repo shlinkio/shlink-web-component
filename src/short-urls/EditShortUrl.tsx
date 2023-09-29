@@ -66,7 +66,7 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
       <header className="mb-3">
         <Card body>
           <h2 className="d-sm-flex justify-content-between align-items-center mb-0">
-            <Button color="link" size="lg" className="p-0 me-3" onClick={goBack}>
+            <Button color="link" size="lg" className="p-0 me-3" onClick={goBack} aria-label="Go back">
               <FontAwesomeIcon icon={faArrowLeft} />
             </Button>
             <span className="text-center">

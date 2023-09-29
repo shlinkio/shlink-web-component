@@ -231,6 +231,7 @@ export const LineChartCard = (
   };
   const renderLineChart = (theRef: MutableRefObject<any>) => (
     <Line
+      aria-label={title}
       ref={theRef}
       data={generateChartData() as any}
       options={options as any}
@@ -241,7 +242,7 @@ export const LineChartCard = (
 
   return (
     <Card>
-      <CardHeader role="heading">
+      <CardHeader role="heading" aria-level={4}>
         {title}
         <div className="float-end">
           <UncontrolledDropdown>

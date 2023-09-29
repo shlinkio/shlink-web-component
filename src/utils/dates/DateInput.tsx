@@ -1,7 +1,6 @@
 import { faCalendarAlt as calendarIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import { isNil } from 'ramda';
 import { useRef } from 'react';
 import type { ReactDatePickerProps } from 'react-datepicker';
 import DatePicker from 'react-datepicker';
@@ -12,7 +11,7 @@ export type DateInputProps = ReactDatePickerProps;
 
 export const DateInput = (props: DateInputProps) => {
   const { className, isClearable, selected, dateFormat } = props;
-  const showCalendarIcon = !isClearable || isNil(selected);
+  const showCalendarIcon = !isClearable || !selected;
   const ref = useRef<{ input: HTMLInputElement }>();
 
   return (

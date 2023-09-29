@@ -3,6 +3,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { CreateShortUrlFactory } from '../../src/short-urls/CreateShortUrl';
 import type { ShortUrlCreation } from '../../src/short-urls/reducers/shortUrlCreation';
 import { SettingsProvider } from '../../src/utils/settings';
+import { checkAccessibility } from '../__helpers__/accessibility';
 
 describe('<CreateShortUrl />', () => {
   const ShortUrlForm = () => <span>ShortUrlForm</span>;
@@ -20,6 +21,8 @@ describe('<CreateShortUrl />', () => {
       />
     </SettingsProvider>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders computed initial state', () => {
     setUp();

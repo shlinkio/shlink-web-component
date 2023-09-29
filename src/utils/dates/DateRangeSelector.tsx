@@ -57,8 +57,8 @@ export const DateRangeSelector = (
   return (
     <DropdownBtn disabled={disabled} text={rangeOrIntervalToString(activeInterval ?? activeDateRange) ?? defaultText}>
       <DateIntervalDropdownItems allText={defaultText} active={activeInterval} onChange={updateInterval} />
-      <DropdownItem divider />
-      <DropdownItem header>Custom:</DropdownItem>
+      <DropdownItem divider tag="hr" />
+      <DropdownItem header aria-hidden>Custom:</DropdownItem>
       <DropdownItem text>
         <DateRangeRow
           {...activeDateRange}

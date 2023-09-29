@@ -26,7 +26,7 @@ describe('<DateRangeSelector />', () => {
     const { container } = await setUp();
 
     expect(screen.getAllByRole('menuitem')).toHaveLength(8);
-    expect(screen.getByRole('heading')).toHaveTextContent('Custom:');
+    expect(screen.getByRole('heading', { hidden: true })).toHaveTextContent('Custom:');
     expect(container.querySelector('.dropdown-divider')).toBeInTheDocument();
     expect(container.querySelector('.dropdown-item-text')).toBeInTheDocument();
   });

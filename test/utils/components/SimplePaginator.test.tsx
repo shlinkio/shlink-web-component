@@ -1,11 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { SimplePaginator } from '../../../src/utils/components/SimplePaginator';
 import { ELLIPSIS } from '../../../src/utils/helpers/pagination';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<SimplePaginator />', () => {
   const setUp = (pagesCount: number, currentPage = 1) => render(
     <SimplePaginator pagesCount={pagesCount} currentPage={currentPage} setCurrentPage={vi.fn()} />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp(10)));
 
   it.each([-3, -2, 0, 1])('renders empty when the amount of pages is smaller than 2', (pagesCount) => {
     const { container } = setUp(pagesCount);

@@ -1,11 +1,14 @@
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { render } from '@testing-library/react';
 import { TableOrderIcon } from '../../../src/utils/table/TableOrderIcon';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<TableOrderIcon />', () => {
   const setUp = (field: string, currentDir?: OrderDir, className?: string) => render(
     <TableOrderIcon currentOrder={{ dir: currentDir, field: 'foo' }} field={field} className={className} />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp('foo', 'ASC')));
 
   it.each([
     ['foo', undefined],

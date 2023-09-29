@@ -9,6 +9,7 @@ import { ShortUrlsListFactory } from '../../src/short-urls/ShortUrlsList';
 import type { ShortUrlsTableType } from '../../src/short-urls/ShortUrlsTable';
 import { FeaturesProvider } from '../../src/utils/features';
 import { SettingsProvider } from '../../src/utils/settings';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 vi.mock('react-router-dom', async () => ({
@@ -55,6 +56,8 @@ describe('<ShortUrlsList />', () => {
   beforeEach(() => {
     (useNavigate as any).mockReturnValue(navigate);
   });
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('wraps expected components', () => {
     setUp();

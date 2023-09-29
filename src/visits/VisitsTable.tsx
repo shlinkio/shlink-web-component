@@ -83,9 +83,11 @@ export const VisitsTable = ({
                 selectedVisits.length < resultSet.total ? resultSet.visitsGroups.flat() : [],
               )}
             >
+              <span className="sr-only">Is selected</span>
               <FontAwesomeIcon icon={checkIcon} className={classNames({ 'text-primary': selectedVisits.length > 0 })} />
             </th>
             <th className={`${headerCellsClass} text-center`} onClick={orderByColumn('potentialBot')}>
+              <span className="sr-only">Is bot</span>
               <FontAwesomeIcon icon={botIcon} />
               {renderOrderIcon('potentialBot')}
             </th>

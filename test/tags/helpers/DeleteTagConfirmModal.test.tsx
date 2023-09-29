@@ -1,6 +1,7 @@
 import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import { DeleteTagConfirmModal } from '../../../src/tags/helpers/DeleteTagConfirmModal';
 import type { TagDeletion } from '../../../src/tags/reducers/tagDelete';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 import { TestModalWrapper } from '../../__helpers__/TestModalWrapper';
 
@@ -8,7 +9,7 @@ describe('<DeleteTagConfirmModal />', () => {
   const tag = 'nodejs';
   const deleteTag = vi.fn();
   const tagDeleted = vi.fn();
-  const setUp = (tagDelete: TagDeletion) => renderWithEvents(
+  const setUp = (tagDelete: Partial<TagDeletion> = {}) => renderWithEvents(
     <TestModalWrapper
       renderModal={(args) => (
         <DeleteTagConfirmModal
@@ -16,14 +17,16 @@ describe('<DeleteTagConfirmModal />', () => {
           tag={tag}
           deleteTag={deleteTag}
           tagDeleted={tagDeleted}
-          tagDelete={tagDelete}
+          tagDelete={{ error: false, deleted: false, deleting: false, ...tagDelete }}
         />
       )}
     />,
   );
 
+  it('passes a11y checks', () => checkAccessibility(setUp()));
+
   it('asks confirmation for provided tag to be deleted', () => {
-    setUp({ error: false, deleted: false, deleting: false });
+    setUp();
 
     const delBtn = screen.getByRole('button', { name: 'Delete tag' });
 
@@ -35,12 +38,12 @@ describe('<DeleteTagConfirmModal />', () => {
   });
 
   it('shows error message when deletion failed', () => {
-    setUp({ error: true, deleted: false, deleting: false });
+    setUp({ error: true });
     expect(screen.getByText('Something went wrong while deleting the tag :(')).toBeInTheDocument();
   });
 
   it('shows loading status while deleting', () => {
-    setUp({ error: false, deleted: false, deleting: true });
+    setUp({ deleting: true });
 
     const delBtn = screen.getByRole('button', { name: 'Deleting tag...' });
 
@@ -50,7 +53,7 @@ describe('<DeleteTagConfirmModal />', () => {
   });
 
   it('hides tag modal when btn is clicked', async () => {
-    const { user } = setUp({ error: false, deleted: true, deleting: false });
+    const { user } = setUp({ deleted: true });
 
     await user.click(screen.getByRole('button', { name: 'Delete tag' }));
 
@@ -61,7 +64,7 @@ describe('<DeleteTagConfirmModal />', () => {
   });
 
   it('does no further actions when modal is closed without deleting tag', async () => {
-    const { user } = setUp({ error: false, deleted: false, deleting: false });
+    const { user } = setUp();
 
     await user.click(screen.getByLabelText('Close'));
 

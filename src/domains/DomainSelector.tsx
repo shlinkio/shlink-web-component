@@ -1,8 +1,7 @@
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { isEmpty, pipe } from 'ramda';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import type { InputProps } from 'reactstrap';
 import { Button, DropdownItem, Input, InputGroup, UncontrolledTooltip } from 'reactstrap';
 import type { DomainsList } from './reducers/domainsList';
@@ -21,8 +20,15 @@ interface DomainSelectorConnectProps extends DomainSelectorProps {
 export const DomainSelector = ({ listDomains, value, domainsList, onChange }: DomainSelectorConnectProps) => {
   const [inputDisplayed,, showInput, hideInput] = useToggle();
   const { domains } = domainsList;
-  const valueIsEmpty = isEmpty(value);
-  const unselectDomain = () => onChange('');
+  const valueIsEmpty = !value;
+  const unselectDomainAndHideInput = useCallback(() => {
+    onChange('');
+    hideInput();
+  }, [onChange, hideInput]);
+  const unselectDomainAndShowInput = useCallback(() => {
+    onChange('');
+    showInput();
+  }, [onChange, showInput]);
 
   useEffect(() => {
     listDomains();
@@ -41,7 +47,7 @@ export const DomainSelector = ({ listDomains, value, domainsList, onChange }: Do
         type="button"
         className="domains-dropdown__back-btn"
         aria-label="Back to domains list"
-        onClick={pipe(unselectDomain, hideInput)}
+        onClick={unselectDomainAndHideInput}
       >
         <FontAwesomeIcon icon={faUndo} />
       </Button>
@@ -65,7 +71,7 @@ export const DomainSelector = ({ listDomains, value, domainsList, onChange }: Do
         </DropdownItem>
       ))}
       <DropdownItem divider />
-      <DropdownItem onClick={pipe(unselectDomain, showInput)}>
+      <DropdownItem onClick={unselectDomainAndShowInput}>
         <i>New domain</i>
       </DropdownItem>
     </DropdownBtn>

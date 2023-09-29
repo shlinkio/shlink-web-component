@@ -1,10 +1,12 @@
 import { screen } from '@testing-library/react';
+import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import type { Mode } from '../../src/short-urls/ShortUrlForm';
 import { ShortUrlFormFactory } from '../../src/short-urls/ShortUrlForm';
 import { parseDate } from '../../src/utils/dates/helpers/date';
 import { FeaturesProvider } from '../../src/utils/features';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<ShortUrlForm />', () => {
@@ -34,7 +36,7 @@ describe('<ShortUrlForm />', () => {
       </FeaturesProvider>,
     );
 
-  type UserEvent = ReturnType<typeof setUp>['user'];
+  it('passes a11y checks', () => checkAccessibility(setUp(true)));
 
   it.each([
     [

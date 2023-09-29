@@ -14,7 +14,7 @@ export const DateIntervalDropdownItems: FC<DateIntervalDropdownProps> = ({ activ
     <DropdownItem active={active === 'all'} onClick={() => onChange('all')}>
       {allText}
     </DropdownItem>
-    <DropdownItem divider />
+    <DropdownItem divider tag="hr" />
     {DATE_INTERVALS.map(
       (interval) => (
         <DropdownItem key={interval} active={active === interval} onClick={() => onChange(interval)}>

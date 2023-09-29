@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { EditTagModalFactory } from '../../../src/tags/helpers/EditTagModal';
 import type { TagEdition } from '../../../src/tags/reducers/tagEdit';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<EditTagModal />', () => {
@@ -16,6 +17,8 @@ describe('<EditTagModal />', () => {
       <EditTagModal isOpen tag="foo" tagEdit={edition} editTag={editTag} tagEdited={vi.fn()} toggle={toggle} />,
     );
   };
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('allows modal to be toggled with different mechanisms', async () => {
     const { user } = setUp();

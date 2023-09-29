@@ -45,7 +45,7 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuProps, ShortUrlsRowMenuDeps> 
       </DropdownItem>
       <QrCodeModal shortUrl={shortUrl} isOpen={isQrModalOpen} toggle={closeQrCodeModal} />
 
-      <DropdownItem divider />
+      <DropdownItem divider tag="hr" />
 
       <DropdownItem className="dropdown-item--danger" onClick={openDeleteModal}>
         <FontAwesomeIcon icon={deleteIcon} fixedWidth /> Delete short URL

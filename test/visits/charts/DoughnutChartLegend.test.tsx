@@ -1,22 +1,27 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import type { Chart, ChartDataset } from 'chart.js';
+import type { ChartDataset } from 'chart.js';
+import type { DoughnutChart } from '../../../src/visits/charts/DoughnutChartLegend';
 import { DoughnutChartLegend } from '../../../src/visits/charts/DoughnutChartLegend';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<DoughnutChartLegend />', () => {
   const labels = ['foo', 'bar', 'baz', 'foo2', 'bar2'];
   const colors = ['green', 'blue', 'yellow'];
   const defaultColor = 'red';
   const datasets = [fromPartial<ChartDataset>({ backgroundColor: colors })];
-  const chart = fromPartial<Chart>({
+  const chart = fromPartial<DoughnutChart>({
     config: {
-      data: { labels, datasets },
+      data: { labels, datasets: datasets as any },
       options: { defaultColor } as any,
     },
   });
+  const setUp = () => render(<DoughnutChartLegend chart={chart} />);
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders the expected amount of items with expected colors and labels', () => {
-    render(<DoughnutChartLegend chart={chart} />);
+    setUp();
 
     const items = screen.getAllByRole('listitem');
 

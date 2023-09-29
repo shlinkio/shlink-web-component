@@ -10,6 +10,7 @@ import type { Stats } from '../types';
 import { fillTheGaps } from '../utils';
 
 export interface HorizontalBarChartProps {
+  label: string;
   stats: Stats;
   max?: number;
   highlightedStats?: Stats;
@@ -67,7 +68,7 @@ const chartElementAtEvent = (labels: string[], [chart]: InteractionItem[], onCli
 };
 
 export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
-  { stats, highlightedStats, highlightedLabel, onClick, max },
+  { label: ariaLabel, stats, highlightedStats, highlightedLabel, onClick, max },
 ) => {
   const labels = keys(stats).map(dropLabelIfHidden);
   const data = values(
@@ -114,6 +115,7 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
   // Provide a key based on the height, to force re-render every time the dataset changes (example, due to pagination)
   const renderChartComponent = (customKey: string, theRef: MutableRefObject<any>) => (
     <Bar
+      aria-label={ariaLabel}
       ref={theRef}
       key={`${height}_${customKey}`}
       data={chartData as any}

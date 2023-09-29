@@ -7,13 +7,14 @@ import { rangeOf } from '../../src/utils/helpers';
 import { SettingsProvider } from '../../src/utils/settings';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
 import { VisitsStats } from '../../src/visits/VisitsStats';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<VisitsStats />', () => {
   const visits = rangeOf(3, () => fromPartial<ShlinkVisit>({ date: '2020-01-01' }));
   const getVisitsMock = vi.fn();
   const exportCsv = vi.fn();
-  const setUp = (visitsInfo: Partial<VisitsInfo>, activeRoute = '/by-time') => {
+  const setUp = (visitsInfo: Partial<VisitsInfo> = {}, activeRoute = '/by-time') => {
     const history = createMemoryHistory();
     history.push(activeRoute);
 
@@ -24,7 +25,7 @@ describe('<VisitsStats />', () => {
           <SettingsProvider value={fromPartial({})}>
             <VisitsStats
               getVisits={getVisitsMock}
-              visitsInfo={fromPartial(visitsInfo)}
+              visitsInfo={fromPartial({ loading: false, error: false, loadingLarge: false, visits: [], ...visitsInfo })}
               cancelGetVisits={() => {}}
               exportCsv={exportCsv}
             />
@@ -34,15 +35,17 @@ describe('<VisitsStats />', () => {
     };
   };
 
+  it('passes a11y checks', () => checkAccessibility(setUp()));
+
   it('renders a preloader when visits are loading', () => {
-    setUp({ loading: true, visits: [] });
+    setUp({ loading: true });
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
     expect(screen.queryByText(/^This is going to take a while/)).not.toBeInTheDocument();
   });
 
   it('renders a warning and progress bar when loading large amounts of visits', () => {
-    setUp({ loading: true, loadingLarge: true, visits: [], progress: 25 });
+    setUp({ loading: true, loadingLarge: true, progress: 25 });
 
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
     expect(screen.getByText(/^This is going to take a while/)).toBeInTheDocument();
@@ -50,12 +53,12 @@ describe('<VisitsStats />', () => {
   });
 
   it('renders an error message when visits could not be loaded', () => {
-    setUp({ loading: false, error: true, visits: [] });
+    setUp({ error: true });
     expect(screen.getByText('An error occurred while loading visits :(')).toBeInTheDocument();
   });
 
   it('renders a message when visits are loaded but the list is empty', () => {
-    setUp({ loading: false, error: false, visits: [] });
+    setUp({ visits: [] });
     expect(screen.getByText('There are no visits matching current filter')).toBeInTheDocument();
   });
 
@@ -65,12 +68,12 @@ describe('<VisitsStats />', () => {
     ['/by-location', 3],
     ['/list', 1],
   ])('renders expected amount of charts', (route, expectedCharts) => {
-    const { container } = setUp({ loading: false, error: false, visits }, route);
+    const { container } = setUp({ visits }, route);
     expect(container.querySelectorAll('.card')).toHaveLength(expectedCharts);
   });
 
   it('holds the map button on cities chart header', () => {
-    setUp({ loading: false, error: false, visits }, '/by-location');
+    setUp({ visits }, '/by-location');
     expect(
       screen.getAllByRole('img', { hidden: true }).some((icon) => icon.classList.contains('fa-map-location-dot')),
     ).toEqual(true);

@@ -2,11 +2,9 @@ import type { Chart } from 'chart.js';
 import type { FC } from 'react';
 import './DoughnutChartLegend.scss';
 
-interface DoughnutChartLegendProps {
-  chart: Chart;
-}
+export type DoughnutChart = Chart<'doughnut'>;
 
-export const DoughnutChartLegend: FC<DoughnutChartLegendProps> = ({ chart }) => {
+export const DoughnutChartLegend: FC<{ chart: DoughnutChart }> = ({ chart }) => {
   const { config } = chart;
   const { labels = [], datasets = [] } = config.data ?? {};
   const [{ backgroundColor: colors }] = datasets;

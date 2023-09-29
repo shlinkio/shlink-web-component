@@ -1,9 +1,14 @@
 import type { HorizontalBarChartProps } from '../../../src/visits/charts/HorizontalBarChart';
 import { HorizontalBarChart } from '../../../src/visits/charts/HorizontalBarChart';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { setUpCanvas } from '../../__helpers__/setUpTest';
 
 describe('<HorizontalBarChart />', () => {
-  const setUp = (props: HorizontalBarChartProps) => setUpCanvas(<HorizontalBarChart {...props} />);
+  const setUp = (props: Omit<HorizontalBarChartProps, 'label'>) => setUpCanvas(
+    <HorizontalBarChart label="The chart" {...props} />,
+  );
+
+  it('passes a11y checks', () => checkAccessibility(setUp({ stats: {} })));
 
   it.each([
     [{ foo: 123, bar: 456 }, undefined],

@@ -2,12 +2,15 @@ import type { Placement } from '@popperjs/core';
 import { screen, waitFor } from '@testing-library/react';
 import type { InfoTooltipProps } from '../../../src/utils/components/InfoTooltip';
 import { InfoTooltip } from '../../../src/utils/components/InfoTooltip';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<InfoTooltip />', () => {
   const setUp = (props: Partial<InfoTooltipProps> = {}) => renderWithEvents(
     <InfoTooltip placement="right" {...props} />,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it.each([
     [undefined],

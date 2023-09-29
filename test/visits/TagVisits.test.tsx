@@ -7,6 +7,7 @@ import { SettingsProvider } from '../../src/utils/settings';
 import type { TagVisits as TagVisitsStats } from '../../src/visits/reducers/tagVisits';
 import type { TagVisitsProps } from '../../src/visits/TagVisits';
 import { TagVisitsFactory } from '../../src/visits/TagVisits';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 vi.mock('react-router-dom', async () => ({
@@ -35,6 +36,8 @@ describe('<TagVisits />', () => {
       </SettingsProvider>
     </MemoryRouter>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('wraps visits stats and header', () => {
     setUp();

@@ -1,8 +1,10 @@
 import { screen } from '@testing-library/react';
+import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import { ShortUrlsRowMenuFactory } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<ShortUrlsRowMenu />', () => {
@@ -19,6 +21,17 @@ describe('<ShortUrlsRowMenu />', () => {
       <ShortUrlsRowMenu shortUrl={shortUrl} />
     </MemoryRouter>,
   );
+  const openMenu = (user: UserEvent) => user.click(screen.getByRole('button'));
+
+  it.each([
+    [setUp],
+    [async () => {
+      const { user, container } = setUp();
+      await openMenu(user);
+
+      return { container };
+    }],
+  ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders modal windows', () => {
     setUp();
@@ -30,7 +43,7 @@ describe('<ShortUrlsRowMenu />', () => {
   it('renders correct amount of menu items', async () => {
     const { user } = setUp();
 
-    await user.click(screen.getByRole('button'));
+    await openMenu(user);
     expect(screen.getAllByRole('menuitem')).toHaveLength(4);
   });
 });

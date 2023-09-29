@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { QrErrorCorrectionDropdown } from '../../../../src/short-urls/helpers/qr-codes/QrErrorCorrectionDropdown';
 import type { QrErrorCorrection } from '../../../../src/utils/helpers/qrCodes';
+import { checkAccessibility } from '../../../__helpers__/accessibility';
 import { renderWithEvents } from '../../../__helpers__/setUpTest';
 
 describe('<QrErrorCorrectionDropdown />', () => {
@@ -9,6 +10,16 @@ describe('<QrErrorCorrectionDropdown />', () => {
   const setUp = () => renderWithEvents(
     <QrErrorCorrectionDropdown errorCorrection={initialErrorCorrection} setErrorCorrection={setErrorCorrection} />,
   );
+
+  it.each([
+    [setUp],
+    [async () => {
+      const { user, container } = setUp();
+      await user.click(screen.getByRole('button'));
+
+      return { container };
+    }],
+  ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders initial state', async () => {
     const { user } = setUp();

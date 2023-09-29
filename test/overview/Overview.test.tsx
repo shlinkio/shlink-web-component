@@ -6,6 +6,7 @@ import { OverviewFactory } from '../../src/overview/Overview';
 import { prettify } from '../../src/utils/helpers/numbers';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { SettingsProvider } from '../../src/utils/settings';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<Overview />', () => {
@@ -41,6 +42,8 @@ describe('<Overview />', () => {
     </MemoryRouter>,
   );
 
+  it('passes a11y checks', () => checkAccessibility(setUp()));
+
   it('displays loading messages when still loading', () => {
     setUp(true);
     expect(screen.getAllByText('Loading...')).toHaveLength(4);
@@ -52,17 +55,13 @@ describe('<Overview />', () => {
   ])('displays amounts in cards after finishing loading', (excludeBots, expectedVisits, expectedOrphanVisits) => {
     setUp(false, { excludeBots });
 
-    const headingElements = screen.getAllByRole('heading');
+    const headingElements = screen.getAllByRole('link');
 
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
-    expect(headingElements[0]).toHaveTextContent('Visits');
-    expect(headingElements[1]).toHaveTextContent(prettify(expectedVisits));
-    expect(headingElements[2]).toHaveTextContent('Orphan visits');
-    expect(headingElements[3]).toHaveTextContent(prettify(expectedOrphanVisits));
-    expect(headingElements[4]).toHaveTextContent('Short URLs');
-    expect(headingElements[5]).toHaveTextContent(prettify(83710));
-    expect(headingElements[6]).toHaveTextContent('Tags');
-    expect(headingElements[7]).toHaveTextContent(prettify(3));
+    expect(headingElements[0]).toHaveTextContent(`Visits${prettify(expectedVisits)}`);
+    expect(headingElements[1]).toHaveTextContent(`Orphan visits${prettify(expectedOrphanVisits)}`);
+    expect(headingElements[2]).toHaveTextContent(`Short URLs${prettify(83710)}`);
+    expect(headingElements[3]).toHaveTextContent(`Tags${prettify(3)}`);
   });
 
   it('nests injected components', () => {

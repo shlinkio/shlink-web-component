@@ -18,13 +18,13 @@ export const ShortUrlsFilterDropdown = (
 
   return (
     <DropdownBtn text="Filters" dropdownClassName={className} inline end minWidth={250}>
-      <DropdownItem header>Visits:</DropdownItem>
+      <DropdownItem header aria-hidden>Visits:</DropdownItem>
       <DropdownItem active={excludeBots} onClick={onFilterClick('excludeBots')}>Ignore visits from bots</DropdownItem>
 
       {supportsDisabledFiltering && (
         <>
-          <DropdownItem divider />
-          <DropdownItem header>Short URLs:</DropdownItem>
+          <DropdownItem divider tag="hr" />
+          <DropdownItem header aria-hidden>Short URLs:</DropdownItem>
           <DropdownItem active={excludeMaxVisitsReached} onClick={onFilterClick('excludeMaxVisitsReached')}>
             Exclude with visits reached
           </DropdownItem>
@@ -34,7 +34,7 @@ export const ShortUrlsFilterDropdown = (
         </>
       )}
 
-      <DropdownItem divider />
+      <DropdownItem divider tag="hr" />
       <DropdownItem
         disabled={!hasValue(selected)}
         onClick={() => onChange({ excludeBots: false, excludeMaxVisitsReached: false, excludePastValidUntil: false })}

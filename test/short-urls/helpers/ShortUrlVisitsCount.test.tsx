@@ -1,16 +1,18 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import { ShortUrlVisitsCount } from '../../../src/short-urls/helpers/ShortUrlVisitsCount';
+import { checkAccessibility } from '../../__helpers__/accessibility';
+import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<ShortUrlVisitsCount />', () => {
-  const setUp = (visitsCount: number, shortUrl: ShlinkShortUrl) => ({
-    user: userEvent.setup(),
-    ...render(
-      <ShortUrlVisitsCount visitsCount={visitsCount} shortUrl={shortUrl} />,
-    ),
-  });
+  const setUp = (visitsCount: number, shortUrl: ShlinkShortUrl) => renderWithEvents(
+    <ShortUrlVisitsCount visitsCount={visitsCount} shortUrl={shortUrl} />,
+  );
+
+  it('passes a11y checks', () => checkAccessibility(setUp(50, fromPartial({
+    meta: fromPartial({ maxVisits: 100 }),
+  }))));
 
   it.each([undefined, {}])('just returns visits when no limits are provided', (meta) => {
     const visitsCount = 45;

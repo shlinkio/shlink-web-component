@@ -56,9 +56,11 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
             <th className="tags-table__header-cell text-lg-end" onClick={orderByColumn('visits')}>
               Visits <TableOrderIcon currentOrder={currentOrder} field="visits" />
             </th>
-            <th aria-label="Options" className="tags-table__header-cell" />
+            <th className="tags-table__header-cell">
+              <span className="sr-only">Options</span>
+            </th>
           </tr>
-          <tr><th aria-label="Separator" colSpan={4} className="p-0 border-top-0" /></tr>
+          <tr><th aria-hidden colSpan={4} className="p-0 border-top-0" /></tr>
         </thead>
         <tbody>
           {currentPage.length === 0 && <tr><td colSpan={4} className="text-center">No results found</td></tr>}

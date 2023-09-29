@@ -2,9 +2,12 @@ import { render } from '@testing-library/react';
 import { parseDate } from '../../../src/utils/dates/helpers/date';
 import type { TimeProps } from '../../../src/utils/dates/Time';
 import { Time } from '../../../src/utils/dates/Time';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<Time />', () => {
-  const setUp = (props: TimeProps) => render(<Time {...props} />);
+  const setUp = (props: Partial<TimeProps> = {}) => render(<Time date={new Date()} {...props} />);
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it.each([
     [{ date: parseDate('2020-05-05', 'yyyy-MM-dd') }, '1588636800000', '2020-05-05 00:00'],
@@ -17,7 +20,7 @@ describe('<Time />', () => {
   });
 
   it('renders relative times when requested', () => {
-    const { container } = setUp({ date: new Date(), relative: true });
+    const { container } = setUp({ relative: true });
     expect(container.firstChild).toHaveTextContent(' ago');
   });
 });

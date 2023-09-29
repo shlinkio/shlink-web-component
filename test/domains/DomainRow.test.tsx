@@ -3,6 +3,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkDomainRedirects } from '../../src/api-contract';
 import type { Domain } from '../../src/domains/data';
 import { DomainRow } from '../../src/domains/DomainRow';
+import { checkAccessibility } from '../__helpers__/accessibility';
 
 describe('<DomainRow />', () => {
   const redirectsCombinations = [
@@ -27,6 +28,10 @@ describe('<DomainRow />', () => {
       </tbody>
     </table>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(
+    setUp(fromPartial({ domain: 'domain', isDefault: true })),
+  ));
 
   it.each(redirectsCombinations)('shows expected redirects', (redirects) => {
     setUp(fromPartial({ domain: '', isDefault: true, redirects }));

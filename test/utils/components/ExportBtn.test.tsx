@@ -1,8 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { ExportBtn } from '../../../src/utils/components/ExportBtn';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<ExportBtn />', () => {
   const setUp = (amount?: number, loading = false) => render(<ExportBtn amount={amount} loading={loading} />);
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it.each([
     [true, 'Exporting...'],

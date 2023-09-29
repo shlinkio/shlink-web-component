@@ -1,7 +1,9 @@
 import { screen } from '@testing-library/react';
+import type { UserEvent } from '@testing-library/user-event';
 import type { ShlinkOrphanVisitType } from '../../../src/api-contract';
 import { VisitsFilterDropdown } from '../../../src/visits/helpers/VisitsFilterDropdown';
 import type { VisitsFilter } from '../../../src/visits/types';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<VisitsFilterDropdown />', () => {
@@ -13,6 +15,18 @@ describe('<VisitsFilterDropdown />', () => {
       onChange={onChange}
     />,
   );
+  const openDropdown = (user: UserEvent) => user.click(screen.getByRole('button', { name: 'Filters' }));
+
+  it.each([
+    [setUp],
+    // TODO Enable back once https://github.com/reactstrap/reactstrap/issues/2759 is fixed
+    // [async () => {
+    //   const { user, container } = setUp();
+    //   await openDropdown(user);
+    //
+    //   return { container };
+    // }],
+  ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('has expected text', () => {
     setUp();
@@ -25,10 +39,10 @@ describe('<VisitsFilterDropdown />', () => {
   ])('renders expected amount of items', async (isOrphanVisits, expectedItemsAmount, expectedHeadersAmount) => {
     const { user } = setUp({}, isOrphanVisits);
 
-    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    await openDropdown(user);
 
     expect(screen.getAllByRole('menuitem')).toHaveLength(expectedItemsAmount);
-    expect(screen.getAllByRole('heading')).toHaveLength(expectedHeadersAmount);
+    expect(screen.getAllByRole('heading', { hidden: true })).toHaveLength(expectedHeadersAmount);
   });
 
   it.each([
@@ -39,7 +53,7 @@ describe('<VisitsFilterDropdown />', () => {
   ])('sets expected item as active', async (orphanVisitsType, expectedSelectedIndex, expectedActiveItems) => {
     const { user } = setUp({ orphanVisitsType });
 
-    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    await openDropdown(user);
 
     const items = screen.getAllByRole('menuitem');
     const activeItem = items.filter((item) => item.classList.contains('active'));
@@ -63,7 +77,7 @@ describe('<VisitsFilterDropdown />', () => {
     const { user } = setUp(selected);
 
     expect(onChange).not.toHaveBeenCalled();
-    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    await openDropdown(user);
     await user.click(screen.getAllByRole('menuitem')[index]);
     expect(onChange).toHaveBeenCalledWith(expectedSelection);
   });

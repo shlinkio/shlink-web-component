@@ -3,11 +3,13 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { identity } from 'ramda';
 import { MemoryRouter } from 'react-router-dom';
+import { now } from 'tinybench';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/utils/settings';
 import type { ShortUrlVisits as ShortUrlVisitsState } from '../../src/visits/reducers/shortUrlVisits';
 import type { ShortUrlVisitsProps } from '../../src/visits/ShortUrlVisits';
 import { ShortUrlVisitsFactory } from '../../src/visits/ShortUrlVisits';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<ShortUrlVisits />', () => {
@@ -26,12 +28,20 @@ describe('<ShortUrlVisits />', () => {
           getShortUrlDetail={identity}
           getShortUrlVisits={getShortUrlVisitsMock}
           shortUrlVisits={shortUrlVisits}
-          shortUrlDetail={fromPartial({})}
+          shortUrlDetail={fromPartial({
+            shortUrl: {
+              shortUrl: 'https://s.test/123',
+              longUrl: 'https://shlink.io',
+              dateCreated: formatISO(now()),
+            },
+          })}
           cancelGetShortUrlVisits={() => {}}
         />
       </SettingsProvider>
     </MemoryRouter>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('wraps visits stats and header', () => {
     setUp();
@@ -47,6 +57,6 @@ describe('<ShortUrlVisits />', () => {
     expect(btn).toBeInTheDocument();
 
     await user.click(btn);
-    expect(exportVisits).toHaveBeenCalledWith('short-url_undefined_visits.csv', expect.anything());
+    expect(exportVisits).toHaveBeenCalledWith('short-url_s.test/123_visits.csv', expect.anything());
   });
 });

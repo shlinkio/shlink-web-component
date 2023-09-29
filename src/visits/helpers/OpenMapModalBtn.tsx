@@ -32,6 +32,7 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
           className="open-map-modal-btn__btn"
           id={id}
           onClick={() => openMapWithCities()}
+          aria-label="Show in map"
         >
           <FontAwesomeIcon icon={mapIcon} />
         </Button>

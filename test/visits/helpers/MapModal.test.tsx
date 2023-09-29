@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MapModal } from '../../../src/visits/helpers/MapModal';
 import type { CityStats } from '../../../src/visits/types';
+import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<MapModal />', () => {
   const toggle = vi.fn();
@@ -20,9 +21,12 @@ describe('<MapModal />', () => {
       latLong: [newYorkLat, newYorkLong],
     },
   ];
+  const setUp = () => render(<MapModal toggle={toggle} isOpen title="Foobar" locations={locations} />);
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders expected map', () => {
-    render(<MapModal toggle={toggle} isOpen title="Foobar" locations={locations} />);
+    setUp();
     expect(screen.getByRole('dialog')).toMatchSnapshot();
   });
 });

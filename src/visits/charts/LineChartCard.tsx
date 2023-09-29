@@ -242,7 +242,7 @@ export const LineChartCard = (
 
   return (
     <Card>
-      <CardHeader role="heading" aria-level={5}>
+      <CardHeader role="heading" aria-level={4}>
         {title}
         <div className="float-end">
           <UncontrolledDropdown>

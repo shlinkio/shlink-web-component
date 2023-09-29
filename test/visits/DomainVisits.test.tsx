@@ -6,6 +6,7 @@ import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercure
 import { SettingsProvider } from '../../src/utils/settings';
 import { DomainVisitsFactory } from '../../src/visits/DomainVisits';
 import type { DomainVisits } from '../../src/visits/reducers/domainVisits';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 vi.mock('react-router-dom', async () => ({
@@ -33,6 +34,8 @@ describe('<DomainVisits />', () => {
       </SettingsProvider>
     </MemoryRouter>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('wraps visits stats and header', () => {
     setUp();

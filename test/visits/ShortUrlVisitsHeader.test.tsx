@@ -4,6 +4,7 @@ import { formatDistance, parseISO } from 'date-fns';
 import type { ShortUrlDetail } from '../../src/short-urls/reducers/shortUrlDetail';
 import type { ShortUrlVisits } from '../../src/visits/reducers/shortUrlVisits';
 import { ShortUrlVisitsHeader } from '../../src/visits/ShortUrlVisitsHeader';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<ShortUrlVisitsHeader />', () => {
@@ -27,6 +28,8 @@ describe('<ShortUrlVisitsHeader />', () => {
       <ShortUrlVisitsHeader shortUrlDetail={shortUrlDetail} shortUrlVisits={shortUrlVisits} goBack={goBack} />,
     );
   };
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('shows when the URL was created', async () => {
     const { user } = setUp();

@@ -6,6 +6,7 @@ import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercure
 import { SettingsProvider } from '../../src/utils/settings';
 import { OrphanVisitsFactory } from '../../src/visits/OrphanVisits';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<OrphanVisits />', () => {
@@ -27,6 +28,8 @@ describe('<OrphanVisits />', () => {
       </SettingsProvider>
     </MemoryRouter>,
   );
+
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('wraps visits stats and header', () => {
     setUp();

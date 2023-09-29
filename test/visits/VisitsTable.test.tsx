@@ -4,6 +4,7 @@ import { rangeOf } from '../../src/utils/helpers';
 import type { NormalizedVisit } from '../../src/visits/types';
 import type { VisitsTableProps } from '../../src/visits/VisitsTable';
 import { VisitsTable } from '../../src/visits/VisitsTable';
+import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<VisitsTable />', () => {
@@ -27,6 +28,8 @@ describe('<VisitsTable />', () => {
       fromPartial({ potentialBot: true, date: '2022-05-05' }),
     ],
   });
+
+  it('passes a11y checks', () => checkAccessibility(setUpWithBots()));
 
   it('renders expected amount of columns', () => {
     setUp([], []);

@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* [#10](https://github.com/shlinkio/shlink-web-component/issues/10) Add accessibility tests, fix accessibility issues and enable accessibility linting rules.
 
 ### Changed
 * [#49](https://github.com/shlinkio/shlink-web-component/issues/49) Enable and address react-hooks linting rules.

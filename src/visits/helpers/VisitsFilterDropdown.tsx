@@ -24,20 +24,20 @@ export const VisitsFilterDropdown = (
 
   return (
     <DropdownBtn text="Filters" dropdownClassName={className} inline end minWidth={250}>
-      <DropdownItem header>Bots:</DropdownItem>
+      <DropdownItem header aria-hidden>Bots:</DropdownItem>
       <DropdownItem active={excludeBots} onClick={onBotsClick}>Exclude potential bots</DropdownItem>
 
       {isOrphanVisits && (
         <>
-          <DropdownItem divider />
-          <DropdownItem header>Orphan visits type:</DropdownItem>
+          <DropdownItem divider tag="hr" />
+          <DropdownItem header aria-hidden>Orphan visits type:</DropdownItem>
           <DropdownItem {...propsForOrphanVisitsTypeItem('base_url')}>Base URL</DropdownItem>
           <DropdownItem {...propsForOrphanVisitsTypeItem('invalid_short_url')}>Invalid short URL</DropdownItem>
           <DropdownItem {...propsForOrphanVisitsTypeItem('regular_404')}>Regular 404</DropdownItem>
         </>
       )}
 
-      <DropdownItem divider />
+      <DropdownItem divider tag="hr" />
       <DropdownItem
         disabled={!hasValue(selected)}
         onClick={() => onChange({ excludeBots: false, orphanVisitsType: undefined })}

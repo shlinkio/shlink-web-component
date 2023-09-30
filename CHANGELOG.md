@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.3.5] - 2023-09-30
 ### Added
 * [#10](https://github.com/shlinkio/shlink-web-component/issues/10) Add accessibility tests, fix accessibility issues and enable accessibility linting rules.
 

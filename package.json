@@ -67,7 +67,7 @@
     "date-fns": "^2.30.0",
     "event-source-polyfill": "^1.0.31",
     "leaflet": "^1.9.4",
-    "ramda": "^0.27.2",
+    "ramda": "^0.29.1",
     "react-chartjs-2": "^5.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-datepicker": "^4.20.0",

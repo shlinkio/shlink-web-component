@@ -25,10 +25,10 @@ export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion
         </Button>
         )}
         {doubleConfirmed && (
-        <Button color="danger" disabled={deleting} className="indivisible" onClick={deleteVisits}>
-          {!deleting && <>Click again to confirm</>}
-          {deleting && <>Deleting...</>}
-        </Button>
+          <Button color="danger" disabled={deleting} className="indivisible" onClick={deleteVisits}>
+            {!deleting && <>Click again to confirm</>}
+            {deleting && <>Deleting...</>}
+          </Button>
         )}
       </div>
     </SimpleCard>

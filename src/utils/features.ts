@@ -7,13 +7,15 @@ const supportedFeatures = {
   excludeBotsOnShortUrls: '3.4.0',
   filterDisabledUrls: '3.4.0',
   deviceLongUrls: '3.5.0',
+  shortUrlVisitsDeletion: '3.6.0',
+  orphanVisitsDeletion: '3.6.0',
 } as const satisfies Record<string, SemVer>;
 
 Object.freeze(supportedFeatures);
 
 export type Feature = keyof typeof supportedFeatures;
 
-export const isFeatureEnabledForVersion = (feature: Feature, serverVersion: SemVerOrLatest): boolean =>
+const isFeatureEnabledForVersion = (feature: Feature, serverVersion: SemVerOrLatest): boolean =>
   serverVersion === 'latest' || versionMatch(serverVersion, { minVersion: supportedFeatures[feature] });
 
 const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, boolean> => ({
@@ -21,16 +23,18 @@ const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, b
   excludeBotsOnShortUrls: isFeatureEnabledForVersion('excludeBotsOnShortUrls', serverVersion),
   filterDisabledUrls: isFeatureEnabledForVersion('filterDisabledUrls', serverVersion),
   deviceLongUrls: isFeatureEnabledForVersion('deviceLongUrls', serverVersion),
+  shortUrlVisitsDeletion: isFeatureEnabledForVersion('shortUrlVisitsDeletion', serverVersion),
+  orphanVisitsDeletion: isFeatureEnabledForVersion('orphanVisitsDeletion', serverVersion),
 });
+
+const FeaturesContext = createContext(getFeaturesForVersion('0.0.0'));
+
+export const FeaturesProvider = FeaturesContext.Provider;
 
 export const useFeatures = (serverVersion: SemVerOrLatest) => useMemo(
   () => getFeaturesForVersion(serverVersion),
   [serverVersion],
 );
-
-const FeaturesContext = createContext(getFeaturesForVersion('0.0.0'));
-
-export const FeaturesProvider = FeaturesContext.Provider;
 
 export const useFeature = (feature: Feature) => {
   const features = useContext(FeaturesContext);

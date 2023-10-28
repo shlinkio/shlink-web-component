@@ -21,7 +21,7 @@ describe('domainRedirectsReducer', () => {
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { domain, redirects },
       }));
-      expect(editDomainRedirectsCall).toHaveBeenCalledTimes(1);
+      expect(editDomainRedirectsCall).toHaveBeenCalledOnce();
     });
   });
 });

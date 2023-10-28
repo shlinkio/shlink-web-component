@@ -173,7 +173,7 @@ describe('domainVisitsReducer', () => {
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { visits, domain, query: query ?? {} },
       }));
-      expect(getDomainVisitsCall).toHaveBeenCalledTimes(1);
+      expect(getDomainVisitsCall).toHaveBeenCalledOnce();
     });
 
     it.each([

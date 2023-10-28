@@ -12,6 +12,7 @@ import type { TagEdition } from '../tags/reducers/tagEdit';
 import type { TagsList } from '../tags/reducers/tagsList';
 import type { DomainVisits } from '../visits/reducers/domainVisits';
 import type { ShortUrlVisits } from '../visits/reducers/shortUrlVisits';
+import type { ShortUrlVisitsDeletion } from '../visits/reducers/shortUrlVisitsDeletion';
 import type { TagVisits } from '../visits/reducers/tagVisits';
 import type { VisitsInfo } from '../visits/reducers/types';
 import type { VisitsOverview } from '../visits/reducers/visitsOverview';
@@ -28,6 +29,7 @@ export const setUpStore = (container: IContainer) => configureStore({
     shortUrlEdition: container.shortUrlEditionReducer,
     shortUrlDetail: container.shortUrlDetailReducer,
     shortUrlVisits: container.shortUrlVisitsReducer,
+    shortUrlVisitsDeletion: container.shortUrlVisitsDeletionReducer,
     tagVisits: container.tagVisitsReducer,
     domainVisits: container.domainVisitsReducer,
     orphanVisits: container.orphanVisitsReducer,
@@ -51,6 +53,7 @@ export type RootState = {
   shortUrlDeletion: ShortUrlDeletion;
   shortUrlEdition: ShortUrlEdition;
   shortUrlVisits: ShortUrlVisits;
+  shortUrlVisitsDeletion: ShortUrlVisitsDeletion;
   tagVisits: TagVisits;
   domainVisits: DomainVisits;
   orphanVisits: VisitsInfo;

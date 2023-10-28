@@ -48,7 +48,7 @@ describe('tagDeleteReducer', () => {
 
       await deleteTag(tag)(dispatch, vi.fn(), {});
 
-      expect(deleteTagsCall).toHaveBeenCalledTimes(1);
+      expect(deleteTagsCall).toHaveBeenCalledOnce();
       expect(deleteTagsCall).toHaveBeenNthCalledWith(1, [tag]);
 
       expect(dispatch).toHaveBeenCalledTimes(2);

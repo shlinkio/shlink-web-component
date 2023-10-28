@@ -64,7 +64,7 @@ describe('shortUrlDetailReducer', () => {
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({ payload: resolvedShortUrl }));
-      expect(getShortUrlCall).toHaveBeenCalledTimes(1);
+      expect(getShortUrlCall).toHaveBeenCalledOnce();
     });
 
     it('avoids API calls when short URL is found in local state', async () => {

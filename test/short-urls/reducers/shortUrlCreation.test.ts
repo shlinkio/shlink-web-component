@@ -54,7 +54,7 @@ describe('shortUrlCreationReducer', () => {
       createShortUrlCall.mockResolvedValue(shortUrl);
       await createShortUrl({ longUrl: 'foo' })(dispatch, vi.fn(), {});
 
-      expect(createShortUrlCall).toHaveBeenCalledTimes(1);
+      expect(createShortUrlCall).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({ payload: shortUrl }));
     });

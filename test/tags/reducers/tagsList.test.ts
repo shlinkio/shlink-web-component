@@ -204,7 +204,7 @@ describe('tagsListReducer', () => {
 
       await listTags(undefined)(dispatch, vi.fn(), {});
 
-      expect(buildShlinkApiClient).toHaveBeenCalledTimes(1);
+      expect(buildShlinkApiClient).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { tags, stats: {} },

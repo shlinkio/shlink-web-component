@@ -56,10 +56,10 @@ describe('tagEditReducer', () => {
 
       await editTag({ oldName, newName, color })(dispatch, vi.fn(), {});
 
-      expect(editTagCall).toHaveBeenCalledTimes(1);
+      expect(editTagCall).toHaveBeenCalledOnce();
       expect(editTagCall).toHaveBeenCalledWith(oldName, newName);
 
-      expect(colorGenerator.setColorForKey).toHaveBeenCalledTimes(1);
+      expect(colorGenerator.setColorForKey).toHaveBeenCalledOnce();
       expect(colorGenerator.setColorForKey).toHaveBeenCalledWith(newName, color);
 
       expect(dispatch).toHaveBeenCalledTimes(2);

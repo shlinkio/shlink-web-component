@@ -10,11 +10,17 @@ import { VisitsStats } from '../../src/visits/VisitsStats';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
+type SetUpOptions = {
+  visitsInfo?: Partial<VisitsInfo>;
+  withDeletion?: boolean;
+  activeRoute?: string;
+};
+
 describe('<VisitsStats />', () => {
   const visits = rangeOf(3, () => fromPartial<ShlinkVisit>({ date: '2020-01-01' }));
   const getVisitsMock = vi.fn();
   const exportCsv = vi.fn();
-  const setUp = (visitsInfo: Partial<VisitsInfo> = {}, activeRoute = '/by-time') => {
+  const setUp = ({ visitsInfo = {}, activeRoute = '/by-time', withDeletion }: SetUpOptions = {}) => {
     const history = createMemoryHistory();
     history.push(activeRoute);
 
@@ -28,6 +34,7 @@ describe('<VisitsStats />', () => {
               visitsInfo={fromPartial({ loading: false, error: false, loadingLarge: false, visits: [], ...visitsInfo })}
               cancelGetVisits={() => {}}
               exportCsv={exportCsv}
+              deletion={withDeletion ? fromPartial({ visitsDeletion: {} }) : undefined}
             />
           </SettingsProvider>
         </Router>,
@@ -38,14 +45,18 @@ describe('<VisitsStats />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders a preloader when visits are loading', () => {
-    setUp({ loading: true });
+    setUp({
+      visitsInfo: { loading: true },
+    });
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
     expect(screen.queryByText(/^This is going to take a while/)).not.toBeInTheDocument();
   });
 
   it('renders a warning and progress bar when loading large amounts of visits', () => {
-    setUp({ loading: true, loadingLarge: true, progress: 25 });
+    setUp({
+      visitsInfo: { loading: true, loadingLarge: true, progress: 25 },
+    });
 
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
     expect(screen.getByText(/^This is going to take a while/)).toBeInTheDocument();
@@ -53,12 +64,16 @@ describe('<VisitsStats />', () => {
   });
 
   it('renders an error message when visits could not be loaded', () => {
-    setUp({ error: true });
+    setUp({
+      visitsInfo: { error: true },
+    });
     expect(screen.getByText('An error occurred while loading visits :(')).toBeInTheDocument();
   });
 
   it('renders a message when visits are loaded but the list is empty', () => {
-    setUp({ visits: [] });
+    setUp({
+      visitsInfo: { visits: [] },
+    });
     expect(screen.getByText('There are no visits matching current filter')).toBeInTheDocument();
   });
 
@@ -67,20 +82,28 @@ describe('<VisitsStats />', () => {
     ['/by-context', 4],
     ['/by-location', 3],
     ['/list', 1],
-  ])('renders expected amount of charts', (route, expectedCharts) => {
-    const { container } = setUp({ visits }, route);
-    expect(container.querySelectorAll('.card')).toHaveLength(expectedCharts);
+    ['/options', 2],
+  ])('renders expected amount of cards per sub-route', (activeRoute, expectedCards) => {
+    const { container } = setUp({ visitsInfo: { visits }, activeRoute, withDeletion: true });
+    expect(container.querySelectorAll('.card')).toHaveLength(expectedCards);
+  });
+
+  it('renders danger zone in options sub-route', () => {
+    setUp({ visitsInfo: { visits }, activeRoute: '/options', withDeletion: true });
+
+    expect(screen.getByText('Danger zone')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Delete visits' })).toBeInTheDocument();
   });
 
   it('holds the map button on cities chart header', () => {
-    setUp({ visits }, '/by-location');
+    setUp({ visitsInfo: { visits }, activeRoute: '/by-location' });
     expect(
       screen.getAllByRole('img', { hidden: true }).some((icon) => icon.classList.contains('fa-map-location-dot')),
     ).toEqual(true);
   });
 
   it('exports CSV when export btn is clicked', async () => {
-    const { user } = setUp({ visits });
+    const { user } = setUp({ visitsInfo: { visits } });
 
     expect(exportCsv).not.toHaveBeenCalled();
     await user.click(screen.getByRole('button', { name: /Export/ }));
@@ -88,7 +111,7 @@ describe('<VisitsStats />', () => {
   });
 
   it('sets filters in query string', async () => {
-    const { history, user } = setUp({ visits });
+    const { history, user } = setUp({ visitsInfo: { visits } });
     const expectSearchContains = (contains: string[]) => {
       expect(contains).not.toHaveLength(0);
       contains.forEach((entry) => expect(history.location.search).toContain(entry));

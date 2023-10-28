@@ -1,10 +1,9 @@
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkShortUrl } from '../../api-contract';
-import type { OptionalString } from '../../utils/helpers';
 
 export interface ShortUrlIdentifier {
   shortCode: string;
-  domain?: OptionalString;
+  domain?: string | null;
 }
 
 export interface ShortUrlModalProps {

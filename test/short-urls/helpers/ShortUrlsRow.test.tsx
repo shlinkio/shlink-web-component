@@ -141,7 +141,7 @@ describe('<ShortUrlsRow />', () => {
 
     expect(timeoutToggle).not.toHaveBeenCalled();
     await user.click(screen.getAllByRole('img', { hidden: true })[0]);
-    expect(timeoutToggle).toHaveBeenCalledTimes(1);
+    expect(timeoutToggle).toHaveBeenCalledOnce();
   });
 
   it.each([

@@ -5,8 +5,7 @@ import type { RootState } from '../../../src/container/store';
 import { formatIsoDate } from '../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../../src/utils/helpers';
-import type {
-  ShortUrlVisits } from '../../../src/visits/reducers/shortUrlVisits';
+import type { ShortUrlVisits } from '../../../src/visits/reducers/shortUrlVisits';
 import {
   getShortUrlVisits as getShortUrlVisitsCreator,
   shortUrlVisitsReducerCreator,
@@ -19,7 +18,10 @@ describe('shortUrlVisitsReducer', () => {
   const getShortUrlVisitsCall = vi.fn();
   const buildApiClientMock = () => fromPartial<ShlinkApiClient>({ getShortUrlVisits: getShortUrlVisitsCall });
   const getShortUrlVisits = getShortUrlVisitsCreator(buildApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetShortUrlVisits } = shortUrlVisitsReducerCreator(getShortUrlVisits);
+  const { reducer, cancelGetVisits: cancelGetShortUrlVisits } = shortUrlVisitsReducerCreator(
+    getShortUrlVisits,
+    fromPartial({ fulfilled: { type: 'deleteSHortUrlVisits' } }),
+  );
 
   describe('reducer', () => {
     const buildState = (data: Partial<ShortUrlVisits>) => fromPartial<ShortUrlVisits>(data);
@@ -136,6 +138,21 @@ describe('shortUrlVisitsReducer', () => {
 
       expect(state).toEqual(expect.objectContaining({ fallbackInterval }));
     });
+
+    it.each([
+      { shortCode: 'abc123', domain: 'domain', expectedVisitsLength: 0 },
+      { shortCode: 'another', domain: undefined, expectedVisitsLength: 2 },
+      { shortCode: 'abc123', domain: undefined, expectedVisitsLength: 2 },
+    ])('clears visits when visits are deleted for active short URL', ({ shortCode, domain, expectedVisitsLength }) => {
+      const prevState = buildState({
+        visits: [fromPartial({}), fromPartial({})],
+        shortCode: 'abc123',
+        domain: 'domain',
+      });
+      const result = reducer(prevState, { type: 'deleteSHortUrlVisits', payload: { shortCode, domain } });
+
+      expect(result.visits).toHaveLength(expectedVisitsLength);
+    });
   });
 
   describe('getShortUrlVisits', () => {
@@ -166,7 +183,7 @@ describe('shortUrlVisitsReducer', () => {
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { visits, shortCode, domain, query: query ?? {} },
       }));
-      expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(1);
+      expect(getShortUrlVisitsCall).toHaveBeenCalledOnce();
     });
 
     it('performs multiple API requests when response contains more pages', async () => {

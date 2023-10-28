@@ -195,7 +195,7 @@ describe('shortUrlsListReducer', () => {
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({ payload: {} }));
 
-      expect(listShortUrlsMock).toHaveBeenCalledTimes(1);
+      expect(listShortUrlsMock).toHaveBeenCalledOnce();
     });
   });
 });

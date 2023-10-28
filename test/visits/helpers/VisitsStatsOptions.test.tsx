@@ -23,13 +23,17 @@ describe('<VisitsStatsOptions />', () => {
     expect(deleteVisits).toHaveBeenCalledOnce();
   });
 
+  it('focuses confirmation button when mounted', async () => {
+    const { user } = setUp();
+    await user.click(screen.getByRole('button', { name: 'Delete visits' }));
+
+    expect(screen.getByRole('button', { name: 'Click again to confirm' })).toHaveFocus();
+  });
+
   it('displays loading state while deleting visits is in progress', async () => {
     const { user } = setUp(true);
-
     await user.click(screen.getByRole('button', { name: 'Delete visits' }));
-    const secondButton = screen.queryByRole('button', { name: 'Deleting...' });
 
-    expect(secondButton).toBeInTheDocument();
-    expect(secondButton).toHaveAttribute('disabled');
+    expect(screen.getByRole('button', { name: 'Deleting...' })).toHaveAttribute('disabled');
   });
 });

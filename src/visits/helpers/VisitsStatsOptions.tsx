@@ -25,7 +25,16 @@ export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion
         </Button>
         )}
         {doubleConfirmed && (
-          <Button color="danger" disabled={deleting} className="indivisible" onClick={deleteVisits}>
+          <Button
+            color="danger"
+            disabled={deleting}
+            className="indivisible"
+            onClick={deleteVisits}
+            innerRef={(e) => {
+              // Focus this button when mounted, to allow interacting with keyboard by pressing Enter twice
+              e?.focus();
+            }}
+          >
             {!deleting && <>Click again to confirm</>}
             {deleting && <>Deleting...</>}
           </Button>

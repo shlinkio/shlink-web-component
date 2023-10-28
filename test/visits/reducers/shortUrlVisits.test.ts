@@ -139,7 +139,7 @@ describe('shortUrlVisitsReducer', () => {
       expect(state).toEqual(expect.objectContaining({ fallbackInterval }));
     });
 
-    it.only.each([
+    it.each([
       { shortCode: 'abc123', domain: 'domain', expectedVisitsLength: 0 },
       { shortCode: 'another', domain: undefined, expectedVisitsLength: 2 },
       { shortCode: 'abc123', domain: undefined, expectedVisitsLength: 2 },

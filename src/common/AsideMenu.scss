@@ -13,8 +13,7 @@
   left: 0;
   display: block;
   z-index: 1010;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden auto;
 
   @media (min-width: $mdMin) {
     padding: 30px 15px 15px;

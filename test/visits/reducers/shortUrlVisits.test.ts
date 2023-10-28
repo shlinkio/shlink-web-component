@@ -19,7 +19,10 @@ describe('shortUrlVisitsReducer', () => {
   const getShortUrlVisitsCall = vi.fn();
   const buildApiClientMock = () => fromPartial<ShlinkApiClient>({ getShortUrlVisits: getShortUrlVisitsCall });
   const getShortUrlVisits = getShortUrlVisitsCreator(buildApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetShortUrlVisits } = shortUrlVisitsReducerCreator(getShortUrlVisits);
+  const { reducer, cancelGetVisits: cancelGetShortUrlVisits } = shortUrlVisitsReducerCreator(
+    getShortUrlVisits,
+    fromPartial({ fulfilled: { type: 'foo' } }),
+  );
 
   describe('reducer', () => {
     const buildState = (data: Partial<ShortUrlVisits>) => fromPartial<ShortUrlVisits>(data);

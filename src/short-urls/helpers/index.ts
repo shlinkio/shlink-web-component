@@ -1,11 +1,10 @@
-import { isNil } from 'ramda';
 import type { ShlinkCreateShortUrlData, ShlinkShortUrl } from '../../api-contract';
 import type { OptionalString } from '../../utils/helpers';
 import type { ShortUrlCreationSettings } from '../../utils/settings';
 import { DEFAULT_DOMAIN } from '../../visits/reducers/domainVisits';
 
 export const shortUrlMatches = (shortUrl: ShlinkShortUrl, shortCode: string, domain: OptionalString): boolean => {
-  if (isNil(domain)) {
+  if (domain === undefined || domain === null) {
     return shortUrl.shortCode === shortCode && !shortUrl.domain;
   }
 

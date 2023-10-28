@@ -1,3 +1,4 @@
+import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { flatten, prop, range, splitEvery } from 'ramda';
 import type { ShlinkPaginator, ShlinkVisit, ShlinkVisits, ShlinkVisitsParams } from '../../api-contract';
@@ -102,10 +103,11 @@ interface VisitsReducerOptions<State extends VisitsInfo, AT extends ReturnType<t
   asyncThunkCreator: AT;
   initialState: State;
   filterCreatedVisits: (state: State, createdVisits: CreateVisit[]) => CreateVisit[];
+  extraReducers?: (builder: ActionReducerMapBuilder<State>) => void;
 }
 
 export const createVisitsReducer = <State extends VisitsInfo, AT extends ReturnType<typeof createVisitsAsyncThunk>>(
-  { name, asyncThunkCreator, initialState, filterCreatedVisits }: VisitsReducerOptions<State, AT>,
+  { name, asyncThunkCreator, initialState, filterCreatedVisits, extraReducers }: VisitsReducerOptions<State, AT>,
 ) => {
   const { pending, rejected, fulfilled, large, progressChanged, fallbackToInterval } = asyncThunkCreator;
   const { reducer, actions } = createSlice({
@@ -136,6 +138,9 @@ export const createVisitsReducer = <State extends VisitsInfo, AT extends ReturnT
 
         return !newVisits.length ? state : { ...state, visits: [...newVisits, ...visits] };
       });
+
+      // Add any other extra reducer if provided
+      extraReducers?.(builder);
     },
   });
   const { cancelGetVisits } = actions;

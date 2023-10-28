@@ -3,6 +3,7 @@ import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { shortUrlMatches } from '../../short-urls/helpers';
 import { isBetween } from '../../utils/dates/helpers/date';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
+import type { deleteShortUrlVisits } from './shortUrlVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisits';
@@ -47,11 +48,21 @@ export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => cr
 
 export const shortUrlVisitsReducerCreator = (
   asyncThunkCreator: ReturnType<typeof getShortUrlVisits>,
+  deleteShortUrlVisitsThunk: ReturnType<typeof deleteShortUrlVisits>,
 ) => createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,
   // @ts-expect-error TODO Fix type inference
   asyncThunkCreator,
+  extraReducers: (builder) => {
+    builder.addCase(deleteShortUrlVisitsThunk.fulfilled, (state, { payload }) => {
+      if (state.shortCode === payload.shortCode && state.domain === payload.domain) {
+        return { ...state, visits: [] };
+      }
+
+      return state;
+    });
+  },
   filterCreatedVisits: ({ shortCode, domain, query = {} }: ShortUrlVisits, createdVisits) => {
     const { startDate, endDate } = query;
     return createdVisits.filter(

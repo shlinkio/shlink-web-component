@@ -13,6 +13,12 @@ export interface VisitsInfo {
   fallbackInterval?: DateInterval;
 }
 
+export type VisitsDeletion = {
+  deleting: boolean;
+  error: boolean,
+  errorData?: ProblemDetailsError;
+};
+
 export interface LoadVisits {
   query?: ShlinkVisitsParams;
   doIntervalFallback?: boolean;

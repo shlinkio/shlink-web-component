@@ -1,5 +1,5 @@
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
-import { faCalendarAlt, faChartPie, faList, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faChartPie, faGears, faList, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Message, NavPillItem, NavPills, Result } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
@@ -21,7 +21,8 @@ import { SortableBarChartCard } from './charts/SortableBarChartCard';
 import { useVisitsQuery } from './helpers/hooks';
 import { OpenMapModalBtn } from './helpers/OpenMapModalBtn';
 import { VisitsFilterDropdown } from './helpers/VisitsFilterDropdown';
-import type { VisitsInfo } from './reducers/types';
+import { VisitsStatsOptions } from './helpers/VisitsStatsOptions';
+import type { VisitsDeletion, VisitsInfo } from './reducers/types';
 import { normalizeVisits, processStatsFromVisits } from './services/VisitsParser';
 import type { NormalizedOrphanVisit, NormalizedVisit, VisitsParams } from './types';
 import type { HighlightableProps } from './types/helpers';
@@ -32,35 +33,43 @@ export type VisitsStatsProps = PropsWithChildren<{
   getVisits: (params: VisitsParams, doIntervalFallback?: boolean) => void;
   visitsInfo: VisitsInfo;
   cancelGetVisits: () => void;
+  deletion?: {
+    deleteVisits: () => void;
+    visitsDeletion: VisitsDeletion;
+  };
   exportCsv: (visits: NormalizedVisit[]) => void;
   isOrphanVisits?: boolean;
 }>;
 
-interface VisitsNavLinkProps {
+type VisitsNavLinkOptions = {
   title: string;
   subPath: string;
   icon: IconDefinition;
-}
+  shouldRender?: (props: VisitsStatsProps) => boolean;
+};
 
-type Section = 'byTime' | 'byContext' | 'byLocation' | 'list';
-
-const sections: Record<Section, VisitsNavLinkProps> = {
+const sections = {
   byTime: { title: 'By time', subPath: 'by-time', icon: faCalendarAlt },
   byContext: { title: 'By context', subPath: 'by-context', icon: faChartPie },
   byLocation: { title: 'By location', subPath: 'by-location', icon: faMapMarkedAlt },
   list: { title: 'List', subPath: 'list', icon: faList },
-};
+  options: { title: 'Options', subPath: 'options', icon: faGears, shouldRender: ({ deletion }) => !!deletion },
+} as const satisfies Record<string, VisitsNavLinkOptions>;
+
+Object.freeze(sections);
 
 let selectedBar: string | undefined;
 
-export const VisitsStats: FC<VisitsStatsProps> = ({
-  children,
-  visitsInfo,
-  getVisits,
-  cancelGetVisits,
-  exportCsv,
-  isOrphanVisits = false,
-}) => {
+export const VisitsStats: FC<VisitsStatsProps> = (props) => {
+  const {
+    children,
+    visitsInfo,
+    getVisits,
+    cancelGetVisits,
+    deletion,
+    exportCsv,
+    isOrphanVisits = false,
+  } = props;
   const { visits, loading, loadingLarge, error, errorData, progress, fallbackInterval } = visitsInfo;
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
   const visitsSettings = useSetting('visits');
@@ -156,12 +165,16 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
     return (
       <>
         <NavPills fill>
-          {Object.values(sections).map(({ title, icon, subPath }, index) => (
-            <NavPillItem key={index} to={buildSectionUrl(subPath)} replace>
-              <FontAwesomeIcon icon={icon} />
-              <span className="ms-2 d-none d-sm-inline">{title}</span>
-            </NavPillItem>
-          ))}
+          {Object.values(sections).map(({ title, icon, subPath, shouldRender }: VisitsNavLinkOptions, index) => (
+            !shouldRender || shouldRender(props)
+              ? (
+                <NavPillItem key={index} to={buildSectionUrl(subPath)} replace>
+                  <FontAwesomeIcon icon={icon} />
+                  <span className="ms-2 d-none d-lg-inline">{title}</span>
+                </NavPillItem>
+              )
+              : undefined
+          )).filter(Boolean)}
         </NavPills>
         <Row>
           <Routes>
@@ -273,6 +286,17 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
                 </div>
               )}
             />
+
+            {deletion && (
+              <Route
+                path={sections.options.subPath}
+                element={(
+                  <div className="col-12 mt-3">
+                    <VisitsStatsOptions {...deletion} />
+                  </div>
+                )}
+              />
+            )}
 
             <Route path="*" element={<Navigate replace to={buildSectionUrl(sections.byTime.subPath)} />} />
           </Routes>

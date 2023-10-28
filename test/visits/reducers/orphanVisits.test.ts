@@ -140,7 +140,7 @@ describe('orphanVisitsReducer', () => {
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { visits, query: query ?? {} },
       }));
-      expect(getOrphanVisitsCall).toHaveBeenCalledTimes(1);
+      expect(getOrphanVisitsCall).toHaveBeenCalledOnce();
     });
 
     it.each([

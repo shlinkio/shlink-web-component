@@ -20,14 +20,14 @@ describe('ColorGenerator', () => {
     colorGenerator.setColorForKey('foo', color);
 
     expect(colorGenerator.getColorForKey('foo')).toEqual(color);
-    expect(storageMock.storeTagColors).toHaveBeenCalledTimes(1);
-    expect(storageMock.getTagColors).toHaveBeenCalledTimes(1);
+    expect(storageMock.storeTagColors).toHaveBeenCalledOnce();
+    expect(storageMock.getTagColors).toHaveBeenCalledOnce();
   });
 
   it('generates a random color when none is available for requested key', () => {
     expect(colorGenerator.getColorForKey('bar')).toEqual(expect.stringMatching(/^#(?:[0-9a-fA-F]{6})$/));
-    expect(storageMock.storeTagColors).toHaveBeenCalledTimes(1);
-    expect(storageMock.getTagColors).toHaveBeenCalledTimes(1);
+    expect(storageMock.storeTagColors).toHaveBeenCalledOnce();
+    expect(storageMock.getTagColors).toHaveBeenCalledOnce();
   });
 
   it('trims and lower cases keys before trying to match', () => {
@@ -41,8 +41,8 @@ describe('ColorGenerator', () => {
     expect(colorGenerator.getColorForKey('FOO')).toEqual(color);
     expect(colorGenerator.getColorForKey('FOO  ')).toEqual(color);
     expect(colorGenerator.getColorForKey(' FoO  ')).toEqual(color);
-    expect(storageMock.storeTagColors).toHaveBeenCalledTimes(1);
-    expect(storageMock.getTagColors).toHaveBeenCalledTimes(1);
+    expect(storageMock.storeTagColors).toHaveBeenCalledOnce();
+    expect(storageMock.getTagColors).toHaveBeenCalledOnce();
   });
 
   describe('isColorLightForKey', () => {

@@ -59,7 +59,7 @@ describe('mercureInfoReducer', () => {
 
       await loadMercureInfo(settings)(dispatch, vi.fn(), {});
 
-      expect(getMercureInfo).toHaveBeenCalledTimes(1);
+      expect(getMercureInfo).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({ payload: mercureInfo }));
     });

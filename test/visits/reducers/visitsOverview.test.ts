@@ -157,7 +157,7 @@ describe('visitsOverviewReducer', () => {
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expect.objectContaining({ payload: dispatchedPayload }));
-      expect(getVisitsOverview).toHaveBeenCalledTimes(1);
+      expect(getVisitsOverview).toHaveBeenCalledOnce();
     });
   });
 });

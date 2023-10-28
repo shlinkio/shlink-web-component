@@ -80,7 +80,7 @@ describe('<DeleteShortUrlModal />', () => {
     expect(deleteShortUrl).not.toHaveBeenCalled();
     await user.type(screen.getByPlaceholderText('Insert delete'), 'delete');
     await user.click(screen.getByRole('button', { name: 'Delete' }));
-    expect(deleteShortUrl).toHaveBeenCalledTimes(1);
-    await waitFor(() => expect(shortUrlDeleted).toHaveBeenCalledTimes(1));
+    expect(deleteShortUrl).toHaveBeenCalledOnce();
+    await waitFor(() => expect(shortUrlDeleted).toHaveBeenCalledOnce());
   });
 });

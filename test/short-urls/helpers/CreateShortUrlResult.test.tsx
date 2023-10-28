@@ -43,7 +43,7 @@ describe('<CreateShortUrlResult />', () => {
 
     expect(copyToClipboard).not.toHaveBeenCalled();
     await user.click(screen.getByRole('button'));
-    expect(copyToClipboard).toHaveBeenCalledTimes(1);
+    expect(copyToClipboard).toHaveBeenCalledOnce();
   });
 
   it.each([

@@ -165,7 +165,7 @@ describe('tagVisitsReducer', () => {
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { visits, tag, query: query ?? {} },
       }));
-      expect(getTagVisitsCall).toHaveBeenCalledTimes(1);
+      expect(getTagVisitsCall).toHaveBeenCalledOnce();
     });
 
     it.each([

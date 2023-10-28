@@ -7,19 +7,20 @@ import type { VisitsDeletion } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisitsDeletion';
 
-export type ShortUrlVisitsDeletion = VisitsDeletion & ShortUrlIdentifier;
+type DeleteVisitsResult = ShlinkDeleteVisitsResponse & ShortUrlIdentifier;
+
+export type ShortUrlVisitsDeletion = VisitsDeletion & DeleteVisitsResult;
 
 const initialState: ShortUrlVisitsDeletion = {
   shortCode: '',
+  deletedVisits: 0,
   deleting: false,
   error: false,
 };
 
 export const deleteShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
   `${REDUCER_PREFIX}/deleteShortUrlVisits`,
-  async (
-    { shortCode, domain }: ShortUrlIdentifier,
-  ): Promise<ShlinkDeleteVisitsResponse & ShortUrlIdentifier> => {
+  async ({ shortCode, domain }: ShortUrlIdentifier): Promise<DeleteVisitsResult> => {
     const result = await apiClientFactory().deleteShortUrlVisits(shortCode, domain);
     return { ...result, shortCode, domain };
   },
@@ -36,8 +37,9 @@ export const shortUrlVisitsDeletionReducerCreator = (
     builder.addCase(deleteShortUrlVisitsThunk.rejected, (state, { error }) => (
       { ...state, deleting: false, error: true, errorData: parseApiError(error) }
     ));
-    builder.addCase(deleteShortUrlVisitsThunk.fulfilled, ({ shortCode, domain }) => (
-      { ...initialState, shortCode, domain }
-    ));
+    builder.addCase(deleteShortUrlVisitsThunk.fulfilled, (_, { payload }) => {
+      const { shortCode, domain, deletedVisits } = payload;
+      return { ...initialState, shortCode, domain, deletedVisits };
+    });
   },
 });

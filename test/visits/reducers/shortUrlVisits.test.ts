@@ -183,7 +183,7 @@ describe('shortUrlVisitsReducer', () => {
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { visits, shortCode, domain, query: query ?? {} },
       }));
-      expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(1);
+      expect(getShortUrlVisitsCall).toHaveBeenCalledOnce();
     });
 
     it('performs multiple API requests when response contains more pages', async () => {

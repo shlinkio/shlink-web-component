@@ -47,8 +47,8 @@ describe('shortUrlEditionReducer', () => {
     it.each([[undefined], [null], ['example.com']])('dispatches short URL on success', async (domain) => {
       await editShortUrl({ shortCode, domain, data: { longUrl } })(dispatch, vi.fn(), {});
 
-      expect(buildShlinkApiClient).toHaveBeenCalledTimes(1);
-      expect(updateShortUrl).toHaveBeenCalledTimes(1);
+      expect(buildShlinkApiClient).toHaveBeenCalledOnce();
+      expect(updateShortUrl).toHaveBeenCalledOnce();
       expect(updateShortUrl).toHaveBeenCalledWith(shortCode, domain, { longUrl });
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({ payload: shortUrl }));

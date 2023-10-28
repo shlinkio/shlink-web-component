@@ -54,7 +54,7 @@ describe('<TagsList />', () => {
 
     expect(filterTags).not.toHaveBeenCalled();
     await user.type(screen.getByPlaceholderText('Search...'), 'Hello');
-    await waitFor(() => expect(filterTags).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(filterTags).toHaveBeenCalledOnce());
   });
 
   it.each([

@@ -68,7 +68,7 @@ describe('shortUrlDeletionReducer', () => {
         payload: { shortCode, domain },
       }));
 
-      expect(deleteShortUrlCall).toHaveBeenCalledTimes(1);
+      expect(deleteShortUrlCall).toHaveBeenCalledOnce();
       expect(deleteShortUrlCall).toHaveBeenCalledWith(shortCode, domain);
     });
   });

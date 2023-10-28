@@ -78,6 +78,6 @@ describe('<QrCodeModal />', () => {
 
     expect(saveImage).not.toHaveBeenCalled();
     await user.click(screen.getByRole('button', { name: /^Download/ }));
-    expect(saveImage).toHaveBeenCalledTimes(1);
+    expect(saveImage).toHaveBeenCalledOnce();
   });
 });

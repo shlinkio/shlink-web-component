@@ -24,6 +24,8 @@ describe('<OrphanVisits />', () => {
           getOrphanVisits={getOrphanVisits}
           orphanVisits={orphanVisits}
           cancelGetOrphanVisits={vi.fn()}
+          deleteOrphanVisits={vi.fn()}
+          orphanVisitsDeletion={fromPartial({})}
         />
       </SettingsProvider>
     </MemoryRouter>,

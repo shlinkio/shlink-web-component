@@ -18,7 +18,10 @@ describe('orphanVisitsReducer', () => {
   const getOrphanVisitsCall = vi.fn();
   const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getOrphanVisits: getOrphanVisitsCall });
   const getOrphanVisits = getOrphanVisitsCreator(buildShlinkApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetOrphanVisits } = orphanVisitsReducerCreator(getOrphanVisits);
+  const { reducer, cancelGetVisits: cancelGetOrphanVisits } = orphanVisitsReducerCreator(
+    getOrphanVisits,
+    fromPartial({ fulfilled: { type: 'foo' } }),
+  );
 
   describe('reducer', () => {
     const buildState = (data: Partial<VisitsInfo>) => fromPartial<VisitsInfo>(data);

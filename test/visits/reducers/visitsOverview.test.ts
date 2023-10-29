@@ -23,7 +23,7 @@ describe('visitsOverviewReducer', () => {
     it('returns loading on GET_OVERVIEW_START', () => {
       const { loading } = reducer(
         state({ loading: false, error: false }),
-        loadVisitsOverview.pending('', {}),
+        loadVisitsOverview.pending(''),
       );
 
       expect(loading).toEqual(true);
@@ -32,7 +32,7 @@ describe('visitsOverviewReducer', () => {
     it('stops loading and returns error on GET_OVERVIEW_ERROR', () => {
       const { loading, error } = reducer(
         state({ loading: true, error: false }),
-        loadVisitsOverview.rejected(null, '', {}),
+        loadVisitsOverview.rejected(null, ''),
       );
 
       expect(loading).toEqual(false);
@@ -42,7 +42,7 @@ describe('visitsOverviewReducer', () => {
     it('return visits overview on GET_OVERVIEW', () => {
       const action = loadVisitsOverview.fulfilled(fromPartial({
         nonOrphanVisits: { total: 100 },
-      }), 'requestId', {});
+      }), 'requestId');
       const { loading, error, nonOrphanVisits } = reducer(state({ loading: true, error: false }), action);
 
       expect(loading).toEqual(false);
@@ -153,7 +153,7 @@ describe('visitsOverviewReducer', () => {
       const resolvedOverview = fromPartial<ShlinkVisitsOverview>(serverResult);
       getVisitsOverview.mockResolvedValue(resolvedOverview);
 
-      await loadVisitsOverview(buildApiClientMock)(dispatchMock, getState, {});
+      await loadVisitsOverview()(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expect.objectContaining({ payload: dispatchedPayload }));

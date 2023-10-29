@@ -18,7 +18,10 @@ describe('orphanVisitsReducer', () => {
   const getOrphanVisitsCall = vi.fn();
   const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getOrphanVisits: getOrphanVisitsCall });
   const getOrphanVisits = getOrphanVisitsCreator(buildShlinkApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetOrphanVisits } = orphanVisitsReducerCreator(getOrphanVisits);
+  const { reducer, cancelGetVisits: cancelGetOrphanVisits } = orphanVisitsReducerCreator(
+    getOrphanVisits,
+    fromPartial({ fulfilled: { type: 'deleteOrphanVisits' } }),
+  );
 
   describe('reducer', () => {
     const buildState = (data: Partial<VisitsInfo>) => fromPartial<VisitsInfo>(data);
@@ -111,6 +114,15 @@ describe('orphanVisitsReducer', () => {
       const state = reducer(undefined, getOrphanVisits.fallbackToInterval(fallbackInterval));
 
       expect(state).toEqual(expect.objectContaining({ fallbackInterval }));
+    });
+
+    it('clears visits when deleted', () => {
+      const prevState = buildState({
+        visits: [fromPartial({}), fromPartial({})],
+      });
+      const result = reducer(prevState, { type: 'deleteOrphanVisits', payload: {} });
+
+      expect(result.visits).toHaveLength(0);
     });
   });
 

@@ -20,7 +20,7 @@ describe('shortUrlVisitsReducer', () => {
   const getShortUrlVisits = getShortUrlVisitsCreator(buildApiClientMock);
   const { reducer, cancelGetVisits: cancelGetShortUrlVisits } = shortUrlVisitsReducerCreator(
     getShortUrlVisits,
-    fromPartial({ fulfilled: { type: 'deleteSHortUrlVisits' } }),
+    fromPartial({ fulfilled: { type: 'deleteShortUrlVisits' } }),
   );
 
   describe('reducer', () => {
@@ -149,7 +149,7 @@ describe('shortUrlVisitsReducer', () => {
         shortCode: 'abc123',
         domain: 'domain',
       });
-      const result = reducer(prevState, { type: 'deleteSHortUrlVisits', payload: { shortCode, domain } });
+      const result = reducer(prevState, { type: 'deleteShortUrlVisits', payload: { shortCode, domain } });
 
       expect(result.visits).toHaveLength(expectedVisitsLength);
     });

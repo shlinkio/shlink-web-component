@@ -6,9 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
-* [#12](https://github.com/shlinkio/shlink-web-component/issues/12) Add new "Visits options" section for arbitrary visit stats options. Add section to delete short URL visits there.
+* [#12](https://github.com/shlinkio/shlink-web-component/issues/12) and [#13](https://github.com/shlinkio/shlink-web-component/issues/13) Add new "Visits options" section for arbitrary visit stats options. Add section to delete short URL and orphan visits there.
 
-  This section is only visible if short URL visits deletion is supported by connected Shlink server.
+  This section is only visible if short URL visits deletion or orphan visits deletion are supported by connected Shlink server.
 
 ### Changed
 * *Nothing*

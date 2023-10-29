@@ -3,6 +3,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router-dom';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
+import { FeaturesProvider } from '../../src/utils/features';
 import { SettingsProvider } from '../../src/utils/settings';
 import { OrphanVisitsFactory } from '../../src/visits/OrphanVisits';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
@@ -16,17 +17,19 @@ describe('<OrphanVisits />', () => {
   const OrphanVisits = OrphanVisitsFactory(fromPartial({
     ReportExporter: fromPartial({ exportVisits }),
   }));
-  const setUp = () => renderWithEvents(
+  const setUp = (orphanVisitsDeletion = false) => renderWithEvents(
     <MemoryRouter>
       <SettingsProvider value={fromPartial({})}>
-        <OrphanVisits
-          {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-          getOrphanVisits={getOrphanVisits}
-          orphanVisits={orphanVisits}
-          cancelGetOrphanVisits={vi.fn()}
-          deleteOrphanVisits={vi.fn()}
-          orphanVisitsDeletion={fromPartial({})}
-        />
+        <FeaturesProvider value={fromPartial({ orphanVisitsDeletion })}>
+          <OrphanVisits
+            {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
+            getOrphanVisits={getOrphanVisits}
+            orphanVisits={orphanVisits}
+            cancelGetOrphanVisits={vi.fn()}
+            deleteOrphanVisits={vi.fn()}
+            orphanVisitsDeletion={fromPartial({})}
+          />
+        </FeaturesProvider>
       </SettingsProvider>
     </MemoryRouter>,
   );
@@ -48,5 +51,15 @@ describe('<OrphanVisits />', () => {
 
     await user.click(btn);
     expect(exportVisits).toHaveBeenCalledWith('orphan_visits.csv', expect.anything());
+  });
+
+  it.each([[false], [true]])('renders options menu when the feature is supported', (orphanVisitsDeletion) => {
+    setUp(orphanVisitsDeletion);
+
+    if (orphanVisitsDeletion) {
+      expect(screen.getByRole('link', { name: 'Options' })).toBeInTheDocument();
+    } else {
+      expect(screen.queryByRole('link', { name: 'Options' })).not.toBeInTheDocument();
+    }
   });
 });

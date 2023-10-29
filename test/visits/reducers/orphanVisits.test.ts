@@ -20,7 +20,7 @@ describe('orphanVisitsReducer', () => {
   const getOrphanVisits = getOrphanVisitsCreator(buildShlinkApiClientMock);
   const { reducer, cancelGetVisits: cancelGetOrphanVisits } = orphanVisitsReducerCreator(
     getOrphanVisits,
-    fromPartial({ fulfilled: { type: 'foo' } }),
+    fromPartial({ fulfilled: { type: 'deleteOrphanVisits' } }),
   );
 
   describe('reducer', () => {
@@ -114,6 +114,15 @@ describe('orphanVisitsReducer', () => {
       const state = reducer(undefined, getOrphanVisits.fallbackToInterval(fallbackInterval));
 
       expect(state).toEqual(expect.objectContaining({ fallbackInterval }));
+    });
+
+    it('clears visits when deleted', () => {
+      const prevState = buildState({
+        visits: [fromPartial({}), fromPartial({})],
+      });
+      const result = reducer(prevState, { type: 'deleteOrphanVisits', payload: {} });
+
+      expect(result.visits).toHaveLength(0);
     });
   });
 

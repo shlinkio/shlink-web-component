@@ -30,20 +30,20 @@ describe('domainsListReducer', () => {
 
   describe('reducer', () => {
     it('returns loading on LIST_DOMAINS_START', () => {
-      expect(reducer(undefined, listDomainsAction.pending('', {}))).toEqual(
+      expect(reducer(undefined, listDomainsAction.pending(''))).toEqual(
         { domains: [], filteredDomains: [], loading: true, error: false },
       );
     });
 
     it('returns error on LIST_DOMAINS_ERROR', () => {
-      expect(reducer(undefined, listDomainsAction.rejected(error, '', {}))).toEqual(
+      expect(reducer(undefined, listDomainsAction.rejected(error, ''))).toEqual(
         { domains: [], filteredDomains: [], loading: false, error: true, errorData: parseApiError(error) },
       );
     });
 
     it('returns domains on LIST_DOMAINS', () => {
       expect(
-        reducer(undefined, listDomainsAction.fulfilled({ domains }, '', {})),
+        reducer(undefined, listDomainsAction.fulfilled({ domains }, '')),
       ).toEqual({ domains, filteredDomains: domains, loading: false, error: false });
     });
 
@@ -91,7 +91,7 @@ describe('domainsListReducer', () => {
     it('dispatches domains once loaded', async () => {
       listDomains.mockResolvedValue({ data: domains });
 
-      await listDomainsAction({})(dispatch, getState, {});
+      await listDomainsAction()(dispatch, getState, {});
 
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({

@@ -22,14 +22,14 @@ describe('tagsListReducer', () => {
 
   describe('reducer', () => {
     it('returns loading on LIST_TAGS_START', () => {
-      expect(reducer(undefined, listTags.pending('', {}))).toEqual(expect.objectContaining({
+      expect(reducer(undefined, listTags.pending(''))).toEqual(expect.objectContaining({
         loading: true,
         error: false,
       }));
     });
 
     it('returns error on LIST_TAGS_ERROR', () => {
-      expect(reducer(undefined, listTags.rejected(null, '', {}))).toEqual(expect.objectContaining({
+      expect(reducer(undefined, listTags.rejected(null, ''))).toEqual(expect.objectContaining({
         loading: false,
         error: true,
       }));
@@ -38,7 +38,7 @@ describe('tagsListReducer', () => {
     it('returns provided tags as filtered and regular tags on LIST_TAGS', () => {
       const tags = ['foo', 'bar', 'baz'];
 
-      expect(reducer(undefined, listTags.fulfilled(fromPartial({ tags }), '', {}))).toEqual({
+      expect(reducer(undefined, listTags.fulfilled(fromPartial({ tags }), ''))).toEqual({
         tags,
         filteredTags: tags,
         loading: false,
@@ -202,7 +202,7 @@ describe('tagsListReducer', () => {
       listTagsMock.mockResolvedValue({ tags, stats: [] });
       buildShlinkApiClient.mockReturnValue({ tagsStats: listTagsMock });
 
-      await listTags(undefined)(dispatch, vi.fn(), {});
+      await listTags()(dispatch, vi.fn(), {});
 
       expect(buildShlinkApiClient).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);

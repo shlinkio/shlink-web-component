@@ -1,5 +1,4 @@
 import { orderToString, stringifyQuery, stringToOrder } from '@shlinkio/shlink-frontend-kit';
-import { isEmpty } from 'ramda';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { TagsFilteringMode } from '../../api-contract';
@@ -67,7 +66,7 @@ export const useShortUrlsQuery = (): [ShortUrlsFiltering, ToFirstPage] => {
       excludePastValidUntil: parseOptionalBooleanToString(excludePastValidUntil),
     };
     const stringifiedQuery = stringifyQuery(newQuery);
-    const queryString = isEmpty(stringifiedQuery) ? '' : `?${stringifiedQuery}`;
+    const queryString = !stringifiedQuery ? '' : `?${stringifiedQuery}`;
 
     navigate(`${routesPrefix}/list-short-urls/1${queryString}`);
   }, [filtering, navigate, routesPrefix]);

@@ -1,5 +1,11 @@
-import { determineOrderDir, Message, OrderingDropdown, Result, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
-import { pipe } from 'ramda';
+import {
+  determineOrderDir,
+  Message,
+  OrderingDropdown,
+  Result,
+  SearchField,
+  sortList,
+} from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useState } from 'react';
 import { Row } from 'reactstrap';
@@ -31,8 +37,8 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
   const { TagsTable } = useDependencies(TagsList);
   const settings = useSettings();
   const [order, setOrder] = useState<TagsOrder>(settings.tags?.defaultOrdering ?? {});
-  const resolveSortedTags = pipe(
-    () => tagsList.filteredTags.map((tag): SimplifiedTag => {
+  const resolveSortedTags = () => {
+    const simplifiedTags = tagsList.filteredTags.map((tag): SimplifiedTag => {
       const theTag = tagsList.stats[tag];
       const visits = (
         settings.visits?.excludeBots ? theTag?.visitsSummary?.nonBots : theTag?.visitsSummary?.total
@@ -43,9 +49,9 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
         visits,
         shortUrls: theTag?.shortUrlsCount ?? 0,
       };
-    }),
-    (simplifiedTags) => sortList<SimplifiedTag>(simplifiedTags, order),
-  );
+    });
+    return sortList<SimplifiedTag>(simplifiedTags, order);
+  };
 
   if (tagsList.loading) {
     return <Message loading />;

@@ -1,6 +1,5 @@
 import { HIGHLIGHTED_COLOR, HIGHLIGHTED_COLOR_ALPHA, MAIN_COLOR, MAIN_COLOR_ALPHA } from '@shlinkio/shlink-frontend-kit';
 import type { ChartData, ChartDataset, ChartOptions, InteractionItem } from 'chart.js';
-import { keys, values } from 'ramda';
 import type { FC, MutableRefObject } from 'react';
 import { useRef } from 'react';
 import { Bar, getElementAtEvent } from 'react-chartjs-2';
@@ -70,9 +69,9 @@ const chartElementAtEvent = (labels: string[], [chart]: InteractionItem[], onCli
 export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
   { label: ariaLabel, stats, highlightedStats, highlightedLabel, onClick, max },
 ) => {
-  const labels = keys(stats).map(dropLabelIfHidden);
-  const data = values(
-    !statsAreDefined(highlightedStats) ? stats : keys(highlightedStats).reduce((acc, highlightedKey) => {
+  const labels = Object.keys(stats).map(dropLabelIfHidden);
+  const data = Object.values(
+    !statsAreDefined(highlightedStats) ? stats : Object.keys(highlightedStats).reduce((acc, highlightedKey) => {
       if (acc[highlightedKey]) {
         acc[highlightedKey] -= highlightedStats[highlightedKey];
       }

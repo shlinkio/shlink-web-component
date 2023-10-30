@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown, SearchField } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
-import { isEmpty, pipe } from 'ramda';
 import type { FC } from 'react';
+import { useCallback } from 'react';
 import { Button, InputGroup, Row, UncontrolledTooltip } from 'reactstrap';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -57,21 +57,18 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
   const supportsDisabledFiltering = useFeature('filterDisabledUrls');
   const visitsSettings = useSetting('visits');
 
-  const setDates = pipe(
-    ({ startDate: theStartDate, endDate: theEndDate }: DateRange) => ({
-      startDate: formatIsoDate(theStartDate) ?? undefined,
-      endDate: formatIsoDate(theEndDate) ?? undefined,
-    }),
-    toFirstPage,
+  const setDates = useCallback(({ startDate: theStartDate, endDate: theEndDate }: DateRange) => toFirstPage({
+    startDate: formatIsoDate(theStartDate) ?? undefined,
+    endDate: formatIsoDate(theEndDate) ?? undefined,
+  }), [toFirstPage]);
+  const setSearch = useCallback(
+    (searchTerm: string) => toFirstPage({ search: !searchTerm ? undefined : searchTerm }),
+    [toFirstPage],
   );
-  const setSearch = pipe(
-    (searchTerm: string) => (isEmpty(searchTerm) ? undefined : searchTerm),
-    (searchTerm) => toFirstPage({ search: searchTerm }),
-  );
-  const changeTagSelection = (selectedTags: string[]) => toFirstPage({ tags: selectedTags });
-  const toggleTagsMode = pipe(
-    () => (tagsMode === 'any' ? 'all' : 'any'),
-    (mode) => toFirstPage({ tagsMode: mode }),
+  const changeTagSelection = useCallback((newTags: string[]) => toFirstPage({ tags: newTags }), [toFirstPage]);
+  const toggleTagsMode = useCallback(
+    () => toFirstPage({ tagsMode: tagsMode === 'any' ? 'all' : 'any' }),
+    [tagsMode, toFirstPage],
   );
 
   return (

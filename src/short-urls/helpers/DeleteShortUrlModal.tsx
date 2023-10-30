@@ -1,5 +1,4 @@
 import { Result } from '@shlinkio/shlink-frontend-kit';
-import { pipe } from 'ramda';
 import type { SyntheticEvent } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
@@ -31,7 +30,10 @@ export const DeleteShortUrlModal = ({
   useEffect(() => resetDeleteShortUrl, [resetDeleteShortUrl]);
 
   const { loading, error, deleted, errorData } = shortUrlDeletion;
-  const close = pipe(resetDeleteShortUrl, toggle);
+  const close = useCallback(() => {
+    resetDeleteShortUrl();
+    toggle();
+  }, [resetDeleteShortUrl, toggle]);
   const handleDeleteUrl = useCallback((e: SyntheticEvent) => {
     e.preventDefault();
     return deleteShortUrl(shortUrl).then(toggle);

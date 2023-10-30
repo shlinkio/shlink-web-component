@@ -1,6 +1,6 @@
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { flatten, prop, range, splitEvery } from 'ramda';
+import { range, splitEvery } from 'ramda';
 import type { ShlinkPaginator, ShlinkVisit, ShlinkVisits, ShlinkVisitsParams } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import type { RootState } from '../../container/store';
@@ -39,7 +39,10 @@ export const createVisitsAsyncThunk = <T extends LoadVisits = LoadVisits, R exte
     const [visitsLoader, lastVisitLoader] = createLoaders(params);
 
     const loadVisitsInParallel = async (pages: number[]): Promise<ShlinkVisit[]> =>
-      Promise.all(pages.map(async (page) => visitsLoader(page, ITEMS_PER_PAGE).then(prop('data')))).then(flatten);
+      Promise.all(
+        pages.map(async (page) => visitsLoader(page, ITEMS_PER_PAGE)
+          .then(({ data }) => data)),
+      ).then((result) => result.flat());
 
     const loadPagesBlocks = async (pagesBlocks: number[][], index = 0): Promise<ShlinkVisit[]> => {
       if (shouldCancel(getState)) {

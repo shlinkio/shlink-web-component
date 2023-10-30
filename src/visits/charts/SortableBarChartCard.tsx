@@ -1,6 +1,6 @@
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
-import { fromPairs, pipe, reverse, sortBy, splitEvery, toLower, toPairs, type, zipObj } from 'ramda';
+import { pipe, reverse, sortBy, splitEvery, zipObj } from 'ramda';
 import type { FC, ReactNode } from 'react';
 import { useState } from 'react';
 import { PaginationDropdown } from '../../utils/components/PaginationDropdown';
@@ -19,7 +19,7 @@ interface SortableBarChartCardProps extends Omit<HorizontalBarChartProps, 'max' 
   extraHeaderContent?: (activeCities?: string[]) => ReactNode;
 }
 
-const toLowerIfString = (value: any) => (type(value) === 'String' ? toLower(value) : value);
+const toLowerIfString = (value: any) => (typeof value === 'string' ? value.toLowerCase() : value);
 const pickKeyFromPair = ([key]: StatsRow) => key;
 const pickValueFromPair = ([, value]: StatsRow) => value;
 
@@ -37,7 +37,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
   const [itemsPerPage, setItemsPerPage] = useState(50);
 
   const getSortedPairsForStats = (statsToSort: Stats, sorting: Record<string, string>) => {
-    const pairs = toPairs(statsToSort);
+    const pairs = Object.entries(statsToSort);
     const sortedPairs = !order.field ? pairs : sortBy(
       pipe<StatsRow[], string | number, string | number>(
         order.field === Object.keys(sorting)[0] ? pickKeyFromPair : pickValueFromPair,
@@ -66,14 +66,14 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
     const sortedPairs = getSortedPairsForStats(statsToSort, sorting);
     const sortedKeys = sortedPairs.map(pickKeyFromPair);
     // The highlighted stats have to be ordered based on the regular stats, not on its own values
-    const sortedHighlightedPairs = theHighlightedStats && toPairs(
+    const sortedHighlightedPairs = theHighlightedStats && Object.entries(
       { ...zipObj(sortedKeys, sortedKeys.map(() => 0)), ...theHighlightedStats },
     );
 
     if (sortedPairs.length <= itemsPerPage) {
       return {
-        currentPageStats: fromPairs(sortedPairs),
-        currentPageHighlightedStats: sortedHighlightedPairs && fromPairs(sortedHighlightedPairs),
+        currentPageStats: Object.fromEntries(sortedPairs),
+        currentPageHighlightedStats: sortedHighlightedPairs && Object.fromEntries(sortedHighlightedPairs),
       };
     }
 
@@ -81,8 +81,8 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
     const highlightedPages = sortedHighlightedPairs && splitEvery(itemsPerPage, sortedHighlightedPairs);
 
     return {
-      currentPageStats: fromPairs(determineCurrentPagePairs(pages)),
-      currentPageHighlightedStats: highlightedPages && fromPairs(determineCurrentPagePairs(highlightedPages)),
+      currentPageStats: Object.fromEntries(determineCurrentPagePairs(pages)),
+      currentPageHighlightedStats: highlightedPages && Object.fromEntries(determineCurrentPagePairs(highlightedPages)),
       pagination: renderPagination(pages.length),
       max: roundTen(Math.max(...sortedPairs.map(pickValueFromPair))),
     };

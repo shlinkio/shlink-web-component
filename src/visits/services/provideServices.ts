@@ -1,5 +1,4 @@
 import type Bottle from 'bottlejs';
-import { prop } from 'ramda';
 import type { ConnectDecorator } from '../../container';
 import { DomainVisitsFactory } from '../DomainVisits';
 import { MapModal } from '../helpers/MapModal';
@@ -66,36 +65,36 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
 
   // Actions
   bottle.serviceFactory('getShortUrlVisits', getShortUrlVisits, 'apiClientFactory');
-  bottle.serviceFactory('cancelGetShortUrlVisits', prop('cancelGetVisits'), 'shortUrlVisitsReducerCreator');
+  bottle.serviceFactory('cancelGetShortUrlVisits', (obj) => obj.cancelGetVisits, 'shortUrlVisitsReducerCreator');
 
   bottle.serviceFactory('deleteShortUrlVisits', deleteShortUrlVisits, 'apiClientFactory');
 
   bottle.serviceFactory('getTagVisits', getTagVisits, 'apiClientFactory');
-  bottle.serviceFactory('cancelGetTagVisits', prop('cancelGetVisits'), 'tagVisitsReducerCreator');
+  bottle.serviceFactory('cancelGetTagVisits', (obj) => obj.cancelGetVisits, 'tagVisitsReducerCreator');
 
   bottle.serviceFactory('getDomainVisits', getDomainVisits, 'apiClientFactory');
-  bottle.serviceFactory('cancelGetDomainVisits', prop('cancelGetVisits'), 'domainVisitsReducerCreator');
+  bottle.serviceFactory('cancelGetDomainVisits', (obj) => obj.cancelGetVisits, 'domainVisitsReducerCreator');
 
   bottle.serviceFactory('getOrphanVisits', getOrphanVisits, 'apiClientFactory');
-  bottle.serviceFactory('cancelGetOrphanVisits', prop('cancelGetVisits'), 'orphanVisitsReducerCreator');
+  bottle.serviceFactory('cancelGetOrphanVisits', (obj) => obj.cancelGetVisits, 'orphanVisitsReducerCreator');
 
   bottle.serviceFactory('deleteOrphanVisits', deleteOrphanVisits, 'apiClientFactory');
 
   bottle.serviceFactory('getNonOrphanVisits', getNonOrphanVisits, 'apiClientFactory');
-  bottle.serviceFactory('cancelGetNonOrphanVisits', prop('cancelGetVisits'), 'nonOrphanVisitsReducerCreator');
+  bottle.serviceFactory('cancelGetNonOrphanVisits', (obj) => obj.cancelGetVisits, 'nonOrphanVisitsReducerCreator');
 
   bottle.serviceFactory('createNewVisits', () => createNewVisits);
   bottle.serviceFactory('loadVisitsOverview', loadVisitsOverview, 'apiClientFactory');
 
   // Reducers
   bottle.serviceFactory('visitsOverviewReducerCreator', visitsOverviewReducerCreator, 'loadVisitsOverview');
-  bottle.serviceFactory('visitsOverviewReducer', prop('reducer'), 'visitsOverviewReducerCreator');
+  bottle.serviceFactory('visitsOverviewReducer', (obj) => obj.reducer, 'visitsOverviewReducerCreator');
 
   bottle.serviceFactory('domainVisitsReducerCreator', domainVisitsReducerCreator, 'getDomainVisits');
-  bottle.serviceFactory('domainVisitsReducer', prop('reducer'), 'domainVisitsReducerCreator');
+  bottle.serviceFactory('domainVisitsReducer', (obj) => obj.reducer, 'domainVisitsReducerCreator');
 
   bottle.serviceFactory('nonOrphanVisitsReducerCreator', nonOrphanVisitsReducerCreator, 'getNonOrphanVisits');
-  bottle.serviceFactory('nonOrphanVisitsReducer', prop('reducer'), 'nonOrphanVisitsReducerCreator');
+  bottle.serviceFactory('nonOrphanVisitsReducer', (obj) => obj.reducer, 'nonOrphanVisitsReducerCreator');
 
   bottle.serviceFactory(
     'orphanVisitsReducerCreator',
@@ -103,14 +102,14 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'getOrphanVisits',
     'deleteOrphanVisits',
   );
-  bottle.serviceFactory('orphanVisitsReducer', prop('reducer'), 'orphanVisitsReducerCreator');
+  bottle.serviceFactory('orphanVisitsReducer', (obj) => obj.reducer, 'orphanVisitsReducerCreator');
 
   bottle.serviceFactory(
     'orphanVisitsDeletionReducerCreator',
     orphanVisitsDeletionReducerCreator,
     'deleteOrphanVisits',
   );
-  bottle.serviceFactory('orphanVisitsDeletionReducer', prop('reducer'), 'orphanVisitsDeletionReducerCreator');
+  bottle.serviceFactory('orphanVisitsDeletionReducer', (obj) => obj.reducer, 'orphanVisitsDeletionReducerCreator');
 
   bottle.serviceFactory(
     'shortUrlVisitsReducerCreator',
@@ -118,15 +117,15 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'getShortUrlVisits',
     'deleteShortUrlVisits',
   );
-  bottle.serviceFactory('shortUrlVisitsReducer', prop('reducer'), 'shortUrlVisitsReducerCreator');
+  bottle.serviceFactory('shortUrlVisitsReducer', (obj) => obj.reducer, 'shortUrlVisitsReducerCreator');
 
   bottle.serviceFactory(
     'shortUrlVisitsDeletionReducerCreator',
     shortUrlVisitsDeletionReducerCreator,
     'deleteShortUrlVisits',
   );
-  bottle.serviceFactory('shortUrlVisitsDeletionReducer', prop('reducer'), 'shortUrlVisitsDeletionReducerCreator');
+  bottle.serviceFactory('shortUrlVisitsDeletionReducer', (obj) => obj.reducer, 'shortUrlVisitsDeletionReducerCreator');
 
   bottle.serviceFactory('tagVisitsReducerCreator', tagVisitsReducerCreator, 'getTagVisits');
-  bottle.serviceFactory('tagVisitsReducer', prop('reducer'), 'tagVisitsReducerCreator');
+  bottle.serviceFactory('tagVisitsReducer', (obj) => obj.reducer, 'tagVisitsReducerCreator');
 };

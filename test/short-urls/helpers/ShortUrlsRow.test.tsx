@@ -2,7 +2,6 @@ import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
-import { last } from 'ramda';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 import type { Settings } from '../../../src';
 import type { ShlinkShortUrl, ShlinkShortUrlMeta } from '../../../src/api-contract';
@@ -161,7 +160,8 @@ describe('<ShortUrlsRow />', () => {
     [{}, ['fa-check', 'text-primary']],
   ])('displays expected status icon', (meta, expectedIconClasses) => {
     setUp({ meta });
-    const statusIcon = last(screen.getAllByRole('img', { hidden: true }));
+    const icons = screen.getAllByRole('img', { hidden: true });
+    const statusIcon = icons[icons.length - 1];
 
     expect(statusIcon).toBeInTheDocument();
     expectedIconClasses.forEach((expectedClass) => expect(statusIcon).toHaveClass(expectedClass));

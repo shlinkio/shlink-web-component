@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
-import { min, splitEvery } from 'ramda';
+import { splitEvery } from 'ramda';
 import { useEffect, useMemo, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
@@ -193,7 +193,7 @@ export const VisitsTable = ({
                   >
                     <div>
                       Visits <b>{prettify(start + 1)}</b> to{' '}
-                      <b>{prettify(min(end, resultSet.total))}</b> of{' '}
+                      <b>{prettify(Math.min(end, resultSet.total))}</b> of{' '}
                       <b>{prettify(resultSet.total)}</b>
                     </div>
                   </div>

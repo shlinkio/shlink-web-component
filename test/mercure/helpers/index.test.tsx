@@ -1,10 +1,11 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import { identity } from 'ramda';
 import { bindToMercureTopic } from '../../../src/mercure/helpers';
 import type { MercureInfo } from '../../../src/mercure/reducers/mercureInfo';
 
 vi.mock('event-source-polyfill');
+
+const noop = () => {};
 
 describe('helpers', () => {
   describe('bindToMercureTopic', () => {
@@ -18,7 +19,7 @@ describe('helpers', () => {
       [fromPartial<MercureInfo>({ loading: false, error: false, mercureHubUrl: undefined })],
       [fromPartial<MercureInfo>({ loading: true, error: true, mercureHubUrl: undefined })],
     ])('does not bind an EventSource when loading, error or no hub URL', (mercureInfo) => {
-      bindToMercureTopic(mercureInfo, [''], identity, () => {});
+      bindToMercureTopic(mercureInfo, [''], noop, noop);
 
       expect(EventSourcePolyfill).not.toHaveBeenCalled();
       expect(onMessage).not.toHaveBeenCalled();

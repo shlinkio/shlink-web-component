@@ -1,5 +1,4 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { reject } from 'ramda';
 import type { ProblemDetailsError, ShlinkApiClient, ShlinkTags } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import type { createShortUrl } from '../../short-urls/reducers/shortUrlCreation';
@@ -40,7 +39,7 @@ type TagIncreaseRecord = Record<string, { bots: number; nonBots: number }>;
 type TagIncrease = [string, { bots: number; nonBots: number }];
 
 const renameTag = (oldName: string, newName: string) => (tag: string) => (tag === oldName ? newName : tag);
-const rejectTag = (tags: string[], tagToReject: string) => reject((tag) => tag === tagToReject, tags);
+const rejectTag = (tags: string[], tagToReject: string) => tags.filter((tag) => tag !== tagToReject);
 const increaseVisitsForTags = (tags: TagIncrease[], stats: TagsStatsMap) => tags.reduce((theStats, [tag, increase]) => {
   if (!theStats[tag]) {
     return theStats;

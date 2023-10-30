@@ -1,4 +1,4 @@
-import { max, min, range } from 'ramda';
+import { range } from 'ramda';
 import { prettify } from './numbers';
 
 const DELTA = 2;
@@ -11,8 +11,8 @@ export type NumberOrEllipsis = number | Ellipsis;
 
 export const progressivePagination = (currentPage: number, pageCount: number): NumberOrEllipsis[] => {
   const pages: NumberOrEllipsis[] = range(
-    max(DELTA, currentPage - DELTA),
-    min(pageCount - 1, currentPage + DELTA) + 1,
+    Math.max(DELTA, currentPage - DELTA),
+    Math.min(pageCount - 1, currentPage + DELTA) + 1,
   );
 
   if (currentPage - DELTA > DELTA) {

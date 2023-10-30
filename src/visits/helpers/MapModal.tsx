@@ -1,4 +1,3 @@
-import { prop } from 'ramda';
 import type { FC } from 'react';
 import type { MapContainerProps } from 'react-leaflet';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
@@ -26,7 +25,7 @@ const calculateMapProps = (locations: CityStats[]): MapContainerProps => {
   }
 
   if (locations.length > 1) {
-    return { bounds: locations.map(prop('latLong')) };
+    return { bounds: locations.map(({ latLong }) => latLong) };
   }
 
   // When there's only one location, an error is thrown if trying to calculate the bounds.

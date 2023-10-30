@@ -1,6 +1,6 @@
 import type { DeepPartial } from '@reduxjs/toolkit';
 import { stringifyQuery } from '@shlinkio/shlink-frontend-kit';
-import { isEmpty, isNil, mergeDeepRight } from 'ramda';
+import { mergeDeepRight } from 'ramda';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ShlinkOrphanVisitType } from '../../api-contract';
@@ -43,7 +43,10 @@ export const useVisitsQuery = (): [VisitsFiltering, UpdateFiltering] => {
         domain,
         filtering: {
           dateRange: startDate != null || endDate != null ? datesToDateRange(startDate, endDate) : undefined,
-          visitsFilter: { orphanVisitsType, excludeBots: !isNil(excludeBots) ? excludeBots === 'true' : undefined },
+          visitsFilter: {
+            orphanVisitsType,
+            excludeBots: excludeBots !== undefined ? excludeBots === 'true' : undefined,
+          },
         },
       };
     },
@@ -60,7 +63,7 @@ export const useVisitsQuery = (): [VisitsFiltering, UpdateFiltering] => {
       domain: theDomain,
     };
     const stringifiedQuery = stringifyQuery(newQuery);
-    const queryString = isEmpty(stringifiedQuery) ? '' : `?${stringifiedQuery}`;
+    const queryString = !stringifiedQuery ? '' : `?${stringifiedQuery}`;
 
     navigate(queryString, { replace: true, relative: 'route' });
   }, [filtering, navigate, theDomain]);

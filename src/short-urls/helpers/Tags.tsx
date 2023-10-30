@@ -1,4 +1,3 @@
-import { isEmpty } from 'ramda';
 import type { FC } from 'react';
 import { Tag } from '../../tags/helpers/Tag';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
@@ -10,7 +9,7 @@ interface TagsProps {
 }
 
 export const Tags: FC<TagsProps> = ({ tags, onTagClick, colorGenerator }) => {
-  if (isEmpty(tags)) {
+  if (tags.length === 0) {
     return <i className="indivisible"><small>No tags</small></i>;
   }
 

@@ -39,8 +39,8 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
   const getSortedPairsForStats = (statsToSort: Stats, sorting: Record<string, string>) => {
     const pairs = Object.entries(statsToSort);
     const sortedPairs = !order.field ? pairs : sortBy(
-      ([key, value]: StatsRow) => toLowerIfString(order.field === Object.keys(sorting)[0] ? key : value),
       pairs,
+      ([key, value]: StatsRow) => toLowerIfString(order.field === Object.keys(sorting)[0] ? key : value),
     );
 
     return !order.dir || order.dir === 'ASC' ? sortedPairs : [...sortedPairs].reverse();

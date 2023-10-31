@@ -16,8 +16,8 @@ export interface GroupedNewVisits {
 
 export const groupNewVisitsByType = (createdVisits: CreateVisit[]): GroupedNewVisits => {
   const groupedVisits: Partial<GroupedNewVisits> = groupBy(
-    (newVisit: CreateVisit) => (isOrphanVisit(newVisit.visit) ? 'orphanVisits' : 'nonOrphanVisits'),
     createdVisits,
+    (newVisit: CreateVisit) => (isOrphanVisit(newVisit.visit) ? 'orphanVisits' : 'nonOrphanVisits'),
   );
   return { orphanVisits: [], nonOrphanVisits: [], ...groupedVisits };
 };
@@ -29,7 +29,7 @@ export type HighlightableProps<T extends NormalizedVisit> = T extends Normalized
 export const highlightedVisitsToStats = <T extends NormalizedVisit>(
   highlightedVisits: T[],
   property: HighlightableProps<T>,
-): Stats => countBy((value: any) => value[property], highlightedVisits);
+): Stats => countBy(highlightedVisits, (value: any) => value[property]);
 
 export const toApiParams = ({ page, itemsPerPage, filter, dateRange }: VisitsParams): ShlinkVisitsParams => {
   const startDate = (dateRange?.startDate && formatIsoDate(dateRange?.startDate)) ?? undefined;

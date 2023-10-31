@@ -26,7 +26,7 @@ import {
 import { formatInternational } from '../../utils/dates/helpers/date';
 import { rangeOf } from '../../utils/helpers';
 import { pointerOnHover, renderChartLabel } from '../../utils/helpers/charts';
-import { always, cond, countBy } from '../../utils/helpers/data';
+import { countBy } from '../../utils/helpers/data';
 import { prettify } from '../../utils/helpers/numbers';
 import type { NormalizedVisit, Stats } from '../types';
 import { fillTheGaps } from '../utils';
@@ -40,14 +40,14 @@ interface LineChartCardProps {
   setSelectedVisits?: (visits: NormalizedVisit[]) => void;
 }
 
-type Step = 'monthly' | 'weekly' | 'daily' | 'hourly';
-
-const STEPS_MAP: Record<Step, string> = {
+const STEPS_MAP = {
   monthly: 'Month',
   weekly: 'Week',
   daily: 'Day',
   hourly: 'Hour',
-};
+} as const satisfies Record<string, string>;
+
+type Step = keyof typeof STEPS_MAP;
 
 const STEP_TO_DURATION_MAP: Record<Step, (amount: number) => Duration> = {
   hourly: (hours: number) => ({ hours }),
@@ -84,18 +84,18 @@ const STEP_TO_DATE_FORMAT: Record<Step, (date: Date) => string> = {
 const determineInitialStep = (oldestVisitDate: string): Step => {
   const now = new Date();
   const oldestDate = parseISO(oldestVisitDate);
-  const matcher = cond([
-    [() => differenceInDays(now, oldestDate) <= 2, always<Step>('hourly')], // Less than 2 days
-    [() => differenceInMonths(now, oldestDate) <= 1, always<Step>('daily')], // Between 2 days and 1 month
-    [() => differenceInMonths(now, oldestDate) <= 6, always<Step>('weekly')], // Between 1 and 6 months
-  ]);
+  const conditions: [() => boolean, Step][] = [
+    [() => differenceInDays(now, oldestDate) <= 2, 'hourly'], // Less than 2 days
+    [() => differenceInMonths(now, oldestDate) <= 1, 'daily'], // Between 2 days and 1 month
+    [() => differenceInMonths(now, oldestDate) <= 6, 'weekly'], // Between 1 and 6 months
+  ];
 
-  return matcher() ?? 'monthly';
+  return conditions.find(([matcher]) => matcher())?.[1] ?? 'monthly';
 };
 
 const groupVisitsByStep = (step: Step, visits: NormalizedVisit[]): Stats => countBy(
-  (visit) => STEP_TO_DATE_FORMAT[step](parseISO(visit.date)),
   visits,
+  (visit) => STEP_TO_DATE_FORMAT[step](parseISO(visit.date)),
 );
 
 const visitsToDatasetGroups = (step: Step, visits: NormalizedVisit[]) =>

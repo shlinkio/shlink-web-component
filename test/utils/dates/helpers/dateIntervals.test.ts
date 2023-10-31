@@ -81,13 +81,13 @@ describe('date-types', () => {
 
     it.each([
       [undefined, undefined, undefined],
-      ['today' as DateInterval, currentDate, currentDate],
-      ['yesterday' as DateInterval, daysBack(1), daysBack(1)],
-      ['last7Days' as DateInterval, daysBack(7), currentDate],
-      ['last30Days' as DateInterval, daysBack(30), currentDate],
-      ['last90Days' as DateInterval, daysBack(90), currentDate],
-      ['last180Days' as DateInterval, daysBack(180), currentDate],
-      ['last365Days' as DateInterval, daysBack(365), currentDate],
+      ['today' as const, currentDate, currentDate],
+      ['yesterday' as const, daysBack(1), daysBack(1)],
+      ['last7Days' as const, daysBack(7), currentDate],
+      ['last30Days' as const, daysBack(30), currentDate],
+      ['last90Days' as const, daysBack(90), currentDate],
+      ['last180Days' as const, daysBack(180), currentDate],
+      ['last365Days' as const, daysBack(365), currentDate],
     ])('returns proper result', (interval, expectedStartDate, expectedEndDate) => {
       const { startDate, endDate } = intervalToDateRange(interval);
 
@@ -121,14 +121,14 @@ describe('date-types', () => {
 
   describe('toDateRange', () => {
     it.each([
-      ['today' as DateInterval, intervalToDateRange('today')],
-      ['yesterday' as DateInterval, intervalToDateRange('yesterday')],
-      ['last7Days' as DateInterval, intervalToDateRange('last7Days')],
-      ['last30Days' as DateInterval, intervalToDateRange('last30Days')],
-      ['last90Days' as DateInterval, intervalToDateRange('last90Days')],
-      ['last180Days' as DateInterval, intervalToDateRange('last180Days')],
-      ['last365Days' as DateInterval, intervalToDateRange('last365Days')],
-      ['all' as DateInterval, intervalToDateRange('all')],
+      ['today' as const, intervalToDateRange('today')],
+      ['yesterday' as const, intervalToDateRange('yesterday')],
+      ['last7Days' as const, intervalToDateRange('last7Days')],
+      ['last30Days' as const, intervalToDateRange('last30Days')],
+      ['last90Days' as const, intervalToDateRange('last90Days')],
+      ['last180Days' as const, intervalToDateRange('last180Days')],
+      ['last365Days' as const, intervalToDateRange('last365Days')],
+      ['all' as const, intervalToDateRange('all')],
       [{}, {}],
       [{ startDate: currentDate }, { startDate: currentDate }],
       [{ endDate: currentDate }, { endDate: currentDate }],

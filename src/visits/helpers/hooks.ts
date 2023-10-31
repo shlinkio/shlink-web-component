@@ -53,7 +53,7 @@ export const useVisitsQuery = (): [VisitsFiltering, UpdateFiltering] => {
     [query],
   );
   const updateFiltering = useCallback((extra: DeepPartial<VisitsFiltering>) => {
-    const { dateRange, visitsFilter } = mergeDeepRight(filtering, extra);
+    const { dateRange, visitsFilter = {} } = mergeDeepRight(filtering, extra);
     const { excludeBots, orphanVisitsType } = visitsFilter;
     const newQuery: VisitsQuery = {
       startDate: (dateRange?.startDate && formatIsoDate(dateRange.startDate)) || '',

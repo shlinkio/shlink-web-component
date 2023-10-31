@@ -1,6 +1,5 @@
 import type { DeepPartial } from '@reduxjs/toolkit';
 import { stringifyQuery } from '@shlinkio/shlink-frontend-kit';
-import { isEmpty, isNil, mergeDeepRight } from 'ramda';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ShlinkOrphanVisitType } from '../../api-contract';
@@ -9,6 +8,7 @@ import type { DateRange } from '../../utils/dates/helpers/dateIntervals';
 import { datesToDateRange } from '../../utils/dates/helpers/dateIntervals';
 import type { BooleanString } from '../../utils/helpers';
 import { parseBooleanToString } from '../../utils/helpers';
+import { mergeDeepRight } from '../../utils/helpers/data';
 import { useParsedQuery } from '../../utils/helpers/hooks';
 import type { VisitsFilter } from '../types';
 
@@ -43,14 +43,17 @@ export const useVisitsQuery = (): [VisitsFiltering, UpdateFiltering] => {
         domain,
         filtering: {
           dateRange: startDate != null || endDate != null ? datesToDateRange(startDate, endDate) : undefined,
-          visitsFilter: { orphanVisitsType, excludeBots: !isNil(excludeBots) ? excludeBots === 'true' : undefined },
+          visitsFilter: {
+            orphanVisitsType,
+            excludeBots: excludeBots !== undefined ? excludeBots === 'true' : undefined,
+          },
         },
       };
     },
     [query],
   );
   const updateFiltering = useCallback((extra: DeepPartial<VisitsFiltering>) => {
-    const { dateRange, visitsFilter } = mergeDeepRight(filtering, extra);
+    const { dateRange, visitsFilter = {} } = mergeDeepRight(filtering, extra);
     const { excludeBots, orphanVisitsType } = visitsFilter;
     const newQuery: VisitsQuery = {
       startDate: (dateRange?.startDate && formatIsoDate(dateRange.startDate)) || '',
@@ -60,7 +63,7 @@ export const useVisitsQuery = (): [VisitsFiltering, UpdateFiltering] => {
       domain: theDomain,
     };
     const stringifiedQuery = stringifyQuery(newQuery);
-    const queryString = isEmpty(stringifiedQuery) ? '' : `?${stringifiedQuery}`;
+    const queryString = !stringifiedQuery ? '' : `?${stringifiedQuery}`;
 
     navigate(queryString, { replace: true, relative: 'route' });
   }, [filtering, navigate, theDomain]);

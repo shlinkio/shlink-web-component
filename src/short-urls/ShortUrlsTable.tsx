@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import { isEmpty } from 'ramda';
 import type { ReactNode } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -49,7 +48,7 @@ const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
       return <tr><td colSpan={6} className="text-center">Loading...</td></tr>;
     }
 
-    if (!loading && isEmpty(shortUrls?.data)) {
+    if (!loading && (!shortUrls || shortUrls.data.length === 0)) {
       return <tr><td colSpan={6} className="text-center">No results found</td></tr>;
     }
 

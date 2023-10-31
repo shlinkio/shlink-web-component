@@ -1,5 +1,4 @@
 import type Bottle from 'bottlejs';
-import { prop } from 'ramda';
 import type { ConnectDecorator } from '../../container';
 import { DomainSelector } from '../DomainSelector';
 import { ManageDomains } from '../ManageDomains';
@@ -24,11 +23,11 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'apiClientFactory',
     'editDomainRedirects',
   );
-  bottle.serviceFactory('domainsListReducer', prop('reducer'), 'domainsListReducerCreator');
+  bottle.serviceFactory('domainsListReducer', (obj) => obj.reducer, 'domainsListReducerCreator');
 
   // Actions
-  bottle.serviceFactory('listDomains', prop('listDomains'), 'domainsListReducerCreator');
-  bottle.serviceFactory('filterDomains', prop('filterDomains'), 'domainsListReducerCreator');
+  bottle.serviceFactory('listDomains', (obj) => obj.listDomains, 'domainsListReducerCreator');
+  bottle.serviceFactory('filterDomains', (obj) => obj.filterDomains, 'domainsListReducerCreator');
   bottle.serviceFactory('editDomainRedirects', editDomainRedirects, 'apiClientFactory');
-  bottle.serviceFactory('checkDomainHealth', prop('checkDomainHealth'), 'domainsListReducerCreator');
+  bottle.serviceFactory('checkDomainHealth', (obj) => obj.checkDomainHealth, 'domainsListReducerCreator');
 };

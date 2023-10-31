@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   This section is only visible if short URL visits deletion or orphan visits deletion are supported by connected Shlink server.
 
 ### Changed
-* *Nothing*
+* The project no longer depends on ramda
 
 ### Deprecated
 * *Nothing*

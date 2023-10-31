@@ -1,6 +1,5 @@
 import type { IContainer } from 'bottlejs';
 import Bottle from 'bottlejs';
-import { pick } from 'ramda';
 import { connect as reduxConnect } from 'react-redux';
 import { provideServices as provideDomainsServices } from '../domains/services/provideServices';
 import { provideServices as provideMercureServices } from '../mercure/services/provideServices';
@@ -19,6 +18,10 @@ export const bottle = new Bottle();
 
 export const { container } = bottle;
 
+const pickProps = (propsToPick: string[]) => (obj: any) => Object.fromEntries(
+  propsToPick.map((key) => [key, obj[key]]),
+);
+
 const lazyService = <T extends Function, K>(cont: IContainer, serviceName: string) =>
   (...args: any[]) => (cont[serviceName] as T)(...args) as K;
 const mapActionService = (map: LazyActionMap, actionName: string): LazyActionMap => ({
@@ -28,7 +31,7 @@ const mapActionService = (map: LazyActionMap, actionName: string): LazyActionMap
 });
 const connect: ConnectDecorator = (propsFromState: string[] | null, actionServiceNames: string[] = []) =>
   reduxConnect(
-    propsFromState ? pick(propsFromState) : null,
+    propsFromState ? pickProps(propsFromState) : null,
     actionServiceNames.reduce(mapActionService, {}),
   );
 

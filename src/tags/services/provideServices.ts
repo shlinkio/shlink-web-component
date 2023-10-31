@@ -1,5 +1,4 @@
 import type Bottle from 'bottlejs';
-import { prop } from 'ramda';
 import type { ConnectDecorator } from '../../container';
 import { DeleteTagConfirmModal } from '../helpers/DeleteTagConfirmModal';
 import { EditTagModalFactory } from '../helpers/EditTagModal';
@@ -32,19 +31,19 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
 
   // Reducers
   bottle.serviceFactory('tagEditReducerCreator', tagEditReducerCreator, 'editTag');
-  bottle.serviceFactory('tagEditReducer', prop('reducer'), 'tagEditReducerCreator');
+  bottle.serviceFactory('tagEditReducer', (obj) => obj.reducer, 'tagEditReducerCreator');
 
   bottle.serviceFactory('tagDeleteReducerCreator', tagDeleteReducerCreator, 'apiClientFactory');
-  bottle.serviceFactory('tagDeleteReducer', prop('reducer'), 'tagDeleteReducerCreator');
+  bottle.serviceFactory('tagDeleteReducer', (obj) => obj.reducer, 'tagDeleteReducerCreator');
 
   bottle.serviceFactory('tagsListReducerCreator', tagsListReducerCreator, 'listTags', 'createShortUrl');
-  bottle.serviceFactory('tagsListReducer', prop('reducer'), 'tagsListReducerCreator');
+  bottle.serviceFactory('tagsListReducer', (obj) => obj.reducer, 'tagsListReducerCreator');
 
   // Actions
   bottle.serviceFactory('listTags', listTags, 'apiClientFactory');
   bottle.serviceFactory('filterTags', () => filterTags);
 
-  bottle.serviceFactory('deleteTag', prop('deleteTag'), 'tagDeleteReducerCreator');
+  bottle.serviceFactory('deleteTag', (obj) => obj.deleteTag, 'tagDeleteReducerCreator');
   bottle.serviceFactory('tagDeleted', () => tagDeleted);
 
   bottle.serviceFactory('editTag', editTag, 'apiClientFactory', 'ColorGenerator');

@@ -1,6 +1,5 @@
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir } from '@shlinkio/shlink-frontend-kit';
-import { pipe } from 'ramda';
 import type { FC } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
@@ -65,17 +64,17 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
     [excludeBots, settings.visits?.excludeBots],
   );
   const supportsExcludingBots = useFeature('excludeBotsOnShortUrls');
-  const handleOrderBy = (field?: ShortUrlsOrderableFields, dir?: OrderDir) => {
+  const handleOrderBy = useCallback((field?: ShortUrlsOrderableFields, dir?: OrderDir) => {
     toFirstPage({ orderBy: { field, dir } });
     setActualOrderBy({ field, dir });
-  };
+  }, [toFirstPage]);
   const orderByColumn = (field: ShortUrlsOrderableFields) => () =>
     handleOrderBy(field, determineOrderDir(field, actualOrderBy.field, actualOrderBy.dir));
   const renderOrderIcon = (field: ShortUrlsOrderableFields) =>
     <TableOrderIcon currentOrder={actualOrderBy} field={field} />;
-  const addTag = pipe(
-    (newTag: string) => [...new Set([...tags, newTag])],
-    (updatedTags) => toFirstPage({ tags: updatedTags }),
+  const addTag = useCallback(
+    (newTag: string) => toFirstPage({ tags: [...new Set([...tags, newTag])] }),
+    [tags, toFirstPage],
   );
   const parseOrderByForShlink = useCallback(({ field, dir }: ShortUrlsOrder): ShlinkShortUrlsOrder => {
     if (supportsExcludingBots && doExcludeBots && field === 'visits') {

@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { assocPath, last, pipe, reject } from 'ramda';
-import type { ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlsListParams, ShlinkShortUrlsResponse } from '../../api-contract';
+import type { ShlinkApiClient, ShlinkShortUrlsListParams, ShlinkShortUrlsResponse } from '../../api-contract';
 import { createAsyncThunk } from '../../utils/redux';
 import { createNewVisits } from '../../visits/reducers/visitCreation';
 import { shortUrlMatches } from '../helpers';
@@ -47,66 +46,62 @@ export const shortUrlsListReducerCreator = (
 
     builder.addCase(
       createShortUrlThunk.fulfilled,
-      pipe(
+      (state, { payload }) => {
+        if (!state.shortUrls) {
+          return;
+        }
+
         // The only place where the list and the creation form coexist is the overview page.
         // There we can assume we are displaying page 1, and therefore, we can safely prepend the new short URL.
         // We can also remove the items above the amount that is displayed there.
-        (state, { payload }) => (!state.shortUrls ? state : assocPath(
-          ['shortUrls', 'data'],
-          [payload, ...state.shortUrls.data.slice(0, ITEMS_IN_OVERVIEW_PAGE - 1)],
-          state,
-        )),
-        (state: ShortUrlsList) => (!state.shortUrls ? state : assocPath(
-          ['shortUrls', 'pagination', 'totalItems'],
-          state.shortUrls.pagination.totalItems + 1,
-          state,
-        )),
-      ),
+        state.shortUrls.data = [payload, ...state.shortUrls.data.slice(0, ITEMS_IN_OVERVIEW_PAGE - 1)];
+        state.shortUrls.pagination.totalItems += 1;
+      },
     );
 
     builder.addCase(
       editShortUrlThunk.fulfilled,
-      (state, { payload: editedShortUrl }) => (!state.shortUrls ? state : assocPath(
-        ['shortUrls', 'data'],
-        state.shortUrls.data.map((shortUrl) => {
+      (state, { payload: editedShortUrl }) => {
+        if (!state.shortUrls) {
+          return;
+        }
+
+        state.shortUrls.data = state.shortUrls.data.map((shortUrl) => {
           const { shortCode, domain } = editedShortUrl;
           return shortUrlMatches(shortUrl, shortCode, domain) ? editedShortUrl : shortUrl;
-        }),
-        state,
-      )),
+        });
+      },
     );
 
     builder.addCase(
       shortUrlDeleted,
-      pipe(
-        (state, { payload }) => (!state.shortUrls ? state : assocPath(
-          ['shortUrls', 'data'],
-          reject<ShlinkShortUrl, ShlinkShortUrl[]>((shortUrl) =>
-            shortUrlMatches(shortUrl, payload.shortCode, payload.domain), state.shortUrls.data),
-          state,
-        )),
-        (state) => (!state.shortUrls ? state : assocPath(
-          ['shortUrls', 'pagination', 'totalItems'],
-          state.shortUrls.pagination.totalItems - 1,
-          state,
-        )),
-      ),
+      (state, { payload }) => {
+        if (!state.shortUrls) {
+          return;
+        }
+
+        state.shortUrls.data = state.shortUrls.data.filter(
+          (shortUrl) => !shortUrlMatches(shortUrl, payload.shortCode, payload.domain),
+        );
+        state.shortUrls.pagination.totalItems -= 1;
+      },
     );
 
     builder.addCase(
       createNewVisits,
-      (state, { payload }) => assocPath(
-        ['shortUrls', 'data'],
-        state.shortUrls?.data?.map(
-          // Find the last of the new visit for this short URL, and pick its short URL. It will have an up-to-date amount of visits.
-          (currentShortUrl) => last(
-            payload.createdVisits.filter(
-              ({ shortUrl }) => shortUrl && shortUrlMatches(currentShortUrl, shortUrl.shortCode, shortUrl.domain),
-            ),
+      (state, { payload }) => {
+        if (!state.shortUrls) {
+          return;
+        }
+
+        state.shortUrls.data = state.shortUrls.data.map(
+          // Find the last of the new visit for this ShortUrl, and pick its short URL. It will have an up-to-date
+          // amount of visits.
+          (currentShortUrl) => payload.createdVisits.findLast(
+            ({ shortUrl }) => shortUrl && shortUrlMatches(currentShortUrl, shortUrl.shortCode, shortUrl.domain),
           )?.shortUrl ?? currentShortUrl,
-        ),
-        state,
-      ),
+        );
+      },
     );
   },
 });

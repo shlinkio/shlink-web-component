@@ -1,4 +1,3 @@
-import { isNil } from 'ramda';
 import { rangeOf } from '../helpers';
 import type { TagColorsStorage } from './TagColorsStorage';
 
@@ -48,9 +47,8 @@ export class ColorGenerator {
   public readonly isColorLightForKey = (key: string): boolean => {
     const colorHex = this.getColorForKey(key).substring(1);
 
-    if (isNil(this.lights[colorHex])) {
+    if (this.lights[colorHex] === undefined) {
       const rgb = hexColorToRgbArray(colorHex);
-
       this.lights[colorHex] = perceivedLightness(...rgb) >= LIGHTNESS_BREAKPOINT;
     }
 

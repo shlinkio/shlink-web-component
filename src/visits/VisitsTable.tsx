@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
-import { min, splitEvery } from 'ramda';
 import { useEffect, useMemo, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
 import { Time } from '../utils/dates/Time';
+import { splitEvery } from '../utils/helpers/data';
 import { useMaxResolution } from '../utils/helpers/hooks';
 import { prettify } from '../utils/helpers/numbers';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
@@ -38,7 +38,7 @@ const calculateVisits = (allVisits: NormalizedVisit[], searchTerm: string | unde
   const filteredVisits = searchTerm ? searchVisits(searchTerm, allVisits) : [...allVisits];
   const sortedVisits = sortVisits(order, filteredVisits);
   const total = sortedVisits.length;
-  const visitsGroups = splitEvery(PAGE_SIZE, sortedVisits);
+  const visitsGroups = splitEvery(sortedVisits, PAGE_SIZE);
 
   return { visitsGroups, total };
 };
@@ -193,7 +193,7 @@ export const VisitsTable = ({
                   >
                     <div>
                       Visits <b>{prettify(start + 1)}</b> to{' '}
-                      <b>{prettify(min(end, resultSet.total))}</b> of{' '}
+                      <b>{prettify(Math.min(end, resultSet.total))}</b> of{' '}
                       <b>{prettify(resultSet.total)}</b>
                     </div>
                   </div>

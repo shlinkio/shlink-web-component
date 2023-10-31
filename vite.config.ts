@@ -24,6 +24,12 @@ export default defineConfig({
     },
   },
 
+  server: {
+    watch: {
+      ignored: ['**/home/**', '**/dist/**', '**/.idea/**', '**/node_modules/**', '**/.git/**'],
+    },
+  },
+
   test: {
     environment: 'jsdom',
     globals: true,

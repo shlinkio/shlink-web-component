@@ -4,7 +4,6 @@ import { faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { Checkbox, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
 import { parseISO } from 'date-fns';
-import { isEmpty } from 'ramda';
 import type { ChangeEvent, FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Button, FormGroup, Input, Row } from 'reactstrap';
@@ -277,7 +276,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
         <Button
           outline
           color="primary"
-          disabled={saving || isEmpty(shortUrlData.longUrl)}
+          disabled={saving || !shortUrlData.longUrl}
           className="btn-xs-block"
         >
           {saving ? 'Saving...' : 'Save'}

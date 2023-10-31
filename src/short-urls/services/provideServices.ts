@@ -1,5 +1,4 @@
 import type Bottle from 'bottlejs';
-import { prop } from 'ramda';
 import type { ConnectDecorator } from '../../container';
 import { CreateShortUrlFactory } from '../CreateShortUrl';
 import { EditShortUrlFactory } from '../EditShortUrl';
@@ -67,31 +66,31 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'editShortUrl',
     'createShortUrl',
   );
-  bottle.serviceFactory('shortUrlsListReducer', prop('reducer'), 'shortUrlsListReducerCreator');
+  bottle.serviceFactory('shortUrlsListReducer', (obj) => obj.reducer, 'shortUrlsListReducerCreator');
 
   bottle.serviceFactory('shortUrlCreationReducerCreator', shortUrlCreationReducerCreator, 'createShortUrl');
-  bottle.serviceFactory('shortUrlCreationReducer', prop('reducer'), 'shortUrlCreationReducerCreator');
+  bottle.serviceFactory('shortUrlCreationReducer', (obj) => obj.reducer, 'shortUrlCreationReducerCreator');
 
   bottle.serviceFactory('shortUrlEditionReducerCreator', shortUrlEditionReducerCreator, 'editShortUrl');
-  bottle.serviceFactory('shortUrlEditionReducer', prop('reducer'), 'shortUrlEditionReducerCreator');
+  bottle.serviceFactory('shortUrlEditionReducer', (obj) => obj.reducer, 'shortUrlEditionReducerCreator');
 
   bottle.serviceFactory('shortUrlDeletionReducerCreator', shortUrlDeletionReducerCreator, 'deleteShortUrl');
-  bottle.serviceFactory('shortUrlDeletionReducer', prop('reducer'), 'shortUrlDeletionReducerCreator');
+  bottle.serviceFactory('shortUrlDeletionReducer', (obj) => obj.reducer, 'shortUrlDeletionReducerCreator');
 
   bottle.serviceFactory('shortUrlDetailReducerCreator', shortUrlDetailReducerCreator, 'apiClientFactory');
-  bottle.serviceFactory('shortUrlDetailReducer', prop('reducer'), 'shortUrlDetailReducerCreator');
+  bottle.serviceFactory('shortUrlDetailReducer', (obj) => obj.reducer, 'shortUrlDetailReducerCreator');
 
   // Actions
   bottle.serviceFactory('listShortUrls', listShortUrls, 'apiClientFactory');
 
   bottle.serviceFactory('createShortUrl', createShortUrl, 'apiClientFactory');
-  bottle.serviceFactory('resetCreateShortUrl', prop('resetCreateShortUrl'), 'shortUrlCreationReducerCreator');
+  bottle.serviceFactory('resetCreateShortUrl', (obj) => obj.resetCreateShortUrl, 'shortUrlCreationReducerCreator');
 
   bottle.serviceFactory('deleteShortUrl', deleteShortUrl, 'apiClientFactory');
-  bottle.serviceFactory('resetDeleteShortUrl', prop('resetDeleteShortUrl'), 'shortUrlDeletionReducerCreator');
+  bottle.serviceFactory('resetDeleteShortUrl', (obj) => obj.resetDeleteShortUrl, 'shortUrlDeletionReducerCreator');
   bottle.serviceFactory('shortUrlDeleted', () => shortUrlDeleted);
 
-  bottle.serviceFactory('getShortUrlDetail', prop('getShortUrlDetail'), 'shortUrlDetailReducerCreator');
+  bottle.serviceFactory('getShortUrlDetail', (obj) => obj.getShortUrlDetail, 'shortUrlDetailReducerCreator');
 
   bottle.serviceFactory('editShortUrl', editShortUrl, 'apiClientFactory');
 };

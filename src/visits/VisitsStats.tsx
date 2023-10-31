@@ -3,7 +3,6 @@ import { faCalendarAlt, faChartPie, faGears, faList, faMapMarkedAlt } from '@for
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Message, NavPillItem, NavPills, Result } from '@shlinkio/shlink-frontend-kit';
 import classNames from 'classnames';
-import { isEmpty, pipe, propEq, values } from 'ramda';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
@@ -73,15 +72,12 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const { visits, loading, loadingLarge, error, errorData, progress, fallbackInterval } = visitsInfo;
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
   const visitsSettings = useSetting('visits');
-  const setDates = pipe(
-    ({ startDate: theStartDate, endDate: theEndDate }: DateRange) => ({
-      dateRange: {
-        startDate: theStartDate ?? undefined,
-        endDate: theEndDate ?? undefined,
-      },
-    }),
-    updateFiltering,
-  );
+  const setDates = useCallback(({ startDate: theStartDate, endDate: theEndDate }: DateRange) => updateFiltering({
+    dateRange: {
+      startDate: theStartDate ?? undefined,
+      endDate: theEndDate ?? undefined,
+    },
+  }), [updateFiltering]);
   const initialInterval = useRef<DateRange | DateInterval>(
     dateRange ?? fallbackInterval ?? visitsSettings?.defaultInterval ?? 'last30Days',
   );
@@ -100,7 +96,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     ...visitsFilter,
     excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
   }), [visitsFilter, visitsSettings?.excludeBots]);
-  const mapLocations = values(citiesForMap);
+  const mapLocations = Object.values(citiesForMap);
 
   const setSelectedVisits = useCallback((selectedVisits: NormalizedVisit[]) => {
     selectedBar = undefined;
@@ -114,7 +110,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
       setHighlightedLabel(undefined);
       selectedBar = undefined;
     } else {
-      setHighlightedVisits((normalizedVisits as NormalizedOrphanVisit[]).filter(propEq(prop, value)));
+      setHighlightedVisits((normalizedVisits as NormalizedOrphanVisit[]).filter((visit) => visit[prop] === value));
       setHighlightedLabel(value);
       selectedBar = newSelectedBar;
     }
@@ -158,7 +154,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
       );
     }
 
-    if (isEmpty(visits)) {
+    if (visits.length === 0) {
       return <Message>There are no visits matching current filter</Message>;
     }
 

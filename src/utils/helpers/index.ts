@@ -1,21 +1,27 @@
-import { isEmpty, isNil, pipe, range } from 'ramda';
 import type { SyntheticEvent } from 'react';
+import { range } from './data';
 
 export type OptionalString = string | null | undefined;
 
-export const handleEventPreventingDefault = <T>(handler: () => T) => pipe(
-  (e: SyntheticEvent) => e.preventDefault(),
-  handler,
-);
+export const handleEventPreventingDefault = <T>(handler: () => T) => (e: SyntheticEvent) => {
+  e.preventDefault();
+  handler();
+};
 
 export const rangeOf = <T>(size: number, mappingFn: (value: number) => T, startAt = 1): T[] =>
   range(startAt, size + 1).map(mappingFn);
 
 export type Empty = null | undefined | '' | never[];
 
-export const hasValue = <T>(value: T | Empty): value is T => !isNil(value) && !isEmpty(value);
+const isEmpty = (value: Exclude<any, undefined | null>): boolean => (
+  (Array.isArray(value) && value.length === 0)
+  || (typeof value === 'string' && value === '')
+  || (typeof value === 'object' && Object.keys(value).length === 0)
+);
 
-export const nonEmptyValueOrNull = <T>(value: T): T | null => (isEmpty(value) ? null : value);
+export const hasValue = <T>(value: T | Empty): value is T => value !== undefined && value !== null && !isEmpty(value);
+
+export const nonEmptyStringOrNull = <T extends string>(value: T): T | null => (!value ? null : value);
 
 export type BooleanString = 'true' | 'false';
 

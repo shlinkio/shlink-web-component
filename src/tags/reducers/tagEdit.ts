@@ -1,6 +1,4 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { pick } from 'ramda';
 import type { ProblemDetailsError, ShlinkApiClient } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import { createAsyncThunk } from '../../utils/redux';
@@ -22,8 +20,6 @@ export interface EditTag {
   newName: string;
   color: string;
 }
-
-export type EditTagAction = PayloadAction<EditTag>;
 
 const initialState: TagEdition = {
   editing: false,
@@ -56,11 +52,15 @@ export const tagEditReducerCreator = (editTagThunk: ReturnType<typeof editTag>) 
       editTagThunk.rejected,
       (_, { error }) => ({ editing: false, edited: false, error: true, errorData: parseApiError(error) }),
     );
-    builder.addCase(editTagThunk.fulfilled, (_, { payload }) => ({
-      ...pick(['oldName', 'newName'], payload),
-      editing: false,
-      edited: true,
-      error: false,
-    }));
+    builder.addCase(editTagThunk.fulfilled, (_, { payload }) => {
+      const { oldName, newName } = payload;
+      return {
+        oldName,
+        newName,
+        editing: false,
+        edited: true,
+        error: false,
+      };
+    });
   },
 });

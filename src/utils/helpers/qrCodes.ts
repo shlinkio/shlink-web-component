@@ -1,5 +1,4 @@
 import { stringifyQuery } from '@shlinkio/shlink-frontend-kit';
-import { isEmpty } from 'ramda';
 
 export type QrCodeFormat = 'svg' | 'png';
 
@@ -19,5 +18,5 @@ export const buildQrCodeUrl = (shortUrl: string, { margin, ...options }: QrCodeO
     margin: margin > 0 ? margin : undefined,
   });
 
-  return `${baseUrl}${isEmpty(query) ? '' : `?${query}`}`;
+  return `${baseUrl}${!query ? '' : `?${query}`}`;
 };

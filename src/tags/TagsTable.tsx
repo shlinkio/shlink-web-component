@@ -1,11 +1,11 @@
 import { parseQuery, SimpleCard } from '@shlinkio/shlink-frontend-kit';
-import { splitEvery } from 'ramda';
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
+import { splitEvery } from '../utils/helpers/data';
 import { useQueryState } from '../utils/helpers/hooks';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import type { TagsListChildrenProps, TagsOrder, TagsOrderableFields } from './data/TagsListChildrenProps';
@@ -29,7 +29,7 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
   const { search } = useLocation();
   const { page: pageFromQuery = 1 } = parseQuery<{ page?: number | string }>(search);
   const [page, setPage] = useQueryState<number>('page', Number(pageFromQuery));
-  const pages = splitEvery(TAGS_PER_PAGE, sortedTags);
+  const pages = splitEvery(sortedTags, TAGS_PER_PAGE);
   const showPaginator = pages.length > 1;
   const currentPage = pages[page - 1] ?? [];
 

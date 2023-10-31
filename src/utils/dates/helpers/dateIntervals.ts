@@ -1,5 +1,4 @@
 import { endOfDay, startOfDay, subDays } from 'date-fns';
-import { cond, filter, isEmpty, T } from 'ramda';
 import type { DateOrString } from './date';
 import { formatInternational, isBeforeOrEqual, now, parseISO } from './date';
 
@@ -24,8 +23,8 @@ export type DateInterval = keyof typeof INTERVAL_TO_STRING_MAP;
 
 const INTERVALS = Object.keys(INTERVAL_TO_STRING_MAP) as DateInterval[];
 
-export const dateRangeIsEmpty = (dateRange?: DateRange): boolean => dateRange === undefined
-  || isEmpty(filter(Boolean, dateRange as any));
+export const dateRangeIsEmpty = (dateRange?: DateRange): boolean => !dateRange
+  || (!dateRange.startDate && !dateRange.endDate);
 
 export const rangeIsInterval = (range?: DateRange | DateInterval): range is DateInterval =>
   typeof range === 'string' && INTERVALS.includes(range);
@@ -69,32 +68,34 @@ export const rangeOrIntervalToString = (range?: DateRange | DateInterval): strin
 
 const startOfDaysAgo = (daysAgo: number) => startOfDay(subDays(now(), daysAgo));
 const endingToday = (startDate: Date): DateRange => ({ startDate, endDate: endOfDay(now()) });
-const equals = (value: any) => (otherValue: any) => value === otherValue;
 
-export const intervalToDateRange = cond<[DateInterval | undefined], DateRange>([
-  [equals('today'), () => endingToday(startOfDay(now()))],
-  [equals('yesterday'), () => ({ startDate: startOfDaysAgo(1), endDate: endOfDay(subDays(now(), 1)) })],
-  [equals('last7Days'), () => endingToday(startOfDaysAgo(7))],
-  [equals('last30Days'), () => endingToday(startOfDaysAgo(30))],
-  [equals('last90Days'), () => endingToday(startOfDaysAgo(90))],
-  [equals('last180Days'), () => endingToday(startOfDaysAgo(180))],
-  [equals('last365Days'), () => endingToday(startOfDaysAgo(365))],
-  [T, () => ({})],
-]);
+export const intervalToDateRange = (interval?: DateInterval): DateRange => {
+  const conditions: [() => boolean, () => DateRange][] = [
+    [() => interval === 'today', () => endingToday(startOfDay(now()))],
+    [() => interval === 'yesterday', () => ({ startDate: startOfDaysAgo(1), endDate: endOfDay(subDays(now(), 1)) })],
+    [() => interval === 'last7Days', () => endingToday(startOfDaysAgo(7))],
+    [() => interval === 'last30Days', () => endingToday(startOfDaysAgo(30))],
+    [() => interval === 'last90Days', () => endingToday(startOfDaysAgo(90))],
+    [() => interval === 'last180Days', () => endingToday(startOfDaysAgo(180))],
+    [() => interval === 'last365Days', () => endingToday(startOfDaysAgo(365))],
+  ];
+
+  return conditions.find(([matcher]) => matcher())?.[1]() ?? {};
+};
 
 export const dateToMatchingInterval = (date: DateOrString): DateInterval => {
-  const theDate = parseISO(date);
+  const isoDate = parseISO(date);
+  const conditions: [() => boolean, DateInterval][] = [
+    [() => isBeforeOrEqual(startOfDay(now()), isoDate), 'today'],
+    [() => isBeforeOrEqual(startOfDaysAgo(1), isoDate), 'yesterday'],
+    [() => isBeforeOrEqual(startOfDaysAgo(7), isoDate), 'last7Days'],
+    [() => isBeforeOrEqual(startOfDaysAgo(30), isoDate), 'last30Days'],
+    [() => isBeforeOrEqual(startOfDaysAgo(90), isoDate), 'last90Days'],
+    [() => isBeforeOrEqual(startOfDaysAgo(180), isoDate), 'last180Days'],
+    [() => isBeforeOrEqual(startOfDaysAgo(365), isoDate), 'last365Days'],
+  ];
 
-  return cond<never[], DateInterval>([
-    [() => isBeforeOrEqual(startOfDay(now()), theDate), () => 'today'],
-    [() => isBeforeOrEqual(startOfDaysAgo(1), theDate), () => 'yesterday'],
-    [() => isBeforeOrEqual(startOfDaysAgo(7), theDate), () => 'last7Days'],
-    [() => isBeforeOrEqual(startOfDaysAgo(30), theDate), () => 'last30Days'],
-    [() => isBeforeOrEqual(startOfDaysAgo(90), theDate), () => 'last90Days'],
-    [() => isBeforeOrEqual(startOfDaysAgo(180), theDate), () => 'last180Days'],
-    [() => isBeforeOrEqual(startOfDaysAgo(365), theDate), () => 'last365Days'],
-    [T, () => ALL],
-  ])();
+  return conditions.find(([matcher]) => matcher())?.[1] ?? ALL;
 };
 
 export const toDateRange = (rangeOrInterval: DateRange | DateInterval): DateRange => {

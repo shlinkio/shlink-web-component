@@ -1,13 +1,11 @@
-import { isNil, map } from 'ramda';
 import type { ShlinkVisit } from '../../api-contract';
-import { hasValue } from '../../utils/helpers';
 import type { CityStats, NormalizedVisit, Stats, VisitsStats } from '../types';
 import { isNormalizedOrphanVisit, isOrphanVisit } from '../types/helpers';
 import { extractDomain, parseUserAgent } from '../utils';
 
 /* eslint-disable no-param-reassign */
 const visitHasProperty = (visit: NormalizedVisit, propertyName: keyof NormalizedVisit) =>
-  !isNil(visit) && hasValue(visit[propertyName]);
+  visit[propertyName] !== undefined;
 
 const optionalNumericToNumber = (numeric: string | number | null | undefined): number => {
   if (typeof numeric === 'number') {
@@ -82,7 +80,7 @@ export const processStatsFromVisits = (visits: NormalizedVisit[]) => visits.redu
   { os: {}, browsers: {}, referrers: {}, countries: {}, cities: {}, citiesForMap: {}, visitedUrls: {} },
 );
 
-export const normalizeVisits = map((visit: ShlinkVisit): NormalizedVisit => {
+export const normalizeVisits = (visits: ShlinkVisit[]) => visits.map((visit): NormalizedVisit => {
   const { userAgent, date, referer, visitLocation, potentialBot } = visit;
   const common = {
     date,

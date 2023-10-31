@@ -68,35 +68,34 @@ export const rangeOrIntervalToString = (range?: DateRange | DateInterval): strin
 
 const startOfDaysAgo = (daysAgo: number) => startOfDay(subDays(now(), daysAgo));
 const endingToday = (startDate: Date): DateRange => ({ startDate, endDate: endOfDay(now()) });
-const equals = (value: any) => (otherValue: any) => value === otherValue;
 
 export const intervalToDateRange = (interval?: DateInterval): DateRange => {
-  const conditions: [(otherValue: any) => boolean, () => DateRange][] = [
-    [equals('today'), () => endingToday(startOfDay(now()))],
-    [equals('yesterday'), () => ({ startDate: startOfDaysAgo(1), endDate: endOfDay(subDays(now(), 1)) })],
-    [equals('last7Days'), () => endingToday(startOfDaysAgo(7))],
-    [equals('last30Days'), () => endingToday(startOfDaysAgo(30))],
-    [equals('last90Days'), () => endingToday(startOfDaysAgo(90))],
-    [equals('last180Days'), () => endingToday(startOfDaysAgo(180))],
-    [equals('last365Days'), () => endingToday(startOfDaysAgo(365))],
+  const conditions: [() => boolean, () => DateRange][] = [
+    [() => interval === 'today', () => endingToday(startOfDay(now()))],
+    [() => interval === 'yesterday', () => ({ startDate: startOfDaysAgo(1), endDate: endOfDay(subDays(now(), 1)) })],
+    [() => interval === 'last7Days', () => endingToday(startOfDaysAgo(7))],
+    [() => interval === 'last30Days', () => endingToday(startOfDaysAgo(30))],
+    [() => interval === 'last90Days', () => endingToday(startOfDaysAgo(90))],
+    [() => interval === 'last180Days', () => endingToday(startOfDaysAgo(180))],
+    [() => interval === 'last365Days', () => endingToday(startOfDaysAgo(365))],
   ];
 
-  return conditions.find(([matcher]) => matcher(interval))?.[1]() ?? {};
+  return conditions.find(([matcher]) => matcher())?.[1]() ?? {};
 };
 
 export const dateToMatchingInterval = (date: DateOrString): DateInterval => {
   const isoDate = parseISO(date);
-  const conditions: [() => boolean, () => DateInterval][] = [
-    [() => isBeforeOrEqual(startOfDay(now()), isoDate), () => 'today'],
-    [() => isBeforeOrEqual(startOfDaysAgo(1), isoDate), () => 'yesterday'],
-    [() => isBeforeOrEqual(startOfDaysAgo(7), isoDate), () => 'last7Days'],
-    [() => isBeforeOrEqual(startOfDaysAgo(30), isoDate), () => 'last30Days'],
-    [() => isBeforeOrEqual(startOfDaysAgo(90), isoDate), () => 'last90Days'],
-    [() => isBeforeOrEqual(startOfDaysAgo(180), isoDate), () => 'last180Days'],
-    [() => isBeforeOrEqual(startOfDaysAgo(365), isoDate), () => 'last365Days'],
+  const conditions: [() => boolean, DateInterval][] = [
+    [() => isBeforeOrEqual(startOfDay(now()), isoDate), 'today'],
+    [() => isBeforeOrEqual(startOfDaysAgo(1), isoDate), 'yesterday'],
+    [() => isBeforeOrEqual(startOfDaysAgo(7), isoDate), 'last7Days'],
+    [() => isBeforeOrEqual(startOfDaysAgo(30), isoDate), 'last30Days'],
+    [() => isBeforeOrEqual(startOfDaysAgo(90), isoDate), 'last90Days'],
+    [() => isBeforeOrEqual(startOfDaysAgo(180), isoDate), 'last180Days'],
+    [() => isBeforeOrEqual(startOfDaysAgo(365), isoDate), 'last365Days'],
   ];
 
-  return conditions.find(([matcher]) => matcher())?.[1]() ?? ALL;
+  return conditions.find(([matcher]) => matcher())?.[1] ?? ALL;
 };
 
 export const toDateRange = (rangeOrInterval: DateRange | DateInterval): DateRange => {

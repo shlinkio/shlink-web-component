@@ -51,6 +51,9 @@ export const shortUrlsListReducerCreator = (
           return;
         }
 
+        // The only place where the list and the creation form coexist is the overview page.
+        // There we can assume we are displaying page 1, and therefore, we can safely prepend the new short URL.
+        // We can also remove the items above the amount that is displayed there.
         state.shortUrls.data = [payload, ...state.shortUrls.data.slice(0, ITEMS_IN_OVERVIEW_PAGE - 1)];
         state.shortUrls.pagination.totalItems += 1;
       },
@@ -92,6 +95,8 @@ export const shortUrlsListReducerCreator = (
         }
 
         state.shortUrls.data = state.shortUrls.data.map(
+          // Find the last of the new visit for this ShortUrl, and pick its short URL. It will have an up-to-date
+          // amount of visits.
           (currentShortUrl) => payload.createdVisits.findLast(
             ({ shortUrl }) => shortUrl && shortUrlMatches(currentShortUrl, shortUrl.shortCode, shortUrl.domain),
           )?.shortUrl ?? currentShortUrl,

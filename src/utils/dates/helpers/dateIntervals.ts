@@ -1,5 +1,5 @@
 import { endOfDay, startOfDay, subDays } from 'date-fns';
-import { cond, filter, isEmpty, T } from 'ramda';
+import { cond, T } from '../../helpers/data';
 import type { DateOrString } from './date';
 import { formatInternational, isBeforeOrEqual, now, parseISO } from './date';
 
@@ -24,8 +24,8 @@ export type DateInterval = keyof typeof INTERVAL_TO_STRING_MAP;
 
 const INTERVALS = Object.keys(INTERVAL_TO_STRING_MAP) as DateInterval[];
 
-export const dateRangeIsEmpty = (dateRange?: DateRange): boolean => dateRange === undefined
-  || isEmpty(filter(Boolean, dateRange as any));
+export const dateRangeIsEmpty = (dateRange?: DateRange): boolean => !dateRange
+  || (!dateRange.startDate && !dateRange.endDate);
 
 export const rangeIsInterval = (range?: DateRange | DateInterval): range is DateInterval =>
   typeof range === 'string' && INTERVALS.includes(range);

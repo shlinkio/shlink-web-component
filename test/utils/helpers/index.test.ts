@@ -1,5 +1,5 @@
 import {
-  nonEmptyValueOrNull,
+  nonEmptyStringOrNull,
   parseBooleanToString,
   parseOptionalBooleanToString,
   rangeOf,
@@ -31,16 +31,12 @@ describe('utils', () => {
     });
   });
 
-  describe('nonEmptyValueOrNull', () => {
+  describe('nonEmptyStringOrNull', () => {
     it.each([
       ['', null],
       ['Hello', 'Hello'],
-      [[], null],
-      [[1, 2, 3], [1, 2, 3]],
-      [{}, null],
-      [{ foo: 'bar' }, { foo: 'bar' }],
     ])('returns expected value based on input', (value, expected) => {
-      expect(nonEmptyValueOrNull(value)).toEqual(expected);
+      expect(nonEmptyStringOrNull(value)).toEqual(expected);
     });
   });
 

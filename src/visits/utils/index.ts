@@ -1,11 +1,11 @@
 import bowser from 'bowser';
-import { zipObj } from 'ramda';
 import type { Empty } from '../../utils/helpers';
 import { hasValue } from '../../utils/helpers';
+import { zipObj } from '../../utils/helpers/data';
 import type { Stats, UserAgent } from '../types';
 
 const DEFAULT = 'Others';
-const BROWSERS_WHITELIST = [
+const BROWSERS_ALLOWLIST = [
   'Android Browser',
   'Chrome',
   'Chromium',
@@ -26,7 +26,7 @@ export const parseUserAgent = (userAgent: string | Empty): UserAgent => {
 
   const { browser: { name: browser }, os: { name: os } } = bowser.parse(userAgent);
 
-  return { os: os ?? DEFAULT, browser: browser && BROWSERS_WHITELIST.includes(browser) ? browser : DEFAULT };
+  return { os: os ?? DEFAULT, browser: browser && BROWSERS_ALLOWLIST.includes(browser) ? browser : DEFAULT };
 };
 
 export const extractDomain = (url: string | Empty): string => {

@@ -1,4 +1,4 @@
-import { range } from 'ramda';
+import { range } from './data';
 import { prettify } from './numbers';
 
 const DELTA = 2;

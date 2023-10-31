@@ -1,6 +1,6 @@
-import { countBy, groupBy, pipe, prop } from 'ramda';
 import type { ShlinkOrphanVisit, ShlinkVisit, ShlinkVisitsParams } from '../../api-contract';
 import { formatIsoDate } from '../../utils/dates/helpers/date';
+import { countBy, groupBy } from '../../utils/helpers/data';
 import type { CreateVisit, NormalizedOrphanVisit, NormalizedVisit, Stats, VisitsParams } from './index';
 
 export const isOrphanVisit = (visit: ShlinkVisit): visit is ShlinkOrphanVisit =>
@@ -14,11 +14,13 @@ export interface GroupedNewVisits {
   nonOrphanVisits: CreateVisit[];
 }
 
-export const groupNewVisitsByType = pipe(
-  groupBy((newVisit: CreateVisit) => (isOrphanVisit(newVisit.visit) ? 'orphanVisits' : 'nonOrphanVisits')),
-  // @ts-expect-error Type declaration on groupBy is not correct. It can return undefined props
-  (result): GroupedNewVisits => ({ orphanVisits: [], nonOrphanVisits: [], ...result }),
-);
+export const groupNewVisitsByType = (createdVisits: CreateVisit[]): GroupedNewVisits => {
+  const groupedVisits: Partial<GroupedNewVisits> = groupBy(
+    (newVisit: CreateVisit) => (isOrphanVisit(newVisit.visit) ? 'orphanVisits' : 'nonOrphanVisits'),
+    createdVisits,
+  );
+  return { orphanVisits: [], nonOrphanVisits: [], ...groupedVisits };
+};
 
 export type HighlightableProps<T extends NormalizedVisit> = T extends NormalizedOrphanVisit
   ? ('referer' | 'country' | 'city' | 'visitedUrl')
@@ -27,7 +29,7 @@ export type HighlightableProps<T extends NormalizedVisit> = T extends Normalized
 export const highlightedVisitsToStats = <T extends NormalizedVisit>(
   highlightedVisits: T[],
   property: HighlightableProps<T>,
-): Stats => countBy(prop(property) as any, highlightedVisits);
+): Stats => countBy((value: any) => value[property], highlightedVisits);
 
 export const toApiParams = ({ page, itemsPerPage, filter, dateRange }: VisitsParams): ShlinkVisitsParams => {
   const startDate = (dateRange?.startDate && formatIsoDate(dateRange?.startDate)) ?? undefined;

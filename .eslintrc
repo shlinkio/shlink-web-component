@@ -8,5 +8,11 @@
   },
   "rules": {
     "react/no-unused-prop-types": "off"
-  }
+  },
+  "overrides": [{
+    "files": ["**/reducers/**"],
+    "rules": {
+      "no-param-reassign": "off"
+    }
+  }]
 }

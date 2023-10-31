@@ -11,7 +11,6 @@ import {
   parseISO,
   startOfISOWeek,
 } from 'date-fns';
-import { always, cond, countBy, reverse } from 'ramda';
 import type { MutableRefObject } from 'react';
 import { useMemo, useRef, useState } from 'react';
 import { getElementAtEvent, Line } from 'react-chartjs-2';
@@ -27,6 +26,7 @@ import {
 import { formatInternational } from '../../utils/dates/helpers/date';
 import { rangeOf } from '../../utils/helpers';
 import { pointerOnHover, renderChartLabel } from '../../utils/helpers/charts';
+import { always, cond, countBy } from '../../utils/helpers/data';
 import { prettify } from '../../utils/helpers/numbers';
 import type { NormalizedVisit, Stats } from '../types';
 import { fillTheGaps } from '../utils';
@@ -183,13 +183,13 @@ export const LineChartCard = (
   const refWithoutHighlightedVisits = useRef(null);
 
   const datasetsByPoint = useMemo(() => visitsToDatasetGroups(step, visits), [step, visits]);
-  const groupedVisitsWithGaps = useMemo(() => groupVisitsByStep(step, reverse(visits)), [step, visits]);
+  const groupedVisitsWithGaps = useMemo(() => groupVisitsByStep(step, [...visits].reverse()), [step, visits]);
   const [labels, groupedVisits] = useMemo(
     () => generateLabelsAndGroupedVisits(visits, groupedVisitsWithGaps, step, skipNoVisits),
     [visits, groupedVisitsWithGaps, step, skipNoVisits],
   );
   const groupedHighlighted = useMemo(
-    () => fillTheGaps(groupVisitsByStep(step, reverse(highlightedVisits)), labels),
+    () => fillTheGaps(groupVisitsByStep(step, [...highlightedVisits].reverse()), labels),
     [highlightedVisits, step, labels],
   );
   const generateChartDatasets = (): ChartDataset[] => {

@@ -1,11 +1,11 @@
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { range, splitEvery } from 'ramda';
 import type { ShlinkPaginator, ShlinkVisit, ShlinkVisits, ShlinkVisitsParams } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import type { RootState } from '../../container/store';
 import type { DateInterval } from '../../utils/dates/helpers/dateIntervals';
 import { dateToMatchingInterval } from '../../utils/dates/helpers/dateIntervals';
+import { range, splitEvery } from '../../utils/helpers/data';
 import { createAsyncThunk } from '../../utils/redux';
 import type { CreateVisit } from '../types';
 import type { LoadVisits, VisitsInfo, VisitsLoaded } from './types';
@@ -70,7 +70,7 @@ export const createVisitsAsyncThunk = <T extends LoadVisits = LoadVisits, R exte
 
       // If there are more pages, make requests in blocks of 4
       const pagesRange = range(PARALLEL_STARTING_PAGE, pagination.pagesCount + 1);
-      const pagesBlocks = splitEvery(PARALLEL_REQUESTS_COUNT, pagesRange);
+      const pagesBlocks = splitEvery(pagesRange, PARALLEL_REQUESTS_COUNT);
 
       if (pagination.pagesCount - 1 > PARALLEL_REQUESTS_COUNT) {
         dispatch(large());

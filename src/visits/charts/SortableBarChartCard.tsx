@@ -1,11 +1,11 @@
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
-import { pipe, reverse, sortBy, splitEvery, zipObj } from 'ramda';
 import type { FC, ReactNode } from 'react';
 import { useState } from 'react';
 import { PaginationDropdown } from '../../utils/components/PaginationDropdown';
 import { SimplePaginator } from '../../utils/components/SimplePaginator';
 import { rangeOf } from '../../utils/helpers';
+import { sortBy, splitEvery, zipObj } from '../../utils/helpers/data';
 import { roundTen } from '../../utils/helpers/numbers';
 import type { Stats, StatsRow } from '../types';
 import { ChartCard } from './ChartCard';
@@ -39,14 +39,11 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
   const getSortedPairsForStats = (statsToSort: Stats, sorting: Record<string, string>) => {
     const pairs = Object.entries(statsToSort);
     const sortedPairs = !order.field ? pairs : sortBy(
-      pipe<StatsRow[], string | number, string | number>(
-        order.field === Object.keys(sorting)[0] ? pickKeyFromPair : pickValueFromPair,
-        toLowerIfString,
-      ),
+      ([key, value]: StatsRow) => toLowerIfString(order.field === Object.keys(sorting)[0] ? key : value),
       pairs,
     );
 
-    return !order.dir || order.dir === 'ASC' ? sortedPairs : reverse(sortedPairs);
+    return !order.dir || order.dir === 'ASC' ? sortedPairs : [...sortedPairs].reverse();
   };
   const determineCurrentPagePairs = (pages: StatsRow[][]): StatsRow[] => {
     const page = pages[currentPage - 1];
@@ -77,8 +74,8 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
       };
     }
 
-    const pages = splitEvery(itemsPerPage, sortedPairs);
-    const highlightedPages = sortedHighlightedPairs && splitEvery(itemsPerPage, sortedHighlightedPairs);
+    const pages = splitEvery(sortedPairs, itemsPerPage);
+    const highlightedPages = sortedHighlightedPairs && splitEvery(sortedHighlightedPairs, itemsPerPage);
 
     return {
       currentPageStats: Object.fromEntries(determineCurrentPagePairs(pages)),

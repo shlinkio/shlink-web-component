@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import type { ShlinkDomain } from '../../api-contract';
 import { InfoTooltip } from '../../utils/components/InfoTooltip';
-import { handleEventPreventingDefault, nonEmptyValueOrNull } from '../../utils/helpers';
+import { handleEventPreventingDefault, nonEmptyStringOrNull } from '../../utils/helpers';
 import type { EditDomainRedirects } from '../reducers/domainRedirects';
 
 interface EditDomainRedirectsModalProps {
@@ -36,9 +36,9 @@ export const EditDomainRedirectsModal: FC<EditDomainRedirectsModalProps> = (
   const handleSubmit = handleEventPreventingDefault(async () => editDomainRedirects({
     domain: domain.domain,
     redirects: {
-      baseUrlRedirect: nonEmptyValueOrNull(baseUrlRedirect),
-      regular404Redirect: nonEmptyValueOrNull(regular404Redirect),
-      invalidShortUrlRedirect: nonEmptyValueOrNull(invalidShortUrlRedirect),
+      baseUrlRedirect: nonEmptyStringOrNull(baseUrlRedirect),
+      regular404Redirect: nonEmptyStringOrNull(regular404Redirect),
+      invalidShortUrlRedirect: nonEmptyStringOrNull(invalidShortUrlRedirect),
     },
   }).then(toggle));
 

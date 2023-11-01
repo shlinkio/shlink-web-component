@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -29,9 +29,9 @@ const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
 }: ShortUrlsTableProps) => {
   const { ShortUrlsRow } = useDependencies(ShortUrlsTable);
   const { error, loading, shortUrls } = shortUrlsList;
-  const actionableFieldClasses = classNames({ 'short-urls-table__header-cell--with-action': !!orderByColumn });
-  const orderableColumnsClasses = classNames('short-urls-table__header-cell', actionableFieldClasses);
-  const tableClasses = classNames('table table-hover responsive-table short-urls-table', className);
+  const actionableFieldClasses = clsx({ 'short-urls-table__header-cell--with-action': !!orderByColumn });
+  const orderableColumnsClasses = clsx('short-urls-table__header-cell', actionableFieldClasses);
+  const tableClasses = clsx('table table-hover responsive-table short-urls-table', className);
 
   const renderShortUrls = () => {
     if (error) {
@@ -72,11 +72,11 @@ const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
             Short URL {renderOrderIcon?.('shortCode')}
           </th>
           <th className="short-urls-table__header-cell">
-            <UnstyledButton className={classNames('p-0', actionableFieldClasses)} onClick={orderByColumn?.('title')}>
+            <UnstyledButton className={clsx('p-0', actionableFieldClasses)} onClick={orderByColumn?.('title')}>
               Title {renderOrderIcon?.('title')}
             </UnstyledButton>
             &nbsp;&nbsp;/&nbsp;&nbsp;
-            <UnstyledButton className={classNames('p-0', actionableFieldClasses)} onClick={orderByColumn?.('longUrl')}>
+            <UnstyledButton className={clsx('p-0', actionableFieldClasses)} onClick={orderByColumn?.('longUrl')}>
               <span className="indivisible">Long URL</span> {renderOrderIcon?.('longUrl')}
             </UnstyledButton>
           </th>

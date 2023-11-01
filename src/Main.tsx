@@ -1,7 +1,7 @@
 import { faBars as burgerIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
@@ -54,7 +54,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
   useEffect(() => hideSidebar(), [location, hideSidebar]);
 
   const addDomainVisitsRoute = useFeature('domainVisits');
-  const burgerClasses = classNames('shlink-layout__burger-icon', { 'shlink-layout__burger-icon--active': sidebarVisible });
+  const burgerClasses = clsx('shlink-layout__burger-icon', { 'shlink-layout__burger-icon--active': sidebarVisible });
   const swipeableProps = useSwipeable(showSidebar, hideSidebar);
 
   return (

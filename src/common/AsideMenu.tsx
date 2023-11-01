@@ -6,7 +6,7 @@ import {
   faTags as tagsIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import type { NavLinkProps } from 'react-router-dom';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -24,7 +24,7 @@ interface AsideMenuItemProps extends NavLinkProps {
 
 const AsideMenuItem: FC<AsideMenuItemProps> = ({ children, to, className, ...rest }) => (
   <NavLink
-    className={({ isActive }) => classNames('aside-menu__item', className, { 'aside-menu__item--selected': isActive })}
+    className={({ isActive }) => clsx('aside-menu__item', className, { 'aside-menu__item--selected': isActive })}
     to={to}
     {...rest}
   >
@@ -34,7 +34,7 @@ const AsideMenuItem: FC<AsideMenuItemProps> = ({ children, to, className, ...res
 
 export const AsideMenu: FC<AsideMenuProps> = ({ routePrefix, showOnMobile = false }) => {
   const { pathname } = useLocation();
-  const asideClass = classNames('aside-menu', {
+  const asideClass = clsx('aside-menu', {
     'aside-menu--hidden': !showOnMobile,
   });
   const buildPath = (suffix: string) => `${routePrefix}${suffix}`;
@@ -48,7 +48,7 @@ export const AsideMenu: FC<AsideMenuProps> = ({ routePrefix, showOnMobile = fals
         </AsideMenuItem>
         <AsideMenuItem
           to={buildPath('/list-short-urls/1')}
-          className={classNames({ 'aside-menu__item--selected': pathname.match('/list-short-urls') !== null })}
+          className={clsx({ 'aside-menu__item--selected': pathname.match('/list-short-urls') !== null })}
         >
           <FontAwesomeIcon fixedWidth icon={listIcon} />
           <span className="aside-menu__item-text">List short URLs</span>

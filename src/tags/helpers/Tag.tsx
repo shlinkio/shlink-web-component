@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC, MouseEventHandler, PropsWithChildren } from 'react';
 import { useMemo } from 'react';
 import { UnstyledButton } from '../../utils/components/UnstyledButton';
@@ -29,7 +29,7 @@ export const Tag: FC<TagProps> = (props) => {
 
   return (
     <Wrapper
-      className={classNames('badge tag fw-bold', className, { 'tag--light-bg': isLightColor, pointer: actionable })}
+      className={clsx('badge tag fw-bold', className, { 'tag--light-bg': isLightColor, pointer: actionable })}
       style={{ backgroundColor: colorGenerator.getColorForKey(text) }}
       onClick={actionable ? props.onClick : undefined}
     >
@@ -37,7 +37,7 @@ export const Tag: FC<TagProps> = (props) => {
       {isClearable(props) && (
         <UnstyledButton
           aria-label={`Remove ${text}`}
-          className={classNames('bg-transparent ms-1 opacity-100 p-0 fw-bold tag__close', {
+          className={clsx('bg-transparent ms-1 opacity-100 p-0 fw-bold tag__close', {
             'tag--light-bg': isLightColor,
           })}
           onClick={props.onClose}

@@ -1,6 +1,6 @@
+import { countBy, groupBy } from '@shlinkio/data-manipulation';
 import type { ShlinkOrphanVisit, ShlinkVisit, ShlinkVisitsParams } from '../../api-contract';
 import { formatIsoDate } from '../../utils/dates/helpers/date';
-import { countBy, groupBy } from '../../utils/helpers/data';
 import type { CreateVisit, NormalizedOrphanVisit, NormalizedVisit, Stats, VisitsParams } from './index';
 
 export const isOrphanVisit = (visit: ShlinkVisit): visit is ShlinkOrphanVisit =>

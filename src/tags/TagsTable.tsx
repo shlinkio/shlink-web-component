@@ -1,3 +1,4 @@
+import { splitEvery } from '@shlinkio/data-manipulation';
 import { parseQuery, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
@@ -5,7 +6,6 @@ import { useLocation } from 'react-router-dom';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
-import { splitEvery } from '../utils/helpers/data';
 import { useQueryState } from '../utils/helpers/hooks';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import type { TagsListChildrenProps, TagsOrder, TagsOrderableFields } from './data/TagsListChildrenProps';

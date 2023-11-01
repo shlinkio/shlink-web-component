@@ -1,7 +1,7 @@
+import { range } from '@shlinkio/data-manipulation';
 import { screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { rangeOf } from '../../../src/utils/helpers';
-import { range } from '../../../src/utils/helpers/data';
 import { SortableBarChartCard } from '../../../src/visits/charts/SortableBarChartCard';
 import type { Stats } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';

@@ -1,11 +1,11 @@
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
+import { range, splitEvery } from '@shlinkio/data-manipulation';
 import type { ShlinkPaginator, ShlinkVisit, ShlinkVisits, ShlinkVisitsParams } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import type { RootState } from '../../container/store';
 import type { DateInterval } from '../../utils/dates/helpers/dateIntervals';
 import { dateToMatchingInterval } from '../../utils/dates/helpers/dateIntervals';
-import { range, splitEvery } from '../../utils/helpers/data';
 import { createAsyncThunk } from '../../utils/redux';
 import type { CreateVisit } from '../types';
 import type { LoadVisits, VisitsInfo, VisitsLoaded } from './types';

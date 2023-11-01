@@ -1,5 +1,5 @@
+import { range } from '@shlinkio/data-manipulation';
 import type { SyntheticEvent } from 'react';
-import { range } from './data';
 
 export type OptionalString = string | null | undefined;
 

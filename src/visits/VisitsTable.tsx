@@ -1,5 +1,6 @@
 import { faCheck as checkIcon, faRobot as botIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { splitEvery } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
@@ -7,7 +8,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
 import { Time } from '../utils/dates/Time';
-import { splitEvery } from '../utils/helpers/data';
 import { useMaxResolution } from '../utils/helpers/hooks';
 import { prettify } from '../utils/helpers/numbers';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';

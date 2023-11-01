@@ -1,3 +1,4 @@
+import { sortBy, splitEvery, zipObj } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
@@ -5,7 +6,6 @@ import { useState } from 'react';
 import { PaginationDropdown } from '../../utils/components/PaginationDropdown';
 import { SimplePaginator } from '../../utils/components/SimplePaginator';
 import { rangeOf } from '../../utils/helpers';
-import { sortBy, splitEvery, zipObj } from '../../utils/helpers/data';
 import { roundTen } from '../../utils/helpers/numbers';
 import type { Stats, StatsRow } from '../types';
 import { ChartCard } from './ChartCard';

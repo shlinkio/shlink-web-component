@@ -1,4 +1,4 @@
-import { range } from './data';
+import { range } from '@shlinkio/data-manipulation';
 import { prettify } from './numbers';
 
 const DELTA = 2;

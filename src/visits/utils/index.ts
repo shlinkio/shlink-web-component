@@ -1,7 +1,7 @@
+import { zipObj } from '@shlinkio/data-manipulation';
 import bowser from 'bowser';
 import type { Empty } from '../../utils/helpers';
 import { hasValue } from '../../utils/helpers';
-import { zipObj } from '../../utils/helpers/data';
 import type { Stats, UserAgent } from '../types';
 
 const DEFAULT = 'Others';

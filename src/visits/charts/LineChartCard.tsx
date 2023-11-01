@@ -1,3 +1,4 @@
+import { countBy } from '@shlinkio/data-manipulation';
 import { HIGHLIGHTED_COLOR, MAIN_COLOR, ToggleSwitch, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { ChartData, ChartDataset, ChartOptions, InteractionItem } from 'chart.js';
 import {
@@ -26,7 +27,6 @@ import {
 import { formatInternational } from '../../utils/dates/helpers/date';
 import { rangeOf } from '../../utils/helpers';
 import { pointerOnHover, renderChartLabel } from '../../utils/helpers/charts';
-import { countBy } from '../../utils/helpers/data';
 import { prettify } from '../../utils/helpers/numbers';
 import type { NormalizedVisit, Stats } from '../types';
 import { fillTheGaps } from '../utils';

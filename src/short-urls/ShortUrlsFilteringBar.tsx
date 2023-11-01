@@ -2,7 +2,7 @@ import { faTag, faTags } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown, SearchField } from '@shlinkio/shlink-frontend-kit';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import { Button, InputGroup, Row, UncontrolledTooltip } from 'reactstrap';
@@ -72,7 +72,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
   );
 
   return (
-    <div className={classNames('short-urls-filtering-bar-container', className)}>
+    <div className={clsx('short-urls-filtering-bar-container', className)}>
       <SearchField initialValue={search} onChange={setSearch} />
 
       <InputGroup className="mt-3">

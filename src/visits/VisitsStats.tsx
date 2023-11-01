@@ -2,7 +2,7 @@ import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faCalendarAlt, faChartPie, faGears, faList, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Message, NavPillItem, NavPills, Result } from '@shlinkio/shlink-frontend-kit';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
@@ -193,13 +193,13 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
               path={sections.byContext.subPath}
               element={(
                 <>
-                  <div className={classNames('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
+                  <div className={clsx('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
                     <DoughnutChartCard title="Operating systems" stats={os} />
                   </div>
-                  <div className={classNames('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
+                  <div className={clsx('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
                     <DoughnutChartCard title="Browsers" stats={browsers} />
                   </div>
-                  <div className={classNames('mt-3', { 'col-xl-4': !isOrphanVisits, 'col-lg-6': isOrphanVisits })}>
+                  <div className={clsx('mt-3', { 'col-xl-4': !isOrphanVisits, 'col-lg-6': isOrphanVisits })}>
                     <SortableBarChartCard
                       title="Referrers"
                       stats={referrers}

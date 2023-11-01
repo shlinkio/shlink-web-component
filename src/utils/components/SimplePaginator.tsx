@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import type { NumberOrEllipsis } from '../helpers/pagination';
@@ -27,7 +27,7 @@ export const SimplePaginator: FC<SimplePaginatorProps> = (
   const onClick = (page: NumberOrEllipsis) => () => !pageIsEllipsis(page) && setCurrentPage(page);
 
   return (
-    <Pagination listClassName={classNames('flex-wrap mb-0 simple-paginator', { 'justify-content-center': centered })}>
+    <Pagination listClassName={clsx('flex-wrap mb-0 simple-paginator', { 'justify-content-center': centered })}>
       <PaginationItem disabled={currentPage <= 1}>
         <PaginationLink previous tag="span" onClick={onClick(currentPage - 1)} />
       </PaginationItem>

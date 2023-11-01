@@ -1,5 +1,5 @@
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { MutableRefObject } from 'react';
 import type { OptionRendererProps, ReactTagsAPI, TagRendererProps, TagSuggestion } from 'react-tag-autocomplete';
 import { ReactTags } from 'react-tag-autocomplete';
@@ -35,7 +35,7 @@ const buildOptionRenderer = (colorGenerator: ColorGenerator, api: MutableRefObje
 
   return (
     <div
-      className={classNames(classes.option, {
+      className={clsx(classes.option, {
         [classes.optionIsActive]: isSelectable && option.active,
         'react-tags__listbox-option--not-selectable': !isSelectable,
       })}

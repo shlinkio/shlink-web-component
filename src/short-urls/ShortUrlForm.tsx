@@ -2,7 +2,7 @@ import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faAndroid, faApple } from '@fortawesome/free-brands-svg-icons';
 import { faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { Checkbox, SimpleCard } from '@shlinkio/shlink-frontend-kit';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { parseISO } from 'date-fns';
 import type { ChangeEvent, FC } from 'react';
 import { useEffect, useState } from 'react';
@@ -159,9 +159,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
       {!isBasicMode && (
         <>
           <Row>
-            <div
-              className={classNames('mb-3', { 'col-sm-6': supportsDeviceLongUrls, 'col-12': !supportsDeviceLongUrls })}
-            >
+            <div className={clsx('mb-3', { 'col-sm-6': supportsDeviceLongUrls, 'col-12': !supportsDeviceLongUrls })}>
               <SimpleCard title="Main options" className="mb-3">
                 {basicComponents}
               </SimpleCard>

@@ -2,7 +2,7 @@ import { faCheck as checkIcon, faRobot as botIcon } from '@fortawesome/free-soli
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
@@ -43,6 +43,8 @@ const calculateVisits = (allVisits: NormalizedVisit[], searchTerm: string | unde
   return { visitsGroups, total };
 };
 
+const headerCellsClass = 'visits-table__header-cell visits-table__sticky';
+
 export const VisitsTable = ({
   visits,
   selectedVisits = [],
@@ -50,8 +52,6 @@ export const VisitsTable = ({
   matchMedia = window.matchMedia,
   isOrphanVisits = false,
 }: VisitsTableProps) => {
-  const headerCellsClass = 'visits-table__header-cell visits-table__sticky';
-
   const isMobileDevice = useMaxResolution(767, matchMedia);
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
   const [order, setOrder] = useState<VisitsOrder>({});
@@ -84,7 +84,7 @@ export const VisitsTable = ({
               )}
             >
               <span className="sr-only">Is selected</span>
-              <FontAwesomeIcon icon={checkIcon} className={classNames({ 'text-primary': selectedVisits.length > 0 })} />
+              <FontAwesomeIcon icon={checkIcon} className={clsx({ 'text-primary': selectedVisits.length > 0 })} />
             </th>
             <th className={`${headerCellsClass} text-center`} onClick={orderByColumn('potentialBot')}>
               <span className="sr-only">Is bot</span>
@@ -143,7 +143,7 @@ export const VisitsTable = ({
               <tr
                 key={index}
                 style={{ cursor: 'pointer' }}
-                className={classNames({ 'table-active': isSelected })}
+                className={clsx({ 'table-active': isSelected })}
                 onClick={() => setSelectedVisits(
                   isSelected ? selectedVisits.filter((v) => v !== visit) : [...selectedVisits, visit],
                 )}
@@ -186,7 +186,7 @@ export const VisitsTable = ({
                     />
                   </div>
                   <div
-                    className={classNames('col-md-6', {
+                    className={clsx('col-md-6', {
                       'd-flex align-items-center flex-row-reverse': !isMobileDevice,
                       'text-center mt-3': isMobileDevice,
                     })}

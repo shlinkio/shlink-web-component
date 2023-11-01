@@ -1,6 +1,6 @@
 import { faCalendarAlt as calendarIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { useRef } from 'react';
 import type { ReactDatePickerProps } from 'react-datepicker';
 import DatePicker from 'react-datepicker';
@@ -25,7 +25,7 @@ export const DateInput = (props: DateInputProps) => {
           },
         ]}
         dateFormat={dateFormat ?? STANDARD_DATE_FORMAT}
-        className={classNames('icon-input-container__input form-control', className)}
+        className={clsx('icon-input-container__input form-control', className)}
         // @ts-expect-error The DatePicker type definition is wrong. It has a ref prop
         ref={ref}
       />

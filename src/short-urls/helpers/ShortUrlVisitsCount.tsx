@@ -1,7 +1,7 @@
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { UncontrolledTooltip } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
 import { formatHumanFriendly, parseISO } from '../../utils/dates/helpers/date';
@@ -24,9 +24,7 @@ export const ShortUrlVisitsCount = (
   const hasLimit = !!maxVisits || !!validSince || !!validUntil;
   const visitsLink = (
     <ShortUrlDetailLink shortUrl={shortUrl} suffix="visits" asLink={asLink}>
-      <strong
-        className={classNames('short-url-visits-count__amount', { 'short-url-visits-count__amount--big': active })}
-      >
+      <strong className={clsx('short-url-visits-count__amount', { 'short-url-visits-count__amount--big': active })}>
         {prettify(visitsCount)}
       </strong>
     </ShortUrlDetailLink>

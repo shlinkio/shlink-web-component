@@ -1,7 +1,7 @@
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import type { InputProps } from 'reactstrap';
 import { Input } from 'reactstrap';
@@ -13,11 +13,10 @@ type IconInputProps = InputProps & {
 
 export const IconInput: FC<IconInputProps> = ({ icon, className, ...rest }) => {
   const ref = useElementRef<HTMLInputElement>();
-  const classes = classNames('icon-input-container__input', className);
 
   return (
     <div className="icon-input-container">
-      <Input className={classes} innerRef={ref} {...rest} />
+      <Input className={clsx('icon-input-container__input', className)} innerRef={ref} {...rest} />
       <FontAwesomeIcon
         icon={icon}
         fixedWidth

@@ -127,6 +127,22 @@ describe('<VisitsTable />', () => {
     await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(9 + 2));
   });
 
+  it('resets selected visits when search term changes', async () => {
+    const visits = rangeOf(50, (index) => fromPartial<NormalizedVisit>(
+      { country: `country${index}`, browser: '', date: '2022-01-01', referer: '' },
+    ));
+    const { user } = setUp(visits, [visits[1], visits[2]]);
+
+    // Jump to second page, and then set some filtering text
+    await user.click(screen.getByRole('link', { name: '2' }));
+    await user.type(screen.getByPlaceholderText('Search...'), 'foo');
+
+    // Search is deferred, so let's wait for it to apply
+    await waitFor(() => screen.getByText('No visits found with current filtering'));
+
+    expect(setSelectedVisits).toHaveBeenCalledWith([]);
+  });
+
   it.each([
     [true, 9],
     [false, 8],

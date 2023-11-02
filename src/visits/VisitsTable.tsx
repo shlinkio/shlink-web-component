@@ -4,7 +4,7 @@ import { splitEvery } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
 import { Time } from '../utils/dates/Time';
@@ -34,7 +34,7 @@ const visitMatchesSearch = ({ browser, os, referer, country, city, ...rest }: No
 const searchVisits = (searchTerm: string, visits: NormalizedVisit[]) =>
   visits.filter((visit) => visitMatchesSearch(visit, searchTerm));
 const sortVisits = (order: VisitsOrder, visits: NormalizedVisit[]) => sortList<NormalizedVisit>(visits, order as any);
-const calculateVisits = (allVisits: NormalizedVisit[], searchTerm: string | undefined, order: VisitsOrder) => {
+const paginateVisits = (allVisits: NormalizedVisit[], searchTerm: string | undefined, order: VisitsOrder) => {
   const filteredVisits = searchTerm ? searchVisits(searchTerm, allVisits) : [...allVisits];
   const sortedVisits = sortVisits(order, filteredVisits);
   const total = sortedVisits.length;
@@ -54,8 +54,9 @@ export const VisitsTable = ({
 }: VisitsTableProps) => {
   const isMobileDevice = useMaxResolution(767, matchMedia);
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
+  const prevSearchTerm = useRef<string | undefined>(searchTerm);
   const [order, setOrder] = useState<VisitsOrder>({});
-  const resultSet = useMemo(() => calculateVisits(visits, searchTerm, order), [visits, searchTerm, order]);
+  const paginator = useMemo(() => paginateVisits(visits, searchTerm, order), [visits, searchTerm, order]);
   const [page, setPage] = useState(1);
   const end = page * PAGE_SIZE;
   const start = end - PAGE_SIZE;
@@ -66,10 +67,13 @@ export const VisitsTable = ({
   const renderOrderIcon = (field: OrderableFields) =>
     <TableOrderIcon currentOrder={order} field={field} className="visits-table__header-icon" />;
 
-  // Move to first page and clear selected visits every time the filter changes
+  // Move to first page and clear selected visits every time the search term changes
   useEffect(() => {
-    setPage(1);
-    setSelectedVisits([]);
+    if (prevSearchTerm.current !== searchTerm) {
+      setPage(1);
+      setSelectedVisits([]);
+    }
+    prevSearchTerm.current = searchTerm;
   }, [searchTerm, setSelectedVisits]);
 
   return (
@@ -80,7 +84,7 @@ export const VisitsTable = ({
             <th
               className={`${headerCellsClass} text-center`}
               onClick={() => setSelectedVisits(
-                selectedVisits.length < resultSet.total ? resultSet.visitsGroups.flat() : [],
+                selectedVisits.length < paginator.total ? paginator.visitsGroups.flat() : [],
               )}
             >
               <span className="sr-only">Is selected</span>
@@ -129,14 +133,14 @@ export const VisitsTable = ({
           </tr>
         </thead>
         <tbody>
-          {!resultSet.visitsGroups[page - 1]?.length && (
+          {paginator.total === 0 && (
             <tr>
               <td colSpan={fullSizeColSpan} className="text-center">
                 No visits found with current filtering
               </td>
             </tr>
           )}
-          {resultSet.visitsGroups[page - 1]?.map((visit, index) => {
+          {paginator.visitsGroups[page - 1]?.map((visit, index) => {
             const isSelected = selectedVisits.includes(visit);
 
             return (
@@ -172,14 +176,14 @@ export const VisitsTable = ({
             );
           })}
         </tbody>
-        {resultSet.total > PAGE_SIZE && (
+        {paginator.total > PAGE_SIZE && (
           <tfoot>
             <tr>
               <td colSpan={fullSizeColSpan} className="visits-table__footer-cell visits-table__sticky">
                 <div className="row">
                   <div className="col-md-6">
                     <SimplePaginator
-                      pagesCount={Math.ceil(resultSet.total / PAGE_SIZE)}
+                      pagesCount={Math.ceil(paginator.total / PAGE_SIZE)}
                       currentPage={page}
                       setCurrentPage={setPage}
                       centered={isMobileDevice}
@@ -193,8 +197,8 @@ export const VisitsTable = ({
                   >
                     <div>
                       Visits <b>{prettify(start + 1)}</b> to{' '}
-                      <b>{prettify(Math.min(end, resultSet.total))}</b> of{' '}
-                      <b>{prettify(resultSet.total)}</b>
+                      <b>{prettify(Math.min(end, paginator.total))}</b> of{' '}
+                      <b>{prettify(paginator.total)}</b>
                     </div>
                   </div>
                 </div>

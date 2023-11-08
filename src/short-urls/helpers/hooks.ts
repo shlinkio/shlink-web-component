@@ -1,12 +1,13 @@
 import { orderToString, stringifyQuery, stringToOrder } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import type { TagsFilteringMode } from '../../api-contract';
 import type { BooleanString } from '../../utils/helpers';
 import { parseOptionalBooleanToString } from '../../utils/helpers';
 import { useParsedQuery } from '../../utils/helpers/hooks';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
 import type { ShortUrlsOrder, ShortUrlsOrderableFields } from '../data';
+import { urlDecodeShortCode } from './index';
 
 interface ShortUrlsQueryCommon {
   search?: string;
@@ -72,4 +73,12 @@ export const useShortUrlsQuery = (): [ShortUrlsFiltering, ToFirstPage] => {
   }, [filtering, navigate, routesPrefix]);
 
   return [filtering, toFirstPageWithExtra];
+};
+
+/**
+ * Reads the short code from route params, and decodes it
+ */
+export const useDecodedShortCodeFromParams = (): string => {
+  const { shortCode = '' } = useParams<{ shortCode: string }>();
+  return useMemo(() => urlDecodeShortCode(shortCode), [shortCode]);
 };

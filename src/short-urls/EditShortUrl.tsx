@@ -4,7 +4,7 @@ import { Message, parseQuery, Result } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useEffect, useMemo } from 'react';
 import { ExternalLink } from 'react-external-link';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Button, Card } from 'reactstrap';
 import type { ShlinkEditShortUrlData } from '../api-contract';
 import { ShlinkApiError } from '../common/ShlinkApiError';
@@ -13,7 +13,8 @@ import { componentFactory, useDependencies } from '../container/utils';
 import { useGoBack } from '../utils/helpers/hooks';
 import { useSetting } from '../utils/settings';
 import type { ShortUrlIdentifier } from './data';
-import { shortUrlDataFromShortUrl, urlDecodeShortCode } from './helpers';
+import { shortUrlDataFromShortUrl } from './helpers';
+import { useDecodedShortCodeFromParams } from './helpers/hooks';
 import type { ShortUrlDetail } from './reducers/shortUrlDetail';
 import type { EditShortUrl as EditShortUrlInfo, ShortUrlEdition } from './reducers/shortUrlEdition';
 import type { ShortUrlFormProps } from './ShortUrlForm';
@@ -34,7 +35,7 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
 ) => {
   const { ShortUrlForm } = useDependencies(EditShortUrl);
   const { search } = useLocation();
-  const params = useParams<{ shortCode: string }>();
+  const shortCode = useDecodedShortCodeFromParams();
   const goBack = useGoBack();
   const { loading, error, errorData, shortUrl } = shortUrlDetail;
   const { saving, saved, error: savingError, errorData: savingErrorData } = shortUrlEdition;
@@ -46,8 +47,8 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
   );
 
   useEffect(() => {
-    params.shortCode && getShortUrlDetail({ shortCode: urlDecodeShortCode(params.shortCode), domain });
-  }, [domain, getShortUrlDetail, params.shortCode]);
+    shortCode && getShortUrlDetail({ shortCode, domain });
+  }, [domain, getShortUrlDetail, shortCode]);
 
   if (loading) {
     return <Message loading />;

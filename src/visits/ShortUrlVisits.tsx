@@ -1,6 +1,6 @@
 import { parseQuery } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useEffect, useMemo } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
@@ -8,6 +8,7 @@ import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ShortUrlIdentifier } from '../short-urls/data';
 import { urlDecodeShortCode } from '../short-urls/helpers';
+import { useDecodedShortCodeFromParams } from '../short-urls/helpers/hooks';
 import type { ShortUrlDetail } from '../short-urls/reducers/shortUrlDetail';
 import { useFeature } from '../utils/features';
 import { useGoBack } from '../utils/helpers/hooks';
@@ -44,12 +45,12 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
 }: ShortUrlVisitsProps) => {
   const supportsShortUrlVisitsDeletion = useFeature('shortUrlVisitsDeletion');
   const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
-  const { shortCode = '' } = useParams<{ shortCode: string }>();
+  const shortCode = useDecodedShortCodeFromParams();
   const { search } = useLocation();
   const goBack = useGoBack();
   const { domain } = parseQuery<{ domain?: string }>(search);
   const loadVisits = useCallback((params: VisitsParams, doIntervalFallback?: boolean) => getShortUrlVisits({
-    shortCode: urlDecodeShortCode(shortCode),
+    shortCode,
     query: { ...toApiParams(params), domain },
     doIntervalFallback,
   }), [domain, getShortUrlVisits, shortCode]);
@@ -67,7 +68,7 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
   }, [deleteShortUrlVisits, domain, shortCode, shortUrlVisitsDeletion, supportsShortUrlVisitsDeletion]);
 
   useEffect(() => {
-    getShortUrlDetail({ shortCode: urlDecodeShortCode(shortCode), domain });
+    getShortUrlDetail({ shortCode, domain });
   }, [domain, getShortUrlDetail, shortCode]);
 
   return (

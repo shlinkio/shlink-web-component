@@ -85,7 +85,7 @@
     "@total-typescript/shoehorn": "^0.1.1",
     "@types/leaflet": "^1.9.7",
     "@types/react": "^18.2.34",
-    "@types/react-copy-to-clipboard": "^5.0.6",
+    "@types/react-copy-to-clipboard": "^5.0.7",
     "@types/react-datepicker": "^4.19.1",
     "@types/react-dom": "^18.2.14",
     "@vitejs/plugin-react": "^4.1.1",

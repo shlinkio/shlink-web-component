@@ -70,7 +70,7 @@
     "leaflet": "^1.9.4",
     "react-chartjs-2": "^5.2.0",
     "react-copy-to-clipboard": "^5.1.0",
-    "react-datepicker": "^4.21.0",
+    "react-datepicker": "^4.23.0",
     "react-external-link": "^2.2.0",
     "react-leaflet": "^4.2.1",
     "react-swipeable": "^7.0.1",

@@ -136,7 +136,7 @@ export const VisitsTable = ({
           {paginator.total === 0 && (
             <tr>
               <td colSpan={fullSizeColSpan} className="text-center">
-                No visits found with current filtering
+                There are no visits matching current filter
               </td>
             </tr>
           )}

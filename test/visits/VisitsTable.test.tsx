@@ -38,7 +38,7 @@ describe('<VisitsTable />', () => {
 
   it('shows warning when no visits are found', () => {
     setUp([]);
-    expect(screen.getByText('No visits found with current filtering')).toBeInTheDocument();
+    expect(screen.getByText('There are no visits matching current filter')).toBeInTheDocument();
   });
 
   it.each([
@@ -138,7 +138,7 @@ describe('<VisitsTable />', () => {
     await user.type(screen.getByPlaceholderText('Search...'), 'foo');
 
     // Search is deferred, so let's wait for it to apply
-    await waitFor(() => screen.getByText('No visits found with current filtering'));
+    await waitFor(() => screen.getByText('There are no visits matching current filter'));
 
     expect(setSelectedVisits).toHaveBeenCalledWith([]);
   });

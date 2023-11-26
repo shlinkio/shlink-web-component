@@ -59,6 +59,15 @@ Object.freeze(sections);
 
 let selectedBar: string | undefined;
 
+const VisitsSectionWithFallback: FC<PropsWithChildren<{ showFallback: boolean }>> = (
+  { children, showFallback },
+) => (
+  <>
+    {showFallback && <Message className="mt-3">There are no visits matching current filter</Message>}
+    {!showFallback && <>{children}</>}
+  </>
+);
+
 export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const {
     children,
@@ -154,10 +163,6 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
       );
     }
 
-    if (visits.length === 0) {
-      return <Message>There are no visits matching current filter</Message>;
-    }
-
     return (
       <>
         <NavPills fill>
@@ -177,22 +182,24 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
             <Route
               path={sections.byTime.subPath}
               element={(
-                <div className="col-12 mt-3">
-                  <LineChartCard
-                    title="Visits during time"
-                    visits={normalizedVisits}
-                    highlightedVisits={highlightedVisits}
-                    highlightedLabel={highlightedLabel}
-                    setSelectedVisits={setSelectedVisits}
-                  />
-                </div>
+                <VisitsSectionWithFallback showFallback={visits.length === 0}>
+                  <div className="col-12 mt-3">
+                    <LineChartCard
+                      title="Visits during time"
+                      visits={normalizedVisits}
+                      highlightedVisits={highlightedVisits}
+                      highlightedLabel={highlightedLabel}
+                      setSelectedVisits={setSelectedVisits}
+                    />
+                  </div>
+                </VisitsSectionWithFallback>
               )}
             />
 
             <Route
               path={sections.byContext.subPath}
               element={(
-                <>
+                <VisitsSectionWithFallback showFallback={visits.length === 0}>
                   <div className={clsx('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
                     <DoughnutChartCard title="Operating systems" stats={os} />
                   </div>
@@ -228,14 +235,14 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                       />
                     </div>
                   )}
-                </>
+                </VisitsSectionWithFallback>
               )}
             />
 
             <Route
               path={sections.byLocation.subPath}
               element={(
-                <>
+                <VisitsSectionWithFallback showFallback={visits.length === 0}>
                   <div className="col-lg-6 mt-3">
                     <SortableBarChartCard
                       title="Countries"
@@ -265,7 +272,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                       onClick={(value) => highlightVisitsForProp('city', value)}
                     />
                   </div>
-                </>
+                </VisitsSectionWithFallback>
               )}
             />
 

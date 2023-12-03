@@ -30,17 +30,7 @@ import { formatInternational } from '../../utils/dates/helpers/date';
 import { rangeOf } from '../../utils/helpers';
 import { prettify } from '../../utils/helpers/numbers';
 import type { NormalizedVisit, Stats } from '../types';
-
-type LineChartCardProps = {
-  title: string;
-  highlightedLabel?: string;
-  visits: NormalizedVisit[];
-  highlightedVisits: NormalizedVisit[];
-  setSelectedVisits?: (visits: NormalizedVisit[]) => void;
-
-  /** Test seam. For tests, a responsive container cannot be used */
-  dimensions?: { width: number; height: number };
-};
+import { CHART_TOOLTIP_STYLES } from './constants';
 
 type ChartPayloadEntry = {
   date: string;
@@ -167,6 +157,17 @@ const renderLine = ({ onDotClick, dataKey, color }: VisitsLineOptions) => (
   />
 );
 
+export type LineChartCardProps = {
+  title: string;
+  highlightedLabel?: string;
+  visits: NormalizedVisit[];
+  highlightedVisits: NormalizedVisit[];
+  setSelectedVisits?: (visits: NormalizedVisit[]) => void;
+
+  /** Test seam. For tests, a responsive container cannot be used */
+  dimensions?: { width: number; height: number };
+};
+
 export const LineChartCard: FC<LineChartCardProps> = (
   { visits, title, highlightedVisits, highlightedLabel = 'Selected', setSelectedVisits, dimensions },
 ) => {
@@ -223,7 +224,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
             <YAxis dataKey="amount" tickFormatter={prettify} />
             <Tooltip
               formatter={(value: number, name) => [prettify(value), name === 'amount' ? 'Visits' : highlightedLabel]}
-              contentStyle={{ color: 'white', background: 'rgb(0 0 0 / .9)', border: 'none', borderRadius: '5px' }}
+              contentStyle={CHART_TOOLTIP_STYLES}
             />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
             {renderLine({ color: MAIN_COLOR, dataKey: 'amount', onDotClick })}

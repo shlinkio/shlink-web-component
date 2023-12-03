@@ -57,7 +57,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
     // Using the "hidden" key, the chart will just replace the label by an empty string
     return [...page, ...rangeOf(firstPageLength - page.length, (i): StatsRow => [`hidden_${i}`, 0])];
   };
-  const renderPagination = (pagesCount: number) =>
+  const renderPagination = (pagesCount: number): ReactNode =>
     <SimplePaginator currentPage={currentPage} pagesCount={pagesCount} setCurrentPage={setCurrentPage} />;
   const determineStats = (statsToSort: Stats, sorting: Record<string, string>, theHighlightedStats?: Stats) => {
     const sortedPairs = getSortedPairsForStats(statsToSort, sorting);
@@ -91,45 +91,44 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
     highlightedStats && Object.keys(highlightedStats).length > 0 ? highlightedStats : undefined,
   );
   const activeCities = Object.keys(currentPageStats);
-  const computeTitle = () => (
-    <>
-      {title}
-      <div className="float-end">
-        <OrderingDropdown
-          isButton={false}
-          right
-          items={sortingItems}
-          order={order}
-          onChange={(field, dir) => {
-            setOrder({ field, dir });
-            setCurrentPage(1);
-          }}
-        />
-      </div>
-      {withPagination && Object.keys(stats).length > 50 && (
-        <div className="float-end">
-          <PaginationDropdown
-            toggleClassName="btn-sm p-0 me-3"
-            ranges={[50, 100, 200, 500]}
-            value={itemsPerPage}
-            setValue={(value) => {
-              setItemsPerPage(value);
-              setCurrentPage(1);
-            }}
-          />
-        </div>
-      )}
-      {extraHeaderContent && (
-        <div className="float-end">
-          {extraHeaderContent(pagination ? activeCities : undefined)}
-        </div>
-      )}
-    </>
-  );
 
   return (
     <ChartCard
-      title={computeTitle}
+      title={(
+        <>
+          {title}
+          <div className="float-end">
+            <OrderingDropdown
+              isButton={false}
+              right
+              items={sortingItems}
+              order={order}
+              onChange={(field, dir) => {
+                setOrder({ field, dir });
+                setCurrentPage(1);
+              }}
+            />
+          </div>
+          {withPagination && Object.keys(stats).length > 50 && (
+            <div className="float-end">
+              <PaginationDropdown
+                toggleClassName="btn-sm p-0 me-3"
+                ranges={[50, 100, 200, 500]}
+                value={itemsPerPage}
+                setValue={(value) => {
+                  setItemsPerPage(value);
+                  setCurrentPage(1);
+                }}
+              />
+            </div>
+          )}
+          {extraHeaderContent && (
+            <div className="float-end">
+              {extraHeaderContent(pagination ? activeCities : undefined)}
+            </div>
+          )}
+        </>
+      )}
       footer={pagination}
     >
       <HorizontalBarChart

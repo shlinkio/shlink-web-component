@@ -35,7 +35,16 @@ export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, showNumbersInLege
           <ChartWrapper>
             <PieChart {...dimensions}>
               <Tooltip formatter={prettify} contentStyle={CHART_TOOLTIP_STYLES} itemStyle={{ color: 'white' }} />
-              <Pie data={chartData} dataKey="value" nameKey="name" startAngle={360} endAngle={0} outerRadius="100%" innerRadius="50%">
+              <Pie
+                data={chartData}
+                dataKey="value"
+                nameKey="name"
+                startAngle={360}
+                endAngle={0}
+                outerRadius="100%"
+                innerRadius="50%"
+                animationBegin={0}
+              >
                 {chartData.map((entry, index) => (
                   <Cell key={`${entry.name}-${index}`} fill={entry.color} stroke={borderColor} />
                 ))}

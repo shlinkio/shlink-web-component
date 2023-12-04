@@ -20,6 +20,8 @@ afterEach(() => {
   cleanup();
 });
 
+HTMLCanvasElement.prototype.getContext = (() => {}) as any;
+
 (global as any).ResizeObserver = ResizeObserver;
 (global as any).scrollTo = () => {};
 (global as any).prompt = () => {};

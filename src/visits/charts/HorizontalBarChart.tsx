@@ -85,6 +85,7 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
           onClick={({ name }: HorizontalBarChartEntry) => onClick?.(name)}
         >
           {chartData.map((entry) => (
+            // TODO Try to set these props to Bar
             <Cell key={entry.name} fill={MAIN_COLOR_ALPHA} stroke={MAIN_COLOR} strokeWidth={2} />
           ))}
         </Bar>

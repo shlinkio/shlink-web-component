@@ -7,9 +7,12 @@ import { DoughnutChart } from './DoughnutChart';
 interface DoughnutChartCardProps {
   title: string;
   stats: Stats;
+
+  /** Test seam. For tests, a responsive container cannot be used */
+  dimensions?: { width: number; height: number };
 }
 
-export const DoughnutChartCard: FC<DoughnutChartCardProps> = ({ title, stats }) => {
+export const DoughnutChartCard: FC<DoughnutChartCardProps> = ({ title, stats, dimensions }) => {
   const [showNumbersInLegend, toggleShowNumbersInLegend] = useToggle(false);
 
   return (
@@ -25,7 +28,7 @@ export const DoughnutChartCard: FC<DoughnutChartCardProps> = ({ title, stats }) 
         </>
       )}
     >
-      <DoughnutChart stats={stats} showNumbersInLegend={showNumbersInLegend} />
+      <DoughnutChart stats={stats} showNumbersInLegend={showNumbersInLegend} dimensions={dimensions} />
     </ChartCard>
   );
 };

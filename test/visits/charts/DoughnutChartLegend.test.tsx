@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { prettify } from '../../../src/utils/helpers/numbers';
-import type { DoughnutChartEntry } from '../../../src/visits/recharts/DoughnutChart';
-import { DoughnutChartLegend } from '../../../src/visits/recharts/DoughnutChartLegend';
+import type { DoughnutChartEntry } from '../../../src/visits/charts/DoughnutChart';
+import { DoughnutChartLegend } from '../../../src/visits/charts/DoughnutChartLegend';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<DoughnutChartLegend />', () => {

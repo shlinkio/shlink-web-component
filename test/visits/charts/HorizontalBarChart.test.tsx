@@ -1,5 +1,5 @@
-import type { HorizontalBarChartProps } from '../../../src/visits/recharts/HorizontalBarChart';
-import { HorizontalBarChart } from '../../../src/visits/recharts/HorizontalBarChart';
+import type { HorizontalBarChartProps } from '../../../src/visits/charts/HorizontalBarChart';
+import { HorizontalBarChart } from '../../../src/visits/charts/HorizontalBarChart';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 

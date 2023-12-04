@@ -7,10 +7,10 @@ import { PaginationDropdown } from '../../utils/components/PaginationDropdown';
 import { SimplePaginator } from '../../utils/components/SimplePaginator';
 import { rangeOf } from '../../utils/helpers';
 import { roundTen } from '../../utils/helpers/numbers';
-import type { HorizontalBarChartProps } from '../recharts/HorizontalBarChart';
-import { HorizontalBarChart } from '../recharts/HorizontalBarChart';
 import type { Stats, StatsRow } from '../types';
 import { ChartCard } from './ChartCard';
+import type { HorizontalBarChartProps } from './HorizontalBarChart';
+import { HorizontalBarChart } from './HorizontalBarChart';
 
 interface SortableBarChartCardProps extends Omit<HorizontalBarChartProps, 'max' | 'label'> {
   title: string;

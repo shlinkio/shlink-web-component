@@ -1,8 +1,8 @@
 import { ToggleSwitch, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import { DoughnutChart } from '../recharts/DoughnutChart';
 import type { Stats } from '../types';
 import { ChartCard } from './ChartCard';
+import { DoughnutChart } from './DoughnutChart';
 
 interface DoughnutChartCardProps {
   title: string;

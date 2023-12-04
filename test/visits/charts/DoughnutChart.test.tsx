@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import { DoughnutChart } from '../../../src/visits/recharts/DoughnutChart';
+import { DoughnutChart } from '../../../src/visits/charts/DoughnutChart';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 

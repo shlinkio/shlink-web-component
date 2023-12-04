@@ -1,135 +1,124 @@
-import { HIGHLIGHTED_COLOR, HIGHLIGHTED_COLOR_ALPHA, MAIN_COLOR, MAIN_COLOR_ALPHA } from '@shlinkio/shlink-frontend-kit';
-import type { ChartData, ChartDataset, ChartOptions, InteractionItem } from 'chart.js';
-import type { FC, MutableRefObject } from 'react';
-import { useRef } from 'react';
-import { Bar, getElementAtEvent } from 'react-chartjs-2';
-import { pointerOnHover, renderChartLabel } from '../../utils/helpers/charts';
+import {
+  HIGHLIGHTED_COLOR,
+  HIGHLIGHTED_COLOR_ALPHA,
+  isDarkThemeEnabled,
+  MAIN_COLOR,
+  MAIN_COLOR_ALPHA,
+} from '@shlinkio/shlink-frontend-kit';
+import type { FC } from 'react';
+import { Fragment, useMemo } from 'react';
+import { Bar, CartesianGrid, Cell, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
-import { fillTheGaps } from '../utils';
+import { CHART_TOOLTIP_STYLES } from './constants';
 
-export interface HorizontalBarChartProps {
-  label: string;
+export type HorizontalBarChartProps = {
   stats: Stats;
   max?: number;
   highlightedStats?: Stats;
   highlightedLabel?: string;
   onClick?: (label: string) => void;
-}
 
-const dropLabelIfHidden = (label: string) => (label.startsWith('hidden') ? '' : label);
-const statsAreDefined = (stats: Stats | undefined): stats is Stats => !!stats && Object.keys(stats).length > 0;
-const determineHeight = (labels: string[]): number | undefined => (labels.length > 20 ? labels.length * 10 : undefined);
-
-const generateChartDatasets = (
-  data: number[],
-  highlightedData: number[],
-  highlightedLabel?: string,
-): ChartDataset[] => {
-  const mainDataset: ChartDataset = {
-    data,
-    label: highlightedLabel ? 'Non-selected' : 'Visits',
-    backgroundColor: MAIN_COLOR_ALPHA,
-    borderColor: MAIN_COLOR,
-    borderWidth: 2,
-  };
-
-  if (highlightedData.every((value) => value === 0)) {
-    return [mainDataset];
-  }
-
-  const highlightedDataset: ChartDataset = {
-    label: highlightedLabel ?? 'Selected',
-    data: highlightedData,
-    backgroundColor: HIGHLIGHTED_COLOR_ALPHA,
-    borderColor: HIGHLIGHTED_COLOR,
-    borderWidth: 2,
-  };
-
-  return [mainDataset, highlightedDataset];
+  /** Test seam. For tests, a responsive container cannot be used */
+  dimensions?: { width: number; height: number };
 };
-const generateChartData = (
-  labels: string[],
-  data: number[],
-  highlightedData: number[],
-  highlightedLabel?: string,
-): ChartData => ({
-  labels,
-  datasets: generateChartDatasets(data, highlightedData, highlightedLabel),
-});
 
-const chartElementAtEvent = (labels: string[], [chart]: InteractionItem[], onClick?: (label: string) => void) => {
-  if (!onClick || !chart) {
-    return;
-  }
-
-  onClick(labels[chart.index]);
+type HorizontalBarChartEntry = {
+  name: string;
+  amount: number | null;
+  highlightedAmount: number | null;
 };
+
+const isHiddenLabel = (label: string) => label.startsWith('hidden_');
 
 export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
-  { label: ariaLabel, stats, highlightedStats, highlightedLabel, onClick, max },
+  { stats, highlightedStats, highlightedLabel, max, onClick, dimensions },
 ) => {
-  const labels = Object.keys(stats).map(dropLabelIfHidden);
-  const data = Object.values(
-    !statsAreDefined(highlightedStats) ? stats : Object.keys(highlightedStats).reduce((acc, highlightedKey) => {
-      if (acc[highlightedKey]) {
-        acc[highlightedKey] -= highlightedStats[highlightedKey];
-      }
+  const chartData = useMemo((): HorizontalBarChartEntry[] => Object.entries(stats).map(([name, amount]) => {
+    const highlightedAmount = highlightedStats?.[name] ?? 0;
+    const isHidden = isHiddenLabel(name);
 
-      return acc;
-    }, { ...stats }),
-  );
-  const highlightedData = fillTheGaps(highlightedStats ?? {}, labels);
-  const refWithStats = useRef(null);
-  const refWithoutStats = useRef(null);
+    return {
+      name,
+      // Setting value `null` on "hidden" elements allows for them to be excluded from tooltips
+      amount: isHidden ? null : amount - highlightedAmount,
+      highlightedAmount: isHidden ? null : highlightedAmount,
+    };
+  }), [stats, highlightedStats]);
+  const verticalAxisWidth = useMemo(() => {
+    const longestNameLength = chartData.reduce((prev, { name }) => (prev > name.length ? prev : name.length), 0);
+    // Set a size of around 7 times the longest text, unless it exceeds a maximum of 150
+    return Math.min(150, longestNameLength * 7);
+  }, [chartData]);
 
-  const options: ChartOptions = {
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        mode: 'y',
-        // Do not show tooltip on items with empty label when in a bar chart
-        filter: ({ label }) => label !== '',
-        callbacks: { label: renderChartLabel },
-      },
-    },
-    scales: {
-      x: {
-        beginAtZero: true,
-        stacked: true,
-        max,
-        ticks: {
-          precision: 0,
-          callback: prettify,
-        },
-      },
-      y: { stacked: true },
-    },
-    onHover: pointerOnHover,
-    indexAxis: 'y',
-  };
-  const chartData = generateChartData(labels, data, highlightedData, highlightedLabel);
-  const height = determineHeight(labels);
+  const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
+  const wrapperDimensions = useMemo(() => {
+    // The wrapper should have no dimensions if explicit dimensions were provided to be used on the chart
+    if (dimensions) {
+      return {};
+    }
 
-  // Provide a key based on the height, to force re-render every time the dataset changes (example, due to pagination)
-  const renderChartComponent = (customKey: string, theRef: MutableRefObject<any>) => (
-    <Bar
-      aria-label={ariaLabel}
-      ref={theRef}
-      key={`${height}_${customKey}`}
-      data={chartData as any}
-      options={options as any}
-      height={height}
-      onClick={(e) => chartElementAtEvent(labels, getElementAtEvent(theRef.current, e), onClick)}
-    />
-  );
+    const height = Math.max(300, chartData.length * 22);
+    return { width: '100%', height };
+  }, [dimensions, chartData]);
 
   return (
-    <>
-      {/* It's VERY IMPORTANT to render two different components here, as one has 1 dataset and the other has 2 */}
-      {/* Using the same component causes a crash when switching from 1 to 2 datasets, and then back to 1 dataset */}
-      {highlightedStats !== undefined && renderChartComponent('with_stats', refWithStats)}
-      {highlightedStats === undefined && renderChartComponent('without_stats', refWithoutStats)}
-    </>
+    <ChartWrapper {...wrapperDimensions}>
+      {/* Using a ComposedChart instead of a PieChart because they have a more subtle hover effect */}
+      <ComposedChart layout="vertical" data={chartData} barCategoryGap={3} {...dimensions}>
+        <XAxis
+          type="number"
+          dataKey="amount"
+          tickFormatter={prettify}
+          domain={max ? [0, max] : undefined}
+        />
+        <YAxis
+          type="category"
+          dataKey="name"
+          width={verticalAxisWidth}
+          interval={0}
+          style={{ fontSize: '.8rem' /* TODO: Should show text overflow ellipsis */ }}
+          tickFormatter={(label) => (isHiddenLabel(label) ? '' : label)}
+        />
+        <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.05 : 0.9} />
+        <Tooltip
+          filterNull // This will prevent "hidden" values to render a tooltip
+          contentStyle={CHART_TOOLTIP_STYLES}
+          formatter={(value: number, name: keyof HorizontalBarChartEntry) => {
+            const prettifiedValue = prettify(value);
+            if (name === 'highlightedAmount') {
+              return [prettifiedValue, highlightedLabel];
+            }
+
+            return [prettifiedValue, highlightedStats ? 'Non-selected' : 'Visits'];
+          }}
+        />
+        <Bar
+          dataKey="amount"
+          stackId="main"
+          cursor="pointer"
+          fill={MAIN_COLOR /* This needs to be set as it is the color used in the tooltip */}
+          onClick={({ name }: HorizontalBarChartEntry) => onClick?.(name)}
+        >
+          {chartData.map((entry) => (
+            // Using a Cell, to define a different fill color, without affecting the one used for the tooltip
+            <Cell key={entry.name} fill={MAIN_COLOR_ALPHA} stroke={MAIN_COLOR} strokeWidth={2} />
+          ))}
+        </Bar>
+        {highlightedStats && (
+          <Bar
+            dataKey="highlightedAmount"
+            stackId="main"
+            cursor="pointer"
+            fill={HIGHLIGHTED_COLOR /* This needs to be set as it is the color used in the tooltip */}
+            onClick={({ name }: HorizontalBarChartEntry) => onClick?.(name)}
+          >
+            {chartData.map((entry) => (
+              <Cell key={entry.name} fill={HIGHLIGHTED_COLOR_ALPHA} stroke={HIGHLIGHTED_COLOR} strokeWidth={2} />
+            ))}
+          </Bar>
+        )}
+      </ComposedChart>
+    </ChartWrapper>
   );
 };

@@ -1,26 +1,26 @@
-import type { Chart } from 'chart.js';
 import type { FC } from 'react';
+import { prettify } from '../../utils/helpers/numbers';
+import type { DoughnutChartEntry } from './DoughnutChart';
 import './DoughnutChartLegend.scss';
 
-export type DoughnutChart = Chart<'doughnut'>;
-
-export const DoughnutChartLegend: FC<{ chart: DoughnutChart }> = ({ chart }) => {
-  const { config } = chart;
-  const { labels = [], datasets = [] } = config.data ?? {};
-  const [{ backgroundColor: colors }] = datasets;
-  const { defaultColor } = config.options ?? {} as any;
-
-  return (
-    <ul className="doughnut-chart-legend">
-      {(labels as string[]).map((label, index) => (
-        <li key={label} className="doughnut-chart-legend__item d-flex">
-          <div
-            className="doughnut-chart-legend__item-color"
-            style={{ backgroundColor: (colors as string[])[index] ?? defaultColor }}
-          />
-          <small className="doughnut-chart-legend__item-text flex-fill">{label}</small>
-        </li>
-      ))}
-    </ul>
-  );
+type DoughnutChartLegendProps = {
+  chartData: DoughnutChartEntry[];
+  showNumbers: boolean;
 };
+
+export const DoughnutChartLegend: FC<DoughnutChartLegendProps> = ({ chartData, showNumbers }) => (
+  <ul className="doughnut-chart-legend">
+    {chartData.map(({ name, color, value }) => (
+      <li key={name} className="doughnut-chart-legend__item d-flex">
+        <div
+          className="doughnut-chart-legend__item-color"
+          style={{ backgroundColor: color }}
+        />
+        <small className="doughnut-chart-legend__item-text flex-fill">
+          {name}
+          {showNumbers && <b> ({prettify(value)})</b>}
+        </small>
+      </li>
+    ))}
+  </ul>
+);

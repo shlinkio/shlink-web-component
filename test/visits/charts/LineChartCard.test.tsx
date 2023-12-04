@@ -1,23 +1,21 @@
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO, subDays, subMonths, subYears } from 'date-fns';
 import { LineChartCard } from '../../../src/visits/charts/LineChartCard';
 import type { NormalizedVisit } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';
-import { setUpCanvas } from '../../__helpers__/setUpTest';
+import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<LineChartCard />', () => {
-  const setUp = (visits: NormalizedVisit[] = [], highlightedVisits: NormalizedVisit[] = []) => ({
-    user: userEvent.setup(),
-    ...setUpCanvas(<LineChartCard title="Cool title" visits={visits} highlightedVisits={highlightedVisits} />),
-  });
+  const dimensions = { width: 800, height: 400 };
+  const setUp = (visits: NormalizedVisit[] = [], highlightedVisits: NormalizedVisit[] = []) => renderWithEvents(
+    <LineChartCard title="Cool title" visits={visits} highlightedVisits={highlightedVisits} dimensions={dimensions} />,
+  );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders provided title', () => {
     setUp();
-    expect(screen.getByLabelText('Cool title')).toBeInTheDocument();
     expect(screen.getByRole('heading')).toHaveTextContent('Cool title');
   });
 
@@ -44,7 +42,7 @@ describe('<LineChartCard />', () => {
     expect(items[1]).toHaveTextContent('Week');
     expect(items[2]).toHaveTextContent('Day');
     expect(items[3]).toHaveTextContent('Hour');
-    expect(items[expectedActiveIndex]).toHaveAttribute('class', expect.stringContaining('active'));
+    expect(items[expectedActiveIndex]).toHaveClass('active');
   });
 
   it.each([
@@ -53,20 +51,7 @@ describe('<LineChartCard />', () => {
     [[fromPartial<NormalizedVisit>({ date: '2016-04-01' })], []],
     [[fromPartial<NormalizedVisit>({ date: '2016-04-01' })], [fromPartial<NormalizedVisit>({ date: '2016-04-01' })]],
   ])('renders chart with expected data', (visits, highlightedVisits) => {
-    const { events } = setUp(visits, highlightedVisits);
-
-    expect(events).toBeTruthy();
-    expect(events).toMatchSnapshot();
-  });
-
-  it('includes stats for visits with no dates if selected', async () => {
-    const { getEvents, user } = setUp([
-      fromPartial({ date: '2016-04-01' }),
-      fromPartial({ date: '2016-01-01' }),
-    ]);
-
-    const eventsBefore = getEvents();
-    await user.click(screen.getByLabelText('Skip dates with no visits'));
-    expect(eventsBefore).not.toEqual(getEvents());
+    const { container } = setUp(visits, highlightedVisits);
+    expect(container).toMatchSnapshot();
   });
 });

@@ -1,11 +1,11 @@
 import type { HorizontalBarChartProps } from '../../../src/visits/charts/HorizontalBarChart';
 import { HorizontalBarChart } from '../../../src/visits/charts/HorizontalBarChart';
 import { checkAccessibility } from '../../__helpers__/accessibility';
-import { setUpCanvas } from '../../__helpers__/setUpTest';
+import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<HorizontalBarChart />', () => {
-  const setUp = (props: Omit<HorizontalBarChartProps, 'label'>) => setUpCanvas(
-    <HorizontalBarChart label="The chart" {...props} />,
+  const setUp = (props: Omit<HorizontalBarChartProps, 'dimensions'>) => renderWithEvents(
+    <HorizontalBarChart {...props} dimensions={{ width: 800, height: 400 }} />,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp({ stats: {} })));
@@ -15,9 +15,7 @@ describe('<HorizontalBarChart />', () => {
     [{ one: 999, two: 131313 }, { one: 30, two: 100 }],
     [{ one: 999, two: 131313, max: 3 }, { one: 30, two: 100 }],
   ])('renders chart with expected canvas', (stats, highlightedStats) => {
-    const { events } = setUp({ stats, highlightedStats });
-
-    expect(events).toBeTruthy();
-    expect(events).toMatchSnapshot();
+    const { container } = setUp({ stats, highlightedStats });
+    expect(container).toMatchSnapshot();
   });
 });

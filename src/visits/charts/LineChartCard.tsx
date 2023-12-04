@@ -1,6 +1,9 @@
 import { countBy } from '@shlinkio/data-manipulation';
-import { HIGHLIGHTED_COLOR, MAIN_COLOR, ToggleSwitch, useToggle } from '@shlinkio/shlink-frontend-kit';
-import type { ChartData, ChartDataset, ChartOptions, InteractionItem } from 'chart.js';
+import {
+  HIGHLIGHTED_COLOR,
+  isDarkThemeEnabled,
+  MAIN_COLOR,
+} from '@shlinkio/shlink-frontend-kit';
 import {
   add,
   differenceInDays,
@@ -8,13 +11,11 @@ import {
   differenceInMonths,
   differenceInWeeks,
   endOfISOWeek,
-  format,
-  parseISO,
+  format, parseISO,
   startOfISOWeek,
 } from 'date-fns';
-import type { MutableRefObject } from 'react';
-import { useMemo, useRef, useState } from 'react';
-import { getElementAtEvent, Line } from 'react-chartjs-2';
+import type { FC } from 'react';
+import { Fragment, useCallback, useMemo, useState } from 'react';
 import {
   Card,
   CardBody,
@@ -24,21 +25,20 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
 } from 'reactstrap';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { formatInternational } from '../../utils/dates/helpers/date';
 import { rangeOf } from '../../utils/helpers';
-import { pointerOnHover, renderChartLabel } from '../../utils/helpers/charts';
+import { useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
+import type { MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
-import { fillTheGaps } from '../utils';
-import './LineChartCard.scss';
+import { CHART_TOOLTIP_STYLES } from './constants';
 
-interface LineChartCardProps {
-  title: string;
-  highlightedLabel?: string;
-  visits: NormalizedVisit[];
-  highlightedVisits: NormalizedVisit[];
-  setSelectedVisits?: (visits: NormalizedVisit[]) => void;
-}
+type ChartPayloadEntry = {
+  date: string;
+  amount: number;
+  highlightedAmount: number;
+};
 
 const STEPS_MAP = {
   monthly: 'Month',
@@ -93,12 +93,12 @@ const determineInitialStep = (oldestVisitDate: string): Step => {
   return conditions.find(([matcher]) => matcher())?.[1] ?? 'monthly';
 };
 
-const groupVisitsByStep = (step: Step, visits: NormalizedVisit[]): Stats => countBy(
+const countVisitsByDate = (step: Step, visits: NormalizedVisit[]): Stats => countBy(
   visits,
   (visit) => STEP_TO_DATE_FORMAT[step](parseISO(visit.date)),
 );
 
-const visitsToDatasetGroups = (step: Step, visits: NormalizedVisit[]) =>
+const visitsToDatasetGroups = (step: Step, visits: NormalizedVisit[]): Record<string, NormalizedVisit[]> =>
   visits.reduce<Record<string, NormalizedVisit[]>>(
     (acc, visit) => {
       const key = STEP_TO_DATE_FORMAT[step](parseISO(visit.date));
@@ -111,134 +111,97 @@ const visitsToDatasetGroups = (step: Step, visits: NormalizedVisit[]) =>
     {},
   );
 
-const generateLabels = (step: Step, visits: NormalizedVisit[]): string[] => {
+const baseStatsWithNoGaps = (step: Step, visits: NormalizedVisit[]): Stats => {
+  // We assume the list of visits is ordered, so the first and last visit should have the bigger and smaller dates
+  const firstVisit = visits[0];
+  const lastVisit = visits[visits.length - 1];
+
+  if (!firstVisit || !lastVisit) {
+    return {};
+  }
+
   const diffFunc = STEP_TO_DIFF_FUNC_MAP[step];
   const formatter = STEP_TO_DATE_FORMAT[step];
-  const newerDate = parseISO(visits[0].date);
-  const oldestDate = parseISO(visits[visits.length - 1].date);
-  const size = diffFunc(newerDate, oldestDate);
   const duration = STEP_TO_DURATION_MAP[step];
+  const newerDate = parseISO(firstVisit.date);
+  const oldestDate = parseISO(lastVisit.date);
+  const size = diffFunc(newerDate, oldestDate);
 
-  return [
+  const labels = [
     formatter(oldestDate),
     ...rangeOf(size, (num) => formatter(add(oldestDate, duration(num)))),
   ];
+
+  return labels.reduce<Stats>((stats, label) => {
+    // eslint-disable-next-line no-param-reassign
+    stats[label] = 0;
+    return stats;
+  }, {});
 };
 
-const generateLabelsAndGroupedVisits = (
-  visits: NormalizedVisit[],
-  groupedVisitsWithGaps: Stats,
-  step: Step,
-  skipNoElements: boolean,
-): [string[], number[]] => {
-  if (skipNoElements) {
-    return [Object.keys(groupedVisitsWithGaps), Object.values(groupedVisitsWithGaps)];
-  }
-
-  const labels = generateLabels(step, visits);
-
-  return [labels, fillTheGaps(groupedVisitsWithGaps, labels)];
+type VisitsLineOptions = {
+  color: string;
+  dataKey: string;
+  onDotClick: any;
 };
 
-const generateDataset = (data: number[], label: string, color: string): ChartDataset => ({
-  label,
-  data,
-  fill: false,
-  tension: 0.2,
-  borderColor: color,
-  backgroundColor: color,
-});
+// Using a function instead of an actual component because lines do not get render in that case.
+// See https://github.com/recharts/recharts/issues/2788
+const renderLine = ({ onDotClick, dataKey, color }: VisitsLineOptions) => (
+  <Line
+    type="monotone"
+    dataKey={dataKey}
+    stroke={color}
+    strokeWidth={3}
+    activeDot={{
+      cursor: 'pointer',
+      onClick: onDotClick,
+    }}
+  />
+);
 
-let selectedLabel: string | null = null;
+export type LineChartCardProps = {
+  title: string;
+  highlightedLabel?: string;
+  visits: NormalizedVisit[];
+  highlightedVisits: NormalizedVisit[];
+  setSelectedVisits?: (visits: NormalizedVisit[]) => void;
 
-const chartElementAtEvent = (
-  labels: string[],
-  datasetsByPoint: Record<string, NormalizedVisit[]>,
-  [chart]: InteractionItem[],
-  setSelectedVisits?: (visits: NormalizedVisit[]) => void,
-) => {
-  if (!setSelectedVisits || !chart) {
-    return;
-  }
-
-  const { index } = chart;
-
-  if (selectedLabel === labels[index]) {
-    setSelectedVisits([]);
-    selectedLabel = null;
-  } else {
-    setSelectedVisits(labels[index] && datasetsByPoint[labels[index]] ? datasetsByPoint[labels[index]] : []);
-    selectedLabel = labels[index] ?? null;
-  }
+  /** Test seam. For tests, a responsive container cannot be used */
+  dimensions?: { width: number; height: number };
+  matchMedia?: MediaMatcher;
 };
 
-export const LineChartCard = (
-  { title, visits, highlightedVisits, highlightedLabel = 'Selected', setSelectedVisits }: LineChartCardProps,
+export const LineChartCard: FC<LineChartCardProps> = (
+  { visits, title, highlightedVisits, highlightedLabel = 'Selected', setSelectedVisits, dimensions, matchMedia },
 ) => {
   const [step, setStep] = useState<Step>(
     visits.length > 0 ? determineInitialStep(visits[visits.length - 1].date) : 'monthly',
   );
-  const [skipNoVisits, toggleSkipNoVisits] = useToggle(true);
-  const refWithHighlightedVisits = useRef(null);
-  const refWithoutHighlightedVisits = useRef(null);
+  const isMobile = useMaxResolution(767, matchMedia ?? window.matchMedia);
 
+  const chartData = useMemo((): ChartPayloadEntry[] => {
+    const mainVisitsStats = countVisitsByDate(step, [...visits].reverse());
+    const highlightedVisitsStats = countVisitsByDate(step, [...highlightedVisits].reverse());
+    const baseStats = { ...baseStatsWithNoGaps(step, visits), ...mainVisitsStats };
+
+    return Object.entries(baseStats).map(([date, amount]) => ({
+      date,
+      amount,
+      highlightedAmount: highlightedVisitsStats[date] ?? 0,
+    }));
+  }, [step, visits, highlightedVisits]);
+
+  // Save a map of step/date and all visits which belong to it, to use it when we need to highlight one
   const datasetsByPoint = useMemo(() => visitsToDatasetGroups(step, visits), [step, visits]);
-  const groupedVisitsWithGaps = useMemo(() => groupVisitsByStep(step, [...visits].reverse()), [step, visits]);
-  const [labels, groupedVisits] = useMemo(
-    () => generateLabelsAndGroupedVisits(visits, groupedVisitsWithGaps, step, skipNoVisits),
-    [visits, groupedVisitsWithGaps, step, skipNoVisits],
-  );
-  const groupedHighlighted = useMemo(
-    () => fillTheGaps(groupVisitsByStep(step, [...highlightedVisits].reverse()), labels),
-    [highlightedVisits, step, labels],
-  );
-  const generateChartDatasets = (): ChartDataset[] => {
-    const mainDataset = generateDataset(groupedVisits, 'Visits', MAIN_COLOR);
 
-    if (highlightedVisits.length === 0) {
-      return [mainDataset];
-    }
+  const onDotClick = useCallback((_: any, { payload }: { payload: ChartPayloadEntry }) => {
+    const visitsToHighlight = datasetsByPoint[payload.date] ?? [];
+    setSelectedVisits?.(visitsToHighlight === highlightedVisits ? [] : visitsToHighlight);
+  }, [datasetsByPoint, highlightedVisits, setSelectedVisits]);
 
-    const highlightedDataset = generateDataset(groupedHighlighted, highlightedLabel, HIGHLIGHTED_COLOR);
-
-    return [mainDataset, highlightedDataset];
-  };
-  const generateChartData = (): ChartData => ({ labels, datasets: generateChartDatasets() });
-
-  const options: ChartOptions = {
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        intersect: false,
-        axis: 'x',
-        callbacks: { label: renderChartLabel },
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: {
-          precision: 0,
-          callback: prettify,
-        },
-      },
-      x: {
-        title: { display: true, text: STEPS_MAP[step] },
-      },
-    },
-    onHover: pointerOnHover,
-  };
-  const renderLineChart = (theRef: MutableRefObject<any>) => (
-    <Line
-      aria-label={title}
-      ref={theRef}
-      data={generateChartData() as any}
-      options={options as any}
-      onClick={(e) =>
-        chartElementAtEvent(labels, datasetsByPoint, getElementAtEvent(theRef.current, e), setSelectedVisits)}
-    />
-  );
+  const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
+  const wrapperDimensions = dimensions ? {} : { width: '100%', height: isMobile ? 300 : 400 };
 
   return (
     <Card>
@@ -258,17 +221,23 @@ export const LineChartCard = (
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>
-        <div className="float-end me-2">
-          <ToggleSwitch checked={skipNoVisits} onChange={toggleSkipNoVisits}>
-            <small>Skip dates with no visits</small>
-          </ToggleSwitch>
-        </div>
       </CardHeader>
-      <CardBody className="line-chart-card__body">
-        {/* It's VERY IMPORTANT to render two different components here, as one has 1 dataset and the other has 2 */}
-        {/* Using the same component causes a crash when switching from 1 to 2 datasets, and then back to 1 dataset */}
-        {highlightedVisits.length > 0 && renderLineChart(refWithHighlightedVisits)}
-        {highlightedVisits.length === 0 && renderLineChart(refWithoutHighlightedVisits)}
+      <CardBody>
+        <ChartWrapper {...wrapperDimensions}>
+          <LineChart data={chartData} {...dimensions}>
+            <XAxis dataKey="date" />
+            <YAxis dataKey="amount" tickFormatter={prettify} />
+            <Tooltip
+              formatter={(value: number, name) => [prettify(value), name === 'amount' ? 'Visits' : highlightedLabel]}
+              contentStyle={CHART_TOOLTIP_STYLES}
+            />
+            <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
+            {renderLine({ color: MAIN_COLOR, dataKey: 'amount', onDotClick })}
+            {highlightedVisits.length > 0 && renderLine(
+              { color: HIGHLIGHTED_COLOR, dataKey: 'highlightedAmount', onDotClick },
+            )}
+          </LineChart>
+        </ChartWrapper>
       </CardBody>
     </Card>
   );

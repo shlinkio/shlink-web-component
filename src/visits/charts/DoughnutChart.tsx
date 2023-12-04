@@ -1,78 +1,61 @@
 import { isDarkThemeEnabled, PRIMARY_DARK_COLOR, PRIMARY_LIGHT_COLOR } from '@shlinkio/shlink-frontend-kit';
-import type { ChartData, ChartDataset, ChartOptions } from 'chart.js';
 import type { FC } from 'react';
-import { memo, useState } from 'react';
-import { Doughnut } from 'react-chartjs-2';
-import { renderPieChartLabel } from '../../utils/helpers/charts';
+import { Fragment, useMemo } from 'react';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
-import type { DoughnutChart as DoughnutChartType } from './DoughnutChartLegend';
+import { CHART_TOOLTIP_STYLES, COLORS } from './constants';
 import { DoughnutChartLegend } from './DoughnutChartLegend';
 
-type DoughnutChartProps = {
-  label: string;
+export type DoughnutChartProps = {
   stats: Stats;
+  showNumbersInLegend: boolean;
+
+  /** Test seam. For tests, a responsive container cannot be used */
+  dimensions?: { width: number; height: number };
 };
 
-const generateChartDatasets = (data: number[]): ChartDataset[] => [
-  {
-    data,
-    backgroundColor: [
-      '#97BBCD',
-      '#F7464A',
-      '#46BFBD',
-      '#FDB45C',
-      '#949FB1',
-      '#57A773',
-      '#414066',
-      '#08B2E3',
-      '#B6C454',
-      '#DCDCDC',
-      '#463730',
-    ],
-    borderColor: isDarkThemeEnabled() ? PRIMARY_DARK_COLOR : PRIMARY_LIGHT_COLOR,
-    borderWidth: 2,
-  },
-];
-const generateChartData = (labels: string[], data: number[]): ChartData => ({
-  labels,
-  datasets: generateChartDatasets(data),
-});
+export type DoughnutChartEntry = {
+  name: string;
+  value: number;
+  color: string;
+};
 
-export const DoughnutChart: FC<DoughnutChartProps> = memo(({ label, stats }) => {
-  // Cannot use useRef here, as we need to re-render as soon as the ref is set
-  const [chartRef, setChartRef] = useState<DoughnutChartType>();
-  const labels = Object.keys(stats);
-  const data = Object.values(stats);
-
-  const options: ChartOptions = {
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        intersect: true,
-        callbacks: { label: renderPieChartLabel },
-      },
-    },
-  };
-  const chartData = generateChartData(labels, data);
+export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, showNumbersInLegend, dimensions }) => {
+  const chartData = useMemo((): DoughnutChartEntry[] => Object.entries(stats).map(([name, value], index) => (
+    { name, value, color: COLORS[index % COLORS.length] }
+  )), [stats]);
+  const borderColor = isDarkThemeEnabled() ? PRIMARY_DARK_COLOR : PRIMARY_LIGHT_COLOR;
+  const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
 
   return (
-    <div className="row">
+    <div className="row align-items-center">
       <div className="col-sm-12 col-md-7">
-        <Doughnut
-          aria-label={label}
-          height={300}
-          data={chartData as any}
-          options={options}
-          ref={(element) => {
-            if (element) {
-              setChartRef(element);
-            }
-          }}
-        />
+        <div style={dimensions ?? { width: '100%', height: 300 }}>
+          <ChartWrapper>
+            <PieChart {...dimensions}>
+              <Tooltip formatter={prettify} contentStyle={CHART_TOOLTIP_STYLES} itemStyle={{ color: 'white' }} />
+              <Pie
+                data={chartData}
+                dataKey="value"
+                nameKey="name"
+                startAngle={360}
+                endAngle={0}
+                outerRadius="100%"
+                innerRadius="50%"
+                animationBegin={0}
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`${entry.name}-${index}`} fill={entry.color} stroke={borderColor} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ChartWrapper>
+        </div>
       </div>
       <div className="col-sm-12 col-md-5">
-        {chartRef && <DoughnutChartLegend chart={chartRef} />}
+        <DoughnutChartLegend chartData={chartData} showNumbers={showNumbersInLegend} />
       </div>
     </div>
   );
-});
+};

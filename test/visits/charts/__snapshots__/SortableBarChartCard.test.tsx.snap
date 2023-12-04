@@ -81,12 +81,9 @@ exports[`<SortableBarChartCard /> > renders properly ordered stats when ordering
   <div
     class="card-body"
   >
-    <canvas
-      aria-label="Foo"
-      height="0"
-      role="img"
-      style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
-      width="0"
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 300px; min-width: 0;"
     />
   </div>
 </div>
@@ -173,12 +170,9 @@ exports[`<SortableBarChartCard /> > renders properly ordered stats when ordering
   <div
     class="card-body"
   >
-    <canvas
-      aria-label="Foo"
-      height="0"
-      role="img"
-      style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
-      width="0"
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 300px; min-width: 0;"
     />
   </div>
 </div>
@@ -265,12 +259,9 @@ exports[`<SortableBarChartCard /> > renders properly ordered stats when ordering
   <div
     class="card-body"
   >
-    <canvas
-      aria-label="Foo"
-      height="0"
-      role="img"
-      style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
-      width="0"
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 300px; min-width: 0;"
     />
   </div>
 </div>
@@ -357,12 +348,9 @@ exports[`<SortableBarChartCard /> > renders properly ordered stats when ordering
   <div
     class="card-body"
   >
-    <canvas
-      aria-label="Foo"
-      height="0"
-      role="img"
-      style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
-      width="0"
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 300px; min-width: 0;"
     />
   </div>
 </div>
@@ -515,12 +503,9 @@ exports[`<SortableBarChartCard /> > renders properly paginated stats when pagina
   <div
     class="card-body"
   >
-    <canvas
-      aria-label="Foo"
-      height="0"
-      role="img"
-      style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
-      width="0"
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 1100px; min-width: 0;"
     />
   </div>
   <div
@@ -764,12 +749,9 @@ exports[`<SortableBarChartCard /> > renders properly paginated stats when pagina
   <div
     class="card-body"
   >
-    <canvas
-      aria-label="Foo"
-      height="0"
-      role="img"
-      style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
-      width="0"
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 2200px; min-width: 0;"
     />
   </div>
   <div
@@ -993,12 +975,9 @@ exports[`<SortableBarChartCard /> > renders properly paginated stats when pagina
   <div
     class="card-body"
   >
-    <canvas
-      aria-label="Foo"
-      height="0"
-      role="img"
-      style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
-      width="0"
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 3520px; min-width: 0;"
     />
   </div>
 </div>
@@ -1151,12 +1130,9 @@ exports[`<SortableBarChartCard /> > renders properly paginated stats when pagina
   <div
     class="card-body"
   >
-    <canvas
-      aria-label="Foo"
-      height="0"
-      role="img"
-      style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
-      width="0"
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 3520px; min-width: 0;"
     />
   </div>
 </div>
@@ -1228,12 +1204,9 @@ exports[`<SortableBarChartCard /> > renders stats unchanged when no ordering is 
   <div
     class="card-body"
   >
-    <canvas
-      aria-label="Foo"
-      height="0"
-      role="img"
-      style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
-      width="0"
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 300px; min-width: 0;"
     />
   </div>
 </div>

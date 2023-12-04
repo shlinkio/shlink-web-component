@@ -143,7 +143,8 @@ type VisitsLineOptions = {
   onDotClick: any;
 };
 
-// Using a function instead of an actual component because lines do not get render in that case. Need to investigate
+// Using a function instead of an actual component because lines do not get render in that case.
+// See https://github.com/recharts/recharts/issues/2788
 const renderLine = ({ onDotClick, dataKey, color }: VisitsLineOptions) => (
   <Line
     type="monotone"

@@ -1,5 +1,3 @@
-import 'vitest-canvas-mock';
-import 'chart.js/auto';
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
 import axe from 'axe-core';

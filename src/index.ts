@@ -1,4 +1,3 @@
-import 'chart.js/auto';
 import { bottle } from './container';
 import { createShlinkWebComponent } from './ShlinkWebComponent';
 import { fixLeafletIcons } from './utils/helpers/leaflet';

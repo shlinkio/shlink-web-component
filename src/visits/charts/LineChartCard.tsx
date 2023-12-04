@@ -28,7 +28,9 @@ import {
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { formatInternational } from '../../utils/dates/helpers/date';
 import { rangeOf } from '../../utils/helpers';
+import { useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
+import type { MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
 import { CHART_TOOLTIP_STYLES } from './constants';
 
@@ -167,14 +169,16 @@ export type LineChartCardProps = {
 
   /** Test seam. For tests, a responsive container cannot be used */
   dimensions?: { width: number; height: number };
+  matchMedia?: MediaMatcher;
 };
 
 export const LineChartCard: FC<LineChartCardProps> = (
-  { visits, title, highlightedVisits, highlightedLabel = 'Selected', setSelectedVisits, dimensions },
+  { visits, title, highlightedVisits, highlightedLabel = 'Selected', setSelectedVisits, dimensions, matchMedia },
 ) => {
   const [step, setStep] = useState<Step>(
     visits.length > 0 ? determineInitialStep(visits[visits.length - 1].date) : 'monthly',
   );
+  const isMobile = useMaxResolution(767, matchMedia ?? window.matchMedia);
 
   const chartData = useMemo((): ChartPayloadEntry[] => {
     const mainVisitsStats = countVisitsByDate(step, [...visits].reverse());
@@ -197,7 +201,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
   }, [datasetsByPoint, highlightedVisits, setSelectedVisits]);
 
   const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
-  const wrapperDimensions = dimensions ? {} : { width: '100%', height: 400 /* TODO Set 300 in mobile devices */ };
+  const wrapperDimensions = dimensions ? {} : { width: '100%', height: isMobile ? 300 : 400 };
 
   return (
     <Card>
@@ -229,7 +233,9 @@ export const LineChartCard: FC<LineChartCardProps> = (
             />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
             {renderLine({ color: MAIN_COLOR, dataKey: 'amount', onDotClick })}
-            {highlightedVisits.length > 0 && renderLine({ color: HIGHLIGHTED_COLOR, dataKey: 'highlightedAmount', onDotClick })}
+            {highlightedVisits.length > 0 && renderLine(
+              { color: HIGHLIGHTED_COLOR, dataKey: 'highlightedAmount', onDotClick },
+            )}
           </LineChart>
         </ChartWrapper>
       </CardBody>

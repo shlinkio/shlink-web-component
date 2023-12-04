@@ -26,25 +26,41 @@ export type HorizontalBarChartProps = {
 type HorizontalBarChartEntry = {
   name: string;
   amount: number | null;
-  highlightedAmount: number;
+  highlightedAmount: number | null;
 };
+
+const isHiddenLabel = (label: string) => label.startsWith('hidden_');
 
 export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
   { stats, highlightedStats, highlightedLabel, max, onClick, dimensions },
 ) => {
   const chartData = useMemo((): HorizontalBarChartEntry[] => Object.entries(stats).map(([name, amount]) => {
     const highlightedAmount = highlightedStats?.[name] ?? 0;
+    const isHidden = isHiddenLabel(name);
+
     return {
-      // Setting value `null` on "hidden" elements allows for them to be excluded from tooltips
-      amount: name.startsWith('hidden_') ? null : amount - highlightedAmount,
-      highlightedAmount,
       name,
+      // Setting value `null` on "hidden" elements allows for them to be excluded from tooltips
+      amount: isHidden ? null : amount - highlightedAmount,
+      highlightedAmount: isHidden ? null : highlightedAmount,
     };
   }), [stats, highlightedStats]);
-  const height = useMemo(() => Math.max(300, chartData.length * 22), [chartData]);
+  const verticalAxisWidth = useMemo(() => {
+    const longestNameLength = chartData.reduce((prev, { name }) => (prev > name.length ? prev : name.length), 0);
+    // Set a size of around 7 times the longest text, unless it exceeds a maximum of 150
+    return Math.min(150, longestNameLength * 7);
+  }, [chartData]);
 
   const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
-  const wrapperDimensions = dimensions ? {} : { width: '100%', height };
+  const wrapperDimensions = useMemo(() => {
+    // The wrapper should have no dimensions if explicit dimensions were provided to be used on the chart
+    if (dimensions) {
+      return {};
+    }
+
+    const height = Math.max(300, chartData.length * 22);
+    return { width: '100%', height };
+  }, [dimensions, chartData]);
 
   return (
     <ChartWrapper {...wrapperDimensions}>
@@ -59,10 +75,10 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
         <YAxis
           type="category"
           dataKey="name"
-          width={100 /* TODO Make this dynamic based on max length of names, falling back to a maximum value */}
+          width={verticalAxisWidth}
           interval={0}
-          style={{ fontSize: '.8rem' /* TODO Add text ellipsis for too long names */ }}
-          tickFormatter={(value) => (value.startsWith('hidden_') ? '' : value)}
+          style={{ fontSize: '.8rem' /* TODO: Should show text overflow ellipsis */ }}
+          tickFormatter={(label) => (isHiddenLabel(label) ? '' : label)}
         />
         <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.05 : 0.9} />
         <Tooltip

@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Fixed
-* *Nothing*
+* [#146](https://github.com/shlinkio/shlink-web-component/issues/114617) Make sure selected visits are reset when filtering changes.
 
 
 ## [0.4.0] - 2023-11-26

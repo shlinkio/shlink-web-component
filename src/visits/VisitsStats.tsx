@@ -129,6 +129,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   useEffect(() => {
     const resolvedDateRange = !isFirstLoad.current ? dateRange : (dateRange ?? toDateRange(initialInterval.current));
     getVisits({ dateRange: resolvedDateRange, filter: resolvedFilter }, isFirstLoad.current);
+    setSelectedVisits([]); // Reset selected visits
     isFirstLoad.current = false;
 
     // TODO Adding proper list of dependencies here results in an infinite re-render. Refactor this

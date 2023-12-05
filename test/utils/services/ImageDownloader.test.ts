@@ -6,8 +6,6 @@ describe('ImageDownloader', () => {
   let imageDownloader: ImageDownloader;
 
   beforeEach(() => {
-    (global as any).URL = { createObjectURL: () => '' };
-
     imageDownloader = new ImageDownloader(fetch, windowMock);
   });
 

@@ -8,9 +8,6 @@ describe('ReportExporter', () => {
   let exporter: ReportExporter;
 
   beforeEach(() => {
-    (global as any).Blob = class Blob {};
-    (global as any).URL = { createObjectURL: () => '' };
-
     exporter = new ReportExporter(windowMock, jsonToCsv);
   });
 

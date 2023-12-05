@@ -22,6 +22,8 @@ afterEach(() => {
 
 HTMLCanvasElement.prototype.getContext = (() => {}) as any;
 
+// Stuff JSDOM does not implement
+(global as any).URL.createObjectURL = () => '';
 (global as any).ResizeObserver = ResizeObserver;
 (global as any).scrollTo = () => {};
 (global as any).prompt = () => {};

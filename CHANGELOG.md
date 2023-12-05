@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 * Update to Redux Toolkit 2.0 and react-redux 9.0
+* Update to vitest 1.0.0
 
 ### Deprecated
 * *Nothing*

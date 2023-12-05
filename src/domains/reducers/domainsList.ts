@@ -1,4 +1,4 @@
-import type { AsyncThunk, SliceCaseReducers } from '@reduxjs/toolkit';
+import type { AsyncThunk } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import type { ProblemDetailsError, ShlinkApiClient, ShlinkDomainRedirects } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
@@ -67,7 +67,7 @@ export const domainsListReducerCreator = (
 
   const filterDomains = createAction<string>(`${REDUCER_PREFIX}/filterDomains`);
 
-  const { reducer } = createSlice<DomainsList, SliceCaseReducers<DomainsList>>({
+  const { reducer } = createSlice({
     name: REDUCER_PREFIX,
     initialState,
     reducers: {},

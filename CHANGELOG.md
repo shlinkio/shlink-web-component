@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * [#117](https://github.com/shlinkio/shlink-web-component/issues/117) Migrate charts from Chart.JS to Recharts.
 
 ### Changed
-* *Nothing*
+* Update to Redux Toolkit 2.0 and react-redux 9.0
 
 ### Deprecated
 * *Nothing*

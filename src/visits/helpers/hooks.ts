@@ -1,4 +1,3 @@
-import type { DeepPartial } from '@reduxjs/toolkit';
 import { mergeDeepRight } from '@shlinkio/data-manipulation';
 import { stringifyQuery } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useMemo } from 'react';
@@ -10,6 +9,7 @@ import { datesToDateRange } from '../../utils/dates/helpers/dateIntervals';
 import type { BooleanString } from '../../utils/helpers';
 import { parseBooleanToString } from '../../utils/helpers';
 import { useParsedQuery } from '../../utils/helpers/hooks';
+import type { DeepPartial } from '../../utils/types';
 import type { VisitsFilter } from '../types';
 
 interface VisitsQuery {

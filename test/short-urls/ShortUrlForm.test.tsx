@@ -9,13 +9,19 @@ import { FeaturesProvider } from '../../src/utils/features';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
+type SetUpOptions = {
+  withDeviceLongUrls ?: boolean;
+  mode?: Mode;
+  title?: string | null;
+};
+
 describe('<ShortUrlForm />', () => {
-  const createShortUrl = vi.fn(async () => Promise.resolve());
+  const createShortUrl = vi.fn().mockResolvedValue({});
   const ShortUrlForm = ShortUrlFormFactory(fromPartial({
     TagsSelector: () => <span>TagsSelector</span>,
     DomainSelector: () => <span>DomainSelector</span>,
   }));
-  const setUp = (withDeviceLongUrls = false, mode: Mode = 'create', title?: string | null) =>
+  const setUp = ({ withDeviceLongUrls = false, mode = 'create', title }: SetUpOptions = {}) =>
     renderWithEvents(
       <FeaturesProvider value={fromPartial({ deviceLongUrls: withDeviceLongUrls })}>
         <ShortUrlForm
@@ -36,7 +42,7 @@ describe('<ShortUrlForm />', () => {
       </FeaturesProvider>,
     );
 
-  it('passes a11y checks', () => checkAccessibility(setUp(true)));
+  it('passes a11y checks', () => checkAccessibility(setUp({ withDeviceLongUrls: true })));
 
   it.each([
     [
@@ -69,7 +75,7 @@ describe('<ShortUrlForm />', () => {
   ])(
     'saves short URL with data set in form controls',
     async (extraFields, extraExpectedValues, withDeviceLongUrls) => {
-      const { user } = setUp(withDeviceLongUrls);
+      const { user } = setUp({ withDeviceLongUrls });
       const validSince = parseDate('2017-01-01', 'yyyy-MM-dd');
       const validUntil = parseDate('2017-01-06', 'yyyy-MM-dd');
 
@@ -106,7 +112,7 @@ describe('<ShortUrlForm />', () => {
   ])(
     'renders expected amount of cards based on server capabilities and mode',
     (mode, expectedAmountOfCards) => {
-      setUp(false, mode);
+      setUp({ mode });
       const cards = screen.queryAllByRole('heading');
 
       expect(cards).toHaveLength(expectedAmountOfCards);
@@ -123,7 +129,7 @@ describe('<ShortUrlForm />', () => {
     [undefined, false, undefined],
     ['old title', false, null],
   ])('sends expected title based on original and new values', async (originalTitle, withNewTitle, expectedSentTitle) => {
-    const { user } = setUp(false, 'create', originalTitle);
+    const { user } = setUp({ title: originalTitle });
 
     await user.type(screen.getByPlaceholderText('URL to be shortened'), 'https://long-domain.com/foo/bar');
     await user.clear(screen.getByPlaceholderText('Title'));
@@ -138,9 +144,28 @@ describe('<ShortUrlForm />', () => {
   });
 
   it('shows device-specific long URLs only when supported', () => {
-    setUp(true);
+    setUp({ withDeviceLongUrls: true });
 
     const placeholders = ['Android-specific redirection', 'iOS-specific redirection', 'Desktop-specific redirection'];
     placeholders.forEach((placeholder) => expect(screen.getByPlaceholderText(placeholder)).toBeInTheDocument());
+  });
+
+  it.each([
+    { result: {}, initialValue: 'https://long-domain.com/foo/bar', expectedValueAfterSave: '' },
+    {
+      result: { error: {} },
+      initialValue: 'https://long-domain.com/foo/bar',
+      expectedValueAfterSave: 'https://long-domain.com/foo/bar',
+    },
+  ])('resets form only if there was no error on save', async ({ result, initialValue, expectedValueAfterSave }) => {
+    createShortUrl.mockResolvedValue(result);
+
+    const { user } = setUp();
+
+    await user.type(screen.getByPlaceholderText('URL to be shortened'), initialValue);
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(createShortUrl).toHaveBeenCalled();
+    expect(screen.getByPlaceholderText('URL to be shortened')).toHaveValue(expectedValueAfterSave);
   });
 });

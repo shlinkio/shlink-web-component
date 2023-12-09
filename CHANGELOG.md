@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.4.1] - 2023-12-09
 ### Added
 * [#117](https://github.com/shlinkio/shlink-web-component/issues/117) Migrate charts from Chart.JS to Recharts.
 
@@ -19,7 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Fixed
-* [#146](https://github.com/shlinkio/shlink-web-component/issues/114617) Make sure selected visits are reset when filtering changes.
+* [#146](https://github.com/shlinkio/shlink-web-component/issues/146) Make sure selected visits are reset when filtering changes.
+* [#123](https://github.com/shlinkio/shlink-web-component/issues/123) Do not reset short URL creation form if saving failed.
 
 
 ## [0.4.0] - 2023-11-26

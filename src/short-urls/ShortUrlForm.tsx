@@ -51,6 +51,8 @@ const toDate = (date?: string | Date): Date | undefined => (typeof date === 'str
 const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData): data is ShlinkCreateShortUrlData =>
   'shortCodeLength' in data && 'customSlug' in data && 'domain' in data;
 
+const isErrorAction = (action: any): boolean => 'error' in action;
+
 const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   { mode, saving, onSave, initialState, tagsList },
 ) => {
@@ -77,7 +79,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
     validSince: formatIsoDate(shortUrlData.validSince) ?? null,
     validUntil: formatIsoDate(shortUrlData.validUntil) ?? null,
     maxVisits: !hasValue(shortUrlData.maxVisits) ? null : Number(shortUrlData.maxVisits),
-  }).then(() => !isEdit && reset()).catch(() => {}));
+  }).then((result: any) => !isEdit && !isErrorAction(result) && reset()).catch(() => {}));
 
   useEffect(() => {
     setShortUrlData(initialState);

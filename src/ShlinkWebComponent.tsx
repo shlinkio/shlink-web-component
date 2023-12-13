@@ -36,11 +36,7 @@ export const createShlinkWebComponent = (
   const [theStore, setStore] = useState<Store | undefined>();
 
   const inRouterContext = useInRouterContext();
-  const [RouterOrFragment, props] = useMemo(() => (
-    inRouterContext
-      ? [Fragment, {}]
-      : [BrowserRouter, { basename: routesPrefix }]
-  ), [inRouterContext, routesPrefix]);
+  const RouterOrFragment = useMemo(() => (inRouterContext ? Fragment : BrowserRouter), [inRouterContext]);
 
   useEffect(() => {
     apiClientRef = apiClient;
@@ -68,7 +64,7 @@ export const createShlinkWebComponent = (
       <SettingsProvider value={settings}>
         <FeaturesProvider value={features}>
           <RoutesPrefixProvider value={routesPrefix}>
-            <RouterOrFragment {...props}>
+            <RouterOrFragment>
               {mainContent.current}
             </RouterOrFragment>
           </RoutesPrefixProvider>

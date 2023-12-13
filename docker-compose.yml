@@ -8,3 +8,4 @@ services:
             - ./:/shlink-web-component
         ports:
             - '3002:3002'
+            - '3003:3003'

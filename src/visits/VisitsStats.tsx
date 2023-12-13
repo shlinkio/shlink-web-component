@@ -131,10 +131,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     getVisits({ dateRange: resolvedDateRange, filter: resolvedFilter }, isFirstLoad.current);
     setSelectedVisits([]); // Reset selected visits
     isFirstLoad.current = false;
-
-    // TODO Adding proper list of dependencies here results in an infinite re-render. Refactor this
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dateRange, visitsFilter]);
+  }, [dateRange, visitsFilter, getVisits, resolvedFilter, setSelectedVisits]);
   useEffect(() => {
     // As soon as the fallback is loaded, if the initial interval used the settings one, we do fall back
     if (fallbackInterval && initialInterval.current === (visitsSettings?.defaultInterval ?? 'last30Days')) {

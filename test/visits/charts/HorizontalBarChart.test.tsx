@@ -14,7 +14,8 @@ describe('<HorizontalBarChart />', () => {
     [{ foo: 123, bar: 456 }, undefined],
     [{ one: 999, two: 131313 }, { one: 30, two: 100 }],
     [{ one: 999, two: 131313, max: 3 }, { one: 30, two: 100 }],
-  ])('renders chart with expected canvas', (stats, highlightedStats) => {
+    [{ one: 40, two: 300, three: 35 }, { one: 30, two: 100, three: 35 }],
+  ])('renders expected charts', (stats, highlightedStats) => {
     const { container } = setUp({ stats, highlightedStats });
     expect(container).toMatchSnapshot();
   });

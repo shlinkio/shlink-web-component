@@ -25,7 +25,8 @@ export type HorizontalBarChartProps = {
 
 type HorizontalBarChartEntry = {
   name: string;
-  amount: number | null;
+  amount: number;
+  nonHighlightedAmount: number | null;
   highlightedAmount: number | null;
 };
 
@@ -40,8 +41,9 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
 
     return {
       name,
+      amount,
       // Setting value `null` on "hidden" elements allows for them to be excluded from tooltips
-      amount: isHidden ? null : amount - highlightedAmount,
+      nonHighlightedAmount: isHidden ? null : amount - highlightedAmount,
       highlightedAmount: isHidden ? null : highlightedAmount,
     };
   }), [stats, highlightedStats]);
@@ -94,7 +96,7 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
           }}
         />
         <Bar
-          dataKey="amount"
+          dataKey="nonHighlightedAmount"
           stackId="main"
           cursor="pointer"
           fill={MAIN_COLOR /* This needs to be set as it is the color used in the tooltip */}

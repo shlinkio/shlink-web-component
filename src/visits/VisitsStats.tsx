@@ -132,7 +132,8 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     setSelectedVisits([]); // Reset selected visits
     isFirstLoad.current = false;
 
-    // TODO Adding proper list of dependencies here results in an infinite re-render. Refactor this
+    // TODO Adding proper list of dependencies here results in an infinite re-render when loading non-short URL visits.
+    //      Refactor this
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateRange, visitsFilter]);
   useEffect(() => {

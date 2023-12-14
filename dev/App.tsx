@@ -2,6 +2,7 @@ import { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
 import { FetchHttpClient } from '@shlinkio/shlink-js-sdk/browser';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import type { Settings } from '../src';
 import { ShlinkWebComponent } from '../src';
 import { ServerInfoForm } from './server-info/ServerInfoForm';
@@ -18,6 +19,10 @@ export const App: FC = () => {
   const settings = useMemo((): Settings => ({
     realTimeUpdates: { enabled: true },
   }), []);
+  const routesPrefix = useMemo(
+    () => (window.location.pathname.startsWith('/sub/route') ? '/sub/route' : undefined),
+    [],
+  );
 
   return (
     <>
@@ -28,7 +33,24 @@ export const App: FC = () => {
         </div>
       </header>
       <div className="wrapper">
-        {apiClient && <ShlinkWebComponent serverVersion="latest" apiClient={apiClient} settings={settings} />}
+        {apiClient && (
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path={routesPrefix ? `${routesPrefix}*` : '*'}
+                element={(
+                  <ShlinkWebComponent
+                    serverVersion="latest"
+                    apiClient={apiClient}
+                    settings={settings}
+                    routesPrefix={routesPrefix}
+                  />
+                )}
+              />
+              <Route path="*" element={<h3 className="mt-3 text-center">Not found</h3>} />
+            </Routes>
+          </BrowserRouter>
+        )}
       </div>
     </>
   );

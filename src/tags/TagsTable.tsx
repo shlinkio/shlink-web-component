@@ -1,8 +1,7 @@
 import { splitEvery } from '@shlinkio/data-manipulation';
-import { parseQuery, SimpleCard } from '@shlinkio/shlink-frontend-kit';
+import { SimpleCard, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
@@ -26,8 +25,7 @@ const TAGS_PER_PAGE = 20; // TODO Allow customizing this value in settings
 const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orderByColumn, currentOrder }) => {
   const { TagsTableRow } = useDependencies(TagsTable);
   const isFirstLoad = useRef(true);
-  const { search } = useLocation();
-  const { page: pageFromQuery = 1 } = parseQuery<{ page?: number | string }>(search);
+  const { page: pageFromQuery = 1 } = useParsedQuery<{ page?: number | string }>();
   const [page, setPage] = useQueryState<number>('page', Number(pageFromQuery));
   const pages = splitEvery(sortedTags, TAGS_PER_PAGE);
   const showPaginator = pages.length > 1;

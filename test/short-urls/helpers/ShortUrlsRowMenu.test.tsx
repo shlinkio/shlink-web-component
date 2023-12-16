@@ -1,9 +1,12 @@
 import { screen } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import { ShortUrlsRowMenuFactory } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
+import type { VisitsComparison, VisitsComparisonItem,
+} from '../../../src/visits/visits-comparison/VisitsComparisonContext';
+import {
+  VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
@@ -16,21 +19,24 @@ describe('<ShortUrlsRowMenu />', () => {
     shortCode: 'abc123',
     shortUrl: 'https://s.test/abc123',
   });
-  const setUp = () => renderWithEvents(
+  const setUp = (visitsComparison?: VisitsComparison) => renderWithEvents(
     <MemoryRouter>
-      <ShortUrlsRowMenu shortUrl={shortUrl} />
+      <VisitsComparisonProvider value={visitsComparison}>
+        <ShortUrlsRowMenu shortUrl={shortUrl} />
+      </VisitsComparisonProvider>
     </MemoryRouter>,
   );
-  const openMenu = (user: UserEvent) => user.click(screen.getByRole('button'));
+  const setUpAndOpen = async (visitsComparison?: VisitsComparison) => {
+    const result = setUp(visitsComparison);
+    await result.user.click(screen.getByRole('button'));
+
+    return result;
+  };
 
   it.each([
     [setUp],
-    [async () => {
-      const { user, container } = setUp();
-      await openMenu(user);
-
-      return { container };
-    }],
+    [setUpAndOpen],
+    [() => setUpAndOpen(fromPartial({ itemsToCompare: [] }))],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders modal windows', () => {
@@ -40,10 +46,41 @@ describe('<ShortUrlsRowMenu />', () => {
     expect(screen.getByText('QrCodeModal')).toBeInTheDocument();
   });
 
-  it('renders correct amount of menu items', async () => {
-    const { user } = setUp();
+  it.each([
+    [undefined, 4],
+    [fromPartial<VisitsComparison>({ itemsToCompare: [] }), 5],
+  ])('renders correct amount of menu items', async (visitsComparison, expectedMenuItems) => {
+    await setUpAndOpen(visitsComparison);
+    expect(screen.getAllByRole('menuitem')).toHaveLength(expectedMenuItems);
+  });
 
-    await openMenu(user);
-    expect(screen.getAllByRole('menuitem')).toHaveLength(4);
+  it.each([
+    [fromPartial<VisitsComparisonItem>({ name: shortUrl.shortUrl }), true],
+    [fromPartial<VisitsComparisonItem>({ name: 'something else' }), false],
+  ])('disables visits comparison menu if short URL is already selected', async (visitToCompare, hasAttribute) => {
+    await setUpAndOpen(fromPartial({
+      itemsToCompare: [visitToCompare],
+    }));
+    const button = screen.getByTestId('add-visit-to-compare-button');
+
+    if (hasAttribute) {
+      expect(button).toHaveAttribute('disabled');
+    } else {
+      expect(button).not.toHaveAttribute('disabled');
+    }
+  });
+
+  it('adds visit to compare when clicked', async () => {
+    const addVisitToCompare = vi.fn();
+    const { user } = await setUpAndOpen(fromPartial({
+      itemsToCompare: [],
+      addItemToCompare: addVisitToCompare,
+    }));
+
+    await user.click(screen.getByTestId('add-visit-to-compare-button'));
+    expect(addVisitToCompare).toHaveBeenCalledWith({
+      name: shortUrl.shortUrl,
+      query: expect.stringContaining('abc123'),
+    });
   });
 });

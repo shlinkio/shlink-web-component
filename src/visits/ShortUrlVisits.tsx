@@ -1,6 +1,5 @@
-import { parseQuery } from '@shlinkio/shlink-frontend-kit';
+import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
@@ -46,9 +45,8 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
   const supportsShortUrlVisitsDeletion = useFeature('shortUrlVisitsDeletion');
   const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
   const shortCode = useDecodedShortCodeFromParams();
-  const { search } = useLocation();
   const goBack = useGoBack();
-  const { domain } = parseQuery<{ domain?: string }>(search);
+  const { domain } = useParsedQuery<{ domain?: string }>();
   const loadVisits = useCallback((params: VisitsParams, doIntervalFallback?: boolean) => getShortUrlVisits({
     shortCode,
     query: { ...toApiParams(params), domain },

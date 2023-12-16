@@ -1,7 +1,8 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { endOfDay, formatISO, startOfDay } from 'date-fns';
-import { MemoryRouter, useLocation, useNavigate } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import { Router, useNavigate } from 'react-router-dom';
 import { ShortUrlsFilteringBarFactory } from '../../src/short-urls/ShortUrlsFilteringBar';
 import { formatIsoDate } from '../../src/utils/dates/helpers/date';
 import type { DateRange } from '../../src/utils/dates/helpers/dateIntervals';
@@ -15,7 +16,6 @@ vi.mock('react-router-dom', async () => ({
   ...(await vi.importActual<any>('react-router-dom')),
   useParams: vi.fn().mockReturnValue({ serverId: '1' }),
   useNavigate: vi.fn(),
-  useLocation: vi.fn().mockReturnValue({}),
 }));
 
 describe('<ShortUrlsFilteringBar />', () => {
@@ -26,12 +26,12 @@ describe('<ShortUrlsFilteringBar />', () => {
   const navigate = vi.fn();
   const handleOrderBy = vi.fn();
   const now = new Date();
-  const setUp = (search = '', filterDisabledUrls = true) => {
-    (useLocation as any).mockReturnValue({ search });
+  const setUp = (search: string | undefined = undefined, filterDisabledUrls = true) => {
     (useNavigate as any).mockReturnValue(navigate);
+    const history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
 
     return renderWithEvents(
-      <MemoryRouter>
+      <Router location={history.location} navigator={history}>
         <SettingsProvider value={fromPartial({ visits: {} })}>
           <FeaturesProvider value={fromPartial({ filterDisabledUrls })}>
             <RoutesPrefixProvider value="/server/1">
@@ -39,7 +39,7 @@ describe('<ShortUrlsFilteringBar />', () => {
             </RoutesPrefixProvider>
           </FeaturesProvider>
         </SettingsProvider>
-      </MemoryRouter>,
+      </Router>,
     );
   };
 

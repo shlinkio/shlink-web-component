@@ -41,7 +41,8 @@ export const Tag: FC<TagProps> = (props) => {
             'tag--light-bg': isLightColor,
           })}
           onClick={props.onClose}
-        >&times;
+        >
+          &times;
         </UnstyledButton>
       )}
     </Wrapper>

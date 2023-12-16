@@ -1,16 +1,12 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { useLocation } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
 import { TagsTableFactory } from '../../src/tags/TagsTable';
 import type { TagsTableRowProps } from '../../src/tags/TagsTableRow';
 import { rangeOf } from '../../src/utils/helpers';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
-
-vi.mock('react-router-dom', async () => ({
-  ...(await vi.importActual<any>('react-router-dom')),
-  useLocation: vi.fn(),
-}));
 
 describe('<TagsTable />', () => {
   const orderByColumn = vi.fn();
@@ -19,13 +15,15 @@ describe('<TagsTable />', () => {
   }));
   const tags = (amount: number) => rangeOf(amount, (i) => `tag_${i}`);
   const setUp = (sortedTags: string[] = [], search = '') => {
-    (useLocation as any).mockReturnValue({ search });
+    const history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
     return renderWithEvents(
-      <TagsTable
-        sortedTags={sortedTags.map((tag) => fromPartial({ tag }))}
-        currentOrder={{}}
-        orderByColumn={() => orderByColumn}
-      />,
+      <Router location={history.location} navigator={history}>
+        <TagsTable
+          sortedTags={sortedTags.map((tag) => fromPartial({ tag }))}
+          currentOrder={{}}
+          orderByColumn={() => orderByColumn}
+        />
+      </Router>,
     );
   };
 

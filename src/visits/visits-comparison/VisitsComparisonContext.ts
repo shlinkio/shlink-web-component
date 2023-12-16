@@ -6,10 +6,10 @@ export type VisitsComparisonItem = {
 };
 
 export type VisitsComparison = {
-  visitsToCompare: VisitsComparisonItem[];
-  addVisitToCompare: (item: VisitsComparisonItem) => void;
-  removeVisitToCompare: (item: VisitsComparisonItem) => void;
-  clearVisitsToCompare: () => void;
+  itemsToCompare: VisitsComparisonItem[];
+  addItemToCompare: (item: VisitsComparisonItem) => void;
+  removeItemToCompare: (item: VisitsComparisonItem) => void;
+  clearItemsToCompare: () => void;
 };
 
 const VisitsComparisonContext = createContext<VisitsComparison | undefined>(undefined);
@@ -22,16 +22,16 @@ export const useVisitsToCompare = (): VisitsComparison | undefined => {
 };
 
 export const useVisitsComparison = (): VisitsComparison => {
-  const [visitsToCompare, setVisitsToCompare] = useState<VisitsComparisonItem[]>([]);
-  const addVisitToCompare = useCallback(
-    (item: VisitsComparisonItem) => setVisitsToCompare((prev) => [...prev, item]),
+  const [itemsToCompare, setItemToCompare] = useState<VisitsComparisonItem[]>([]);
+  const addItemToCompare = useCallback(
+    (item: VisitsComparisonItem) => setItemToCompare((prev) => [...prev, item]),
     [],
   );
-  const removeVisitToCompare = useCallback(
-    (item: VisitsComparisonItem) => setVisitsToCompare((prev) => prev.filter((i) => i !== item)),
+  const removeItemToCompare = useCallback(
+    (item: VisitsComparisonItem) => setItemToCompare((prev) => prev.filter((i) => i !== item)),
     [],
   );
-  const clearVisitsToCompare = useCallback(() => setVisitsToCompare([]), []);
+  const clearItemsToCompare = useCallback(() => setItemToCompare([]), []);
 
-  return { visitsToCompare, addVisitToCompare, removeVisitToCompare, clearVisitsToCompare };
+  return { itemsToCompare, addItemToCompare, removeItemToCompare, clearItemsToCompare };
 };

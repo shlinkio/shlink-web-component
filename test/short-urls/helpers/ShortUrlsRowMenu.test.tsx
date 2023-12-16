@@ -36,7 +36,7 @@ describe('<ShortUrlsRowMenu />', () => {
   it.each([
     [setUp],
     [setUpAndOpen],
-    [() => setUpAndOpen(fromPartial({ visitsToCompare: [] }))],
+    [() => setUpAndOpen(fromPartial({ itemsToCompare: [] }))],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders modal windows', () => {
@@ -48,7 +48,7 @@ describe('<ShortUrlsRowMenu />', () => {
 
   it.each([
     [undefined, 4],
-    [fromPartial<VisitsComparison>({ visitsToCompare: [] }), 5],
+    [fromPartial<VisitsComparison>({ itemsToCompare: [] }), 5],
   ])('renders correct amount of menu items', async (visitsComparison, expectedMenuItems) => {
     await setUpAndOpen(visitsComparison);
     expect(screen.getAllByRole('menuitem')).toHaveLength(expectedMenuItems);
@@ -59,7 +59,7 @@ describe('<ShortUrlsRowMenu />', () => {
     [fromPartial<VisitsComparisonItem>({ name: 'something else' }), false],
   ])('disables visits comparison menu if short URL is already selected', async (visitToCompare, hasAttribute) => {
     await setUpAndOpen(fromPartial({
-      visitsToCompare: [visitToCompare],
+      itemsToCompare: [visitToCompare],
     }));
     const button = screen.getByTestId('add-visit-to-compare-button');
 
@@ -73,8 +73,8 @@ describe('<ShortUrlsRowMenu />', () => {
   it('adds visit to compare when clicked', async () => {
     const addVisitToCompare = vi.fn();
     const { user } = await setUpAndOpen(fromPartial({
-      visitsToCompare: [],
-      addVisitToCompare,
+      itemsToCompare: [],
+      addItemToCompare: addVisitToCompare,
     }));
 
     await user.click(screen.getByTestId('add-visit-to-compare-button'));

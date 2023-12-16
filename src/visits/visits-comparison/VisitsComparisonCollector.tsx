@@ -19,11 +19,11 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
   const routesPrefix = useRoutesPrefix();
   const context = useVisitsToCompare();
   const query = useMemo(
-    () => (!context ? '' : encodeURIComponent(context.visitsToCompare.map((visit) => visit.query).join(','))),
+    () => (!context ? '' : encodeURIComponent(context.itemsToCompare.map((visit) => visit.query).join(','))),
     [context],
   );
 
-  if (!context?.visitsToCompare.length) {
+  if (!context || context.itemsToCompare.length === 0) {
     return null;
   }
 
@@ -31,13 +31,13 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
     <div className={clsx('top-sticky', className)}>
       <SimpleCard bodyClassName="d-flex gap-3 align-items-center">
         <div className="d-flex flex-wrap gap-1 flex-grow-1">
-          {context.visitsToCompare.map((item, index) => (
+          {context.itemsToCompare.map((item, index) => (
             <span key={`${item.name}_${index}`} className="badge bg-secondary pe-1">
               {item.name}
               <UnstyledButton
                 aria-label={`Remove ${item.name}`}
                 className="fw-bold fs-6"
-                onClick={() => context.removeVisitToCompare(item)}
+                onClick={() => context.removeItemToCompare(item)}
               >
                 &times;
               </UnstyledButton>
@@ -48,7 +48,7 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
           <Button
             outline
             color="primary"
-            disabled={context.visitsToCompare.length < 2}
+            disabled={context.itemsToCompare.length < 2}
             tag={Link}
             to={`${routesPrefix}/${type}/compare-visits?${type}=${query}`}
           >
@@ -60,7 +60,7 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
             outline
             color="secondary"
             className="ms-2 fw-bold"
-            onClick={context.clearVisitsToCompare}
+            onClick={context.clearItemsToCompare}
           >
             &times;
           </Button>

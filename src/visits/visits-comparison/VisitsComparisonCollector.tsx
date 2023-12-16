@@ -11,15 +11,15 @@ import { useRoutesPrefix } from '../../utils/routesPrefix';
 import { useVisitsToCompare } from './VisitsComparisonContext';
 
 type VisitsComparisonCollectorProps = {
-  className?: string;
   type: 'short-urls' | 'tags' | 'domains';
+  className?: string;
 };
 
 export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ className, type }) => {
   const routesPrefix = useRoutesPrefix();
   const context = useVisitsToCompare();
   const query = useMemo(
-    () => (!context ? '' : encodeURIComponent(context.itemsToCompare.map((visit) => visit.query).join(','))),
+    () => (!context ? '' : encodeURIComponent(context.itemsToCompare.map((item) => item.query).join(','))),
     [context],
   );
 
@@ -30,9 +30,9 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
   return (
     <div className={clsx('top-sticky', className)}>
       <SimpleCard bodyClassName="d-flex gap-3 align-items-center">
-        <div className="d-flex flex-wrap gap-1 flex-grow-1">
+        <ul className="d-flex flex-wrap gap-1 flex-grow-1 p-0 m-0">
           {context.itemsToCompare.map((item, index) => (
-            <span key={`${item.name}_${index}`} className="badge bg-secondary pe-1">
+            <li key={`${item.name}_${index}`} className="badge bg-secondary pe-1">
               {item.name}
               <UnstyledButton
                 aria-label={`Remove ${item.name}`}
@@ -41,10 +41,10 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
               >
                 &times;
               </UnstyledButton>
-            </span>
+            </li>
           ))}
-        </div>
-        <div>
+        </ul>
+        <div className="indivisible">
           <Button
             outline
             color="primary"

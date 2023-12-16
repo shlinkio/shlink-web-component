@@ -22,16 +22,16 @@ export const useVisitsToCompare = (): VisitsComparison | undefined => {
 };
 
 export const useVisitsComparison = (): VisitsComparison => {
-  const [itemsToCompare, setItemToCompare] = useState<VisitsComparisonItem[]>([]);
+  const [itemsToCompare, setItemsToCompare] = useState<VisitsComparisonItem[]>([]);
   const addItemToCompare = useCallback(
-    (item: VisitsComparisonItem) => setItemToCompare((prev) => [...prev, item]),
+    (item: VisitsComparisonItem) => setItemsToCompare((prev) => [...prev, item]),
     [],
   );
   const removeItemToCompare = useCallback(
-    (item: VisitsComparisonItem) => setItemToCompare((prev) => prev.filter((i) => i !== item)),
+    (item: VisitsComparisonItem) => setItemsToCompare((prev) => prev.filter((i) => i !== item)),
     [],
   );
-  const clearItemsToCompare = useCallback(() => setItemToCompare([]), []);
+  const clearItemsToCompare = useCallback(() => setItemsToCompare([]), []);
 
   return { itemsToCompare, addItemToCompare, removeItemToCompare, clearItemsToCompare };
 };

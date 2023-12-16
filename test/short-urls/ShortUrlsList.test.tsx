@@ -1,6 +1,8 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter, useNavigate } from 'react-router-dom';
+import type { MemoryHistory } from 'history';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
 import type { Settings } from '../../src';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import type { ShortUrlsOrder } from '../../src/short-urls/data';
@@ -12,19 +14,14 @@ import { SettingsProvider } from '../../src/utils/settings';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
-vi.mock('react-router-dom', async () => ({
-  ...(await vi.importActual<any>('react-router-dom')),
-  useNavigate: vi.fn().mockReturnValue(vi.fn()),
-  useLocation: vi.fn().mockReturnValue({ search: '?tags=test%20tag&search=example.com' }),
-}));
-
 describe('<ShortUrlsList />', () => {
   const ShortUrlsTable: ShortUrlsTableType = ({ onTagClick }) => (
-    <button type="button" onClick={() => onTagClick?.('foo')}>ShortUrlsTable</button>
+    <button type="button" onClick={() => onTagClick?.('foo')} data-testid="add-tag-button">
+      ShortUrlsTable
+    </button>
   );
   const ShortUrlsFilteringBar = () => <span>ShortUrlsFilteringBar</span>;
   const listShortUrlsMock = vi.fn();
-  const navigate = vi.fn();
   const shortUrlsList = fromPartial<ShortUrlsListModel>({
     shortUrls: {
       data: [
@@ -38,24 +35,26 @@ describe('<ShortUrlsList />', () => {
       pagination: { pagesCount: 3 },
     },
   });
+  let history: MemoryHistory;
   const ShortUrlsList = ShortUrlsListFactory(fromPartial({ ShortUrlsTable, ShortUrlsFilteringBar }));
-  const setUp = (settings: Partial<Settings> = {}, excludeBotsOnShortUrls = true) => renderWithEvents(
-    <MemoryRouter>
-      <SettingsProvider value={fromPartial(settings)}>
-        <FeaturesProvider value={fromPartial({ excludeBotsOnShortUrls })}>
-          <ShortUrlsList
-            {...fromPartial<MercureBoundProps>({ mercureInfo: { loading: true } })}
-            listShortUrls={listShortUrlsMock}
-            shortUrlsList={shortUrlsList}
-          />
-        </FeaturesProvider>
-      </SettingsProvider>
-    </MemoryRouter>,
-  );
+  const setUp = (settings: Partial<Settings> = {}, excludeBotsOnShortUrls = true) => {
+    history = createMemoryHistory();
+    history.push({ search: '?tags=test%20tag&search=example.com' });
 
-  beforeEach(() => {
-    (useNavigate as any).mockReturnValue(navigate);
-  });
+    return renderWithEvents(
+      <Router location={history.location} navigator={history}>
+        <SettingsProvider value={fromPartial(settings)}>
+          <FeaturesProvider value={fromPartial({ excludeBotsOnShortUrls })}>
+            <ShortUrlsList
+              {...fromPartial<MercureBoundProps>({ mercureInfo: { loading: true } })}
+              listShortUrls={listShortUrlsMock}
+              shortUrlsList={shortUrlsList}
+            />
+          </FeaturesProvider>
+        </SettingsProvider>
+      </Router>,
+    );
+  };
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -79,10 +78,11 @@ describe('<ShortUrlsList />', () => {
 
   it('gets list refreshed every time a tag is clicked', async () => {
     const { user } = setUp();
+    const getTagsFromQuery = () => new URLSearchParams(history.location.search).get('tags');
 
-    expect(navigate).not.toHaveBeenCalled();
-    await user.click(screen.getByText('ShortUrlsTable'));
-    expect(navigate).toHaveBeenCalledWith(expect.stringContaining(`tags=${encodeURIComponent('test tag,foo')}`));
+    expect(getTagsFromQuery()).toEqual('test tag');
+    await user.click(screen.getByTestId('add-tag-button'));
+    expect(getTagsFromQuery()).toEqual('test tag,foo');
   });
 
   it.each([

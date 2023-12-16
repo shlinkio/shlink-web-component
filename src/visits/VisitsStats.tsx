@@ -95,7 +95,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const isFirstLoad = useRef(true);
   const { search } = useLocation();
 
-  const buildSectionUrl = (subPath?: string) => (!subPath ? search : `${subPath}${search}`);
+  const buildSectionUrl = useCallback((subPath?: string) => (!subPath ? search : `${subPath}${search}`), [search]);
   const normalizedVisits = useMemo(() => normalizeVisits(visits), [visits]);
   const { os, browsers, referrers, countries, cities, citiesForMap, visitedUrls } = useMemo(
     () => processStatsFromVisits(normalizedVisits),

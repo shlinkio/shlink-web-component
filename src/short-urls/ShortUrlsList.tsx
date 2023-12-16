@@ -13,6 +13,11 @@ import { Topics } from '../mercure/helpers/Topics';
 import { useFeature } from '../utils/features';
 import { useSettings } from '../utils/settings';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
+import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
+import {
+  useVisitsComparison,
+  VisitsComparisonProvider,
+} from '../visits/visits-comparison/VisitsComparisonContext';
 import type { ShortUrlsOrder, ShortUrlsOrderableFields } from './data';
 import { useShortUrlsQuery } from './helpers/hooks';
 import { Paginator } from './Paginator';
@@ -83,6 +88,7 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
 
     return { field, dir };
   }, [doExcludeBots, supportsExcludingBots]);
+  const visitsComparisonValue = useVisitsComparison();
 
   useEffect(() => {
     listShortUrls({
@@ -111,13 +117,14 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
   ]);
 
   return (
-    <>
+    <VisitsComparisonProvider value={visitsComparisonValue}>
       <ShortUrlsFilteringBar
         shortUrlsAmount={shortUrlsList.shortUrls?.pagination.totalItems}
         order={actualOrderBy}
         handleOrderBy={handleOrderBy}
         className="mb-3"
       />
+      <VisitsComparisonCollector type="short-urls" className="mb-3" />
       <Card body className="pb-0">
         <ShortUrlsTable
           shortUrlsList={shortUrlsList}
@@ -127,7 +134,8 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
         />
         <Paginator paginator={pagination} currentQueryString={location.search} />
       </Card>
-    </>
+    </VisitsComparisonProvider>
+
   );
 }, () => [Topics.visits]);
 

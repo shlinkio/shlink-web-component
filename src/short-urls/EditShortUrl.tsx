@@ -1,10 +1,9 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Message, parseQuery, Result } from '@shlinkio/shlink-frontend-kit';
+import { Message, Result, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useEffect, useMemo } from 'react';
 import { ExternalLink } from 'react-external-link';
-import { useLocation } from 'react-router-dom';
 import { Button, Card } from 'reactstrap';
 import type { ShlinkEditShortUrlData } from '../api-contract';
 import { ShlinkApiError } from '../common/ShlinkApiError';
@@ -34,12 +33,11 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
   { shortUrlDetail, getShortUrlDetail, shortUrlEdition, editShortUrl },
 ) => {
   const { ShortUrlForm } = useDependencies(EditShortUrl);
-  const { search } = useLocation();
+  const { domain } = useParsedQuery<{ domain?: string }>();
   const shortCode = useDecodedShortCodeFromParams();
   const goBack = useGoBack();
   const { loading, error, errorData, shortUrl } = shortUrlDetail;
   const { saving, saved, error: savingError, errorData: savingErrorData } = shortUrlEdition;
-  const { domain } = parseQuery<{ domain?: string }>(search);
   const shortUrlCreationSettings = useSetting('shortUrlCreation');
   const initialState = useMemo(
     () => shortUrlDataFromShortUrl(shortUrl, shortUrlCreationSettings),

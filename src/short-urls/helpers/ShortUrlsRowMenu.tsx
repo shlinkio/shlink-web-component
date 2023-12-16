@@ -1,4 +1,5 @@
 import {
+  faChartLine as lineChartIcon,
   faChartPie as pieChartIcon,
   faEdit as editIcon,
   faMinusCircle as deleteIcon,
@@ -11,7 +12,9 @@ import { DropdownItem } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
+import { useVisitsToCompare } from '../../visits/visits-comparison/VisitsComparisonContext';
 import type { ShortUrlModalProps } from '../data';
+import { shortUrlToQuery } from './index';
 import { ShortUrlDetailLink } from './ShortUrlDetailLink';
 
 type ShortUrlsRowMenuProps = {
@@ -29,12 +32,29 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuProps, ShortUrlsRowMenuDeps> 
   const { DeleteShortUrlModal, QrCodeModal } = useDependencies(ShortUrlsRowMenu);
   const [isQrModalOpen,, openQrCodeModal, closeQrCodeModal] = useToggle();
   const [isDeleteModalOpen,, openDeleteModal, closeDeleteModal] = useToggle();
+  const visitsComparison = useVisitsToCompare();
 
   return (
     <RowDropdownBtn minWidth={190}>
       <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="visits" asLink>
         <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
       </DropdownItem>
+      {visitsComparison && (
+        <>
+          <DropdownItem
+            disabled={visitsComparison.visitsToCompare.some(({ name }) => name === shortUrl.shortUrl)}
+            onClick={() => visitsComparison.addVisitToCompare({
+              name: shortUrl.shortUrl,
+              query: shortUrlToQuery(shortUrl),
+            })}
+            data-testid="add-visit-to-compare-button"
+          >
+            <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
+          </DropdownItem>
+
+          <DropdownItem divider tag="hr" />
+        </>
+      )}
 
       <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="edit" asLink>
         <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit short URL

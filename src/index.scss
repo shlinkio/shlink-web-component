@@ -6,3 +6,9 @@
 .input-group-text.input-group-text {
   border-color: var(--input-border-color);
 }
+
+.top-sticky {
+  position: sticky;
+  top: $headerHeight;
+  z-index: 10;
+}

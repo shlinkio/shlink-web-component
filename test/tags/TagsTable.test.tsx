@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { useLocation } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import { TagsTableFactory } from '../../src/tags/TagsTable';
 import type { TagsTableRowProps } from '../../src/tags/TagsTableRow';
 import { rangeOf } from '../../src/utils/helpers';
@@ -21,11 +21,13 @@ describe('<TagsTable />', () => {
   const setUp = (sortedTags: string[] = [], search = '') => {
     (useLocation as any).mockReturnValue({ search });
     return renderWithEvents(
-      <TagsTable
-        sortedTags={sortedTags.map((tag) => fromPartial({ tag }))}
-        currentOrder={{}}
-        orderByColumn={() => orderByColumn}
-      />,
+      <MemoryRouter>
+        <TagsTable
+          sortedTags={sortedTags.map((tag) => fromPartial({ tag }))}
+          currentOrder={{}}
+          orderByColumn={() => orderByColumn}
+        />
+      </MemoryRouter>,
     );
   };
 

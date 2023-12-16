@@ -2,7 +2,8 @@ import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
-import { MemoryRouter, useLocation } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
 import type { Settings } from '../../../src';
 import type { ShlinkShortUrl, ShlinkShortUrlMeta } from '../../../src/api-contract';
 import { ShortUrlsRowFactory } from '../../../src/short-urls/helpers/ShortUrlsRow';
@@ -17,12 +18,8 @@ interface SetUpOptions {
   tags?: string[];
   meta?: ShlinkShortUrlMeta;
   settings?: Partial<Settings>;
+  search?: string;
 }
-
-vi.mock('react-router-dom', async () => ({
-  ...(await vi.importActual<any>('react-router-dom')),
-  useLocation: vi.fn().mockReturnValue({}),
-}));
 
 describe('<ShortUrlsRow />', () => {
   const timeoutToggle = vi.fn(() => true);
@@ -52,10 +49,10 @@ describe('<ShortUrlsRow />', () => {
     useTimeoutToggle,
   }));
 
-  const setUp = ({ title, tags = [], meta = {}, settings = {} }: SetUpOptions = {}, search = '') => {
-    (useLocation as any).mockReturnValue({ search });
+  const setUp = ({ title, tags = [], meta = {}, settings = {}, search }: SetUpOptions = {}) => {
+    const history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
     return renderWithEvents(
-      <MemoryRouter>
+      <Router location={history.location} navigator={history}>
         <SettingsProvider value={fromPartial(settings)}>
           <table>
             <tbody>
@@ -66,7 +63,7 @@ describe('<ShortUrlsRow />', () => {
             </tbody>
           </table>
         </SettingsProvider>
-      </MemoryRouter>,
+      </Router>,
     );
   };
 
@@ -131,7 +128,7 @@ describe('<ShortUrlsRow />', () => {
     [fromPartial<Settings>({ visits: { excludeBots: false } }), 'excludeBots=false', shortUrl.visitsSummary?.total],
     [{}, 'excludeBots=false', shortUrl.visitsSummary?.total],
   ])('renders visits count in fifth row', (settings, search, expectedAmount) => {
-    setUp({ settings }, search);
+    setUp({ settings, search });
     expect(screen.getAllByRole('cell')[4]).toHaveTextContent(`${expectedAmount}`);
   });
 

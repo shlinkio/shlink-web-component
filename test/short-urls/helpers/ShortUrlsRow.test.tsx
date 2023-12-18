@@ -2,8 +2,7 @@ import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import type { Settings } from '../../../src';
 import type { ShlinkShortUrl, ShlinkShortUrlMeta } from '../../../src/api-contract';
 import { ShortUrlsRowFactory } from '../../../src/short-urls/helpers/ShortUrlsRow';
@@ -49,23 +48,20 @@ describe('<ShortUrlsRow />', () => {
     useTimeoutToggle,
   }));
 
-  const setUp = ({ title, tags = [], meta = {}, settings = {}, search }: SetUpOptions = {}) => {
-    const history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
-    return renderWithEvents(
-      <Router location={history.location} navigator={history}>
-        <SettingsProvider value={fromPartial(settings)}>
-          <table>
-            <tbody>
-              <ShortUrlsRow
-                shortUrl={{ ...shortUrl, title, tags, meta: { ...shortUrl.meta, ...meta } }}
-                onTagClick={() => null}
-              />
-            </tbody>
-          </table>
-        </SettingsProvider>
-      </Router>,
-    );
-  };
+  const setUp = ({ title, tags = [], meta = {}, settings = {}, search }: SetUpOptions = {}) => renderWithEvents(
+    <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
+      <SettingsProvider value={fromPartial(settings)}>
+        <table>
+          <tbody>
+            <ShortUrlsRow
+              shortUrl={{ ...shortUrl, title, tags, meta: { ...shortUrl.meta, ...meta } }}
+              onTagClick={() => null}
+            />
+          </tbody>
+        </table>
+      </SettingsProvider>
+    </MemoryRouter>,
+  );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

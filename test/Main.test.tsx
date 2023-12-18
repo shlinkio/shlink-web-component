@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import type { MainProps } from '../src/Main';
 import { MainFactory } from '../src/Main';
 import { FeaturesProvider } from '../src/utils/features';
@@ -27,18 +26,13 @@ describe('<Main />', () => {
     EditShortUrl: () => <>EditShortUrl</>,
     ManageDomains: () => <>ManageDomains</>,
   }));
-  const setUp = ({ createNotFound, currentPath = '', domainVisitsSupported = true }: SetUpOptions) => {
-    const history = createMemoryHistory();
-    history.push(currentPath);
-
-    return render(
-      <Router location={history.location} navigator={history}>
-        <FeaturesProvider value={fromPartial({ domainVisits: domainVisitsSupported })}>
-          <Main createNotFound={createNotFound} />
-        </FeaturesProvider>
-      </Router>,
-    );
-  };
+  const setUp = ({ createNotFound, currentPath = '', domainVisitsSupported = true }: SetUpOptions) => render(
+    <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
+      <FeaturesProvider value={fromPartial({ domainVisits: domainVisitsSupported })}>
+        <Main createNotFound={createNotFound} />
+      </FeaturesProvider>
+    </MemoryRouter>,
+  );
 
   it('passes a11y checks', () => checkAccessibility(setUp({})));
 

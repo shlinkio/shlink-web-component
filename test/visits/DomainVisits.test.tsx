@@ -1,18 +1,13 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
-import { MemoryRouter } from 'react-router-dom';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/utils/settings';
 import { DomainVisitsFactory } from '../../src/visits/DomainVisits';
 import type { DomainVisits } from '../../src/visits/reducers/domainVisits';
 import { checkAccessibility } from '../__helpers__/accessibility';
+import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
 import { renderWithEvents } from '../__helpers__/setUpTest';
-
-vi.mock('react-router-dom', async () => ({
-  ...(await vi.importActual<any>('react-router-dom')),
-  useParams: vi.fn().mockReturnValue({ domain: 'foo.com_DEFAULT' }),
-}));
 
 describe('<DomainVisits />', () => {
   const exportVisits = vi.fn();
@@ -23,7 +18,7 @@ describe('<DomainVisits />', () => {
     ReportExporter: fromPartial({ exportVisits }),
   }));
   const setUp = () => renderWithEvents(
-    <MemoryRouter>
+    <MemoryRouterWithParams params={{ domain: 'foo.com_DEFAULT' }}>
       <SettingsProvider value={fromPartial({})}>
         <DomainVisits
           {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
@@ -32,7 +27,7 @@ describe('<DomainVisits />', () => {
           domainVisits={domainVisits}
         />
       </SettingsProvider>
-    </MemoryRouter>,
+    </MemoryRouterWithParams>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

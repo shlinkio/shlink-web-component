@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
@@ -26,9 +27,15 @@ const NonOrphanVisits: FCWithDeps<MercureBoundProps & NonOrphanVisitsProps, NonO
 ) => {
   const { ReportExporter: reportExporter } = useDependencies(NonOrphanVisits);
   const goBack = useGoBack();
-  const exportCsv = (visits: NormalizedVisit[]) => reportExporter.exportVisits('non_orphan_visits.csv', visits);
-  const loadVisits = (params: VisitsParams, doIntervalFallback?: boolean) =>
-    getNonOrphanVisits({ query: toApiParams(params), doIntervalFallback });
+  const exportCsv = useCallback(
+    (visits: NormalizedVisit[]) => reportExporter.exportVisits('non_orphan_visits.csv', visits),
+    [reportExporter],
+  );
+  const loadVisits = useCallback(
+    (params: VisitsParams, doIntervalFallback?: boolean) =>
+      getNonOrphanVisits({ query: toApiParams(params), doIntervalFallback }),
+    [getNonOrphanVisits],
+  );
 
   return (
     <VisitsStats

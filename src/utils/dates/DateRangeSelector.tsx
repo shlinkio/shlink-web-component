@@ -1,5 +1,5 @@
 import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { DropdownItem } from 'reactstrap';
 import { useEffectExceptFirstTime } from '../helpers/hooks';
 import { DateIntervalDropdownItems } from './DateIntervalDropdownItems';
@@ -32,16 +32,16 @@ export const DateRangeSelector = (
   );
   const [activeDateRange, setActiveDateRange] = useState(initialIntervalIsRange ? undefined : initialDateRange);
 
-  const updateDateRange = (dateRange: DateRange) => {
+  const updateDateRange = useCallback((dateRange: DateRange) => {
     setActiveInterval(dateRangeIsEmpty(dateRange) ? ALL : undefined);
     setActiveDateRange(dateRange);
     onDatesChange(dateRange);
-  };
-  const updateInterval = (dateInterval: DateInterval) => {
+  }, [onDatesChange]);
+  const updateInterval = useCallback((dateInterval: DateInterval) => {
     setActiveInterval(dateInterval);
     setActiveDateRange(undefined);
     onDatesChange(intervalToDateRange(dateInterval));
-  };
+  }, [onDatesChange]);
 
   useEffectExceptFirstTime(() => {
     if (!updatable) {

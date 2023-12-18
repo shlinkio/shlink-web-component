@@ -1,7 +1,6 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { TagsTableFactory } from '../../src/tags/TagsTable';
 import type { TagsTableRowProps } from '../../src/tags/TagsTableRow';
 import { rangeOf } from '../../src/utils/helpers';
@@ -14,18 +13,15 @@ describe('<TagsTable />', () => {
     TagsTableRow: ({ tag }: TagsTableRowProps) => <tr><td>TagsTableRow [{tag.tag}]</td></tr>,
   }));
   const tags = (amount: number) => rangeOf(amount, (i) => `tag_${i}`);
-  const setUp = (sortedTags: string[] = [], search = '') => {
-    const history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
-    return renderWithEvents(
-      <Router location={history.location} navigator={history}>
-        <TagsTable
-          sortedTags={sortedTags.map((tag) => fromPartial({ tag }))}
-          currentOrder={{}}
-          orderByColumn={() => orderByColumn}
-        />
-      </Router>,
-    );
-  };
+  const setUp = (sortedTags: string[] = [], search = '') => renderWithEvents(
+    <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
+      <TagsTable
+        sortedTags={sortedTags.map((tag) => fromPartial({ tag }))}
+        currentOrder={{}}
+        orderByColumn={() => orderByColumn}
+      />
+    </MemoryRouter>,
+  );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

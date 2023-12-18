@@ -1,8 +1,9 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { endOfDay, formatISO, startOfDay } from 'date-fns';
+import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
-import { Router, useNavigate } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { ShortUrlsFilteringBarFactory } from '../../src/short-urls/ShortUrlsFilteringBar';
 import { formatIsoDate } from '../../src/utils/dates/helpers/date';
 import type { DateRange } from '../../src/utils/dates/helpers/dateIntervals';
@@ -15,7 +16,6 @@ import { renderWithEvents } from '../__helpers__/setUpTest';
 vi.mock('react-router-dom', async () => ({
   ...(await vi.importActual<any>('react-router-dom')),
   useParams: vi.fn().mockReturnValue({ serverId: '1' }),
-  useNavigate: vi.fn(),
 }));
 
 describe('<ShortUrlsFilteringBar />', () => {
@@ -23,13 +23,12 @@ describe('<ShortUrlsFilteringBar />', () => {
     ExportShortUrlsBtn: () => <>ExportShortUrlsBtn</>,
     TagsSelector: () => <>TagsSelector</>,
   }));
-  const navigate = vi.fn();
   const handleOrderBy = vi.fn();
   const now = new Date();
-  const setUp = (search: string | undefined = undefined, filterDisabledUrls = true) => {
-    (useNavigate as any).mockReturnValue(navigate);
-    const history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
+  let history: MemoryHistory;
 
+  const setUp = (search: string | undefined = undefined, filterDisabledUrls = true) => {
+    history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
     return renderWithEvents(
       <Router location={history.location} navigator={history}>
         <SettingsProvider value={fromPartial({ visits: {} })}>
@@ -43,6 +42,10 @@ describe('<ShortUrlsFilteringBar />', () => {
     );
   };
 
+  const getPath = () => history.location.pathname;
+  const getQuery = () => history.location.search;
+  const getQueryParam = (param: string) => new URLSearchParams(getQuery()).get(param);
+
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders expected children components', () => {
@@ -55,9 +58,12 @@ describe('<ShortUrlsFilteringBar />', () => {
   it('redirects to first page when search field changes', async () => {
     const { user } = setUp();
 
-    expect(navigate).not.toHaveBeenCalled();
+    expect(getQueryParam('search')).toBeNull();
     await user.type(screen.getByPlaceholderText('Search...'), 'search-term');
-    await waitFor(() => expect(navigate).toHaveBeenCalledWith('/server/1/list-short-urls/1?search=search-term'));
+
+    // Searching is deferred. Wait for query to be applied
+    await waitFor(() => expect(getQueryParam('search')).toEqual('search-term'));
+    expect(getPath()).toEqual('/server/1/list-short-urls/1');
   });
 
   it.each([
@@ -73,10 +79,11 @@ describe('<ShortUrlsFilteringBar />', () => {
     await user.click(screen.getByRole('button', { name: 'All short URLs' }));
     expect(await screen.findByRole('menu')).toBeInTheDocument();
 
-    expect(navigate).not.toHaveBeenCalled();
+    expect(getQuery()).toEqual('');
     dates.startDate && await user.type(screen.getByPlaceholderText('Since...'), formatIsoDate(dates.startDate) ?? '');
     dates.endDate && await user.type(screen.getByPlaceholderText('Until...'), formatIsoDate(dates.endDate) ?? '');
-    expect(navigate).toHaveBeenLastCalledWith(`/server/1/list-short-urls/1?${expectedQuery}`);
+    expect(getQuery()).toEqual(`?${expectedQuery}`);
+    expect(getPath()).toEqual('/server/1/list-short-urls/1');
   });
 
   it.each([
@@ -109,15 +116,14 @@ describe('<ShortUrlsFilteringBar />', () => {
   });
 
   it.each([
-    ['', 'tagsMode=all'],
-    ['&tagsMode=all', 'tagsMode=any'],
-    ['&tagsMode=any', 'tagsMode=all'],
+    ['', 'all'],
+    ['&tagsMode=all', 'any'],
+    ['&tagsMode=any', 'all'],
   ])('redirects to first page when tags mode changes', async (initialTagsMode, expectedRedirectTagsMode) => {
     const { user } = setUp(`tags=foo,bar${initialTagsMode}`, true);
 
-    expect(navigate).not.toHaveBeenCalled();
     await user.click(screen.getByLabelText('Change tags mode'));
-    expect(navigate).toHaveBeenCalledWith(expect.stringContaining(expectedRedirectTagsMode));
+    expect(getQueryParam('tagsMode')).toEqual(expectedRedirectTagsMode);
   });
 
   it.each([
@@ -139,7 +145,7 @@ describe('<ShortUrlsFilteringBar />', () => {
     };
 
     await toggleFilter(menuItemName);
-    expect(navigate).toHaveBeenCalledWith(expect.stringContaining(expectedQuery));
+    expect(getQuery()).toEqual(`?${expectedQuery}`);
   });
 
   it('handles order through dropdown', async () => {

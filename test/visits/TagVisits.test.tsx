@@ -1,19 +1,14 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
-import { MemoryRouter } from 'react-router';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/utils/settings';
 import type { TagVisits as TagVisitsStats } from '../../src/visits/reducers/tagVisits';
 import type { TagVisitsProps } from '../../src/visits/TagVisits';
 import { TagVisitsFactory } from '../../src/visits/TagVisits';
 import { checkAccessibility } from '../__helpers__/accessibility';
+import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
 import { renderWithEvents } from '../__helpers__/setUpTest';
-
-vi.mock('react-router-dom', async () => ({
-  ...(await vi.importActual<any>('react-router-dom')),
-  useParams: vi.fn().mockReturnValue({ tag: 'foo' }),
-}));
 
 describe('<TagVisits />', () => {
   const getTagVisitsMock = vi.fn();
@@ -24,7 +19,7 @@ describe('<TagVisits />', () => {
     ReportExporter: fromPartial({ exportVisits }),
   }));
   const setUp = () => renderWithEvents(
-    <MemoryRouter>
+    <MemoryRouterWithParams params={{ tag: 'foo' }}>
       <SettingsProvider value={fromPartial({})}>
         <TagVisits
           {...fromPartial<TagVisitsProps>({})}
@@ -34,7 +29,7 @@ describe('<TagVisits />', () => {
           cancelGetTagVisits={() => {}}
         />
       </SettingsProvider>
-    </MemoryRouter>,
+    </MemoryRouterWithParams>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

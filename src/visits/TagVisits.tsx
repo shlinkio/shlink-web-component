@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import type { ShlinkVisitsParams } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
@@ -31,9 +32,15 @@ const TagVisits: FCWithDeps<MercureBoundProps & TagVisitsProps, TagVisitsDeps> =
   const { ColorGenerator: colorGenerator, ReportExporter: reportExporter } = useDependencies(TagVisits);
   const goBack = useGoBack();
   const { tag = '' } = useParams();
-  const loadVisits = (params: ShlinkVisitsParams, doIntervalFallback?: boolean) =>
-    getTagVisits({ tag, query: toApiParams(params), doIntervalFallback });
-  const exportCsv = (visits: NormalizedVisit[]) => reportExporter.exportVisits(`tag_${tag}_visits.csv`, visits);
+  const loadVisits = useCallback(
+    (params: ShlinkVisitsParams, doIntervalFallback?: boolean) =>
+      getTagVisits({ tag, query: toApiParams(params), doIntervalFallback }),
+    [getTagVisits, tag],
+  );
+  const exportCsv = useCallback(
+    (visits: NormalizedVisit[]) => reportExporter.exportVisits(`tag_${tag}_visits.csv`, visits),
+    [reportExporter, tag],
+  );
 
   return (
     <VisitsStats

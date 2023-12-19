@@ -19,7 +19,7 @@ const initialState: ShortUrlVisits = {
   shortCode: '',
   domain: undefined, // Deprecated. Value from query params can be used instead
   loading: false,
-  error: false,
+  errorData: null,
   cancelLoad: false,
   progress: null,
 };

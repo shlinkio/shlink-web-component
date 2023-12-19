@@ -20,8 +20,8 @@ const initialState: DomainVisits = {
   visits: [],
   domain: '',
   loading: false,
-  error: false,
   cancelLoad: false,
+  errorData: null,
   progress: null,
 };
 

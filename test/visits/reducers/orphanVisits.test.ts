@@ -11,6 +11,7 @@ import {
 } from '../../../src/visits/reducers/orphanVisits';
 import type { VisitsInfo } from '../../../src/visits/reducers/types';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
+import { problemDetailsError } from '../../__mocks__/ProblemDetailsError.mock';
 
 describe('orphanVisitsReducer', () => {
   const now = new Date();
@@ -26,35 +27,35 @@ describe('orphanVisitsReducer', () => {
   describe('reducer', () => {
     const buildState = (data: Partial<VisitsInfo>) => fromPartial<VisitsInfo>(data);
 
-    it('returns loading on GET_ORPHAN_VISITS_START', () => {
+    it('returns loading when pending', () => {
       const { loading } = reducer(buildState({ loading: false }), getOrphanVisits.pending('', {}));
       expect(loading).toEqual(true);
     });
 
-    it('returns cancelLoad on GET_ORPHAN_VISITS_CANCEL', () => {
+    it('returns cancelLoad when loading is cancelled', () => {
       const { cancelLoad } = reducer(buildState({ cancelLoad: false }), cancelGetOrphanVisits());
       expect(cancelLoad).toEqual(true);
     });
 
-    it('stops loading and returns error on GET_ORPHAN_VISITS_ERROR', () => {
-      const { loading, error } = reducer(
-        buildState({ loading: true, error: false }),
-        getOrphanVisits.rejected(null, '', {}),
+    it('stops loading and returns error when rejected', () => {
+      const { loading, errorData } = reducer(
+        buildState({ loading: true, errorData: null }),
+        getOrphanVisits.rejected(problemDetailsError, '', {}),
       );
 
       expect(loading).toEqual(false);
-      expect(error).toEqual(true);
+      expect(errorData).toEqual(problemDetailsError);
     });
 
-    it('return visits on GET_ORPHAN_VISITS', () => {
+    it('return visits when fulfilled', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
-      const { loading, error, visits } = reducer(
-        buildState({ loading: true, error: false }),
+      const { loading, errorData, visits } = reducer(
+        buildState({ loading: true, errorData: null }),
         getOrphanVisits.fulfilled({ visits: actionVisits }, '', {}),
       );
 
       expect(loading).toEqual(false);
-      expect(error).toEqual(false);
+      expect(errorData).toBeNull();
       expect(visits).toEqual(actionVisits);
     });
 
@@ -90,7 +91,7 @@ describe('orphanVisitsReducer', () => {
         }),
         visitsMocks.length + 2,
       ],
-    ])('prepends new visits on CREATE_VISIT', (state, expectedVisits) => {
+    ])('prepends new visits when visits are created', (state, expectedVisits) => {
       const prevState = buildState({ ...state, visits: visitsMocks });
       const visit = fromPartial<ShlinkVisit>({ date: formatIsoDate(now) ?? undefined });
 
@@ -99,12 +100,12 @@ describe('orphanVisitsReducer', () => {
       expect(visits).toHaveLength(expectedVisits);
     });
 
-    it('returns new progress on GET_ORPHAN_VISITS_PROGRESS_CHANGED', () => {
+    it('returns new progress when progress changes', () => {
       const { progress } = reducer(undefined, getOrphanVisits.progressChanged(85));
       expect(progress).toEqual(85);
     });
 
-    it('returns fallbackInterval on GET_ORPHAN_VISITS_FALLBACK_TO_INTERVAL', () => {
+    it('returns fallbackInterval when falling back to another interval', () => {
       const fallbackInterval: DateInterval = 'last30Days';
       const state = reducer(undefined, getOrphanVisits.fallbackToInterval(fallbackInterval));
 

@@ -17,8 +17,8 @@ const initialState: TagVisits = {
   visits: [],
   tag: '',
   loading: false,
-  error: false,
   cancelLoad: false,
+  errorData: null,
   progress: null,
 };
 

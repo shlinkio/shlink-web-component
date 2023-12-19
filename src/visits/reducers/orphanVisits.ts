@@ -14,8 +14,8 @@ export interface LoadOrphanVisits extends LoadVisits {
 const initialState: VisitsInfo = {
   visits: [],
   loading: false,
-  error: false,
   cancelLoad: false,
+  errorData: null,
   progress: null,
 };
 

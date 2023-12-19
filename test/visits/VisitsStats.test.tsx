@@ -31,7 +31,7 @@ describe('<VisitsStats />', () => {
           <SettingsProvider value={fromPartial({})}>
             <VisitsStats
               getVisits={getVisitsMock}
-              visitsInfo={fromPartial({ loading: false, error: false, progress: null, visits: [], ...visitsInfo })}
+              visitsInfo={fromPartial({ loading: false, errorData: null, progress: null, visits: [], ...visitsInfo })}
               cancelGetVisits={() => {}}
               exportCsv={exportCsv}
               deletion={withDeletion ? fromPartial({ visitsDeletion: {} }) : undefined}
@@ -65,7 +65,7 @@ describe('<VisitsStats />', () => {
 
   it('renders an error message when visits could not be loaded', () => {
     setUp({
-      visitsInfo: { error: true },
+      visitsInfo: { errorData: fromPartial({ }) },
     });
     expect(screen.getByText('An error occurred while loading visits :(')).toBeInTheDocument();
   });

@@ -121,10 +121,10 @@ export const createVisitsReducer = <State extends VisitsInfo, AT extends ReturnT
     extraReducers: (builder) => {
       builder.addCase(pending, () => ({ ...initialState, loading: true }));
       builder.addCase(rejected, (_, { error }) => (
-        { ...initialState, error: true, errorData: parseApiError(error) }
+        { ...initialState, errorData: parseApiError(error) ?? null }
       ));
       builder.addCase(fulfilled, (state, { payload }) => (
-        { ...state, ...payload, loading: false, progress: null, error: false }
+        { ...state, ...payload, loading: false, progress: null, errorData: null }
       ));
 
       builder.addCase(progressChanged, (state, { payload: progress }) => ({ ...state, progress }));

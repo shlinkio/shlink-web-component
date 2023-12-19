@@ -28,11 +28,6 @@ describe('nonOrphanVisitsReducer', () => {
       expect(loading).toEqual(true);
     });
 
-    it('returns loadingLarge on GET_NON_ORPHAN_VISITS_LARGE', () => {
-      const { loadingLarge } = reducer(buildState({ loadingLarge: false }), getNonOrphanVisits.large());
-      expect(loadingLarge).toEqual(true);
-    });
-
     it('returns cancelLoad on GET_NON_ORPHAN_VISITS_CANCEL', () => {
       const { cancelLoad } = reducer(buildState({ cancelLoad: false }), cancelGetNonOrphanVisits());
       expect(cancelLoad).toEqual(true);

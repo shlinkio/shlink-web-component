@@ -8,10 +8,9 @@ const REDUCER_PREFIX = 'shlink/orphanVisits';
 const initialState: VisitsInfo = {
   visits: [],
   loading: false,
-  loadingLarge: false,
   error: false,
   cancelLoad: false,
-  progress: 0,
+  progress: null,
 };
 
 export const getNonOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({

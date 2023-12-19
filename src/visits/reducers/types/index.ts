@@ -6,10 +6,9 @@ type VisitsParams = Omit<ShlinkVisitsParams, 'domain'>;
 export interface VisitsInfo<QueryType extends VisitsParams = VisitsParams> {
   visits: ShlinkVisit[];
   loading: boolean;
-  loadingLarge: boolean;
   error: boolean;
   errorData?: ProblemDetailsError;
-  progress: number;
+  progress: number | null;
   cancelLoad: boolean;
   query?: QueryType;
   fallbackInterval?: DateInterval;

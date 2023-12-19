@@ -20,10 +20,9 @@ const initialState: DomainVisits = {
   visits: [],
   domain: '',
   loading: false,
-  loadingLarge: false,
   error: false,
   cancelLoad: false,
-  progress: 0,
+  progress: null,
 };
 
 export const getDomainVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({

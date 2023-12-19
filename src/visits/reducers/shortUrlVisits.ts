@@ -19,10 +19,9 @@ const initialState: ShortUrlVisits = {
   shortCode: '',
   domain: undefined, // Deprecated. Value from query params can be used instead
   loading: false,
-  loadingLarge: false,
   error: false,
   cancelLoad: false,
-  progress: 0,
+  progress: null,
 };
 
 export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({

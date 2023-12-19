@@ -29,11 +29,6 @@ describe('tagVisitsReducer', () => {
       expect(loading).toEqual(true);
     });
 
-    it('returns loadingLarge on GET_TAG_VISITS_LARGE', () => {
-      const { loadingLarge } = reducer(buildState({ loadingLarge: false }), getTagVisits.large());
-      expect(loadingLarge).toEqual(true);
-    });
-
     it('returns cancelLoad on GET_TAG_VISITS_CANCEL', () => {
       const { cancelLoad } = reducer(buildState({ cancelLoad: false }), cancelGetTagVisits());
       expect(cancelLoad).toEqual(true);

@@ -143,7 +143,9 @@ describe('shortUrlVisitsReducer', () => {
       const prevState = buildState({
         visits: [fromPartial({}), fromPartial({})],
         shortCode: 'abc123',
-        domain: 'domain',
+        query: {
+          domain: 'domain',
+        },
       });
       const result = reducer(prevState, { type: 'deleteShortUrlVisits', payload: { shortCode, domain } });
 

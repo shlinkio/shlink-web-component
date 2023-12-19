@@ -14,10 +14,9 @@ export interface LoadOrphanVisits extends LoadVisits {
 const initialState: VisitsInfo = {
   visits: [],
   loading: false,
-  loadingLarge: false,
-  error: false,
   cancelLoad: false,
-  progress: 0,
+  errorData: null,
+  progress: null,
 };
 
 const matchesType = (visit: ShlinkOrphanVisit, orphanVisitsType?: ShlinkOrphanVisitType) =>

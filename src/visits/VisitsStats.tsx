@@ -78,7 +78,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     exportCsv,
     isOrphanVisits = false,
   } = props;
-  const { visits, loading, loadingLarge, error, errorData, progress, fallbackInterval } = visitsInfo;
+  const { visits, loading, errorData, progress, fallbackInterval } = visitsInfo;
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
   const visitsSettings = useSetting('visits');
   const setDates = useCallback(({ startDate: theStartDate, endDate: theEndDate }: DateRange) => updateFiltering({
@@ -140,20 +140,16 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   }, [fallbackInterval, visitsSettings?.defaultInterval]);
 
   const renderVisitsContent = () => {
-    if (loadingLarge) {
-      return (
+    if (loading) {
+      return progress === null ? <Message loading /> : (
         <Message loading>
           This is going to take a while... :S
-          <Progress value={progress} striped={progress === 100} className="mt-3" />
+          <Progress value={progress} striped={progress >= 100} className="mt-3" />
         </Message>
       );
     }
 
-    if (loading) {
-      return <Message loading />;
-    }
-
-    if (error) {
+    if (errorData) {
       return (
         <Result type="error">
           <ShlinkApiError errorData={errorData} fallbackMessage="An error occurred while loading visits :(" />

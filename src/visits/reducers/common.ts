@@ -32,7 +32,6 @@ export const createVisitsAsyncThunk = <T extends LoadVisits = LoadVisits, R exte
   { typePrefix, createLoaders, getExtraFulfilledPayload, shouldCancel }: VisitsAsyncThunkOptions<T, R>,
 ) => {
   const progressChanged = createAction<number>(`${typePrefix}/progressChanged`);
-  const large = createAction<void>(`${typePrefix}/large`);
   const fallbackToInterval = createAction<DateInterval>(`${typePrefix}/fallbackToInterval`);
 
   const asyncThunk = createAsyncThunk(typePrefix, async (params: T, { getState, dispatch }): Promise<Partial<R>> => {
@@ -51,7 +50,7 @@ export const createVisitsAsyncThunk = <T extends LoadVisits = LoadVisits, R exte
 
       const data = await loadVisitsInParallel(pagesBlocks[index]);
 
-      dispatch(progressChanged(calcProgress(pagesBlocks.length, index + PARALLEL_STARTING_PAGE)));
+      dispatch(progressChanged(calcProgress(pagesBlocks.length, index + 1)));
 
       if (index < pagesBlocks.length - 1) {
         return data.concat(await loadPagesBlocks(pagesBlocks, index + 1));
@@ -73,7 +72,7 @@ export const createVisitsAsyncThunk = <T extends LoadVisits = LoadVisits, R exte
       const pagesBlocks = splitEvery(pagesRange, PARALLEL_REQUESTS_COUNT);
 
       if (pagination.pagesCount - 1 > PARALLEL_REQUESTS_COUNT) {
-        dispatch(large());
+        dispatch(progressChanged(0));
       }
 
       return data.concat(await loadPagesBlocks(pagesBlocks));
@@ -89,7 +88,7 @@ export const createVisitsAsyncThunk = <T extends LoadVisits = LoadVisits, R exte
   });
 
   // Enhance the async thunk with extra actions
-  return Object.assign(asyncThunk, { progressChanged, large, fallbackToInterval });
+  return Object.assign(asyncThunk, { progressChanged, fallbackToInterval });
 };
 
 export const lastVisitLoaderForLoader = (
@@ -112,7 +111,7 @@ interface VisitsReducerOptions<State extends VisitsInfo, AT extends ReturnType<t
 export const createVisitsReducer = <State extends VisitsInfo, AT extends ReturnType<typeof createVisitsAsyncThunk>>(
   { name, asyncThunkCreator, initialState, filterCreatedVisits, extraReducers }: VisitsReducerOptions<State, AT>,
 ) => {
-  const { pending, rejected, fulfilled, large, progressChanged, fallbackToInterval } = asyncThunkCreator;
+  const { pending, rejected, fulfilled, progressChanged, fallbackToInterval } = asyncThunkCreator;
   const { reducer, actions } = createSlice({
     name,
     initialState,
@@ -122,13 +121,12 @@ export const createVisitsReducer = <State extends VisitsInfo, AT extends ReturnT
     extraReducers: (builder) => {
       builder.addCase(pending, () => ({ ...initialState, loading: true }));
       builder.addCase(rejected, (_, { error }) => (
-        { ...initialState, error: true, errorData: parseApiError(error) }
+        { ...initialState, errorData: parseApiError(error) ?? null }
       ));
       builder.addCase(fulfilled, (state, { payload }) => (
-        { ...state, ...payload, loading: false, loadingLarge: false, error: false }
+        { ...state, ...payload, loading: false, progress: null, errorData: null }
       ));
 
-      builder.addCase(large, (state) => ({ ...state, loadingLarge: true }));
       builder.addCase(progressChanged, (state, { payload: progress }) => ({ ...state, progress }));
       builder.addCase(fallbackToInterval, (state, { payload: fallbackInterval }) => (
         { ...state, fallbackInterval }

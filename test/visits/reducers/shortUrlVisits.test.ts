@@ -11,6 +11,7 @@ import {
   shortUrlVisitsReducerCreator,
 } from '../../../src/visits/reducers/shortUrlVisits';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
+import { problemDetailsError } from '../../__mocks__/ProblemDetailsError.mock';
 
 describe('shortUrlVisitsReducer', () => {
   const now = new Date();
@@ -26,40 +27,35 @@ describe('shortUrlVisitsReducer', () => {
   describe('reducer', () => {
     const buildState = (data: Partial<ShortUrlVisits>) => fromPartial<ShortUrlVisits>(data);
 
-    it('returns loading on GET_SHORT_URL_VISITS_START', () => {
+    it('returns loading wen pending', () => {
       const { loading } = reducer(buildState({ loading: false }), getShortUrlVisits.pending('', { shortCode: '' }));
       expect(loading).toEqual(true);
     });
 
-    it('returns loadingLarge on GET_SHORT_URL_VISITS_LARGE', () => {
-      const { loadingLarge } = reducer(buildState({ loadingLarge: false }), getShortUrlVisits.large());
-      expect(loadingLarge).toEqual(true);
-    });
-
-    it('returns cancelLoad on GET_SHORT_URL_VISITS_CANCEL', () => {
+    it('returns cancelLoad when loading is cancelled', () => {
       const { cancelLoad } = reducer(buildState({ cancelLoad: false }), cancelGetShortUrlVisits());
       expect(cancelLoad).toEqual(true);
     });
 
-    it('stops loading and returns error on GET_SHORT_URL_VISITS_ERROR', () => {
-      const { loading, error } = reducer(
-        buildState({ loading: true, error: false }),
-        getShortUrlVisits.rejected(null, '', { shortCode: '' }),
+    it('stops loading and returns error when rejected', () => {
+      const { loading, errorData } = reducer(
+        buildState({ loading: true, errorData: null }),
+        getShortUrlVisits.rejected(problemDetailsError, '', { shortCode: '' }),
       );
 
       expect(loading).toEqual(false);
-      expect(error).toEqual(true);
+      expect(errorData).toEqual(problemDetailsError);
     });
 
-    it('return visits on GET_SHORT_URL_VISITS', () => {
+    it('return visits when fulfilled', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
-      const { loading, error, visits } = reducer(
-        buildState({ loading: true, error: false }),
+      const { loading, errorData, visits } = reducer(
+        buildState({ loading: true, errorData: null }),
         getShortUrlVisits.fulfilled({ visits: actionVisits }, '', { shortCode: '' }),
       );
 
       expect(loading).toEqual(false);
-      expect(error).toEqual(false);
+      expect(errorData).toBeNull();
       expect(visits).toEqual(actionVisits);
     });
 
@@ -110,7 +106,7 @@ describe('shortUrlVisitsReducer', () => {
         }),
         visitsMocks.length,
       ],
-    ])('prepends new visits on CREATE_VISIT', (state, expectedVisits) => {
+    ])('prepends new visits when visits are created', (state, expectedVisits) => {
       const shortUrl = {
         shortCode: 'abc123',
       };
@@ -127,12 +123,12 @@ describe('shortUrlVisitsReducer', () => {
       expect(visits).toHaveLength(expectedVisits);
     });
 
-    it('returns new progress on GET_SHORT_URL_VISITS_PROGRESS_CHANGED', () => {
+    it('returns new progress progress changes', () => {
       const { progress } = reducer(undefined, getShortUrlVisits.progressChanged(85));
       expect(progress).toEqual(85);
     });
 
-    it('returns fallbackInterval on GET_SHORT_URL_VISITS_FALLBACK_TO_INTERVAL', () => {
+    it('returns fallbackInterval when falling back to another interval', () => {
       const fallbackInterval: DateInterval = 'last30Days';
       const state = reducer(undefined, getShortUrlVisits.fallbackToInterval(fallbackInterval));
 

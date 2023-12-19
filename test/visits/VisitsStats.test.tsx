@@ -31,7 +31,7 @@ describe('<VisitsStats />', () => {
           <SettingsProvider value={fromPartial({})}>
             <VisitsStats
               getVisits={getVisitsMock}
-              visitsInfo={fromPartial({ loading: false, error: false, loadingLarge: false, visits: [], ...visitsInfo })}
+              visitsInfo={fromPartial({ loading: false, errorData: null, progress: null, visits: [], ...visitsInfo })}
               cancelGetVisits={() => {}}
               exportCsv={exportCsv}
               deletion={withDeletion ? fromPartial({ visitsDeletion: {} }) : undefined}
@@ -46,7 +46,7 @@ describe('<VisitsStats />', () => {
 
   it('renders a preloader when visits are loading', () => {
     setUp({
-      visitsInfo: { loading: true },
+      visitsInfo: { loading: true, progress: null },
     });
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe('<VisitsStats />', () => {
 
   it('renders a warning and progress bar when loading large amounts of visits', () => {
     setUp({
-      visitsInfo: { loading: true, loadingLarge: true, progress: 25 },
+      visitsInfo: { loading: true, progress: 25 },
     });
 
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -65,7 +65,7 @@ describe('<VisitsStats />', () => {
 
   it('renders an error message when visits could not be loaded', () => {
     setUp({
-      visitsInfo: { error: true },
+      visitsInfo: { errorData: fromPartial({ }) },
     });
     expect(screen.getByText('An error occurred while loading visits :(')).toBeInTheDocument();
   });

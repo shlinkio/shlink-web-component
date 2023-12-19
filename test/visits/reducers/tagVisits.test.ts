@@ -12,6 +12,7 @@ import {
   tagVisitsReducerCreator,
 } from '../../../src/visits/reducers/tagVisits';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
+import { problemDetailsError } from '../../__mocks__/ProblemDetailsError.mock';
 
 describe('tagVisitsReducer', () => {
   const now = new Date();
@@ -24,40 +25,35 @@ describe('tagVisitsReducer', () => {
   describe('reducer', () => {
     const buildState = (data: Partial<TagVisits>) => fromPartial<TagVisits>(data);
 
-    it('returns loading on GET_TAG_VISITS_START', () => {
+    it('returns loading when pending', () => {
       const { loading } = reducer(buildState({ loading: false }), getTagVisits.pending('', { tag: '' }));
       expect(loading).toEqual(true);
     });
 
-    it('returns loadingLarge on GET_TAG_VISITS_LARGE', () => {
-      const { loadingLarge } = reducer(buildState({ loadingLarge: false }), getTagVisits.large());
-      expect(loadingLarge).toEqual(true);
-    });
-
-    it('returns cancelLoad on GET_TAG_VISITS_CANCEL', () => {
+    it('returns cancelLoad when load is cancelled', () => {
       const { cancelLoad } = reducer(buildState({ cancelLoad: false }), cancelGetTagVisits());
       expect(cancelLoad).toEqual(true);
     });
 
-    it('stops loading and returns error on GET_TAG_VISITS_ERROR', () => {
-      const { loading, error } = reducer(
-        buildState({ loading: true, error: false }),
-        getTagVisits.rejected(null, '', { tag: '' }),
+    it('stops loading and returns error when rejected', () => {
+      const { loading, errorData } = reducer(
+        buildState({ loading: true, errorData: null }),
+        getTagVisits.rejected(problemDetailsError, '', { tag: '' }),
       );
 
       expect(loading).toEqual(false);
-      expect(error).toEqual(true);
+      expect(errorData).toEqual(problemDetailsError);
     });
 
-    it('return visits on GET_TAG_VISITS', () => {
+    it('returns visits when fulfilled', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
-      const { loading, error, visits } = reducer(
-        buildState({ loading: true, error: false }),
+      const { loading, errorData, visits } = reducer(
+        buildState({ loading: true, errorData: null }),
         getTagVisits.fulfilled({ visits: actionVisits }, '', { tag: '' }),
       );
 
       expect(loading).toEqual(false);
-      expect(error).toEqual(false);
+      expect(errorData).toBeNull();
       expect(visits).toEqual(actionVisits);
     });
 
@@ -108,7 +104,7 @@ describe('tagVisitsReducer', () => {
         }),
         visitsMocks.length,
       ],
-    ])('prepends new visits on CREATE_VISIT', (state, expectedVisits) => {
+    ])('prepends new visits new visits are created', (state, expectedVisits) => {
       const shortUrl = {
         tags: ['foo', 'baz'],
       };
@@ -125,12 +121,12 @@ describe('tagVisitsReducer', () => {
       expect(visits).toHaveLength(expectedVisits);
     });
 
-    it('returns new progress on GET_TAG_VISITS_PROGRESS_CHANGED', () => {
+    it('returns new progress when progress changes', () => {
       const { progress } = reducer(undefined, getTagVisits.progressChanged(85));
       expect(progress).toEqual(85);
     });
 
-    it('returns fallbackInterval on GET_TAG_VISITS_FALLBACK_TO_INTERVAL', () => {
+    it('returns fallbackInterval when falling back to another interval', () => {
       const fallbackInterval: DateInterval = 'last30Days';
       const state = reducer(undefined, getTagVisits.fallbackToInterval(fallbackInterval));
 

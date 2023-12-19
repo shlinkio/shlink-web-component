@@ -1,9 +1,10 @@
 import { fromPartial } from '@total-typescript/shoehorn';
-import type { ProblemDetailsError, ShlinkApiClient } from '../../../src/api-contract';
+import type { ShlinkApiClient } from '../../../src/api-contract';
 import {
   deleteShortUrl as deleteShortUrlCreator,
   shortUrlDeletionReducerCreator,
 } from '../../../src/short-urls/reducers/shortUrlDeletion';
+import { problemDetailsError } from '../../__mocks__/ProblemDetailsError.mock';
 
 describe('shortUrlDeletionReducer', () => {
   const deleteShortUrlCall = vi.fn();
@@ -37,12 +38,9 @@ describe('shortUrlDeletionReducer', () => {
       }));
 
     it('returns errorData on DELETE_SHORT_URL_ERROR', () => {
-      const errorData = fromPartial<ProblemDetailsError>(
-        { type: 'bar', detail: 'detail', title: 'title', status: 400 },
-      );
-      const error = errorData as unknown as Error;
+      const errorData = problemDetailsError;
 
-      expect(reducer(undefined, deleteShortUrl.rejected(error, '', { shortCode: '' }))).toEqual({
+      expect(reducer(undefined, deleteShortUrl.rejected(errorData, '', { shortCode: '' }))).toEqual({
         shortCode: '',
         loading: false,
         error: true,

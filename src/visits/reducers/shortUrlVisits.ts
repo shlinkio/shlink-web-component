@@ -1,4 +1,4 @@
-import type { ShlinkApiClient } from '../../api-contract';
+import type { ShlinkApiClient, ShlinkVisitsParams } from '../../api-contract';
 import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { shortUrlMatches } from '../../short-urls/helpers';
 import { isBetween } from '../../utils/dates/helpers/date';
@@ -8,9 +8,9 @@ import type { LoadVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisits';
 
-export interface ShortUrlVisits extends VisitsInfo, ShortUrlIdentifier {}
+export interface ShortUrlVisits extends VisitsInfo<ShlinkVisitsParams>, ShortUrlIdentifier {}
 
-export interface LoadShortUrlVisits extends LoadVisits {
+export interface LoadShortUrlVisits extends LoadVisits<ShlinkVisitsParams> {
   shortCode: string;
 }
 
@@ -19,10 +19,9 @@ const initialState: ShortUrlVisits = {
   shortCode: '',
   domain: undefined, // Deprecated. Value from query params can be used instead
   loading: false,
-  loadingLarge: false,
-  error: false,
+  errorData: null,
   cancelLoad: false,
-  progress: 0,
+  progress: null,
 };
 
 export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({

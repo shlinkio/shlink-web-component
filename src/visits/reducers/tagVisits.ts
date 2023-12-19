@@ -17,10 +17,9 @@ const initialState: TagVisits = {
   visits: [],
   tag: '',
   loading: false,
-  loadingLarge: false,
-  error: false,
   cancelLoad: false,
-  progress: 0,
+  errorData: null,
+  progress: null,
 };
 
 export const getTagVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({

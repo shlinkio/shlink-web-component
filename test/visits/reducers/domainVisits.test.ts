@@ -14,6 +14,7 @@ import {
   getDomainVisits as getDomainVisitsCreator,
 } from '../../../src/visits/reducers/domainVisits';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
+import { problemDetailsError } from '../../__mocks__/ProblemDetailsError.mock';
 
 describe('domainVisitsReducer', () => {
   const now = new Date();
@@ -26,7 +27,7 @@ describe('domainVisitsReducer', () => {
   describe('reducer', () => {
     const buildState = (data: Partial<DomainVisits>) => fromPartial<DomainVisits>(data);
 
-    it('returns loading on GET_DOMAIN_VISITS_START', () => {
+    it('returns loading when pending', () => {
       const { loading } = reducer(
         buildState({ loading: false }),
         getDomainVisits.pending('', fromPartial<LoadDomainVisits>({})),
@@ -34,36 +35,30 @@ describe('domainVisitsReducer', () => {
       expect(loading).toEqual(true);
     });
 
-    it('returns loadingLarge on GET_DOMAIN_VISITS_LARGE', () => {
-      const { loadingLarge } = reducer(buildState({ loadingLarge: false }), getDomainVisits.large());
-      expect(loadingLarge).toEqual(true);
-    });
-
-    it('returns cancelLoad on GET_DOMAIN_VISITS_CANCEL', () => {
+    it('returns cancelLoad when load is cancelled', () => {
       const { cancelLoad } = reducer(buildState({ cancelLoad: false }), cancelGetDomainVisits());
       expect(cancelLoad).toEqual(true);
     });
 
-    it('stops loading and returns error on GET_DOMAIN_VISITS_ERROR', () => {
-      const state = reducer(
-        buildState({ loading: true, error: false }),
-        getDomainVisits.rejected(null, '', fromPartial({})),
+    it('stops loading and returns error when rejected', () => {
+      const { loading, errorData } = reducer(
+        buildState({ loading: true, errorData: null }),
+        getDomainVisits.rejected(problemDetailsError, '', fromPartial({})),
       );
-      const { loading, error } = state;
 
       expect(loading).toEqual(false);
-      expect(error).toEqual(true);
+      expect(errorData).toEqual(problemDetailsError);
     });
 
-    it('return visits on GET_DOMAIN_VISITS', () => {
+    it('return visits when fulfilled', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
-      const { loading, error, visits } = reducer(
-        buildState({ loading: true, error: false }),
+      const { loading, errorData, visits } = reducer(
+        buildState({ loading: true, errorData: null }),
         getDomainVisits.fulfilled({ visits: actionVisits }, '', fromPartial({})),
       );
 
       expect(loading).toEqual(false);
-      expect(error).toEqual(false);
+      expect(errorData).toBeNull();
       expect(visits).toEqual(actionVisits);
     });
 
@@ -121,7 +116,7 @@ describe('domainVisitsReducer', () => {
         'foo.com',
         visitsMocks.length,
       ],
-    ])('prepends new visits on CREATE_VISIT', (state, shortUrlDomain, expectedVisits) => {
+    ])('prepends new visits when visits are created', (state, shortUrlDomain, expectedVisits) => {
       const shortUrl = fromPartial<ShlinkShortUrl>({ domain: shortUrlDomain });
       const { visits } = reducer(buildState({ ...state, visits: visitsMocks }), createNewVisits([
         fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } }),
@@ -130,12 +125,12 @@ describe('domainVisitsReducer', () => {
       expect(visits).toHaveLength(expectedVisits);
     });
 
-    it('returns new progress on GET_DOMAIN_VISITS_PROGRESS_CHANGED', () => {
+    it('returns new progress when progress changes', () => {
       const { progress } = reducer(undefined, getDomainVisits.progressChanged(85));
       expect(progress).toEqual(85);
     });
 
-    it('returns fallbackInterval on GET_DOMAIN_VISITS_FALLBACK_TO_INTERVAL', () => {
+    it('returns fallbackInterval when falling back to another interval', () => {
       const fallbackInterval: DateInterval = 'last30Days';
       const state = reducer(
         undefined,

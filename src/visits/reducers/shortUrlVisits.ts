@@ -1,4 +1,4 @@
-import type { ShlinkApiClient } from '../../api-contract';
+import type { ShlinkApiClient, ShlinkVisitsParams } from '../../api-contract';
 import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { shortUrlMatches } from '../../short-urls/helpers';
 import { isBetween } from '../../utils/dates/helpers/date';
@@ -8,9 +8,9 @@ import type { LoadVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisits';
 
-export interface ShortUrlVisits extends VisitsInfo, ShortUrlIdentifier {}
+export interface ShortUrlVisits extends VisitsInfo<ShlinkVisitsParams>, ShortUrlIdentifier {}
 
-export interface LoadShortUrlVisits extends LoadVisits {
+export interface LoadShortUrlVisits extends LoadVisits<ShlinkVisitsParams> {
   shortCode: string;
 }
 

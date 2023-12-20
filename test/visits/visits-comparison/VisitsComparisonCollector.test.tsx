@@ -3,7 +3,10 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import { rangeOf } from '../../../src/utils/helpers';
 import { VisitsComparisonCollector } from '../../../src/visits/visits-comparison/VisitsComparisonCollector';
-import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
+import type {
+  VisitsComparison,
+  VisitsComparisonItem,
+} from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
@@ -11,8 +14,12 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<VisitsComparisonCollector />', () => {
   const clearItemsToCompare = vi.fn();
   const removeItemToCompare = vi.fn();
-  const createVisitsComparison = (itemsAmount = 1): VisitsComparison => fromPartial({
-    itemsToCompare: rangeOf(itemsAmount, (index) => ({ name: `foo${index}`, query: `bar${index}` })),
+  const createItemsToCompare = (itemsAmount: number) => rangeOf(
+    itemsAmount,
+    (index) => ({ name: `foo${index}`, query: `bar${index}` }),
+  );
+  const createVisitsComparison = (items: number | VisitsComparisonItem[] = 1): VisitsComparison => fromPartial({
+    itemsToCompare: typeof items === 'number' ? createItemsToCompare(items) : items,
     clearItemsToCompare,
     removeItemToCompare,
   });
@@ -75,5 +82,20 @@ describe('<VisitsComparisonCollector />', () => {
       'href',
       `/${type}/compare-visits?${type}=${encodeURIComponent('bar1,bar2,bar3')}`,
     );
+  });
+
+  it.each([
+    [undefined, true],
+    [{ color: 'red' }, true],
+    [{ backgroundColor: 'red' }, false],
+  ])('adds fallback background class when provided styles do not have backgroundColor', (style, hasClass) => {
+    setUp(createVisitsComparison([{ name: 'foo', query: 'bar', style }]));
+    const item = screen.getByRole('listitem');
+
+    if (hasClass) {
+      expect(item).toHaveClass('bg-secondary');
+    } else {
+      expect(item).not.toHaveClass('bg-secondary');
+    }
   });
 });

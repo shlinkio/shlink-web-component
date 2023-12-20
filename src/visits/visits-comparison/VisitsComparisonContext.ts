@@ -1,8 +1,10 @@
+import type { CSSProperties } from 'react';
 import { createContext, useCallback, useContext, useState } from 'react';
 
 export type VisitsComparisonItem = {
   name: string;
   query: string;
+  style?: CSSProperties;
 };
 
 export type VisitsComparison = {
@@ -16,7 +18,7 @@ const VisitsComparisonContext = createContext<VisitsComparison | undefined>(unde
 
 export const { Provider: VisitsComparisonProvider } = VisitsComparisonContext;
 
-export const useVisitsToCompare = (): VisitsComparison | undefined => {
+export const useVisitsComparisonContext = (): VisitsComparison | undefined => {
   const context = useContext(VisitsComparisonContext);
   return context as VisitsComparison | undefined;
 };

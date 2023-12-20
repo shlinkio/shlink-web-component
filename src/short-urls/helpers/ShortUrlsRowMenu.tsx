@@ -12,7 +12,7 @@ import { DropdownItem } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
-import { useVisitsToCompare } from '../../visits/visits-comparison/VisitsComparisonContext';
+import { useVisitsComparisonContext } from '../../visits/visits-comparison/VisitsComparisonContext';
 import type { ShortUrlModalProps } from '../data';
 import { shortUrlToQuery } from './index';
 import { ShortUrlDetailLink } from './ShortUrlDetailLink';
@@ -32,7 +32,7 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuProps, ShortUrlsRowMenuDeps> 
   const { DeleteShortUrlModal, QrCodeModal } = useDependencies(ShortUrlsRowMenu);
   const [isQrModalOpen,, openQrCodeModal, closeQrCodeModal] = useToggle();
   const [isDeleteModalOpen,, openDeleteModal, closeDeleteModal] = useToggle();
-  const visitsComparison = useVisitsToCompare();
+  const visitsComparison = useVisitsComparisonContext();
 
   return (
     <RowDropdownBtn minWidth={190}>
@@ -47,7 +47,6 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuProps, ShortUrlsRowMenuDeps> 
               name: shortUrl.shortUrl,
               query: shortUrlToQuery(shortUrl),
             })}
-            data-testid="add-visit-to-compare-button"
           >
             <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
           </DropdownItem>

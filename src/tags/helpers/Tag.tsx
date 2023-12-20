@@ -25,21 +25,19 @@ export const Tag: FC<TagProps> = (props) => {
   const { text, children, className, colorGenerator } = props;
   const actionable = isActionable(props);
   const Wrapper = actionable ? UnstyledButton : 'span';
-  const isLightColor = useMemo(() => colorGenerator.isColorLightForKey(text), [text, colorGenerator]);
+  const style = useMemo(() => colorGenerator.stylesForKey(text), [text, colorGenerator]);
 
   return (
     <Wrapper
-      className={clsx('badge tag fw-bold', className, { 'tag--light-bg': isLightColor, pointer: actionable })}
-      style={{ backgroundColor: colorGenerator.getColorForKey(text) }}
+      className={clsx('badge tag fw-bold', className, { pointer: actionable })}
+      style={style}
       onClick={actionable ? props.onClick : undefined}
     >
       {children ?? text}
       {isClearable(props) && (
         <UnstyledButton
           aria-label={`Remove ${text}`}
-          className={clsx('bg-transparent ms-1 opacity-100 p-0 fw-bold tag__close', {
-            'tag--light-bg': isLightColor,
-          })}
+          className="bg-transparent ms-1 opacity-100 p-0 fw-bold tag__close"
           onClick={props.onClose}
         >
           &times;

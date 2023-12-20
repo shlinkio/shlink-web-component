@@ -23,9 +23,8 @@ const hexToRgb = (hex: string) => {
 describe('<Tag />', () => {
   const onClick = vi.fn();
   const onClose = vi.fn();
-  const isColorLightForKey = vi.fn(() => false);
-  const getColorForKey = vi.fn(() => MAIN_COLOR);
-  const colorGenerator = fromPartial<ColorGenerator>({ getColorForKey, isColorLightForKey });
+  const stylesForKey = vi.fn(() => ({ backgroundColor: MAIN_COLOR }));
+  const colorGenerator = fromPartial<ColorGenerator>({ stylesForKey });
   const setUp = (text: string, clearable?: boolean, children?: ReactNode) => {
     const props = !clearable ? { onClick } : { onClose };
     return renderWithEvents(
@@ -38,31 +37,16 @@ describe('<Tag />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp('the-tag')));
 
   it.each([
-    [true],
-    [false],
-  ])('includes an extra class when the color is light', (isLight) => {
-    isColorLightForKey.mockReturnValue(isLight);
-
-    const { container } = setUp('foo');
-
-    if (isLight) {
-      expect(container.firstChild).toHaveClass('tag--light-bg');
-    } else {
-      expect(container.firstChild).not.toHaveClass('tag--light-bg');
-    }
-  });
-
-  it.each([
     [MAIN_COLOR],
     ['#8A661C'],
     ['#F7BE05'],
     ['#5A02D8'],
     ['#202786'],
-  ])('includes generated color as backgroundColor', (generatedColor) => {
-    getColorForKey.mockReturnValue(generatedColor);
+  ])('includes generated color as backgroundColor', (backgroundColor) => {
+    stylesForKey.mockReturnValue({ backgroundColor });
 
     const { container } = setUp('foo');
-    const { r, g, b } = hexToRgb(generatedColor);
+    const { r, g, b } = hexToRgb(backgroundColor);
 
     expect(container.firstChild).toHaveAttribute(
       'style',

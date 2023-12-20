@@ -61,7 +61,7 @@ describe('<ShortUrlsRowMenu />', () => {
     await setUpAndOpen(fromPartial({
       itemsToCompare: [visitToCompare],
     }));
-    const button = screen.getByTestId('add-visit-to-compare-button');
+    const button = screen.getByRole(hasAttribute ? 'button' : 'menuitem', { name: 'Compare visits' });
 
     if (hasAttribute) {
       expect(button).toHaveAttribute('disabled');
@@ -77,7 +77,7 @@ describe('<ShortUrlsRowMenu />', () => {
       addItemToCompare: addVisitToCompare,
     }));
 
-    await user.click(screen.getByTestId('add-visit-to-compare-button'));
+    await user.click(screen.getByRole('menuitem', { name: 'Compare visits' }));
     expect(addVisitToCompare).toHaveBeenCalledWith({
       name: shortUrl.shortUrl,
       query: expect.stringContaining('abc123'),

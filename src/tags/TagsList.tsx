@@ -16,6 +16,8 @@ import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useSettings } from '../utils/settings';
+import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
+import { useVisitsComparison, VisitsComparisonProvider } from '../visits/visits-comparison/VisitsComparisonContext';
 import type { SimplifiedTag } from './data';
 import type { TagsOrder, TagsOrderableFields } from './data/TagsListChildrenProps';
 import { TAGS_ORDERABLE_FIELDS } from './data/TagsListChildrenProps';
@@ -52,6 +54,7 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
     });
     return sortList<SimplifiedTag>(simplifiedTags, order);
   };
+  const visitsComparison = useVisitsComparison();
 
   if (tagsList.loading) {
     return <Message loading />;
@@ -88,7 +91,7 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
   };
 
   return (
-    <>
+    <VisitsComparisonProvider value={visitsComparison}>
       <SearchField className="mb-3" onChange={filterTags} />
       <Row className="mb-3">
         <div className="col-lg-6 offset-lg-6">
@@ -99,8 +102,9 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
           />
         </div>
       </Row>
+      <VisitsComparisonCollector type="tags" className="mb-3" />
       {renderContent()}
-    </>
+    </VisitsComparisonProvider>
   );
 }, () => [Topics.visits]);
 

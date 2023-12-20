@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { rangeOf } from '../helpers';
 import type { TagColorsStorage } from './TagColorsStorage';
 
@@ -23,7 +24,7 @@ export class ColorGenerator {
     this.lights = {};
   }
 
-  public readonly getColorForKey = (key: string) => {
+  public getColorForKey(key: string) {
     const normalizedKey = normalizeKey(key);
     const color = this.colors[normalizedKey];
 
@@ -33,19 +34,27 @@ export class ColorGenerator {
     }
 
     return color;
-  };
+  }
 
-  public readonly setColorForKey = (key: string, color: string) => {
+  public setColorForKey(key: string, color: string) {
     const normalizedKey = normalizeKey(key);
 
     this.colors[normalizedKey] = color;
     this.storage?.storeTagColors(this.colors);
 
     return color;
-  };
+  }
 
-  public readonly isColorLightForKey = (key: string): boolean => {
-    const colorHex = this.getColorForKey(key).substring(1);
+  public stylesForKey(key: string): Pick<CSSProperties, 'color' | 'backgroundColor'> {
+    const backgroundColor = this.getColorForKey(key);
+    return {
+      backgroundColor,
+      color: this.isColorLight(backgroundColor) ? '#222' : '#fff',
+    };
+  }
+
+  private isColorLight(color: string): boolean {
+    const colorHex = color.substring(1);
 
     if (this.lights[colorHex] === undefined) {
       const rgb = hexColorToRgbArray(colorHex);
@@ -53,5 +62,5 @@ export class ColorGenerator {
     }
 
     return this.lights[colorHex];
-  };
+  }
 }

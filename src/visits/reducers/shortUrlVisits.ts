@@ -1,5 +1,4 @@
 import type { ShlinkApiClient, ShlinkVisitsParams } from '../../api-contract';
-import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { shortUrlMatches } from '../../short-urls/helpers';
 import { isBetween } from '../../utils/dates/helpers/date';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
@@ -8,16 +7,17 @@ import type { LoadVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisits';
 
-export interface ShortUrlVisits extends VisitsInfo<ShlinkVisitsParams>, ShortUrlIdentifier {}
-
-export interface LoadShortUrlVisits extends LoadVisits<ShlinkVisitsParams> {
+type WithShortCode = {
   shortCode: string;
-}
+};
+
+export type ShortUrlVisits = VisitsInfo<ShlinkVisitsParams> & WithShortCode;
+
+export type LoadShortUrlVisits = LoadVisits<ShlinkVisitsParams> & WithShortCode;
 
 const initialState: ShortUrlVisits = {
   visits: [],
   shortCode: '',
-  domain: undefined, // Deprecated. Value from query params can be used instead
   loading: false,
   errorData: null,
   cancelLoad: false,
@@ -55,15 +55,15 @@ export const shortUrlVisitsReducerCreator = (
   asyncThunkCreator,
   extraReducers: (builder) => {
     builder.addCase(deleteShortUrlVisitsThunk.fulfilled, (state, { payload }) => {
-      if (state.shortCode === payload.shortCode && state.domain === payload.domain) {
+      if (state.shortCode === payload.shortCode && state.query?.domain === payload.domain) {
         return { ...state, visits: [] };
       }
 
       return state;
     });
   },
-  filterCreatedVisits: ({ shortCode, domain, query = {} }: ShortUrlVisits, createdVisits) => {
-    const { startDate, endDate } = query;
+  filterCreatedVisits: ({ shortCode, query = {} }: ShortUrlVisits, createdVisits) => {
+    const { startDate, endDate, domain } = query;
     return createdVisits.filter(
       ({ shortUrl, visit }) =>
         shortUrl && shortUrlMatches(shortUrl, shortCode, domain) && isBetween(visit.date, startDate, endDate),

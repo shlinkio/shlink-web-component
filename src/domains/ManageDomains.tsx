@@ -2,6 +2,8 @@ import { Message, Result, SearchField, SimpleCard } from '@shlinkio/shlink-front
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { ShlinkApiError } from '../common/ShlinkApiError';
+import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
+import { useVisitsComparison, VisitsComparisonProvider } from '../visits/visits-comparison/VisitsComparisonContext';
 import { DomainRow } from './DomainRow';
 import type { EditDomainRedirects } from './reducers/domainRedirects';
 import type { DomainsList } from './reducers/domainsList';
@@ -50,6 +52,7 @@ export const ManageDomains: FC<ManageDomainsProps> = (
 ) => {
   const { filteredDomains: domains, defaultRedirects, loading, error, errorData } = domainsList;
   const resolvedDefaultRedirects = defaultRedirects ?? domains.find(({ isDefault }) => isDefault)?.redirects;
+  const visitsComparison = useVisitsComparison();
 
   useEffect(() => {
     listDomains();
@@ -98,9 +101,10 @@ export const ManageDomains: FC<ManageDomainsProps> = (
   };
 
   return (
-    <>
+    <VisitsComparisonProvider value={visitsComparison}>
       <SearchField className="mb-3" onChange={filterDomains} />
+      <VisitsComparisonCollector type="domains" className="mb-3" />
       {renderContent()}
-    </>
+    </VisitsComparisonProvider>
   );
 };

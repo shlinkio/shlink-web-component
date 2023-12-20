@@ -4,5 +4,5 @@ import type { ColorGenerator } from '../../../../src/utils/services/ColorGenerat
 export const colorGeneratorMock = fromPartial<ColorGenerator>({
   getColorForKey: vi.fn(() => 'red'),
   setColorForKey: vi.fn(),
-  isColorLightForKey: vi.fn(() => false),
+  stylesForKey: vi.fn(() => ({ backgroundColor: 'red', color: '#fff' })),
 });

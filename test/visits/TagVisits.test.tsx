@@ -9,13 +9,14 @@ import { TagVisitsFactory } from '../../src/visits/TagVisits';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
 import { renderWithEvents } from '../__helpers__/setUpTest';
+import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<TagVisits />', () => {
   const getTagVisitsMock = vi.fn();
   const exportVisits = vi.fn();
   const tagVisits = fromPartial<TagVisitsStats>({ visits: [{ date: formatISO(new Date()) }] });
   const TagVisits = TagVisitsFactory(fromPartial({
-    ColorGenerator: fromPartial({ isColorLightForKey: () => false, getColorForKey: () => 'red' }),
+    ColorGenerator: colorGeneratorMock,
     ReportExporter: fromPartial({ exportVisits }),
   }));
   const setUp = () => renderWithEvents(

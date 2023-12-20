@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import { UnstyledButton } from '../../utils/components/UnstyledButton';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
-import { useVisitsToCompare } from './VisitsComparisonContext';
+import { useVisitsComparisonContext } from './VisitsComparisonContext';
 
 type VisitsComparisonCollectorProps = {
   type: 'short-urls' | 'tags' | 'domains';
@@ -17,7 +17,7 @@ type VisitsComparisonCollectorProps = {
 
 export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ className, type }) => {
   const routesPrefix = useRoutesPrefix();
-  const context = useVisitsToCompare();
+  const context = useVisitsComparisonContext();
   const query = useMemo(
     () => (!context ? '' : encodeURIComponent(context.itemsToCompare.map((item) => item.query).join(','))),
     [context],
@@ -32,7 +32,11 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
       <SimpleCard bodyClassName="d-flex gap-3 align-items-center">
         <ul className="d-flex flex-wrap gap-1 flex-grow-1 p-0 m-0">
           {context.itemsToCompare.map((item, index) => (
-            <li key={`${item.name}_${index}`} className="badge bg-secondary pe-1">
+            <li
+              key={`${item.name}_${index}`}
+              className={clsx('badge pe-1', { 'bg-secondary': !item.style?.backgroundColor })}
+              style={item.style}
+            >
               {item.name}
               <UnstyledButton
                 aria-label={`Remove ${item.name}`}

@@ -1,4 +1,13 @@
-import { format, formatISO, isBefore, isEqual, isWithinInterval, parse, parseISO as stdParseISO } from 'date-fns';
+import {
+  format,
+  formatISO,
+  isAfter,
+  isBefore,
+  isEqual,
+  isWithinInterval,
+  parse,
+  parseISO as stdParseISO,
+} from 'date-fns';
 
 export const STANDARD_DATE_FORMAT = 'yyyy-MM-dd';
 
@@ -31,11 +40,27 @@ export const parseDate = (date: string, theFormat: string) => parse(date, theFor
 export const parseISO = (date: DateOrString): Date => (isDateObject(date) ? date : stdParseISO(date));
 
 export const isBetween = (date: DateOrString, start?: DateOrString, end?: DateOrString): boolean => {
-  try {
-    return isWithinInterval(parseISO(date), { start: parseISO(start ?? date), end: parseISO(end ?? date) });
-  } catch (e) {
-    return false;
+  const parsedDate = parseISO(date);
+  const parsedStart = start && parseISO(start);
+  const parsedEnd = end && parseISO(end);
+
+  if (parsedStart && parsedEnd) {
+    try {
+      return isWithinInterval(parsedDate, { start: parsedStart, end: parsedEnd });
+    } catch (e) {
+      return false;
+    }
   }
+
+  if (parsedStart) {
+    return isEqual(parsedDate, parsedStart) || isAfter(parsedDate, parsedStart);
+  }
+
+  if (parsedEnd) {
+    return isEqual(parsedDate, parsedEnd) || isBefore(parsedDate, parsedEnd);
+  }
+
+  return true;
 };
 
 export const isBeforeOrEqual = (date: Date | number, dateToCompare: Date | number) =>

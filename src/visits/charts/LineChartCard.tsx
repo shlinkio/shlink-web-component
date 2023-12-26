@@ -36,8 +36,7 @@ import { CHART_TOOLTIP_STYLES } from './constants';
 
 type ChartPayloadEntry = {
   date: string;
-  amount: number;
-  highlightedAmount: number;
+  [key: string]: string | number;
 };
 
 const STEPS_MAP = {
@@ -111,13 +110,13 @@ const visitsToDatasetGroups = (step: Step, visits: NormalizedVisit[]): Record<st
     {},
   );
 
-const baseStatsWithNoGaps = (step: Step, visits: NormalizedVisit[]): Stats => {
+const datesWithNoGaps = (step: Step, visits: NormalizedVisit[]): string[] => {
   // We assume the list of visits is ordered, so the first and last visit should have the bigger and smaller dates
   const firstVisit = visits[0];
   const lastVisit = visits[visits.length - 1];
 
   if (!firstVisit || !lastVisit) {
-    return {};
+    return [];
   }
 
   const diffFunc = STEP_TO_DIFF_FUNC_MAP[step];
@@ -127,22 +126,16 @@ const baseStatsWithNoGaps = (step: Step, visits: NormalizedVisit[]): Stats => {
   const oldestDate = parseISO(lastVisit.date);
   const size = diffFunc(newerDate, oldestDate);
 
-  const labels = [
+  return [
     formatter(oldestDate),
     ...rangeOf(size, (num) => formatter(add(oldestDate, duration(num)))),
   ];
-
-  return labels.reduce<Stats>((stats, label) => {
-    // eslint-disable-next-line no-param-reassign
-    stats[label] = 0;
-    return stats;
-  }, {});
 };
 
 type VisitsLineOptions = {
   color: string;
   dataKey: string;
-  onDotClick: any;
+  onDotClick?: any;
 };
 
 // Using a function instead of an actual component because lines do not get render in that case.
@@ -153,7 +146,7 @@ const renderLine = ({ onDotClick, dataKey, color }: VisitsLineOptions) => (
     dataKey={dataKey}
     stroke={color}
     strokeWidth={3}
-    activeDot={{
+    activeDot={onDotClick && {
       cursor: 'pointer',
       onClick: onDotClick,
     }}
@@ -183,18 +176,19 @@ export const LineChartCard: FC<LineChartCardProps> = (
   const chartData = useMemo((): ChartPayloadEntry[] => {
     const mainVisitsStats = countVisitsByDate(step, [...visits].reverse());
     const highlightedVisitsStats = countVisitsByDate(step, [...highlightedVisits].reverse());
-    const baseStats = { ...baseStatsWithNoGaps(step, visits), ...mainVisitsStats };
 
-    return Object.entries(baseStats).map(([date, amount]) => ({
+    return datesWithNoGaps(step, visits).map((date) => ({
       date,
-      amount,
-      highlightedAmount: highlightedVisitsStats[date] ?? 0,
+      Visits: mainVisitsStats[date] ?? 0,
+      [highlightedLabel]: highlightedVisitsStats[date] ?? 0,
     }));
-  }, [step, visits, highlightedVisits]);
+  }, [step, visits, highlightedVisits, highlightedLabel]);
 
   // Save a map of step/date and all visits which belong to it, to use it when we need to highlight one
-  const datasetsByPoint = useMemo(() => visitsToDatasetGroups(step, visits), [step, visits]);
-
+  const datasetsByPoint = useMemo(
+    () => (setSelectedVisits ? visitsToDatasetGroups(step, visits) : {}),
+    [setSelectedVisits, step, visits],
+  );
   const onDotClick = useCallback((_: any, { payload }: { payload: ChartPayloadEntry }) => {
     const visitsToHighlight = datasetsByPoint[payload.date] ?? [];
     setSelectedVisits?.(visitsToHighlight === highlightedVisits ? [] : visitsToHighlight);
@@ -226,16 +220,17 @@ export const LineChartCard: FC<LineChartCardProps> = (
         <ChartWrapper {...wrapperDimensions}>
           <LineChart data={chartData} {...dimensions}>
             <XAxis dataKey="date" />
-            <YAxis dataKey="amount" tickFormatter={prettify} />
-            <Tooltip
-              formatter={(value: number, name) => [prettify(value), name === 'amount' ? 'Visits' : highlightedLabel]}
-              contentStyle={CHART_TOOLTIP_STYLES}
-            />
+            <YAxis tickFormatter={prettify} />
+            <Tooltip formatter={prettify} contentStyle={CHART_TOOLTIP_STYLES} />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
-            {renderLine({ color: MAIN_COLOR, dataKey: 'amount', onDotClick })}
-            {highlightedVisits.length > 0 && renderLine(
-              { color: HIGHLIGHTED_COLOR, dataKey: 'highlightedAmount', onDotClick },
+            {renderLine(
+              { color: MAIN_COLOR, dataKey: 'Visits', onDotClick: setSelectedVisits ? onDotClick : undefined },
             )}
+            {highlightedVisits.length > 0 && renderLine({
+              color: HIGHLIGHTED_COLOR,
+              dataKey: highlightedLabel,
+              onDotClick: setSelectedVisits ? onDotClick : undefined,
+            })}
           </LineChart>
         </ChartWrapper>
       </CardBody>

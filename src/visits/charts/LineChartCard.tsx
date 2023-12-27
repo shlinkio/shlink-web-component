@@ -11,7 +11,10 @@ import {
   differenceInMonths,
   differenceInWeeks,
   endOfISOWeek,
-  format, parseISO,
+  format,
+  max,
+  min,
+  parseISO,
   startOfISOWeek,
 } from 'date-fns';
 import type { FC } from 'react';
@@ -36,8 +39,7 @@ import { CHART_TOOLTIP_STYLES } from './constants';
 
 type ChartPayloadEntry = {
   date: string;
-  amount: number;
-  highlightedAmount: number;
+  [key: string]: string | number;
 };
 
 const STEPS_MAP = {
@@ -81,9 +83,15 @@ const STEP_TO_DATE_FORMAT: Record<Step, (date: Date) => string> = {
   monthly: (date) => format(date, 'yyyy-MM'),
 };
 
-const determineInitialStep = (oldestVisitDate: string): Step => {
+const determineInitialStep = (visitsGroups: Record<string, NormalizedVisit[]>): Step => {
+  const nonEmptyVisitsLists = Object.values(visitsGroups).filter((visits) => visits.length > 0);
+  if (nonEmptyVisitsLists.length === 0) {
+    return 'monthly';
+  }
+
   const now = new Date();
-  const oldestDate = parseISO(oldestVisitDate);
+  const lastDates = nonEmptyVisitsLists.map((visits) => parseISO(visits[visits.length - 1].date));
+  const oldestDate = max(lastDates);
   const conditions: [() => boolean, Step][] = [
     [() => differenceInDays(now, oldestDate) <= 2, 'hourly'], // Less than 2 days
     [() => differenceInMonths(now, oldestDate) <= 1, 'daily'], // Between 2 days and 1 month
@@ -93,10 +101,17 @@ const determineInitialStep = (oldestVisitDate: string): Step => {
   return conditions.find(([matcher]) => matcher())?.[1] ?? 'monthly';
 };
 
-const countVisitsByDate = (step: Step, visits: NormalizedVisit[]): Stats => countBy(
-  visits,
-  (visit) => STEP_TO_DATE_FORMAT[step](parseISO(visit.date)),
-);
+const countVisitsByDatePerGroup = (
+  step: Step,
+  visitsGroups: Record<string, NormalizedVisit[]>,
+) => Object.keys(visitsGroups).reduce<Record<string, Stats>>((countGroups, key) => {
+  // eslint-disable-next-line no-param-reassign
+  countGroups[key] = countBy(
+    visitsGroups[key],
+    (visit) => STEP_TO_DATE_FORMAT[step](parseISO(visit.date)),
+  );
+  return countGroups;
+}, {});
 
 const visitsToDatasetGroups = (step: Step, visits: NormalizedVisit[]): Record<string, NormalizedVisit[]> =>
   visits.reduce<Record<string, NormalizedVisit[]>>(
@@ -111,60 +126,41 @@ const visitsToDatasetGroups = (step: Step, visits: NormalizedVisit[]): Record<st
     {},
   );
 
-const baseStatsWithNoGaps = (step: Step, visits: NormalizedVisit[]): Stats => {
-  // We assume the list of visits is ordered, so the first and last visit should have the bigger and smaller dates
-  const firstVisit = visits[0];
-  const lastVisit = visits[visits.length - 1];
-
-  if (!firstVisit || !lastVisit) {
-    return {};
+const datesWithNoGaps = (step: Step, visitsGroups: Record<string, NormalizedVisit[]>): string[] => {
+  const nonEmptyVisitsLists = Object.values(visitsGroups)
+    .filter((visits) => visits.length > 0)
+    .map((visits) => [...visits].reverse());
+  if (nonEmptyVisitsLists.length === 0) {
+    return [];
   }
 
   const diffFunc = STEP_TO_DIFF_FUNC_MAP[step];
   const formatter = STEP_TO_DATE_FORMAT[step];
   const duration = STEP_TO_DURATION_MAP[step];
-  const newerDate = parseISO(firstVisit.date);
-  const oldestDate = parseISO(lastVisit.date);
-  const size = diffFunc(newerDate, oldestDate);
 
-  const labels = [
+  // We assume the list of visits is ordered, so the first and last visit should have the bigger and smaller dates
+  const firstDates = nonEmptyVisitsLists.map((visits) => parseISO(visits[0].date));
+  const lastDates = nonEmptyVisitsLists.map((visits) => parseISO(visits[visits.length - 1].date));
+  const newerDate = max(lastDates);
+  const oldestDate = min(firstDates);
+  const size = diffFunc(newerDate, oldestDate) + 1; // Add one, as we need both edges to be included
+
+  return [
     formatter(oldestDate),
     ...rangeOf(size, (num) => formatter(add(oldestDate, duration(num)))),
   ];
-
-  return labels.reduce<Stats>((stats, label) => {
-    // eslint-disable-next-line no-param-reassign
-    stats[label] = 0;
-    return stats;
-  }, {});
 };
 
-type VisitsLineOptions = {
-  color: string;
-  dataKey: string;
-  onDotClick: any;
-};
-
-// Using a function instead of an actual component because lines do not get render in that case.
-// See https://github.com/recharts/recharts/issues/2788
-const renderLine = ({ onDotClick, dataKey, color }: VisitsLineOptions) => (
-  <Line
-    type="monotone"
-    dataKey={dataKey}
-    stroke={color}
-    strokeWidth={3}
-    activeDot={{
-      cursor: 'pointer',
-      onClick: onDotClick,
-    }}
-  />
+const useVisitsWithType = (visitsGroups: Record<string, VisitsList>, type: 'main' | 'highlighted') => useMemo(
+  () => Object.values(visitsGroups).find((g) => g.type === type) ?? [],
+  [visitsGroups, type],
 );
+
+export type VisitsList = NormalizedVisit[] & { type?: 'main' | 'highlighted' };
 
 export type LineChartCardProps = {
   title: string;
-  highlightedLabel?: string;
-  visits: NormalizedVisit[];
-  highlightedVisits: NormalizedVisit[];
+  visitsGroups: Record<string, VisitsList>;
   setSelectedVisits?: (visits: NormalizedVisit[]) => void;
 
   /** Test seam. For tests, a responsive container cannot be used */
@@ -173,28 +169,33 @@ export type LineChartCardProps = {
 };
 
 export const LineChartCard: FC<LineChartCardProps> = (
-  { visits, title, highlightedVisits, highlightedLabel = 'Selected', setSelectedVisits, dimensions, matchMedia },
+  { title, visitsGroups, setSelectedVisits, dimensions, matchMedia },
 ) => {
-  const [step, setStep] = useState<Step>(
-    visits.length > 0 ? determineInitialStep(visits[visits.length - 1].date) : 'monthly',
-  );
+  const [step, setStep] = useState<Step>(determineInitialStep(visitsGroups));
   const isMobile = useMaxResolution(767, matchMedia ?? window.matchMedia);
 
   const chartData = useMemo((): ChartPayloadEntry[] => {
-    const mainVisitsStats = countVisitsByDate(step, [...visits].reverse());
-    const highlightedVisitsStats = countVisitsByDate(step, [...highlightedVisits].reverse());
-    const baseStats = { ...baseStatsWithNoGaps(step, visits), ...mainVisitsStats };
+    const statsGroups = countVisitsByDatePerGroup(step, visitsGroups);
+    const groupNames = Object.keys(statsGroups);
 
-    return Object.entries(baseStats).map(([date, amount]) => ({
+    return datesWithNoGaps(step, visitsGroups).map((date) => ({
       date,
-      amount,
-      highlightedAmount: highlightedVisitsStats[date] ?? 0,
+      ...groupNames.reduce<Record<string, number>>((acc, name) => {
+        acc[name] = statsGroups[name][date] ?? 0;
+        return acc;
+      }, {}),
     }));
-  }, [step, visits, highlightedVisits]);
+  }, [step, visitsGroups]);
 
   // Save a map of step/date and all visits which belong to it, to use it when we need to highlight one
-  const datasetsByPoint = useMemo(() => visitsToDatasetGroups(step, visits), [step, visits]);
-
+  // TODO All these values and the click handler are relevant only when visits groups include "main" and "highlighted"
+  //      entries.
+  const mainVisits = useVisitsWithType(visitsGroups, 'main');
+  const highlightedVisits = useVisitsWithType(visitsGroups, 'highlighted');
+  const datasetsByPoint = useMemo(
+    () => (setSelectedVisits ? visitsToDatasetGroups(step, mainVisits) : {}),
+    [setSelectedVisits, step, mainVisits],
+  );
   const onDotClick = useCallback((_: any, { payload }: { payload: ChartPayloadEntry }) => {
     const visitsToHighlight = datasetsByPoint[payload.date] ?? [];
     setSelectedVisits?.(visitsToHighlight === highlightedVisits ? [] : visitsToHighlight);
@@ -226,16 +227,22 @@ export const LineChartCard: FC<LineChartCardProps> = (
         <ChartWrapper {...wrapperDimensions}>
           <LineChart data={chartData} {...dimensions}>
             <XAxis dataKey="date" />
-            <YAxis dataKey="amount" tickFormatter={prettify} />
-            <Tooltip
-              formatter={(value: number, name) => [prettify(value), name === 'amount' ? 'Visits' : highlightedLabel]}
-              contentStyle={CHART_TOOLTIP_STYLES}
-            />
+            <YAxis tickFormatter={prettify} />
+            <Tooltip formatter={prettify} contentStyle={CHART_TOOLTIP_STYLES} />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
-            {renderLine({ color: MAIN_COLOR, dataKey: 'amount', onDotClick })}
-            {highlightedVisits.length > 0 && renderLine(
-              { color: HIGHLIGHTED_COLOR, dataKey: 'highlightedAmount', onDotClick },
-            )}
+            {Object.entries(visitsGroups).map(([dataKey, v]) => v.length > 0 && (
+              <Line
+                key={dataKey}
+                dataKey={dataKey}
+                type="monotone"
+                stroke={/* TODO Set random color for entries with no type */ v.type === 'main' ? MAIN_COLOR : HIGHLIGHTED_COLOR}
+                strokeWidth={3}
+                activeDot={setSelectedVisits ? {
+                  cursor: 'pointer',
+                  onClick: onDotClick as any,
+                } : undefined}
+              />
+            ))}
           </LineChart>
         </ChartWrapper>
       </CardBody>

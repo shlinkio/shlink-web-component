@@ -101,6 +101,10 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     () => processStatsFromVisits(normalizedVisits),
     [normalizedVisits],
   );
+  const visitsGroups = useMemo(() => ({
+    Visits: Object.assign(normalizedVisits, { type: 'main' as const }),
+    [highlightedLabel ?? 'Selected']: Object.assign(highlightedVisits, { type: 'highlighted' as const }),
+  }), [highlightedLabel, highlightedVisits, normalizedVisits]);
   const resolvedFilter = useMemo(() => ({
     ...visitsFilter,
     excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
@@ -180,9 +184,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                   <div className="col-12 mt-3">
                     <LineChartCard
                       title="Visits during time"
-                      visits={normalizedVisits}
-                      highlightedVisits={highlightedVisits}
-                      highlightedLabel={highlightedLabel}
+                      visitsGroups={visitsGroups}
                       setSelectedVisits={setSelectedVisits}
                     />
                   </div>

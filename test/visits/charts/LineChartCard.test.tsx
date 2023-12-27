@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO, subDays, subMonths, subYears } from 'date-fns';
+import type { VisitsList } from '../../../src/visits/charts/LineChartCard';
 import { LineChartCard } from '../../../src/visits/charts/LineChartCard';
 import type { NormalizedVisit } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -8,8 +9,13 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<LineChartCard />', () => {
   const dimensions = { width: 800, height: 400 };
-  const setUp = (visits: NormalizedVisit[] = [], highlightedVisits: NormalizedVisit[] = []) => renderWithEvents(
-    <LineChartCard title="Cool title" visits={visits} highlightedVisits={highlightedVisits} dimensions={dimensions} />,
+  const setUp = (visitsGroups: Record<string, VisitsList> = {}) => renderWithEvents(
+    <LineChartCard title="Cool title" visitsGroups={visitsGroups} dimensions={dimensions} />,
+  );
+  const asMainVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(visits, { type: 'main' as const });
+  const asHighlightedVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(
+    visits,
+    { type: 'highlighted' as const },
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -31,7 +37,7 @@ describe('<LineChartCard />', () => {
     visits,
     expectedActiveIndex,
   ) => {
-    const { user } = setUp(visits.map((visit) => fromPartial(visit)));
+    const { user } = setUp({ v: asMainVisits(visits.map((visit) => fromPartial(visit))) });
 
     await user.click(screen.getByRole('button', { name: /Group by/ }));
 
@@ -46,12 +52,15 @@ describe('<LineChartCard />', () => {
   });
 
   it.each([
-    [undefined, undefined],
-    [[], []],
-    [[fromPartial<NormalizedVisit>({ date: '2016-04-01' })], []],
-    [[fromPartial<NormalizedVisit>({ date: '2016-04-01' })], [fromPartial<NormalizedVisit>({ date: '2016-04-01' })]],
-  ])('renders chart with expected data', (visits, highlightedVisits) => {
-    const { container } = setUp(visits, highlightedVisits);
+    [{}],
+    [{ v: asMainVisits([]), h: asHighlightedVisits([]) }],
+    [{ v: asMainVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]), h: asHighlightedVisits([]) }],
+    [{
+      v: asMainVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]),
+      h: asHighlightedVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]),
+    }],
+  ])('renders chart with expected data', (visitsGroups) => {
+    const { container } = setUp(visitsGroups);
     expect(container).toMatchSnapshot();
   });
 });

@@ -156,6 +156,32 @@ const useVisitsWithType = (visitsGroups: Record<string, VisitsList>, type: 'main
   [visitsGroups, type],
 );
 
+const useActiveDot = (
+  visitsGroups: Record<string, VisitsList>,
+  step: Step,
+  setSelectedVisits?: (visits: NormalizedVisit[]) => void,
+) => {
+  // TODO All these values and the click handler are relevant only when visits groups include "main" and "highlighted"
+  //      entries.
+  const mainVisits = useVisitsWithType(visitsGroups, 'main');
+  const highlightedVisits = useVisitsWithType(visitsGroups, 'highlighted');
+
+  // Save a map of step/date and all visits which belong to it, to use it when we need to highlight one
+  const datasetsByPoint = useMemo(
+    () => (setSelectedVisits ? visitsToDatasetGroups(step, mainVisits) : {}),
+    [setSelectedVisits, step, mainVisits],
+  );
+  const onDotClick = useCallback((_: any, { payload }: { payload: ChartPayloadEntry }) => {
+    const visitsToHighlight = datasetsByPoint[payload.date] ?? [];
+    setSelectedVisits?.(visitsToHighlight === highlightedVisits ? [] : visitsToHighlight);
+  }, [datasetsByPoint, highlightedVisits, setSelectedVisits]);
+
+  return setSelectedVisits && {
+    cursor: 'pointer',
+    onClick: onDotClick as any,
+  };
+};
+
 export type VisitsList = NormalizedVisit[] & { type?: 'main' | 'highlighted' };
 
 export type LineChartCardProps = {
@@ -186,20 +212,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
       }, {}),
     }));
   }, [step, visitsGroups]);
-
-  // Save a map of step/date and all visits which belong to it, to use it when we need to highlight one
-  // TODO All these values and the click handler are relevant only when visits groups include "main" and "highlighted"
-  //      entries.
-  const mainVisits = useVisitsWithType(visitsGroups, 'main');
-  const highlightedVisits = useVisitsWithType(visitsGroups, 'highlighted');
-  const datasetsByPoint = useMemo(
-    () => (setSelectedVisits ? visitsToDatasetGroups(step, mainVisits) : {}),
-    [setSelectedVisits, step, mainVisits],
-  );
-  const onDotClick = useCallback((_: any, { payload }: { payload: ChartPayloadEntry }) => {
-    const visitsToHighlight = datasetsByPoint[payload.date] ?? [];
-    setSelectedVisits?.(visitsToHighlight === highlightedVisits ? [] : visitsToHighlight);
-  }, [datasetsByPoint, highlightedVisits, setSelectedVisits]);
+  const activeDot = useActiveDot(visitsGroups, step, setSelectedVisits);
 
   const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
   const wrapperDimensions = dimensions ? {} : { width: '100%', height: isMobile ? 300 : 400 };
@@ -237,10 +250,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
                 type="monotone"
                 stroke={/* TODO Set random color for entries with no type */ v.type === 'main' ? MAIN_COLOR : HIGHLIGHTED_COLOR}
                 strokeWidth={3}
-                activeDot={setSelectedVisits ? {
-                  cursor: 'pointer',
-                  onClick: onDotClick as any,
-                } : undefined}
+                activeDot={activeDot}
               />
             ))}
           </LineChart>

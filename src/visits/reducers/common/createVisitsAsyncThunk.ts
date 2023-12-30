@@ -22,11 +22,11 @@ export const createVisitsAsyncThunk = <T extends LoadVisits = LoadVisits, R exte
 
   const asyncThunk = createAsyncThunk(typePrefix, async (params: T, { getState, dispatch }): Promise<Partial<R>> => {
     const [visitsLoader, lastVisitLoader] = createLoaders(params);
-    const loadVisits = createLoadVisits(
+    const loadVisits = createLoadVisits({
       visitsLoader,
-      () => shouldCancel(getState),
-      (progress) => dispatch(progressChanged(progress)),
-    );
+      shouldCancel: () => shouldCancel(getState),
+      progressChanged: (progress) => dispatch(progressChanged(progress)),
+    });
     const [visits, lastVisit] = await Promise.all([loadVisits(), lastVisitLoader(params.query?.excludeBots)]);
 
     if (!visits.length && lastVisit) {

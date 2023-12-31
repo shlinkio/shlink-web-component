@@ -14,16 +14,16 @@ export type LastVisitLoader = (excludeBots?: boolean) => Promise<ShlinkVisit | u
 
 type CreateLoadVisitsOptions = {
   /** Used to load visits for a specific page and number of items */
-  visitsLoader: VisitsLoader,
+  visitsLoader: VisitsLoader;
   /** Invoked before loading a batch, can be used to stop loading more batches if it returns true */
-  shouldCancel: () => boolean,
+  shouldCancel: () => boolean;
   /**
    * When a lot of batches need to be loaded, this callback is invoked with a value from 0 to 100, so that callers know
    * the actual progress.
    */
-  progressChanged: (progress: number) => void,
+  progressChanged: (progress: number) => void;
   /** Max amount of parallel loadings in the same batch */
-  batchSize?: number,
+  batchSize?: number;
 };
 
 /**

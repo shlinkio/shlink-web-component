@@ -5,19 +5,19 @@ import type { VisitsLoader } from '../../../reducers/common';
 import type { LoadVisitsForComparison, VisitsForComparisonLoaded } from '../types';
 import { createLoadVisitsForComparison } from './createLoadVisitsForComparison';
 
-interface VisitsComparisonAsyncThunkOptions {
+interface VisitsComparisonAsyncThunkOptions<CreateLoadersParam extends LoadVisitsForComparison> {
   typePrefix: string;
-  createLoaders: (params: LoadVisitsForComparison) => Record<string, VisitsLoader>;
+  createLoaders: (params: CreateLoadersParam) => Record<string, VisitsLoader>;
   shouldCancel: (getState: () => RootState) => boolean;
 }
 
-export const createVisitsComparisonAsyncThunk = (
-  { typePrefix, createLoaders, shouldCancel }: VisitsComparisonAsyncThunkOptions,
+export const createVisitsComparisonAsyncThunk = <CreateLoadersParam extends LoadVisitsForComparison>(
+  { typePrefix, createLoaders, shouldCancel }: VisitsComparisonAsyncThunkOptions<CreateLoadersParam>,
 ) => {
   const progressChanged = createAction<number>(`${typePrefix}/progressChanged`);
   const asyncThunk = createAsyncThunk(
     typePrefix,
-    async (params: LoadVisitsForComparison, { getState, dispatch }): Promise<VisitsForComparisonLoaded> => {
+    async (params: CreateLoadersParam, { getState, dispatch }): Promise<VisitsForComparisonLoaded> => {
       const visitsLoaders = createLoaders(params);
       const loadVisits = createLoadVisitsForComparison({
         visitsLoaders,

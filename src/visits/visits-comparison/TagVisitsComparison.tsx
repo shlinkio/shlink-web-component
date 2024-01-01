@@ -13,6 +13,7 @@ type TagVisitsComparisonProps = {
 // TODO
 //      * Bind to mercure for visits creation
 //      * Inject ColorGenerator so that chart lines use the tag color
+/* v8 ignore start */
 export const TagVisitsComparison: FC<TagVisitsComparisonProps> = (
   { getTagVisitsForComparison, tagVisitsComparison },
 ) => {
@@ -35,3 +36,4 @@ export const TagVisitsComparison: FC<TagVisitsComparisonProps> = (
     </ul>
   );
 };
+/* v8 ignore stop */

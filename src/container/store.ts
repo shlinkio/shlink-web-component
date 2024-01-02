@@ -17,8 +17,31 @@ import type { ShortUrlVisitsDeletion } from '../visits/reducers/shortUrlVisitsDe
 import type { TagVisits } from '../visits/reducers/tagVisits';
 import type { VisitsInfo } from '../visits/reducers/types';
 import type { VisitsOverview } from '../visits/reducers/visitsOverview';
+import type { VisitsComparisonInfo } from '../visits/visits-comparison/reducers/types';
 
 const isProduction = process.env.NODE_ENV === 'production';
+
+export type RootState = {
+  shortUrlsList: ShortUrlsList;
+  shortUrlCreation: ShortUrlCreation;
+  shortUrlDeletion: ShortUrlDeletion;
+  shortUrlEdition: ShortUrlEdition;
+  shortUrlVisits: ShortUrlVisits;
+  shortUrlVisitsDeletion: ShortUrlVisitsDeletion;
+  tagVisits: TagVisits;
+  tagVisitsComparison: VisitsComparisonInfo;
+  domainVisits: DomainVisits;
+  orphanVisits: VisitsInfo;
+  orphanVisitsDeletion: OrphanVisitsDeletion;
+  nonOrphanVisits: VisitsInfo;
+  shortUrlDetail: ShortUrlDetail;
+  tagsList: TagsList;
+  tagDelete: TagDeletion;
+  tagEdit: TagEdition;
+  mercureInfo: MercureInfo;
+  domainsList: DomainsList;
+  visitsOverview: VisitsOverview;
+};
 
 export const setUpStore = (container: IContainer) => configureStore({
   devTools: !isProduction,
@@ -32,6 +55,7 @@ export const setUpStore = (container: IContainer) => configureStore({
     shortUrlVisits: container.shortUrlVisitsReducer,
     shortUrlVisitsDeletion: container.shortUrlVisitsDeletionReducer,
     tagVisits: container.tagVisitsReducer,
+    tagVisitsComparison: container.tagVisitsComparisonReducer,
     domainVisits: container.domainVisitsReducer,
     orphanVisits: container.orphanVisitsReducer,
     orphanVisitsDeletion: container.orphanVisitsDeletionReducer,
@@ -41,31 +65,10 @@ export const setUpStore = (container: IContainer) => configureStore({
     tagEdit: container.tagEditReducer,
     domainsList: container.domainsListReducer,
     visitsOverview: container.visitsOverviewReducer,
-  }),
+  } satisfies RootState),
   middleware: (defaultMiddlewaresIncludingReduxThunk) => defaultMiddlewaresIncludingReduxThunk({
     // State is too big for these
     immutableCheck: false,
     serializableCheck: false,
   }),
 });
-
-export type RootState = {
-  shortUrlsList: ShortUrlsList;
-  shortUrlCreation: ShortUrlCreation;
-  shortUrlDeletion: ShortUrlDeletion;
-  shortUrlEdition: ShortUrlEdition;
-  shortUrlVisits: ShortUrlVisits;
-  shortUrlVisitsDeletion: ShortUrlVisitsDeletion;
-  tagVisits: TagVisits;
-  domainVisits: DomainVisits;
-  orphanVisits: VisitsInfo;
-  orphanVisitsDeletion: OrphanVisitsDeletion;
-  nonOrphanVisits: VisitsInfo;
-  shortUrlDetail: ShortUrlDetail;
-  tagsList: TagsList;
-  tagDelete: TagDeletion;
-  tagEdit: TagEdition;
-  mercureInfo: MercureInfo;
-  domainsList: DomainsList;
-  visitsOverview: VisitsOverview;
-};

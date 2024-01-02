@@ -15,6 +15,11 @@ import { createNewVisits } from '../reducers/visitCreation';
 import { loadVisitsOverview, visitsOverviewReducerCreator } from '../reducers/visitsOverview';
 import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import { TagVisitsFactory } from '../TagVisits';
+import {
+  getTagVisitsForComparison,
+  tagVisitsComparisonReducerCreator,
+} from '../visits-comparison/reducers/tagVisitsComparison';
+import { TagVisitsComparison } from '../visits-comparison/TagVisitsComparison';
 import * as visitsParser from './VisitsParser';
 
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
@@ -40,6 +45,12 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.decorator('TagVisits', connect(
     ['tagVisits', 'mercureInfo'],
     ['getTagVisits', 'cancelGetTagVisits', 'createNewVisits', 'loadMercureInfo'],
+  ));
+
+  bottle.serviceFactory('TagVisitsComparison', () => TagVisitsComparison);
+  bottle.decorator('TagVisitsComparison', connect(
+    ['tagVisitsComparison', 'mercureInfo'],
+    ['getTagVisitsForComparison', 'cancelGetTagVisitsForComparison', 'createNewVisits', 'loadMercureInfo'],
   ));
 
   bottle.factory('DomainVisits', DomainVisitsFactory);
@@ -71,6 +82,13 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
 
   bottle.serviceFactory('getTagVisits', getTagVisits, 'apiClientFactory');
   bottle.serviceFactory('cancelGetTagVisits', (obj) => obj.cancelGetVisits, 'tagVisitsReducerCreator');
+
+  bottle.serviceFactory('getTagVisitsForComparison', getTagVisitsForComparison, 'apiClientFactory');
+  bottle.serviceFactory(
+    'cancelGetTagVisitsForComparison',
+    (obj) => obj.cancelGetVisits,
+    'tagVisitsComparisonReducerCreator',
+  );
 
   bottle.serviceFactory('getDomainVisits', getDomainVisits, 'apiClientFactory');
   bottle.serviceFactory('cancelGetDomainVisits', (obj) => obj.cancelGetVisits, 'domainVisitsReducerCreator');
@@ -128,4 +146,11 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
 
   bottle.serviceFactory('tagVisitsReducerCreator', tagVisitsReducerCreator, 'getTagVisits');
   bottle.serviceFactory('tagVisitsReducer', (obj) => obj.reducer, 'tagVisitsReducerCreator');
+
+  bottle.serviceFactory(
+    'tagVisitsComparisonReducerCreator',
+    tagVisitsComparisonReducerCreator,
+    'getTagVisitsForComparison',
+  );
+  bottle.serviceFactory('tagVisitsComparisonReducer', (obj) => obj.reducer, 'tagVisitsComparisonReducerCreator');
 };

@@ -42,7 +42,7 @@ const TagVisitsComparison: FCWithDeps<TagVisitsComparisonProps, TagVisitsCompari
 
   return (
     <VisitsComparison
-      title={<>Comparing {tagsArray.map((tag) => <Tag colorGenerator={colorGenerator} text={tag} />)}</>}
+      title={<>Comparing {tagsArray.map((tag) => <Tag key={tag} colorGenerator={colorGenerator} text={tag} />)}</>}
       getVisitsForComparison={getVisitsForComparison}
       visitsComparisonInfo={tagVisitsComparison}
       colors={colors}

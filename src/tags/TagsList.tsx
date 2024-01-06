@@ -7,7 +7,7 @@ import {
   sortList,
 } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Row } from 'reactstrap';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import type { FCWithDeps } from '../container/utils';
@@ -39,7 +39,7 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
   const { TagsTable } = useDependencies(TagsList);
   const settings = useSettings();
   const [order, setOrder] = useState<TagsOrder>(settings.tags?.defaultOrdering ?? {});
-  const resolveSortedTags = () => {
+  const sortedTags = useMemo(() => {
     const simplifiedTags = tagsList.filteredTags.map((tag): SimplifiedTag => {
       const theTag = tagsList.stats[tag];
       const visits = (
@@ -53,7 +53,7 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
       };
     });
     return sortList<SimplifiedTag>(simplifiedTags, order);
-  };
+  }, [order, settings.visits?.excludeBots, tagsList.filteredTags, tagsList.stats]);
   const visitsComparison = useVisitsComparison();
 
   if (tagsList.loading) {
@@ -70,24 +70,7 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
 
   const orderByColumn = (field: TagsOrderableFields) => () => {
     const dir = determineOrderDir(field, order.field, order.dir);
-
     setOrder({ field: dir ? field : undefined, dir });
-  };
-
-  const renderContent = () => {
-    if (tagsList.filteredTags.length < 1) {
-      return <Message>No tags found</Message>;
-    }
-
-    const sortedTags = resolveSortedTags();
-
-    return (
-      <TagsTable
-        sortedTags={sortedTags}
-        currentOrder={order}
-        orderByColumn={orderByColumn}
-      />
-    );
   };
 
   return (
@@ -103,7 +86,11 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
         </div>
       </Row>
       <VisitsComparisonCollector type="tags" className="mb-3" />
-      {renderContent()}
+      <TagsTable
+        sortedTags={sortedTags}
+        currentOrder={order}
+        orderByColumn={orderByColumn}
+      />
     </VisitsComparisonProvider>
   );
 }, () => [Topics.visits]);

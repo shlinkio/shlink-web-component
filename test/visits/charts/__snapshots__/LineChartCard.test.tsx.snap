@@ -10,7 +10,190 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
       class="card-header"
       role="heading"
     >
-      Cool title
+      Visits over time
+      <div
+        class="float-end"
+      >
+        <div
+          class="dropdown"
+        >
+          <button
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            type="button"
+          >
+            Group by
+          </button>
+          <div
+            aria-hidden="true"
+            class="dropdown-menu dropdown-menu-end"
+            role="menu"
+            tabindex="-1"
+          >
+            <button
+              class="dropdown-item active"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Month
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Week
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Day
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Hour
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="card-body"
+    >
+      <div
+        class="recharts-wrapper"
+        role="region"
+        style="position: relative; cursor: default; width: 800px; height: 400px;"
+      >
+        <svg
+          class="recharts-surface"
+          height="400"
+          style="width: 100%; height: 100%;"
+          viewBox="0 0 800 400"
+          width="800"
+        >
+          <title />
+          <desc />
+          <defs>
+            <clippath
+              id="recharts21-clip"
+            >
+              <rect
+                height="360"
+                width="730"
+                x="65"
+                y="5"
+              />
+            </clippath>
+          </defs>
+          <g
+            class="recharts-cartesian-grid"
+          >
+            <g
+              class="recharts-cartesian-grid-horizontal"
+            >
+              <line
+                fill="none"
+                height="360"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="5"
+                y2="5"
+              />
+              <line
+                fill="none"
+                height="360"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="365"
+                y2="365"
+              />
+            </g>
+            <g
+              class="recharts-cartesian-grid-vertical"
+            >
+              <line
+                fill="none"
+                height="360"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="65"
+                y="5"
+                y1="5"
+                y2="365"
+              />
+              <line
+                fill="none"
+                height="360"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="795"
+                x2="795"
+                y="5"
+                y1="5"
+                y2="365"
+              />
+            </g>
+          </g>
+        </svg>
+        <div
+          class="recharts-tooltip-wrapper"
+          role="dialog"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+        >
+          <div
+            class="recharts-default-tooltip"
+            style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<LineChartCard /> > renders chart with expected data 2`] = `
+<div>
+  <div
+    class="card"
+  >
+    <div
+      aria-level="4"
+      class="card-header"
+      role="heading"
+    >
+      Visits over time
       <div
         class="float-end"
       >
@@ -183,7 +366,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
 </div>
 `;
 
-exports[`<LineChartCard /> > renders chart with expected data 2`] = `
+exports[`<LineChartCard /> > renders chart with expected data 3`] = `
 <div>
   <div
     class="card"
@@ -193,7 +376,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
       class="card-header"
       role="heading"
     >
-      Cool title
+      Visits over time
       <div
         class="float-end"
       >
@@ -270,189 +453,6 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           <defs>
             <clippath
               id="recharts23-clip"
-            >
-              <rect
-                height="360"
-                width="730"
-                x="65"
-                y="5"
-              />
-            </clippath>
-          </defs>
-          <g
-            class="recharts-cartesian-grid"
-          >
-            <g
-              class="recharts-cartesian-grid-horizontal"
-            >
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="5"
-                y2="5"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="365"
-                y2="365"
-              />
-            </g>
-            <g
-              class="recharts-cartesian-grid-vertical"
-            >
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="65"
-                y="5"
-                y1="5"
-                y2="365"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="795"
-                x2="795"
-                y="5"
-                y1="5"
-                y2="365"
-              />
-            </g>
-          </g>
-        </svg>
-        <div
-          class="recharts-tooltip-wrapper"
-          role="dialog"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px;"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`<LineChartCard /> > renders chart with expected data 3`] = `
-<div>
-  <div
-    class="card"
-  >
-    <div
-      aria-level="4"
-      class="card-header"
-      role="heading"
-    >
-      Cool title
-      <div
-        class="float-end"
-      >
-        <div
-          class="dropdown"
-        >
-          <button
-            aria-expanded="false"
-            aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
-            type="button"
-          >
-            Group by
-          </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="card-body"
-    >
-      <div
-        class="recharts-wrapper"
-        role="region"
-        style="position: relative; cursor: default; width: 800px; height: 400px;"
-      >
-        <svg
-          class="recharts-surface"
-          height="400"
-          style="width: 100%; height: 100%;"
-          viewBox="0 0 800 400"
-          width="800"
-        >
-          <title />
-          <desc />
-          <defs>
-            <clippath
-              id="recharts24-clip"
             >
               <rect
                 height="360"
@@ -908,7 +908,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
       class="card-header"
       role="heading"
     >
-      Cool title
+      Visits over time
       <div
         class="float-end"
       >
@@ -984,7 +984,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts27-clip"
+              id="recharts26-clip"
             >
               <rect
                 height="360"

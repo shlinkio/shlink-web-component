@@ -182,11 +182,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
               element={(
                 <VisitsSectionWithFallback showFallback={visits.length === 0}>
                   <div className="col-12 mt-3">
-                    <LineChartCard
-                      title="Visits during time"
-                      visitsGroups={visitsGroups}
-                      setSelectedVisits={setSelectedVisits}
-                    />
+                    <LineChartCard visitsGroups={visitsGroups} setSelectedVisits={setSelectedVisits} />
                   </div>
                 </VisitsSectionWithFallback>
               )}

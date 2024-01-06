@@ -1,8 +1,12 @@
 import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
-import type { FC } from 'react';
-import { useEffect } from 'react';
+import { useCallback, useMemo } from 'react';
+import type { FCWithDeps } from '../../container/utils';
+import { componentFactory, useDependencies } from '../../container/utils';
+import { Tag } from '../../tags/helpers/Tag';
+import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import type { LoadTagVisitsForComparison } from './reducers/tagVisitsComparison';
-import type { VisitsComparisonInfo } from './reducers/types';
+import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
+import { VisitsComparison } from './VisitsComparison';
 
 type TagVisitsComparisonProps = {
   getTagVisitsForComparison: (params: LoadTagVisitsForComparison) => void;
@@ -10,30 +14,40 @@ type TagVisitsComparisonProps = {
   cancelGetTagVisitsComparison: () => void;
 };
 
+type TagVisitsComparisonDeps = {
+  ColorGenerator: ColorGenerator;
+};
+
 // TODO
 //      * Bind to mercure for visits creation
 //      * Inject ColorGenerator so that chart lines use the tag color
-/* v8 ignore start */
-export const TagVisitsComparison: FC<TagVisitsComparisonProps> = (
+const TagVisitsComparison: FCWithDeps<TagVisitsComparisonProps, TagVisitsComparisonDeps> = (
   { getTagVisitsForComparison, tagVisitsComparison },
 ) => {
+  const { ColorGenerator: colorGenerator } = useDependencies(TagVisitsComparison);
   const { tags } = useParsedQuery<{ tags: string }>();
-  const { visitsGroups, loading } = tagVisitsComparison;
-
-  useEffect(() => {
-    getTagVisitsForComparison({ tags: tags.split(',') });
-  }, [getTagVisitsForComparison, tags]);
-
-  if (loading) {
-    return 'Loading...';
-  }
+  const tagsArray = useMemo(() => tags.split(','), [tags]);
+  const getVisitsForComparison = useCallback(
+    (params: LoadVisitsForComparison) => getTagVisitsForComparison({ ...params, tags: tagsArray }),
+    [getTagVisitsForComparison, tagsArray],
+  );
+  const { visitsGroups } = tagVisitsComparison;
+  const colors = useMemo(
+    () => Object.keys(visitsGroups).reduce<Record<string, string>>((acc, key) => {
+      acc[key] = colorGenerator.getColorForKey(key);
+      return acc;
+    }, {}),
+    [colorGenerator, visitsGroups],
+  );
 
   return (
-    <ul>
-      {Object.entries(visitsGroups).map(([tag, visits]) => (
-        <li key={tag}>{tag}: {visits.length}</li>
-      ))}
-    </ul>
+    <VisitsComparison
+      title={<>Comparing {tagsArray.map((tag) => <Tag colorGenerator={colorGenerator} text={tag} />)}</>}
+      getVisitsForComparison={getVisitsForComparison}
+      visitsComparisonInfo={tagVisitsComparison}
+      colors={colors}
+    />
   );
 };
-/* v8 ignore stop */
+
+export const TagVisitsComparisonFactory = componentFactory(TagVisitsComparison, ['ColorGenerator']);

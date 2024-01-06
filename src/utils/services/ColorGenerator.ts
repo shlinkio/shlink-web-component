@@ -49,11 +49,11 @@ export class ColorGenerator {
     const backgroundColor = this.getColorForKey(key);
     return {
       backgroundColor,
-      color: this.isColorLight(backgroundColor) ? '#222' : '#fff',
+      color: this.isLightColor(backgroundColor) ? '#222' : '#fff',
     };
   }
 
-  private isColorLight(color: string): boolean {
+  private isLightColor(color: string): boolean {
     const colorHex = color.substring(1);
 
     if (this.lights[colorHex] === undefined) {

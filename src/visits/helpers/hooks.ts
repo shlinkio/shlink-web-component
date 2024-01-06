@@ -11,61 +11,49 @@ import { parseBooleanToString } from '../../utils/helpers';
 import type { DeepPartial } from '../../utils/types';
 import type { VisitsFilter } from '../types';
 
-interface VisitsQuery {
+type VisitsQuery = Record<string, unknown> & {
   startDate?: string;
   endDate?: string;
   orphanVisitsType?: ShlinkOrphanVisitType;
   excludeBots?: BooleanString;
-  domain?: string;
-}
+};
 
-interface VisitsFiltering {
+type VisitsFiltering = {
   dateRange?: DateRange;
   visitsFilter: VisitsFilter;
-}
-
-interface VisitsFilteringAndDomain {
-  filtering: VisitsFiltering;
-  domain?: string;
-}
+};
 
 type UpdateFiltering = (extra: DeepPartial<VisitsFiltering>) => void;
 
 export const useVisitsQuery = (): [VisitsFiltering, UpdateFiltering] => {
   const navigate = useNavigate();
-  const query = useParsedQuery<VisitsQuery>();
+  const { startDate, endDate, orphanVisitsType, excludeBots, ...rest } = useParsedQuery<VisitsQuery>();
 
-  const { filtering, domain: theDomain } = useMemo(
-    (): VisitsFilteringAndDomain => {
-      const { startDate, endDate, orphanVisitsType, excludeBots, domain } = query;
-      return {
-        domain,
-        filtering: {
-          dateRange: startDate != null || endDate != null ? datesToDateRange(startDate, endDate) : undefined,
-          visitsFilter: {
-            orphanVisitsType,
-            excludeBots: excludeBots !== undefined ? excludeBots === 'true' : undefined,
-          },
-        },
-      };
-    },
-    [query],
+  const filtering = useMemo(
+    (): VisitsFiltering => ({
+      dateRange: startDate != null || endDate != null ? datesToDateRange(startDate, endDate) : undefined,
+      visitsFilter: {
+        orphanVisitsType,
+        excludeBots: excludeBots !== undefined ? excludeBots === 'true' : undefined,
+      },
+    }),
+    [endDate, excludeBots, orphanVisitsType, startDate],
   );
   const updateFiltering = useCallback((extra: DeepPartial<VisitsFiltering>) => {
     const { dateRange, visitsFilter = {} } = mergeDeepRight(filtering, extra);
-    const { excludeBots, orphanVisitsType } = visitsFilter;
+    const { excludeBots: newExcludeBots, orphanVisitsType: newOrphanVisitsType } = visitsFilter;
     const newQuery: VisitsQuery = {
+      ...rest, // Merge with rest of existing query so that unknown params are preserved
       startDate: (dateRange?.startDate && formatIsoDate(dateRange.startDate)) || '',
       endDate: (dateRange?.endDate && formatIsoDate(dateRange.endDate)) || '',
-      excludeBots: excludeBots === undefined ? undefined : parseBooleanToString(excludeBots),
-      orphanVisitsType,
-      domain: theDomain,
+      excludeBots: newExcludeBots === undefined ? undefined : parseBooleanToString(newExcludeBots),
+      orphanVisitsType: newOrphanVisitsType,
     };
     const stringifiedQuery = stringifyQuery(newQuery);
     const queryString = !stringifiedQuery ? '' : `?${stringifiedQuery}`;
 
     navigate(queryString, { replace: true, relative: 'route' });
-  }, [filtering, navigate, theDomain]);
+  }, [filtering, navigate, rest]);
 
   return [filtering, updateFiltering];
 };

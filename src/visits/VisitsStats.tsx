@@ -81,12 +81,19 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const { visits, loading, errorData, progress, fallbackInterval } = visitsInfo;
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
   const visitsSettings = useSetting('visits');
-  const setDates = useCallback(({ startDate: theStartDate, endDate: theEndDate }: DateRange) => updateFiltering({
-    dateRange: {
-      startDate: theStartDate ?? undefined,
-      endDate: theEndDate ?? undefined,
+  const [activeInterval, setActiveInterval] = useState<DateInterval>();
+  const setDates = useCallback(
+    ({ startDate: theStartDate, endDate: theEndDate }: DateRange, newDateInterval?: DateInterval) => {
+      updateFiltering({
+        dateRange: {
+          startDate: theStartDate ?? undefined,
+          endDate: theEndDate ?? undefined,
+        },
+      });
+      setActiveInterval(newDateInterval);
     },
-  }), [updateFiltering]);
+    [updateFiltering],
+  );
   const initialInterval = useRef<DateRange | DateInterval>(
     dateRange ?? fallbackInterval ?? visitsSettings?.defaultInterval ?? 'last30Days',
   );
@@ -153,9 +160,8 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
             <div className="d-md-flex">
               <div className="flex-grow-1">
                 <DateRangeSelector
-                  updatable
                   disabled={loading}
-                  initialDateRange={initialInterval.current}
+                  dateRangeOrInterval={activeInterval ?? dateRange ?? initialInterval.current}
                   defaultText="All visits"
                   onDatesChange={setDates}
                 />

@@ -2,7 +2,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Message, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from 'reactstrap';
 import { DateRangeSelector } from '../../utils/dates/DateRangeSelector';
 import type { DateInterval, DateRange } from '../../utils/dates/helpers/dateIntervals';
@@ -51,12 +51,19 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   // State related with visits filtering
   const visitsSettings = useSetting('visits');
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
-  const setDates = useCallback(({ startDate: theStartDate, endDate: theEndDate }: DateRange) => updateFiltering({
-    dateRange: {
-      startDate: theStartDate ?? undefined,
-      endDate: theEndDate ?? undefined,
+  const [activeInterval, setActiveInterval] = useState<DateInterval>();
+  const setDates = useCallback(
+    ({ startDate: theStartDate, endDate: theEndDate }: DateRange, newDateInterval?: DateInterval) => {
+      updateFiltering({
+        dateRange: {
+          startDate: theStartDate ?? undefined,
+          endDate: theEndDate ?? undefined,
+        },
+      });
+      setActiveInterval(newDateInterval);
     },
-  }), [updateFiltering]);
+    [updateFiltering],
+  );
   const initialInterval = useRef<DateRange | DateInterval>(
     dateRange ?? visitsSettings?.defaultInterval ?? 'last30Days',
   );
@@ -91,10 +98,9 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
         <div className="d-md-flex">
           <div className="flex-grow-1">
             <DateRangeSelector
-              updatable
               disabled={loading}
-              initialDateRange={initialInterval.current}
               defaultText="All visits"
+              dateRangeOrInterval={activeInterval ?? dateRange ?? initialInterval.current}
               onDatesChange={setDates}
             />
           </div>

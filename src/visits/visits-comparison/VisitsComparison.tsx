@@ -80,10 +80,6 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
     isFirstLoad.current = false;
   }, [dateRange, getVisitsForComparison, resolvedFilter]);
 
-  if (loading) {
-    return <Message loading />;
-  }
-
   return (
     <>
       <div className="mb-3">
@@ -112,7 +108,8 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
           />
         </div>
       </div>
-      <LineChartCard visitsGroups={normalizedVisitsGroups} />
+      {loading && <Message loading />}
+      {!loading && <LineChartCard visitsGroups={normalizedVisitsGroups} />}
     </>
   );
 };

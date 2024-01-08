@@ -1,69 +1,61 @@
 import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { DropdownItem } from 'reactstrap';
-import { useEffectExceptFirstTime } from '../helpers/hooks';
 import { DateIntervalDropdownItems } from './DateIntervalDropdownItems';
 import { DateRangeRow } from './DateRangeRow';
 import type {
   DateInterval,
   DateRange } from './helpers/dateIntervals';
 import {
-  ALL,
-  dateRangeIsEmpty,
   intervalToDateRange,
   rangeIsInterval,
   rangeOrIntervalToString,
 } from './helpers/dateIntervals';
 
 export interface DateRangeSelectorProps {
-  initialDateRange?: DateInterval | DateRange;
-  disabled?: boolean;
-  onDatesChange: (dateRange: DateRange) => void;
+  dateRangeOrInterval?: DateInterval | DateRange;
+
+  /**
+   * Invoked with a date range when specific start and/or end dates were selected.
+   * If a date interval was selected instead, then invoked with the corresponding date range, and the date interval.
+   */
+  onDatesChange: (dateRange: DateRange, dateInterval?: DateInterval) => void;
+
   defaultText: string;
-  updatable?: boolean;
+  disabled?: boolean;
 }
 
 export const DateRangeSelector = (
-  { onDatesChange, initialDateRange, defaultText, disabled, updatable = false }: DateRangeSelectorProps,
+  { onDatesChange, dateRangeOrInterval, defaultText, disabled }: DateRangeSelectorProps,
 ) => {
-  const initialIntervalIsRange = rangeIsInterval(initialDateRange);
-  const [activeInterval, setActiveInterval] = useState<DateInterval | undefined>(
-    initialIntervalIsRange ? initialDateRange : undefined,
+  const text = useMemo(
+    () => rangeOrIntervalToString(dateRangeOrInterval) ?? defaultText,
+    [dateRangeOrInterval, defaultText],
   );
-  const [activeDateRange, setActiveDateRange] = useState(initialIntervalIsRange ? undefined : initialDateRange);
+  const [activeDateRange, activeInterval] = useMemo((): [DateRange | undefined, DateInterval | undefined] => (
+    rangeIsInterval(dateRangeOrInterval)
+      ? [undefined, dateRangeOrInterval]
+      : [dateRangeOrInterval, undefined]
+  ), [dateRangeOrInterval]);
 
-  const updateDateRange = useCallback((dateRange: DateRange) => {
-    setActiveInterval(dateRangeIsEmpty(dateRange) ? ALL : undefined);
-    setActiveDateRange(dateRange);
-    onDatesChange(dateRange);
-  }, [onDatesChange]);
-  const updateInterval = useCallback((dateInterval: DateInterval) => {
-    setActiveInterval(dateInterval);
-    setActiveDateRange(undefined);
-    onDatesChange(intervalToDateRange(dateInterval));
-  }, [onDatesChange]);
-
-  useEffectExceptFirstTime(() => {
-    if (!updatable) {
-      return;
+  const updateDateRangeOrInterval = useCallback((newDateRangeOrInterval: DateRange | DateInterval) => {
+    if (rangeIsInterval(newDateRangeOrInterval)) {
+      onDatesChange(intervalToDateRange(newDateRangeOrInterval), newDateRangeOrInterval);
+    } else {
+      onDatesChange(newDateRangeOrInterval);
     }
-
-    const isDateInterval = rangeIsInterval(initialDateRange);
-
-    isDateInterval && updateInterval(initialDateRange);
-    initialDateRange && !isDateInterval && updateDateRange(initialDateRange);
-  }, [initialDateRange, updatable]);
+  }, [onDatesChange]);
 
   return (
-    <DropdownBtn disabled={disabled} text={rangeOrIntervalToString(activeInterval ?? activeDateRange) ?? defaultText}>
-      <DateIntervalDropdownItems allText={defaultText} active={activeInterval} onChange={updateInterval} />
+    <DropdownBtn disabled={disabled} text={text}>
+      <DateIntervalDropdownItems allText={defaultText} active={activeInterval} onChange={updateDateRangeOrInterval} />
       <DropdownItem divider tag="hr" />
       <DropdownItem header aria-hidden>Custom:</DropdownItem>
       <DropdownItem text>
         <DateRangeRow
           {...activeDateRange}
-          onStartDateChange={(startDate) => updateDateRange({ ...activeDateRange, startDate })}
-          onEndDateChange={(endDate) => updateDateRange({ ...activeDateRange, endDate })}
+          onStartDateChange={(startDate) => updateDateRangeOrInterval({ ...activeDateRange, startDate })}
+          onEndDateChange={(endDate) => updateDateRangeOrInterval({ ...activeDateRange, endDate })}
         />
       </DropdownItem>
     </DropdownBtn>

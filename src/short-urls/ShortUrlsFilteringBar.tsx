@@ -4,7 +4,7 @@ import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown, SearchField } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Button, InputGroup, Row, UncontrolledTooltip } from 'reactstrap';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -12,7 +12,7 @@ import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
 import type { TagsList } from '../tags/reducers/tagsList';
 import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import { formatIsoDate } from '../utils/dates/helpers/date';
-import type { DateRange } from '../utils/dates/helpers/dateIntervals';
+import type { DateInterval, DateRange } from '../utils/dates/helpers/dateIntervals';
 import { datesToDateRange } from '../utils/dates/helpers/dateIntervals';
 import { useFeature } from '../utils/features';
 import { useSetting } from '../utils/settings';
@@ -57,10 +57,17 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
   const supportsDisabledFiltering = useFeature('filterDisabledUrls');
   const visitsSettings = useSetting('visits');
 
-  const setDates = useCallback(({ startDate: theStartDate, endDate: theEndDate }: DateRange) => toFirstPage({
-    startDate: formatIsoDate(theStartDate) ?? undefined,
-    endDate: formatIsoDate(theEndDate) ?? undefined,
-  }), [toFirstPage]);
+  const [activeInterval, setActiveInterval] = useState<DateInterval>();
+  const setDates = useCallback(
+    ({ startDate: newStartDate, endDate: newEndDate }: DateRange, newDateInterval?: DateInterval) => {
+      toFirstPage({
+        startDate: formatIsoDate(newStartDate) ?? undefined,
+        endDate: formatIsoDate(newEndDate) ?? undefined,
+      });
+      setActiveInterval(newDateInterval);
+    },
+    [toFirstPage],
+  );
   const setSearch = useCallback(
     (searchTerm: string) => toFirstPage({ search: !searchTerm ? undefined : searchTerm }),
     [toFirstPage],
@@ -101,7 +108,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
             <div className="flex-fill">
               <DateRangeSelector
                 defaultText="All short URLs"
-                initialDateRange={datesToDateRange(startDate, endDate)}
+                dateRangeOrInterval={activeInterval ?? datesToDateRange(startDate, endDate)}
                 onDatesChange={setDates}
               />
             </div>

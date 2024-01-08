@@ -61,7 +61,7 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
           <tr><th aria-hidden colSpan={4} className="p-0 border-top-0" /></tr>
         </thead>
         <tbody>
-          {currentPage.length === 0 && <tr><td colSpan={4} className="text-center">No results found</td></tr>}
+          {currentPage.length === 0 && <tr><td colSpan={4} className="text-center">No tags found</td></tr>}
           {currentPage.map((tag) => <TagsTableRow key={tag.tag} tag={tag} />)}
         </tbody>
       </table>

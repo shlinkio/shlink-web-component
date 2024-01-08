@@ -29,7 +29,7 @@ describe('<TagsTable />', () => {
     setUp();
 
     expect(screen.queryByText(/^TagsTableRow/)).not.toBeInTheDocument();
-    expect(screen.getByText('No results found')).toBeInTheDocument();
+    expect(screen.getByText('No tags found')).toBeInTheDocument();
   });
 
   it.each([

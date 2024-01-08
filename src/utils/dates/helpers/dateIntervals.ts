@@ -17,7 +17,7 @@ const INTERVAL_TO_STRING_MAP = {
   last180Days: 'Last 180 days',
   last365Days: 'Last 365 days',
   [ALL]: undefined,
-};
+} as const;
 
 export type DateInterval = keyof typeof INTERVAL_TO_STRING_MAP;
 

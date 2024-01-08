@@ -7,7 +7,7 @@ export const CHART_TOOLTIP_STYLES: CSSProperties = {
   borderRadius: '5px',
 } as const;
 
-export const COLORS = [
+const COLORS = [
   '#97BBCD',
   '#F7464A',
   '#46BFBD',
@@ -20,3 +20,5 @@ export const COLORS = [
   '#DCDCDC',
   '#463730',
 ] as const;
+
+export const chartColorForIndex = (index: number) => COLORS[index % COLORS.length];

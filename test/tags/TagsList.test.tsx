@@ -41,14 +41,6 @@ describe('<TagsList />', () => {
     expect(screen.queryByText('Loading')).not.toBeInTheDocument();
   });
 
-  it('shows a message when the list of tags is empty', () => {
-    setUp({ filteredTags: [] });
-
-    expect(screen.getByText('No tags found')).toBeInTheDocument();
-    expect(screen.queryByText('Error loading tags :(')).not.toBeInTheDocument();
-    expect(screen.queryByText('Loading')).not.toBeInTheDocument();
-  });
-
   it('triggers tags filtering when search field changes', async () => {
     const { user } = setUp();
 

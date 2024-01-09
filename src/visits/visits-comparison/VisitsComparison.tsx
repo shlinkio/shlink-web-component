@@ -1,6 +1,6 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Message, SimpleCard } from '@shlinkio/shlink-frontend-kit';
+import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from 'reactstrap';
@@ -13,6 +13,7 @@ import { chartColorForIndex } from '../charts/constants';
 import { LineChartCard, type VisitsList } from '../charts/LineChartCard';
 import { useVisitsQuery } from '../helpers/hooks';
 import { VisitsFilterDropdown } from '../helpers/VisitsFilterDropdown';
+import { VisitsLoadingFeedback } from '../helpers/VisitsLoadingFeedback';
 import { normalizeVisits } from '../services/VisitsParser';
 import { toApiParams } from '../types/helpers';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
@@ -24,11 +25,6 @@ type VisitsComparisonProps = {
   colors?: Record<string, string>;
 };
 
-// TODO
-//      * Display a title
-//      * Support date filtering
-//      * Support other filters
-//      * Handle loading errors
 export const VisitsComparison: FC<VisitsComparisonProps> = ({
   title,
   colors,
@@ -108,7 +104,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
           />
         </div>
       </div>
-      {loading && <Message loading />}
+      <VisitsLoadingFeedback info={visitsComparisonInfo} />
       {!loading && <LineChartCard visitsGroups={normalizedVisitsGroups} />}
     </>
   );

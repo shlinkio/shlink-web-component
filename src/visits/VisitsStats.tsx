@@ -1,13 +1,12 @@
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faCalendarAlt, faChartPie, faGears, faList, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Message, NavPillItem, NavPills, Result } from '@shlinkio/shlink-frontend-kit';
+import { Message, NavPillItem, NavPills } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { Button, Progress, Row } from 'reactstrap';
-import { ShlinkApiError } from '../common/ShlinkApiError';
+import { Button, Row } from 'reactstrap';
 import { ExportBtn } from '../utils/components/ExportBtn';
 import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import type { DateInterval, DateRange } from '../utils/dates/helpers/dateIntervals';
@@ -20,6 +19,7 @@ import { SortableBarChartCard } from './charts/SortableBarChartCard';
 import { useVisitsQuery } from './helpers/hooks';
 import { OpenMapModalBtn } from './helpers/OpenMapModalBtn';
 import { VisitsFilterDropdown } from './helpers/VisitsFilterDropdown';
+import { VisitsLoadingFeedback } from './helpers/VisitsLoadingFeedback';
 import { VisitsStatsOptions } from './helpers/VisitsStatsOptions';
 import type { VisitsDeletion, VisitsInfo } from './reducers/types';
 import { normalizeVisits, processStatsFromVisits } from './services/VisitsParser';
@@ -78,7 +78,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     exportCsv,
     isOrphanVisits = false,
   } = props;
-  const { visits, loading, errorData, progress, fallbackInterval } = visitsInfo;
+  const { visits, loading, errorData, fallbackInterval } = visitsInfo;
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
   const visitsSettings = useSetting('visits');
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
@@ -197,19 +197,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
       </section>
 
       <section className="mt-3">
-        {loading && (
-          progress === null ? <Message loading /> : (
-            <Message loading>
-              This is going to take a while... :S
-              <Progress value={progress} striped={progress >= 100} className="mt-3" />
-            </Message>
-          )
-        )}
-        {errorData && (
-          <Result type="error">
-            <ShlinkApiError errorData={errorData} fallbackMessage="An error occurred while loading visits :(" />
-          </Result>
-        )}
+        <VisitsLoadingFeedback info={visitsInfo} />
         {!loading && !errorData && (
           <>
             <NavPills fill>

@@ -98,7 +98,6 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
           </div>
           <VisitsFilterDropdown
             className="ms-0 ms-md-2 mt-3 mt-md-0"
-            isOrphanVisits={false}
             selected={resolvedFilter}
             onChange={(newVisitsFilter) => updateFiltering({ visitsFilter: newVisitsFilter })}
           />

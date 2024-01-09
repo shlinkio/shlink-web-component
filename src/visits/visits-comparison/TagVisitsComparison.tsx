@@ -18,9 +18,7 @@ type TagVisitsComparisonDeps = {
   ColorGenerator: ColorGenerator;
 };
 
-// TODO
-//      * Bind to mercure for visits creation
-//      * Inject ColorGenerator so that chart lines use the tag color
+// TODO Bind to mercure for visits creation
 const TagVisitsComparison: FCWithDeps<TagVisitsComparisonProps, TagVisitsComparisonDeps> = (
   { getTagVisitsForComparison, tagVisitsComparison },
 ) => {

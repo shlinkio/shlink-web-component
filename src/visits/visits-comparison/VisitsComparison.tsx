@@ -1,13 +1,10 @@
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button } from 'reactstrap';
+import { GoBackButton } from '../../utils/components/GoBackButton';
 import { DateRangeSelector } from '../../utils/dates/DateRangeSelector';
 import type { DateInterval, DateRange } from '../../utils/dates/helpers/dateIntervals';
 import { toDateRange } from '../../utils/dates/helpers/dateIntervals';
-import { useGoBack } from '../../utils/helpers/hooks';
 import { useSetting } from '../../utils/settings';
 import { chartColorForIndex } from '../charts/constants';
 import { LineChartCard, type VisitsList } from '../charts/LineChartCard';
@@ -32,7 +29,6 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   visitsComparisonInfo,
 }) => {
   const { loading, visitsGroups } = visitsComparisonInfo;
-  const goBack = useGoBack();
   const isFirstLoad = useRef(true);
   const normalizedVisitsGroups = useMemo(
     () => Object.keys(visitsGroups).reduce<Record<string, VisitsList>>((acc, key, index) => {
@@ -43,9 +39,9 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
     }, {}),
     [colors, visitsGroups],
   );
+  const visitsSettings = useSetting('visits');
 
   // State related with visits filtering
-  const visitsSettings = useSetting('visits');
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
   const setDates = useCallback(
@@ -80,9 +76,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
     <>
       <div className="mb-3">
         <SimpleCard bodyClassName="d-flex">
-          <Button color="link" size="lg" className="p-0 me-3" onClick={goBack} aria-label="Go back">
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </Button>
+          <GoBackButton />
           <h3 className="mb-0 flex-grow-1 text-center">{title}</h3>
         </SimpleCard>
       </div>
@@ -92,11 +86,12 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
             <DateRangeSelector
               disabled={loading}
               defaultText="All visits"
-              dateRangeOrInterval={activeInterval ?? dateRange ?? initialInterval.current}
+              dateRangeOrInterval={activeInterval ?? initialInterval.current}
               onDatesChange={setDates}
             />
           </div>
           <VisitsFilterDropdown
+            disabled={loading}
             className="ms-0 ms-md-2 mt-3 mt-md-0"
             selected={resolvedFilter}
             onChange={(newVisitsFilter) => updateFiltering({ visitsFilter: newVisitsFilter })}

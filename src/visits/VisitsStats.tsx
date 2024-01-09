@@ -167,6 +167,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                 />
               </div>
               <VisitsFilterDropdown
+                disabled={loading}
                 className="ms-0 ms-md-2 mt-3 mt-md-0"
                 isOrphanVisits={isOrphanVisits}
                 selected={resolvedFilter}

@@ -4,7 +4,6 @@ import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
-import { useGoBack } from '../utils/helpers/hooks';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadVisits, VisitsInfo } from './reducers/types';
 import type { NormalizedVisit, VisitsParams } from './types';
@@ -26,7 +25,6 @@ const NonOrphanVisits: FCWithDeps<MercureBoundProps & NonOrphanVisitsProps, NonO
   { getNonOrphanVisits, nonOrphanVisits, cancelGetNonOrphanVisits },
 ) => {
   const { ReportExporter: reportExporter } = useDependencies(NonOrphanVisits);
-  const goBack = useGoBack();
   const exportCsv = useCallback(
     (visits: NormalizedVisit[]) => reportExporter.exportVisits('non_orphan_visits.csv', visits),
     [reportExporter],
@@ -44,7 +42,7 @@ const NonOrphanVisits: FCWithDeps<MercureBoundProps & NonOrphanVisitsProps, NonO
       visitsInfo={nonOrphanVisits}
       exportCsv={exportCsv}
     >
-      <VisitsHeader title="Non-orphan visits" goBack={goBack} visits={nonOrphanVisits.visits} />
+      <VisitsHeader title="Non-orphan visits" visits={nonOrphanVisits.visits} />
     </VisitsStats>
   );
 }, () => [Topics.visits]);

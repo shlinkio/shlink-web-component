@@ -6,7 +6,6 @@ import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
-import { useGoBack } from '../utils/helpers/hooks';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { DomainVisits as DomainVisitsState, LoadDomainVisits } from './reducers/domainVisits';
 import type { NormalizedVisit } from './types';
@@ -28,7 +27,6 @@ const DomainVisits: FCWithDeps<MercureBoundProps & DomainVisitsProps, DomainVisi
   { getDomainVisits, domainVisits, cancelGetDomainVisits },
 ) => {
   const { ReportExporter: exporter } = useDependencies(DomainVisits);
-  const goBack = useGoBack();
   const { domain = '' } = useParams();
   const [authority, domainId = authority] = domain.split('_');
   const loadVisits = useCallback(
@@ -48,7 +46,7 @@ const DomainVisits: FCWithDeps<MercureBoundProps & DomainVisitsProps, DomainVisi
       visitsInfo={domainVisits}
       exportCsv={exportCsv}
     >
-      <VisitsHeader goBack={goBack} visits={domainVisits.visits} title={`"${authority}" visits`} />
+      <VisitsHeader visits={domainVisits.visits} title={`"${authority}" visits`} />
     </VisitsStats>
   );
 }, () => [Topics.visits]);

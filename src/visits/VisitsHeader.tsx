@@ -1,24 +1,20 @@
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { FC, PropsWithChildren, ReactNode } from 'react';
-import { Button, Card } from 'reactstrap';
+import { Card } from 'reactstrap';
 import type { ShlinkShortUrl, ShlinkVisit } from '../api-contract';
 import { ShortUrlVisitsCount } from '../short-urls/helpers/ShortUrlVisitsCount';
+import { GoBackButton } from '../utils/components/GoBackButton';
 
 type VisitsHeaderProps = PropsWithChildren<{
   visits: ShlinkVisit[];
-  goBack: () => void;
   title: ReactNode;
   shortUrl?: ShlinkShortUrl;
 }>;
 
-export const VisitsHeader: FC<VisitsHeaderProps> = ({ visits, goBack, shortUrl, children, title }) => (
+export const VisitsHeader: FC<VisitsHeaderProps> = ({ visits, shortUrl, children, title }) => (
   <header>
     <Card body>
       <h2 className="d-flex justify-content-between align-items-center mb-0">
-        <Button color="link" size="lg" className="p-0 me-3" onClick={goBack} aria-label="Go back">
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </Button>
+        <GoBackButton />
         <span className="text-center d-none d-sm-block">
           <small>{title}</small>
         </span>

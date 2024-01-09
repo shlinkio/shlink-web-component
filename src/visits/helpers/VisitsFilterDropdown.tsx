@@ -11,10 +11,11 @@ interface VisitsFilterDropdownProps {
   selected?: VisitsFilter;
   className?: string;
   isOrphanVisits?: boolean;
+  disabled?: boolean;
 }
 
 export const VisitsFilterDropdown = (
-  { onChange, selected = {}, className, isOrphanVisits = false }: VisitsFilterDropdownProps,
+  { onChange, selected = {}, className, isOrphanVisits = false, disabled }: VisitsFilterDropdownProps,
 ) => {
   const { orphanVisitsType, excludeBots = false } = selected;
   const propsForOrphanVisitsTypeItem = (type: ShlinkOrphanVisitType): DropdownItemProps => ({
@@ -27,7 +28,7 @@ export const VisitsFilterDropdown = (
   );
 
   return (
-    <DropdownBtn text="Filters" dropdownClassName={className} end minWidth={250}>
+    <DropdownBtn disabled={disabled} text="Filters" dropdownClassName={className} end minWidth={250}>
       <DropdownItem header aria-hidden>Bots:</DropdownItem>
       <DropdownItem active={excludeBots} onClick={onBotsClick}>Exclude potential bots</DropdownItem>
 

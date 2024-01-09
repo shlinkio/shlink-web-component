@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
+import { MemoryRouter } from 'react-router-dom';
 import type { TagVisits } from '../../src/visits/reducers/tagVisits';
 import { TagVisitsHeader } from '../../src/visits/TagVisitsHeader';
 import { checkAccessibility } from '../__helpers__/accessibility';
@@ -10,9 +11,10 @@ describe('<TagVisitsHeader />', () => {
     tag: 'foo',
     visits: [{}, {}, {}, {}],
   });
-  const goBack = vi.fn();
   const setUp = () => render(
-    <TagVisitsHeader tagVisits={tagVisits} goBack={goBack} colorGenerator={colorGeneratorMock} />,
+    <MemoryRouter>
+      <TagVisitsHeader tagVisits={tagVisits} colorGenerator={colorGeneratorMock} />
+    </MemoryRouter>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

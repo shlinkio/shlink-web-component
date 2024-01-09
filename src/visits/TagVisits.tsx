@@ -6,7 +6,6 @@ import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
-import { useGoBack } from '../utils/helpers/hooks';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadTagVisits, TagVisits as TagVisitsState } from './reducers/tagVisits';
@@ -30,7 +29,6 @@ const TagVisits: FCWithDeps<MercureBoundProps & TagVisitsProps, TagVisitsDeps> =
   { getTagVisits, tagVisits, cancelGetTagVisits },
 ) => {
   const { ColorGenerator: colorGenerator, ReportExporter: reportExporter } = useDependencies(TagVisits);
-  const goBack = useGoBack();
   const { tag = '' } = useParams();
   const loadVisits = useCallback(
     (params: ShlinkVisitsParams, doIntervalFallback?: boolean) =>
@@ -49,7 +47,7 @@ const TagVisits: FCWithDeps<MercureBoundProps & TagVisitsProps, TagVisitsDeps> =
       visitsInfo={tagVisits}
       exportCsv={exportCsv}
     >
-      <TagVisitsHeader tagVisits={tagVisits} goBack={goBack} colorGenerator={colorGenerator} />
+      <TagVisitsHeader tagVisits={tagVisits} colorGenerator={colorGenerator} />
     </VisitsStats>
   );
 }, () => [Topics.visits]);

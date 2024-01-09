@@ -6,11 +6,10 @@ import './ShortUrlVisitsHeader.scss';
 
 interface TagVisitsHeaderProps {
   tagVisits: TagVisits;
-  goBack: () => void;
   colorGenerator: ColorGenerator;
 }
 
-export const TagVisitsHeader = ({ tagVisits, goBack, colorGenerator }: TagVisitsHeaderProps) => {
+export const TagVisitsHeader = ({ tagVisits, colorGenerator }: TagVisitsHeaderProps) => {
   const { visits, tag } = tagVisits;
   const visitsStatsTitle = (
     <span className="d-flex align-items-center justify-content-center">
@@ -19,5 +18,5 @@ export const TagVisitsHeader = ({ tagVisits, goBack, colorGenerator }: TagVisits
     </span>
   );
 
-  return <VisitsHeader title={visitsStatsTitle} goBack={goBack} visits={visits} />;
+  return <VisitsHeader title={visitsStatsTitle} visits={visits} />;
 };

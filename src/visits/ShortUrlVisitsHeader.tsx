@@ -9,10 +9,9 @@ import './ShortUrlVisitsHeader.scss';
 interface ShortUrlVisitsHeaderProps {
   shortUrlDetail: ShortUrlDetail;
   shortUrlVisits: ShortUrlVisits;
-  goBack: () => void;
 }
 
-export const ShortUrlVisitsHeader = ({ shortUrlDetail, shortUrlVisits, goBack }: ShortUrlVisitsHeaderProps) => {
+export const ShortUrlVisitsHeader = ({ shortUrlDetail, shortUrlVisits }: ShortUrlVisitsHeaderProps) => {
   const { shortUrl, loading } = shortUrlDetail;
   const { visits } = shortUrlVisits;
   const shortLink = shortUrl?.shortUrl ?? '';
@@ -32,7 +31,7 @@ export const ShortUrlVisitsHeader = ({ shortUrlDetail, shortUrlVisits, goBack }:
   const visitsStatsTitle = <>Visits for <ExternalLink href={shortLink} /></>;
 
   return (
-    <VisitsHeader title={visitsStatsTitle} goBack={goBack} visits={visits} shortUrl={shortUrl}>
+    <VisitsHeader title={visitsStatsTitle} visits={visits} shortUrl={shortUrl}>
       <hr />
       <div>Created: {renderDate()}</div>
       <div className="long-url-container">

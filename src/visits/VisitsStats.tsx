@@ -1,13 +1,12 @@
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faCalendarAlt, faChartPie, faGears, faList, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Message, NavPillItem, NavPills, Result } from '@shlinkio/shlink-frontend-kit';
+import { Message, NavPillItem, NavPills } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { Button, Progress, Row } from 'reactstrap';
-import { ShlinkApiError } from '../common/ShlinkApiError';
+import { Button, Row } from 'reactstrap';
 import { ExportBtn } from '../utils/components/ExportBtn';
 import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import type { DateInterval, DateRange } from '../utils/dates/helpers/dateIntervals';
@@ -20,6 +19,7 @@ import { SortableBarChartCard } from './charts/SortableBarChartCard';
 import { useVisitsQuery } from './helpers/hooks';
 import { OpenMapModalBtn } from './helpers/OpenMapModalBtn';
 import { VisitsFilterDropdown } from './helpers/VisitsFilterDropdown';
+import { VisitsLoadingFeedback } from './helpers/VisitsLoadingFeedback';
 import { VisitsStatsOptions } from './helpers/VisitsStatsOptions';
 import type { VisitsDeletion, VisitsInfo } from './reducers/types';
 import { normalizeVisits, processStatsFromVisits } from './services/VisitsParser';
@@ -78,15 +78,22 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     exportCsv,
     isOrphanVisits = false,
   } = props;
-  const { visits, loading, errorData, progress, fallbackInterval } = visitsInfo;
+  const { visits, loading, errorData, fallbackInterval } = visitsInfo;
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
   const visitsSettings = useSetting('visits');
-  const setDates = useCallback(({ startDate: theStartDate, endDate: theEndDate }: DateRange) => updateFiltering({
-    dateRange: {
-      startDate: theStartDate ?? undefined,
-      endDate: theEndDate ?? undefined,
+  const [activeInterval, setActiveInterval] = useState<DateInterval>();
+  const setDates = useCallback(
+    ({ startDate: theStartDate, endDate: theEndDate }: DateRange, newDateInterval?: DateInterval) => {
+      updateFiltering({
+        dateRange: {
+          startDate: theStartDate ?? undefined,
+          endDate: theEndDate ?? undefined,
+        },
+      });
+      setActiveInterval(newDateInterval);
     },
-  }), [updateFiltering]);
+    [updateFiltering],
+  );
   const initialInterval = useRef<DateRange | DateInterval>(
     dateRange ?? fallbackInterval ?? visitsSettings?.defaultInterval ?? 'last30Days',
   );
@@ -143,167 +150,6 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     }
   }, [fallbackInterval, visitsSettings?.defaultInterval]);
 
-  const renderVisitsContent = () => {
-    if (loading) {
-      return progress === null ? <Message loading /> : (
-        <Message loading>
-          This is going to take a while... :S
-          <Progress value={progress} striped={progress >= 100} className="mt-3" />
-        </Message>
-      );
-    }
-
-    if (errorData) {
-      return (
-        <Result type="error">
-          <ShlinkApiError errorData={errorData} fallbackMessage="An error occurred while loading visits :(" />
-        </Result>
-      );
-    }
-
-    return (
-      <>
-        <NavPills fill>
-          {Object.values(sections).map(({ title, icon, subPath, shouldRender }: VisitsNavLinkOptions, index) => (
-            !shouldRender || shouldRender(props)
-              ? (
-                <NavPillItem key={index} to={buildSectionUrl(subPath)} replace>
-                  <FontAwesomeIcon icon={icon} />
-                  <span className="ms-2 d-none d-lg-inline">{title}</span>
-                </NavPillItem>
-              )
-              : undefined
-          )).filter(Boolean)}
-        </NavPills>
-        <Row>
-          <Routes>
-            <Route
-              path={sections.byTime.subPath}
-              element={(
-                <VisitsSectionWithFallback showFallback={visits.length === 0}>
-                  <div className="col-12 mt-3">
-                    <LineChartCard
-                      title="Visits during time"
-                      visitsGroups={visitsGroups}
-                      setSelectedVisits={setSelectedVisits}
-                    />
-                  </div>
-                </VisitsSectionWithFallback>
-              )}
-            />
-
-            <Route
-              path={sections.byContext.subPath}
-              element={(
-                <VisitsSectionWithFallback showFallback={visits.length === 0}>
-                  <div className={clsx('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
-                    <DoughnutChartCard title="Operating systems" stats={os} />
-                  </div>
-                  <div className={clsx('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
-                    <DoughnutChartCard title="Browsers" stats={browsers} />
-                  </div>
-                  <div className={clsx('mt-3', { 'col-xl-4': !isOrphanVisits, 'col-lg-6': isOrphanVisits })}>
-                    <SortableBarChartCard
-                      title="Referrers"
-                      stats={referrers}
-                      withPagination={false}
-                      highlightedStats={highlightedVisitsToStats(highlightedVisits, 'referer')}
-                      highlightedLabel={highlightedLabel}
-                      sortingItems={{
-                        name: 'Referrer name',
-                        amount: 'Visits amount',
-                      }}
-                      onClick={(value) => highlightVisitsForProp('referer', value)}
-                    />
-                  </div>
-                  {isOrphanVisits && (
-                    <div className="mt-3 col-lg-6">
-                      <SortableBarChartCard
-                        title="Visited URLs"
-                        stats={visitedUrls}
-                        highlightedLabel={highlightedLabel}
-                        highlightedStats={highlightedVisitsToStats(highlightedVisits, 'visitedUrl')}
-                        sortingItems={{
-                          visitedUrl: 'Visited URL',
-                          amount: 'Visits amount',
-                        }}
-                        onClick={(value) => highlightVisitsForProp('visitedUrl', value)}
-                      />
-                    </div>
-                  )}
-                </VisitsSectionWithFallback>
-              )}
-            />
-
-            <Route
-              path={sections.byLocation.subPath}
-              element={(
-                <VisitsSectionWithFallback showFallback={visits.length === 0}>
-                  <div className="col-lg-6 mt-3">
-                    <SortableBarChartCard
-                      title="Countries"
-                      stats={countries}
-                      highlightedStats={highlightedVisitsToStats(highlightedVisits, 'country')}
-                      highlightedLabel={highlightedLabel}
-                      sortingItems={{
-                        name: 'Country name',
-                        amount: 'Visits amount',
-                      }}
-                      onClick={(value) => highlightVisitsForProp('country', value)}
-                    />
-                  </div>
-                  <div className="col-lg-6 mt-3">
-                    <SortableBarChartCard
-                      title="Cities"
-                      stats={cities}
-                      highlightedStats={highlightedVisitsToStats(highlightedVisits, 'city')}
-                      highlightedLabel={highlightedLabel}
-                      extraHeaderContent={(activeCities) => mapLocations.length > 0 && (
-                        <OpenMapModalBtn modalTitle="Cities" locations={mapLocations} activeCities={activeCities} />
-                      )}
-                      sortingItems={{
-                        name: 'City name',
-                        amount: 'Visits amount',
-                      }}
-                      onClick={(value) => highlightVisitsForProp('city', value)}
-                    />
-                  </div>
-                </VisitsSectionWithFallback>
-              )}
-            />
-
-            <Route
-              path={sections.list.subPath}
-              element={(
-                <div className="col-12">
-                  <VisitsTable
-                    visits={normalizedVisits}
-                    selectedVisits={highlightedVisits}
-                    setSelectedVisits={setSelectedVisits}
-                    isOrphanVisits={isOrphanVisits}
-                  />
-                </div>
-              )}
-            />
-
-            {deletion && (
-              <Route
-                path={sections.options.subPath}
-                element={(
-                  <div className="col-12 mt-3">
-                    <VisitsStatsOptions {...deletion} />
-                  </div>
-                )}
-              />
-            )}
-
-            <Route path="*" element={<Navigate replace to={buildSectionUrl(sections.byTime.subPath)} />} />
-          </Routes>
-        </Row>
-      </>
-    );
-  };
-
   return (
     <>
       {children}
@@ -312,16 +158,16 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
         <div className="row flex-md-row-reverse">
           <div className="col-lg-7 col-xl-6">
             <div className="d-md-flex">
-              <div className="flex-fill">
+              <div className="flex-grow-1">
                 <DateRangeSelector
-                  updatable
                   disabled={loading}
-                  initialDateRange={initialInterval.current}
+                  dateRangeOrInterval={activeInterval ?? dateRange ?? initialInterval.current}
                   defaultText="All visits"
                   onDatesChange={setDates}
                 />
               </div>
               <VisitsFilterDropdown
+                disabled={loading}
                 className="ms-0 ms-md-2 mt-3 mt-md-0"
                 isOrphanVisits={isOrphanVisits}
                 selected={resolvedFilter}
@@ -352,7 +198,144 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
       </section>
 
       <section className="mt-3">
-        {renderVisitsContent()}
+        <VisitsLoadingFeedback info={visitsInfo} />
+        {!loading && !errorData && (
+          <>
+            <NavPills fill>
+              {Object.values(sections).map(({ title, icon, subPath, shouldRender }: VisitsNavLinkOptions, index) => (
+                !shouldRender || shouldRender(props)
+                  ? (
+                    <NavPillItem key={index} to={buildSectionUrl(subPath)} replace>
+                      <FontAwesomeIcon icon={icon} />
+                      <span className="ms-2 d-none d-lg-inline">{title}</span>
+                    </NavPillItem>
+                  )
+                  : undefined
+              )).filter(Boolean)}
+            </NavPills>
+            <Row>
+              <Routes>
+                <Route
+                  path={sections.byTime.subPath}
+                  element={(
+                    <VisitsSectionWithFallback showFallback={visits.length === 0}>
+                      <div className="col-12 mt-3">
+                        <LineChartCard visitsGroups={visitsGroups} setSelectedVisits={setSelectedVisits} />
+                      </div>
+                    </VisitsSectionWithFallback>
+                  )}
+                />
+
+                <Route
+                  path={sections.byContext.subPath}
+                  element={(
+                    <VisitsSectionWithFallback showFallback={visits.length === 0}>
+                      <div className={clsx('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
+                        <DoughnutChartCard title="Operating systems" stats={os} />
+                      </div>
+                      <div className={clsx('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
+                        <DoughnutChartCard title="Browsers" stats={browsers} />
+                      </div>
+                      <div className={clsx('mt-3', { 'col-xl-4': !isOrphanVisits, 'col-lg-6': isOrphanVisits })}>
+                        <SortableBarChartCard
+                          title="Referrers"
+                          stats={referrers}
+                          withPagination={false}
+                          highlightedStats={highlightedVisitsToStats(highlightedVisits, 'referer')}
+                          highlightedLabel={highlightedLabel}
+                          sortingItems={{
+                            name: 'Referrer name',
+                            amount: 'Visits amount',
+                          }}
+                          onClick={(value) => highlightVisitsForProp('referer', value)}
+                        />
+                      </div>
+                      {isOrphanVisits && (
+                        <div className="mt-3 col-lg-6">
+                          <SortableBarChartCard
+                            title="Visited URLs"
+                            stats={visitedUrls}
+                            highlightedLabel={highlightedLabel}
+                            highlightedStats={highlightedVisitsToStats(highlightedVisits, 'visitedUrl')}
+                            sortingItems={{
+                              visitedUrl: 'Visited URL',
+                              amount: 'Visits amount',
+                            }}
+                            onClick={(value) => highlightVisitsForProp('visitedUrl', value)}
+                          />
+                        </div>
+                      )}
+                    </VisitsSectionWithFallback>
+                  )}
+                />
+
+                <Route
+                  path={sections.byLocation.subPath}
+                  element={(
+                    <VisitsSectionWithFallback showFallback={visits.length === 0}>
+                      <div className="col-lg-6 mt-3">
+                        <SortableBarChartCard
+                          title="Countries"
+                          stats={countries}
+                          highlightedStats={highlightedVisitsToStats(highlightedVisits, 'country')}
+                          highlightedLabel={highlightedLabel}
+                          sortingItems={{
+                            name: 'Country name',
+                            amount: 'Visits amount',
+                          }}
+                          onClick={(value) => highlightVisitsForProp('country', value)}
+                        />
+                      </div>
+                      <div className="col-lg-6 mt-3">
+                        <SortableBarChartCard
+                          title="Cities"
+                          stats={cities}
+                          highlightedStats={highlightedVisitsToStats(highlightedVisits, 'city')}
+                          highlightedLabel={highlightedLabel}
+                          extraHeaderContent={(activeCities) => mapLocations.length > 0 && (
+                            <OpenMapModalBtn modalTitle="Cities" locations={mapLocations} activeCities={activeCities} />
+                          )}
+                          sortingItems={{
+                            name: 'City name',
+                            amount: 'Visits amount',
+                          }}
+                          onClick={(value) => highlightVisitsForProp('city', value)}
+                        />
+                      </div>
+                    </VisitsSectionWithFallback>
+                  )}
+                />
+
+                <Route
+                  path={sections.list.subPath}
+                  element={(
+                    <div className="col-12">
+                      <VisitsTable
+                        visits={normalizedVisits}
+                        selectedVisits={highlightedVisits}
+                        setSelectedVisits={setSelectedVisits}
+                        isOrphanVisits={isOrphanVisits}
+                      />
+                    </div>
+                  )}
+                />
+
+                {deletion && (
+                  <Route
+                    path={sections.options.subPath}
+                    element={(
+                      <div className="col-12 mt-3">
+                        <VisitsStatsOptions {...deletion} />
+                      </div>
+                    )}
+                  />
+                )}
+
+                <Route path="*" element={<Navigate replace to={buildSectionUrl(sections.byTime.subPath)} />} />
+              </Routes>
+            </Row>
+          </>
+        )}
       </section>
     </>
   );

@@ -10,7 +10,6 @@ import { urlDecodeShortCode } from '../short-urls/helpers';
 import { useDecodedShortCodeFromParams } from '../short-urls/helpers/hooks';
 import type { ShortUrlDetail } from '../short-urls/reducers/shortUrlDetail';
 import { useFeature } from '../utils/features';
-import { useGoBack } from '../utils/helpers/hooks';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadShortUrlVisits, ShortUrlVisits as ShortUrlVisitsState } from './reducers/shortUrlVisits';
 import type { ShortUrlVisitsDeletion } from './reducers/shortUrlVisitsDeletion';
@@ -45,7 +44,6 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
   const supportsShortUrlVisitsDeletion = useFeature('shortUrlVisitsDeletion');
   const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
   const shortCode = useDecodedShortCodeFromParams();
-  const goBack = useGoBack();
   const { domain } = useParsedQuery<{ domain?: string }>();
   const loadVisits = useCallback((params: VisitsParams, doIntervalFallback?: boolean) => getShortUrlVisits({
     shortCode,
@@ -77,7 +75,7 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
       exportCsv={exportCsv}
       deletion={deletion}
     >
-      <ShortUrlVisitsHeader shortUrlDetail={shortUrlDetail} shortUrlVisits={shortUrlVisits} goBack={goBack} />
+      <ShortUrlVisitsHeader shortUrlDetail={shortUrlDetail} shortUrlVisits={shortUrlVisits} />
     </VisitsStats>
   );
 }, (params) => (params.shortCode ? [Topics.shortUrlVisits(urlDecodeShortCode(params.shortCode))] : []));

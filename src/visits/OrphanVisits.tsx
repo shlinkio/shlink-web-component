@@ -5,7 +5,6 @@ import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useFeature } from '../utils/features';
-import { useGoBack } from '../utils/helpers/hooks';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadOrphanVisits } from './reducers/orphanVisits';
 import type { OrphanVisitsDeletion } from './reducers/orphanVisitsDeletion';
@@ -32,7 +31,6 @@ const OrphanVisits: FCWithDeps<MercureBoundProps & OrphanVisitsProps, OrphanVisi
 ) => {
   const supportsOrphanVisitsDeletion = useFeature('orphanVisitsDeletion');
   const { ReportExporter: reportExporter } = useDependencies(OrphanVisits);
-  const goBack = useGoBack();
   const exportCsv = useCallback(
     (visits: NormalizedVisit[]) => reportExporter.exportVisits('orphan_visits.csv', visits),
     [reportExporter],
@@ -55,7 +53,7 @@ const OrphanVisits: FCWithDeps<MercureBoundProps & OrphanVisitsProps, OrphanVisi
       deletion={deletion}
       isOrphanVisits
     >
-      <VisitsHeader title="Orphan visits" goBack={goBack} visits={orphanVisits.visits} />
+      <VisitsHeader title="Orphan visits" visits={orphanVisits.visits} />
     </VisitsStats>
   );
 }, () => [Topics.orphanVisits]);

@@ -1,20 +1,20 @@
 import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { ProblemDetailsError, ShlinkVisit } from '../../../api-contract';
+import type { ShlinkVisit } from '../../../api-contract';
+import type { VisitsLoadingInfo } from '../../reducers/types';
 
-export type VisitsComparisonInfo = {
+type VisitsParams = Omit<ShlinkVisitsParams, 'page' | 'itemsPerPage'>;
+
+export type VisitsComparisonInfo = VisitsLoadingInfo & {
   visitsGroups: Record<string, ShlinkVisit[]>;
-  loading: boolean;
-  errorData: ProblemDetailsError | null;
-  progress: number | null;
   cancelLoad: boolean;
-  query?: ShlinkVisitsParams;
+  query?: VisitsParams;
 };
 
 export type LoadVisitsForComparison = {
-  query?: ShlinkVisitsParams;
+  query?: VisitsParams;
 };
 
 export type VisitsForComparisonLoaded<T = {}> = T & {
   visitsGroups: Record<string, ShlinkVisit[]>;
-  query?: ShlinkVisitsParams;
+  query?: VisitsParams;
 };

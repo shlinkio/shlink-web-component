@@ -42,8 +42,8 @@ describe('<DateRangeSelector />', () => {
     ['last180Days' as DateInterval, 1],
     ['last365Days' as DateInterval, 1],
     [{ startDate: new Date() }, 0],
-  ])('sets proper element as active based on provided date range', async (initialDateRange, expectedActiveItems) => {
-    const { container } = await setUp({ initialDateRange });
+  ])('sets proper element as active based on provided date range', async (dateRangeOrInterval, expectedActiveItems) => {
+    const { container } = await setUp({ dateRangeOrInterval });
     expect(container.querySelectorAll('.active')).toHaveLength(expectedActiveItems);
   });
 

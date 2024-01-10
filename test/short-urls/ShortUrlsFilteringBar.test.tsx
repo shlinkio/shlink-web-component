@@ -1,12 +1,11 @@
 import { screen, waitFor } from '@testing-library/react';
+import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { endOfDay, formatISO, startOfDay } from 'date-fns';
+import { formatISO, parseISO } from 'date-fns';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { ShortUrlsFilteringBarFactory } from '../../src/short-urls/ShortUrlsFilteringBar';
-import { formatIsoDate } from '../../src/utils/dates/helpers/date';
-import type { DateRange } from '../../src/utils/dates/helpers/dateIntervals';
 import { FeaturesProvider } from '../../src/utils/features';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { SettingsProvider } from '../../src/utils/settings';
@@ -24,7 +23,6 @@ describe('<ShortUrlsFilteringBar />', () => {
     TagsSelector: () => <>TagsSelector</>,
   }));
   const handleOrderBy = vi.fn();
-  const now = new Date();
   let history: MemoryHistory;
 
   const setUp = ({ search, routesPrefix = '' }: SetUpOptions = {}) => {
@@ -66,22 +64,26 @@ describe('<ShortUrlsFilteringBar />', () => {
     expect(currentPath()).toEqual('/server/1/list-short-urls/1');
   });
 
+  const uriEncodedISODate = (date: string) => encodeURIComponent(formatISO(parseISO(date)));
+
   it.each([
-    [{ startDate: now } as DateRange, `startDate=${encodeURIComponent(formatISO(startOfDay(now)))}`],
-    [{ endDate: now } as DateRange, `endDate=${encodeURIComponent(formatISO(endOfDay(now)))}`],
     [
-      { startDate: now, endDate: now } as DateRange,
-      `startDate=${encodeURIComponent(formatISO(startOfDay(now)))}&endDate=${encodeURIComponent(formatISO(endOfDay(now)))}`,
+      (user: UserEvent) => user.type(screen.getByPlaceholderText('Since...'), '2022-05-07'),
+      `startDate=${uriEncodedISODate('2022-05-07')}`,
     ],
-  ])('redirects to first page when date range changes', async (dates, expectedQuery) => {
+    [
+      (user: UserEvent) => user.type(screen.getByPlaceholderText('Until...'), '2023-12-18'),
+      `endDate=${uriEncodedISODate('2023-12-18T23:59:59')}`,
+    ],
+  ])('redirects to first page when date range changes', async (typeDates, expectedQuery) => {
     const { user } = setUp();
 
     await user.click(screen.getByRole('button', { name: 'All short URLs' }));
     expect(await screen.findByRole('menu')).toBeInTheDocument();
 
     expect(currentQuery()).toEqual('');
-    dates.startDate && await user.type(screen.getByPlaceholderText('Since...'), formatIsoDate(dates.startDate) ?? '');
-    dates.endDate && await user.type(screen.getByPlaceholderText('Until...'), formatIsoDate(dates.endDate) ?? '');
+
+    await typeDates(user);
     expect(currentPath()).toEqual('/list-short-urls/1');
     expect(currentQuery()).toEqual(`?${expectedQuery}`);
   });

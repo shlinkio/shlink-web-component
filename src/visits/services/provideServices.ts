@@ -19,7 +19,7 @@ import {
   getTagVisitsForComparison,
   tagVisitsComparisonReducerCreator,
 } from '../visits-comparison/reducers/tagVisitsComparison';
-import { TagVisitsComparison } from '../visits-comparison/TagVisitsComparison';
+import { TagVisitsComparisonFactory } from '../visits-comparison/TagVisitsComparison';
 import * as visitsParser from './VisitsParser';
 
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
@@ -47,7 +47,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     ['getTagVisits', 'cancelGetTagVisits', 'createNewVisits', 'loadMercureInfo'],
   ));
 
-  bottle.serviceFactory('TagVisitsComparison', () => TagVisitsComparison);
+  bottle.factory('TagVisitsComparison', TagVisitsComparisonFactory);
   bottle.decorator('TagVisitsComparison', connect(
     ['tagVisitsComparison', 'mercureInfo'],
     ['getTagVisitsForComparison', 'cancelGetTagVisitsForComparison', 'createNewVisits', 'loadMercureInfo'],

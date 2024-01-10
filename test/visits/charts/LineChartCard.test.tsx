@@ -10,20 +10,16 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<LineChartCard />', () => {
   const dimensions = { width: 800, height: 400 };
   const setUp = (visitsGroups: Record<string, VisitsList> = {}) => renderWithEvents(
-    <LineChartCard title="Cool title" visitsGroups={visitsGroups} dimensions={dimensions} />,
+    <LineChartCard visitsGroups={visitsGroups} dimensions={dimensions} />,
   );
   const asMainVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(visits, { type: 'main' as const });
   const asHighlightedVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(
     visits,
     { type: 'highlighted' as const },
   );
+  const asColoredVisits = (visits: NormalizedVisit[], color: string): VisitsList => Object.assign(visits, { color });
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
-
-  it('renders provided title', () => {
-    setUp();
-    expect(screen.getByRole('heading')).toHaveTextContent('Cool title');
-  });
 
   it.each([
     [[], 0],
@@ -58,6 +54,18 @@ describe('<LineChartCard />', () => {
     [{
       v: asMainVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]),
       h: asHighlightedVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]),
+    }],
+    [{
+      foo: asColoredVisits([
+        fromPartial<NormalizedVisit>({ date: '2023-04-01' }),
+        fromPartial<NormalizedVisit>({ date: '2023-04-02' }),
+        fromPartial<NormalizedVisit>({ date: '2023-04-03' }),
+      ], 'red'),
+      bar: asColoredVisits([
+        fromPartial<NormalizedVisit>({ date: '2024-04-01' }),
+        fromPartial<NormalizedVisit>({ date: '2024-04-03' }),
+        fromPartial<NormalizedVisit>({ date: '2024-04-05' }),
+      ], 'yellow'),
     }],
   ])('renders chart with expected data', (visitsGroups) => {
     const { container } = setUp(visitsGroups);

@@ -1,15 +1,13 @@
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Message, Result, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useEffect, useMemo } from 'react';
 import { ExternalLink } from 'react-external-link';
-import { Button, Card } from 'reactstrap';
+import { Card } from 'reactstrap';
 import type { ShlinkEditShortUrlData } from '../api-contract';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import { useGoBack } from '../utils/helpers/hooks';
+import { GoBackButton } from '../utils/components/GoBackButton';
 import { useSetting } from '../utils/settings';
 import type { ShortUrlIdentifier } from './data';
 import { shortUrlDataFromShortUrl } from './helpers';
@@ -35,7 +33,6 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
   const { ShortUrlForm } = useDependencies(EditShortUrl);
   const { domain } = useParsedQuery<{ domain?: string }>();
   const shortCode = useDecodedShortCodeFromParams();
-  const goBack = useGoBack();
   const { loading, error, errorData, shortUrl } = shortUrlDetail;
   const { saving, saved, error: savingError, errorData: savingErrorData } = shortUrlEdition;
   const shortUrlCreationSettings = useSetting('shortUrlCreation');
@@ -65,9 +62,7 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
       <header className="mb-3">
         <Card body>
           <h2 className="d-sm-flex justify-content-between align-items-center mb-0">
-            <Button color="link" size="lg" className="p-0 me-3" onClick={goBack} aria-label="Go back">
-              <FontAwesomeIcon icon={faArrowLeft} />
-            </Button>
+            <GoBackButton />
             <span className="text-center">
               <small>Edit <ExternalLink href={shortUrl?.shortUrl ?? ''} /></small>
             </span>

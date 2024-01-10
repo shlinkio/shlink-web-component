@@ -4,7 +4,7 @@ import { Fragment, useMemo } from 'react';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
-import { CHART_TOOLTIP_STYLES, COLORS } from './constants';
+import { CHART_TOOLTIP_STYLES, chartColorForIndex } from './constants';
 import { DoughnutChartLegend } from './DoughnutChartLegend';
 
 export type DoughnutChartProps = {
@@ -23,7 +23,7 @@ export type DoughnutChartEntry = {
 
 export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, showNumbersInLegend, dimensions }) => {
   const chartData = useMemo((): DoughnutChartEntry[] => Object.entries(stats).map(([name, value], index) => (
-    { name, value, color: COLORS[index % COLORS.length] }
+    { name, value, color: chartColorForIndex(index) }
   )), [stats]);
   const borderColor = isDarkThemeEnabled() ? PRIMARY_DARK_COLOR : PRIMARY_LIGHT_COLOR;
   const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;

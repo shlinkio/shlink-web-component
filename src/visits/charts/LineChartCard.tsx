@@ -182,10 +182,12 @@ const useActiveDot = (
   };
 };
 
-export type VisitsList = NormalizedVisit[] & { type?: 'main' | 'highlighted' };
+export type VisitsList = NormalizedVisit[] & {
+  type?: 'main' | 'highlighted';
+  color?: string;
+};
 
 export type LineChartCardProps = {
-  title: string;
   visitsGroups: Record<string, VisitsList>;
   setSelectedVisits?: (visits: NormalizedVisit[]) => void;
 
@@ -195,7 +197,7 @@ export type LineChartCardProps = {
 };
 
 export const LineChartCard: FC<LineChartCardProps> = (
-  { title, visitsGroups, setSelectedVisits, dimensions, matchMedia },
+  { visitsGroups, setSelectedVisits, dimensions, matchMedia },
 ) => {
   const [step, setStep] = useState<Step>(determineInitialStep(visitsGroups));
   const isMobile = useMaxResolution(767, matchMedia ?? window.matchMedia);
@@ -220,7 +222,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
   return (
     <Card>
       <CardHeader role="heading" aria-level={4}>
-        {title}
+        Visits over time
         <div className="float-end">
           <UncontrolledDropdown>
             <DropdownToggle caret color="link" className="btn-sm p-0">
@@ -248,7 +250,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
                 key={dataKey}
                 dataKey={dataKey}
                 type="monotone"
-                stroke={/* TODO Set random color for entries with no type */ v.type === 'main' ? MAIN_COLOR : HIGHLIGHTED_COLOR}
+                stroke={v.color ?? (v.type === 'main' ? MAIN_COLOR : HIGHLIGHTED_COLOR)}
                 strokeWidth={3}
                 activeDot={activeDot}
               />

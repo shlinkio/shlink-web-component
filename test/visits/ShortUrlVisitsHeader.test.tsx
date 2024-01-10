@@ -1,6 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatDistance, parseISO } from 'date-fns';
+import { MemoryRouter } from 'react-router-dom';
 import type { ShortUrlDetail } from '../../src/short-urls/reducers/shortUrlDetail';
 import type { ShortUrlVisits } from '../../src/visits/reducers/shortUrlVisits';
 import { ShortUrlVisitsHeader } from '../../src/visits/ShortUrlVisitsHeader';
@@ -13,7 +14,6 @@ describe('<ShortUrlVisitsHeader />', () => {
   const shortUrlVisits = fromPartial<ShortUrlVisits>({
     visits: [{}, {}, {}],
   });
-  const goBack = vi.fn();
   const setUp = (title?: string | null) => {
     const shortUrlDetail = fromPartial<ShortUrlDetail>({
       shortUrl: {
@@ -25,7 +25,9 @@ describe('<ShortUrlVisitsHeader />', () => {
       loading: false,
     });
     return renderWithEvents(
-      <ShortUrlVisitsHeader shortUrlDetail={shortUrlDetail} shortUrlVisits={shortUrlVisits} goBack={goBack} />,
+      <MemoryRouter>
+        <ShortUrlVisitsHeader shortUrlDetail={shortUrlDetail} shortUrlVisits={shortUrlVisits} />
+      </MemoryRouter>,
     );
   };
 

@@ -19,6 +19,7 @@ type VisitsComparisonProps = {
   title: ReactNode;
   getVisitsForComparison: (params: LoadVisitsForComparison) => void;
   visitsComparisonInfo: VisitsComparisonInfo;
+  cancelGetVisitsComparison: () => void;
   colors?: Record<string, string>;
 };
 
@@ -27,6 +28,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   colors,
   getVisitsForComparison,
   visitsComparisonInfo,
+  cancelGetVisitsComparison,
 }) => {
   const { loading, visitsGroups } = visitsComparisonInfo;
   const isFirstLoad = useRef(true);
@@ -70,7 +72,9 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
       query: toApiParams({ dateRange: resolvedDateRange, filter: resolvedFilter }),
     });
     isFirstLoad.current = false;
-  }, [dateRange, getVisitsForComparison, resolvedFilter]);
+
+    return cancelGetVisitsComparison;
+  }, [cancelGetVisitsComparison, dateRange, getVisitsForComparison, resolvedFilter]);
 
   return (
     <>

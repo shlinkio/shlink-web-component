@@ -1,5 +1,5 @@
 import type { ShlinkVisit } from '@shlinkio/shlink-js-sdk/api-contract';
-import { screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { endOfDay, formatISO, startOfDay, subDays } from 'date-fns';
 import { MemoryRouter } from 'react-router-dom';
@@ -15,11 +15,13 @@ type SetUpOptions = {
 describe('<VisitsComparison />', () => {
   const now = new Date();
   const getVisitsForComparison = vi.fn();
+  const cancelGetVisitsComparison = vi.fn();
   const setUp = ({ loading = false, visitsGroups = {} }: SetUpOptions = {}) => renderWithEvents(
     <MemoryRouter>
       <VisitsComparison
         title="Comparing visits"
         getVisitsForComparison={getVisitsForComparison}
+        cancelGetVisitsComparison={cancelGetVisitsComparison}
         visitsComparisonInfo={fromPartial({ loading, visitsGroups, progress: null })}
       />
     </MemoryRouter>,
@@ -76,5 +78,13 @@ describe('<VisitsComparison />', () => {
 
     // It was called three times in total
     expect(getVisitsForComparison).toHaveBeenCalledTimes(3);
+  });
+
+  it('cancels loading visits when unmounted', () => {
+    setUp();
+
+    expect(cancelGetVisitsComparison).not.toHaveBeenCalled();
+    cleanup();
+    expect(cancelGetVisitsComparison).toHaveBeenCalledOnce();
   });
 });

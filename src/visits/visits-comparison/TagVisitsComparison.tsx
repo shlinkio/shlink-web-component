@@ -20,7 +20,7 @@ type TagVisitsComparisonDeps = {
 
 // TODO Bind to mercure for visits creation
 const TagVisitsComparison: FCWithDeps<TagVisitsComparisonProps, TagVisitsComparisonDeps> = (
-  { getTagVisitsForComparison, tagVisitsComparison },
+  { getTagVisitsForComparison, tagVisitsComparison, cancelGetTagVisitsComparison },
 ) => {
   const { ColorGenerator: colorGenerator } = useDependencies(TagVisitsComparison);
   const { tags } = useParsedQuery<{ tags: string }>();
@@ -43,6 +43,7 @@ const TagVisitsComparison: FCWithDeps<TagVisitsComparisonProps, TagVisitsCompari
       title={<>Comparing {tagsArray.map((tag) => <Tag key={tag} colorGenerator={colorGenerator} text={tag} />)}</>}
       getVisitsForComparison={getVisitsForComparison}
       visitsComparisonInfo={tagVisitsComparison}
+      cancelGetVisitsComparison={cancelGetTagVisitsComparison}
       colors={colors}
     />
   );

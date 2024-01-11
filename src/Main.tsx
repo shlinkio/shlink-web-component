@@ -30,6 +30,7 @@ type MainDeps = {
   EditShortUrl: FC,
   ManageDomains: FC,
   TagVisitsComparison: FC,
+  DomainVisitsComparison: FC,
 };
 
 const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
@@ -46,6 +47,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
     EditShortUrl,
     ManageDomains,
     TagVisitsComparison,
+    DomainVisitsComparison,
   } = useDependencies(Main);
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
@@ -82,6 +84,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
                 <Route path="/non-orphan-visits/*" element={<NonOrphanVisits />} />
                 <Route path="/manage-tags" element={<TagsList />} />
                 <Route path="/manage-domains" element={<ManageDomains />} />
+                <Route path="/domains/compare-visits" element={<DomainVisitsComparison />} />
                 {createNotFound && <Route path="*" element={createNotFound('/list-short-urls/1')} />}
               </Routes>
             </div>
@@ -105,4 +108,5 @@ export const MainFactory = componentFactory(Main, [
   'EditShortUrl',
   'ManageDomains',
   'TagVisitsComparison',
+  'DomainVisitsComparison',
 ]);

@@ -15,6 +15,7 @@ import { createNewVisits } from '../reducers/visitCreation';
 import { loadVisitsOverview, visitsOverviewReducerCreator } from '../reducers/visitsOverview';
 import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import { TagVisitsFactory } from '../TagVisits';
+import { DomainVisitsComparison } from '../visits-comparison/DomainVisitsComparison';
 import {
   domainVisitsComparisonReducerCreator,
   getDomainVisitsForComparison,
@@ -55,6 +56,12 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.decorator('TagVisitsComparison', connect(
     ['tagVisitsComparison', 'mercureInfo'],
     ['getTagVisitsForComparison', 'cancelGetTagVisitsForComparison', 'createNewVisits', 'loadMercureInfo'],
+  ));
+
+  bottle.serviceFactory('DomainVisitsComparison', () => DomainVisitsComparison);
+  bottle.decorator('DomainVisitsComparison', connect(
+    ['domainVisitsComparison', 'mercureInfo'],
+    ['getDomainVisitsForComparison', 'cancelGetDomainVisitsForComparison', 'createNewVisits', 'loadMercureInfo'],
   ));
 
   bottle.factory('DomainVisits', DomainVisitsFactory);

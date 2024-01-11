@@ -31,6 +31,7 @@ export type RootState = {
   tagVisits: TagVisits;
   tagVisitsComparison: VisitsComparisonInfo;
   domainVisits: DomainVisits;
+  domainVisitsComparison: VisitsComparisonInfo;
   orphanVisits: VisitsInfo;
   orphanVisitsDeletion: OrphanVisitsDeletion;
   nonOrphanVisits: VisitsInfo;
@@ -57,6 +58,7 @@ export const setUpStore = (container: IContainer) => configureStore({
     tagVisits: container.tagVisitsReducer,
     tagVisitsComparison: container.tagVisitsComparisonReducer,
     domainVisits: container.domainVisitsReducer,
+    domainVisitsComparison: container.domainVisitsComparisonReducer,
     orphanVisits: container.orphanVisitsReducer,
     orphanVisitsDeletion: container.orphanVisitsDeletionReducer,
     nonOrphanVisits: container.nonOrphanVisitsReducer,

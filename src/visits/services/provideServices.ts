@@ -16,6 +16,10 @@ import { loadVisitsOverview, visitsOverviewReducerCreator } from '../reducers/vi
 import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import { TagVisitsFactory } from '../TagVisits';
 import {
+  domainVisitsComparisonReducerCreator,
+  getDomainVisitsForComparison,
+} from '../visits-comparison/reducers/domainVisitsComparison';
+import {
   getTagVisitsForComparison,
   tagVisitsComparisonReducerCreator,
 } from '../visits-comparison/reducers/tagVisitsComparison';
@@ -93,6 +97,13 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('getDomainVisits', getDomainVisits, 'apiClientFactory');
   bottle.serviceFactory('cancelGetDomainVisits', (obj) => obj.cancelGetVisits, 'domainVisitsReducerCreator');
 
+  bottle.serviceFactory('getDomainVisitsForComparison', getDomainVisitsForComparison, 'apiClientFactory');
+  bottle.serviceFactory(
+    'cancelGetDomainVisitsForComparison',
+    (obj) => obj.cancelGetVisits,
+    'domainVisitsComparisonReducerCreator',
+  );
+
   bottle.serviceFactory('getOrphanVisits', getOrphanVisits, 'apiClientFactory');
   bottle.serviceFactory('cancelGetOrphanVisits', (obj) => obj.cancelGetVisits, 'orphanVisitsReducerCreator');
 
@@ -153,4 +164,11 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'getTagVisitsForComparison',
   );
   bottle.serviceFactory('tagVisitsComparisonReducer', (obj) => obj.reducer, 'tagVisitsComparisonReducerCreator');
+
+  bottle.serviceFactory(
+    'domainVisitsComparisonReducerCreator',
+    domainVisitsComparisonReducerCreator,
+    'getDomainVisitsForComparison',
+  );
+  bottle.serviceFactory('domainVisitsComparisonReducer', (obj) => obj.reducer, 'domainVisitsComparisonReducerCreator');
 };

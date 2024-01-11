@@ -15,6 +15,11 @@ import { createNewVisits } from '../reducers/visitCreation';
 import { loadVisitsOverview, visitsOverviewReducerCreator } from '../reducers/visitsOverview';
 import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import { TagVisitsFactory } from '../TagVisits';
+import { DomainVisitsComparison } from '../visits-comparison/DomainVisitsComparison';
+import {
+  domainVisitsComparisonReducerCreator,
+  getDomainVisitsForComparison,
+} from '../visits-comparison/reducers/domainVisitsComparison';
 import {
   getTagVisitsForComparison,
   tagVisitsComparisonReducerCreator,
@@ -51,6 +56,12 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.decorator('TagVisitsComparison', connect(
     ['tagVisitsComparison', 'mercureInfo'],
     ['getTagVisitsForComparison', 'cancelGetTagVisitsForComparison', 'createNewVisits', 'loadMercureInfo'],
+  ));
+
+  bottle.serviceFactory('DomainVisitsComparison', () => DomainVisitsComparison);
+  bottle.decorator('DomainVisitsComparison', connect(
+    ['domainVisitsComparison', 'mercureInfo'],
+    ['getDomainVisitsForComparison', 'cancelGetDomainVisitsForComparison', 'createNewVisits', 'loadMercureInfo'],
   ));
 
   bottle.factory('DomainVisits', DomainVisitsFactory);
@@ -92,6 +103,13 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
 
   bottle.serviceFactory('getDomainVisits', getDomainVisits, 'apiClientFactory');
   bottle.serviceFactory('cancelGetDomainVisits', (obj) => obj.cancelGetVisits, 'domainVisitsReducerCreator');
+
+  bottle.serviceFactory('getDomainVisitsForComparison', getDomainVisitsForComparison, 'apiClientFactory');
+  bottle.serviceFactory(
+    'cancelGetDomainVisitsForComparison',
+    (obj) => obj.cancelGetVisits,
+    'domainVisitsComparisonReducerCreator',
+  );
 
   bottle.serviceFactory('getOrphanVisits', getOrphanVisits, 'apiClientFactory');
   bottle.serviceFactory('cancelGetOrphanVisits', (obj) => obj.cancelGetVisits, 'orphanVisitsReducerCreator');
@@ -153,4 +171,11 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'getTagVisitsForComparison',
   );
   bottle.serviceFactory('tagVisitsComparisonReducer', (obj) => obj.reducer, 'tagVisitsComparisonReducerCreator');
+
+  bottle.serviceFactory(
+    'domainVisitsComparisonReducerCreator',
+    domainVisitsComparisonReducerCreator,
+    'getDomainVisitsForComparison',
+  );
+  bottle.serviceFactory('domainVisitsComparisonReducer', (obj) => obj.reducer, 'domainVisitsComparisonReducerCreator');
 };

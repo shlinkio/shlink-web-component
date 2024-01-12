@@ -35,12 +35,12 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.decorator('ShortUrlVisits', connect([
     'shortUrlVisits',
     'shortUrlVisitsDeletion',
-    'shortUrlDetail',
+    'shortUrlsDetails',
     'mercureInfo',
   ], [
     'getShortUrlVisits',
     'deleteShortUrlVisits',
-    'getShortUrlDetail',
+    'getShortUrlsDetails',
     'cancelGetShortUrlVisits',
     'createNewVisits',
     'loadMercureInfo',

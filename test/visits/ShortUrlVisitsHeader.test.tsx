@@ -1,8 +1,8 @@
+import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatDistance, parseISO } from 'date-fns';
 import { MemoryRouter } from 'react-router-dom';
-import type { ShortUrlDetail } from '../../src/short-urls/reducers/shortUrlDetail';
 import type { ShortUrlVisits } from '../../src/visits/reducers/shortUrlVisits';
 import { ShortUrlVisitsHeader } from '../../src/visits/ShortUrlVisitsHeader';
 import { checkAccessibility } from '../__helpers__/accessibility';
@@ -14,22 +14,20 @@ describe('<ShortUrlVisitsHeader />', () => {
   const shortUrlVisits = fromPartial<ShortUrlVisits>({
     visits: [{}, {}, {}],
   });
-  const setUp = (title?: string | null) => {
-    const shortUrlDetail = fromPartial<ShortUrlDetail>({
-      shortUrl: {
-        shortUrl: 'https://s.test/abc123',
-        longUrl,
-        dateCreated,
-        title,
-      },
-      loading: false,
-    });
-    return renderWithEvents(
-      <MemoryRouter>
-        <ShortUrlVisitsHeader shortUrlDetail={shortUrlDetail} shortUrlVisits={shortUrlVisits} />
-      </MemoryRouter>,
-    );
-  };
+  const setUp = (title?: string | null) => renderWithEvents(
+    <MemoryRouter>
+      <ShortUrlVisitsHeader
+        loading={false}
+        shortUrlVisits={shortUrlVisits}
+        shortUrl={fromPartial<ShlinkShortUrl>({
+          shortUrl: 'https://s.test/abc123',
+          longUrl,
+          dateCreated,
+          title,
+        })}
+      />
+    </MemoryRouter>,
+  );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

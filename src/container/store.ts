@@ -4,8 +4,8 @@ import type { DomainsList } from '../domains/reducers/domainsList';
 import type { MercureInfo } from '../mercure/reducers/mercureInfo';
 import type { ShortUrlCreation } from '../short-urls/reducers/shortUrlCreation';
 import type { ShortUrlDeletion } from '../short-urls/reducers/shortUrlDeletion';
-import type { ShortUrlDetail } from '../short-urls/reducers/shortUrlDetail';
 import type { ShortUrlEdition } from '../short-urls/reducers/shortUrlEdition';
+import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import type { ShortUrlsList } from '../short-urls/reducers/shortUrlsList';
 import type { TagDeletion } from '../tags/reducers/tagDelete';
 import type { TagEdition } from '../tags/reducers/tagEdit';
@@ -35,7 +35,7 @@ export type RootState = {
   orphanVisits: VisitsInfo;
   orphanVisitsDeletion: OrphanVisitsDeletion;
   nonOrphanVisits: VisitsInfo;
-  shortUrlDetail: ShortUrlDetail;
+  shortUrlsDetails: ShortUrlsDetails;
   tagsList: TagsList;
   tagDelete: TagDeletion;
   tagEdit: TagEdition;
@@ -52,7 +52,7 @@ export const setUpStore = (container: IContainer) => configureStore({
     shortUrlCreation: container.shortUrlCreationReducer,
     shortUrlDeletion: container.shortUrlDeletionReducer,
     shortUrlEdition: container.shortUrlEditionReducer,
-    shortUrlDetail: container.shortUrlDetailReducer,
+    shortUrlsDetails: container.shortUrlsDetailsReducer,
     shortUrlVisits: container.shortUrlVisitsReducer,
     shortUrlVisitsDeletion: container.shortUrlVisitsDeletionReducer,
     tagVisits: container.tagVisitsReducer,

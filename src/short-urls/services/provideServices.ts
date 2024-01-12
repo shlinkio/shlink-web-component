@@ -10,8 +10,8 @@ import { ShortUrlsRowFactory } from '../helpers/ShortUrlsRow';
 import { ShortUrlsRowMenuFactory } from '../helpers/ShortUrlsRowMenu';
 import { createShortUrl, shortUrlCreationReducerCreator } from '../reducers/shortUrlCreation';
 import { deleteShortUrl, shortUrlDeleted, shortUrlDeletionReducerCreator } from '../reducers/shortUrlDeletion';
-import { shortUrlDetailReducerCreator } from '../reducers/shortUrlDetail';
 import { editShortUrl, shortUrlEditionReducerCreator } from '../reducers/shortUrlEdition';
+import { shortUrlsDetailsReducerCreator } from '../reducers/shortUrlsDetails';
 import { listShortUrls, shortUrlsListReducerCreator } from '../reducers/shortUrlsList';
 import { ShortUrlFormFactory } from '../ShortUrlForm';
 import { ShortUrlsFilteringBarFactory } from '../ShortUrlsFilteringBar';
@@ -42,8 +42,8 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
 
   bottle.factory('EditShortUrl', EditShortUrlFactory);
   bottle.decorator('EditShortUrl', connect(
-    ['shortUrlDetail', 'shortUrlEdition'],
-    ['getShortUrlDetail', 'editShortUrl'],
+    ['shortUrlsDetails', 'shortUrlEdition'],
+    ['getShortUrlsDetails', 'editShortUrl'],
   ));
 
   bottle.serviceFactory('DeleteShortUrlModal', () => DeleteShortUrlModal);
@@ -77,8 +77,8 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('shortUrlDeletionReducerCreator', shortUrlDeletionReducerCreator, 'deleteShortUrl');
   bottle.serviceFactory('shortUrlDeletionReducer', (obj) => obj.reducer, 'shortUrlDeletionReducerCreator');
 
-  bottle.serviceFactory('shortUrlDetailReducerCreator', shortUrlDetailReducerCreator, 'apiClientFactory');
-  bottle.serviceFactory('shortUrlDetailReducer', (obj) => obj.reducer, 'shortUrlDetailReducerCreator');
+  bottle.serviceFactory('shortUrlsDetailsReducerCreator', shortUrlsDetailsReducerCreator, 'apiClientFactory');
+  bottle.serviceFactory('shortUrlsDetailsReducer', (obj) => obj.reducer, 'shortUrlsDetailsReducerCreator');
 
   // Actions
   bottle.serviceFactory('listShortUrls', listShortUrls, 'apiClientFactory');
@@ -90,7 +90,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('resetDeleteShortUrl', (obj) => obj.resetDeleteShortUrl, 'shortUrlDeletionReducerCreator');
   bottle.serviceFactory('shortUrlDeleted', () => shortUrlDeleted);
 
-  bottle.serviceFactory('getShortUrlDetail', (obj) => obj.getShortUrlDetail, 'shortUrlDetailReducerCreator');
+  bottle.serviceFactory('getShortUrlsDetails', (obj) => obj.getShortUrlsDetails, 'shortUrlsDetailsReducerCreator');
 
   bottle.serviceFactory('editShortUrl', editShortUrl, 'apiClientFactory');
 };

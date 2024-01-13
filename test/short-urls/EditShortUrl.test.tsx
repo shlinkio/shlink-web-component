@@ -1,26 +1,33 @@
+import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import type { ShortUrlIdentifier } from '../../src/short-urls/data';
 import { EditShortUrlFactory } from '../../src/short-urls/EditShortUrl';
-import type { ShortUrlDetail } from '../../src/short-urls/reducers/shortUrlDetail';
 import type { ShortUrlEdition } from '../../src/short-urls/reducers/shortUrlEdition';
+import type { ShortUrlsDetails } from '../../src/short-urls/reducers/shortUrlsDetails';
 import { SettingsProvider } from '../../src/utils/settings';
 import { checkAccessibility } from '../__helpers__/accessibility';
+import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
 
 describe('<EditShortUrl />', () => {
   const shortUrlCreation = { validateUrls: true };
+  const identifier = { shortCode: 'abc123' };
+  const shortUrlToMap = (shortUrl: ShlinkShortUrl) => fromPartial<Map<ShortUrlIdentifier, ShlinkShortUrl>>({
+    get: () => shortUrl,
+  });
+  const getShortUrlsDetails = vi.fn();
   const EditShortUrl = EditShortUrlFactory(fromPartial({ ShortUrlForm: () => <span>ShortUrlForm</span> }));
-  const setUp = (detail: Partial<ShortUrlDetail> = {}, edition: Partial<ShortUrlEdition> = {}) => render(
-    <MemoryRouter>
+  const setUp = (detail: Partial<ShortUrlsDetails> = {}, edition: Partial<ShortUrlEdition> = {}) => render(
+    <MemoryRouterWithParams params={identifier}>
       <SettingsProvider value={fromPartial({ shortUrlCreation })}>
         <EditShortUrl
-          shortUrlDetail={fromPartial(detail)}
+          shortUrlsDetails={fromPartial(detail)}
           shortUrlEdition={fromPartial(edition)}
-          getShortUrlDetail={vi.fn()}
+          getShortUrlsDetails={getShortUrlsDetails}
           editShortUrl={vi.fn(async () => Promise.resolve())}
         />
       </SettingsProvider>
-    </MemoryRouter>,
+    </MemoryRouterWithParams>,
   );
 
   it.each([
@@ -31,10 +38,10 @@ describe('<EditShortUrl />', () => {
     [{}, { error: false, saved: true }],
   ])('passes a11y checks', (detail, edition) => checkAccessibility(setUp(
     {
-      shortUrl: fromPartial({
+      shortUrls: shortUrlToMap(fromPartial({
         shortUrl: 'https://s.test/abc123',
         meta: {},
-      }),
+      })),
       ...detail,
     },
     edition,
@@ -55,7 +62,7 @@ describe('<EditShortUrl />', () => {
   });
 
   it('renders form when detail properly loads', () => {
-    setUp({ shortUrl: fromPartial({ meta: {} }) });
+    setUp({ shortUrls: shortUrlToMap(fromPartial({ meta: {} })) });
 
     expect(screen.getByText('ShortUrlForm')).toBeInTheDocument();
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();

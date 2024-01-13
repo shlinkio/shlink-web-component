@@ -1,18 +1,18 @@
+import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { ExternalLink } from 'react-external-link';
 import { UncontrolledTooltip } from 'reactstrap';
-import type { ShortUrlDetail } from '../short-urls/reducers/shortUrlDetail';
 import { Time } from '../utils/dates/Time';
 import type { ShortUrlVisits } from './reducers/shortUrlVisits';
 import { VisitsHeader } from './VisitsHeader';
 import './ShortUrlVisitsHeader.scss';
 
 interface ShortUrlVisitsHeaderProps {
-  shortUrlDetail: ShortUrlDetail;
+  loading: boolean;
+  shortUrl?: ShlinkShortUrl;
   shortUrlVisits: ShortUrlVisits;
 }
 
-export const ShortUrlVisitsHeader = ({ shortUrlDetail, shortUrlVisits }: ShortUrlVisitsHeaderProps) => {
-  const { shortUrl, loading } = shortUrlDetail;
+export const ShortUrlVisitsHeader = ({ shortUrl, loading, shortUrlVisits }: ShortUrlVisitsHeaderProps) => {
   const { visits } = shortUrlVisits;
   const shortLink = shortUrl?.shortUrl ?? '';
   const longLink = shortUrl?.longUrl ?? '';

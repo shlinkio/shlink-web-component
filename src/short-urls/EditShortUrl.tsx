@@ -12,14 +12,14 @@ import { useSetting } from '../utils/settings';
 import type { ShortUrlIdentifier } from './data';
 import { shortUrlDataFromShortUrl } from './helpers';
 import { useDecodedShortCodeFromParams } from './helpers/hooks';
-import type { ShortUrlDetail } from './reducers/shortUrlDetail';
 import type { EditShortUrl as EditShortUrlInfo, ShortUrlEdition } from './reducers/shortUrlEdition';
+import type { ShortUrlsDetails } from './reducers/shortUrlsDetails';
 import type { ShortUrlFormProps } from './ShortUrlForm';
 
 type EditShortUrlProps = {
-  shortUrlDetail: ShortUrlDetail;
+  shortUrlsDetails: ShortUrlsDetails;
   shortUrlEdition: ShortUrlEdition;
-  getShortUrlDetail: (shortUrl: ShortUrlIdentifier) => void;
+  getShortUrlsDetails: (identifiers: ShortUrlIdentifier[]) => void;
   editShortUrl: (editShortUrl: EditShortUrlInfo) => void;
 };
 
@@ -28,12 +28,16 @@ type EditShortUrlDeps = {
 };
 
 const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
-  { shortUrlDetail, getShortUrlDetail, shortUrlEdition, editShortUrl },
+  { shortUrlsDetails, getShortUrlsDetails, shortUrlEdition, editShortUrl },
 ) => {
   const { ShortUrlForm } = useDependencies(EditShortUrl);
+
   const { domain } = useParsedQuery<{ domain?: string }>();
   const shortCode = useDecodedShortCodeFromParams();
-  const { loading, error, errorData, shortUrl } = shortUrlDetail;
+  const identifier = useMemo(() => (shortCode ? { shortCode, domain } : undefined), [domain, shortCode]);
+  const { loading, error, errorData, shortUrls } = shortUrlsDetails;
+  const shortUrl = identifier && shortUrls?.get(identifier);
+
   const { saving, saved, error: savingError, errorData: savingErrorData } = shortUrlEdition;
   const shortUrlCreationSettings = useSetting('shortUrlCreation');
   const initialState = useMemo(
@@ -42,8 +46,8 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
   );
 
   useEffect(() => {
-    shortCode && getShortUrlDetail({ shortCode, domain });
-  }, [domain, getShortUrlDetail, shortCode]);
+    identifier && getShortUrlsDetails([identifier]);
+  }, [getShortUrlsDetails, identifier]);
 
   if (loading) {
     return <Message loading />;
@@ -75,11 +79,7 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
         saving={saving}
         mode="edit"
         onSave={async (shortUrlData) => {
-          if (!shortUrl) {
-            return;
-          }
-
-          editShortUrl({ ...shortUrl, data: shortUrlData });
+          shortUrl && editShortUrl({ ...shortUrl, data: shortUrlData });
         }}
       />
       {saved && savingError && (

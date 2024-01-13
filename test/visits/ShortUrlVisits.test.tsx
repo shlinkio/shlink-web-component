@@ -1,3 +1,4 @@
+import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
@@ -24,14 +25,16 @@ describe('<ShortUrlVisits />', () => {
         <FeaturesProvider value={fromPartial({ shortUrlVisitsDeletion })}>
           <ShortUrlVisits
             {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-            getShortUrlDetail={vi.fn()}
+            getShortUrlsDetails={vi.fn()}
             getShortUrlVisits={getShortUrlVisitsMock}
             shortUrlVisits={shortUrlVisits}
-            shortUrlDetail={fromPartial({
-              shortUrl: {
-                shortUrl: 'https://s.test/123',
-                longUrl: 'https://shlink.io',
-                dateCreated: formatISO(now()),
+            shortUrlsDetails={fromPartial({
+              shortUrls: {
+                get: () => fromPartial<ShlinkShortUrl>({
+                  shortUrl: 'https://s.test/123',
+                  longUrl: 'https://shlink.io',
+                  dateCreated: formatISO(now()),
+                }),
               },
             })}
             shortUrlVisitsDeletion={fromPartial({})}

@@ -8,7 +8,7 @@ import { Topics } from '../mercure/helpers/Topics';
 import type { ShortUrlIdentifier } from '../short-urls/data';
 import { urlDecodeShortCode } from '../short-urls/helpers';
 import { useDecodedShortCodeFromParams } from '../short-urls/helpers/hooks';
-import type { ShortUrlDetail } from '../short-urls/reducers/shortUrlDetail';
+import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import { useFeature } from '../utils/features';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadShortUrlVisits, ShortUrlVisits as ShortUrlVisitsState } from './reducers/shortUrlVisits';
@@ -23,8 +23,8 @@ export type ShortUrlVisitsProps = {
   shortUrlVisitsDeletion: ShortUrlVisitsDeletion;
   getShortUrlVisits: (params: LoadShortUrlVisits) => void;
   deleteShortUrlVisits: (shortUrl: ShortUrlIdentifier) => void;
-  getShortUrlDetail: (shortUrl: ShortUrlIdentifier) => void;
-  shortUrlDetail: ShortUrlDetail;
+  getShortUrlsDetails: (identifiers: ShortUrlIdentifier[]) => void;
+  shortUrlsDetails: ShortUrlsDetails;
   cancelGetShortUrlVisits: () => void;
 };
 
@@ -35,25 +35,28 @@ type ShortUrlVisitsDeps = {
 const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortUrlVisitsDeps> = boundToMercureHub(({
   shortUrlVisits,
   shortUrlVisitsDeletion,
-  shortUrlDetail,
+  shortUrlsDetails,
   getShortUrlVisits,
-  getShortUrlDetail,
+  getShortUrlsDetails,
   deleteShortUrlVisits,
   cancelGetShortUrlVisits,
 }: ShortUrlVisitsProps) => {
   const supportsShortUrlVisitsDeletion = useFeature('shortUrlVisitsDeletion');
   const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
-  const shortCode = useDecodedShortCodeFromParams();
   const { domain } = useParsedQuery<{ domain?: string }>();
+  const shortCode = useDecodedShortCodeFromParams();
+  const identifier = useMemo(() => ({ shortCode, domain }), [domain, shortCode]);
+  const shortUrl = useMemo(() => shortUrlsDetails.shortUrls?.get(identifier), [identifier, shortUrlsDetails.shortUrls]);
+
   const loadVisits = useCallback((params: VisitsParams, doIntervalFallback?: boolean) => getShortUrlVisits({
     shortCode,
     query: { ...toApiParams(params), domain },
     doIntervalFallback,
   }), [domain, getShortUrlVisits, shortCode]);
   const exportCsv = useCallback((visits: NormalizedVisit[]) => reportExporter.exportVisits(
-    `short-url_${shortUrlDetail.shortUrl?.shortUrl.replace(/https?:\/\//g, '')}_visits.csv`,
+    `short-url_${shortUrl?.shortUrl.replace(/https?:\/\//g, '')}_visits.csv`,
     visits,
-  ), [reportExporter, shortUrlDetail.shortUrl?.shortUrl]);
+  ), [reportExporter, shortUrl?.shortUrl]);
   const deletion = useMemo(() => {
     if (!supportsShortUrlVisitsDeletion) {
       return undefined;
@@ -64,8 +67,8 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
   }, [deleteShortUrlVisits, domain, shortCode, shortUrlVisitsDeletion, supportsShortUrlVisitsDeletion]);
 
   useEffect(() => {
-    getShortUrlDetail({ shortCode, domain });
-  }, [domain, getShortUrlDetail, shortCode]);
+    getShortUrlsDetails([identifier]);
+  }, [identifier, getShortUrlsDetails]);
 
   return (
     <VisitsStats
@@ -75,7 +78,7 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
       exportCsv={exportCsv}
       deletion={deletion}
     >
-      <ShortUrlVisitsHeader shortUrlDetail={shortUrlDetail} shortUrlVisits={shortUrlVisits} />
+      <ShortUrlVisitsHeader shortUrl={shortUrl} loading={shortUrlsDetails.loading} shortUrlVisits={shortUrlVisits} />
     </VisitsStats>
   );
 }, (params) => (params.shortCode ? [Topics.shortUrlVisits(urlDecodeShortCode(params.shortCode))] : []));

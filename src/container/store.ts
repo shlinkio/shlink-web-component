@@ -28,6 +28,7 @@ export type RootState = {
   shortUrlEdition: ShortUrlEdition;
   shortUrlVisits: ShortUrlVisits;
   shortUrlVisitsDeletion: ShortUrlVisitsDeletion;
+  shortUrlVisitsComparison: VisitsComparisonInfo;
   tagVisits: TagVisits;
   tagVisitsComparison: VisitsComparisonInfo;
   domainVisits: DomainVisits;
@@ -55,6 +56,7 @@ export const setUpStore = (container: IContainer) => configureStore({
     shortUrlsDetails: container.shortUrlsDetailsReducer,
     shortUrlVisits: container.shortUrlVisitsReducer,
     shortUrlVisitsDeletion: container.shortUrlVisitsDeletionReducer,
+    shortUrlVisitsComparison: container.shortUrlVisitsComparisonReducer,
     tagVisits: container.tagVisitsReducer,
     tagVisitsComparison: container.tagVisitsComparisonReducer,
     domainVisits: container.domainVisitsReducer,

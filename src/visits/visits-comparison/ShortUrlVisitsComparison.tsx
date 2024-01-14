@@ -1,10 +1,10 @@
-import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkVisit } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { useCallback, useEffect, useMemo } from 'react';
 import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { queryToShortUrl, shortUrlToQuery } from '../../short-urls/helpers';
 import type { ShortUrlsDetails } from '../../short-urls/reducers/shortUrlsDetails';
+import { useArrayQueryParam } from '../../utils/helpers/hooks';
 import type { LoadShortUrlVisitsForComparison } from './reducers/shortUrlVisitsComparison';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
@@ -25,9 +25,8 @@ export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = ({
   shortUrlsDetails,
   getShortUrlsDetails,
 }) => {
-  const { 'short-urls': shortUrls } = useParsedQuery<{ 'short-urls': string | undefined }>();
-  const shortUrlsArray = useMemo(() => shortUrls?.split(',').filter(Boolean) ?? [], [shortUrls]);
-  const identifiers = useMemo(() => shortUrlsArray.map(queryToShortUrl), [shortUrlsArray]);
+  const shortUrlIds = useArrayQueryParam('short-urls');
+  const identifiers = useMemo(() => shortUrlIds.map(queryToShortUrl), [shortUrlIds]);
   const getVisitsForComparison = useCallback(
     (params: LoadVisitsForComparison) => getShortUrlVisitsForComparison({ ...params, shortUrls: identifiers }),
     [getShortUrlVisitsForComparison, identifiers],

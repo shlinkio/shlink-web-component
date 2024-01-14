@@ -1,6 +1,6 @@
-import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
+import { useArrayQueryParam } from '../../utils/helpers/hooks';
 import type { LoadDomainVisitsForComparison } from './reducers/domainVisitsComparison';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
@@ -15,16 +15,15 @@ type DomainVisitsComparisonProps = {
 export const DomainVisitsComparison: FC<DomainVisitsComparisonProps> = (
   { getDomainVisitsForComparison, domainVisitsComparison, cancelGetDomainVisitsComparison },
 ) => {
-  const { domains } = useParsedQuery<{ domains: string }>();
-  const domainsArray = useMemo(() => domains.split(','), [domains]);
+  const domains = useArrayQueryParam('domains');
   const getVisitsForComparison = useCallback(
-    (params: LoadVisitsForComparison) => getDomainVisitsForComparison({ ...params, domains: domainsArray }),
-    [domainsArray, getDomainVisitsForComparison],
+    (params: LoadVisitsForComparison) => getDomainVisitsForComparison({ ...params, domains }),
+    [domains, getDomainVisitsForComparison],
   );
 
   return (
     <VisitsComparison
-      title={`Comparing "${domainsArray.join('", "')}"`}
+      title={`Comparing "${domains.join('", "')}"`}
       getVisitsForComparison={getVisitsForComparison}
       visitsComparisonInfo={domainVisitsComparison}
       cancelGetVisitsComparison={cancelGetDomainVisitsComparison}

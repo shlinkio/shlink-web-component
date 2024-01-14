@@ -25,8 +25,8 @@ export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = ({
   shortUrlsDetails,
   getShortUrlsDetails,
 }) => {
-  const { 'short-urls': shortUrls } = useParsedQuery<{ 'short-urls': string }>();
-  const shortUrlsArray = useMemo(() => shortUrls.split(','), [shortUrls]);
+  const { 'short-urls': shortUrls } = useParsedQuery<{ 'short-urls': string | undefined }>();
+  const shortUrlsArray = useMemo(() => shortUrls?.split(',').filter(Boolean) ?? [], [shortUrls]);
   const identifiers = useMemo(() => shortUrlsArray.map(queryToShortUrl), [shortUrlsArray]);
   const getVisitsForComparison = useCallback(
     (params: LoadVisitsForComparison) => getShortUrlVisitsForComparison({ ...params, shortUrls: identifiers }),
@@ -53,11 +53,13 @@ export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = ({
 
   return (
     <VisitsComparison
-      title={
-        shortUrlsDetails.loading
-          ? 'Loading...'
-          : `Comparing ${loadedShortUrls.length} short URLs`
-      }
+      title={(
+        <span data-testid="title">
+          {shortUrlsDetails.loading
+            ? 'Loading...'
+            : `Comparing ${loadedShortUrls.length} short URLs`}
+        </span>
+      )}
       getVisitsForComparison={getVisitsForComparison}
       visitsComparisonInfo={visitsComparisonInfo}
       cancelGetVisitsComparison={cancelGetShortUrlVisitsComparison}

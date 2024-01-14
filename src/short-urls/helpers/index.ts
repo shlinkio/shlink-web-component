@@ -65,16 +65,20 @@ export const urlDecodeShortCode = (shortCode: string): string => shortCode.repla
  * String representation of a short URL, so that it can be used as query param
  */
 export const shortUrlToQuery = ({ domain, shortCode }: ShortUrlIdentifier): string =>
-  `${domain ?? DEFAULT_DOMAIN}__${shortCode}`;
+  `${domain ?? DEFAULT_DOMAIN}__${urlEncodeShortCode(shortCode)}`;
 
 /**
  * String representation of a short URL, so that it can be used as query param
  */
 export const queryToShortUrl = (shortUrlQuery: string): ShortUrlIdentifier => {
-  const [domain, shortCode] = shortUrlQuery.split('__');
+  // Split in two segments only. The second one may also contain the split placeholder if it is a multi-segment slug
+  const [domain, shortCode] = shortUrlQuery.split(/__(.+)/);
   if (!shortCode) {
     throw new Error(`It was not possible to parse domain and short code from "${shortUrlQuery}"`);
   }
 
-  return { domain: domain === DEFAULT_DOMAIN ? null : domain, shortCode };
+  return {
+    domain: domain === DEFAULT_DOMAIN ? null : domain,
+    shortCode: urlDecodeShortCode(shortCode),
+  };
 };

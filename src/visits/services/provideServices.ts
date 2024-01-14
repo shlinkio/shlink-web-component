@@ -21,9 +21,14 @@ import {
   getDomainVisitsForComparison,
 } from '../visits-comparison/reducers/domainVisitsComparison';
 import {
+  getShortUrlVisitsForComparison,
+  shortUrlVisitsComparisonReducerCreator,
+} from '../visits-comparison/reducers/shortUrlVisitsComparison';
+import {
   getTagVisitsForComparison,
   tagVisitsComparisonReducerCreator,
 } from '../visits-comparison/reducers/tagVisitsComparison';
+import { ShortUrlVisitsComparison } from '../visits-comparison/ShortUrlVisitsComparison';
 import { TagVisitsComparisonFactory } from '../visits-comparison/TagVisitsComparison';
 import * as visitsParser from './VisitsParser';
 
@@ -64,6 +69,18 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     ['getDomainVisitsForComparison', 'cancelGetDomainVisitsForComparison', 'createNewVisits', 'loadMercureInfo'],
   ));
 
+  bottle.serviceFactory('ShortUrlVisitsComparison', () => ShortUrlVisitsComparison);
+  bottle.decorator('ShortUrlVisitsComparison', connect(
+    ['shortUrlVisitsComparison', 'shortUrlsDetails', 'mercureInfo'],
+    [
+      'getShortUrlVisitsForComparison',
+      'cancelGetShortUrlVisitsForComparison',
+      'getShortUrlsDetails',
+      'createNewVisits',
+      'loadMercureInfo',
+    ],
+  ));
+
   bottle.factory('DomainVisits', DomainVisitsFactory);
   bottle.decorator('DomainVisits', connect(
     ['domainVisits', 'mercureInfo'],
@@ -88,6 +105,13 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   // Actions
   bottle.serviceFactory('getShortUrlVisits', getShortUrlVisits, 'apiClientFactory');
   bottle.serviceFactory('cancelGetShortUrlVisits', (obj) => obj.cancelGetVisits, 'shortUrlVisitsReducerCreator');
+
+  bottle.serviceFactory('getShortUrlVisitsForComparison', getShortUrlVisitsForComparison, 'apiClientFactory');
+  bottle.serviceFactory(
+    'cancelGetShortUrlVisitsForComparison',
+    (obj) => obj.cancelGetVisits,
+    'shortUrlVisitsComparisonReducerCreator',
+  );
 
   bottle.serviceFactory('deleteShortUrlVisits', deleteShortUrlVisits, 'apiClientFactory');
 
@@ -178,4 +202,15 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'getDomainVisitsForComparison',
   );
   bottle.serviceFactory('domainVisitsComparisonReducer', (obj) => obj.reducer, 'domainVisitsComparisonReducerCreator');
+
+  bottle.serviceFactory(
+    'shortUrlVisitsComparisonReducerCreator',
+    shortUrlVisitsComparisonReducerCreator,
+    'getShortUrlVisitsForComparison',
+  );
+  bottle.serviceFactory(
+    'shortUrlVisitsComparisonReducer',
+    (obj) => obj.reducer,
+    'shortUrlVisitsComparisonReducerCreator',
+  );
 };

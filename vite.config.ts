@@ -42,15 +42,17 @@ export default defineConfig({
         'src/**/*.ts',
         'src/**/*.tsx',
         '!src/index.ts',
+        '!src/container/*',
+        '!src/**/provideServices.ts',
       ],
       reporter: ['text', 'text-summary', 'clover', 'html'],
 
       // Required code coverage. Lower than this will make the check fail
       thresholds: {
-        statements: 90,
+        statements: 95,
         branches: 90,
         functions: 85,
-        lines: 90,
+        lines: 95,
       }
     },
   },

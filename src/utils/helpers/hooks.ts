@@ -1,6 +1,5 @@
-import { parseQuery, stringifyQuery } from '@shlinkio/shlink-frontend-kit';
-import type { DependencyList, EffectCallback } from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { parseQuery, stringifyQuery, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSwipeable as useReactSwipeable } from 'react-swipeable';
 import type { MediaMatcher } from '../types';
@@ -39,17 +38,13 @@ export const useQueryState = <T>(paramName: string, initialState: T): [T, (newVa
   return [value, setValueWithLocation];
 };
 
-export const useEffectExceptFirstTime = (callback: EffectCallback, deps: DependencyList): void => {
-  const isFirstLoad = useRef(true);
-
-  useEffect(() => {
-    !isFirstLoad.current && callback();
-    isFirstLoad.current = false;
-
-    // FIXME This hooks very much feels like a workaround for some other problem (probably useEffect dependencies that
-    //  were not properly wrapped in useCallback/useMemo and cause too many re-renders)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
+/**
+ * Returns a param from the query string which value is a comma-separated array.
+ * The result is split, returning an array of strings.
+ */
+export const useArrayQueryParam = (name: string): string[] => {
+  const query = useParsedQuery<Record<string, string | undefined>>();
+  return useMemo(() => query[name]?.split(',').filter(Boolean) ?? [], [name, query]);
 };
 
 export const useGoBack = () => {

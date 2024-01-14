@@ -27,6 +27,7 @@ describe('<Main />', () => {
     ManageDomains: () => <>ManageDomains</>,
     TagVisitsComparison: () => <>TagVisitsComparison</>,
     DomainVisitsComparison: () => <>DomainVisitsComparison</>,
+    ShortUrlVisitsComparison: () => <>ShortUrlVisitsComparison</>,
   }));
   const setUp = ({ createNotFound, currentPath = '', domainVisitsSupported = true }: SetUpOptions) => render(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
@@ -52,6 +53,7 @@ describe('<Main />', () => {
     ['/manage-domains', 'ManageDomains'],
     ['/tags/compare-visits', 'TagVisitsComparison'],
     ['/domains/compare-visits', 'DomainVisitsComparison'],
+    ['/short-urls/compare-visits', 'ShortUrlVisitsComparison'],
   ])(
     'renders expected component based on location and server version',
     (currentPath, expectedContent) => {

@@ -98,4 +98,9 @@ describe('<VisitsComparisonCollector />', () => {
       expect(item).not.toHaveClass('bg-secondary');
     }
   });
+
+  it.each([[1], [2], [3], [4], [5]])('shows how many items are selected for comparison', (itemsAmount) => {
+    setUp(createVisitsComparison(itemsAmount));
+    expect(screen.getByText(/^Compare/)).toHaveTextContent(`Compare (${itemsAmount}/5)`);
+  });
 });

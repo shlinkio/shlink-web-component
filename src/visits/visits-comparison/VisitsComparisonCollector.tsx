@@ -30,7 +30,7 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
   const { itemsToCompare, clearItemsToCompare, removeItemToCompare } = context;
   return (
     <div className={clsx('top-sticky', className)}>
-      <SimpleCard bodyClassName="d-flex gap-3 align-items-center">
+      <SimpleCard bodyClassName="d-md-flex gap-3 align-items-center">
         <ul className="d-flex flex-wrap gap-1 flex-grow-1 p-0 m-0">
           {itemsToCompare.map((item, index) => (
             <li
@@ -49,16 +49,17 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
             </li>
           ))}
         </ul>
-        <div className="indivisible">
+        <div className="d-flex mt-3 mt-md-0">
           <Button
             outline
             color="primary"
+            className="flex-grow-1 indivisible"
             disabled={itemsToCompare.length < 2}
             tag={Link}
             to={`${routesPrefix}/${type}/compare-visits?${type}=${query}`}
           >
             <FontAwesomeIcon icon={lineChartIcon} fixedWidth className="me-1" />
-            Compare &raquo;
+            Compare ({itemsToCompare.length}/5) &raquo;
           </Button>
           <Button
             aria-label="Close compare"

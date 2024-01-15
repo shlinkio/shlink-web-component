@@ -3,10 +3,8 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import { ShortUrlsRowMenuFactory } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
-import type { VisitsComparison, VisitsComparisonItem,
-} from '../../../src/visits/visits-comparison/VisitsComparisonContext';
-import {
-  VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
+import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
+import { VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
@@ -19,14 +17,16 @@ describe('<ShortUrlsRowMenu />', () => {
     shortCode: 'abc123',
     shortUrl: 'https://s.test/abc123',
   });
-  const setUp = (visitsComparison?: VisitsComparison) => renderWithEvents(
+  const setUp = (visitsComparison?: Partial<VisitsComparison>) => renderWithEvents(
     <MemoryRouter>
-      <VisitsComparisonProvider value={visitsComparison}>
+      <VisitsComparisonProvider
+        value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
+      >
         <ShortUrlsRowMenu shortUrl={shortUrl} />
       </VisitsComparisonProvider>
     </MemoryRouter>,
   );
-  const setUpAndOpen = async (visitsComparison?: VisitsComparison) => {
+  const setUpAndOpen = async (visitsComparison?: Partial<VisitsComparison>) => {
     const result = setUp(visitsComparison);
     await result.user.click(screen.getByRole('button'));
 
@@ -36,7 +36,7 @@ describe('<ShortUrlsRowMenu />', () => {
   it.each([
     [setUp],
     [setUpAndOpen],
-    [() => setUpAndOpen(fromPartial({ itemsToCompare: [] }))],
+    [() => setUpAndOpen({ itemsToCompare: [] })],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders modal windows', () => {
@@ -48,34 +48,35 @@ describe('<ShortUrlsRowMenu />', () => {
 
   it.each([
     [undefined, 4],
-    [fromPartial<VisitsComparison>({ itemsToCompare: [] }), 5],
+    [{ itemsToCompare: [] }, 5],
   ])('renders correct amount of menu items', async (visitsComparison, expectedMenuItems) => {
     await setUpAndOpen(visitsComparison);
     expect(screen.getAllByRole('menuitem')).toHaveLength(expectedMenuItems);
   });
 
   it.each([
-    [fromPartial<VisitsComparisonItem>({ name: shortUrl.shortUrl }), true],
-    [fromPartial<VisitsComparisonItem>({ name: 'something else' }), false],
-  ])('disables visits comparison menu if short URL is already selected', async (visitToCompare, hasAttribute) => {
+    [{ name: shortUrl.shortUrl }, false],
+    [{ name: 'something else' }, true],
+  ])('disables visits comparison menu if short URL is already selected', async (visitToCompare, canAddItem) => {
     await setUpAndOpen(fromPartial({
       itemsToCompare: [visitToCompare],
+      canAddItemWithName: () => canAddItem,
     }));
-    const button = screen.getByRole(hasAttribute ? 'button' : 'menuitem', { name: 'Compare visits' });
+    const button = screen.getByRole(!canAddItem ? 'button' : 'menuitem', { name: 'Compare visits' });
 
-    if (hasAttribute) {
-      expect(button).toHaveAttribute('disabled');
-    } else {
+    if (canAddItem) {
       expect(button).not.toHaveAttribute('disabled');
+    } else {
+      expect(button).toHaveAttribute('disabled');
     }
   });
 
   it('adds visit to compare when clicked', async () => {
     const addVisitToCompare = vi.fn();
-    const { user } = await setUpAndOpen(fromPartial({
+    const { user } = await setUpAndOpen({
       itemsToCompare: [],
       addItemToCompare: addVisitToCompare,
-    }));
+    });
 
     await user.click(screen.getByRole('menuitem', { name: 'Compare visits' }));
     expect(addVisitToCompare).toHaveBeenCalledWith({

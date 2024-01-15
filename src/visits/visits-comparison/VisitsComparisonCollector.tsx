@@ -27,11 +27,12 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
     return null;
   }
 
+  const { itemsToCompare, clearItemsToCompare, removeItemToCompare } = context;
   return (
     <div className={clsx('top-sticky', className)}>
       <SimpleCard bodyClassName="d-flex gap-3 align-items-center">
         <ul className="d-flex flex-wrap gap-1 flex-grow-1 p-0 m-0">
-          {context.itemsToCompare.map((item, index) => (
+          {itemsToCompare.map((item, index) => (
             <li
               key={`${item.name}_${index}`}
               className={clsx('badge pe-1', { 'bg-secondary': !item.style?.backgroundColor })}
@@ -41,7 +42,7 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
               <UnstyledButton
                 aria-label={`Remove ${item.name}`}
                 className="fw-bold fs-6"
-                onClick={() => context.removeItemToCompare(item)}
+                onClick={() => removeItemToCompare(item)}
               >
                 &times;
               </UnstyledButton>
@@ -52,7 +53,7 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
           <Button
             outline
             color="primary"
-            disabled={context.itemsToCompare.length < 2}
+            disabled={itemsToCompare.length < 2}
             tag={Link}
             to={`${routesPrefix}/${type}/compare-visits?${type}=${query}`}
           >
@@ -64,7 +65,7 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
             outline
             color="secondary"
             className="ms-2 fw-bold"
-            onClick={context.clearItemsToCompare}
+            onClick={clearItemsToCompare}
           >
             &times;
           </Button>

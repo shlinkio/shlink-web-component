@@ -14,14 +14,16 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 type SetUpOptions = {
   domain?: Domain;
   withVisits?: boolean;
-  visitsComparison?: VisitsComparison;
+  visitsComparison?: Partial<VisitsComparison>;
 };
 
 describe('<DomainDropdown />', () => {
   const editDomainRedirects = vi.fn().mockResolvedValue(undefined);
   const setUp = ({ domain, withVisits = true, visitsComparison }: SetUpOptions = {}) => renderWithEvents(
     <MemoryRouter>
-      <VisitsComparisonProvider value={visitsComparison}>
+      <VisitsComparisonProvider
+        value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
+      >
         <RoutesPrefixProvider value="/server/123">
           <FeaturesProvider value={fromPartial({ domainVisits: withVisits })}>
             <DomainDropdown
@@ -42,7 +44,7 @@ describe('<DomainDropdown />', () => {
   it.each([
     [setUp],
     [async () => {
-      const { user, container } = setUp({ visitsComparison: fromPartial({ itemsToCompare: [] }) });
+      const { user, container } = setUp({ visitsComparison: { itemsToCompare: [] } });
       await openMenu(user);
 
       return { container };
@@ -109,8 +111,8 @@ describe('<DomainDropdown />', () => {
 
   it.each([
     [undefined],
-    [fromPartial<VisitsComparison>({ itemsToCompare: [{ name: 's.test' }] })],
-  ])('disables compare visits item', async (visitsComparison) => {
+    [{ itemsToCompare: [{ name: 's.test', query: '' }], canAddItemWithName: () => false }],
+  ])('disables compare visits item when it cannot be added', async (visitsComparison) => {
     const { user } = setUp({ visitsComparison, domain: fromPartial({ domain: 's.test' }) });
     await openMenu(user);
 
@@ -119,7 +121,7 @@ describe('<DomainDropdown />', () => {
 
   it('can add items to compare visits', async () => {
     const addItemToCompare = vi.fn();
-    const visitsComparison = fromPartial<VisitsComparison>({ itemsToCompare: [], addItemToCompare });
+    const visitsComparison: Partial<VisitsComparison> = { itemsToCompare: [], addItemToCompare };
     const domain = 's.test';
     const { user } = setUp({ visitsComparison, domain: fromPartial({ domain }) });
 

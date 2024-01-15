@@ -55,7 +55,7 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
             <FontAwesomeIcon icon={editIcon} fixedWidth className="me-1" /> Edit
           </DropdownItem>
           <DropdownItem
-            disabled={!visitsComparison || visitsComparison.itemsToCompare.some(({ name }) => name === tag.tag)}
+            disabled={!visitsComparison || !visitsComparison.canAddItemWithName(tag.tag)}
             onClick={() => visitsComparison?.addItemToCompare({
               name: tag.tag,
               query: tag.tag,

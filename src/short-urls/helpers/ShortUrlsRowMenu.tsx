@@ -42,7 +42,7 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuProps, ShortUrlsRowMenuDeps> 
       {visitsComparison && (
         <>
           <DropdownItem
-            disabled={visitsComparison.itemsToCompare.some(({ name }) => name === shortUrl.shortUrl)}
+            disabled={!visitsComparison.canAddItemWithName(shortUrl.shortUrl)}
             onClick={() => visitsComparison.addItemToCompare({
               name: shortUrl.shortUrl,
               query: shortUrlToQuery(shortUrl),

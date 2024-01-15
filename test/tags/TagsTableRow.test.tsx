@@ -14,7 +14,7 @@ import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.m
 type SetUpOptions = {
   visits?: number;
   shortUrls?: number;
-  visitsComparison?: VisitsComparison;
+  visitsComparison?: Partial<VisitsComparison>;
 };
 
 describe('<TagsTableRow />', () => {
@@ -27,7 +27,9 @@ describe('<TagsTableRow />', () => {
   const setUp = ({ visits = 0, shortUrls = 0, visitsComparison }: SetUpOptions = {}) => renderWithEvents(
     <MemoryRouter>
       <RoutesPrefixProvider value="/server/abc123">
-        <VisitsComparisonProvider value={visitsComparison}>
+        <VisitsComparisonProvider
+          value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
+        >
           <table>
             <tbody>
               <TagsTableRow tag={{ tag, visits, shortUrls }} />
@@ -88,7 +90,7 @@ describe('<TagsTableRow />', () => {
 
   it.each([
     [undefined],
-    [fromPartial<VisitsComparison>({ itemsToCompare: [{ name: tag }] })],
+    [{ itemsToCompare: [{ name: tag, query: '' }], canAddItemWithName: () => false }],
   ])(
     'has disabled visits comparison menu item when context is not provided or tag is already selected',
     async (visitsComparison) => {
@@ -101,7 +103,7 @@ describe('<TagsTableRow />', () => {
 
   it('can add tags to compare visits', async () => {
     const addItemToCompare = vi.fn();
-    const visitsComparison = fromPartial<VisitsComparison>({ itemsToCompare: [], addItemToCompare });
+    const visitsComparison: Partial<VisitsComparison> = { itemsToCompare: [], addItemToCompare };
     const { user } = setUp({ visitsComparison });
 
     await clickMenuItem(user, 'Compare visits');

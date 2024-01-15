@@ -38,7 +38,7 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
             <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
           </DropdownItem>
           <DropdownItem
-            disabled={!visitsComparison || visitsComparison.itemsToCompare.some(({ name }) => name === domain.domain)}
+            disabled={!visitsComparison || !visitsComparison.canAddItemWithName(domain.domain)}
             onClick={() => visitsComparison?.addItemToCompare({
               name: domain.domain,
               query: domain.domain,

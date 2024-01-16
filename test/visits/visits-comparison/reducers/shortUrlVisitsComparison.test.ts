@@ -96,7 +96,7 @@ describe('shortUrlVisitsComparisonReducer', () => {
 
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visitsGroups },
+        payload: { visitsGroups, query },
       }));
       expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(shortUrls.length);
       expect(getShortUrlVisitsCall).toHaveBeenNthCalledWith(1, 'foo', expect.anything());

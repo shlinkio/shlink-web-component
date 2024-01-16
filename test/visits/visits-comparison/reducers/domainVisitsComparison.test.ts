@@ -95,7 +95,7 @@ describe('domainVisitsComparisonReducer', () => {
 
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visitsGroups },
+        payload: { visitsGroups, query },
       }));
       expect(getDomainVisitsCall).toHaveBeenCalledTimes(domains.length);
       expect(getDomainVisitsCall).toHaveBeenNthCalledWith(1, 'foo', expect.anything());

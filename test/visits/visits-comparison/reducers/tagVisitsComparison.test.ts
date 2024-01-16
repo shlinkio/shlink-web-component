@@ -90,7 +90,7 @@ describe('tagVisitsComparisonReducer', () => {
 
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visitsGroups },
+        payload: { visitsGroups, query },
       }));
       expect(getTagVisitsCall).toHaveBeenCalledTimes(tags.length);
       expect(getTagVisitsCall).toHaveBeenNthCalledWith(1, 'foo', expect.anything());

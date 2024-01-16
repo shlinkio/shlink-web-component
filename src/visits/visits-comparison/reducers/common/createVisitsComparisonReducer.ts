@@ -38,16 +38,17 @@ export const createVisitsComparisonReducer = <AT extends ReturnType<typeof creat
 
       builder.addCase(createNewVisits, (state, { payload }) => {
         const { visitsGroups, ...rest } = state;
-        const enhancedVisitsGroups = Object.keys(visitsGroups).reduce((acc, groupKey) => {
+        const newVisitGroupsPairs = Object.keys(visitsGroups).map((groupKey) => {
           const newVisits = filterCreatedVisitsForGroup(
             { ...rest, groupKey },
             payload.createdVisits,
           ).map(({ visit }) => visit);
-          acc[groupKey] = [...acc[groupKey], ...newVisits];
-          return acc;
-        }, { ...visitsGroups });
 
-        return { ...state, visitsGroups: enhancedVisitsGroups };
+          return [groupKey, [...newVisits, ...visitsGroups[groupKey]]];
+        });
+        const enhancedVisitsGroups = Object.fromEntries(newVisitGroupsPairs);
+
+        return { ...rest, visitsGroups: enhancedVisitsGroups };
       });
     },
   });

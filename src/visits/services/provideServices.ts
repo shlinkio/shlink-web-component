@@ -33,6 +33,11 @@ import { TagVisitsComparisonFactory } from '../visits-comparison/TagVisitsCompar
 import * as visitsParser from './VisitsParser';
 
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
+  const connectWithMercure = (props: string[], actions: string[]) => connect(
+    [...props, 'mercureInfo'],
+    [...actions, 'createNewVisits', 'loadMercureInfo'],
+  );
+
   // Components
   bottle.serviceFactory('MapModal', () => MapModal);
 
@@ -52,51 +57,43 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   ]));
 
   bottle.factory('TagVisits', TagVisitsFactory);
-  bottle.decorator('TagVisits', connect(
-    ['tagVisits', 'mercureInfo'],
-    ['getTagVisits', 'cancelGetTagVisits', 'createNewVisits', 'loadMercureInfo'],
-  ));
+  bottle.decorator('TagVisits', connectWithMercure(['tagVisits'], ['getTagVisits', 'cancelGetTagVisits']));
 
   bottle.factory('TagVisitsComparison', TagVisitsComparisonFactory);
-  bottle.decorator('TagVisitsComparison', connect(
-    ['tagVisitsComparison', 'mercureInfo'],
-    ['getTagVisitsForComparison', 'cancelGetTagVisitsForComparison', 'createNewVisits', 'loadMercureInfo'],
+  bottle.decorator('TagVisitsComparison', connectWithMercure(
+    ['tagVisitsComparison'],
+    ['getTagVisitsForComparison', 'cancelGetTagVisitsForComparison'],
   ));
 
   bottle.serviceFactory('DomainVisitsComparison', () => DomainVisitsComparison);
-  bottle.decorator('DomainVisitsComparison', connect(
-    ['domainVisitsComparison', 'mercureInfo'],
-    ['getDomainVisitsForComparison', 'cancelGetDomainVisitsForComparison', 'createNewVisits', 'loadMercureInfo'],
+  bottle.decorator('DomainVisitsComparison', connectWithMercure(
+    ['domainVisitsComparison'],
+    ['getDomainVisitsForComparison', 'cancelGetDomainVisitsForComparison'],
   ));
 
   bottle.serviceFactory('ShortUrlVisitsComparison', () => ShortUrlVisitsComparison);
-  bottle.decorator('ShortUrlVisitsComparison', connect(
-    ['shortUrlVisitsComparison', 'shortUrlsDetails', 'mercureInfo'],
+  bottle.decorator('ShortUrlVisitsComparison', connectWithMercure(
+    ['shortUrlVisitsComparison', 'shortUrlsDetails'],
     [
       'getShortUrlVisitsForComparison',
       'cancelGetShortUrlVisitsForComparison',
       'getShortUrlsDetails',
-      'createNewVisits',
-      'loadMercureInfo',
     ],
   ));
 
   bottle.factory('DomainVisits', DomainVisitsFactory);
-  bottle.decorator('DomainVisits', connect(
-    ['domainVisits', 'mercureInfo'],
-    ['getDomainVisits', 'cancelGetDomainVisits', 'createNewVisits', 'loadMercureInfo'],
-  ));
+  bottle.decorator('DomainVisits', connectWithMercure(['domainVisits'], ['getDomainVisits', 'cancelGetDomainVisits']));
 
   bottle.factory('OrphanVisits', OrphanVisitsFactory);
-  bottle.decorator('OrphanVisits', connect(
-    ['orphanVisits', 'mercureInfo', 'orphanVisitsDeletion'],
-    ['getOrphanVisits', 'cancelGetOrphanVisits', 'createNewVisits', 'loadMercureInfo', 'deleteOrphanVisits'],
+  bottle.decorator('OrphanVisits', connectWithMercure(
+    ['orphanVisits', 'orphanVisitsDeletion'],
+    ['getOrphanVisits', 'cancelGetOrphanVisits', 'deleteOrphanVisits'],
   ));
 
   bottle.factory('NonOrphanVisits', NonOrphanVisitsFactory);
-  bottle.decorator('NonOrphanVisits', connect(
-    ['nonOrphanVisits', 'mercureInfo'],
-    ['getNonOrphanVisits', 'cancelGetNonOrphanVisits', 'createNewVisits', 'loadMercureInfo'],
+  bottle.decorator('NonOrphanVisits', connectWithMercure(
+    ['nonOrphanVisits'],
+    ['getNonOrphanVisits', 'cancelGetNonOrphanVisits'],
   ));
 
   // Services

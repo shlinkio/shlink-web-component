@@ -1,4 +1,5 @@
 import type { ShlinkApiClient } from '../../../api-contract';
+import { isBetween } from '../../../utils/dates/helpers/date';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
@@ -38,4 +39,10 @@ export const tagVisitsComparisonReducerCreator = (asyncThunkCreator: ReturnType<
     initialState,
     // @ts-expect-error TODO Fix type inference
     asyncThunkCreator,
+    filterCreatedVisitsForGroup: ({ groupKey: tag, query = {} }, createdVisits) => {
+      const { startDate, endDate } = query;
+      return createdVisits.filter(
+        ({ shortUrl, visit }) => shortUrl?.tags.includes(tag) && isBetween(visit.date, startDate, endDate),
+      );
+    },
   });

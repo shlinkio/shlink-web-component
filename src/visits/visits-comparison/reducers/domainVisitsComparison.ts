@@ -1,4 +1,6 @@
 import type { ShlinkApiClient } from '../../../api-contract';
+import { domainMatches } from '../../../short-urls/helpers';
+import { isBetween } from '../../../utils/dates/helpers/date';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
@@ -40,4 +42,11 @@ export const domainVisitsComparisonReducerCreator = (
   initialState,
   // @ts-expect-error TODO Fix type inference
   asyncThunkCreator,
+  filterCreatedVisitsForGroup: ({ groupKey: domain, query = {} }, createdVisits) => {
+    const { startDate, endDate } = query;
+    return createdVisits.filter(
+      ({ shortUrl, visit }) =>
+        shortUrl && domainMatches(shortUrl, domain) && isBetween(visit.date, startDate, endDate),
+    );
+  },
 });

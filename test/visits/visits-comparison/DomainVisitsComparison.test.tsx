@@ -1,6 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
+import type { MercureInfo } from '../../../src/mercure/reducers/mercureInfo';
 import { DomainVisitsComparison } from '../../../src/visits/visits-comparison/DomainVisitsComparison';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 
@@ -15,6 +16,9 @@ describe('<DomainVisitsComparison />', () => {
         domainVisitsComparison={fromPartial({
           visitsGroups: Object.fromEntries(domains.map((domain) => [domain, []])),
         })}
+        createNewVisits={vi.fn()}
+        loadMercureInfo={vi.fn()}
+        mercureInfo={fromPartial<MercureInfo>({})}
       />
     </MemoryRouter>,
   );

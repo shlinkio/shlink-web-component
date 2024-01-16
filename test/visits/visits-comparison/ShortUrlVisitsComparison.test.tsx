@@ -1,6 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
+import type { MercureInfo } from '../../../src/mercure/reducers/mercureInfo';
 import type { ShortUrlIdentifier } from '../../../src/short-urls/data';
 import { queryToShortUrl, shortUrlToQuery } from '../../../src/short-urls/helpers';
 import { DEFAULT_DOMAIN } from '../../../src/visits/reducers/domainVisits';
@@ -34,6 +35,9 @@ describe('<ShortUrlVisitsComparison />', () => {
           )),
           loading: loadingDetails,
         })}
+        createNewVisits={vi.fn()}
+        loadMercureInfo={vi.fn()}
+        mercureInfo={fromPartial<MercureInfo>({})}
       />
     </MemoryRouter>,
   );

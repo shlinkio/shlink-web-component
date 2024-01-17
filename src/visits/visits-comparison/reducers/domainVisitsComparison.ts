@@ -1,4 +1,5 @@
 import type { ShlinkApiClient } from '../../../api-contract';
+import { filterCreatedVisitsByDomain } from '../../types/helpers';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
@@ -40,4 +41,9 @@ export const domainVisitsComparisonReducerCreator = (
   initialState,
   // @ts-expect-error TODO Fix type inference
   asyncThunkCreator,
+  filterCreatedVisitsForGroup: ({ groupKey: domain, query = {} }, createdVisits) => filterCreatedVisitsByDomain(
+    createdVisits,
+    domain,
+    query,
+  ),
 });

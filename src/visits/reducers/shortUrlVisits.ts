@@ -1,6 +1,5 @@
 import type { ShlinkApiClient, ShlinkVisitsParams } from '../../api-contract';
-import { shortUrlMatches } from '../../short-urls/helpers';
-import { isBetween } from '../../utils/dates/helpers/date';
+import { filterCreatedVisitsByShortUrl } from '../types/helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteShortUrlVisits } from './shortUrlVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';
@@ -63,10 +62,7 @@ export const shortUrlVisitsReducerCreator = (
     });
   },
   filterCreatedVisits: ({ shortCode, query = {} }: ShortUrlVisits, createdVisits) => {
-    const { startDate, endDate, domain } = query;
-    return createdVisits.filter(
-      ({ shortUrl, visit }) =>
-        shortUrl && shortUrlMatches(shortUrl, shortCode, domain) && isBetween(visit.date, startDate, endDate),
-    );
+    const { domain, ...restOfQuery } = query;
+    return filterCreatedVisitsByShortUrl(createdVisits, { shortCode, domain }, restOfQuery);
   },
 });

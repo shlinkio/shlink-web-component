@@ -1,4 +1,5 @@
 import type { ShlinkApiClient } from '../../../api-contract';
+import { filterCreatedVisitsByTag } from '../../types/helpers';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
@@ -38,4 +39,9 @@ export const tagVisitsComparisonReducerCreator = (asyncThunkCreator: ReturnType<
     initialState,
     // @ts-expect-error TODO Fix type inference
     asyncThunkCreator,
+    filterCreatedVisitsForGroup: ({ groupKey: tag, query = {} }, createdVisits) => filterCreatedVisitsByTag(
+      createdVisits,
+      tag,
+      query,
+    ),
   });

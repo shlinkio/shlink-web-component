@@ -1,6 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
+import type { MercureInfo } from '../../../src/mercure/reducers/mercureInfo';
 import { TagVisitsComparisonFactory } from '../../../src/visits/visits-comparison/TagVisitsComparison';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { colorGeneratorMock, getColorForKey } from '../../utils/services/__mocks__/ColorGenerator.mock';
@@ -19,6 +20,9 @@ describe('<TagVisitsComparison />', () => {
         tagVisitsComparison={fromPartial({
           visitsGroups: Object.fromEntries(tags.map((tag) => [tag, []])),
         })}
+        createNewVisits={vi.fn()}
+        loadMercureInfo={vi.fn()}
+        mercureInfo={fromPartial<MercureInfo>({})}
       />
     </MemoryRouter>,
   );

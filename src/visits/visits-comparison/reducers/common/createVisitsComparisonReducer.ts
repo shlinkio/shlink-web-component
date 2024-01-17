@@ -1,25 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { parseApiError } from '../../../../api-contract/utils';
-// import { createNewVisits } from '../../../reducers/visitCreation';
+import { createNewVisits } from '../../../reducers/visitCreation';
+import type { CreateVisit } from '../../../types';
 import type { VisitsComparisonInfo } from '../types';
 import type { createVisitsComparisonAsyncThunk } from './createVisitsComparisonAsyncThunk';
 
-type VisitsReducerOptions<
-  State extends VisitsComparisonInfo,
-  AT extends ReturnType<typeof createVisitsComparisonAsyncThunk>,
-> = {
+type VisitsReducerOptions<AT extends ReturnType<typeof createVisitsComparisonAsyncThunk>> = {
   name: string;
   asyncThunkCreator: AT;
-  initialState: State;
-  // filterCreatedVisits: (state: State, createdVisits: CreateVisit[]) => CreateVisit[];
+  initialState: VisitsComparisonInfo;
+  filterCreatedVisitsForGroup: (
+    state: Omit<VisitsComparisonInfo, 'visitsGroups'> & { groupKey: string },
+    createdVisits: CreateVisit[]
+  ) => CreateVisit[];
 };
 
-export const createVisitsComparisonReducer = <
-  State extends VisitsComparisonInfo,
-  AT extends ReturnType<typeof createVisitsComparisonAsyncThunk>,
->(
-    { name, asyncThunkCreator, initialState /* filterCreatedVisits, */ }: VisitsReducerOptions<State, AT>,
-  ) => {
+export const createVisitsComparisonReducer = <AT extends ReturnType<typeof createVisitsComparisonAsyncThunk>>(
+  { name, asyncThunkCreator, initialState, filterCreatedVisitsForGroup }: VisitsReducerOptions<AT>,
+) => {
   const { pending, rejected, fulfilled, progressChanged } = asyncThunkCreator;
   const { reducer, actions } = createSlice({
     name,
@@ -38,14 +36,20 @@ export const createVisitsComparisonReducer = <
 
       builder.addCase(progressChanged, (state, { payload: progress }) => ({ ...state, progress }));
 
-      // TODO Handle visits creation
-      // builder.addCase(createNewVisits, (state, { payload }) => {
-      //   const { visits } = state;
-      //   // @ts-expect-error TODO Fix type inference
-      //   const newVisits = filterCreatedVisits(state, payload.createdVisits).map(({ visit }) => visit);
-      //
-      //   return !newVisits.length ? state : { ...state, visits: [...newVisits, ...visits] };
-      // });
+      builder.addCase(createNewVisits, (state, { payload }) => {
+        const { visitsGroups, ...rest } = state;
+        const newVisitGroupsPairs = Object.keys(visitsGroups).map((groupKey) => {
+          const newVisits = filterCreatedVisitsForGroup(
+            { ...rest, groupKey },
+            payload.createdVisits,
+          ).map(({ visit }) => visit);
+
+          return [groupKey, [...newVisits, ...visitsGroups[groupKey]]];
+        });
+        const enhancedVisitsGroups = Object.fromEntries(newVisitGroupsPairs);
+
+        return { ...rest, visitsGroups: enhancedVisitsGroups };
+      });
     },
   });
   const { cancelGetVisits } = actions;

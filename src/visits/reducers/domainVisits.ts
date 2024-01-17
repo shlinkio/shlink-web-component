@@ -1,6 +1,5 @@
 import type { ShlinkApiClient } from '../../api-contract';
-import { domainMatches } from '../../short-urls/helpers';
-import { isBetween } from '../../utils/dates/helpers/date';
+import { filterCreatedVisitsByDomain } from '../types/helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { LoadVisits, VisitsInfo } from './types';
 
@@ -51,11 +50,9 @@ export const domainVisitsReducerCreator = (
   initialState,
   // @ts-expect-error TODO Fix type inference
   asyncThunkCreator,
-  filterCreatedVisits: ({ domain, query = {} }, createdVisits) => {
-    const { startDate, endDate } = query;
-    return createdVisits.filter(
-      ({ shortUrl, visit }) =>
-        shortUrl && domainMatches(shortUrl, domain) && isBetween(visit.date, startDate, endDate),
-    );
-  },
+  filterCreatedVisits: ({ domain, query = {} }, createdVisits) => filterCreatedVisitsByDomain(
+    createdVisits,
+    domain,
+    query,
+  ),
 });

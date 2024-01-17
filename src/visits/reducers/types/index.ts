@@ -1,7 +1,6 @@
-import type { ProblemDetailsError, ShlinkVisit, ShlinkVisitsParams } from '../../../api-contract';
+import type { ProblemDetailsError, ShlinkVisit } from '../../../api-contract';
 import type { DateInterval } from '../../../utils/dates/helpers/dateIntervals';
-
-type VisitsParams = Omit<Omit<ShlinkVisitsParams, 'page' | 'itemsPerPage'>, 'domain'>;
+import type { VisitsQueryParams } from '../../types';
 
 export type VisitsLoadingInfo = {
   loading: boolean;
@@ -9,19 +8,19 @@ export type VisitsLoadingInfo = {
   progress: number | null;
 };
 
-export interface VisitsInfo<QueryType extends VisitsParams = VisitsParams> extends VisitsLoadingInfo {
+export interface VisitsInfo<QueryType extends VisitsQueryParams = VisitsQueryParams> extends VisitsLoadingInfo {
   visits: ShlinkVisit[];
   cancelLoad: boolean;
   query?: QueryType;
   fallbackInterval?: DateInterval;
 }
 
-export interface LoadVisits<QueryType extends VisitsParams = VisitsParams> {
+export interface LoadVisits<QueryType extends VisitsQueryParams = VisitsQueryParams> {
   query?: QueryType;
   doIntervalFallback?: boolean;
 }
 
-export type VisitsLoaded<QueryType extends VisitsParams = VisitsParams, T = {}> = T & {
+export type VisitsLoaded<QueryType extends VisitsQueryParams = VisitsQueryParams, T = {}> = T & {
   visits: ShlinkVisit[];
   query?: QueryType;
 };

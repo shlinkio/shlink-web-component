@@ -7,7 +7,7 @@ import { createLoadVisitsForComparison } from './createLoadVisitsForComparison';
 
 interface VisitsComparisonAsyncThunkOptions<CreateLoadersParam extends LoadVisitsForComparison> {
   typePrefix: string;
-  createLoaders: (params: CreateLoadersParam) => Record<string, VisitsLoader>;
+  createLoaders: (options: CreateLoadersParam) => Record<string, VisitsLoader>;
   shouldCancel: (getState: () => RootState) => boolean;
 }
 
@@ -17,8 +17,8 @@ export const createVisitsComparisonAsyncThunk = <CreateLoadersParam extends Load
   const progressChanged = createAction<number>(`${typePrefix}/progressChanged`);
   const asyncThunk = createAsyncThunk(
     typePrefix,
-    async (params: CreateLoadersParam, { getState, dispatch }): Promise<VisitsForComparisonLoaded> => {
-      const visitsLoaders = createLoaders(params);
+    async (options: CreateLoadersParam, { getState, dispatch }): Promise<VisitsForComparisonLoaded> => {
+      const visitsLoaders = createLoaders(options);
       const loadVisits = createLoadVisitsForComparison({
         visitsLoaders,
         shouldCancel: () => shouldCancel(getState),
@@ -26,7 +26,7 @@ export const createVisitsComparisonAsyncThunk = <CreateLoadersParam extends Load
       });
       const visitsGroups = await loadVisits();
 
-      return { visitsGroups };
+      return { visitsGroups, query: options.query };
     },
   );
 

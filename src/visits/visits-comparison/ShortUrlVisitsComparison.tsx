@@ -1,6 +1,9 @@
 import type { ShlinkVisit } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { useCallback, useEffect, useMemo } from 'react';
+import type { MercureBoundProps } from '../../mercure/helpers/boundToMercureHub';
+import { boundToMercureHub } from '../../mercure/helpers/boundToMercureHub';
+import { Topics } from '../../mercure/helpers/Topics';
 import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { queryToShortUrl, shortUrlToQuery } from '../../short-urls/helpers';
 import type { ShortUrlsDetails } from '../../short-urls/reducers/shortUrlsDetails';
@@ -9,7 +12,7 @@ import type { LoadShortUrlVisitsForComparison } from './reducers/shortUrlVisitsC
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
 
-type ShortUrlVisitsComparisonProps = {
+type ShortUrlVisitsComparisonProps = MercureBoundProps & {
   getShortUrlVisitsForComparison: (params: LoadShortUrlVisitsForComparison) => void;
   shortUrlVisitsComparison: VisitsComparisonInfo;
   cancelGetShortUrlVisitsComparison: () => void;
@@ -17,8 +20,7 @@ type ShortUrlVisitsComparisonProps = {
   getShortUrlsDetails: (identifiers: ShortUrlIdentifier[]) => void;
 };
 
-// TODO Bind to mercure for visits creation
-export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = ({
+export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = boundToMercureHub(({
   getShortUrlVisitsForComparison,
   shortUrlVisitsComparison,
   cancelGetShortUrlVisitsComparison,
@@ -64,4 +66,4 @@ export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = ({
       cancelGetVisitsComparison={cancelGetShortUrlVisitsComparison}
     />
   );
-};
+}, () => [Topics.visits]);

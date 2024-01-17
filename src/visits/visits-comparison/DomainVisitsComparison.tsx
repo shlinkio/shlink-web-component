@@ -1,18 +1,19 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
+import { boundToMercureHub, type MercureBoundProps } from '../../mercure/helpers/boundToMercureHub';
+import { Topics } from '../../mercure/helpers/Topics';
 import { useArrayQueryParam } from '../../utils/helpers/hooks';
 import type { LoadDomainVisitsForComparison } from './reducers/domainVisitsComparison';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
 
-type DomainVisitsComparisonProps = {
+type DomainVisitsComparisonProps = MercureBoundProps & {
   getDomainVisitsForComparison: (params: LoadDomainVisitsForComparison) => void;
   domainVisitsComparison: VisitsComparisonInfo;
   cancelGetDomainVisitsComparison: () => void;
 };
 
-// TODO Bind to mercure for visits creation
-export const DomainVisitsComparison: FC<DomainVisitsComparisonProps> = (
+export const DomainVisitsComparison: FC<DomainVisitsComparisonProps> = boundToMercureHub((
   { getDomainVisitsForComparison, domainVisitsComparison, cancelGetDomainVisitsComparison },
 ) => {
   const domains = useArrayQueryParam('domains');
@@ -29,4 +30,4 @@ export const DomainVisitsComparison: FC<DomainVisitsComparisonProps> = (
       cancelGetVisitsComparison={cancelGetDomainVisitsComparison}
     />
   );
-};
+}, () => [Topics.visits]);

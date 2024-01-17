@@ -1,7 +1,7 @@
 import type { ShlinkApiClient } from '../../../api-contract';
 import type { ShortUrlIdentifier } from '../../../short-urls/data';
-import { queryToShortUrl, shortUrlMatches, shortUrlToQuery } from '../../../short-urls/helpers';
-import { isBetween } from '../../../utils/dates/helpers/date';
+import { queryToShortUrl, shortUrlToQuery } from '../../../short-urls/helpers';
+import { filterCreatedVisitsByShortUrl } from '../../types/helpers';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
@@ -43,12 +43,9 @@ export const shortUrlVisitsComparisonReducerCreator = (
   initialState,
   // @ts-expect-error TODO Fix type inference
   asyncThunkCreator,
-  filterCreatedVisitsForGroup: ({ groupKey, query = {} }, createdVisits) => {
-    const { shortCode, domain } = queryToShortUrl(groupKey);
-    const { endDate, startDate } = query;
-    return createdVisits.filter(
-      ({ shortUrl, visit }) =>
-        shortUrl && shortUrlMatches(shortUrl, shortCode, domain) && isBetween(visit.date, startDate, endDate),
-    );
-  },
+  filterCreatedVisitsForGroup: ({ groupKey, query = {} }, createdVisits) => filterCreatedVisitsByShortUrl(
+    createdVisits,
+    queryToShortUrl(groupKey),
+    query,
+  ),
 });

@@ -7,10 +7,15 @@ import type { NormalizedVisit } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
+type SetUpOptions = {
+  visitsGroups?: Record<string, VisitsList>;
+  showLegend?: boolean;
+};
+
 describe('<LineChartCard />', () => {
   const dimensions = { width: 800, height: 400 };
-  const setUp = (visitsGroups: Record<string, VisitsList> = {}) => renderWithEvents(
-    <LineChartCard visitsGroups={visitsGroups} dimensions={dimensions} />,
+  const setUp = ({ visitsGroups = {}, showLegend = false }: SetUpOptions = {}) => renderWithEvents(
+    <LineChartCard visitsGroups={visitsGroups} showLegend={showLegend} dimensions={dimensions} />,
   );
   const asMainVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(visits, { type: 'main' as const });
   const asHighlightedVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(
@@ -33,7 +38,9 @@ describe('<LineChartCard />', () => {
     visits,
     expectedActiveIndex,
   ) => {
-    const { user } = setUp({ v: asMainVisits(visits.map((visit) => fromPartial(visit))) });
+    const { user } = setUp({
+      visitsGroups: { v: asMainVisits(visits.map((visit) => fromPartial(visit))) },
+    });
 
     await user.click(screen.getByRole('button', { name: /Group by/ }));
 
@@ -48,27 +55,34 @@ describe('<LineChartCard />', () => {
   });
 
   it.each([
-    [{}],
-    [{ v: asMainVisits([]), h: asHighlightedVisits([]) }],
-    [{ v: asMainVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]), h: asHighlightedVisits([]) }],
-    [{
-      v: asMainVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]),
-      h: asHighlightedVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]),
-    }],
-    [{
-      foo: asColoredVisits([
-        fromPartial<NormalizedVisit>({ date: '2023-04-01' }),
-        fromPartial<NormalizedVisit>({ date: '2023-04-02' }),
-        fromPartial<NormalizedVisit>({ date: '2023-04-03' }),
-      ], 'red'),
-      bar: asColoredVisits([
-        fromPartial<NormalizedVisit>({ date: '2024-04-01' }),
-        fromPartial<NormalizedVisit>({ date: '2024-04-03' }),
-        fromPartial<NormalizedVisit>({ date: '2024-04-05' }),
-      ], 'yellow'),
-    }],
-  ])('renders chart with expected data', (visitsGroups) => {
-    const { container } = setUp(visitsGroups);
+    [{}, false],
+    [{ v: asMainVisits([]), h: asHighlightedVisits([]) }, false],
+    [{ v: asMainVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]), h: asHighlightedVisits([]) }, false],
+    [
+      {
+        v: asMainVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]),
+        h: asHighlightedVisits([fromPartial<NormalizedVisit>({ date: '2016-04-01' })]),
+      },
+      false,
+    ],
+    [
+      {
+        foo: asColoredVisits([
+          fromPartial<NormalizedVisit>({ date: '2023-04-01' }),
+          fromPartial<NormalizedVisit>({ date: '2023-04-02' }),
+          fromPartial<NormalizedVisit>({ date: '2023-04-03' }),
+        ], 'red'),
+        bar: asColoredVisits([
+          fromPartial<NormalizedVisit>({ date: '2024-04-01' }),
+          fromPartial<NormalizedVisit>({ date: '2024-04-03' }),
+          fromPartial<NormalizedVisit>({ date: '2024-04-05' }),
+          fromPartial<NormalizedVisit>({ date: '2024-04-07' }),
+        ], 'yellow'),
+      },
+      true,
+    ],
+  ])('renders chart with expected data', (visitsGroups, showLegend) => {
+    const { container } = setUp({ visitsGroups, showLegend });
     expect(container).toMatchSnapshot();
   });
 });

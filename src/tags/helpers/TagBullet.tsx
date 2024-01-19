@@ -1,5 +1,5 @@
+import { ColorBullet } from '../../utils/components/ColorBullet';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
-import './TagBullet.scss';
 
 interface TagBulletProps {
   tag: string;
@@ -7,8 +7,5 @@ interface TagBulletProps {
 }
 
 export const TagBullet = ({ tag, colorGenerator }: TagBulletProps) => (
-  <div
-    style={{ backgroundColor: colorGenerator.getColorForKey(tag) }}
-    className="tag-bullet"
-  />
+  <ColorBullet color={colorGenerator.getColorForKey(tag)} />
 );

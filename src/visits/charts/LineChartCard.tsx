@@ -28,7 +28,7 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
 } from 'reactstrap';
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { formatInternational } from '../../utils/dates/helpers/date';
 import { rangeOf } from '../../utils/helpers';
 import { useMaxResolution } from '../../utils/helpers/hooks';
@@ -36,6 +36,7 @@ import { prettify } from '../../utils/helpers/numbers';
 import type { MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
 import { CHART_TOOLTIP_STYLES } from './constants';
+import { LineChartLegend } from './LineChartLegend';
 
 type ChartPayloadEntry = {
   date: string;
@@ -67,15 +68,9 @@ const STEP_TO_DIFF_FUNC_MAP: Record<Step, (dateLeft: Date, dateRight: Date) => n
 
 const STEP_TO_DATE_FORMAT: Record<Step, (date: Date) => string> = {
   hourly: (date) => format(date, 'yyyy-MM-dd HH:00'),
-  // TODO Fix formatInternational return type
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   daily: (date) => formatInternational(date)!,
   weekly(date) {
-    // TODO Fix formatInternational return type
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const firstWeekDay = formatInternational(startOfISOWeek(date))!;
-    // TODO Fix formatInternational return type
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const lastWeekDay = formatInternational(endOfISOWeek(date))!;
 
     return `${firstWeekDay} - ${lastWeekDay}`;
@@ -161,8 +156,6 @@ const useActiveDot = (
   step: Step,
   setSelectedVisits?: (visits: NormalizedVisit[]) => void,
 ) => {
-  // TODO All these values and the click handler are relevant only when visits groups include "main" and "highlighted"
-  //      entries.
   const mainVisits = useVisitsWithType(visitsGroups, 'main');
   const highlightedVisits = useVisitsWithType(visitsGroups, 'highlighted');
 
@@ -190,14 +183,17 @@ export type VisitsList = NormalizedVisit[] & {
 export type LineChartCardProps = {
   visitsGroups: Record<string, VisitsList>;
   setSelectedVisits?: (visits: NormalizedVisit[]) => void;
+  showLegend?: boolean;
 
   /** Test seam. For tests, a responsive container cannot be used */
   dimensions?: { width: number; height: number };
   matchMedia?: MediaMatcher;
 };
 
+const LEGEND_HEIGHT = 30;
+
 export const LineChartCard: FC<LineChartCardProps> = (
-  { visitsGroups, setSelectedVisits, dimensions, matchMedia },
+  { visitsGroups, setSelectedVisits, showLegend, dimensions, matchMedia },
 ) => {
   const [step, setStep] = useState<Step>(determineInitialStep(visitsGroups));
   const isMobile = useMaxResolution(767, matchMedia ?? window.matchMedia);
@@ -217,7 +213,20 @@ export const LineChartCard: FC<LineChartCardProps> = (
   const activeDot = useActiveDot(visitsGroups, step, setSelectedVisits);
 
   const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
-  const wrapperDimensions = dimensions ? {} : { width: '100%', height: isMobile ? 300 : 400 };
+  const wrapperDimensions = useMemo(
+    () => {
+      // If dimensions were explicitly provided for the chart, we don't need to set dimensions in the wrapper as well
+      if (dimensions) {
+        return {};
+      }
+
+      const baseHeight = isMobile ? 300 : 400;
+      const heightIncrement = showLegend ? LEGEND_HEIGHT : 0;
+
+      return { width: '100%', height: baseHeight + heightIncrement };
+    },
+    [dimensions, isMobile, showLegend],
+  );
 
   return (
     <Card>
@@ -245,6 +254,9 @@ export const LineChartCard: FC<LineChartCardProps> = (
             <YAxis tickFormatter={prettify} />
             <Tooltip formatter={prettify} contentStyle={CHART_TOOLTIP_STYLES} />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
+            {showLegend && (
+              <Legend content={({ payload }) => <LineChartLegend visitsGroups={visitsGroups} entries={payload} />} />
+            )}
             {Object.entries(visitsGroups).map(([dataKey, v]) => v.length > 0 && (
               <Line
                 key={dataKey}

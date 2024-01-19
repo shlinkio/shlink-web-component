@@ -103,7 +103,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
         </div>
       </div>
       <VisitsLoadingFeedback info={visitsComparisonInfo} />
-      {!loading && <LineChartCard visitsGroups={normalizedVisitsGroups} />}
+      {!loading && <LineChartCard showLegend visitsGroups={normalizedVisitsGroups} />}
     </>
   );
 };

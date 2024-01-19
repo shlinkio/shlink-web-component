@@ -9038,6 +9038,43 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           </g>
         </svg>
         <div
+          class="recharts-legend-wrapper"
+          style="position: absolute; width: 790px; height: auto; left: 5px; bottom: 5px;"
+        >
+          <ul
+            class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+          >
+            <li
+              class="d-inline"
+            >
+              <div
+                class="color-bullet"
+                style="background-color: red;"
+              />
+              <strong>
+                foo
+                 (
+                3
+                )
+              </strong>
+            </li>
+            <li
+              class="d-inline"
+            >
+              <div
+                class="color-bullet"
+                style="background-color: yellow;"
+              />
+              <strong>
+                bar
+                 (
+                4
+                )
+              </strong>
+            </li>
+          </ul>
+        </div>
+        <div
           class="recharts-tooltip-wrapper"
           role="dialog"
           style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"

@@ -99,8 +99,8 @@
     "sass": "^1.70.0",
     "stylelint": "^15.11.0",
     "typescript": "^5.3.3",
-    "vite": "^5.0.11",
-    "vite-plugin-dts": "^3.7.0",
+    "vite": "^5.0.12",
+    "vite-plugin-dts": "^3.7.1",
     "vitest": "^1.2.1"
   },
   "browserslist": [

@@ -28,7 +28,7 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
 } from 'reactstrap';
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { formatInternational } from '../../utils/dates/helpers/date';
 import { rangeOf } from '../../utils/helpers';
 import { useMaxResolution } from '../../utils/helpers/hooks';
@@ -146,7 +146,14 @@ const datesWithNoGaps = (step: Step, visitsGroups: Record<string, NormalizedVisi
   ];
 };
 
-const useVisitsWithType = (visitsGroups: Record<string, VisitsList>, type: 'main' | 'highlighted') => useMemo(
+export type VisitsList = NormalizedVisit[] & {
+  type?: 'main' | 'highlighted';
+  color?: string;
+};
+
+export const visitsListColor = (v: VisitsList) => v.color ?? (v.type === 'main' ? MAIN_COLOR : HIGHLIGHTED_COLOR);
+
+const useVisitsWithType = (visitsGroups: Record<string, VisitsList>, type: VisitsList['type']) => useMemo(
   () => Object.values(visitsGroups).find((g) => g.type === type) ?? [],
   [visitsGroups, type],
 );
@@ -175,11 +182,6 @@ const useActiveDot = (
   };
 };
 
-export type VisitsList = NormalizedVisit[] & {
-  type?: 'main' | 'highlighted';
-  color?: string;
-};
-
 export type LineChartCardProps = {
   visitsGroups: Record<string, VisitsList>;
   setSelectedVisits?: (visits: NormalizedVisit[]) => void;
@@ -189,8 +191,6 @@ export type LineChartCardProps = {
   dimensions?: { width: number; height: number };
   matchMedia?: MediaMatcher;
 };
-
-const LEGEND_HEIGHT = 30;
 
 export const LineChartCard: FC<LineChartCardProps> = (
   { visitsGroups, setSelectedVisits, showLegend, dimensions, matchMedia },
@@ -214,18 +214,9 @@ export const LineChartCard: FC<LineChartCardProps> = (
 
   const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
   const wrapperDimensions = useMemo(
-    () => {
-      // If dimensions were explicitly provided for the chart, we don't need to set dimensions in the wrapper as well
-      if (dimensions) {
-        return {};
-      }
-
-      const baseHeight = isMobile ? 300 : 400;
-      const heightIncrement = showLegend ? LEGEND_HEIGHT : 0;
-
-      return { width: '100%', height: baseHeight + heightIncrement };
-    },
-    [dimensions, isMobile, showLegend],
+    // If dimensions were explicitly provided for the chart, we don't need to set dimensions in the wrapper as well
+    () => (dimensions ? {} : { width: '100%', height: isMobile ? 300 : 400 }),
+    [dimensions, isMobile],
   );
 
   return (
@@ -254,21 +245,19 @@ export const LineChartCard: FC<LineChartCardProps> = (
             <YAxis tickFormatter={prettify} />
             <Tooltip formatter={prettify} contentStyle={CHART_TOOLTIP_STYLES} />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
-            {showLegend && (
-              <Legend content={({ payload }) => <LineChartLegend visitsGroups={visitsGroups} entries={payload} />} />
-            )}
             {Object.entries(visitsGroups).map(([dataKey, v]) => v.length > 0 && (
               <Line
                 key={dataKey}
                 dataKey={dataKey}
                 type="monotone"
-                stroke={v.color ?? (v.type === 'main' ? MAIN_COLOR : HIGHLIGHTED_COLOR)}
+                stroke={visitsListColor(v)}
                 strokeWidth={3}
                 activeDot={activeDot}
               />
             ))}
           </LineChart>
         </ChartWrapper>
+        {showLegend && <LineChartLegend visitsGroups={visitsGroups} />}
       </CardBody>
     </Card>
   );

@@ -29,6 +29,7 @@ export interface ShortUrlCreationSettings {
 export interface VisitsSettings {
   defaultInterval: DateInterval;
   excludeBots?: boolean;
+  loadPrevInterval?: boolean;
 }
 
 export interface TagsSettings {

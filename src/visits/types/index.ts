@@ -60,4 +60,4 @@ export interface VisitsParams {
   filter?: VisitsFilter;
 }
 
-export type VisitsQueryParams = Omit<ShlinkVisitsParams, 'page' | 'itemsPerPage' | 'domain'>;
+export type VisitsQueryParams = Omit<ShlinkVisitsParams, 'page' | 'itemsPerPage'>;

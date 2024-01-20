@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import type { ShlinkVisitsParams } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
@@ -8,7 +7,8 @@ import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { DomainVisits as DomainVisitsState, LoadDomainVisits } from './reducers/domainVisits';
-import type { NormalizedVisit } from './types';
+import type { GetVisitsOptions } from './reducers/types';
+import type { NormalizedVisit, VisitsParams } from './types';
 import { toApiParams } from './types/helpers';
 import { VisitsHeader } from './VisitsHeader';
 import { VisitsStats } from './VisitsStats';
@@ -30,8 +30,11 @@ const DomainVisits: FCWithDeps<MercureBoundProps & DomainVisitsProps, DomainVisi
   const { domain = '' } = useParams();
   const [authority, domainId = authority] = domain.split('_');
   const loadVisits = useCallback(
-    (params: ShlinkVisitsParams, doIntervalFallback?: boolean) =>
-      getDomainVisits({ domain: domainId, query: toApiParams(params), doIntervalFallback }),
+    (params: VisitsParams, options: GetVisitsOptions) => getDomainVisits({
+      ...options,
+      domain: domainId,
+      query: toApiParams(params),
+    }),
     [domainId, getDomainVisits],
   );
   const exportCsv = useCallback(

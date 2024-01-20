@@ -1,4 +1,5 @@
-import type { ShlinkApiClient, ShlinkVisitsParams } from '../../api-contract';
+import type { ShlinkShortUrlVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
+import type { ShlinkApiClient } from '../../api-contract';
 import { filterCreatedVisitsByShortUrl } from '../types/helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteShortUrlVisits } from './shortUrlVisitsDeletion';
@@ -10,9 +11,7 @@ type WithShortCode = {
   shortCode: string;
 };
 
-export type ShortUrlVisits = VisitsInfo<ShlinkVisitsParams> & WithShortCode;
-
-export type LoadShortUrlVisits = LoadVisits<ShlinkVisitsParams> & WithShortCode;
+export type ShortUrlVisits = VisitsInfo<ShlinkShortUrlVisitsParams> & WithShortCode;
 
 const initialState: ShortUrlVisits = {
   visits: [],
@@ -23,10 +22,27 @@ const initialState: ShortUrlVisits = {
   progress: null,
 };
 
+export type LoadShortUrlVisits = LoadVisits<ShlinkShortUrlVisitsParams> & WithShortCode;
+
 export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getShortUrlVisits`,
   createLoaders: ({ shortCode, query = {}, doIntervalFallback = false }: LoadShortUrlVisits) => {
     const apiClient = apiClientFactory();
+
+    // TODO
+    //     console.log(loadPrevInterval);
+    //  1. Extract start and end dates from query.
+    //  2. Calculate the previous date range, by checking the distance from start to end, and getting an equivalent
+    //     range where the new end date is the same as provided start date.
+    //  3. Pass a third visitsLoader which is the same as the first, but overwriting the dates.
+    //  ---
+    //  Nice to have:
+    //  1. There should be a helper, like `lastVisitLoaderForLoader`, which creates visitsLoader and prevVisitsLoader
+    //  2. `query` is coming casted into API params, which is happening on every visits component. Ideally we should get
+    //     a `VisitsParams` object instead, and call toApiParams() only once in the common helper, and additionally, it
+    //     would simplify calculating prev interval from Date objects instead of strings, and reduce the
+    //     Date-to-string-to-Date back and forth
+
     const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
       shortCode,
       { ...query, page, itemsPerPage },

@@ -3,6 +3,7 @@ import type { ShlinkOrphanVisit, ShlinkVisit, ShlinkVisitsParams } from '../../a
 import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { domainMatches, shortUrlMatches } from '../../short-urls/helpers';
 import { formatIsoDate, isBetween } from '../../utils/dates/helpers/date';
+import type { DateRange } from '../../utils/dates/helpers/dateIntervals';
 import type {
   CreateVisit,
   NormalizedOrphanVisit,
@@ -76,9 +77,15 @@ export const highlightedVisitsToStats = <T extends NormalizedVisit>(
   property: HighlightableProps<T>,
 ): Stats => countBy(highlightedVisits, (value: any) => value[property]);
 
-export const toApiParams = ({ page, itemsPerPage, filter, dateRange }: VisitsParams): ShlinkVisitsParams => {
+export const toApiDateRange = (dateRange?: DateRange): Pick<ShlinkVisitsParams, 'startDate' | 'endDate'> => {
   const startDate = (dateRange?.startDate && formatIsoDate(dateRange?.startDate)) ?? undefined;
   const endDate = (dateRange?.endDate && formatIsoDate(dateRange?.endDate)) ?? undefined;
+
+  return { startDate, endDate };
+};
+
+export const toApiParams = ({ page, itemsPerPage, filter, dateRange }: VisitsParams): ShlinkVisitsParams => {
+  const { startDate, endDate } = toApiDateRange(dateRange);
   const excludeBots = filter?.excludeBots || undefined;
 
   return { page, itemsPerPage, startDate, endDate, excludeBots };

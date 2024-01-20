@@ -8,17 +8,22 @@ export type VisitsLoadingInfo = {
   progress: number | null;
 };
 
-export interface VisitsInfo<QueryType extends VisitsQueryParams = VisitsQueryParams> extends VisitsLoadingInfo {
+export type VisitsInfo<QueryType extends VisitsQueryParams = VisitsQueryParams> = VisitsLoadingInfo & {
   visits: ShlinkVisit[];
+  prevVisits?: ShlinkVisit[];
   cancelLoad: boolean;
   query?: QueryType;
   fallbackInterval?: DateInterval;
-}
+};
 
-export interface LoadVisits<QueryType extends VisitsQueryParams = VisitsQueryParams> {
-  query?: QueryType;
+export type GetVisitsOptions = {
   doIntervalFallback?: boolean;
-}
+  loadPrevInterval?: boolean;
+};
+
+export type LoadVisits<QueryType extends VisitsQueryParams = VisitsQueryParams> = GetVisitsOptions & {
+  query?: QueryType;
+};
 
 export type VisitsLoaded<QueryType extends VisitsQueryParams = VisitsQueryParams, T = {}> = T & {
   visits: ShlinkVisit[];

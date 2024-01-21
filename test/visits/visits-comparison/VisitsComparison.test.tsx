@@ -3,6 +3,7 @@ import { cleanup, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { endOfDay, formatISO, startOfDay, subDays } from 'date-fns';
 import { MemoryRouter } from 'react-router-dom';
+import type { LoadVisitsForComparison } from '../../../src/visits/visits-comparison/reducers/types';
 import { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparison';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
@@ -55,29 +56,25 @@ describe('<VisitsComparison />', () => {
 
   it('loads visits every time filters change', async () => {
     const { user } = setUp();
+    const getLastCallParams = (): LoadVisitsForComparison => getVisitsForComparison.mock.lastCall[0];
 
     // First call when the component is mounted
     expect(getVisitsForComparison).toHaveBeenCalledOnce();
 
     await user.click(screen.getByRole('button', { name: 'Last 30 days' }));
     await user.click(screen.getByRole('menuitem', { name: 'Yesterday' }));
-    expect(getVisitsForComparison).toHaveBeenLastCalledWith({
-      query: {
-        startDate: formatISO(subDays(startOfDay(now), 1)),
-        endDate: formatISO(subDays(endOfDay(now), 1)),
-      },
-    });
+
+    const { params: firstCallParams } = getLastCallParams();
+    expect(getVisitsForComparison).toHaveBeenCalledTimes(2);
+    expect(formatISO(firstCallParams.dateRange!.startDate!)).toEqual(formatISO(subDays(startOfDay(now), 1)));
+    expect(formatISO(firstCallParams.dateRange!.endDate!)).toEqual(formatISO(subDays(endOfDay(now), 1)));
 
     await user.click(screen.getByRole('button', { name: 'Filters' }));
     await user.click(screen.getByRole('menuitem', { name: 'Exclude potential bots' }));
-    expect(getVisitsForComparison).toHaveBeenLastCalledWith({
-      query: expect.objectContaining({
-        excludeBots: true,
-      }),
-    });
 
-    // It was called three times in total
+    const { params: secondCallParams } = getLastCallParams();
     expect(getVisitsForComparison).toHaveBeenCalledTimes(3);
+    expect(secondCallParams.filter?.excludeBots).toEqual(true);
   });
 
   it('cancels loading visits when unmounted', () => {

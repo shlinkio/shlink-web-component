@@ -8,7 +8,6 @@ import { toDateRange } from '../../utils/dates/helpers/dateIntervals';
 import { useSetting } from '../../utils/settings';
 import { chartColorForIndex } from '../charts/constants';
 import { LineChartCard, type VisitsList } from '../charts/LineChartCard';
-import { toApiParams } from '../helpers';
 import { useVisitsQuery } from '../helpers/hooks';
 import { VisitsFilterDropdown } from '../helpers/VisitsFilterDropdown';
 import { VisitsLoadingFeedback } from '../helpers/VisitsLoadingFeedback';
@@ -69,7 +68,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   useEffect(() => {
     const resolvedDateRange = !isFirstLoad.current ? dateRange : (dateRange ?? toDateRange(initialInterval.current));
     getVisitsForComparison({
-      query: toApiParams({ dateRange: resolvedDateRange, filter: resolvedFilter }),
+      params: { dateRange: resolvedDateRange, filter: resolvedFilter },
     });
     isFirstLoad.current = false;
 

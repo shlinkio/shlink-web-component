@@ -53,14 +53,15 @@ export interface VisitsFilter {
   excludeBots?: boolean;
 }
 
-export interface VisitsParams {
-  page?: number;
-  itemsPerPage?: number;
+export type VisitsFilteringParams = {
   dateRange?: DateRange;
   filter?: VisitsFilter;
-}
+};
 
-export type VisitsQueryParams = Omit<ShlinkVisitsParams, 'page' | 'itemsPerPage'>;
+export type VisitsParams = VisitsFilteringParams & {
+  page?: number;
+  itemsPerPage?: number;
+};
 
 export type HighlightableProps<T extends NormalizedVisit> = T extends NormalizedOrphanVisit
   ? ('referer' | 'country' | 'city' | 'visitedUrl')

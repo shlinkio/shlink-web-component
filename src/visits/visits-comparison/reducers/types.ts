@@ -1,17 +1,14 @@
 import type { ShlinkVisit } from '../../../api-contract';
 import type { VisitsLoadingInfo } from '../../reducers/types';
-import type { VisitsQueryParams } from '../../types';
-
-export type VisitsComparisonInfo = VisitsLoadingInfo & {
-  visitsGroups: Record<string, ShlinkVisit[]>;
-  query?: VisitsQueryParams;
-};
+import type { VisitsParams } from '../../types';
 
 export type LoadVisitsForComparison = {
-  query?: VisitsQueryParams;
+  params: VisitsParams;
 };
 
-export type VisitsForComparisonLoaded<T = {}> = T & {
+export type VisitsForComparisonLoaded = {
   visitsGroups: Record<string, ShlinkVisit[]>;
-  query?: VisitsQueryParams;
+  params?: VisitsParams;
 };
+
+export type VisitsComparisonInfo = VisitsLoadingInfo & VisitsForComparisonLoaded;

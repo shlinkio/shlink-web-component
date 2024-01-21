@@ -1,5 +1,5 @@
 import type { ShlinkApiClient } from '../../../api-contract';
-import { filterCreatedVisitsByTag } from '../../helpers';
+import { filterCreatedVisitsByTag, toApiParams } from '../../helpers';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
@@ -18,13 +18,13 @@ const initialState: VisitsComparisonInfo = {
 
 export const getTagVisitsForComparison = (apiClientFactory: () => ShlinkApiClient) => createVisitsComparisonAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getTagVisitsForComparison`,
-  createLoaders: ({ tags, query = {} }: LoadTagVisitsForComparison) => {
+  createLoaders: ({ tags, params }: LoadTagVisitsForComparison) => {
     const apiClient = apiClientFactory();
     const loaderEntries = tags.map((tag) => [
       tag,
       async (page: number, itemsPerPage: number) => apiClient.getTagVisits(
         tag,
-        { ...query, page, itemsPerPage },
+        { ...toApiParams(params), page, itemsPerPage },
       ),
     ]);
 
@@ -39,9 +39,9 @@ export const tagVisitsComparisonReducerCreator = (asyncThunkCreator: ReturnType<
     initialState,
     // @ts-expect-error TODO Fix type inference
     asyncThunkCreator,
-    filterCreatedVisitsForGroup: ({ groupKey: tag, query = {} }, createdVisits) => filterCreatedVisitsByTag(
+    filterCreatedVisitsForGroup: ({ groupKey: tag, params }, createdVisits) => filterCreatedVisitsByTag(
       createdVisits,
       tag,
-      query,
+      params?.dateRange,
     ),
   });

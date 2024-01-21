@@ -138,7 +138,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
 
   useEffect(() => cancelGetVisits, [cancelGetVisits]);
   useEffect(() => {
-    const resolvedDateRange = !isFirstLoad.current ? dateRange : (dateRange ?? toDateRange(initialInterval.current));
+    const resolvedDateRange = dateRange ?? toDateRange(initialInterval.current);
     const options: GetVisitsOptions = {
       doIntervalFallback: isFirstLoad.current,
       loadPrevInterval: visitsSettings?.loadPrevInterval,

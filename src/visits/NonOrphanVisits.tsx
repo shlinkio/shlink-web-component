@@ -5,7 +5,6 @@ import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
-import { toApiParams } from './helpers';
 import type { GetVisitsOptions, LoadVisits, VisitsInfo } from './reducers/types';
 import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsHeader } from './VisitsHeader';
@@ -30,7 +29,7 @@ const NonOrphanVisits: FCWithDeps<MercureBoundProps & NonOrphanVisitsProps, NonO
     [reportExporter],
   );
   const loadVisits = useCallback(
-    (params: VisitsParams, options: GetVisitsOptions) => getNonOrphanVisits({ ...options, query: toApiParams(params) }),
+    (params: VisitsParams, options: GetVisitsOptions) => getNonOrphanVisits({ options, params }),
     [getNonOrphanVisits],
   );
 

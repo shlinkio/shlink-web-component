@@ -1,17 +1,13 @@
-import type { ShlinkShortUrlVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient } from '../../api-contract';
-import { filterCreatedVisitsByShortUrl } from '../helpers';
+import type { ShortUrlIdentifier } from '../../short-urls/data';
+import { filterCreatedVisitsByShortUrl, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteShortUrlVisits } from './shortUrlVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisits';
 
-type WithShortCode = {
-  shortCode: string;
-};
-
-export type ShortUrlVisits = VisitsInfo<ShlinkShortUrlVisitsParams> & WithShortCode;
+export type ShortUrlVisits = VisitsInfo & ShortUrlIdentifier;
 
 const initialState: ShortUrlVisits = {
   visits: [],
@@ -22,12 +18,14 @@ const initialState: ShortUrlVisits = {
   progress: null,
 };
 
-export type LoadShortUrlVisits = LoadVisits<ShlinkShortUrlVisitsParams> & WithShortCode;
+export type LoadShortUrlVisits = LoadVisits & ShortUrlIdentifier;
 
 export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getShortUrlVisits`,
-  createLoaders: ({ shortCode, query = {}, doIntervalFallback = false }: LoadShortUrlVisits) => {
+  createLoaders: ({ shortCode, domain, params, options }: LoadShortUrlVisits) => {
     const apiClient = apiClientFactory();
+    const { doIntervalFallback = false } = options;
+    const query = { ...toApiParams(params), domain };
 
     // TODO
     //     console.log(loadPrevInterval);
@@ -49,14 +47,11 @@ export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => cr
     );
     const lastVisitLoader = lastVisitLoaderForLoader(
       doIntervalFallback,
-      async (params) => apiClient.getShortUrlVisits(shortCode, { ...params, domain: query.domain }),
+      async (q) => apiClient.getShortUrlVisits(shortCode, { ...q, domain }),
     );
 
     return [visitsLoader, lastVisitLoader];
   },
-  getExtraFulfilledPayload: ({ shortCode, query = {} }: LoadShortUrlVisits) => (
-    { shortCode, query, domain: query.domain }
-  ),
   shouldCancel: (getState) => getState().shortUrlVisits.cancelLoad,
 });
 
@@ -70,15 +65,16 @@ export const shortUrlVisitsReducerCreator = (
   asyncThunkCreator,
   extraReducers: (builder) => {
     builder.addCase(deleteShortUrlVisitsThunk.fulfilled, (state, { payload }) => {
-      if (state.shortCode === payload.shortCode && state.query?.domain === payload.domain) {
+      if (state.shortCode === payload.shortCode && state.domain === payload.domain) {
         return { ...state, visits: [] };
       }
 
       return state;
     });
   },
-  filterCreatedVisits: ({ shortCode, query = {} }: ShortUrlVisits, createdVisits) => {
-    const { domain, ...restOfQuery } = query;
-    return filterCreatedVisitsByShortUrl(createdVisits, { shortCode, domain }, restOfQuery);
-  },
+  filterCreatedVisits: ({ shortCode, domain, params }: ShortUrlVisits, createdVisits) => filterCreatedVisitsByShortUrl(
+    createdVisits,
+    { shortCode, domain },
+    params?.dateRange,
+  ),
 });

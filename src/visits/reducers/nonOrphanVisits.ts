@@ -1,5 +1,6 @@
 import type { ShlinkApiClient } from '../../api-contract';
 import { isBetween } from '../../utils/dates/helpers/date';
+import { toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { VisitsInfo } from './types';
 
@@ -15,18 +16,16 @@ const initialState: VisitsInfo = {
 
 export const getNonOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getNonOrphanVisits`,
-  createLoaders: ({ query = {}, doIntervalFallback = false }) => {
+  createLoaders: ({ params, options }) => {
     const apiClient = apiClientFactory();
+    const { doIntervalFallback = false } = options;
+
     const visitsLoader = async (page: number, itemsPerPage: number) =>
-      apiClient.getNonOrphanVisits({ ...query, page, itemsPerPage });
-    const lastVisitLoader = lastVisitLoaderForLoader(
-      doIntervalFallback,
-      (params) => apiClient.getNonOrphanVisits(params),
-    );
+      apiClient.getNonOrphanVisits({ ...toApiParams(params), page, itemsPerPage });
+    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) => apiClient.getNonOrphanVisits(q));
 
     return [visitsLoader, lastVisitLoader];
   },
-  getExtraFulfilledPayload: ({ query = {} }) => ({ query }),
   shouldCancel: (getState) => getState().orphanVisits.cancelLoad,
 });
 
@@ -36,8 +35,8 @@ export const nonOrphanVisitsReducerCreator = (
   name: REDUCER_PREFIX,
   initialState,
   asyncThunkCreator,
-  filterCreatedVisits: ({ query = {} }, createdVisits) => {
-    const { startDate, endDate } = query;
+  filterCreatedVisits: ({ params }, createdVisits) => {
+    const { startDate, endDate } = params?.dateRange ?? {};
     return createdVisits.filter(({ visit }) => isBetween(visit.date, startDate, endDate));
   },
 });

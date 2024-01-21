@@ -11,7 +11,6 @@ import { useDecodedShortCodeFromParams } from '../short-urls/helpers/hooks';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import { useFeature } from '../utils/features';
 import type { ReportExporter } from '../utils/services/ReportExporter';
-import { toApiParams } from './helpers';
 import type { LoadShortUrlVisits, ShortUrlVisits as ShortUrlVisitsState } from './reducers/shortUrlVisits';
 import type { ShortUrlVisitsDeletion } from './reducers/shortUrlVisitsDeletion';
 import type { GetVisitsOptions } from './reducers/types';
@@ -51,11 +50,11 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
 
   const loadVisits = useCallback(
     (params: VisitsParams, options: GetVisitsOptions) => getShortUrlVisits({
-      ...options,
-      shortCode,
-      query: { ...toApiParams(params), domain },
+      ...identifier,
+      options,
+      params,
     }),
-    [domain, getShortUrlVisits, shortCode],
+    [getShortUrlVisits, identifier],
   );
   const exportCsv = useCallback((visits: NormalizedVisit[]) => reportExporter.exportVisits(
     `short-url_${shortUrl?.shortUrl.replace(/https?:\/\//g, '')}_visits.csv`,

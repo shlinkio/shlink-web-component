@@ -28,7 +28,10 @@ describe('orphanVisitsReducer', () => {
     const buildState = (data: Partial<VisitsInfo>) => fromPartial<VisitsInfo>(data);
 
     it('returns loading when pending', () => {
-      const { loading } = reducer(buildState({ loading: false }), getOrphanVisits.pending('', {}));
+      const { loading } = reducer(
+        buildState({ loading: false }),
+        getOrphanVisits.pending('', fromPartial({}), undefined),
+      );
       expect(loading).toEqual(true);
     });
 
@@ -40,7 +43,7 @@ describe('orphanVisitsReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         buildState({ loading: true, errorData: null }),
-        getOrphanVisits.rejected(problemDetailsError, '', {}),
+        getOrphanVisits.rejected(problemDetailsError, '', fromPartial({}), undefined, undefined),
       );
 
       expect(loading).toEqual(false);
@@ -51,7 +54,7 @@ describe('orphanVisitsReducer', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, errorData, visits } = reducer(
         buildState({ loading: true, errorData: null }),
-        getOrphanVisits.fulfilled({ visits: actionVisits }, '', {}),
+        getOrphanVisits.fulfilled({ visits: actionVisits }, '', fromPartial({}), undefined),
       );
 
       expect(loading).toEqual(false);
@@ -63,30 +66,38 @@ describe('orphanVisitsReducer', () => {
       [{}, visitsMocks.length + 2],
       [
         fromPartial<VisitsInfo>({
-          query: { endDate: formatIsoDate(subDays(now, 1)) ?? undefined },
-        }),
-        visitsMocks.length,
-      ],
-      [
-        fromPartial<VisitsInfo>({
-          query: { startDate: formatIsoDate(addDays(now, 1)) ?? undefined },
-        }),
-        visitsMocks.length,
-      ],
-      [
-        fromPartial<VisitsInfo>({
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(subDays(now, 2)) ?? undefined,
+          params: {
+            dateRange: { endDate: subDays(now, 1) },
           },
         }),
         visitsMocks.length,
       ],
       [
         fromPartial<VisitsInfo>({
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
+          params: {
+            dateRange: { startDate: addDays(now, 1) },
+          },
+        }),
+        visitsMocks.length,
+      ],
+      [
+        fromPartial<VisitsInfo>({
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: subDays(now, 2),
+            },
+          },
+        }),
+        visitsMocks.length,
+      ],
+      [
+        fromPartial<VisitsInfo>({
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: addDays(now, 3),
+            },
           },
         }),
         visitsMocks.length + 2,
@@ -128,11 +139,10 @@ describe('orphanVisitsReducer', () => {
       orphanVisits: { cancelLoad: false },
     });
 
-    it.each([
-      [undefined],
-      [{}],
-    ])('dispatches start and success when promise is resolved', async (query) => {
+    it('dispatches start and success when promise is resolved', async () => {
       const visits = visitsMocks.map((visit) => ({ ...visit, visitedUrl: '' }));
+      const getVisitsParam = { params: {}, options: {} };
+
       getOrphanVisitsCall.mockResolvedValue({
         data: visits,
         pagination: {
@@ -142,11 +152,11 @@ describe('orphanVisitsReducer', () => {
         },
       });
 
-      await getOrphanVisits({ query })(dispatchMock, getState, {});
+      await getOrphanVisits(getVisitsParam)(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits, query: query ?? {} },
+        payload: { visits, ...getVisitsParam },
       }));
       expect(getOrphanVisitsCall).toHaveBeenCalledOnce();
     });
@@ -180,7 +190,7 @@ describe('orphanVisitsReducer', () => {
         .mockResolvedValueOnce(buildVisitsResult())
         .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getOrphanVisits({ doIntervalFallback: true })(dispatchMock, getState, {});
+      await getOrphanVisits({ params: {}, options: { doIntervalFallback: true } })(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);

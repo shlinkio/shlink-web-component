@@ -7,7 +7,6 @@ import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
 import type { ReportExporter } from '../utils/services/ReportExporter';
-import { toApiParams } from './helpers';
 import type { LoadTagVisits, TagVisits as TagVisitsState } from './reducers/tagVisits';
 import type { GetVisitsOptions } from './reducers/types';
 import { TagVisitsHeader } from './TagVisitsHeader';
@@ -31,11 +30,7 @@ const TagVisits: FCWithDeps<MercureBoundProps & TagVisitsProps, TagVisitsDeps> =
   const { ColorGenerator: colorGenerator, ReportExporter: reportExporter } = useDependencies(TagVisits);
   const { tag = '' } = useParams();
   const loadVisits = useCallback(
-    (params: VisitsParams, options: GetVisitsOptions) => getTagVisits({
-      ...options,
-      tag,
-      query: toApiParams(params),
-    }),
+    (params: VisitsParams, options: GetVisitsOptions) => getTagVisits({ tag, params, options }),
     [getTagVisits, tag],
   );
   const exportCsv = useCallback(

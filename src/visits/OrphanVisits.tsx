@@ -6,7 +6,6 @@ import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useFeature } from '../utils/features';
 import type { ReportExporter } from '../utils/services/ReportExporter';
-import { toApiParams } from './helpers';
 import type { LoadOrphanVisits } from './reducers/orphanVisits';
 import type { OrphanVisitsDeletion } from './reducers/orphanVisitsDeletion';
 import type { GetVisitsOptions, VisitsInfo } from './reducers/types';
@@ -37,8 +36,8 @@ const OrphanVisits: FCWithDeps<MercureBoundProps & OrphanVisitsProps, OrphanVisi
   );
   const loadVisits = useCallback(
     (params: VisitsParams, options: GetVisitsOptions) => getOrphanVisits({
-      ...options,
-      query: toApiParams(params),
+      options,
+      params,
       orphanVisitsType: params.filter?.orphanVisitsType,
     }),
     [getOrphanVisits],

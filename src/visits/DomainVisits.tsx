@@ -6,7 +6,6 @@ import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
-import { toApiParams } from './helpers';
 import type { DomainVisits as DomainVisitsState, LoadDomainVisits } from './reducers/domainVisits';
 import type { GetVisitsOptions } from './reducers/types';
 import type { NormalizedVisit, VisitsParams } from './types';
@@ -31,9 +30,9 @@ const DomainVisits: FCWithDeps<MercureBoundProps & DomainVisitsProps, DomainVisi
   const [authority, domainId = authority] = domain.split('_');
   const loadVisits = useCallback(
     (params: VisitsParams, options: GetVisitsOptions) => getDomainVisits({
-      ...options,
       domain: domainId,
-      query: toApiParams(params),
+      options,
+      params,
     }),
     [domainId, getDomainVisits],
   );

@@ -5,9 +5,7 @@ import type { RootState } from '../../../src/container/store';
 import { formatIsoDate } from '../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../../src/utils/helpers';
-import type {
-  DomainVisits, LoadDomainVisits,
-} from '../../../src/visits/reducers/domainVisits';
+import type { DomainVisits } from '../../../src/visits/reducers/domainVisits';
 import {
   DEFAULT_DOMAIN,
   domainVisitsReducerCreator,
@@ -30,7 +28,7 @@ describe('domainVisitsReducer', () => {
     it('returns loading when pending', () => {
       const { loading } = reducer(
         buildState({ loading: false }),
-        getDomainVisits.pending('', fromPartial<LoadDomainVisits>({})),
+        getDomainVisits.pending('', fromPartial({}), undefined),
       );
       expect(loading).toEqual(true);
     });
@@ -43,7 +41,7 @@ describe('domainVisitsReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         buildState({ loading: true, errorData: null }),
-        getDomainVisits.rejected(problemDetailsError, '', fromPartial({})),
+        getDomainVisits.rejected(problemDetailsError, '', fromPartial({}), undefined, undefined),
       );
 
       expect(loading).toEqual(false);
@@ -54,7 +52,7 @@ describe('domainVisitsReducer', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, errorData, visits } = reducer(
         buildState({ loading: true, errorData: null }),
-        getDomainVisits.fulfilled({ visits: actionVisits }, '', fromPartial({})),
+        getDomainVisits.fulfilled({ visits: actionVisits }, '', fromPartial({}), undefined),
       );
 
       expect(loading).toEqual(false);
@@ -70,25 +68,8 @@ describe('domainVisitsReducer', () => {
       [
         fromPartial<DomainVisits>({
           domain: 'foo.com',
-          query: { endDate: formatIsoDate(subDays(now, 1)) ?? undefined },
-        }),
-        'foo.com',
-        visitsMocks.length,
-      ],
-      [
-        fromPartial<DomainVisits>({
-          domain: 'foo.com',
-          query: { startDate: formatIsoDate(addDays(now, 1)) ?? undefined },
-        }),
-        'foo.com',
-        visitsMocks.length,
-      ],
-      [
-        fromPartial<DomainVisits>({
-          domain: 'foo.com',
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(subDays(now, 2)) ?? undefined,
+          params: {
+            dateRange: { endDate: subDays(now, 1) },
           },
         }),
         'foo.com',
@@ -97,9 +78,34 @@ describe('domainVisitsReducer', () => {
       [
         fromPartial<DomainVisits>({
           domain: 'foo.com',
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
+          params: {
+            dateRange: { startDate: addDays(now, 1) },
+          },
+        }),
+        'foo.com',
+        visitsMocks.length,
+      ],
+      [
+        fromPartial<DomainVisits>({
+          domain: 'foo.com',
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: subDays(now, 2),
+            },
+          },
+        }),
+        'foo.com',
+        visitsMocks.length,
+      ],
+      [
+        fromPartial<DomainVisits>({
+          domain: 'foo.com',
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: addDays(now, 3),
+            },
           },
         }),
         'foo.com',
@@ -108,9 +114,11 @@ describe('domainVisitsReducer', () => {
       [
         fromPartial<DomainVisits>({
           domain: 'bar.com',
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: addDays(now, 3),
+            },
           },
         }),
         'foo.com',
@@ -148,11 +156,10 @@ describe('domainVisitsReducer', () => {
     });
     const domain = 'foo.com';
 
-    it.each([
-      [undefined],
-      [{}],
-    ])('dispatches start and success when promise is resolved', async (query) => {
+    it('dispatches start and success when promise is resolved', async () => {
       const visits = visitsMocks;
+      const getVisitsParam = { domain, params: {}, options: {} };
+
       getDomainVisitsCall.mockResolvedValue({
         data: visitsMocks,
         pagination: {
@@ -162,11 +169,11 @@ describe('domainVisitsReducer', () => {
         },
       });
 
-      await getDomainVisits({ domain, query })(dispatchMock, getState, {});
+      await getDomainVisits(getVisitsParam)(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits, domain, query: query ?? {} },
+        payload: { visits, ...getVisitsParam },
       }));
       expect(getDomainVisitsCall).toHaveBeenCalledOnce();
     });
@@ -200,7 +207,7 @@ describe('domainVisitsReducer', () => {
         .mockResolvedValueOnce(buildVisitsResult())
         .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getDomainVisits({ domain, doIntervalFallback: true })(dispatchMock, getState, {});
+      await getDomainVisits({ domain, params: {}, options: { doIntervalFallback: true } })(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);

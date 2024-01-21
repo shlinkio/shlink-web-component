@@ -30,6 +30,7 @@ export const createVisitsReducer = <State extends VisitsInfo, AT extends ReturnT
         { ...initialState, errorData: parseApiError(error) ?? null }
       ));
       builder.addCase(fulfilled, (state, { payload }) => (
+        // Unpack the whole payload, as it could have different props depending on the concrete reducer
         { ...state, ...payload, loading: false, progress: null, errorData: null }
       ));
 

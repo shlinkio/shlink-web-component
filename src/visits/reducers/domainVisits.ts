@@ -1,5 +1,5 @@
 import type { ShlinkApiClient } from '../../api-contract';
-import { filterCreatedVisitsByDomain } from '../helpers';
+import { filterCreatedVisitsByDomain, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { LoadVisits, VisitsInfo } from './types';
 
@@ -26,20 +26,21 @@ const initialState: DomainVisits = {
 
 export const getDomainVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getDomainVisits`,
-  createLoaders: ({ domain, query = {}, doIntervalFallback = false }: LoadDomainVisits) => {
+  createLoaders: ({ domain, params, options }: LoadDomainVisits) => {
     const apiClient = apiClientFactory();
+    const { doIntervalFallback = false } = options;
+
     const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getDomainVisits(
       domain,
-      { ...query, page, itemsPerPage },
+      { ...toApiParams(params), page, itemsPerPage },
     );
-    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (params) => apiClient.getDomainVisits(
+    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (query) => apiClient.getDomainVisits(
       domain,
-      params,
+      query,
     ));
 
     return [visitsLoader, lastVisitLoader];
   },
-  getExtraFulfilledPayload: ({ domain, query = {} }: LoadDomainVisits) => ({ domain, query }),
   shouldCancel: (getState) => getState().domainVisits.cancelLoad,
 });
 
@@ -50,9 +51,9 @@ export const domainVisitsReducerCreator = (
   initialState,
   // @ts-expect-error TODO Fix type inference
   asyncThunkCreator,
-  filterCreatedVisits: ({ domain, query = {} }, createdVisits) => filterCreatedVisitsByDomain(
+  filterCreatedVisits: ({ domain, params }, createdVisits) => filterCreatedVisitsByDomain(
     createdVisits,
     domain,
-    query,
+    params?.dateRange,
   ),
 });

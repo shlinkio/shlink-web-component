@@ -25,7 +25,10 @@ describe('nonOrphanVisitsReducer', () => {
     const buildState = (data: Partial<VisitsInfo>) => fromPartial<VisitsInfo>(data);
 
     it('returns loading when pending', () => {
-      const { loading } = reducer(buildState({ loading: false }), getNonOrphanVisits.pending('', {}));
+      const { loading } = reducer(
+        buildState({ loading: false }),
+        getNonOrphanVisits.pending('', fromPartial({}), undefined),
+      );
       expect(loading).toEqual(true);
     });
 
@@ -37,7 +40,7 @@ describe('nonOrphanVisitsReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         buildState({ loading: true, errorData: null }),
-        getNonOrphanVisits.rejected(problemDetailsError, '', {}),
+        getNonOrphanVisits.rejected(problemDetailsError, '', fromPartial({}), undefined, undefined),
       );
 
       expect(loading).toEqual(false);
@@ -48,7 +51,7 @@ describe('nonOrphanVisitsReducer', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, errorData, visits } = reducer(
         buildState({ loading: true, errorData: null }),
-        getNonOrphanVisits.fulfilled({ visits: actionVisits }, '', {}),
+        getNonOrphanVisits.fulfilled({ visits: actionVisits }, '', fromPartial({}), undefined),
       );
 
       expect(loading).toEqual(false);
@@ -60,30 +63,38 @@ describe('nonOrphanVisitsReducer', () => {
       [{}, visitsMocks.length + 2],
       [
         fromPartial<VisitsInfo>({
-          query: { endDate: formatIsoDate(subDays(now, 1)) ?? undefined },
-        }),
-        visitsMocks.length,
-      ],
-      [
-        fromPartial<VisitsInfo>({
-          query: { startDate: formatIsoDate(addDays(now, 1)) ?? undefined },
-        }),
-        visitsMocks.length,
-      ],
-      [
-        fromPartial<VisitsInfo>({
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(subDays(now, 2)) ?? undefined,
+          params: {
+            dateRange: { endDate: subDays(now, 1) },
           },
         }),
         visitsMocks.length,
       ],
       [
         fromPartial<VisitsInfo>({
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
+          params: {
+            dateRange: { startDate: addDays(now, 1) },
+          },
+        }),
+        visitsMocks.length,
+      ],
+      [
+        fromPartial<VisitsInfo>({
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: subDays(now, 2),
+            },
+          },
+        }),
+        visitsMocks.length,
+      ],
+      [
+        fromPartial<VisitsInfo>({
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: addDays(now, 3),
+            },
           },
         }),
         visitsMocks.length + 2,
@@ -116,11 +127,10 @@ describe('nonOrphanVisitsReducer', () => {
       orphanVisits: { cancelLoad: false },
     });
 
-    it.each([
-      [undefined],
-      [{}],
-    ])('dispatches start and success when promise is resolved', async (query) => {
+    it('dispatches start and success when promise is resolved', async () => {
       const visits = visitsMocks.map((visit) => ({ ...visit, visitedUrl: '' }));
+      const getVisitsParam = { params: {}, options: {} };
+
       getNonOrphanVisitsCall.mockResolvedValue({
         data: visits,
         pagination: {
@@ -130,11 +140,11 @@ describe('nonOrphanVisitsReducer', () => {
         },
       });
 
-      await getNonOrphanVisits({ query })(dispatchMock, getState, {});
+      await getNonOrphanVisits(getVisitsParam)(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits, query: query ?? {} },
+        payload: { ...getVisitsParam, visits },
       }));
       expect(getNonOrphanVisitsCall).toHaveBeenCalledOnce();
     });
@@ -168,7 +178,7 @@ describe('nonOrphanVisitsReducer', () => {
         .mockResolvedValueOnce(buildVisitsResult())
         .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getNonOrphanVisits({ doIntervalFallback: true })(dispatchMock, getState, {});
+      await getNonOrphanVisits({ params: {}, options: { doIntervalFallback: true } })(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(expectedAmountOfDispatches);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);

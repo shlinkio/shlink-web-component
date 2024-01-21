@@ -4,7 +4,6 @@ import type { VisitsQueryParams } from '../../types';
 
 export type VisitsComparisonInfo = VisitsLoadingInfo & {
   visitsGroups: Record<string, ShlinkVisit[]>;
-  cancelLoad: boolean;
   query?: VisitsQueryParams;
 };
 

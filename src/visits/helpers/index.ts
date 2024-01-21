@@ -6,14 +6,13 @@ import { formatIsoDate, isBetween } from '../../utils/dates/helpers/date';
 import type { DateRange } from '../../utils/dates/helpers/dateIntervals';
 import type {
   CreateVisit,
+  HighlightableProps,
   NormalizedOrphanVisit,
   NormalizedVisit,
   Stats,
   VisitsParams,
   VisitsQueryParams,
-} from './index';
-
-// FIXME This file should be in visits/helpers, not in visits/types
+} from '../types';
 
 export const isOrphanVisit = (visit: ShlinkVisit): visit is ShlinkOrphanVisit =>
   (visit as ShlinkOrphanVisit).visitedUrl !== undefined;
@@ -67,10 +66,6 @@ export const filterCreatedVisitsByTag = (
 ): CreateVisit[] => createdVisits.filter(
   ({ shortUrl, visit }) => shortUrl?.tags.includes(tag) && isBetween(visit.date, startDate, endDate),
 );
-
-export type HighlightableProps<T extends NormalizedVisit> = T extends NormalizedOrphanVisit
-  ? ('referer' | 'country' | 'city' | 'visitedUrl')
-  : ('referer' | 'country' | 'city');
 
 export const highlightedVisitsToStats = <T extends NormalizedVisit>(
   highlightedVisits: T[],

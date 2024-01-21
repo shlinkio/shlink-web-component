@@ -5,9 +5,9 @@ import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
+import { toApiParams } from './helpers';
 import type { GetVisitsOptions, LoadVisits, VisitsInfo } from './reducers/types';
 import type { NormalizedVisit, VisitsParams } from './types';
-import { toApiParams } from './types/helpers';
 import { VisitsHeader } from './VisitsHeader';
 import { VisitsStats } from './VisitsStats';
 

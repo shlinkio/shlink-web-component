@@ -1,5 +1,5 @@
 import type { ShlinkApiClient } from '../../../api-contract';
-import { filterCreatedVisitsByDomain } from '../../types/helpers';
+import { filterCreatedVisitsByDomain } from '../../helpers';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';

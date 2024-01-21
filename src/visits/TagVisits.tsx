@@ -7,11 +7,11 @@ import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
 import type { ReportExporter } from '../utils/services/ReportExporter';
+import { toApiParams } from './helpers';
 import type { LoadTagVisits, TagVisits as TagVisitsState } from './reducers/tagVisits';
 import type { GetVisitsOptions } from './reducers/types';
 import { TagVisitsHeader } from './TagVisitsHeader';
 import type { NormalizedVisit, VisitsParams } from './types';
-import { toApiParams } from './types/helpers';
 import { VisitsStats } from './VisitsStats';
 
 export type TagVisitsProps = {

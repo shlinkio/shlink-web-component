@@ -1,5 +1,5 @@
 import type { ShlinkApiClient } from '../../api-contract';
-import { filterCreatedVisitsByTag } from '../types/helpers';
+import { filterCreatedVisitsByTag } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { LoadVisits, VisitsInfo } from './types';
 

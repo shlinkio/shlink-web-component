@@ -1,6 +1,6 @@
 import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkOrphanVisitType } from '../../api-contract';
 import { isBetween } from '../../utils/dates/helpers/date';
-import { isOrphanVisit } from '../types/helpers';
+import { isOrphanVisit } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteOrphanVisits } from './orphanVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';

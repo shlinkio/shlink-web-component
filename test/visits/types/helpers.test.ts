@@ -1,9 +1,9 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkOrphanVisit, ShlinkVisitsParams } from '../../../src/api-contract';
 import { formatIsoDate, parseDate } from '../../../src/utils/dates/helpers/date';
+import type { GroupedNewVisits } from '../../../src/visits/helpers';
+import { groupNewVisitsByType, toApiParams } from '../../../src/visits/helpers';
 import type { CreateVisit, VisitsParams } from '../../../src/visits/types';
-import type { GroupedNewVisits } from '../../../src/visits/types/helpers';
-import { groupNewVisitsByType, toApiParams } from '../../../src/visits/types/helpers';
 
 describe('visitsTypeHelpers', () => {
   describe('groupNewVisitsByType', () => {

@@ -1,6 +1,6 @@
 import type { ShlinkVisit } from '../../api-contract';
+import { isNormalizedOrphanVisit, isOrphanVisit } from '../helpers';
 import type { CityStats, NormalizedVisit, Stats, VisitsStats } from '../types';
-import { isNormalizedOrphanVisit, isOrphanVisit } from '../types/helpers';
 import { extractDomain, parseUserAgent } from '../utils';
 
 /* eslint-disable no-param-reassign */

@@ -11,12 +11,12 @@ import { useDecodedShortCodeFromParams } from '../short-urls/helpers/hooks';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import { useFeature } from '../utils/features';
 import type { ReportExporter } from '../utils/services/ReportExporter';
+import { toApiParams } from './helpers';
 import type { LoadShortUrlVisits, ShortUrlVisits as ShortUrlVisitsState } from './reducers/shortUrlVisits';
 import type { ShortUrlVisitsDeletion } from './reducers/shortUrlVisitsDeletion';
 import type { GetVisitsOptions } from './reducers/types';
 import { ShortUrlVisitsHeader } from './ShortUrlVisitsHeader';
 import type { NormalizedVisit, VisitsParams } from './types';
-import { toApiParams } from './types/helpers';
 import { VisitsStats } from './VisitsStats';
 
 export type ShortUrlVisitsProps = {

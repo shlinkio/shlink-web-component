@@ -16,6 +16,7 @@ import { useSetting } from '../utils/settings';
 import { DoughnutChartCard } from './charts/DoughnutChartCard';
 import { LineChartCard } from './charts/LineChartCard';
 import { SortableBarChartCard } from './charts/SortableBarChartCard';
+import { highlightedVisitsToStats } from './helpers';
 import { useVisitsQuery } from './helpers/hooks';
 import { OpenMapModalBtn } from './helpers/OpenMapModalBtn';
 import { VisitsFilterDropdown } from './helpers/VisitsFilterDropdown';
@@ -23,9 +24,7 @@ import { VisitsLoadingFeedback } from './helpers/VisitsLoadingFeedback';
 import { VisitsStatsOptions } from './helpers/VisitsStatsOptions';
 import type { GetVisitsOptions, VisitsDeletion, VisitsInfo } from './reducers/types';
 import { normalizeVisits, processStatsFromVisits } from './services/VisitsParser';
-import type { NormalizedOrphanVisit, NormalizedVisit, VisitsParams } from './types';
-import type { HighlightableProps } from './types/helpers';
-import { highlightedVisitsToStats } from './types/helpers';
+import type { HighlightableProps, NormalizedOrphanVisit, NormalizedVisit, VisitsParams } from './types';
 import { VisitsTable } from './VisitsTable';
 
 export type VisitsStatsProps = PropsWithChildren<{

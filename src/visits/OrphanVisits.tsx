@@ -6,11 +6,11 @@ import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useFeature } from '../utils/features';
 import type { ReportExporter } from '../utils/services/ReportExporter';
+import { toApiParams } from './helpers';
 import type { LoadOrphanVisits } from './reducers/orphanVisits';
 import type { OrphanVisitsDeletion } from './reducers/orphanVisitsDeletion';
 import type { GetVisitsOptions, VisitsInfo } from './reducers/types';
 import type { NormalizedVisit, VisitsParams } from './types';
-import { toApiParams } from './types/helpers';
 import { VisitsHeader } from './VisitsHeader';
 import { VisitsStats } from './VisitsStats';
 

@@ -1,6 +1,6 @@
 import type { ShlinkShortUrlVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient } from '../../api-contract';
-import { filterCreatedVisitsByShortUrl } from '../types/helpers';
+import { filterCreatedVisitsByShortUrl } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteShortUrlVisits } from './shortUrlVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';

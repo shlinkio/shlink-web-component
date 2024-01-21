@@ -1,7 +1,7 @@
 import type { ShlinkApiClient } from '../../../api-contract';
 import type { ShortUrlIdentifier } from '../../../short-urls/data';
 import { queryToShortUrl, shortUrlToQuery } from '../../../short-urls/helpers';
-import { filterCreatedVisitsByShortUrl } from '../../types/helpers';
+import { filterCreatedVisitsByShortUrl } from '../../helpers';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';

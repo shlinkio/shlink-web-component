@@ -61,3 +61,7 @@ export interface VisitsParams {
 }
 
 export type VisitsQueryParams = Omit<ShlinkVisitsParams, 'page' | 'itemsPerPage'>;
+
+export type HighlightableProps<T extends NormalizedVisit> = T extends NormalizedOrphanVisit
+  ? ('referer' | 'country' | 'city' | 'visitedUrl')
+  : ('referer' | 'country' | 'city');

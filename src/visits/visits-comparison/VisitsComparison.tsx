@@ -8,11 +8,11 @@ import { toDateRange } from '../../utils/dates/helpers/dateIntervals';
 import { useSetting } from '../../utils/settings';
 import { chartColorForIndex } from '../charts/constants';
 import { LineChartCard, type VisitsList } from '../charts/LineChartCard';
+import { toApiParams } from '../helpers';
 import { useVisitsQuery } from '../helpers/hooks';
 import { VisitsFilterDropdown } from '../helpers/VisitsFilterDropdown';
 import { VisitsLoadingFeedback } from '../helpers/VisitsLoadingFeedback';
 import { normalizeVisits } from '../services/VisitsParser';
-import { toApiParams } from '../types/helpers';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 
 type VisitsComparisonProps = {

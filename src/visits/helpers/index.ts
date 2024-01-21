@@ -78,9 +78,11 @@ export const toApiDateRange = (dateRange?: DateRange): Pick<ShlinkVisitsParams, 
   return { startDate, endDate };
 };
 
-export const toApiParams = ({ page, itemsPerPage, filter, dateRange }: VisitsParams): ShlinkVisitsParams => {
+export const toApiParams = (
+  { filter, dateRange }: VisitsParams,
+): Omit<ShlinkVisitsParams, 'page' | 'itemsPerPage'> => {
   const { startDate, endDate } = toApiDateRange(dateRange);
   const excludeBots = filter?.excludeBots || undefined;
 
-  return { page, itemsPerPage, startDate, endDate, excludeBots };
+  return { startDate, endDate, excludeBots };
 };

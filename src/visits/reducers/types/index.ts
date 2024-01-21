@@ -8,14 +8,14 @@ export type GetVisitsOptions = {
 };
 
 export type LoadVisits = {
-  params: VisitsParams; // TODO Should this be the params except for `page` and `itemsPerPage`?
+  params: VisitsParams;
   options: GetVisitsOptions;
 };
 
 export type VisitsLoaded = {
   visits: ShlinkVisit[];
   prevVisits?: ShlinkVisit[];
-  params?: VisitsParams; // TODO Should this be the params except for `page` and `itemsPerPage`?
+  params?: VisitsParams;
 };
 
 export type VisitsLoadingInfo = {

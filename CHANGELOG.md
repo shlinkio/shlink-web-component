@@ -20,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Fixed
-* *Nothing*
+* [#217](https://github.com/shlinkio/shlink-web-component/issues/217) Fix all visits loaded when trying to reset other non-date related filters
 
 
 ## [0.4.1] - 2023-12-09

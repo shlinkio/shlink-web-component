@@ -46,7 +46,12 @@ describe('<ShortUrlVisits />', () => {
     </MemoryRouter>,
   );
 
-  it('passes a11y checks', () => checkAccessibility(setUp()));
+  it(
+    'passes a11y checks',
+    () => checkAccessibility(setUp()),
+    // FIXME This test is slow in Node 21. Set 10 second timeout and fix later.
+    10_000,
+  );
 
   it('wraps visits stats and header', () => {
     setUp();

@@ -30,7 +30,6 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   cancelGetVisitsComparison,
 }) => {
   const { loading, visitsGroups } = visitsComparisonInfo;
-  const isFirstLoad = useRef(true);
   const normalizedVisitsGroups = useMemo(
     () => Object.keys(visitsGroups).reduce<Record<string, VisitsList>>((acc, key, index) => {
       acc[key] = Object.assign(normalizeVisits(visitsGroups[key]), {
@@ -66,11 +65,10 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   }), [visitsFilter, visitsSettings?.excludeBots]);
 
   useEffect(() => {
-    const resolvedDateRange = !isFirstLoad.current ? dateRange : (dateRange ?? toDateRange(initialInterval.current));
+    const resolvedDateRange = dateRange ?? toDateRange(initialInterval.current);
     getVisitsForComparison({
       params: { dateRange: resolvedDateRange, filter: resolvedFilter },
     });
-    isFirstLoad.current = false;
 
     return cancelGetVisitsComparison;
   }, [cancelGetVisitsComparison, dateRange, getVisitsForComparison, resolvedFilter]);

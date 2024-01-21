@@ -25,6 +25,20 @@ type VisitsFiltering = {
 
 type UpdateFiltering = (extra: DeepPartial<VisitsFiltering>) => void;
 
+/**
+ * For start and end dates, the presence of the keys with value `undefined` has a different meaning than the absence
+ * of the keys.
+ * When the keys are present, it means the value was manually requested, which in the case of undefined means
+ * "beginning of time" and "end of time" respectively.
+ * When the keys are not present, callers may decide to fall back to a default value.
+ */
+const dateFromRangeToQuery = (dateName: keyof DateRange, dateRange?: DateRange): string | undefined => {
+  if (!dateRange || !(dateName in dateRange)) {
+    return undefined;
+  }
+  return (dateRange[dateName] && formatIsoDate(dateRange[dateName])) || '';
+};
+
 export const useVisitsQuery = (): [VisitsFiltering, UpdateFiltering] => {
   const navigate = useNavigate();
   const { startDate, endDate, orphanVisitsType, excludeBots, ...rest } = useParsedQuery<VisitsQuery>();
@@ -44,8 +58,8 @@ export const useVisitsQuery = (): [VisitsFiltering, UpdateFiltering] => {
     const { excludeBots: newExcludeBots, orphanVisitsType: newOrphanVisitsType } = visitsFilter;
     const newQuery: VisitsQuery = {
       ...rest, // Merge with rest of existing query so that unknown params are preserved
-      startDate: (dateRange?.startDate && formatIsoDate(dateRange.startDate)) || '',
-      endDate: (dateRange?.endDate && formatIsoDate(dateRange.endDate)) || '',
+      startDate: dateFromRangeToQuery('startDate', dateRange),
+      endDate: dateFromRangeToQuery('endDate', dateRange),
       excludeBots: newExcludeBots === undefined ? undefined : parseBooleanToString(newExcludeBots),
       orphanVisitsType: newOrphanVisitsType,
     };

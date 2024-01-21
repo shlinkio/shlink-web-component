@@ -1,17 +1,15 @@
 import type { ShlinkApiClient } from '../../api-contract';
-import { filterCreatedVisitsByTag } from '../types/helpers';
+import { filterCreatedVisitsByTag, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { LoadVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/tagVisits';
 
-interface WithTag {
+type WithTag = {
   tag: string;
-}
+};
 
-export interface TagVisits extends VisitsInfo, WithTag {}
-
-export interface LoadTagVisits extends LoadVisits, WithTag {}
+export type TagVisits = VisitsInfo & WithTag;
 
 const initialState: TagVisits = {
   visits: [],
@@ -22,22 +20,22 @@ const initialState: TagVisits = {
   progress: null,
 };
 
+export type LoadTagVisits = LoadVisits & WithTag;
+
 export const getTagVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getTagVisits`,
-  createLoaders: ({ tag, query = {}, doIntervalFallback = false }: LoadTagVisits) => {
+  createLoaders: ({ tag, params, options }: LoadTagVisits) => {
     const apiClient = apiClientFactory();
+    const { doIntervalFallback = false } = options;
+
     const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getTagVisits(
       tag,
-      { ...query, page, itemsPerPage },
+      { ...toApiParams(params), page, itemsPerPage },
     );
-    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (params) => apiClient.getTagVisits(
-      tag,
-      params,
-    ));
+    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (q) => apiClient.getTagVisits(tag, q));
 
     return [visitsLoader, lastVisitLoader];
   },
-  getExtraFulfilledPayload: ({ tag, query = {} }: LoadTagVisits) => ({ tag, query }),
   shouldCancel: (getState) => getState().tagVisits.cancelLoad,
 });
 
@@ -46,9 +44,9 @@ export const tagVisitsReducerCreator = (asyncThunkCreator: ReturnType<typeof get
   initialState,
   // @ts-expect-error TODO Fix type inference
   asyncThunkCreator,
-  filterCreatedVisits: ({ tag, query = {} }: TagVisits, createdVisits) => filterCreatedVisitsByTag(
+  filterCreatedVisits: ({ tag, params }: TagVisits, createdVisits) => filterCreatedVisitsByTag(
     createdVisits,
     tag,
-    query,
+    params?.dateRange,
   ),
 });

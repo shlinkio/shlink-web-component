@@ -13,9 +13,9 @@ import { useFeature } from '../utils/features';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadShortUrlVisits, ShortUrlVisits as ShortUrlVisitsState } from './reducers/shortUrlVisits';
 import type { ShortUrlVisitsDeletion } from './reducers/shortUrlVisitsDeletion';
+import type { GetVisitsOptions } from './reducers/types';
 import { ShortUrlVisitsHeader } from './ShortUrlVisitsHeader';
 import type { NormalizedVisit, VisitsParams } from './types';
-import { toApiParams } from './types/helpers';
 import { VisitsStats } from './VisitsStats';
 
 export type ShortUrlVisitsProps = {
@@ -48,11 +48,14 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
   const identifier = useMemo(() => ({ shortCode, domain }), [domain, shortCode]);
   const shortUrl = useMemo(() => shortUrlsDetails.shortUrls?.get(identifier), [identifier, shortUrlsDetails.shortUrls]);
 
-  const loadVisits = useCallback((params: VisitsParams, doIntervalFallback?: boolean) => getShortUrlVisits({
-    shortCode,
-    query: { ...toApiParams(params), domain },
-    doIntervalFallback,
-  }), [domain, getShortUrlVisits, shortCode]);
+  const loadVisits = useCallback(
+    (params: VisitsParams, options: GetVisitsOptions) => getShortUrlVisits({
+      ...identifier,
+      options,
+      params,
+    }),
+    [getShortUrlVisits, identifier],
+  );
   const exportCsv = useCallback((visits: NormalizedVisit[]) => reportExporter.exportVisits(
     `short-url_${shortUrl?.shortUrl.replace(/https?:\/\//g, '')}_visits.csv`,
     visits,

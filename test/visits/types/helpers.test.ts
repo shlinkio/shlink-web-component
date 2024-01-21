@@ -1,9 +1,9 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkOrphanVisit, ShlinkVisitsParams } from '../../../src/api-contract';
 import { formatIsoDate, parseDate } from '../../../src/utils/dates/helpers/date';
+import type { GroupedNewVisits } from '../../../src/visits/helpers';
+import { groupNewVisitsByType, toApiParams } from '../../../src/visits/helpers';
 import type { CreateVisit, VisitsParams } from '../../../src/visits/types';
-import type { GroupedNewVisits } from '../../../src/visits/types/helpers';
-import { groupNewVisitsByType, toApiParams } from '../../../src/visits/types/helpers';
 
 describe('visitsTypeHelpers', () => {
   describe('groupNewVisitsByType', () => {
@@ -52,25 +52,20 @@ describe('visitsTypeHelpers', () => {
 
   describe('toApiParams', () => {
     it.each([
-      [{ page: 5, itemsPerPage: 100 } as VisitsParams, { page: 5, itemsPerPage: 100 } as ShlinkVisitsParams],
       [
         {
-          page: 1,
-          itemsPerPage: 30,
           filter: { excludeBots: true },
-        } as VisitsParams,
-        { page: 1, itemsPerPage: 30, excludeBots: true } as ShlinkVisitsParams,
+        } satisfies VisitsParams,
+        { excludeBots: true } as ShlinkVisitsParams,
       ],
       (() => {
         const endDate = parseDate('2020-05-05', 'yyyy-MM-dd');
 
         return [
           {
-            page: 20,
-            itemsPerPage: 1,
             dateRange: { endDate },
-          } as VisitsParams,
-          { page: 20, itemsPerPage: 1, endDate: formatIsoDate(endDate) } as ShlinkVisitsParams,
+          } satisfies VisitsParams,
+          { endDate: formatIsoDate(endDate) } as ShlinkVisitsParams,
         ];
       })(),
       (() => {
@@ -79,14 +74,10 @@ describe('visitsTypeHelpers', () => {
 
         return [
           {
-            page: 20,
-            itemsPerPage: 1,
             dateRange: { startDate, endDate },
             filter: { excludeBots: false },
-          } as VisitsParams,
+          } satisfies VisitsParams,
           {
-            page: 20,
-            itemsPerPage: 1,
             startDate: formatIsoDate(startDate),
             endDate: formatIsoDate(endDate),
           } as ShlinkVisitsParams,

@@ -8,9 +8,8 @@ import { useFeature } from '../utils/features';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadOrphanVisits } from './reducers/orphanVisits';
 import type { OrphanVisitsDeletion } from './reducers/orphanVisitsDeletion';
-import type { VisitsInfo } from './reducers/types';
+import type { GetVisitsOptions, VisitsInfo } from './reducers/types';
 import type { NormalizedVisit, VisitsParams } from './types';
-import { toApiParams } from './types/helpers';
 import { VisitsHeader } from './VisitsHeader';
 import { VisitsStats } from './VisitsStats';
 
@@ -35,9 +34,14 @@ const OrphanVisits: FCWithDeps<MercureBoundProps & OrphanVisitsProps, OrphanVisi
     (visits: NormalizedVisit[]) => reportExporter.exportVisits('orphan_visits.csv', visits),
     [reportExporter],
   );
-  const loadVisits = useCallback((params: VisitsParams, doIntervalFallback?: boolean) => getOrphanVisits(
-    { query: toApiParams(params), orphanVisitsType: params.filter?.orphanVisitsType, doIntervalFallback },
-  ), [getOrphanVisits]);
+  const loadVisits = useCallback(
+    (params: VisitsParams, options: GetVisitsOptions) => getOrphanVisits({
+      options,
+      params,
+      orphanVisitsType: params.filter?.orphanVisitsType,
+    }),
+    [getOrphanVisits],
+  );
   const deletion = useMemo(() => (
     !supportsOrphanVisitsDeletion
       ? undefined

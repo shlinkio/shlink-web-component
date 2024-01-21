@@ -2,6 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
+import type { Settings } from '../../src';
 import type { ShlinkVisit } from '../../src/api-contract';
 import { rangeOf } from '../../src/utils/helpers';
 import { SettingsProvider } from '../../src/utils/settings';
@@ -14,13 +15,14 @@ type SetUpOptions = {
   visitsInfo?: Partial<VisitsInfo>;
   withDeletion?: boolean;
   activeRoute?: string;
+  settings?: Partial<Settings>;
 };
 
 describe('<VisitsStats />', () => {
   const visits = rangeOf(3, () => fromPartial<ShlinkVisit>({ date: '2020-01-01' }));
   const getVisitsMock = vi.fn();
   const exportCsv = vi.fn();
-  const setUp = ({ visitsInfo = {}, activeRoute = '/by-time', withDeletion }: SetUpOptions = {}) => {
+  const setUp = ({ visitsInfo = {}, activeRoute = '/by-time', withDeletion, settings = {} }: SetUpOptions = {}) => {
     const history = createMemoryHistory();
     history.push(activeRoute);
 
@@ -28,7 +30,7 @@ describe('<VisitsStats />', () => {
       history,
       ...renderWithEvents(
         <Router location={history.location} navigator={history}>
-          <SettingsProvider value={fromPartial({})}>
+          <SettingsProvider value={fromPartial(settings)}>
             <VisitsStats
               getVisits={getVisitsMock}
               visitsInfo={fromPartial({ loading: false, errorData: null, progress: null, visits: [], ...visitsInfo })}
@@ -128,5 +130,25 @@ describe('<VisitsStats />', () => {
     await waitFor(() => screen.getByRole('menu'));
     await user.click(screen.getByRole('menuitem', { name: /Last 180 days/ }));
     expectSearchContains(['startDate', 'endDate']);
+  });
+
+  it.each([
+    [undefined],
+    [true],
+    [false],
+  ])('loads visits when mounted', (loadPrevInterval) => {
+    setUp({
+      visitsInfo: { visits },
+      settings: {
+        visits: fromPartial({
+          loadPrevInterval,
+        }),
+      },
+    });
+
+    expect(getVisitsMock).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ loadPrevInterval }),
+    );
   });
 });

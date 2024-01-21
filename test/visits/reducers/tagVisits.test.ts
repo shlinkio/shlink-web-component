@@ -26,7 +26,10 @@ describe('tagVisitsReducer', () => {
     const buildState = (data: Partial<TagVisits>) => fromPartial<TagVisits>(data);
 
     it('returns loading when pending', () => {
-      const { loading } = reducer(buildState({ loading: false }), getTagVisits.pending('', { tag: '' }));
+      const { loading } = reducer(
+        buildState({ loading: false }),
+        getTagVisits.pending('', fromPartial({ tag: '' }), undefined),
+      );
       expect(loading).toEqual(true);
     });
 
@@ -38,7 +41,7 @@ describe('tagVisitsReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         buildState({ loading: true, errorData: null }),
-        getTagVisits.rejected(problemDetailsError, '', { tag: '' }),
+        getTagVisits.rejected(problemDetailsError, '', fromPartial({ tag: '' }), undefined, undefined),
       );
 
       expect(loading).toEqual(false);
@@ -49,7 +52,7 @@ describe('tagVisitsReducer', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, errorData, visits } = reducer(
         buildState({ loading: true, errorData: null }),
-        getTagVisits.fulfilled({ visits: actionVisits }, '', { tag: '' }),
+        getTagVisits.fulfilled({ visits: actionVisits }, '', fromPartial({ tag: '' }), undefined),
       );
 
       expect(loading).toEqual(false);
@@ -63,23 +66,8 @@ describe('tagVisitsReducer', () => {
       [
         fromPartial<TagVisits>({
           tag: 'foo',
-          query: { endDate: formatIsoDate(subDays(now, 1)) ?? undefined },
-        }),
-        visitsMocks.length,
-      ],
-      [
-        fromPartial<TagVisits>({
-          tag: 'foo',
-          query: { startDate: formatIsoDate(addDays(now, 1)) ?? undefined },
-        }),
-        visitsMocks.length,
-      ],
-      [
-        fromPartial<TagVisits>({
-          tag: 'foo',
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(subDays(now, 2)) ?? undefined,
+          params: {
+            dateRange: { endDate: subDays(now, 1) },
           },
         }),
         visitsMocks.length,
@@ -87,9 +75,32 @@ describe('tagVisitsReducer', () => {
       [
         fromPartial<TagVisits>({
           tag: 'foo',
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
+          params: {
+            dateRange: { startDate: addDays(now, 1) },
+          },
+        }),
+        visitsMocks.length,
+      ],
+      [
+        fromPartial<TagVisits>({
+          tag: 'foo',
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: subDays(now, 2),
+            },
+          },
+        }),
+        visitsMocks.length,
+      ],
+      [
+        fromPartial<TagVisits>({
+          tag: 'foo',
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: addDays(now, 3),
+            },
           },
         }),
         visitsMocks.length + 1,
@@ -97,9 +108,11 @@ describe('tagVisitsReducer', () => {
       [
         fromPartial<TagVisits>({
           tag: 'bar',
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: addDays(now, 3),
+            },
           },
         }),
         visitsMocks.length,
@@ -141,11 +154,10 @@ describe('tagVisitsReducer', () => {
     });
     const tag = 'foo';
 
-    it.each([
-      [undefined],
-      [{}],
-    ])('dispatches start and success when promise is resolved', async (query) => {
+    it('dispatches start and success when promise is resolved', async () => {
       const visits = visitsMocks;
+      const getVisitsParam = { tag, params: {}, options: {} };
+
       getTagVisitsCall.mockResolvedValue({
         data: visitsMocks,
         pagination: {
@@ -155,11 +167,11 @@ describe('tagVisitsReducer', () => {
         },
       });
 
-      await getTagVisits({ tag, query })(dispatchMock, getState, {});
+      await getTagVisits(getVisitsParam)(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits, tag, query: query ?? {} },
+        payload: { visits, ...getVisitsParam },
       }));
       expect(getTagVisitsCall).toHaveBeenCalledOnce();
     });
@@ -193,7 +205,7 @@ describe('tagVisitsReducer', () => {
         .mockResolvedValueOnce(buildVisitsResult())
         .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getTagVisits({ tag, doIntervalFallback: true })(dispatchMock, getState, {});
+      await getTagVisits({ tag, params: {}, options: { doIntervalFallback: true } })(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);

@@ -16,20 +16,19 @@ import { useSetting } from '../utils/settings';
 import { DoughnutChartCard } from './charts/DoughnutChartCard';
 import { LineChartCard } from './charts/LineChartCard';
 import { SortableBarChartCard } from './charts/SortableBarChartCard';
+import { highlightedVisitsToStats } from './helpers';
 import { useVisitsQuery } from './helpers/hooks';
 import { OpenMapModalBtn } from './helpers/OpenMapModalBtn';
 import { VisitsFilterDropdown } from './helpers/VisitsFilterDropdown';
 import { VisitsLoadingFeedback } from './helpers/VisitsLoadingFeedback';
 import { VisitsStatsOptions } from './helpers/VisitsStatsOptions';
-import type { VisitsDeletion, VisitsInfo } from './reducers/types';
+import type { GetVisitsOptions, VisitsDeletion, VisitsInfo } from './reducers/types';
 import { normalizeVisits, processStatsFromVisits } from './services/VisitsParser';
-import type { NormalizedOrphanVisit, NormalizedVisit, VisitsParams } from './types';
-import type { HighlightableProps } from './types/helpers';
-import { highlightedVisitsToStats } from './types/helpers';
+import type { HighlightableProps, NormalizedOrphanVisit, NormalizedVisit, VisitsParams } from './types';
 import { VisitsTable } from './VisitsTable';
 
 export type VisitsStatsProps = PropsWithChildren<{
-  getVisits: (params: VisitsParams, doIntervalFallback?: boolean) => void;
+  getVisits: (params: VisitsParams, options: GetVisitsOptions) => void;
   visitsInfo: VisitsInfo;
   cancelGetVisits: () => void;
   deletion?: {
@@ -83,11 +82,11 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const visitsSettings = useSetting('visits');
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
   const setDates = useCallback(
-    ({ startDate: theStartDate, endDate: theEndDate }: DateRange, newDateInterval?: DateInterval) => {
+    ({ startDate: newStartDate, endDate: newEndDate }: DateRange, newDateInterval?: DateInterval) => {
       updateFiltering({
         dateRange: {
-          startDate: theStartDate ?? undefined,
-          endDate: theEndDate ?? undefined,
+          startDate: newStartDate ?? undefined,
+          endDate: newEndDate ?? undefined,
         },
       });
       setActiveInterval(newDateInterval);
@@ -101,8 +100,8 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const [highlightedLabel, setHighlightedLabel] = useState<string | undefined>();
   const isFirstLoad = useRef(true);
   const { search } = useLocation();
-
   const buildSectionUrl = useCallback((subPath?: string) => (!subPath ? search : `${subPath}${search}`), [search]);
+
   const normalizedVisits = useMemo(() => normalizeVisits(visits), [visits]);
   const { os, browsers, referrers, countries, cities, citiesForMap, visitedUrls } = useMemo(
     () => processStatsFromVisits(normalizedVisits),
@@ -112,11 +111,12 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     Visits: Object.assign(normalizedVisits, { type: 'main' as const }),
     [highlightedLabel ?? 'Selected']: Object.assign(highlightedVisits, { type: 'highlighted' as const }),
   }), [highlightedLabel, highlightedVisits, normalizedVisits]);
+
   const resolvedFilter = useMemo(() => ({
     ...visitsFilter,
     excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
   }), [visitsFilter, visitsSettings?.excludeBots]);
-  const mapLocations = Object.values(citiesForMap);
+  const mapLocations = useMemo(() => Object.values(citiesForMap), [citiesForMap]);
 
   const setSelectedVisits = useCallback((selectedVisits: NormalizedVisit[]) => {
     selectedBar = undefined;
@@ -139,10 +139,16 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   useEffect(() => cancelGetVisits, [cancelGetVisits]);
   useEffect(() => {
     const resolvedDateRange = !isFirstLoad.current ? dateRange : (dateRange ?? toDateRange(initialInterval.current));
-    getVisits({ dateRange: resolvedDateRange, filter: resolvedFilter }, isFirstLoad.current);
-    setSelectedVisits([]); // Reset selected visits
+    const options: GetVisitsOptions = {
+      doIntervalFallback: isFirstLoad.current,
+      loadPrevInterval: visitsSettings?.loadPrevInterval,
+    };
+
+    getVisits({ dateRange: resolvedDateRange, filter: resolvedFilter }, options);
+
+    setSelectedVisits([]); // Reset selected visits every time we load visits
     isFirstLoad.current = false;
-  }, [dateRange, visitsFilter, getVisits, resolvedFilter, setSelectedVisits]);
+  }, [dateRange, visitsFilter, getVisits, resolvedFilter, setSelectedVisits, visitsSettings?.loadPrevInterval]);
   useEffect(() => {
     // As soon as the fallback is loaded, if the initial interval used the settings one, we do fall back
     if (fallbackInterval && initialInterval.current === (visitsSettings?.defaultInterval ?? 'last30Days')) {

@@ -22,6 +22,7 @@ describe('date', () => {
   describe('isBetween', () => {
     it.each([
       [now, undefined, undefined, true],
+      [now, null, null, true],
       [now, subDays(now, 1), undefined, true],
       [now, now, undefined, true],
       [now, undefined, addDays(now, 1), true],

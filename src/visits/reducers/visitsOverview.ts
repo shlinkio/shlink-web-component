@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { ShlinkApiClient } from '../../api-contract';
 import { createAsyncThunk } from '../../utils/redux';
+import { groupNewVisitsByType } from '../helpers';
 import type { CreateVisit } from '../types';
-import { groupNewVisitsByType } from '../types/helpers';
 import { createNewVisits } from './visitCreation';
 
 const REDUCER_PREFIX = 'shlink/visitsOverview';

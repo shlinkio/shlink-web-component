@@ -28,7 +28,10 @@ describe('shortUrlVisitsReducer', () => {
     const buildState = (data: Partial<ShortUrlVisits>) => fromPartial<ShortUrlVisits>(data);
 
     it('returns loading wen pending', () => {
-      const { loading } = reducer(buildState({ loading: false }), getShortUrlVisits.pending('', { shortCode: '' }));
+      const { loading } = reducer(
+        buildState({ loading: false }),
+        getShortUrlVisits.pending('', fromPartial({ shortCode: '' }), undefined),
+      );
       expect(loading).toEqual(true);
     });
 
@@ -40,7 +43,7 @@ describe('shortUrlVisitsReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         buildState({ loading: true, errorData: null }),
-        getShortUrlVisits.rejected(problemDetailsError, '', { shortCode: '' }),
+        getShortUrlVisits.rejected(problemDetailsError, '', fromPartial({ shortCode: '' }), undefined, undefined),
       );
 
       expect(loading).toEqual(false);
@@ -51,7 +54,7 @@ describe('shortUrlVisitsReducer', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, errorData, visits } = reducer(
         buildState({ loading: true, errorData: null }),
-        getShortUrlVisits.fulfilled({ visits: actionVisits }, '', { shortCode: '' }),
+        getShortUrlVisits.fulfilled({ visits: actionVisits }, '', fromPartial({ shortCode: '' }), undefined),
       );
 
       expect(loading).toEqual(false);
@@ -65,23 +68,8 @@ describe('shortUrlVisitsReducer', () => {
       [
         fromPartial<ShortUrlVisits>({
           shortCode: 'abc123',
-          query: { endDate: formatIsoDate(subDays(now, 1)) ?? undefined },
-        }),
-        visitsMocks.length,
-      ],
-      [
-        fromPartial<ShortUrlVisits>({
-          shortCode: 'abc123',
-          query: { startDate: formatIsoDate(addDays(now, 1)) ?? undefined },
-        }),
-        visitsMocks.length,
-      ],
-      [
-        fromPartial<ShortUrlVisits>({
-          shortCode: 'abc123',
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(subDays(now, 2)) ?? undefined,
+          params: {
+            dateRange: { endDate: subDays(now, 1) },
           },
         }),
         visitsMocks.length,
@@ -89,9 +77,32 @@ describe('shortUrlVisitsReducer', () => {
       [
         fromPartial<ShortUrlVisits>({
           shortCode: 'abc123',
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
+          params: {
+            dateRange: { startDate: addDays(now, 1) },
+          },
+        }),
+        visitsMocks.length,
+      ],
+      [
+        fromPartial<ShortUrlVisits>({
+          shortCode: 'abc123',
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: subDays(now, 2),
+            },
+          },
+        }),
+        visitsMocks.length,
+      ],
+      [
+        fromPartial<ShortUrlVisits>({
+          shortCode: 'abc123',
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: addDays(now, 3),
+            },
           },
         }),
         visitsMocks.length + 1,
@@ -99,9 +110,11 @@ describe('shortUrlVisitsReducer', () => {
       [
         fromPartial<ShortUrlVisits>({
           shortCode: 'def456',
-          query: {
-            startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-            endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
+          params: {
+            dateRange: {
+              startDate: subDays(now, 5),
+              endDate: addDays(now, 3),
+            },
           },
         }),
         visitsMocks.length,
@@ -143,9 +156,7 @@ describe('shortUrlVisitsReducer', () => {
       const prevState = buildState({
         visits: [fromPartial({}), fromPartial({})],
         shortCode: 'abc123',
-        query: {
-          domain: 'domain',
-        },
+        domain: 'domain',
       });
       const result = reducer(prevState, { type: 'deleteShortUrlVisits', payload: { shortCode, domain } });
 
@@ -160,12 +171,13 @@ describe('shortUrlVisitsReducer', () => {
     });
 
     it.each([
-      [undefined, undefined],
-      [{}, undefined],
-      [{ domain: 'foobar.com' }, 'foobar.com'],
-    ])('dispatches start and success when promise is resolved', async (query, domain) => {
+      [undefined],
+      ['foobar.com'],
+    ])('dispatches start and success when promise is resolved', async (domain) => {
       const visits = visitsMocks;
       const shortCode = 'abc123';
+      const getVisitsParam = { shortCode, domain, params: {}, options: {} };
+
       getShortUrlVisitsCall.mockResolvedValue({
         data: visitsMocks,
         pagination: {
@@ -175,11 +187,11 @@ describe('shortUrlVisitsReducer', () => {
         },
       });
 
-      await getShortUrlVisits({ shortCode, query })(dispatchMock, getState, {});
+      await getShortUrlVisits(getVisitsParam)(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits, shortCode, domain, query: query ?? {} },
+        payload: { visits, ...getVisitsParam },
       }));
       expect(getShortUrlVisitsCall).toHaveBeenCalledOnce();
     });
@@ -196,7 +208,7 @@ describe('shortUrlVisitsReducer', () => {
           },
         }));
 
-      await getShortUrlVisits({ shortCode: 'abc123' })(dispatchMock, getState, {});
+      await getShortUrlVisits({ shortCode: 'abc123', params: {}, options: {} })(dispatchMock, getState, {});
 
       expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(expectedRequests);
       expect(dispatchMock).toHaveBeenNthCalledWith(3, expect.objectContaining({
@@ -235,7 +247,9 @@ describe('shortUrlVisitsReducer', () => {
         .mockResolvedValueOnce(buildVisitsResult())
         .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getShortUrlVisits({ shortCode: 'abc123', doIntervalFallback: true })(dispatchMock, getState, {});
+      await getShortUrlVisits(
+        { shortCode: 'abc123', params: {}, options: { doIntervalFallback: true } },
+      )(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);

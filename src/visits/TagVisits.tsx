@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import type { ShlinkVisitsParams } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
@@ -9,9 +8,9 @@ import { Topics } from '../mercure/helpers/Topics';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadTagVisits, TagVisits as TagVisitsState } from './reducers/tagVisits';
+import type { GetVisitsOptions } from './reducers/types';
 import { TagVisitsHeader } from './TagVisitsHeader';
-import type { NormalizedVisit } from './types';
-import { toApiParams } from './types/helpers';
+import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsStats } from './VisitsStats';
 
 export type TagVisitsProps = {
@@ -31,8 +30,7 @@ const TagVisits: FCWithDeps<MercureBoundProps & TagVisitsProps, TagVisitsDeps> =
   const { ColorGenerator: colorGenerator, ReportExporter: reportExporter } = useDependencies(TagVisits);
   const { tag = '' } = useParams();
   const loadVisits = useCallback(
-    (params: ShlinkVisitsParams, doIntervalFallback?: boolean) =>
-      getTagVisits({ tag, query: toApiParams(params), doIntervalFallback }),
+    (params: VisitsParams, options: GetVisitsOptions) => getTagVisits({ tag, params, options }),
     [getTagVisits, tag],
   );
   const exportCsv = useCallback(

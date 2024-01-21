@@ -23,7 +23,7 @@ describe('shortUrlVisitsComparisonReducer', () => {
 
   describe('reducer', () => {
     it('returns loading when pending', () => {
-      const action = getShortUrlVisitsForComparison.pending('', { shortUrls: [] }, undefined);
+      const action = getShortUrlVisitsForComparison.pending('', fromPartial({ shortUrls: [] }), undefined);
       const { loading } = reducer(fromPartial({ loading: false }), action);
 
       expect(loading).toEqual(true);
@@ -37,7 +37,13 @@ describe('shortUrlVisitsComparisonReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         fromPartial({ loading: true, errorData: null }),
-        getShortUrlVisitsForComparison.rejected(problemDetailsError, '', { shortUrls: [] }, undefined, undefined),
+        getShortUrlVisitsForComparison.rejected(
+          problemDetailsError,
+          '',
+          fromPartial({ shortUrls: [] }),
+          undefined,
+          undefined,
+        ),
       );
 
       expect(loading).toEqual(false);
@@ -54,7 +60,9 @@ describe('shortUrlVisitsComparisonReducer', () => {
         getShortUrlVisitsForComparison.fulfilled(
           { visitsGroups: actionVisits },
           '',
-          { shortUrls: [{ shortCode: 'foo' }, { shortCode: 'bar', domain: 's.test' }] },
+          fromPartial({
+            shortUrls: [{ shortCode: 'foo' }, { shortCode: 'bar', domain: 's.test' }],
+          }),
           undefined,
         ),
       );
@@ -78,67 +86,56 @@ describe('shortUrlVisitsComparisonReducer', () => {
       [{}, { shortCode: 'baz' }, visitsMocks.length, visitsMocks.length],
       // Query filter in the past. Short URL matches foo. No new visits prepended
       [
-        { endDate: formatIsoDate(subDays(now, 1)) ?? undefined },
+        { endDate: subDays(now, 1) },
         { shortCode: 'foo' },
         visitsMocks.length,
         visitsMocks.length,
       ],
       // Query filter in the future. Short URL matches foo. No new visits prepended
       [
-        { startDate: formatIsoDate(addDays(now, 1)) ?? undefined },
+        { startDate: addDays(now, 1) },
         { shortCode: 'foo' },
         visitsMocks.length,
         visitsMocks.length,
       ],
       // Query filter with start and end in the past. Short URL matches foo. No new visits prepended
       [
-        {
-          startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-          endDate: formatIsoDate(subDays(now, 2)) ?? undefined,
-        },
+        { startDate: subDays(now, 5), endDate: subDays(now, 2) },
         { shortCode: 'foo' },
         visitsMocks.length,
         visitsMocks.length,
       ],
       // Query filter with start and end in the present. Short URL matches foo. Visits prepended to foo
       [
-        {
-          startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-          endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
-        },
+        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
         { shortCode: 'foo' },
         visitsMocks.length + 1,
         visitsMocks.length,
       ],
       // Query filter with start and end in the present. Short URL matches bar. Visits prepended to bar
       [
-        {
-          startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-          endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
-        },
+        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
         { shortCode: 'bar', domain: 's.test' },
         visitsMocks.length,
         visitsMocks.length + 1,
       ],
       // Query filter with start and end in the present. No short URL match. No new visits prepended
       [
-        {
-          startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-          endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
-        },
+        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
         { shortCode: 'foo', domain: 's.test' },
         visitsMocks.length,
         visitsMocks.length,
       ],
-    ])('prepends new visits when visits are created', (query, shortUrlId, expectedFooVisits, expectedBarVisits) => {
+    ])('prepends new visits when visits are created', (dateRange, shortUrlId, expectedFooVisits, expectedBarVisits) => {
       const actionVisits: Record<string, ShlinkVisit[]> = {
         DEFAULT__foo: visitsMocks,
         's.test__bar': visitsMocks,
       };
       const shortUrl = fromPartial<ShlinkShortUrl>(shortUrlId);
-      const { visitsGroups } = reducer(fromPartial({ visitsGroups: actionVisits, query }), createNewVisits([
-        fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } }),
-      ]));
+      const { visitsGroups } = reducer(
+        fromPartial({ visitsGroups: actionVisits, params: { dateRange } }),
+        createNewVisits([fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } })]),
+      );
 
       expect(visitsGroups.DEFAULT__foo).toHaveLength(expectedFooVisits);
       expect(visitsGroups['s.test__bar']).toHaveLength(expectedBarVisits);
@@ -151,16 +148,14 @@ describe('shortUrlVisitsComparisonReducer', () => {
       shortUrlVisitsComparison: { cancelLoad: false },
     });
 
-    it.each([
-      [undefined],
-      [{}],
-    ])('dispatches start and success when promise is resolved', async (query) => {
+    it('dispatches start and success when promise is resolved', async () => {
       const visitsGroups = {
         DEFAULT__foo: visitsMocks,
         DEFAULT__bar: visitsMocks,
         DEFAULT__baz: visitsMocks,
       };
       const shortUrls = Object.keys(visitsGroups).map(queryToShortUrl);
+      const getVisitsComparisonParams = { shortUrls, params: {} };
 
       getShortUrlVisitsCall.mockResolvedValue({
         data: visitsMocks,
@@ -171,11 +166,11 @@ describe('shortUrlVisitsComparisonReducer', () => {
         },
       });
 
-      await getShortUrlVisitsForComparison({ shortUrls, query })(dispatch, getState, {});
+      await getShortUrlVisitsForComparison(getVisitsComparisonParams)(dispatch, getState, {});
 
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visitsGroups, query },
+        payload: { ...getVisitsComparisonParams, visitsGroups },
       }));
       expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(shortUrls.length);
       expect(getShortUrlVisitsCall).toHaveBeenNthCalledWith(1, 'foo', expect.anything());

@@ -1,28 +1,32 @@
 import type { ProblemDetailsError, ShlinkVisit } from '../../../api-contract';
 import type { DateInterval } from '../../../utils/dates/helpers/dateIntervals';
-import type { VisitsQueryParams } from '../../types';
+import type { VisitsParams } from '../../types';
+
+export type GetVisitsOptions = {
+  doIntervalFallback?: boolean;
+  loadPrevInterval?: boolean;
+};
+
+export type LoadVisits = {
+  params: VisitsParams;
+  options: GetVisitsOptions;
+};
+
+export type VisitsLoaded = {
+  visits: ShlinkVisit[];
+  prevVisits?: ShlinkVisit[];
+  params?: VisitsParams;
+};
 
 export type VisitsLoadingInfo = {
   loading: boolean;
+  cancelLoad: boolean;
   errorData: ProblemDetailsError | null;
   progress: number | null;
 };
 
-export interface VisitsInfo<QueryType extends VisitsQueryParams = VisitsQueryParams> extends VisitsLoadingInfo {
-  visits: ShlinkVisit[];
-  cancelLoad: boolean;
-  query?: QueryType;
+export type VisitsInfo = VisitsLoadingInfo & VisitsLoaded & {
   fallbackInterval?: DateInterval;
-}
-
-export interface LoadVisits<QueryType extends VisitsQueryParams = VisitsQueryParams> {
-  query?: QueryType;
-  doIntervalFallback?: boolean;
-}
-
-export type VisitsLoaded<QueryType extends VisitsQueryParams = VisitsQueryParams, T = {}> = T & {
-  visits: ShlinkVisit[];
-  query?: QueryType;
 };
 
 export type VisitsDeletion = {

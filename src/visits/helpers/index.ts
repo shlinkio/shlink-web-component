@@ -3,16 +3,15 @@ import type { ShlinkOrphanVisit, ShlinkVisit, ShlinkVisitsParams } from '../../a
 import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { domainMatches, shortUrlMatches } from '../../short-urls/helpers';
 import { formatIsoDate, isBetween } from '../../utils/dates/helpers/date';
+import type { DateRange } from '../../utils/dates/helpers/dateIntervals';
 import type {
   CreateVisit,
+  HighlightableProps,
   NormalizedOrphanVisit,
   NormalizedVisit,
   Stats,
   VisitsParams,
-  VisitsQueryParams,
-} from './index';
-
-// FIXME This file should be in visits/helpers, not in visits/types
+} from '../types';
 
 export const isOrphanVisit = (visit: ShlinkVisit): visit is ShlinkOrphanVisit =>
   (visit as ShlinkOrphanVisit).visitedUrl !== undefined;
@@ -34,52 +33,56 @@ export const groupNewVisitsByType = (createdVisits: CreateVisit[]): GroupedNewVi
 };
 
 /**
- * Filters provided created visits by those matching a short URL and query
+ * Filters created visits array by those matching a short URL and date range
  */
 export const filterCreatedVisitsByShortUrl = (
   createdVisits: CreateVisit[],
   { shortCode, domain }: ShortUrlIdentifier,
-  { endDate, startDate }: VisitsQueryParams,
+  { endDate, startDate }: DateRange = {},
 ): CreateVisit[] => createdVisits.filter(
   ({ shortUrl, visit }) =>
     shortUrl && shortUrlMatches(shortUrl, shortCode, domain) && isBetween(visit.date, startDate, endDate),
 );
 
 /**
- * Filters provided created visits by those matching a domain and query
+ * Filters created visits array by those matching a domain and date range
  */
 export const filterCreatedVisitsByDomain = (
   createdVisits: CreateVisit[],
   domain: string,
-  { endDate, startDate }: VisitsQueryParams,
+  { endDate, startDate }: DateRange = {},
 ): CreateVisit[] => createdVisits.filter(
   ({ shortUrl, visit }) => shortUrl && domainMatches(shortUrl, domain) && isBetween(visit.date, startDate, endDate),
 );
 
 /**
- * Filters provided created visits by those matching a domain and query
+ * Filters created visits array by those matching a domain and date range
  */
 export const filterCreatedVisitsByTag = (
   createdVisits: CreateVisit[],
   tag: string,
-  { endDate, startDate }: VisitsQueryParams,
+  { endDate, startDate }: DateRange = {},
 ): CreateVisit[] => createdVisits.filter(
   ({ shortUrl, visit }) => shortUrl?.tags.includes(tag) && isBetween(visit.date, startDate, endDate),
 );
-
-export type HighlightableProps<T extends NormalizedVisit> = T extends NormalizedOrphanVisit
-  ? ('referer' | 'country' | 'city' | 'visitedUrl')
-  : ('referer' | 'country' | 'city');
 
 export const highlightedVisitsToStats = <T extends NormalizedVisit>(
   highlightedVisits: T[],
   property: HighlightableProps<T>,
 ): Stats => countBy(highlightedVisits, (value: any) => value[property]);
 
-export const toApiParams = ({ page, itemsPerPage, filter, dateRange }: VisitsParams): ShlinkVisitsParams => {
+export const toApiDateRange = (dateRange?: DateRange): Pick<ShlinkVisitsParams, 'startDate' | 'endDate'> => {
   const startDate = (dateRange?.startDate && formatIsoDate(dateRange?.startDate)) ?? undefined;
   const endDate = (dateRange?.endDate && formatIsoDate(dateRange?.endDate)) ?? undefined;
+
+  return { startDate, endDate };
+};
+
+export const toApiParams = (
+  { filter, dateRange }: VisitsParams,
+): Omit<ShlinkVisitsParams, 'page' | 'itemsPerPage'> => {
+  const { startDate, endDate } = toApiDateRange(dateRange);
   const excludeBots = filter?.excludeBots || undefined;
 
-  return { page, itemsPerPage, startDate, endDate, excludeBots };
+  return { startDate, endDate, excludeBots };
 };

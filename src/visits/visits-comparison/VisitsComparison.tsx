@@ -12,7 +12,6 @@ import { useVisitsQuery } from '../helpers/hooks';
 import { VisitsFilterDropdown } from '../helpers/VisitsFilterDropdown';
 import { VisitsLoadingFeedback } from '../helpers/VisitsLoadingFeedback';
 import { normalizeVisits } from '../services/VisitsParser';
-import { toApiParams } from '../types/helpers';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 
 type VisitsComparisonProps = {
@@ -69,7 +68,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   useEffect(() => {
     const resolvedDateRange = !isFirstLoad.current ? dateRange : (dateRange ?? toDateRange(initialInterval.current));
     getVisitsForComparison({
-      query: toApiParams({ dateRange: resolvedDateRange, filter: resolvedFilter }),
+      params: { dateRange: resolvedDateRange, filter: resolvedFilter },
     });
     isFirstLoad.current = false;
 

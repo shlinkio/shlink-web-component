@@ -22,7 +22,7 @@ describe('domainVisitsComparisonReducer', () => {
 
   describe('reducer', () => {
     it('returns loading when pending', () => {
-      const action = getDomainVisitsForComparison.pending('', { domains: [] }, undefined);
+      const action = getDomainVisitsForComparison.pending('', fromPartial({ domains: [] }), undefined);
       const { loading } = reducer(fromPartial({ loading: false }), action);
 
       expect(loading).toEqual(true);
@@ -36,7 +36,13 @@ describe('domainVisitsComparisonReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         fromPartial({ loading: true, errorData: null }),
-        getDomainVisitsForComparison.rejected(problemDetailsError, '', { domains: [] }, undefined, undefined),
+        getDomainVisitsForComparison.rejected(
+          problemDetailsError,
+          '',
+          fromPartial({ domains: [] }),
+          undefined,
+          undefined,
+        ),
       );
 
       expect(loading).toEqual(false);
@@ -53,7 +59,7 @@ describe('domainVisitsComparisonReducer', () => {
         getDomainVisitsForComparison.fulfilled(
           { visitsGroups: actionVisits },
           '',
-          { domains: ['foo.com', 'bar.com'] },
+          fromPartial({ domains: ['foo.com', 'bar.com'] }),
           undefined,
         ),
       );
@@ -76,58 +82,47 @@ describe('domainVisitsComparisonReducer', () => {
       // No query. No domain match. No new visits prepended
       [{}, 'baz.com', visitsMocks.length, visitsMocks.length],
       // Query filter in the past. Domain matches foo. No new visits prepended
-      [{ endDate: formatIsoDate(subDays(now, 1)) ?? undefined }, 'foo.com', visitsMocks.length, visitsMocks.length],
+      [{ endDate: subDays(now, 1) }, 'foo.com', visitsMocks.length, visitsMocks.length],
       // Query filter in the future. Domain matches foo. No new visits prepended
-      [{ startDate: formatIsoDate(addDays(now, 1)) ?? undefined }, 'foo.com', visitsMocks.length, visitsMocks.length],
+      [{ startDate: addDays(now, 1) }, 'foo.com', visitsMocks.length, visitsMocks.length],
       // Query filter with start and end in the past. Domain matches foo. No new visits prepended
       [
-        {
-          startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-          endDate: formatIsoDate(subDays(now, 2)) ?? undefined,
-        },
+        { startDate: subDays(now, 5), endDate: subDays(now, 2) },
         'foo.com',
         visitsMocks.length,
         visitsMocks.length,
       ],
       // Query filter with start and end in the present. Domain matches foo. Visits prepended to foo
       [
-        {
-          startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-          endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
-        },
+        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
         'foo.com',
         visitsMocks.length + 1,
         visitsMocks.length,
       ],
       // Query filter with start and end in the present. Domain matches bar. Visits prepended to bar
       [
-        {
-          startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-          endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
-        },
+        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
         'bar.com',
         visitsMocks.length,
         visitsMocks.length + 1,
       ],
       // Query filter with start and end in the present. No domain match. No new visits prepended
       [
-        {
-          startDate: formatIsoDate(subDays(now, 5)) ?? undefined,
-          endDate: formatIsoDate(addDays(now, 3)) ?? undefined,
-        },
+        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
         'baz.com',
         visitsMocks.length,
         visitsMocks.length,
       ],
-    ])('prepends new visits when visits are created', (query, shortUrlDomain, expectedFooVisits, expectedBarVisits) => {
+    ])('prepends new visits when visits are created', (dateRange, shortUrlDomain, expectedFooVisits, expectedBarVisits) => {
       const actionVisits: Record<string, ShlinkVisit[]> = {
         'foo.com': visitsMocks,
         'bar.com': visitsMocks,
       };
       const shortUrl = fromPartial<ShlinkShortUrl>({ domain: shortUrlDomain });
-      const { visitsGroups } = reducer(fromPartial({ visitsGroups: actionVisits, query }), createNewVisits([
-        fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } }),
-      ]));
+      const { visitsGroups } = reducer(
+        fromPartial({ visitsGroups: actionVisits, params: { dateRange } }),
+        createNewVisits([fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } })]),
+      );
 
       expect(visitsGroups['foo.com']).toHaveLength(expectedFooVisits);
       expect(visitsGroups['bar.com']).toHaveLength(expectedBarVisits);
@@ -140,16 +135,14 @@ describe('domainVisitsComparisonReducer', () => {
       domainVisitsComparison: { cancelLoad: false },
     });
 
-    it.each([
-      [undefined],
-      [{}],
-    ])('dispatches start and success when promise is resolved', async (query) => {
+    it('dispatches start and success when promise is resolved', async () => {
       const visitsGroups = {
         foo: visitsMocks,
         bar: visitsMocks,
         baz: visitsMocks,
       };
       const domains = Object.keys(visitsGroups);
+      const getVisitsComparisonParam = { domains, params: {} };
 
       getDomainVisitsCall.mockResolvedValue({
         data: visitsMocks,
@@ -160,11 +153,11 @@ describe('domainVisitsComparisonReducer', () => {
         },
       });
 
-      await getDomainVisitsForComparison({ domains, query })(dispatch, getState, {});
+      await getDomainVisitsForComparison(getVisitsComparisonParam)(dispatch, getState, {});
 
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visitsGroups, query },
+        payload: { ...getVisitsComparisonParam, visitsGroups },
       }));
       expect(getDomainVisitsCall).toHaveBeenCalledTimes(domains.length);
       expect(getDomainVisitsCall).toHaveBeenNthCalledWith(1, 'foo', expect.anything());

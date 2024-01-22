@@ -10,7 +10,7 @@ export const isServerInfoSet = (serverInfo: ServerInfo): serverInfo is Required<
 
 export const useServerInfo = (): [ServerInfo, (newServerInfo: ServerInfo) => void] => {
   const rawInfo = useMemo(() => localStorage.getItem('active_shlink_server_info'), []);
-  const [serverInfo, setServerInfo] = useState<ServerInfo>(rawInfo ? JSON.parse(rawInfo) : {});
+  const [serverInfo, setServerInfo] = useState<ServerInfo>(rawInfo ? JSON.parse(rawInfo) as ServerInfo : {});
 
   useEffect(() => {
     localStorage.setItem('active_shlink_server_info', JSON.stringify(serverInfo));

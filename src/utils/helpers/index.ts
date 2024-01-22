@@ -1,5 +1,6 @@
 import { range } from '@shlinkio/data-manipulation';
 import type { SyntheticEvent } from 'react';
+import type { Mandatory } from '../types';
 
 export type OptionalString = string | null | undefined;
 
@@ -13,7 +14,7 @@ export const rangeOf = <T>(size: number, mappingFn: (value: number) => T, startA
 
 export type Empty = null | undefined | '' | never[];
 
-const isEmpty = (value: Exclude<any, undefined | null>): boolean => (
+const isEmpty = (value: Mandatory<any>): boolean => (
   (Array.isArray(value) && value.length === 0)
   || (typeof value === 'string' && value === '')
   || (typeof value === 'object' && Object.keys(value).length === 0)

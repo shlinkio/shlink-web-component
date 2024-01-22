@@ -97,7 +97,7 @@ describe('<VisitsStats />', () => {
     expect(screen.getByRole('button', { name: 'Delete visits' })).toBeInTheDocument();
   });
 
-  it('holds the map button on cities chart header', () => {
+  it('shows the map button on cities chart header', () => {
     setUp({ visitsInfo: { visits }, activeRoute: '/by-location' });
     expect(
       screen.getAllByRole('img', { hidden: true }).some((icon) => icon.classList.contains('fa-map-location-dot')),
@@ -133,12 +133,15 @@ describe('<VisitsStats />', () => {
   });
 
   it.each([
-    [undefined],
-    [true],
-    [false],
-  ])('loads visits when mounted', (loadPrevInterval) => {
+    { loadPrevInterval: undefined, prevVisits: undefined },
+    { loadPrevInterval: true, prevVisits: undefined },
+    { loadPrevInterval: false, prevVisits: undefined },
+    { loadPrevInterval: undefined, prevVisits: visits },
+    { loadPrevInterval: true, prevVisits: visits },
+    { loadPrevInterval: false, prevVisits: visits },
+  ])('loads visits when mounted', ({ loadPrevInterval, prevVisits }) => {
     setUp({
-      visitsInfo: { visits },
+      visitsInfo: { visits, prevVisits },
       settings: {
         visits: fromPartial({
           loadPrevInterval,
@@ -150,5 +153,6 @@ describe('<VisitsStats />', () => {
       expect.anything(),
       expect.objectContaining({ loadPrevInterval }),
     );
+    expect(screen.getByTestId('line-chart-container')).toMatchSnapshot();
   });
 });

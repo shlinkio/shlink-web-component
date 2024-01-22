@@ -69,7 +69,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     exportCsv,
     isOrphanVisits = false,
   } = props;
-  const { visits, loading, errorData, fallbackInterval } = visitsInfo;
+  const { visits, prevVisits, loading, errorData, fallbackInterval } = visitsInfo;
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
   const visitsSettings = useSetting('visits');
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
@@ -95,14 +95,22 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const buildSectionUrl = useCallback((subPath?: string) => (!subPath ? search : `${subPath}${search}`), [search]);
 
   const normalizedVisits = useMemo(() => normalizeVisits(visits), [visits]);
+  const normalizedPrevVisits = useMemo(() => prevVisits && normalizeVisits(prevVisits), [prevVisits]);
   const { os, browsers, referrers, countries, cities, citiesForMap, visitedUrls } = useMemo(
     () => processStatsFromVisits(normalizedVisits),
     [normalizedVisits],
   );
-  const visitsGroups = useMemo(() => ({
-    Visits: Object.assign(normalizedVisits, { type: 'main' as const }),
-    [highlightedLabel ?? 'Selected']: Object.assign(highlightedVisits, { type: 'highlighted' as const }),
-  }), [highlightedLabel, highlightedVisits, normalizedVisits]);
+  const visitsGroups = useMemo(
+    () => Object.fromEntries([
+      normalizedPrevVisits && ['Previous period', Object.assign(normalizedPrevVisits, { type: 'previous' as const })],
+      ['Visits', Object.assign(normalizedVisits, { type: 'main' as const })],
+      highlightedVisits.length > 0 && [
+        highlightedLabel ?? 'Selected',
+        Object.assign(highlightedVisits, { type: 'highlighted' as const }),
+      ],
+    ].filter(Boolean)),
+    [highlightedLabel, highlightedVisits, normalizedPrevVisits, normalizedVisits],
+  );
 
   const resolvedFilter = useMemo(() => ({
     ...visitsFilter,
@@ -217,7 +225,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                   path={sections.byTime.subPath}
                   element={(
                     <VisitsSectionWithFallback showFallback={visits.length === 0}>
-                      <div className="col-12 mt-3">
+                      <div className="col-12 mt-3" data-testid="line-chart-container">
                         <LineChartCard visitsGroups={visitsGroups} setSelectedVisits={setSelectedVisits} />
                       </div>
                     </VisitsSectionWithFallback>

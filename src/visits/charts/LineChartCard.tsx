@@ -1,9 +1,5 @@
 import { countBy } from '@shlinkio/data-manipulation';
-import {
-  HIGHLIGHTED_COLOR,
-  isDarkThemeEnabled,
-  MAIN_COLOR,
-} from '@shlinkio/shlink-frontend-kit';
+import { HIGHLIGHTED_COLOR, isDarkThemeEnabled, MAIN_COLOR } from '@shlinkio/shlink-frontend-kit';
 import {
   add,
   differenceInDays,
@@ -33,7 +29,7 @@ import { formatInternational } from '../../utils/dates/helpers/date';
 import { rangeOf } from '../../utils/helpers';
 import { useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
-import type { MediaMatcher } from '../../utils/types';
+import type { Mandatory, MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
 import { CHART_TOOLTIP_STYLES } from './constants';
 import { LineChartLegend } from './LineChartLegend';
@@ -147,11 +143,22 @@ const datesWithNoGaps = (step: Step, visitsGroups: Record<string, NormalizedVisi
 };
 
 export type VisitsList = NormalizedVisit[] & {
-  type?: 'main' | 'highlighted';
+  type?: 'main' | 'highlighted' | 'previous';
   color?: string;
 };
 
-export const visitsListColor = (v: VisitsList) => v.color ?? (v.type === 'main' ? MAIN_COLOR : HIGHLIGHTED_COLOR);
+export const visitsListColor = (v: VisitsList) => {
+  if (v.color) {
+    return v.color;
+  }
+
+  const typeColorMap: Record<Mandatory<VisitsList['type']>, string> = {
+    main: MAIN_COLOR,
+    highlighted: HIGHLIGHTED_COLOR,
+    previous: '#46e587',
+  };
+  return v.type ? typeColorMap[v.type] : MAIN_COLOR;
+};
 
 const useVisitsWithType = (visitsGroups: Record<string, VisitsList>, type: VisitsList['type']) => useMemo(
   () => Object.values(visitsGroups).find((g) => g.type === type) ?? [],
@@ -185,7 +192,6 @@ const useActiveDot = (
 export type LineChartCardProps = {
   visitsGroups: Record<string, VisitsList>;
   setSelectedVisits?: (visits: NormalizedVisit[]) => void;
-  showLegend?: boolean;
 
   /** Test seam. For tests, a responsive container cannot be used */
   dimensions?: { width: number; height: number };
@@ -193,7 +199,7 @@ export type LineChartCardProps = {
 };
 
 export const LineChartCard: FC<LineChartCardProps> = (
-  { visitsGroups, setSelectedVisits, showLegend, dimensions, matchMedia },
+  { visitsGroups, setSelectedVisits, dimensions, matchMedia },
 ) => {
   const [step, setStep] = useState<Step>(determineInitialStep(visitsGroups));
   const isMobile = useMaxResolution(767, matchMedia ?? window.matchMedia);
@@ -251,13 +257,14 @@ export const LineChartCard: FC<LineChartCardProps> = (
                 dataKey={dataKey}
                 type="monotone"
                 stroke={visitsListColor(v)}
-                strokeWidth={3}
-                activeDot={activeDot}
+                strokeWidth={2}
+                activeDot={v.type === 'previous' ? undefined : activeDot}
+                strokeDasharray={v.type === 'previous' ? '8 3' : undefined}
               />
             ))}
           </LineChart>
         </ChartWrapper>
-        {showLegend && <LineChartLegend visitsGroups={visitsGroups} />}
+        <LineChartLegend visitsGroups={visitsGroups} />
       </CardBody>
     </Card>
   );

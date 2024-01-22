@@ -1,11 +1,15 @@
-import { endOfDay, startOfDay, subDays } from 'date-fns';
+import { differenceInDays, endOfDay, startOfDay, subDays } from 'date-fns';
 import type { DateOrString } from './date';
 import { formatInternational, isBeforeOrEqual, now, parseISO } from './date';
 
-export interface DateRange {
-  startDate?: Date | null;
-  endDate?: Date | null;
-}
+export type StrictDateRange = {
+  startDate: Date;
+  endDate: Date;
+};
+
+export type DateRange = {
+  [K in keyof Partial<StrictDateRange>]: Partial<StrictDateRange>[K] | null;
+};
 
 export const ALL = 'all';
 const INTERVAL_TO_STRING_MAP = {
@@ -104,4 +108,23 @@ export const toDateRange = (rangeOrInterval: DateRange | DateInterval): DateRang
   }
 
   return rangeOrInterval;
+};
+
+export const isStrictDateRange = (dateRange?: DateRange): dateRange is StrictDateRange =>
+  !!(dateRange && dateRange.startDate && dateRange.endDate);
+
+/**
+ * Returns the previous date range, using days as the minimum time unit.
+ *
+ * For example, if you provide a date range which has 12 days between start and end date, it will return another 12-day
+ * DateRange where the endDate will be one day before the original startDate, and the start day will be 13 days before
+ * the original startDate.
+ * 2024-01-10 - 2024-01-18 => 2024-01-01T00:00:00 - 2024-01-09T:23:59:59
+ */
+export const calcPrevDateRange = ({ startDate, endDate }: StrictDateRange): StrictDateRange => {
+  const daysDiff = differenceInDays(endOfDay(endDate), startOfDay(startDate)) + 1;
+  const newStartDate = subDays(startOfDay(startDate), daysDiff);
+  const newEndDate = subDays(endOfDay(startDate), 1);
+
+  return { startDate: newStartDate, endDate: newEndDate };
 };

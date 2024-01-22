@@ -3,14 +3,22 @@ import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkPaginator, ShlinkVisit, ShlinkVisits } from '../../../api-contract';
 
 const ITEMS_PER_PAGE = 5000;
-const DEFAULT_BATCH_SIZE = 4;
 const PARALLEL_STARTING_PAGE = 2;
+
+export const DEFAULT_BATCH_SIZE = 4;
 
 const isLastPage = ({ currentPage, pagesCount }: ShlinkPaginator): boolean => currentPage >= pagesCount;
 const calcProgress = (total: number, current: number): number => (current * 100) / total;
 
 export type VisitsLoader = (page: number, itemsPerPage: number) => Promise<ShlinkVisits>;
+
 export type LastVisitLoader = (excludeBots?: boolean) => Promise<ShlinkVisit | undefined>;
+
+export type Loaders = {
+  visitsLoader: VisitsLoader;
+  lastVisitLoader: LastVisitLoader;
+  prevVisitsLoader?: VisitsLoader;
+};
 
 type CreateLoadVisitsOptions = {
   /** Used to load visits for a specific page and number of items */
@@ -23,7 +31,7 @@ type CreateLoadVisitsOptions = {
    */
   progressChanged: (progress: number) => void;
   /** Max amount of parallel loadings in the same batch */
-  batchSize?: number;
+  batchSize: number;
 };
 
 /**
@@ -34,7 +42,7 @@ export const createLoadVisits = ({
   visitsLoader,
   shouldCancel,
   progressChanged,
-  batchSize = DEFAULT_BATCH_SIZE,
+  batchSize,
 }: CreateLoadVisitsOptions) => {
   const loadVisitsInParallel = async (pages: number[]): Promise<ShlinkVisit[]> =>
     Promise.all(

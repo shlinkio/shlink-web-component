@@ -39,7 +39,7 @@ export const getDomainVisits = (apiClientFactory: () => ShlinkApiClient) => crea
       query,
     ));
 
-    return [visitsLoader, lastVisitLoader];
+    return { visitsLoader, lastVisitLoader };
   },
   shouldCancel: (getState) => getState().domainVisits.cancelLoad,
 });

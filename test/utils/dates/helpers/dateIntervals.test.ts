@@ -1,11 +1,12 @@
 import { endOfDay, format, formatISO, startOfDay, subDays } from 'date-fns';
 import { now, parseDate } from '../../../../src/utils/dates/helpers/date';
-import type {
-  DateInterval } from '../../../../src/utils/dates/helpers/dateIntervals';
+import type { DateInterval } from '../../../../src/utils/dates/helpers/dateIntervals';
 import {
+  calcPrevDateRange,
   dateRangeIsEmpty,
   dateToMatchingInterval,
   intervalToDateRange,
+  isStrictDateRange,
   rangeIsInterval,
   rangeOrIntervalToString,
   toDateRange,
@@ -135,6 +136,48 @@ describe('date-types', () => {
       [{ startDate: daysBack(10), endDate: currentDate }, { startDate: daysBack(10), endDate: currentDate }],
     ])('returns properly parsed interval or range', (rangeOrInterval, expectedResult) => {
       expect(toDateRange(rangeOrInterval)).toEqual(expectedResult);
+    });
+  });
+
+  describe('isStrictDateRange', () => {
+    it.each([
+      [undefined, false],
+      [{}, false],
+      [{ startDate: null }, false],
+      [{ endDate: null }, false],
+      [{ startDate: null, endDate: null }, false],
+      [{ startDate: new Date() }, false],
+      [{ endDate: new Date() }, false],
+      [{ startDate: new Date(), endDate: null }, false],
+      [{ startDate: null, endDate: new Date() }, false],
+      [{ startDate: new Date(), endDate: new Date() }, true],
+    ])('returns true for strict date ranges', (dateRange, isStrict) => {
+      expect(isStrictDateRange(dateRange)).toEqual(isStrict);
+    });
+  });
+
+  describe('calcPrevDateRange', () => {
+    it.each([
+      [
+        { startDate: new Date('2024-01-10 00:00:00'), endDate: new Date('2024-01-18 23:59:59') },
+        '2024-01-01 00:00:00',
+        '2024-01-09 23:59:59',
+      ],
+      [
+        { startDate: new Date('2024-01-18'), endDate: new Date('2024-01-18') },
+        '2024-01-17 00:00:00',
+        '2024-01-17 23:59:59',
+      ],
+      [
+        { startDate: new Date('2024-02-27 23:00:00'), endDate: new Date('2024-05-02 01:00:00') },
+        '2023-12-23 00:00:00',
+        '2024-02-26 23:59:59',
+      ],
+    ])('calculates previous date range', (dateRange, expectedStartDate, expectedEndDate) => {
+      const { startDate, endDate } = calcPrevDateRange(dateRange);
+
+      expect(format(startDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(expectedStartDate);
+      expect(format(endDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(expectedEndDate);
     });
   });
 });

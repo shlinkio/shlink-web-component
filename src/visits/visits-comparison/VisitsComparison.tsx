@@ -11,6 +11,7 @@ import { LineChartCard, type VisitsList } from '../charts/LineChartCard';
 import { useVisitsQuery } from '../helpers/hooks';
 import { VisitsFilterDropdown } from '../helpers/VisitsFilterDropdown';
 import { VisitsLoadingFeedback } from '../helpers/VisitsLoadingFeedback';
+import { VisitsSectionWithFallback } from '../helpers/VisitsSectionWithFallback';
 import { normalizeVisits } from '../services/VisitsParser';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 
@@ -30,6 +31,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   cancelGetVisitsComparison,
 }) => {
   const { loading, visitsGroups } = visitsComparisonInfo;
+  const visitsSettings = useSetting('visits');
   const normalizedVisitsGroups = useMemo(
     () => Object.keys(visitsGroups).reduce<Record<string, VisitsList>>((acc, key, index) => {
       acc[key] = Object.assign(normalizeVisits(visitsGroups[key]), {
@@ -39,7 +41,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
     }, {}),
     [colors, visitsGroups],
   );
-  const visitsSettings = useSetting('visits');
+  const showFallback = useMemo(() => Object.values(visitsGroups).every((group) => group.length === 0), [visitsGroups]);
 
   // State related with visits filtering
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
@@ -100,7 +102,11 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
         </div>
       </div>
       <VisitsLoadingFeedback info={visitsComparisonInfo} />
-      {!loading && <LineChartCard showLegend visitsGroups={normalizedVisitsGroups} />}
+      {!loading && (
+        <VisitsSectionWithFallback showFallback={showFallback}>
+          <LineChartCard showLegend visitsGroups={normalizedVisitsGroups} />
+        </VisitsSectionWithFallback>
+      )}
     </>
   );
 };

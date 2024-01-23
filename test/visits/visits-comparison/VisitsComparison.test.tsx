@@ -15,6 +15,7 @@ type SetUpOptions = {
 
 describe('<VisitsComparison />', () => {
   const now = new Date();
+  const visit = fromPartial<ShlinkVisit>({ date: '2020-01-01' });
   const getVisitsForComparison = vi.fn();
   const cancelGetVisitsComparison = vi.fn();
   const setUp = ({ loading = false, visitsGroups = {} }: SetUpOptions = {}) => renderWithEvents(
@@ -32,6 +33,7 @@ describe('<VisitsComparison />', () => {
     [{}],
     [{ loading: true }],
     [{ visitsGroups: { foo: [], bar: [] } }],
+    [{ visitsGroups: { foo: [visit], bar: [visit] } }],
   ])('passes a11y checks', (options) => checkAccessibility(setUp(options)));
 
   it('disables filtering controls when loading', async () => {
@@ -45,13 +47,24 @@ describe('<VisitsComparison />', () => {
   });
 
   it.each([[true], [false]])('does not display chart when loading', (loading) => {
-    setUp({ loading });
+    setUp({ loading, visitsGroups: { foo: [visit] } });
 
     if (loading) {
       expect(screen.queryByText('Visits over time')).not.toBeInTheDocument();
     } else {
       expect(screen.getByText('Visits over time')).toBeInTheDocument();
     }
+  });
+
+  it.each([
+    [{}],
+    [{ foo: [] }],
+    [{ foo: [], bar: [], baz: [] }],
+  ])('shows fallback when all visits groups are empty', (visitsGroups) => {
+    setUp({ loading: false, visitsGroups });
+
+    expect(screen.queryByText('Visits over time')).not.toBeInTheDocument();
+    expect(screen.getByText('There are no visits matching current filter')).toBeInTheDocument();
   });
 
   it('loads visits every time filters change', async () => {

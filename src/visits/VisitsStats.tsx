@@ -1,7 +1,7 @@
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faCalendarAlt, faChartPie, faGears, faList, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Message, NavPillItem, NavPills } from '@shlinkio/shlink-frontend-kit';
+import { NavPillItem, NavPills } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -21,6 +21,7 @@ import { useVisitsQuery } from './helpers/hooks';
 import { OpenMapModalBtn } from './helpers/OpenMapModalBtn';
 import { VisitsFilterDropdown } from './helpers/VisitsFilterDropdown';
 import { VisitsLoadingFeedback } from './helpers/VisitsLoadingFeedback';
+import { VisitsSectionWithFallback } from './helpers/VisitsSectionWithFallback';
 import { VisitsStatsOptions } from './helpers/VisitsStatsOptions';
 import type { GetVisitsOptions, VisitsDeletion, VisitsInfo } from './reducers/types';
 import { normalizeVisits, processStatsFromVisits } from './services/VisitsParser';
@@ -57,15 +58,6 @@ const sections = {
 Object.freeze(sections);
 
 let selectedBar: string | undefined;
-
-const VisitsSectionWithFallback: FC<PropsWithChildren<{ showFallback: boolean }>> = (
-  { children, showFallback },
-) => (
-  <>
-    {showFallback && <Message className="mt-3">There are no visits matching current filter</Message>}
-    {!showFallback && <>{children}</>}
-  </>
-);
 
 export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const {

@@ -9,7 +9,7 @@ import { useSetting } from '../../utils/settings';
 import { chartColorForIndex } from '../charts/constants';
 import { LineChartCard, type VisitsList } from '../charts/LineChartCard';
 import { useVisitsQuery } from '../helpers/hooks';
-import { VisitsFilterDropdown } from '../helpers/VisitsFilterDropdown';
+import { VisitsDropdown } from '../helpers/VisitsDropdown';
 import { VisitsLoadingFeedback } from '../helpers/VisitsLoadingFeedback';
 import { VisitsSectionWithFallback } from '../helpers/VisitsSectionWithFallback';
 import { normalizeVisits } from '../services/VisitsParser';
@@ -44,11 +44,11 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   const showFallback = useMemo(() => Object.values(visitsGroups).every((group) => group.length === 0), [visitsGroups]);
 
   // State related with visits filtering
-  const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
+  const [{ dateRange, visitsFilter }, updateQuery] = useVisitsQuery();
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
   const setDates = useCallback(
     ({ startDate: theStartDate, endDate: theEndDate }: DateRange, newDateInterval?: DateInterval) => {
-      updateFiltering({
+      updateQuery({
         dateRange: {
           startDate: theStartDate ?? undefined,
           endDate: theEndDate ?? undefined,
@@ -56,7 +56,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
       });
       setActiveInterval(newDateInterval);
     },
-    [updateFiltering],
+    [updateQuery],
   );
   const initialInterval = useRef<DateRange | DateInterval>(
     dateRange ?? visitsSettings?.defaultInterval ?? 'last30Days',
@@ -93,11 +93,13 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
               onDatesChange={setDates}
             />
           </div>
-          <VisitsFilterDropdown
+          <VisitsDropdown
             disabled={loading}
             className="ms-0 ms-md-2 mt-3 mt-md-0"
             selected={resolvedFilter}
-            onChange={(newVisitsFilter) => updateFiltering({ visitsFilter: newVisitsFilter })}
+            onChange={({ orphanVisitsType, excludeBots }) => updateQuery({
+              visitsFilter: { orphanVisitsType, excludeBots },
+            })}
           />
         </div>
       </div>

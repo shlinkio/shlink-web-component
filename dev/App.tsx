@@ -17,8 +17,7 @@ export const App: FC = () => {
     [serverInfo],
   );
   const settings = useMemo((): Settings => ({
-    realTimeUpdates: { enabled: true },
-    visits: { defaultInterval: 'last30Days', loadPrevInterval: true },
+    realTimeUpdates: { enabled: false },
   }), []);
   const routesPrefix = useMemo(
     () => (window.location.pathname.startsWith('/sub/route') ? '/sub/route' : undefined),

@@ -256,7 +256,7 @@ describe('shortUrlVisitsReducer', () => {
       expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(2);
     });
 
-    it.only.each([
+    it.each([
       // Strict date range and loadPrevInterval: true -> prev visits are loaded
       [{
         dateRange: { startDate: subDays(now, 1), endDate: addDays(now, 1) },

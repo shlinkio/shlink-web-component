@@ -121,7 +121,7 @@ describe('<VisitsStats />', () => {
 
     expect(history.location.search).toEqual('');
 
-    await user.click(screen.getByRole('button', { name: /Filters/ }));
+    await user.click(screen.getByRole('button', { name: /More/ }));
     await waitFor(() => screen.getByRole('menu'));
     await user.click(screen.getByRole('menuitem', { name: 'Exclude potential bots' }));
     expectSearchContains(['excludeBots=true']);

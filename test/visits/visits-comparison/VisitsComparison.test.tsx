@@ -42,7 +42,7 @@ describe('<VisitsComparison />', () => {
     await user.click(screen.getByRole('button', { name: 'Last 30 days' }));
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    await user.click(screen.getByRole('button', { name: 'More' }));
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
   });
 
@@ -82,7 +82,7 @@ describe('<VisitsComparison />', () => {
     expect(formatISO(firstCallParams.dateRange!.startDate!)).toEqual(formatISO(subDays(startOfDay(now), 1)));
     expect(formatISO(firstCallParams.dateRange!.endDate!)).toEqual(formatISO(subDays(endOfDay(now), 1)));
 
-    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    await user.click(screen.getByRole('button', { name: 'More' }));
     await user.click(screen.getByRole('menuitem', { name: 'Exclude potential bots' }));
 
     const { params: secondCallParams } = getLastCallParams();

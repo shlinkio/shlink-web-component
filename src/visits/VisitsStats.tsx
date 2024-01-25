@@ -70,12 +70,12 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     isOrphanVisits = false,
   } = props;
   const { visits, prevVisits, loading, errorData, fallbackInterval } = visitsInfo;
-  const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
+  const [{ dateRange, visitsFilter, loadPrevInterval }, updateQuery] = useVisitsQuery();
   const visitsSettings = useSetting('visits');
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
   const setDates = useCallback(
     ({ startDate: newStartDate, endDate: newEndDate }: DateRange, newDateInterval?: DateInterval) => {
-      updateFiltering({
+      updateQuery({
         dateRange: {
           startDate: newStartDate ?? undefined,
           endDate: newEndDate ?? undefined,
@@ -83,7 +83,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
       });
       setActiveInterval(newDateInterval);
     },
-    [updateFiltering],
+    [updateQuery],
   );
   const initialInterval = useRef<DateRange | DateInterval>(
     dateRange ?? fallbackInterval ?? visitsSettings?.defaultInterval ?? 'last30Days',
@@ -115,7 +115,8 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const resolvedFilter = useMemo(() => ({
     ...visitsFilter,
     excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
-  }), [visitsFilter, visitsSettings?.excludeBots]);
+    loadPrevInterval: loadPrevInterval ?? visitsSettings?.loadPrevInterval,
+  }), [loadPrevInterval, visitsFilter, visitsSettings?.excludeBots, visitsSettings?.loadPrevInterval]);
   const mapLocations = useMemo(() => Object.values(citiesForMap), [citiesForMap]);
 
   const setSelectedVisits = useCallback((selectedVisits: NormalizedVisit[]) => {
@@ -139,16 +140,17 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   useEffect(() => cancelGetVisits, [cancelGetVisits]);
   useEffect(() => {
     const resolvedDateRange = dateRange ?? toDateRange(initialInterval.current);
+    const { loadPrevInterval: doLoadPrevInterval, ...filter } = resolvedFilter;
     const options: GetVisitsOptions = {
       doIntervalFallback: isFirstLoad.current,
-      loadPrevInterval: visitsSettings?.loadPrevInterval,
+      loadPrevInterval: doLoadPrevInterval,
     };
 
-    getVisits({ dateRange: resolvedDateRange, filter: resolvedFilter }, options);
+    getVisits({ dateRange: resolvedDateRange, filter }, options);
 
     setSelectedVisits([]); // Reset selected visits every time we load visits
     isFirstLoad.current = false;
-  }, [dateRange, visitsFilter, getVisits, resolvedFilter, setSelectedVisits, visitsSettings?.loadPrevInterval]);
+  }, [dateRange, visitsFilter, getVisits, resolvedFilter, setSelectedVisits]);
   useEffect(() => {
     // As soon as the fallback is loaded, if the initial interval used the settings one, we do fall back
     if (fallbackInterval && initialInterval.current === (visitsSettings?.defaultInterval ?? 'last30Days')) {
@@ -176,8 +178,12 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                 disabled={loading}
                 className="ms-0 ms-md-2 mt-3 mt-md-0"
                 isOrphanVisits={isOrphanVisits}
+                withPrevInterval
                 selected={resolvedFilter}
-                onChange={(newVisitsFilter) => updateFiltering({ visitsFilter: newVisitsFilter })}
+                onChange={({ loadPrevInterval: newLoadPrevInterval, ...newVisitsFilter }) => updateQuery({
+                  visitsFilter: newVisitsFilter,
+                  loadPrevInterval: newLoadPrevInterval,
+                })}
               />
             </div>
           </div>

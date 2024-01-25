@@ -11,19 +11,21 @@ import { parseBooleanToString } from '../../utils/helpers';
 import type { DeepPartial } from '../../utils/types';
 import type { VisitsFilter } from '../types';
 
-type VisitsQuery = Record<string, unknown> & {
+type VisitsRawQuery = Record<string, unknown> & {
   startDate?: string;
   endDate?: string;
   orphanVisitsType?: ShlinkOrphanVisitType;
   excludeBots?: BooleanString;
+  loadPrevInterval?: BooleanString;
 };
 
-type VisitsFiltering = {
+export type VisitsQuery = {
   dateRange?: DateRange;
   visitsFilter: VisitsFilter;
+  loadPrevInterval?: boolean;
 };
 
-type UpdateFiltering = (extra: DeepPartial<VisitsFiltering>) => void;
+type UpdateQuery = (extra: DeepPartial<VisitsQuery>) => void;
 
 /**
  * For start and end dates, the presence of the keys with value `undefined` has a different meaning than the absence
@@ -39,35 +41,38 @@ const dateFromRangeToQuery = (dateName: keyof DateRange, dateRange?: DateRange):
   return (dateRange[dateName] && formatIsoDate(dateRange[dateName])) || '';
 };
 
-export const useVisitsQuery = (): [VisitsFiltering, UpdateFiltering] => {
+export const useVisitsQuery = (): [VisitsQuery, UpdateQuery] => {
   const navigate = useNavigate();
-  const { startDate, endDate, orphanVisitsType, excludeBots, ...rest } = useParsedQuery<VisitsQuery>();
+  const rawQuery = useParsedQuery<VisitsRawQuery>();
+  const { startDate, endDate, orphanVisitsType, excludeBots, loadPrevInterval, ...rest } = rawQuery;
 
-  const filtering = useMemo(
-    (): VisitsFiltering => ({
+  const query = useMemo(
+    (): VisitsQuery => ({
       dateRange: startDate != null || endDate != null ? datesToDateRange(startDate, endDate) : undefined,
       visitsFilter: {
         orphanVisitsType,
         excludeBots: excludeBots !== undefined ? excludeBots === 'true' : undefined,
       },
+      loadPrevInterval: loadPrevInterval !== undefined ? loadPrevInterval === 'true' : undefined,
     }),
-    [endDate, excludeBots, orphanVisitsType, startDate],
+    [endDate, excludeBots, loadPrevInterval, orphanVisitsType, startDate],
   );
-  const updateFiltering = useCallback((extra: DeepPartial<VisitsFiltering>) => {
-    const { dateRange, visitsFilter = {} } = mergeDeepRight(filtering, extra);
+  const updateQuery = useCallback((extra: DeepPartial<VisitsQuery>) => {
+    const { dateRange, visitsFilter = {}, loadPrevInterval: newLoadPrevInterval } = mergeDeepRight(query, extra);
     const { excludeBots: newExcludeBots, orphanVisitsType: newOrphanVisitsType } = visitsFilter;
-    const newQuery: VisitsQuery = {
+    const newQuery: VisitsRawQuery = {
       ...rest, // Merge with rest of existing query so that unknown params are preserved
       startDate: dateFromRangeToQuery('startDate', dateRange),
       endDate: dateFromRangeToQuery('endDate', dateRange),
       excludeBots: newExcludeBots === undefined ? undefined : parseBooleanToString(newExcludeBots),
       orphanVisitsType: newOrphanVisitsType,
+      loadPrevInterval: newLoadPrevInterval === undefined ? undefined : parseBooleanToString(newLoadPrevInterval),
     };
     const stringifiedQuery = stringifyQuery(newQuery);
     const queryString = !stringifiedQuery ? '' : `?${stringifiedQuery}`;
 
     navigate(queryString, { replace: true, relative: 'route' });
-  }, [filtering, navigate, rest]);
+  }, [query, navigate, rest]);
 
-  return [filtering, updateFiltering];
+  return [query, updateQuery];
 };

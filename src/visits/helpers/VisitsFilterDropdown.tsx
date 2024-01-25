@@ -3,32 +3,52 @@ import { useCallback } from 'react';
 import type { DropdownItemProps } from 'reactstrap';
 import { DropdownItem } from 'reactstrap';
 import type { ShlinkOrphanVisitType } from '../../api-contract';
-import { hasValue } from '../../utils/helpers';
 import type { VisitsFilter } from '../types';
 
+export type Filter = VisitsFilter & { loadPrevInterval?: boolean };
+
 interface VisitsFilterDropdownProps {
-  onChange: (filters: VisitsFilter) => void;
-  selected?: VisitsFilter;
+  onChange: (filters: Filter) => void;
+  selected?: Filter;
   className?: string;
   isOrphanVisits?: boolean;
+  withPrevInterval?: boolean;
   disabled?: boolean;
 }
 
-export const VisitsFilterDropdown = (
-  { onChange, selected = {}, className, isOrphanVisits = false, disabled }: VisitsFilterDropdownProps,
-) => {
-  const { orphanVisitsType, excludeBots = false } = selected;
+export const VisitsFilterDropdown = ({
+  onChange,
+  selected = {},
+  className,
+  isOrphanVisits = false,
+  withPrevInterval = false,
+  disabled,
+}: VisitsFilterDropdownProps) => {
+  const { orphanVisitsType, excludeBots = false, loadPrevInterval = false } = selected;
   const propsForOrphanVisitsTypeItem = (type: ShlinkOrphanVisitType): DropdownItemProps => ({
     active: orphanVisitsType === type,
-    onClick: () => onChange({ orphanVisitsType: type === selected?.orphanVisitsType ? undefined : type }),
+    onClick: () => onChange({ orphanVisitsType: type === orphanVisitsType ? undefined : type }),
   });
   const onBotsClick = useCallback(
-    () => onChange({ excludeBots: !selected?.excludeBots }),
-    [onChange, selected],
+    () => onChange({ ...selected, excludeBots: !excludeBots }),
+    [excludeBots, onChange, selected],
+  );
+  const onPrevIntervalClick = useCallback(
+    () => onChange({ ...selected, loadPrevInterval: !loadPrevInterval }),
+    [loadPrevInterval, onChange, selected],
   );
 
   return (
-    <DropdownBtn disabled={disabled} text="Filters" dropdownClassName={className} end minWidth={250}>
+    <DropdownBtn disabled={disabled} text="More" dropdownClassName={className} end minWidth={250}>
+      {withPrevInterval && (
+        <>
+          <DropdownItem active={loadPrevInterval} onClick={onPrevIntervalClick}>
+            Compare with previous period
+          </DropdownItem>
+          <DropdownItem divider tag="hr" />
+        </>
+      )}
+
       <DropdownItem header aria-hidden>Bots:</DropdownItem>
       <DropdownItem active={excludeBots} onClick={onBotsClick}>Exclude potential bots</DropdownItem>
 
@@ -44,10 +64,14 @@ export const VisitsFilterDropdown = (
 
       <DropdownItem divider tag="hr" />
       <DropdownItem
-        disabled={!hasValue(selected)}
-        onClick={() => onChange({ excludeBots: false, orphanVisitsType: undefined })}
+        disabled={
+          selected.excludeBots === undefined
+          && selected.loadPrevInterval === undefined
+          && selected.orphanVisitsType === undefined
+        }
+        onClick={() => onChange({ excludeBots: undefined, loadPrevInterval: undefined, orphanVisitsType: undefined })}
       >
-        <i>Clear filters</i>
+        <i>Reset to defaults</i>
       </DropdownItem>
     </DropdownBtn>
   );

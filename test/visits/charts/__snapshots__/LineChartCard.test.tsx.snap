@@ -361,6 +361,52 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           </div>
         </div>
       </div>
+      <ul
+        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+      >
+        <li
+          class="d-inline"
+        >
+          <div
+            class="color-bullet"
+            style="background-color: rgb(70, 150, 229);"
+          />
+          <strong>
+            v
+             (
+            0
+            )
+          </strong>
+        </li>
+        <li
+          class="d-inline"
+        >
+          <div
+            class="color-bullet"
+            style="background-color: rgb(247, 127, 40);"
+          />
+          <strong>
+            h
+             (
+            0
+            )
+          </strong>
+        </li>
+        <li
+          class="d-inline"
+        >
+          <div
+            class="color-bullet"
+            style="background-color: rgb(70, 229, 135);"
+          />
+          <strong>
+            p
+             (
+            0
+            )
+          </strong>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
@@ -871,7 +917,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
               height="360"
               stroke="#4696e5"
               stroke-dasharray="0px 0px"
-              stroke-width="3"
+              stroke-width="2"
               width="730"
             />
           </g>
@@ -893,6 +939,38 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           </div>
         </div>
       </div>
+      <ul
+        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+      >
+        <li
+          class="d-inline"
+        >
+          <div
+            class="color-bullet"
+            style="background-color: rgb(70, 150, 229);"
+          />
+          <strong>
+            v
+             (
+            1
+            )
+          </strong>
+        </li>
+        <li
+          class="d-inline"
+        >
+          <div
+            class="color-bullet"
+            style="background-color: rgb(247, 127, 40);"
+          />
+          <strong>
+            h
+             (
+            0
+            )
+          </strong>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
@@ -1403,7 +1481,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               height="360"
               stroke="#4696e5"
               stroke-dasharray="0px 0px"
-              stroke-width="3"
+              stroke-width="2"
               width="730"
             />
           </g>
@@ -1417,7 +1495,21 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               height="360"
               stroke="#f77f28"
               stroke-dasharray="0px 0px"
-              stroke-width="3"
+              stroke-width="2"
+              width="730"
+            />
+          </g>
+          <g
+            class="recharts-layer recharts-line"
+          >
+            <path
+              class="recharts-curve recharts-line-curve"
+              d="M65,5L795,365"
+              fill="none"
+              height="360"
+              stroke="#46e587"
+              stroke-dasharray="0px, 0px"
+              stroke-width="2"
               width="730"
             />
           </g>
@@ -1439,6 +1531,52 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           </div>
         </div>
       </div>
+      <ul
+        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+      >
+        <li
+          class="d-inline"
+        >
+          <div
+            class="color-bullet"
+            style="background-color: rgb(70, 150, 229);"
+          />
+          <strong>
+            v
+             (
+            1
+            )
+          </strong>
+        </li>
+        <li
+          class="d-inline"
+        >
+          <div
+            class="color-bullet"
+            style="background-color: rgb(247, 127, 40);"
+          />
+          <strong>
+            h
+             (
+            1
+            )
+          </strong>
+        </li>
+        <li
+          class="d-inline"
+        >
+          <div
+            class="color-bullet"
+            style="background-color: rgb(70, 229, 135);"
+          />
+          <strong>
+            p
+             (
+            1
+            )
+          </strong>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
@@ -1530,7 +1668,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts31-clip"
+              id="recharts33-clip"
             >
               <rect
                 height="360"
@@ -9018,7 +9156,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               height="360"
               stroke="red"
               stroke-dasharray="0px 0px"
-              stroke-width="3"
+              stroke-width="2"
               width="730"
             />
           </g>
@@ -9032,7 +9170,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               height="360"
               stroke="yellow"
               stroke-dasharray="0px 0px"
-              stroke-width="3"
+              stroke-width="2"
               width="730"
             />
           </g>

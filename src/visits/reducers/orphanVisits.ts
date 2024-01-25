@@ -36,7 +36,7 @@ export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => crea
     });
     const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (query) => apiClient.getOrphanVisits(query));
 
-    return [visitsLoader, lastVisitLoader];
+    return { visitsLoader, lastVisitLoader };
   },
   shouldCancel: (getState) => getState().orphanVisits.cancelLoad,
 });

@@ -3,7 +3,8 @@ import type { ShlinkOrphanVisit, ShlinkVisit, ShlinkVisitsParams } from '../../a
 import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { domainMatches, shortUrlMatches } from '../../short-urls/helpers';
 import { formatIsoDate, isBetween } from '../../utils/dates/helpers/date';
-import type { DateRange } from '../../utils/dates/helpers/dateIntervals';
+import type { DateRange, StrictDateRange } from '../../utils/dates/helpers/dateIntervals';
+import { calcPrevDateRange, isStrictDateRange } from '../../utils/dates/helpers/dateIntervals';
 import type {
   CreateVisit,
   HighlightableProps,
@@ -86,3 +87,16 @@ export const toApiParams = (
 
   return { startDate, endDate, excludeBots };
 };
+
+type StrictRangeParams = Omit<VisitsParams, 'dateRange'> & {
+  dateRange: StrictDateRange;
+};
+
+export const isStrictRangeParams = (params: VisitsParams): params is StrictRangeParams => isStrictDateRange(
+  params.dateRange,
+);
+
+export const paramsForPrevDateRange = ({ dateRange, ...rest }: StrictRangeParams): VisitsParams => ({
+  ...rest,
+  dateRange: calcPrevDateRange(dateRange),
+});

@@ -34,7 +34,7 @@ export const getTagVisits = (apiClientFactory: () => ShlinkApiClient) => createV
     );
     const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (q) => apiClient.getTagVisits(tag, q));
 
-    return [visitsLoader, lastVisitLoader];
+    return { visitsLoader, lastVisitLoader };
   },
   shouldCancel: (getState) => getState().tagVisits.cancelLoad,
 });

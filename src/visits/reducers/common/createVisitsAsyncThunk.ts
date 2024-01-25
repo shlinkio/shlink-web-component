@@ -1,15 +1,17 @@
 import { createAction } from '@reduxjs/toolkit';
+import { addDays, differenceInDays } from 'date-fns';
 import type { RootState } from '../../../container/store';
+import { formatIsoDate, parseISO } from '../../../utils/dates/helpers/date';
 import type { DateInterval } from '../../../utils/dates/helpers/dateIntervals';
-import { dateToMatchingInterval } from '../../../utils/dates/helpers/dateIntervals';
+import { dateToMatchingInterval, isStrictDateRange } from '../../../utils/dates/helpers/dateIntervals';
 import { createAsyncThunk } from '../../../utils/redux';
 import type { LoadVisits, VisitsLoaded } from '../types';
-import type { LastVisitLoader, VisitsLoader } from './createLoadVisits';
-import { createLoadVisits } from './createLoadVisits';
+import type { Loaders } from './createLoadVisits';
+import { createLoadVisits, DEFAULT_BATCH_SIZE } from './createLoadVisits';
 
 interface VisitsAsyncThunkOptions<T extends LoadVisits = LoadVisits> {
   typePrefix: string;
-  createLoaders: (params: T) => [VisitsLoader, LastVisitLoader];
+  createLoaders: (params: T) => Loaders;
   shouldCancel: (getState: () => RootState) => boolean;
 }
 
@@ -20,19 +22,54 @@ export const createVisitsAsyncThunk = <T extends LoadVisits = LoadVisits>(
   const fallbackToInterval = createAction<DateInterval>(`${typePrefix}/fallbackToInterval`);
 
   const asyncThunk = createAsyncThunk(typePrefix, async (param: T, { getState, dispatch }): Promise<VisitsLoaded> => {
-    const [visitsLoader, lastVisitLoader] = createLoaders(param);
+    const { visitsLoader, lastVisitLoader, prevVisitsLoader } = createLoaders(param);
+    const batchSize = DEFAULT_BATCH_SIZE / (prevVisitsLoader ? 2 : 1);
+    const daysInDateRange = isStrictDateRange(param.params.dateRange)
+      ? differenceInDays(param.params.dateRange.endDate, param.params.dateRange.startDate)
+      : undefined;
+
+    const progresses = prevVisitsLoader ? { main: 0, prev: 0 } : { main: 0 };
+    const computeProgress = (key: keyof typeof progresses, progress: number) => {
+      progresses[key] = progress;
+
+      const values = Object.values(progresses);
+      const sum = values.reduce((a, b) => a + b, 0);
+
+      dispatch(progressChanged(sum / values.length));
+    };
+
     const loadVisits = createLoadVisits({
       visitsLoader,
       shouldCancel: () => shouldCancel(getState),
-      progressChanged: (progress) => dispatch(progressChanged(progress)),
+      progressChanged: (progress) => computeProgress('main', progress),
+      batchSize,
     });
-    const [visits, lastVisit] = await Promise.all([loadVisits(), lastVisitLoader(param.params.filter?.excludeBots)]);
+    const loadPrevVisits = prevVisitsLoader && createLoadVisits({
+      visitsLoader: prevVisitsLoader,
+      shouldCancel: () => shouldCancel(getState),
+      progressChanged: (progress) => computeProgress('prev', progress),
+      batchSize,
+    });
+    const [visits, lastVisit, prevVisits] = await Promise.all([
+      loadVisits(),
+      lastVisitLoader(param.params.filter?.excludeBots),
+      loadPrevVisits?.().then((v) => v.map((visit) => {
+        if (daysInDateRange === undefined) {
+          return visit;
+        }
+
+        // Move date from every visit to the corresponding one in active range
+        const { date, ...rest } = visit;
+        const dateObj = addDays(parseISO(date), daysInDateRange);
+        return { ...rest, date: formatIsoDate(dateObj)! }; // FIXME Fix formatIsoDate return type
+      })) ?? Promise.resolve(undefined),
+    ]);
 
     if (!visits.length && lastVisit) {
       dispatch(fallbackToInterval(dateToMatchingInterval(lastVisit.date)));
     }
 
-    return { ...param, visits };
+    return { ...param, visits, prevVisits };
   });
 
   // Enhance the async thunk with extra actions

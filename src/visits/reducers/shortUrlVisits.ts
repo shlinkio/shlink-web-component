@@ -1,6 +1,6 @@
 import type { ShlinkApiClient } from '../../api-contract';
 import type { ShortUrlIdentifier } from '../../short-urls/data';
-import { filterCreatedVisitsByShortUrl, toApiParams } from '../helpers';
+import { filterCreatedVisitsByShortUrl, isStrictRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteShortUrlVisits } from './shortUrlVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';
@@ -24,17 +24,12 @@ export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => cr
   typePrefix: `${REDUCER_PREFIX}/getShortUrlVisits`,
   createLoaders: ({ shortCode, domain, params, options }: LoadShortUrlVisits) => {
     const apiClient = apiClientFactory();
-    const { doIntervalFallback = false } = options;
+    const { doIntervalFallback = false, loadPrevInterval = false } = options;
     const query = { ...toApiParams(params), domain };
-
-    // TODO
-    //  1. Extract dateRange from params.
-    //  2. Calculate the previous date range, by checking the distance from start to end, and getting an equivalent
-    //     range where the new end date is the same as provided start date.
-    //  3. Pass a third visitsLoader which is the same as the first, but overwriting the dates.
-    //  ---
-    //  Nice to have:
-    //  1. There should be a helper, like `lastVisitLoaderForLoader`, which creates visitsLoader and prevVisitsLoader
+    const queryForPrevVisits = loadPrevInterval && isStrictRangeParams(params) ? {
+      ...toApiParams(paramsForPrevDateRange(params)),
+      domain,
+    } : undefined;
 
     const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
       shortCode,
@@ -44,8 +39,14 @@ export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => cr
       doIntervalFallback,
       async (q) => apiClient.getShortUrlVisits(shortCode, { ...q, domain }),
     );
+    const prevVisitsLoader = queryForPrevVisits && (
+      async (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
+        shortCode,
+        { ...queryForPrevVisits, page, itemsPerPage },
+      )
+    );
 
-    return [visitsLoader, lastVisitLoader];
+    return { visitsLoader, lastVisitLoader, prevVisitsLoader };
   },
   shouldCancel: (getState) => getState().shortUrlVisits.cancelLoad,
 });

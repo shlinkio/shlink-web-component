@@ -9,7 +9,7 @@ import { useSetting } from '../../utils/settings';
 import { chartColorForIndex } from '../charts/constants';
 import { LineChartCard, type VisitsList } from '../charts/LineChartCard';
 import { useVisitsQuery } from '../helpers/hooks';
-import { VisitsFilterDropdown } from '../helpers/VisitsFilterDropdown';
+import { VisitsDropdown } from '../helpers/VisitsDropdown';
 import { VisitsLoadingFeedback } from '../helpers/VisitsLoadingFeedback';
 import { VisitsSectionWithFallback } from '../helpers/VisitsSectionWithFallback';
 import { normalizeVisits } from '../services/VisitsParser';
@@ -93,7 +93,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
               onDatesChange={setDates}
             />
           </div>
-          <VisitsFilterDropdown
+          <VisitsDropdown
             disabled={loading}
             className="ms-0 ms-md-2 mt-3 mt-md-0"
             selected={resolvedFilter}

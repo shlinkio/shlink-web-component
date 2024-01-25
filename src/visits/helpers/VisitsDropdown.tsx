@@ -5,25 +5,25 @@ import { DropdownItem } from 'reactstrap';
 import type { ShlinkOrphanVisitType } from '../../api-contract';
 import type { VisitsFilter } from '../types';
 
-export type Filter = VisitsFilter & { loadPrevInterval?: boolean };
+export type DropdownOptions = VisitsFilter & { loadPrevInterval?: boolean };
 
-interface VisitsFilterDropdownProps {
-  onChange: (filters: Filter) => void;
-  selected?: Filter;
+interface VisitsDropdownProps {
+  onChange: (selected: DropdownOptions) => void;
+  selected?: DropdownOptions;
   className?: string;
   isOrphanVisits?: boolean;
   withPrevInterval?: boolean;
   disabled?: boolean;
 }
 
-export const VisitsFilterDropdown = ({
+export const VisitsDropdown = ({
   onChange,
   selected = {},
   className,
   isOrphanVisits = false,
   withPrevInterval = false,
   disabled,
-}: VisitsFilterDropdownProps) => {
+}: VisitsDropdownProps) => {
   const { orphanVisitsType, excludeBots = false, loadPrevInterval = false } = selected;
   const propsForOrphanVisitsTypeItem = (type: ShlinkOrphanVisitType): DropdownItemProps => ({
     active: orphanVisitsType === type,

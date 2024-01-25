@@ -1,23 +1,23 @@
 import { screen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import type { ShlinkOrphanVisitType } from '../../../src/api-contract';
-import type { Filter } from '../../../src/visits/helpers/VisitsFilterDropdown';
-import { VisitsFilterDropdown } from '../../../src/visits/helpers/VisitsFilterDropdown';
+import type { DropdownOptions } from '../../../src/visits/helpers/VisitsDropdown';
+import { VisitsDropdown } from '../../../src/visits/helpers/VisitsDropdown';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
-  selected?: Filter;
+  selected?: DropdownOptions;
   isOrphanVisits?: boolean
   withPrevInterval?: boolean
 };
 
-describe('<VisitsFilterDropdown />', () => {
+describe('<VisitsDropdown />', () => {
   const onChange = vi.fn();
   const setUp = (
     { selected = {}, isOrphanVisits = true, withPrevInterval = false }: SetUpOptions = {},
   ) => renderWithEvents(
-    <VisitsFilterDropdown
+    <VisitsDropdown
       isOrphanVisits={isOrphanVisits}
       withPrevInterval={withPrevInterval}
       selected={selected}

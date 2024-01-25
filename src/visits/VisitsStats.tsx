@@ -19,7 +19,7 @@ import { SortableBarChartCard } from './charts/SortableBarChartCard';
 import { highlightedVisitsToStats } from './helpers';
 import { useVisitsQuery } from './helpers/hooks';
 import { OpenMapModalBtn } from './helpers/OpenMapModalBtn';
-import { VisitsFilterDropdown } from './helpers/VisitsFilterDropdown';
+import { VisitsDropdown } from './helpers/VisitsDropdown';
 import { VisitsLoadingFeedback } from './helpers/VisitsLoadingFeedback';
 import { VisitsSectionWithFallback } from './helpers/VisitsSectionWithFallback';
 import { VisitsStatsOptions } from './helpers/VisitsStatsOptions';
@@ -174,7 +174,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                   onDatesChange={setDates}
                 />
               </div>
-              <VisitsFilterDropdown
+              <VisitsDropdown
                 disabled={loading}
                 className="ms-0 ms-md-2 mt-3 mt-md-0"
                 isOrphanVisits={isOrphanVisits}

@@ -27,7 +27,7 @@ export const VisitsDropdown = ({
   const { orphanVisitsType, excludeBots = false, loadPrevInterval = false } = selected;
   const propsForOrphanVisitsTypeItem = (type: ShlinkOrphanVisitType): DropdownItemProps => ({
     active: orphanVisitsType === type,
-    onClick: () => onChange({ orphanVisitsType: type === orphanVisitsType ? undefined : type }),
+    onClick: () => onChange({ ...selected, orphanVisitsType: type === orphanVisitsType ? undefined : type }),
   });
   const onBotsClick = useCallback(
     () => onChange({ ...selected, excludeBots: !excludeBots }),

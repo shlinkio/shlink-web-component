@@ -1,6 +1,6 @@
 import type { ShlinkApiClient } from '../../api-contract';
 import { isBetween } from '../../utils/dates/helpers/date';
-import { toApiParams } from '../helpers';
+import { isStrictRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { VisitsInfo } from './types';
 
@@ -18,13 +18,22 @@ export const getNonOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => c
   typePrefix: `${REDUCER_PREFIX}/getNonOrphanVisits`,
   createLoaders: ({ params, options }) => {
     const apiClient = apiClientFactory();
-    const { doIntervalFallback = false } = options;
+    const { doIntervalFallback = false, loadPrevInterval } = options;
+    const query = toApiParams(params);
+    const queryForPrevVisits = loadPrevInterval && isStrictRangeParams(params)
+      ? toApiParams(paramsForPrevDateRange(params))
+      : undefined;
 
     const visitsLoader = async (page: number, itemsPerPage: number) =>
-      apiClient.getNonOrphanVisits({ ...toApiParams(params), page, itemsPerPage });
+      apiClient.getNonOrphanVisits({ ...query, page, itemsPerPage });
     const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) => apiClient.getNonOrphanVisits(q));
+    const prevVisitsLoader = queryForPrevVisits && (
+      (page: number, itemsPerPage: number) => apiClient.getNonOrphanVisits(
+        { ...queryForPrevVisits, page, itemsPerPage },
+      )
+    );
 
-    return { visitsLoader, lastVisitLoader };
+    return { visitsLoader, lastVisitLoader, prevVisitsLoader };
   },
   shouldCancel: (getState) => getState().orphanVisits.cancelLoad,
 });

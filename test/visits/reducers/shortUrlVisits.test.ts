@@ -258,43 +258,43 @@ describe('shortUrlVisitsReducer', () => {
 
     it.each([
       // Strict date range and loadPrevInterval: true -> prev visits are loaded
-      [{
+      {
         dateRange: { startDate: subDays(now, 1), endDate: addDays(now, 1) },
         loadPrevInterval: true,
         expectedPrevVisits: visitsMocks.map(
           ({ date, ...rest }, index) => ({ ...rest, date: dateForVisit(index + 1 + visitsMocks.length) }),
         ),
-      }],
+      },
       // Undefined date range and loadPrevInterval: true -> prev visits are NOT loaded
-      [{
+      {
         dateRange: undefined,
         loadPrevInterval: true,
         expectedPrevVisits: undefined,
-      }],
+      },
       // Empty date range and loadPrevInterval: true -> prev visits are NOT loaded
-      [{
+      {
         dateRange: {},
         loadPrevInterval: true,
         expectedPrevVisits: undefined,
-      }],
+      },
       // Start date only and loadPrevInterval: true -> prev visits are NOT loaded
-      [{
+      {
         dateRange: { startDate: now },
         loadPrevInterval: true,
         expectedPrevVisits: undefined,
-      }],
+      },
       // End date only and loadPrevInterval: true -> prev visits are NOT loaded
-      [{
+      {
         dateRange: { endDate: now },
         loadPrevInterval: true,
         expectedPrevVisits: undefined,
-      }],
+      },
       // Strict date range and loadPrevInterval: false -> prev visits are NOT loaded
-      [{
+      {
         dateRange: { startDate: subDays(now, 1), endDate: addDays(now, 1) },
         loadPrevInterval: false,
         expectedPrevVisits: undefined,
-      }],
+      },
     ])('returns visits from prev interval when requested and possible', async (
       { dateRange, loadPrevInterval, expectedPrevVisits },
     ) => {

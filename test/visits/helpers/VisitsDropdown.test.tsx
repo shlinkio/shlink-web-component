@@ -87,7 +87,9 @@ describe('<VisitsDropdown />', () => {
     ['Compare with previous period', { loadPrevInterval: true }, {}],
     ['Compare with previous period', { loadPrevInterval: false }, { loadPrevInterval: true }],
     ['Base URL', { orphanVisitsType: 'base_url' }, {}],
+    ['Base URL', { excludeBots: true, orphanVisitsType: 'base_url' }, { excludeBots: true }],
     ['Invalid short URL', { orphanVisitsType: 'invalid_short_url' }, {}],
+    ['Invalid short URL', { orphanVisitsType: undefined }, { orphanVisitsType: 'invalid_short_url' as const }],
     ['Regular 404', { orphanVisitsType: 'regular_404' }, {}],
     [
       'Reset to defaults',

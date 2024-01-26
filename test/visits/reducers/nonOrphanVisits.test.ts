@@ -9,13 +9,14 @@ import {
   getNonOrphanVisits as getNonOrphanVisitsCreator,
   nonOrphanVisitsReducerCreator,
 } from '../../../src/visits/reducers/nonOrphanVisits';
-import type { VisitsInfo } from '../../../src/visits/reducers/types';
+import type { LoadVisits, VisitsInfo } from '../../../src/visits/reducers/types';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
 import { problemDetailsError } from '../../__mocks__/ProblemDetailsError.mock';
 
 describe('nonOrphanVisitsReducer', () => {
   const now = new Date();
-  const visitsMocks = rangeOf(2, () => fromPartial<ShlinkVisit>({}));
+  const dateForVisit = (day: number) => `2020-01-1${day}T00:00:00Z`;
+  const visitsMocks = rangeOf(2, (index) => fromPartial<ShlinkVisit>({ date: dateForVisit(index) }));
   const getNonOrphanVisitsCall = vi.fn();
   const buildShlinkApiClient = () => fromPartial<ShlinkApiClient>({ getNonOrphanVisits: getNonOrphanVisitsCall });
   const getNonOrphanVisits = getNonOrphanVisitsCreator(buildShlinkApiClient);
@@ -183,6 +184,71 @@ describe('nonOrphanVisitsReducer', () => {
       expect(dispatchMock).toHaveBeenCalledTimes(expectedAmountOfDispatches);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
       expect(getNonOrphanVisitsCall).toHaveBeenCalledTimes(2);
+    });
+
+    it.each([
+      // Strict date range and loadPrevInterval: true -> prev visits are loaded
+      {
+        dateRange: { startDate: subDays(now, 1), endDate: addDays(now, 1) },
+        loadPrevInterval: true,
+        expectedPrevVisits: visitsMocks.map(
+          ({ date, ...rest }, index) => ({ ...rest, date: dateForVisit(index + 1 + visitsMocks.length) }),
+        ),
+      },
+      // Undefined date range and loadPrevInterval: true -> prev visits are NOT loaded
+      {
+        dateRange: undefined,
+        loadPrevInterval: true,
+        expectedPrevVisits: undefined,
+      },
+      // Empty date range and loadPrevInterval: true -> prev visits are NOT loaded
+      {
+        dateRange: {},
+        loadPrevInterval: true,
+        expectedPrevVisits: undefined,
+      },
+      // Start date only and loadPrevInterval: true -> prev visits are NOT loaded
+      {
+        dateRange: { startDate: now },
+        loadPrevInterval: true,
+        expectedPrevVisits: undefined,
+      },
+      // End date only and loadPrevInterval: true -> prev visits are NOT loaded
+      {
+        dateRange: { endDate: now },
+        loadPrevInterval: true,
+        expectedPrevVisits: undefined,
+      },
+      // Strict date range and loadPrevInterval: false -> prev visits are NOT loaded
+      {
+        dateRange: { startDate: subDays(now, 1), endDate: addDays(now, 1) },
+        loadPrevInterval: false,
+        expectedPrevVisits: undefined,
+      },
+    ])('returns visits from prev interval when requested and possible', async (
+      { dateRange, loadPrevInterval, expectedPrevVisits },
+    ) => {
+      const getVisitsParam: LoadVisits = {
+        params: { dateRange },
+        options: { loadPrevInterval },
+      };
+
+      getNonOrphanVisitsCall.mockResolvedValue({
+        data: visitsMocks,
+        pagination: {
+          currentPage: 1,
+          pagesCount: 1,
+          totalItems: 1,
+        },
+      });
+
+      await getNonOrphanVisits(getVisitsParam)(dispatchMock, getState, {});
+
+      expect(dispatchMock).toHaveBeenCalledTimes(2);
+      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
+        payload: { visits: visitsMocks, prevVisits: expectedPrevVisits, ...getVisitsParam },
+      }));
+      expect(getNonOrphanVisitsCall).toHaveBeenCalledTimes(expectedPrevVisits ? 2 : 1);
     });
   });
 });

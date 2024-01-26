@@ -1,6 +1,7 @@
+import type { ShlinkVisits } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkOrphanVisitType } from '../../api-contract';
 import { isBetween } from '../../utils/dates/helpers/date';
-import { isOrphanVisit, toApiParams } from '../helpers';
+import { isOrphanVisit, isStrictRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteOrphanVisits } from './orphanVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';
@@ -22,21 +23,31 @@ const initialState: VisitsInfo = {
 const matchesType = (visit: ShlinkOrphanVisit, orphanVisitsType?: ShlinkOrphanVisitType) =>
   !orphanVisitsType || orphanVisitsType === visit.type;
 
+const filterOrphanVisitsByType = ({ data, ...rest }: ShlinkVisits, type?: ShlinkOrphanVisitType) => {
+  const visits = data.filter((visit) => isOrphanVisit(visit) && matchesType(visit, type));
+  return { ...rest, data: visits };
+};
+
 export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getOrphanVisits`,
   createLoaders: ({ orphanVisitsType, params, options }: LoadOrphanVisits) => {
     const apiClient = apiClientFactory();
-    const { doIntervalFallback = false } = options;
+    const { doIntervalFallback = false, loadPrevInterval } = options;
+    const query = toApiParams(params);
+    const queryForPrevVisits = loadPrevInterval && isStrictRangeParams(params)
+      ? toApiParams(paramsForPrevDateRange(params))
+      : undefined;
 
     const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getOrphanVisits(
-      { ...toApiParams(params), page, itemsPerPage },
-    ).then((result) => {
-      const visits = result.data.filter((visit) => isOrphanVisit(visit) && matchesType(visit, orphanVisitsType));
-      return { ...result, data: visits };
-    });
-    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (query) => apiClient.getOrphanVisits(query));
+      { ...query, page, itemsPerPage },
+    ).then((resp) => filterOrphanVisitsByType(resp, orphanVisitsType));
+    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) => apiClient.getOrphanVisits(q));
+    const prevVisitsLoader = queryForPrevVisits && (
+      (page: number, itemsPerPage: number) => apiClient.getOrphanVisits({ ...queryForPrevVisits, page, itemsPerPage })
+        .then((resp) => filterOrphanVisitsByType(resp, orphanVisitsType))
+    );
 
-    return { visitsLoader, lastVisitLoader };
+    return { visitsLoader, lastVisitLoader, prevVisitsLoader };
   },
   shouldCancel: (getState) => getState().orphanVisits.cancelLoad,
 });

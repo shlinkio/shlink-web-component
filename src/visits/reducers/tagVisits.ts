@@ -1,5 +1,5 @@
 import type { ShlinkApiClient } from '../../api-contract';
-import { filterCreatedVisitsByTag, toApiParams } from '../helpers';
+import { filterCreatedVisitsByTag, isStrictRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { LoadVisits, VisitsInfo } from './types';
 
@@ -26,15 +26,25 @@ export const getTagVisits = (apiClientFactory: () => ShlinkApiClient) => createV
   typePrefix: `${REDUCER_PREFIX}/getTagVisits`,
   createLoaders: ({ tag, params, options }: LoadTagVisits) => {
     const apiClient = apiClientFactory();
-    const { doIntervalFallback = false } = options;
+    const { doIntervalFallback = false, loadPrevInterval } = options;
+    const query = toApiParams(params);
+    const queryForPrevVisits = loadPrevInterval && isStrictRangeParams(params)
+      ? toApiParams(paramsForPrevDateRange(params))
+      : undefined;
 
-    const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getTagVisits(
+    const visitsLoader = (page: number, itemsPerPage: number) => apiClient.getTagVisits(
       tag,
-      { ...toApiParams(params), page, itemsPerPage },
+      { ...query, page, itemsPerPage },
     );
     const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (q) => apiClient.getTagVisits(tag, q));
+    const prevVisitsLoader = queryForPrevVisits && (
+      (page: number, itemsPerPage: number) => apiClient.getTagVisits(
+        tag,
+        { ...queryForPrevVisits, page, itemsPerPage },
+      )
+    );
 
-    return { visitsLoader, lastVisitLoader };
+    return { visitsLoader, lastVisitLoader, prevVisitsLoader };
   },
   shouldCancel: (getState) => getState().tagVisits.cancelLoad,
 });

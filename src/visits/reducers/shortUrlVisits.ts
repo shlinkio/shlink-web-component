@@ -24,23 +24,23 @@ export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => cr
   typePrefix: `${REDUCER_PREFIX}/getShortUrlVisits`,
   createLoaders: ({ shortCode, domain, params, options }: LoadShortUrlVisits) => {
     const apiClient = apiClientFactory();
-    const { doIntervalFallback = false, loadPrevInterval = false } = options;
+    const { doIntervalFallback = false, loadPrevInterval } = options;
     const query = { ...toApiParams(params), domain };
     const queryForPrevVisits = loadPrevInterval && isStrictRangeParams(params) ? {
       ...toApiParams(paramsForPrevDateRange(params)),
       domain,
     } : undefined;
 
-    const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
+    const visitsLoader = (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
       shortCode,
       { ...query, page, itemsPerPage },
     );
     const lastVisitLoader = lastVisitLoaderForLoader(
       doIntervalFallback,
-      async (q) => apiClient.getShortUrlVisits(shortCode, { ...q, domain }),
+      (q) => apiClient.getShortUrlVisits(shortCode, { ...q, domain }),
     );
     const prevVisitsLoader = queryForPrevVisits && (
-      async (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
+      (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
         shortCode,
         { ...queryForPrevVisits, page, itemsPerPage },
       )

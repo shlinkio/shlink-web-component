@@ -100,6 +100,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     () => processStatsFromVisits(normalizedVisits),
     [normalizedVisits],
   );
+  const processedPrevStats = useMemo(() => processStatsFromVisits(normalizedPrevVisits ?? []), [normalizedPrevVisits]);
   const visitsGroups = useMemo(
     () => Object.fromEntries([
       normalizedPrevVisits && ['Previous period', Object.assign(normalizedPrevVisits, { type: 'previous' as const })],
@@ -251,8 +252,9 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                       <div className={clsx('mt-3', { 'col-xl-4': !isOrphanVisits, 'col-lg-6': isOrphanVisits })}>
                         <SortableBarChartCard
                           title="Referrers"
-                          stats={referrers}
                           withPagination={false}
+                          stats={referrers}
+                          prevStats={processedPrevStats.referrers}
                           highlightedStats={highlightedVisitsToStats(highlightedVisits, 'referer')}
                           highlightedLabel={highlightedLabel}
                           sortingItems={{
@@ -267,8 +269,9 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                           <SortableBarChartCard
                             title="Visited URLs"
                             stats={visitedUrls}
-                            highlightedLabel={highlightedLabel}
+                            prevStats={processedPrevStats.visitedUrls}
                             highlightedStats={highlightedVisitsToStats(highlightedVisits, 'visitedUrl')}
+                            highlightedLabel={highlightedLabel}
                             sortingItems={{
                               visitedUrl: 'Visited URL',
                               amount: 'Visits amount',
@@ -289,6 +292,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                         <SortableBarChartCard
                           title="Countries"
                           stats={countries}
+                          prevStats={processedPrevStats.countries}
                           highlightedStats={highlightedVisitsToStats(highlightedVisits, 'country')}
                           highlightedLabel={highlightedLabel}
                           sortingItems={{
@@ -302,6 +306,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                         <SortableBarChartCard
                           title="Cities"
                           stats={cities}
+                          prevStats={processedPrevStats.cities}
                           highlightedStats={highlightedVisitsToStats(highlightedVisits, 'city')}
                           highlightedLabel={highlightedLabel}
                           extraHeaderContent={(activeCities) => mapLocations.length > 0 && (

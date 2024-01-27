@@ -2,7 +2,7 @@ import { sortBy, splitEvery, zipObj } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { PaginationDropdown } from '../../utils/components/PaginationDropdown';
 import { SimplePaginator } from '../../utils/components/SimplePaginator';
 import { rangeOf } from '../../utils/helpers';
@@ -25,6 +25,7 @@ const pickValueFromPair = ([, value]: StatsRow) => value;
 
 export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
   stats,
+  prevStats,
   highlightedStats,
   title,
   sortingItems,
@@ -36,7 +37,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(50);
 
-  const getSortedPairsForStats = (statsToSort: Stats, sorting: Record<string, string>) => {
+  const getSortedPairsForStats = useCallback((statsToSort: Stats, sorting: Record<string, string>) => {
     const pairs = Object.entries(statsToSort);
     const sortedPairs = !order.field ? pairs : sortBy(
       pairs,
@@ -44,8 +45,8 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
     );
 
     return !order.dir || order.dir === 'ASC' ? sortedPairs : [...sortedPairs].reverse();
-  };
-  const determineCurrentPagePairs = (pages: StatsRow[][]): StatsRow[] => {
+  }, [order.dir, order.field]);
+  const determineCurrentPagePairs = useCallback((pages: StatsRow[][]): StatsRow[] => {
     const page = pages[currentPage - 1];
 
     if (currentPage < pages.length) {
@@ -56,41 +57,60 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
 
     // Using the "hidden" key, the chart will just replace the label by an empty string
     return [...page, ...rangeOf(firstPageLength - page.length, (i): StatsRow => [`hidden_${i}`, 0])];
-  };
-  const renderPagination = (pagesCount: number): ReactNode =>
-    <SimplePaginator currentPage={currentPage} pagesCount={pagesCount} setCurrentPage={setCurrentPage} />;
-  const determineStats = (statsToSort: Stats, sorting: Record<string, string>, theHighlightedStats?: Stats) => {
-    const sortedPairs = getSortedPairsForStats(statsToSort, sorting);
-    const sortedKeys = sortedPairs.map(pickKeyFromPair);
-    // The highlighted stats have to be ordered based on the regular stats, not on its own values
-    const sortedHighlightedPairs = theHighlightedStats && Object.entries(
-      { ...zipObj(sortedKeys, sortedKeys.map(() => 0)), ...theHighlightedStats },
-    );
-
-    if (sortedPairs.length <= itemsPerPage) {
-      return {
-        currentPageStats: Object.fromEntries(sortedPairs),
-        currentPageHighlightedStats: sortedHighlightedPairs && Object.fromEntries(sortedHighlightedPairs),
-      };
-    }
-
-    const pages = splitEvery(sortedPairs, itemsPerPage);
-    const highlightedPages = sortedHighlightedPairs && splitEvery(sortedHighlightedPairs, itemsPerPage);
-
-    return {
-      currentPageStats: Object.fromEntries(determineCurrentPagePairs(pages)),
-      currentPageHighlightedStats: highlightedPages && Object.fromEntries(determineCurrentPagePairs(highlightedPages)),
-      pagination: renderPagination(pages.length),
-      max: roundTen(Math.max(...sortedPairs.map(pickValueFromPair))),
-    };
-  };
-
-  const { currentPageStats, currentPageHighlightedStats, pagination, max } = determineStats(
-    stats,
-    sortingItems,
-    highlightedStats && Object.keys(highlightedStats).length > 0 ? highlightedStats : undefined,
+  }, [currentPage]);
+  const renderPagination = useCallback(
+    (pagesCount: number): ReactNode =>
+      <SimplePaginator currentPage={currentPage} pagesCount={pagesCount} setCurrentPage={setCurrentPage} />,
+    [currentPage],
   );
-  const activeCities = Object.keys(currentPageStats);
+  const determineStats = useCallback(
+    (statsToSort: Stats, sorting: Record<string, string>, theHighlightedStats?: Stats, thePrevStats?: Stats) => {
+      const sortedPairs = getSortedPairsForStats(statsToSort, sorting);
+      const sortedKeys = sortedPairs.map(pickKeyFromPair);
+
+      // Highlighted and prev stats have to be ordered based on the regular stats, not on their own values
+      const sortedHighlightedPairs = theHighlightedStats && Object.entries(
+        { ...zipObj(sortedKeys, sortedKeys.map(() => 0)), ...theHighlightedStats },
+      );
+      const sortedPrevPairs = thePrevStats && Object.entries(
+        { ...zipObj(sortedKeys, sortedKeys.map(() => 0)), ...thePrevStats },
+      );
+
+      if (sortedPairs.length <= itemsPerPage) {
+        return {
+          currentPageStats: Object.fromEntries(sortedPairs),
+          currentPageHighlightedStats: sortedHighlightedPairs && Object.fromEntries(sortedHighlightedPairs),
+          currentPagePrevStats: sortedPrevPairs && Object.fromEntries(sortedPrevPairs),
+        };
+      }
+
+      const pages = splitEvery(sortedPairs, itemsPerPage);
+      const highlightedPages = sortedHighlightedPairs && splitEvery(sortedHighlightedPairs, itemsPerPage);
+      const prevPages = sortedPrevPairs && splitEvery(sortedPrevPairs, itemsPerPage);
+
+      return {
+        currentPageStats: Object.fromEntries(determineCurrentPagePairs(pages)),
+        currentPageHighlightedStats: highlightedPages && Object.fromEntries(
+          determineCurrentPagePairs(highlightedPages),
+        ),
+        currentPagePrevStats: prevPages && Object.fromEntries(determineCurrentPagePairs(prevPages)),
+        pagination: renderPagination(pages.length),
+        max: roundTen(Math.max(...sortedPairs.map(pickValueFromPair))),
+      };
+    },
+    [determineCurrentPagePairs, getSortedPairsForStats, itemsPerPage, renderPagination],
+  );
+
+  const { currentPageStats, currentPagePrevStats, currentPageHighlightedStats, pagination, max } = useMemo(
+    () => determineStats(
+      stats,
+      sortingItems,
+      highlightedStats && Object.keys(highlightedStats).length > 0 ? highlightedStats : undefined,
+      prevStats && Object.keys(prevStats).length > 0 ? prevStats : undefined,
+    ),
+    [determineStats, highlightedStats, prevStats, sortingItems, stats],
+  );
+  const activeCities = useMemo(() => Object.keys(currentPageStats), [currentPageStats]);
 
   return (
     <ChartCard
@@ -133,6 +153,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
     >
       <HorizontalBarChart
         stats={currentPageStats}
+        prevStats={currentPagePrevStats}
         highlightedStats={currentPageHighlightedStats}
         max={max}
         {...rest}

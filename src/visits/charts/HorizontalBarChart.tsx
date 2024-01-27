@@ -10,13 +10,14 @@ import { Fragment, useMemo } from 'react';
 import { Bar, CartesianGrid, Cell, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
-import { CHART_TOOLTIP_STYLES } from './constants';
+import { CHART_TOOLTIP_STYLES, PREV_COLOR, PREV_COLOR_ALPHA } from './constants';
 
 export type HorizontalBarChartProps = {
   stats: Stats;
-  max?: number;
+  prevStats?: Stats;
   highlightedStats?: Stats;
   highlightedLabel?: string;
+  max?: number;
   onClick?: (label: string) => void;
 
   /** Test seam. For tests, a responsive container cannot be used */
@@ -28,25 +29,28 @@ type HorizontalBarChartEntry = {
   amount: number;
   nonHighlightedAmount: number | null;
   highlightedAmount: number | null;
+  prevAmount: number | null;
 };
 
 const isHiddenLabel = (label: string) => label.startsWith('hidden_');
 
 export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
-  { stats, highlightedStats, highlightedLabel, max, onClick, dimensions },
+  { stats, prevStats, highlightedStats, highlightedLabel, max, onClick, dimensions },
 ) => {
   const chartData = useMemo((): HorizontalBarChartEntry[] => Object.entries(stats).map(([name, amount]) => {
     const highlightedAmount = highlightedStats?.[name] ?? 0;
+    const prevAmount = prevStats?.[name] ?? 0;
     const isHidden = isHiddenLabel(name);
 
     return {
       name,
-      amount,
+      amount: Math.max(amount, prevAmount),
       // Setting value `null` on "hidden" elements allows for them to be excluded from tooltips
       nonHighlightedAmount: isHidden ? null : amount - highlightedAmount,
       highlightedAmount: isHidden ? null : highlightedAmount,
+      prevAmount: isHidden ? null : prevAmount,
     };
-  }), [stats, highlightedStats]);
+  }), [stats, prevStats, highlightedStats]);
   const verticalAxisWidth = useMemo(() => {
     const longestNameLength = chartData.reduce((prev, { name }) => (prev > name.length ? prev : name.length), 0);
     // Set a size of around 7 times the longest text, unless it exceeds a maximum of 150
@@ -60,9 +64,9 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
       return {};
     }
 
-    const height = Math.max(300, chartData.length * 22);
+    const height = Math.max(300, chartData.length * (prevStats ? 44 : 22));
     return { width: '100%', height };
-  }, [dimensions, chartData]);
+  }, [dimensions, chartData.length, prevStats]);
 
   return (
     <ChartWrapper {...wrapperDimensions}>
@@ -88,11 +92,18 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
           contentStyle={CHART_TOOLTIP_STYLES}
           formatter={(value: number, name: keyof HorizontalBarChartEntry) => {
             const prettifiedValue = prettify(value);
-            if (name === 'highlightedAmount') {
-              return [prettifiedValue, highlightedLabel];
-            }
+            const label = (() => {
+              if (name === 'highlightedAmount') {
+                return highlightedLabel;
+              }
+              if (name === 'prevAmount') {
+                return 'Previous period';
+              }
 
-            return [prettifiedValue, highlightedStats ? 'Non-selected' : 'Visits'];
+              return highlightedStats ? 'Non-selected' : 'Visits';
+            })();
+
+            return [prettifiedValue, label];
           }}
         />
         <Bar
@@ -117,6 +128,13 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
           >
             {chartData.map((entry) => (
               <Cell key={entry.name} fill={HIGHLIGHTED_COLOR_ALPHA} stroke={HIGHLIGHTED_COLOR} strokeWidth={2} />
+            ))}
+          </Bar>
+        )}
+        {prevStats && (
+          <Bar dataKey="prevAmount" fill={PREV_COLOR}>
+            {chartData.map((entry) => (
+              <Cell key={entry.name} fill={PREV_COLOR_ALPHA} stroke={PREV_COLOR} strokeWidth={2} />
             ))}
           </Bar>
         )}

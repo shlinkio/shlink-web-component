@@ -31,7 +31,7 @@ import { useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
 import type { Mandatory, MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
-import { CHART_TOOLTIP_STYLES } from './constants';
+import { CHART_TOOLTIP_STYLES, PREV_COLOR } from './constants';
 import { LineChartLegend } from './LineChartLegend';
 
 type ChartPayloadEntry = {
@@ -155,7 +155,7 @@ export const visitsListColor = (v: VisitsList) => {
   const typeColorMap: Record<Mandatory<VisitsList['type']>, string> = {
     main: MAIN_COLOR,
     highlighted: HIGHLIGHTED_COLOR,
-    previous: '#46e587',
+    previous: PREV_COLOR,
   };
   return v.type ? typeColorMap[v.type] : MAIN_COLOR;
 };

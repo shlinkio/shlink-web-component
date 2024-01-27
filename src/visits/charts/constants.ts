@@ -22,3 +22,7 @@ const COLORS = [
 ] as const;
 
 export const chartColorForIndex = (index: number) => COLORS[index % COLORS.length];
+
+export const PREV_COLOR = '#46e587';
+
+export const PREV_COLOR_ALPHA = 'rgba(70, 229, 135, 0.4)';

@@ -2,16 +2,22 @@ import { differenceInDays, endOfDay, startOfDay, subDays } from 'date-fns';
 import type { DateOrString } from './date';
 import { formatInternational, isBeforeOrEqual, now, parseISO } from './date';
 
+export type DateRange = {
+  startDate?: Date | null;
+  endDate?: Date | null;
+};
+
+export type MandatoryStartDateRange = Pick<DateRange, 'endDate'> & {
+  startDate: Date;
+};
+
 export type StrictDateRange = {
   startDate: Date;
   endDate: Date;
 };
 
-export type DateRange = {
-  [K in keyof Partial<StrictDateRange>]: Partial<StrictDateRange>[K] | null;
-};
-
 export const ALL = 'all';
+
 const INTERVAL_TO_STRING_MAP = {
   today: 'Today',
   yesterday: 'Yesterday',
@@ -110,8 +116,8 @@ export const toDateRange = (rangeOrInterval: DateRange | DateInterval): DateRang
   return rangeOrInterval;
 };
 
-export const isStrictDateRange = (dateRange?: DateRange): dateRange is StrictDateRange =>
-  !!(dateRange && dateRange.startDate && dateRange.endDate);
+export const isMandatoryStartDateRange = (dateRange?: DateRange): dateRange is MandatoryStartDateRange =>
+  !!(dateRange && dateRange.startDate);
 
 /**
  * Returns the previous date range, using days as the minimum time unit.
@@ -120,11 +126,23 @@ export const isStrictDateRange = (dateRange?: DateRange): dateRange is StrictDat
  * DateRange where the endDate will be one day before the original startDate, and the start day will be 13 days before
  * the original startDate.
  * 2024-01-10 - 2024-01-18 => 2024-01-01T00:00:00 - 2024-01-09T:23:59:59
+ *
+ * Only the startDate is required. The endDate will fall back to current date if not provided
  */
-export const calcPrevDateRange = ({ startDate, endDate }: StrictDateRange): StrictDateRange => {
+export const calcPrevDateRange = (
+  { startDate, endDate: optionalEndDate }: MandatoryStartDateRange,
+): StrictDateRange => {
+  const endDate = optionalEndDate ?? new Date();
   const daysDiff = differenceInDays(endOfDay(endDate), startOfDay(startDate)) + 1;
   const newStartDate = subDays(startOfDay(startDate), daysDiff);
   const newEndDate = subDays(endOfDay(startDate), 1);
 
   return { startDate: newStartDate, endDate: newEndDate };
+};
+
+export const dateRangeDaysDiff = (dateRange?: DateRange): number | undefined => {
+  if (!isMandatoryStartDateRange(dateRange)) {
+    return undefined;
+  }
+  return differenceInDays(dateRange.endDate ?? new Date(), dateRange.startDate);
 };

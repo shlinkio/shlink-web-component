@@ -1,6 +1,6 @@
 import type { ShlinkApiClient } from '../../api-contract';
 import { isBetween } from '../../utils/dates/helpers/date';
-import { isStrictRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
+import { isMandatoryStartDateRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { VisitsInfo } from './types';
 
@@ -20,7 +20,7 @@ export const getNonOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => c
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false, loadPrevInterval } = options;
     const query = toApiParams(params);
-    const queryForPrevVisits = loadPrevInterval && isStrictRangeParams(params)
+    const queryForPrevVisits = loadPrevInterval && isMandatoryStartDateRangeParams(params)
       ? toApiParams(paramsForPrevDateRange(params))
       : undefined;
 

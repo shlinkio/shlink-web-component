@@ -3,10 +3,11 @@ import { now, parseDate } from '../../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../../src/utils/dates/helpers/dateIntervals';
 import {
   calcPrevDateRange,
+  dateRangeDaysDiff,
   dateRangeIsEmpty,
   dateToMatchingInterval,
   intervalToDateRange,
-  isStrictDateRange,
+  isMandatoryStartDateRange,
   rangeIsInterval,
   rangeOrIntervalToString,
   toDateRange,
@@ -139,20 +140,20 @@ describe('date-types', () => {
     });
   });
 
-  describe('isStrictDateRange', () => {
+  describe('isMandatoryStartDateRange', () => {
     it.each([
       [undefined, false],
       [{}, false],
       [{ startDate: null }, false],
       [{ endDate: null }, false],
       [{ startDate: null, endDate: null }, false],
-      [{ startDate: new Date() }, false],
+      [{ startDate: new Date() }, true],
       [{ endDate: new Date() }, false],
-      [{ startDate: new Date(), endDate: null }, false],
+      [{ startDate: new Date(), endDate: null }, true],
       [{ startDate: null, endDate: new Date() }, false],
       [{ startDate: new Date(), endDate: new Date() }, true],
-    ])('returns true for strict date ranges', (dateRange, isStrict) => {
-      expect(isStrictDateRange(dateRange)).toEqual(isStrict);
+    ])('returns true for semi-strict date ranges', (dateRange, isStrict) => {
+      expect(isMandatoryStartDateRange(dateRange)).toEqual(isStrict);
     });
   });
 
@@ -173,11 +174,35 @@ describe('date-types', () => {
         '2023-12-23 00:00:00',
         '2024-02-26 23:59:59',
       ],
+      [
+        { startDate: subDays(currentDate, 3) },
+        `${format(subDays(currentDate, 7), 'yyyy-MM-dd')} 00:00:00`,
+        `${format(subDays(currentDate, 4), 'yyyy-MM-dd')} 23:59:59`,
+      ],
     ])('calculates previous date range', (dateRange, expectedStartDate, expectedEndDate) => {
       const { startDate, endDate } = calcPrevDateRange(dateRange);
 
       expect(format(startDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(expectedStartDate);
       expect(format(endDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(expectedEndDate);
+    });
+  });
+
+  describe('dateRangeDaysDiff', () => {
+    it.each([
+      [
+        { startDate: new Date('2024-01-10 00:00:00'), endDate: new Date('2024-01-18 23:59:59') },
+        8,
+      ],
+      [
+        { startDate: new Date('2024-02-27 23:00:00'), endDate: new Date('2024-05-02 01:00:00') },
+        64,
+      ],
+      [{ startDate: subDays(currentDate, 5) }, 5],
+      [undefined, undefined],
+      [{}, undefined],
+      [{ endDate: new Date() }, undefined],
+    ])('returns the difference in days for a dateRange', (dateRange, expectedDays) => {
+      expect(dateRangeDaysDiff(dateRange)).toEqual(expectedDays);
     });
   });
 });

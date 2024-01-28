@@ -1,5 +1,5 @@
 import type { ShlinkApiClient } from '../../api-contract';
-import { filterCreatedVisitsByDomain, isStrictRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
+import { filterCreatedVisitsByDomain, isMandatoryStartDateRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { LoadVisits, VisitsInfo } from './types';
 
@@ -30,7 +30,7 @@ export const getDomainVisits = (apiClientFactory: () => ShlinkApiClient) => crea
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false, loadPrevInterval } = options;
     const query = toApiParams(params);
-    const queryForPrevVisits = loadPrevInterval && isStrictRangeParams(params)
+    const queryForPrevVisits = loadPrevInterval && isMandatoryStartDateRangeParams(params)
       ? toApiParams(paramsForPrevDateRange(params))
       : undefined;
 

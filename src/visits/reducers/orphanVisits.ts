@@ -1,7 +1,7 @@
 import type { ShlinkVisits } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkOrphanVisitType } from '../../api-contract';
 import { isBetween } from '../../utils/dates/helpers/date';
-import { isOrphanVisit, isStrictRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
+import { isMandatoryStartDateRangeParams, isOrphanVisit, paramsForPrevDateRange, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteOrphanVisits } from './orphanVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';
@@ -34,7 +34,7 @@ export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => crea
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false, loadPrevInterval } = options;
     const query = toApiParams(params);
-    const queryForPrevVisits = loadPrevInterval && isStrictRangeParams(params)
+    const queryForPrevVisits = loadPrevInterval && isMandatoryStartDateRangeParams(params)
       ? toApiParams(paramsForPrevDateRange(params))
       : undefined;
 

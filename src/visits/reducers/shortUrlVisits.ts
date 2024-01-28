@@ -1,6 +1,6 @@
 import type { ShlinkApiClient } from '../../api-contract';
 import type { ShortUrlIdentifier } from '../../short-urls/data';
-import { filterCreatedVisitsByShortUrl, isStrictRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
+import { filterCreatedVisitsByShortUrl, isMandatoryStartDateRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteShortUrlVisits } from './shortUrlVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';
@@ -26,7 +26,7 @@ export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => cr
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false, loadPrevInterval } = options;
     const query = { ...toApiParams(params), domain };
-    const queryForPrevVisits = loadPrevInterval && isStrictRangeParams(params) ? {
+    const queryForPrevVisits = loadPrevInterval && isMandatoryStartDateRangeParams(params) ? {
       ...toApiParams(paramsForPrevDateRange(params)),
       domain,
     } : undefined;

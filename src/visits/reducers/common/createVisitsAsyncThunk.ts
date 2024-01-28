@@ -1,9 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
-import { addDays, differenceInDays } from 'date-fns';
+import { addDays } from 'date-fns';
 import type { RootState } from '../../../container/store';
 import { formatIsoDate, parseISO } from '../../../utils/dates/helpers/date';
 import type { DateInterval } from '../../../utils/dates/helpers/dateIntervals';
-import { dateToMatchingInterval, isStrictDateRange } from '../../../utils/dates/helpers/dateIntervals';
+import { dateRangeDaysDiff, dateToMatchingInterval } from '../../../utils/dates/helpers/dateIntervals';
 import { createAsyncThunk } from '../../../utils/redux';
 import type { LoadVisits, VisitsLoaded } from '../types';
 import type { Loaders } from './createLoadVisits';
@@ -24,9 +24,7 @@ export const createVisitsAsyncThunk = <T extends LoadVisits = LoadVisits>(
   const asyncThunk = createAsyncThunk(typePrefix, async (param: T, { getState, dispatch }): Promise<VisitsLoaded> => {
     const { visitsLoader, lastVisitLoader, prevVisitsLoader } = createLoaders(param);
     const batchSize = DEFAULT_BATCH_SIZE / (prevVisitsLoader ? 2 : 1);
-    const daysInDateRange = isStrictDateRange(param.params.dateRange)
-      ? differenceInDays(param.params.dateRange.endDate, param.params.dateRange.startDate)
-      : undefined;
+    const daysInDateRange = dateRangeDaysDiff(param.params.dateRange);
 
     const progresses = prevVisitsLoader ? { main: 0, prev: 0 } : { main: 0 };
     const computeProgress = (key: keyof typeof progresses, progress: number) => {

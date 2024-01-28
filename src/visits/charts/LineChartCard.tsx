@@ -31,7 +31,7 @@ import { useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
 import type { Mandatory, MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
-import { CHART_TOOLTIP_STYLES, PREV_COLOR } from './constants';
+import { CHART_TOOLTIP_COMMON_PROPS, PREV_COLOR } from './constants';
 import { LineChartLegend } from './LineChartLegend';
 
 type ChartPayloadEntry = {
@@ -249,7 +249,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
           <LineChart data={chartData} {...dimensions}>
             <XAxis dataKey="date" />
             <YAxis tickFormatter={prettify} />
-            <Tooltip formatter={prettify} contentStyle={CHART_TOOLTIP_STYLES} />
+            <Tooltip formatter={prettify} {...CHART_TOOLTIP_COMMON_PROPS} />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
             {Object.entries(visitsGroups).map(([dataKey, v]) => v.length > 0 && (
               <Line

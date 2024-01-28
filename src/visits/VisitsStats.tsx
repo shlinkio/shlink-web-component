@@ -103,8 +103,8 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const processedPrevStats = useMemo(() => processStatsFromVisits(normalizedPrevVisits ?? []), [normalizedPrevVisits]);
   const visitsGroups = useMemo(
     () => Object.fromEntries([
-      normalizedPrevVisits && ['Previous period', Object.assign(normalizedPrevVisits, { type: 'previous' as const })],
       ['Visits', Object.assign(normalizedVisits, { type: 'main' as const })],
+      normalizedPrevVisits && ['Previous period', Object.assign(normalizedPrevVisits, { type: 'previous' as const })],
       highlightedVisits.length > 0 && [
         highlightedLabel ?? 'Selected',
         Object.assign(highlightedVisits, { type: 'highlighted' as const }),

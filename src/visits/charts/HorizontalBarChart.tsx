@@ -10,7 +10,7 @@ import { Fragment, useMemo } from 'react';
 import { Bar, CartesianGrid, Cell, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
-import { CHART_TOOLTIP_STYLES, PREV_COLOR, PREV_COLOR_ALPHA } from './constants';
+import { CHART_TOOLTIP_COMMON_PROPS, PREV_COLOR, PREV_COLOR_ALPHA } from './constants';
 
 export type HorizontalBarChartProps = {
   stats: Stats;
@@ -89,7 +89,7 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
         <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.05 : 0.9} />
         <Tooltip
           filterNull // This will prevent "hidden" values to render a tooltip
-          contentStyle={CHART_TOOLTIP_STYLES}
+          {...CHART_TOOLTIP_COMMON_PROPS}
           formatter={(value: number, name: keyof HorizontalBarChartEntry) => {
             const prettifiedValue = prettify(value);
             const label = (() => {

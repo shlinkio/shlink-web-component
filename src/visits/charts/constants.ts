@@ -1,10 +1,22 @@
 import type { CSSProperties } from 'react';
+import type { TooltipProps } from 'recharts';
 
 export const CHART_TOOLTIP_STYLES: CSSProperties = {
   color: 'white',
   background: 'rgb(0 0 0 / .9)',
   border: 'none',
   borderRadius: '5px',
+} as const;
+
+const CHART_TOOLTIP_LABEL_STYLES: CSSProperties = {
+  marginBottom: '5px',
+  fontWeight: 'bold',
+} as const;
+
+export const CHART_TOOLTIP_COMMON_PROPS: Pick<TooltipProps<any, any>, 'contentStyle' | 'labelStyle' | 'itemStyle'> = {
+  contentStyle: CHART_TOOLTIP_STYLES,
+  labelStyle: CHART_TOOLTIP_LABEL_STYLES,
+  itemStyle: { padding: 0 },
 } as const;
 
 const COLORS = [

@@ -1,5 +1,6 @@
+import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient } from '../../api-contract';
-import { filterCreatedVisitsByDomain, isMandatoryStartDateRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
+import { filterCreatedVisitsByDomain } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { LoadVisits, VisitsInfo } from './types';
 
@@ -26,27 +27,14 @@ const initialState: DomainVisits = {
 
 export const getDomainVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getDomainVisits`,
-  createLoaders: ({ domain, params, options }: LoadDomainVisits) => {
+  createLoaders: ({ domain, options }: LoadDomainVisits) => {
     const apiClient = apiClientFactory();
-    const { doIntervalFallback = false, loadPrevInterval } = options;
-    const query = toApiParams(params);
-    const queryForPrevVisits = loadPrevInterval && isMandatoryStartDateRangeParams(params)
-      ? toApiParams(paramsForPrevDateRange(params))
-      : undefined;
+    const { doIntervalFallback = false } = options;
 
-    const visitsLoader = (page: number, itemsPerPage: number) => apiClient.getDomainVisits(
-      domain,
-      { ...query, page, itemsPerPage },
-    );
+    const visitsLoader = (query: ShlinkVisitsParams) => apiClient.getDomainVisits(domain, query);
     const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) => apiClient.getDomainVisits(domain, q));
-    const prevVisitsLoader = queryForPrevVisits && (
-      (page: number, itemsPerPage: number) => apiClient.getDomainVisits(
-        domain,
-        { ...queryForPrevVisits, page, itemsPerPage },
-      )
-    );
 
-    return { visitsLoader, lastVisitLoader, prevVisitsLoader };
+    return { visitsLoader, lastVisitLoader };
   },
   shouldCancel: (getState) => getState().domainVisits.cancelLoad,
 });

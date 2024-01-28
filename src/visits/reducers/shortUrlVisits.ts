@@ -1,6 +1,7 @@
+import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient } from '../../api-contract';
 import type { ShortUrlIdentifier } from '../../short-urls/data';
-import { filterCreatedVisitsByShortUrl, isMandatoryStartDateRangeParams, paramsForPrevDateRange, toApiParams } from '../helpers';
+import { filterCreatedVisitsByShortUrl } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteShortUrlVisits } from './shortUrlVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';
@@ -22,31 +23,17 @@ export type LoadShortUrlVisits = LoadVisits & ShortUrlIdentifier;
 
 export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getShortUrlVisits`,
-  createLoaders: ({ shortCode, domain, params, options }: LoadShortUrlVisits) => {
+  createLoaders: ({ shortCode, domain, options }: LoadShortUrlVisits) => {
     const apiClient = apiClientFactory();
-    const { doIntervalFallback = false, loadPrevInterval } = options;
-    const query = { ...toApiParams(params), domain };
-    const queryForPrevVisits = loadPrevInterval && isMandatoryStartDateRangeParams(params) ? {
-      ...toApiParams(paramsForPrevDateRange(params)),
-      domain,
-    } : undefined;
+    const { doIntervalFallback = false } = options;
 
-    const visitsLoader = (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
-      shortCode,
-      { ...query, page, itemsPerPage },
-    );
+    const visitsLoader = (query: ShlinkVisitsParams) => apiClient.getShortUrlVisits(shortCode, { ...query, domain });
     const lastVisitLoader = lastVisitLoaderForLoader(
       doIntervalFallback,
       (q) => apiClient.getShortUrlVisits(shortCode, { ...q, domain }),
     );
-    const prevVisitsLoader = queryForPrevVisits && (
-      (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
-        shortCode,
-        { ...queryForPrevVisits, page, itemsPerPage },
-      )
-    );
 
-    return { visitsLoader, lastVisitLoader, prevVisitsLoader };
+    return { visitsLoader, lastVisitLoader };
   },
   shouldCancel: (getState) => getState().shortUrlVisits.cancelLoad,
 });

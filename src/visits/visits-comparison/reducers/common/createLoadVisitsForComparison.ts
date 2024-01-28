@@ -1,5 +1,5 @@
 import type { ShlinkVisit } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { VisitsLoader } from '../../../reducers/common';
+import type { NonPageVisitsParams, VisitsLoader } from '../../../reducers/common';
 import { createLoadVisits } from '../../../reducers/common';
 
 type CreateLoadVisitsForComparisonOptions = {
@@ -35,7 +35,7 @@ export const createLoadVisitsForComparison = ({
   };
 
   const loadVisitsEntries = Object.entries(visitsLoaders).map(
-    ([key, visitsLoader]): [string, () => Promise<ShlinkVisit[]>] => [
+    ([key, visitsLoader]): [string, (query: NonPageVisitsParams) => Promise<ShlinkVisit[]>] => [
       key,
       createLoadVisits({
         visitsLoader,
@@ -46,11 +46,11 @@ export const createLoadVisitsForComparison = ({
     ],
   );
 
-  return async (): Promise<Record<string, ShlinkVisit[]>> => {
+  return async (query: NonPageVisitsParams): Promise<Record<string, ShlinkVisit[]>> => {
     // TODO Every loadVisits has a built-in batching logic, which is more or less "optimized" here by provided batchSize
     //      However, this Promise.all(...) may also need some batching if a large list of items is passed.
     const visitsEntries = await Promise.all(loadVisitsEntries.map(async ([key, loadVisits]) => {
-      const visits = await loadVisits();
+      const visits = await loadVisits(query);
       return [key, visits];
     }));
 

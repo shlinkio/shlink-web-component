@@ -1,5 +1,6 @@
+import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient } from '../../../api-contract';
-import { filterCreatedVisitsByDomain, toApiParams } from '../../helpers';
+import { filterCreatedVisitsByDomain } from '../../helpers';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
@@ -19,14 +20,11 @@ const initialState: VisitsComparisonInfo = {
 export const getDomainVisitsForComparison = (apiClientFactory: () => ShlinkApiClient) =>
   createVisitsComparisonAsyncThunk({
     typePrefix: `${REDUCER_PREFIX}/getDomainVisitsForComparison`,
-    createLoaders: ({ domains, params }: LoadDomainVisitsForComparison) => {
+    createLoaders: ({ domains }: LoadDomainVisitsForComparison) => {
       const apiClient = apiClientFactory();
       const loaderEntries = domains.map((domain) => [
         domain,
-        async (page: number, itemsPerPage: number) => apiClient.getDomainVisits(
-          domain,
-          { ...toApiParams(params), page, itemsPerPage },
-        ),
+        (query: ShlinkVisitsParams) => apiClient.getDomainVisits(domain, query),
       ]);
 
       return Object.fromEntries(loaderEntries);

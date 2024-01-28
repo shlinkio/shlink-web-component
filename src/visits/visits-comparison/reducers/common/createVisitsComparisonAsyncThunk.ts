@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../../../container/store';
 import { createAsyncThunk } from '../../../../utils/redux';
+import { toApiParams } from '../../../helpers';
 import type { VisitsLoader } from '../../../reducers/common';
 import type { LoadVisitsForComparison, VisitsForComparisonLoaded } from '../types';
 import { createLoadVisitsForComparison } from './createLoadVisitsForComparison';
@@ -24,7 +25,7 @@ export const createVisitsComparisonAsyncThunk = <CreateLoadersParam extends Load
         shouldCancel: () => shouldCancel(getState),
         progressChanged: (progress) => dispatch(progressChanged(progress)),
       });
-      const visitsGroups = await loadVisits();
+      const visitsGroups = await loadVisits(toApiParams(param.params));
 
       return { ...param, visitsGroups };
     },

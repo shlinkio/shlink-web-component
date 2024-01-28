@@ -1,7 +1,7 @@
-import type { ShlinkVisits } from '@shlinkio/shlink-js-sdk/api-contract';
+import type { ShlinkVisits, ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkOrphanVisitType } from '../../api-contract';
 import { isBetween } from '../../utils/dates/helpers/date';
-import { isMandatoryStartDateRangeParams, isOrphanVisit, paramsForPrevDateRange, toApiParams } from '../helpers';
+import { isOrphanVisit } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteOrphanVisits } from './orphanVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';
@@ -30,24 +30,16 @@ const filterOrphanVisitsByType = ({ data, ...rest }: ShlinkVisits, type?: Shlink
 
 export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getOrphanVisits`,
-  createLoaders: ({ orphanVisitsType, params, options }: LoadOrphanVisits) => {
+  createLoaders: ({ orphanVisitsType, options }: LoadOrphanVisits) => {
     const apiClient = apiClientFactory();
-    const { doIntervalFallback = false, loadPrevInterval } = options;
-    const query = toApiParams(params);
-    const queryForPrevVisits = loadPrevInterval && isMandatoryStartDateRangeParams(params)
-      ? toApiParams(paramsForPrevDateRange(params))
-      : undefined;
+    const { doIntervalFallback = false } = options;
 
-    const visitsLoader = async (page: number, itemsPerPage: number) => apiClient.getOrphanVisits(
-      { ...query, page, itemsPerPage },
-    ).then((resp) => filterOrphanVisitsByType(resp, orphanVisitsType));
-    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) => apiClient.getOrphanVisits(q));
-    const prevVisitsLoader = queryForPrevVisits && (
-      (page: number, itemsPerPage: number) => apiClient.getOrphanVisits({ ...queryForPrevVisits, page, itemsPerPage })
-        .then((resp) => filterOrphanVisitsByType(resp, orphanVisitsType))
+    const visitsLoader = async (query: ShlinkVisitsParams) => apiClient.getOrphanVisits(query).then(
+      (resp) => filterOrphanVisitsByType(resp, orphanVisitsType),
     );
+    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) => apiClient.getOrphanVisits(q));
 
-    return { visitsLoader, lastVisitLoader, prevVisitsLoader };
+    return { visitsLoader, lastVisitLoader };
   },
   shouldCancel: (getState) => getState().orphanVisits.cancelLoad,
 });

@@ -1,7 +1,8 @@
+import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient } from '../../../api-contract';
 import type { ShortUrlIdentifier } from '../../../short-urls/data';
 import { queryToShortUrl, shortUrlToQuery } from '../../../short-urls/helpers';
-import { filterCreatedVisitsByShortUrl, toApiParams } from '../../helpers';
+import { filterCreatedVisitsByShortUrl } from '../../helpers';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
@@ -21,13 +22,13 @@ const initialState: VisitsComparisonInfo = {
 export const getShortUrlVisitsForComparison = (apiClientFactory: () => ShlinkApiClient) =>
   createVisitsComparisonAsyncThunk({
     typePrefix: `${REDUCER_PREFIX}/getShortUrlVisitsForComparison`,
-    createLoaders: ({ shortUrls, params }: LoadShortUrlVisitsForComparison) => {
+    createLoaders: ({ shortUrls }: LoadShortUrlVisitsForComparison) => {
       const apiClient = apiClientFactory();
       const loaderEntries = shortUrls.map((identifier) => [
         shortUrlToQuery(identifier),
-        async (page: number, itemsPerPage: number) => apiClient.getShortUrlVisits(
+        (query: ShlinkVisitsParams) => apiClient.getShortUrlVisits(
           identifier.shortCode,
-          { ...toApiParams(params), domain: identifier.domain, page, itemsPerPage },
+          { ...query, domain: identifier.domain },
         ),
       ]);
 

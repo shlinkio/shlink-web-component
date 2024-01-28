@@ -7,6 +7,14 @@ import type { Stats } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
+type SetUpOptions = {
+  withPagination?: boolean;
+  extraStats?: Stats;
+  prevStats?: Stats;
+  highlightedStats?: Stats;
+  extra?: (foo?: string[]) => ReactNode;
+};
+
 describe('<SortableBarChartCard />', () => {
   const sortingItems = {
     name: 'Name',
@@ -16,10 +24,14 @@ describe('<SortableBarChartCard />', () => {
     Foo: 100,
     Bar: 50,
   };
-  const setUp = (withPagination = false, extraStats = {}, extra?: (foo?: string[]) => ReactNode) => renderWithEvents(
+  const setUp = (
+    { withPagination = false, extraStats = {}, highlightedStats, prevStats, extra }: SetUpOptions = {},
+  ) => renderWithEvents(
     <SortableBarChartCard
       title="Foo"
       stats={{ ...stats, ...extraStats }}
+      prevStats={prevStats}
+      highlightedStats={highlightedStats}
       sortingItems={sortingItems}
       withPagination={withPagination}
       extraHeaderContent={extra}
@@ -55,10 +67,13 @@ describe('<SortableBarChartCard />', () => {
     [2],
     [3],
   ])('renders properly paginated stats when pagination is set', async (itemIndex) => {
-    const { user } = setUp(true, range(1, 159).reduce<Stats>((accum, value) => {
-      accum[`key_${value}`] = value;
-      return accum;
-    }, {}));
+    const { user } = setUp({
+      withPagination: true,
+      extraStats: range(1, 159).reduce<Stats>((accum, value) => {
+        accum[`key_${value}`] = value;
+        return accum;
+      }, {}),
+    });
 
     await user.click(screen.getAllByRole('button')[1]);
     await user.click(screen.getAllByRole('menuitem')[itemIndex]);
@@ -66,13 +81,31 @@ describe('<SortableBarChartCard />', () => {
     expect(screen.getByRole('document')).toMatchSnapshot();
   });
 
+  it('renders highlighted and prev stats when provided', () => {
+    const { container } = setUp({
+      highlightedStats: {
+        Foo: 25,
+        Bar: 40,
+      },
+      prevStats: {
+        Foo: 25,
+        Bar: 40,
+        Baz: 400,
+      },
+    });
+
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   it('renders extra header content', () => {
-    setUp(false, {}, () => (
-      <span>
-        <span className="foo-span">Foo in header</span>
-        <span className="bar-span">Bar in header</span>
-      </span>
-    ));
+    setUp({
+      extra: () => (
+        <span>
+          <span className="foo-span">Foo in header</span>
+          <span className="bar-span">Bar in header</span>
+        </span>
+      ),
+    });
 
     expect(screen.getByText('Foo in header')).toHaveClass('foo-span');
     expect(screen.getByText('Bar in header')).toHaveClass('bar-span');

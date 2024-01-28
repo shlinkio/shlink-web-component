@@ -385,10 +385,10 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         >
           <div
             class="color-bullet"
-            style="background-color: rgb(70, 229, 135);"
+            style="background-color: rgb(70, 150, 229);"
           />
           <strong>
-            Previous period
+            Visits
              (
             3
             )
@@ -399,10 +399,10 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         >
           <div
             class="color-bullet"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(70, 229, 135);"
           />
           <strong>
-            Visits
+            Previous period
              (
             3
             )
@@ -499,10 +499,10 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         >
           <div
             class="color-bullet"
-            style="background-color: rgb(70, 229, 135);"
+            style="background-color: rgb(70, 150, 229);"
           />
           <strong>
-            Previous period
+            Visits
              (
             3
             )
@@ -513,10 +513,10 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         >
           <div
             class="color-bullet"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(70, 229, 135);"
           />
           <strong>
-            Visits
+            Previous period
              (
             3
             )
@@ -613,10 +613,10 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         >
           <div
             class="color-bullet"
-            style="background-color: rgb(70, 229, 135);"
+            style="background-color: rgb(70, 150, 229);"
           />
           <strong>
-            Previous period
+            Visits
              (
             3
             )
@@ -627,10 +627,10 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         >
           <div
             class="color-bullet"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(70, 229, 135);"
           />
           <strong>
-            Visits
+            Previous period
              (
             3
             )

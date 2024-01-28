@@ -173,7 +173,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px;"
+              style="margin: 0px 0px 5px 0px; font-weight: bold;"
             />
           </div>
         </div>
@@ -356,7 +356,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px;"
+              style="margin: 0px 0px 5px 0px; font-weight: bold;"
             />
           </div>
         </div>
@@ -934,7 +934,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px;"
+              style="margin: 0px 0px 5px 0px; font-weight: bold;"
             />
           </div>
         </div>
@@ -1526,7 +1526,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px;"
+              style="margin: 0px 0px 5px 0px; font-weight: bold;"
             />
           </div>
         </div>
@@ -9187,7 +9187,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px;"
+              style="margin: 0px 0px 5px 0px; font-weight: bold;"
             />
           </div>
         </div>

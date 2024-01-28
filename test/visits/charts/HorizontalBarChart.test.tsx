@@ -11,12 +11,14 @@ describe('<HorizontalBarChart />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp({ stats: {} })));
 
   it.each([
-    [{ foo: 123, bar: 456 }, undefined],
-    [{ one: 999, two: 131313 }, { one: 30, two: 100 }],
-    [{ one: 999, two: 131313, max: 3 }, { one: 30, two: 100 }],
-    [{ one: 40, two: 300, three: 35 }, { one: 30, two: 100, three: 35 }],
-  ])('renders expected charts', (stats, highlightedStats) => {
-    const { container } = setUp({ stats, highlightedStats });
+    [{ foo: 123, bar: 456 }, undefined, undefined],
+    [{ one: 999, two: 131313 }, { one: 30, two: 100 }, undefined],
+    [{ one: 999, two: 131313, max: 3 }, { one: 30, two: 100 }, undefined],
+    [{ one: 40, two: 300, three: 35 }, { one: 30, two: 100, three: 35 }, undefined],
+    [{ one: 40, two: 300, three: 35 }, { one: 30, two: 100, three: 35 }, { one: 20, two: 500, three: 8 }],
+    [{ one: 40, two: 300, three: 35 }, undefined, { one: 20, two: 500, three: 8 }],
+  ])('renders expected charts and tooltip', (stats, highlightedStats, prevStats) => {
+    const { container } = setUp({ stats, highlightedStats, prevStats });
     expect(container).toMatchSnapshot();
   });
 });

@@ -104,6 +104,28 @@ describe('<VisitsStats />', () => {
     ).toEqual(true);
   });
 
+  it.each([
+    { activeRoute: '/by-time', prevVisits: undefined, shouldShowMessage: true },
+    { activeRoute: '/by-context', prevVisits: undefined, shouldShowMessage: true },
+    { activeRoute: '/by-location', prevVisits: undefined, shouldShowMessage: true },
+    { activeRoute: '/by-time', prevVisits: [], shouldShowMessage: false },
+    { activeRoute: '/by-context', prevVisits: [], shouldShowMessage: false },
+    { activeRoute: '/by-location', prevVisits: [], shouldShowMessage: false },
+    { activeRoute: '/list', prevVisits: undefined, shouldShowMessage: false },
+    { activeRoute: '/list', prevVisits: [], shouldShowMessage: false },
+  ])('displays message when trying to load prev visits and prev interval cannot be calculated', (
+    { activeRoute, prevVisits, shouldShowMessage },
+  ) => {
+    const settings = fromPartial<Settings>({ visits: { loadPrevInterval: true } });
+    setUp({ visitsInfo: { visits, prevVisits }, activeRoute, settings });
+
+    if (shouldShowMessage) {
+      expect(screen.getByText(/^Could not calculate previous period/)).toBeInTheDocument();
+    } else {
+      expect(screen.queryByText(/^Could not calculate previous period/)).not.toBeInTheDocument();
+    }
+  });
+
   it('exports CSV when export btn is clicked', async () => {
     const { user } = setUp({ visitsInfo: { visits } });
 

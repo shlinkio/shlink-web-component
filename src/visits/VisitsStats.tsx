@@ -1,7 +1,14 @@
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
-import { faCalendarAlt, faChartPie, faGears, faList, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCalendarAlt,
+  faChartPie,
+  faGears,
+  faList,
+  faMapMarkedAlt,
+  faWarning,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavPillItem, NavPills } from '@shlinkio/shlink-frontend-kit';
+import { NavPillItem, NavPills, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -56,6 +63,17 @@ const sections = {
 } as const satisfies Record<string, VisitsNavLinkOptions>;
 
 Object.freeze(sections);
+
+const PrevVisitsNotice: FC<{ display: boolean }> = ({ display }) => display && (
+  <div className="mt-3 mx-auto w-75">
+    <SimpleCard>
+      <div className="d-flex gap-2">
+        <FontAwesomeIcon icon={faWarning} className="mt-1" />
+        <i>Could not calculate previous period because selected one does not have a strictly defined start date.</i>
+      </div>
+    </SimpleCard>
+  </div>
+);
 
 let selectedBar: string | undefined;
 
@@ -235,6 +253,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                       <div className="col-12 mt-3" data-testid="line-chart-container">
                         <LineChartCard visitsGroups={visitsGroups} setSelectedVisits={setSelectedVisits} />
                       </div>
+                      <PrevVisitsNotice display={!!resolvedFilter.loadPrevInterval && !prevVisits} />
                     </VisitsSectionWithFallback>
                   )}
                 />
@@ -280,6 +299,9 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                           />
                         </div>
                       )}
+                      <div className="col-12">
+                        <PrevVisitsNotice display={!!resolvedFilter.loadPrevInterval && !prevVisits} />
+                      </div>
                     </VisitsSectionWithFallback>
                   )}
                 />
@@ -318,6 +340,9 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                           }}
                           onClick={(value) => highlightVisitsForProp('city', value)}
                         />
+                      </div>
+                      <div className="col-12">
+                        <PrevVisitsNotice display={!!resolvedFilter.loadPrevInterval && !prevVisits} />
                       </div>
                     </VisitsSectionWithFallback>
                   )}

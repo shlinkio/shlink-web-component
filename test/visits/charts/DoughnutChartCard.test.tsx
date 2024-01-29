@@ -6,7 +6,9 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<DoughnutChartCard />', () => {
   const stats = { foo: 10, bar: 5602 };
   const dimensions = { width: 800, height: 400 };
-  const setUp = () => renderWithEvents(<DoughnutChartCard title="Stats" stats={stats} dimensions={dimensions} />);
+  const setUp = () => renderWithEvents(
+    <DoughnutChartCard title="Stats" stats={stats} prevStats={{}} dimensions={dimensions} />,
+  );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

@@ -123,3 +123,289 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
   </div>
 </div>
 `;
+
+exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
+<div>
+  <div
+    class="row align-items-center"
+  >
+    <div
+      class="col-sm-12 col-md-7"
+    >
+      <div
+        style="width: 800px; height: 300px;"
+      >
+        <div
+          class="recharts-wrapper"
+          role="region"
+          style="position: relative; cursor: default; width: 800px; height: 300px;"
+        >
+          <svg
+            class="recharts-surface"
+            cx="50%"
+            cy="50%"
+            height="300"
+            style="width: 100%; height: 100%;"
+            viewBox="0 0 800 300"
+            width="800"
+          >
+            <title />
+            <desc />
+            <defs>
+              <clippath
+                id="recharts5-clip"
+              >
+                <rect
+                  height="290"
+                  width="790"
+                  x="5"
+                  y="5"
+                />
+              </clippath>
+            </defs>
+            <g
+              class="recharts-layer recharts-pie"
+              tabindex="0"
+            >
+              <g
+                class="recharts-layer"
+              >
+                <g
+                  class="recharts-layer recharts-pie-sector"
+                  tabindex="-1"
+                />
+                <g
+                  class="recharts-layer recharts-pie-sector"
+                  tabindex="-1"
+                />
+              </g>
+            </g>
+            <g
+              class="recharts-layer recharts-pie"
+              tabindex="0"
+            >
+              <g
+                class="recharts-layer"
+              >
+                <g
+                  class="recharts-layer recharts-pie-sector"
+                  tabindex="-1"
+                />
+                <g
+                  class="recharts-layer recharts-pie-sector"
+                  tabindex="-1"
+                />
+              </g>
+            </g>
+          </svg>
+          <div
+            class="recharts-tooltip-wrapper"
+            role="dialog"
+            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+            tabindex="-1"
+          >
+            <div
+              class="recharts-default-tooltip"
+              style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+            >
+              <p
+                class="recharts-tooltip-label"
+                style="margin: 0px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-sm-12 col-md-5"
+    >
+      <ul
+        class="doughnut-chart-legend"
+      >
+        <li
+          class="doughnut-chart-legend__item d-flex"
+        >
+          <div
+            class="doughnut-chart-legend__item-color"
+            style="background-color: rgb(151, 187, 205);"
+          />
+          <small
+            class="doughnut-chart-legend__item-text flex-fill"
+          >
+            foo
+            <b>
+               (
+              123
+              )
+            </b>
+          </small>
+        </li>
+        <li
+          class="doughnut-chart-legend__item d-flex"
+        >
+          <div
+            class="doughnut-chart-legend__item-color"
+            style="background-color: rgb(247, 70, 74);"
+          />
+          <small
+            class="doughnut-chart-legend__item-text flex-fill"
+          >
+            bar
+            <b>
+               (
+              456
+              )
+            </b>
+          </small>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
+<div>
+  <div
+    class="row align-items-center"
+  >
+    <div
+      class="col-sm-12 col-md-7"
+    >
+      <div
+        style="width: 800px; height: 300px;"
+      >
+        <div
+          class="recharts-wrapper"
+          role="region"
+          style="position: relative; cursor: default; width: 800px; height: 300px;"
+        >
+          <svg
+            class="recharts-surface"
+            cx="50%"
+            cy="50%"
+            height="300"
+            style="width: 100%; height: 100%;"
+            viewBox="0 0 800 300"
+            width="800"
+          >
+            <title />
+            <desc />
+            <defs>
+              <clippath
+                id="recharts8-clip"
+              >
+                <rect
+                  height="290"
+                  width="790"
+                  x="5"
+                  y="5"
+                />
+              </clippath>
+            </defs>
+            <g
+              class="recharts-layer recharts-pie"
+              tabindex="0"
+            >
+              <g
+                class="recharts-layer"
+              >
+                <g
+                  class="recharts-layer recharts-pie-sector"
+                  tabindex="-1"
+                />
+                <g
+                  class="recharts-layer recharts-pie-sector"
+                  tabindex="-1"
+                />
+              </g>
+            </g>
+            <g
+              class="recharts-layer recharts-pie"
+              tabindex="0"
+            >
+              <g
+                class="recharts-layer"
+              >
+                <g
+                  class="recharts-layer recharts-pie-sector"
+                  tabindex="-1"
+                />
+                <g
+                  class="recharts-layer recharts-pie-sector"
+                  tabindex="-1"
+                />
+                <g
+                  class="recharts-layer recharts-pie-sector"
+                  tabindex="-1"
+                />
+              </g>
+            </g>
+          </svg>
+          <div
+            class="recharts-tooltip-wrapper"
+            role="dialog"
+            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+            tabindex="-1"
+          >
+            <div
+              class="recharts-default-tooltip"
+              style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+            >
+              <p
+                class="recharts-tooltip-label"
+                style="margin: 0px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-sm-12 col-md-5"
+    >
+      <ul
+        class="doughnut-chart-legend"
+      >
+        <li
+          class="doughnut-chart-legend__item d-flex"
+        >
+          <div
+            class="doughnut-chart-legend__item-color"
+            style="background-color: rgb(151, 187, 205);"
+          />
+          <small
+            class="doughnut-chart-legend__item-text flex-fill"
+          >
+            foo
+            <b>
+               (
+              123
+              )
+            </b>
+          </small>
+        </li>
+        <li
+          class="doughnut-chart-legend__item d-flex"
+        >
+          <div
+            class="doughnut-chart-legend__item-color"
+            style="background-color: rgb(247, 70, 74);"
+          />
+          <small
+            class="doughnut-chart-legend__item-text flex-fill"
+          >
+            bar
+            <b>
+               (
+              456
+              )
+            </b>
+          </small>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;

@@ -263,10 +263,10 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                   element={(
                     <VisitsSectionWithFallback showFallback={visits.length === 0}>
                       <div className={clsx('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
-                        <DoughnutChartCard title="Operating systems" stats={os} />
+                        <DoughnutChartCard title="Operating systems" stats={os} prevStats={processedPrevStats.os} />
                       </div>
                       <div className={clsx('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
-                        <DoughnutChartCard title="Browsers" stats={browsers} />
+                        <DoughnutChartCard title="Browsers" stats={browsers} prevStats={processedPrevStats.browsers} />
                       </div>
                       <div className={clsx('mt-3', { 'col-xl-4': !isOrphanVisits, 'col-lg-6': isOrphanVisits })}>
                         <SortableBarChartCard

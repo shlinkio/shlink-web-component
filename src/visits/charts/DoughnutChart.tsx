@@ -4,11 +4,12 @@ import { Fragment, useMemo } from 'react';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
-import { CHART_TOOLTIP_STYLES, chartColorForIndex } from './constants';
+import { CHART_TOOLTIP_STYLES, chartColorForIndex, PREV_COLOR } from './constants';
 import { DoughnutChartLegend } from './DoughnutChartLegend';
 
 export type DoughnutChartProps = {
   stats: Stats;
+  prevStats: Stats;
   showNumbersInLegend: boolean;
 
   /** Test seam. For tests, a responsive container cannot be used */
@@ -21,10 +22,15 @@ export type DoughnutChartEntry = {
   color: string;
 };
 
-export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, showNumbersInLegend, dimensions }) => {
-  const chartData = useMemo((): DoughnutChartEntry[] => Object.entries(stats).map(([name, value], index) => (
-    { name, value, color: chartColorForIndex(index) }
-  )), [stats]);
+const useChartData = (stats: Stats): DoughnutChartEntry[] => useMemo(
+  () => Object.entries(stats).map(([name, value], i) => ({ name, value, color: chartColorForIndex(i) })),
+  [stats],
+);
+
+export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, prevStats, showNumbersInLegend, dimensions }) => {
+  const chartData = useChartData(stats);
+  const prevChartData = useChartData(prevStats);
+  const hasPrevCharts = prevChartData.length > 0;
   const borderColor = isDarkThemeEnabled() ? PRIMARY_DARK_COLOR : PRIMARY_LIGHT_COLOR;
   const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
 
@@ -42,13 +48,27 @@ export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, showNumbersInLege
                 startAngle={360}
                 endAngle={0}
                 outerRadius="100%"
-                innerRadius="50%"
+                innerRadius={hasPrevCharts ? '65%' : '50%'}
                 animationBegin={0}
               >
                 {chartData.map((entry, index) => (
                   <Cell key={`${entry.name}-${index}`} fill={entry.color} stroke={borderColor} />
                 ))}
               </Pie>
+              {hasPrevCharts && (
+                <Pie
+                  data={prevChartData}
+                  dataKey="value"
+                  nameKey="name"
+                  startAngle={360}
+                  endAngle={0}
+                  outerRadius="55%"
+                  innerRadius="20%"
+                  animationBegin={0}
+                  stroke={borderColor}
+                  fill={PREV_COLOR}
+                />
+              )}
             </PieChart>
           </ChartWrapper>
         </div>

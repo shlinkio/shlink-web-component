@@ -1,6 +1,5 @@
 import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
 import { DropdownItem } from 'reactstrap';
-import { hasValue } from '../../utils/helpers';
 import type { ShortUrlsFilter } from '../data';
 
 interface ShortUrlsFilterDropdownProps {
@@ -36,10 +35,16 @@ export const ShortUrlsFilterDropdown = (
 
       <DropdownItem divider tag="hr" />
       <DropdownItem
-        disabled={!hasValue(selected)}
-        onClick={() => onChange({ excludeBots: false, excludeMaxVisitsReached: false, excludePastValidUntil: false })}
+        disabled={
+          selected.excludeBots === undefined
+          && selected.excludeMaxVisitsReached === undefined
+          && selected.excludePastValidUntil === undefined
+        }
+        onClick={() => onChange(
+          { excludeBots: undefined, excludeMaxVisitsReached: undefined, excludePastValidUntil: undefined },
+        )}
       >
-        <i>Clear filters</i>
+        <i>Reset to defaults</i>
       </DropdownItem>
     </DropdownBtn>
   );

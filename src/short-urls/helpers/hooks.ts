@@ -8,38 +8,38 @@ import { useRoutesPrefix } from '../../utils/routesPrefix';
 import type { ShortUrlsOrder, ShortUrlsOrderableFields } from '../data';
 import { urlDecodeShortCode } from './index';
 
-interface ShortUrlsQueryCommon {
+type ShortUrlsQueryCommon = {
   search?: string;
   startDate?: string;
   endDate?: string;
   tagsMode?: TagsFilteringMode;
-}
+};
 
-interface ShortUrlsQuery extends ShortUrlsQueryCommon {
+type ShortUrlsRawQuery = Record<string, unknown> & ShortUrlsQueryCommon & {
   orderBy?: string;
   tags?: string;
   excludeBots?: BooleanString;
   excludeMaxVisitsReached?: BooleanString;
   excludePastValidUntil?: BooleanString;
-}
+};
 
-interface ShortUrlsFiltering extends ShortUrlsQueryCommon {
+type ShortUrlsQuery = ShortUrlsQueryCommon & {
   orderBy?: ShortUrlsOrder;
   tags: string[];
   excludeBots?: boolean;
   excludeMaxVisitsReached?: boolean;
   excludePastValidUntil?: boolean;
-}
+};
 
-type ToFirstPage = (extra: Partial<ShortUrlsFiltering>) => void;
+type ToFirstPage = (extra: Partial<ShortUrlsQuery>) => void;
 
-export const useShortUrlsQuery = (): [ShortUrlsFiltering, ToFirstPage] => {
+export const useShortUrlsQuery = (): [ShortUrlsQuery, ToFirstPage] => {
   const navigate = useNavigate();
   const routesPrefix = useRoutesPrefix();
-  const query = useParsedQuery<ShortUrlsQuery>();
+  const query = useParsedQuery<ShortUrlsRawQuery>();
 
   const filtering = useMemo(
-    (): ShortUrlsFiltering => {
+    (): ShortUrlsQuery => {
       const { orderBy, tags, excludeBots, excludeMaxVisitsReached, excludePastValidUntil, ...rest } = query;
       const parsedOrderBy = orderBy ? stringToOrder<ShortUrlsOrderableFields>(orderBy) : undefined;
       const parsedTags = tags?.split(',') ?? [];
@@ -54,10 +54,10 @@ export const useShortUrlsQuery = (): [ShortUrlsFiltering, ToFirstPage] => {
     },
     [query],
   );
-  const toFirstPageWithExtra = useCallback((extra: Partial<ShortUrlsFiltering>) => {
+  const toFirstPageWithExtra = useCallback((extra: Partial<ShortUrlsQuery>) => {
     const merged = { ...filtering, ...extra };
     const { orderBy, tags, excludeBots, excludeMaxVisitsReached, excludePastValidUntil, ...mergedFiltering } = merged;
-    const newQuery: ShortUrlsQuery = {
+    const newQuery: ShortUrlsRawQuery = {
       ...mergedFiltering,
       orderBy: orderBy && orderToString(orderBy),
       tags: tags.length > 0 ? tags.join(',') : undefined,

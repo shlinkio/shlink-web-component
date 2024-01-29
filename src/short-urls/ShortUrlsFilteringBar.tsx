@@ -43,8 +43,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
   { className, shortUrlsAmount, order, handleOrderBy, tagsList },
 ) => {
   const { ExportShortUrlsBtn, TagsSelector } = useDependencies(ShortUrlsFilteringBar);
-  const [filter, toFirstPage] = useShortUrlsQuery();
-  const {
+  const [{
     search,
     tags,
     startDate,
@@ -53,7 +52,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
     excludeMaxVisitsReached,
     excludePastValidUntil,
     tagsMode = 'any',
-  } = filter;
+  }, toFirstPage] = useShortUrlsQuery();
   const supportsDisabledFiltering = useFeature('filterDisabledUrls');
   const visitsSettings = useSetting('visits');
 

@@ -46,9 +46,7 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
   const { ShortUrlsTable, ShortUrlsFilteringBar } = useDependencies(ShortUrlsList);
   const { page } = useParams();
   const location = useLocation();
-  const [filter, toFirstPage] = useShortUrlsQuery();
-  const settings = useSettings();
-  const {
+  const [{
     tags,
     search,
     startDate,
@@ -58,7 +56,8 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
     excludeBots,
     excludePastValidUntil,
     excludeMaxVisitsReached,
-  } = filter;
+  }, toFirstPage] = useShortUrlsQuery();
+  const settings = useSettings();
   const [actualOrderBy, setActualOrderBy] = useState(
     // This separated state handling is needed to be able to fall back to settings value, but only once when loaded
     orderBy ?? settings.shortUrlsList?.defaultOrdering ?? DEFAULT_SHORT_URLS_ORDERING,

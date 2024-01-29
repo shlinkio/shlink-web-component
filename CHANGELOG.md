@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 * [#217](https://github.com/shlinkio/shlink-web-component/issues/217) Fix all visits loaded when trying to reset other non-date related filters
+* [#22](https://github.com/shlinkio/shlink-web-component/issues/22) Ensure unknown query params are preserved by query-related hooks
 
 
 ## [0.4.1] - 2023-12-09

@@ -69,7 +69,7 @@
     "event-source-polyfill": "^1.0.31",
     "leaflet": "^1.9.4",
     "react-copy-to-clipboard": "^5.1.0",
-    "react-datepicker": "^4.25.0",
+    "react-datepicker": "^5.0.0",
     "react-external-link": "^2.2.0",
     "react-leaflet": "^4.2.1",
     "react-swipeable": "^7.0.1",

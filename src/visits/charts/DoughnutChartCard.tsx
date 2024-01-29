@@ -1,18 +1,14 @@
 import { ToggleSwitch, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import type { Stats } from '../types';
 import { ChartCard } from './ChartCard';
+import type { DoughnutChartProps } from './DoughnutChart';
 import { DoughnutChart } from './DoughnutChart';
 
-interface DoughnutChartCardProps {
+type DoughnutChartCardProps = Omit<DoughnutChartProps, 'showNumbersInLegend'> & {
   title: string;
-  stats: Stats;
+};
 
-  /** Test seam. For tests, a responsive container cannot be used */
-  dimensions?: { width: number; height: number };
-}
-
-export const DoughnutChartCard: FC<DoughnutChartCardProps> = ({ title, stats, dimensions }) => {
+export const DoughnutChartCard: FC<DoughnutChartCardProps> = ({ title, ...rest }) => {
   const [showNumbersInLegend, toggleShowNumbersInLegend] = useToggle(false);
 
   return (
@@ -28,7 +24,7 @@ export const DoughnutChartCard: FC<DoughnutChartCardProps> = ({ title, stats, di
         </>
       )}
     >
-      <DoughnutChart stats={stats} showNumbersInLegend={showNumbersInLegend} dimensions={dimensions} />
+      <DoughnutChart {...rest} showNumbersInLegend={showNumbersInLegend} />
     </ChartCard>
   );
 };

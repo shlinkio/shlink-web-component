@@ -6,12 +6,18 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<DoughnutChart />', () => {
   const stats = { foo: 123, bar: 456 };
   const dimensions = { width: 800, height: 300 };
-  const setUp = () => renderWithEvents(<DoughnutChart stats={stats} dimensions={dimensions} showNumbersInLegend />);
+  const setUp = (prevStats = {}) => renderWithEvents(
+    <DoughnutChart stats={stats} prevStats={prevStats} dimensions={dimensions} showNumbersInLegend />,
+  );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('renders Doughnut with expected props', () => {
-    const { container } = setUp();
+  it.each([
+    [{}],
+    [{ foo: 300, baz: 33 }],
+    [{ ...stats, baz: 20 }],
+  ])('renders Doughnut with expected props', (prevStats) => {
+    const { container } = setUp(prevStats);
     expect(container).toMatchSnapshot();
   });
 

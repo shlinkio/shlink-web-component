@@ -1,5 +1,6 @@
 import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
 import { DropdownItem } from 'reactstrap';
+import { DateInput } from '../../utils/dates/DateInput';
 import type { ShortUrlsFilter } from '../data';
 
 interface ShortUrlsFilterDropdownProps {

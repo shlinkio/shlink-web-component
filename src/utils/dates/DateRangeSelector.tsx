@@ -51,13 +51,13 @@ export const DateRangeSelector = (
       <DateIntervalDropdownItems allText={defaultText} active={activeInterval} onChange={updateDateRangeOrInterval} />
       <DropdownItem divider tag="hr" />
       <DropdownItem header aria-hidden>Custom:</DropdownItem>
-      <DropdownItem text>
+      <div className="px-3 py-1">
         <DateRangeRow
           {...activeDateRange}
           onStartDateChange={(startDate) => updateDateRangeOrInterval({ ...activeDateRange, startDate })}
           onEndDateChange={(endDate) => updateDateRangeOrInterval({ ...activeDateRange, endDate })}
         />
-      </DropdownItem>
+      </div>
     </DropdownBtn>
   );
 };

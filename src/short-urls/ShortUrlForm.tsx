@@ -125,12 +125,11 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   );
   const renderDateInput = (id: DateFields, placeholder: string, props: Partial<DateTimeInputProps> = {}) => (
     <DateTimeInput
-      name={id}
-      selected={shortUrlData[id] ? toDate(shortUrlData[id] as string | Date) : null}
-      placeholderText={placeholder}
-      isClearable
-      onChange={(date) => setShortUrlData((prev) => ({ ...prev, [id]: date }))}
       {...props}
+      name={id}
+      placeholder={placeholder}
+      value={shortUrlData[id] ? toDate(shortUrlData[id] as string | Date) : null}
+      onChange={(date: Date | null) => setShortUrlData((prev) => ({ ...prev, [id]: date }))}
     />
   );
   const basicComponents = (

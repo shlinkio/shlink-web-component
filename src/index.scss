@@ -1,7 +1,6 @@
 @import './tags/react-tag-autocomplete';
 @import './utils/StickyCardPaginator.scss';
 @import 'leaflet/dist/leaflet.css';
-@import 'react-datepicker/dist/react-datepicker.min.css';
 
 .input-group-text.input-group-text {
   border-color: var(--input-border-color);
@@ -11,4 +10,13 @@
   position: sticky;
   top: $headerHeight;
   z-index: 10;
+}
+
+// This should probably go to shlink-frontend-kit
+$input-types: "text", "date", "datetime-local", "password", "number", "email", "search", "url";
+@each $type in $input-types {
+  .card input[type="#{$type}"]:not(:disabled),
+  .dropdown input[type="#{$type}"]:not(:disabled) {
+    background-color: var(--input-color) !important;
+  }
 }

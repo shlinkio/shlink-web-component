@@ -104,7 +104,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
       <Row className="flex-lg-row-reverse">
         <div className="col-lg-8 col-xl-6 mt-3">
           <div className="d-md-flex">
-            <div className="flex-fill">
+            <div className="flex-grow-1">
               <DateRangeSelector
                 defaultText="All short URLs"
                 dateRangeOrInterval={activeInterval ?? datesToDateRange(startDate, endDate)}

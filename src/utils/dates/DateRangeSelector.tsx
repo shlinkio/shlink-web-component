@@ -50,7 +50,6 @@ export const DateRangeSelector = (
     <DropdownBtn disabled={disabled} text={text}>
       <DateIntervalDropdownItems allText={defaultText} active={activeInterval} onChange={updateDateRangeOrInterval} />
       <DropdownItem divider tag="hr" />
-      <DropdownItem header aria-hidden>Custom:</DropdownItem>
       <div className="px-3 py-1">
         <DateRangeRow
           {...activeDateRange}

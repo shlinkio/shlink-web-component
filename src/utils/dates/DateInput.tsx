@@ -10,11 +10,11 @@ export type DateInputProps = FilteredInputProps & {
   maxDate?: Date;
   value?: Date | null;
   onChange?: (newDate: Date | null) => void;
-  type?: 'date' | 'datetime'
+  withTime?: boolean
 };
 
 export const DateInput: FC<DateInputProps> = (
-  { minDate, maxDate, value, onChange, type = 'date', ...rest },
+  { minDate, maxDate, value, onChange, withTime = false, ...rest },
 ) => {
   const handleChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -29,12 +29,12 @@ export const DateInput: FC<DateInputProps> = (
     },
     [onChange],
   );
-  const formatter = useMemo(() => (type === 'date' ? formatInternational : formatHumanFriendly), [type]);
+  const formatter = useMemo(() => (withTime ? formatHumanFriendly : formatInternational), [withTime]);
 
   return (
     <Input
       {...rest}
-      type={type === 'datetime' ? 'datetime-local' : 'date'}
+      type={withTime ? 'datetime-local' : 'date'}
       value={formatter(value) ?? ''}
       max={formatter(maxDate) ?? undefined}
       min={formatter(minDate) ?? undefined}

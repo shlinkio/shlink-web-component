@@ -68,11 +68,11 @@ describe('<ShortUrlsFilteringBar />', () => {
 
   it.each([
     [
-      (user: UserEvent) => user.type(screen.getByPlaceholderText('Since...'), '2022-05-07'),
+      (user: UserEvent) => user.type(screen.getByLabelText('Since:'), '2022-05-07'),
       `startDate=${uriEncodedISODate('2022-05-07')}`,
     ],
     [
-      (user: UserEvent) => user.type(screen.getByPlaceholderText('Until...'), '2023-12-18'),
+      (user: UserEvent) => user.type(screen.getByLabelText('Until:'), '2023-12-18'),
       `endDate=${uriEncodedISODate('2023-12-18T23:59:59')}`,
     ],
   ])('redirects to first page when date range changes', async (typeDates, expectedQuery) => {

@@ -15,9 +15,8 @@ import type { DomainSelectorProps } from '../domains/DomainSelector';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
 import type { TagsList } from '../tags/reducers/tagsList';
 import { IconInput } from '../utils/components/IconInput';
-import type { DateTimeInputProps } from '../utils/dates/DateTimeInput';
-import { DateTimeInput } from '../utils/dates/DateTimeInput';
 import { formatIsoDate } from '../utils/dates/helpers/date';
+import { LabelledDateInput } from '../utils/dates/LabelledDateInput';
 import { useFeature } from '../utils/features';
 import { handleEventPreventingDefault, hasValue } from '../utils/helpers';
 import { ShortUrlFormCheckboxGroup } from './helpers/ShortUrlFormCheckboxGroup';
@@ -26,7 +25,6 @@ import './ShortUrlForm.scss';
 
 export type Mode = 'create' | 'create-basic' | 'edit';
 
-type DateFields = 'validSince' | 'validUntil';
 type NonDateFields = 'longUrl' | 'customSlug' | 'shortCodeLength' | 'domain' | 'maxVisits' | 'title';
 
 export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEditShortUrlData> {
@@ -74,12 +72,9 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
     // value gets removed. Otherwise, set undefined so that it gets ignored.
     return hasValue(initialValue) ? null : undefined;
   };
-  const submit = handleEventPreventingDefault(async () => onSave({
-    ...shortUrlData,
-    validSince: formatIsoDate(shortUrlData.validSince) ?? null,
-    validUntil: formatIsoDate(shortUrlData.validUntil) ?? null,
-    maxVisits: !hasValue(shortUrlData.maxVisits) ? null : Number(shortUrlData.maxVisits),
-  }).then((result: any) => !isEdit && !isErrorAction(result) && reset()).catch(() => {}));
+  const submit = handleEventPreventingDefault(async () => onSave(shortUrlData)
+    .then((result: any) => !isEdit && !isErrorAction(result) && reset())
+    .catch(() => {}));
 
   useEffect(() => {
     setShortUrlData(initialState);
@@ -121,16 +116,6 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
           [id]: setResettableValue(e.target.value, initialState.deviceLongUrls?.[id]),
         },
       }))}
-    />
-  );
-  const renderDateInput = (id: DateFields, placeholder: string, props: Partial<DateTimeInputProps> = {}) => (
-    <DateTimeInput
-      name={id}
-      selected={shortUrlData[id] ? toDate(shortUrlData[id] as string | Date) : null}
-      placeholderText={placeholder}
-      isClearable
-      onChange={(date) => setShortUrlData((prev) => ({ ...prev, [id]: date }))}
-      {...props}
     />
   );
   const basicComponents = (
@@ -216,11 +201,44 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
 
             <div className="col-sm-6 mb-3">
               <SimpleCard title="Limit access to the short URL">
-                {renderOptionalInput('maxVisits', 'Maximum number of visits allowed', 'number', { min: 1 })}
-                <div className="mb-3">
-                  {renderDateInput('validSince', 'Enabled since...', { maxDate: shortUrlData.validUntil ? toDate(shortUrlData.validUntil) : undefined })}
+                <div className="row mb-3">
+                  <div className="col-lg-6">
+                    <LabelledDateInput
+                      label="Enabled since"
+                      withTime
+                      maxDate={shortUrlData.validUntil ? toDate(shortUrlData.validUntil) : undefined}
+                      name="validSince"
+                      value={shortUrlData.validSince ? toDate(shortUrlData.validSince) : null}
+                      onChange={(date) => setShortUrlData((prev) => ({ ...prev, validSince: formatIsoDate(date) }))}
+                    />
+                  </div>
+                  <div className="col-lg-6 mt-3 mt-lg-0">
+                    <LabelledDateInput
+                      label="Enabled until"
+                      withTime
+                      minDate={shortUrlData.validSince ? toDate(shortUrlData.validSince) : undefined}
+                      name="validUntil"
+                      value={shortUrlData.validUntil ? toDate(shortUrlData.validUntil) : null}
+                      onChange={(date) => setShortUrlData((prev) => ({ ...prev, validUntil: formatIsoDate(date) }))}
+                    />
+                  </div>
                 </div>
-                {renderDateInput('validUntil', 'Enabled until...', { minDate: shortUrlData.validSince ? toDate(shortUrlData.validSince) : undefined })}
+
+                <div>
+                  <label htmlFor="maxVisits" className="mb-1">Maximum visits allowed:</label>
+                  <Input
+                    name="maxVisits"
+                    id="maxVisits"
+                    type="number"
+                    min={1}
+                    placeholder="25..."
+                    value={shortUrlData.maxVisits ?? ''}
+                    onChange={(e) => setShortUrlData((prev) => ({
+                      ...prev,
+                      maxVisits: !hasValue(e.target.value) ? null : Number(e.target.value),
+                    }))}
+                  />
+                </div>
               </SimpleCard>
             </div>
           </Row>

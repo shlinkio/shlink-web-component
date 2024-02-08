@@ -1,5 +1,6 @@
 import { countBy } from '@shlinkio/data-manipulation';
 import { HIGHLIGHTED_COLOR, isDarkThemeEnabled, MAIN_COLOR } from '@shlinkio/shlink-frontend-kit';
+import type { Duration } from 'date-fns';
 import {
   add,
   differenceInDays,

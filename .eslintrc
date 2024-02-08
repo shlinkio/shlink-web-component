@@ -7,6 +7,9 @@
     "project": "./tsconfig.json"
   },
   "rules": {
+    "jsx-a11y/label-has-associated-control": ["error", {
+      "controlComponents": ["Input", "DateInput"]
+    }],
     "react/no-unused-prop-types": "off"
   },
   "overrides": [{

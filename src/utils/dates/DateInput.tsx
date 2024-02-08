@@ -1,41 +1,44 @@
-import { faCalendarAlt as calendarIcon } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { clsx } from 'clsx';
-import { useRef } from 'react';
-import type { ReactDatePickerProps } from 'react-datepicker';
-import DatePicker from 'react-datepicker';
-import { STANDARD_DATE_FORMAT } from './helpers/date';
-import './DateInput.scss';
+import type { ChangeEvent, ComponentProps, FC } from 'react';
+import { useCallback, useMemo } from 'react';
+import { Input } from 'reactstrap';
+import { formatHumanFriendly, formatInternational, parseISO } from './helpers/date';
 
-export type DateInputProps = ReactDatePickerProps;
+type FilteredInputProps = Omit<ComponentProps<typeof Input>, 'onChange' | 'value' | 'type' | 'min' | 'max' | 'onFocus'>;
 
-export const DateInput = (props: DateInputProps) => {
-  const { className, isClearable, selected, dateFormat } = props;
-  const showCalendarIcon = !isClearable || !selected;
-  const ref = useRef<{ input: HTMLInputElement }>();
+export type DateInputProps = FilteredInputProps & {
+  minDate?: Date;
+  maxDate?: Date;
+  value?: Date | null;
+  onChange?: (newDate: Date | null) => void;
+  withTime?: boolean
+};
+
+export const DateInput: FC<DateInputProps> = (
+  { minDate, maxDate, value, onChange, withTime = false, ...rest },
+) => {
+  const handleChange = useCallback(
+    ({ target }: ChangeEvent<HTMLInputElement>) => {
+      // When setting an empty value, immediately clear selected date
+      if (!target.value) {
+        onChange?.(null);
+        return;
+      }
+
+      /* TODO Allow doing some debounce */
+      onChange?.(parseISO(target.value));
+    },
+    [onChange],
+  );
+  const formatter = useMemo(() => (withTime ? formatHumanFriendly : formatInternational), [withTime]);
 
   return (
-    <div className="icon-input-container">
-      <DatePicker
-        {...props}
-        popperModifiers={[
-          {
-            name: 'arrow',
-            options: { padding: 24 }, // This prevents the arrow to be placed on the very edge, which looks ugly
-          },
-        ]}
-        dateFormat={dateFormat ?? STANDARD_DATE_FORMAT}
-        className={clsx('icon-input-container__input form-control', className)}
-        // @ts-expect-error The DatePicker type definition is wrong. It has a ref prop
-        ref={ref}
-      />
-      {showCalendarIcon && (
-        <FontAwesomeIcon
-          icon={calendarIcon}
-          className="icon-input-container__icon"
-          onClick={() => ref.current?.input.focus()}
-        />
-      )}
-    </div>
+    <Input
+      {...rest}
+      type={withTime ? 'datetime-local' : 'date'}
+      value={formatter(value) ?? ''}
+      max={formatter(maxDate) ?? undefined}
+      min={formatter(minDate) ?? undefined}
+      onChange={handleChange}
+    />
   );
 };

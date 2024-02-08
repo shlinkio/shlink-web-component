@@ -1,6 +1,7 @@
 import { endOfDay } from 'date-fns';
-import { DateInput } from './DateInput';
+import type { FC } from 'react';
 import type { DateRange } from './helpers/dateIntervals';
+import { LabelledDateInput } from './LabelledDateInput';
 
 interface DateRangeRowProps extends DateRange {
   onStartDateChange: (date: Date | null) => void;
@@ -8,26 +9,23 @@ interface DateRangeRowProps extends DateRange {
   disabled?: boolean;
 }
 
-export const DateRangeRow = (
-  { startDate = null, endDate = null, disabled = false, onStartDateChange, onEndDateChange }: DateRangeRowProps,
+export const DateRangeRow: FC<DateRangeRowProps> = (
+  { startDate, endDate, disabled = false, onStartDateChange, onEndDateChange },
 ) => (
   <div className="row">
     <div className="col-md-6">
-      <DateInput
-        selected={startDate}
-        placeholderText="Since..."
-        isClearable
+      <LabelledDateInput
+        label="Since"
+        value={startDate}
         maxDate={endDate ?? undefined}
         disabled={disabled}
         onChange={onStartDateChange}
       />
     </div>
-    <div className="col-md-6">
-      <DateInput
-        className="mt-2 mt-md-0"
-        selected={endDate}
-        placeholderText="Until..."
-        isClearable
+    <div className="col-md-6 mt-3 mt-md-0">
+      <LabelledDateInput
+        label="Until"
+        value={endDate}
         minDate={startDate ?? undefined}
         disabled={disabled}
         onChange={(date) => onEndDateChange(date && endOfDay(date))}

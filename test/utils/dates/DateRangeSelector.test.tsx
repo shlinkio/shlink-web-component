@@ -26,9 +26,7 @@ describe('<DateRangeSelector />', () => {
     const { container } = await setUp();
 
     expect(screen.getAllByRole('menuitem')).toHaveLength(8);
-    expect(screen.getByRole('heading', { hidden: true })).toHaveTextContent('Custom:');
     expect(container.querySelector('.dropdown-divider')).toBeInTheDocument();
-    expect(container.querySelector('.dropdown-item-text')).toBeInTheDocument();
   });
 
   it.each([
@@ -50,12 +48,8 @@ describe('<DateRangeSelector />', () => {
   it('triggers onDatesChange callback when selecting an element', async () => {
     const { user } = await setUp();
 
-    await user.click(screen.getByPlaceholderText('Since...'));
-    await user.click(screen.getAllByRole('option')[0]);
-
-    await user.click(screen.getByPlaceholderText('Until...'));
-    await user.click(screen.getAllByRole('option')[0]);
-
+    await user.type(screen.getByLabelText('Since:'), '2020-01-01');
+    await user.type(screen.getByLabelText('Until:'), '2022-01-01');
     await user.click(screen.getAllByRole('menuitem')[0]);
 
     expect(onDatesChange).toHaveBeenCalledTimes(3);

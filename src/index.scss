@@ -14,6 +14,7 @@
 
 // This should probably go to shlink-frontend-kit
 $input-types: "text", "date", "datetime-local", "password", "number", "email", "search", "url";
+
 @each $type in $input-types {
   .card input[type="#{$type}"]:not(:disabled),
   .dropdown input[type="#{$type}"]:not(:disabled) {

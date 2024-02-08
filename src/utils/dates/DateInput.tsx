@@ -24,7 +24,7 @@ export const DateInput: FC<DateInputProps> = (
         return;
       }
 
-      /* TODO Do some debounce */
+      /* TODO Allow doing some debounce */
       onChange?.(parseISO(target.value));
     },
     [onChange],

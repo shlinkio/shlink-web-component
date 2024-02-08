@@ -72,13 +72,9 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
     // value gets removed. Otherwise, set undefined so that it gets ignored.
     return hasValue(initialValue) ? null : undefined;
   };
-  const submit = handleEventPreventingDefault(async () => onSave({
-    ...shortUrlData,
-    // TODO I think this is no longer needed. Verify
-    // validSince: formatIsoDate(shortUrlData.validSince) ?? null,
-    // validUntil: formatIsoDate(shortUrlData.validUntil) ?? null,
-    // maxVisits: !hasValue(shortUrlData.maxVisits) ? null : Number(shortUrlData.maxVisits),
-  }).then((result: any) => !isEdit && !isErrorAction(result) && reset()).catch(() => {}));
+  const submit = handleEventPreventingDefault(async () => onSave(shortUrlData)
+    .then((result: any) => !isEdit && !isErrorAction(result) && reset())
+    .catch(() => {}));
 
   useEffect(() => {
     setShortUrlData(initialState);

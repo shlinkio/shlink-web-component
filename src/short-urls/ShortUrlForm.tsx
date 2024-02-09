@@ -22,11 +22,8 @@ import { ShortUrlFormCheckboxGroup } from './helpers/ShortUrlFormCheckboxGroup';
 import { UseExistingIfFoundInfoIcon } from './UseExistingIfFoundInfoIcon';
 import './ShortUrlForm.scss';
 
-export type Mode = 'create' | 'create-basic' | 'edit';
-
 export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEditShortUrlData> {
-  // FIXME Try to get rid of the mode param, and infer creation or edition from initialState if possible
-  mode: Mode;
+  basicMode?: boolean;
   saving: boolean;
   initialState: T;
   onSave: (shortUrlData: T) => Promise<unknown>;
@@ -59,16 +56,15 @@ const DeviceLongUrlInput: FC<Omit<IconInputProps, 'type' | 'name'>> = ({ id, ico
 );
 
 const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
-  { mode, saving, onSave, initialState, tagsList },
+  { basicMode = false, saving, onSave, initialState, tagsList },
 ) => {
   const { TagsSelector, DomainSelector } = useDependencies(ShortUrlForm as unknown as ShortUrlFormDeps);
   const [shortUrlData, setShortUrlData] = useState(initialState);
   const reset = () => setShortUrlData(initialState);
   const supportsDeviceLongUrls = useFeature('deviceLongUrls');
 
-  const isEdit = mode === 'edit';
   const isCreation = isCreationData(shortUrlData);
-  const isBasicMode = mode === 'create-basic';
+  const isEdit = !isCreation;
   const changeTags = (tags: string[]) => setShortUrlData((prev) => ({ ...prev, tags }));
   const setResettableValue = (value: string, initialValue?: any) => {
     if (hasValue(value)) {
@@ -106,7 +102,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
         onChange={(e) => setShortUrlData((prev) => ({ ...prev, longUrl: e.target.value }))}
       />
       <Row>
-        {isBasicMode && isCreation && (
+        {basicMode && isCreation && (
           <div className="col-lg-6 mb-3">
             <Input
               name="customSlug"
@@ -118,17 +114,17 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
             />
           </div>
         )}
-        <div className={isBasicMode ? 'col-lg-6 mb-3' : 'col-12'}>
+        <div className={basicMode ? 'col-lg-6 mb-3' : 'col-12'}>
           <TagsSelector tags={tagsList.tags} selectedTags={shortUrlData.tags ?? []} onChange={changeTags} />
         </div>
       </Row>
     </div>
-  ), [TagsSelector, isBasicMode, isCreation, shortUrlData, tagsList.tags]);
+  ), [TagsSelector, basicMode, isCreation, shortUrlData, tagsList.tags]);
 
   return (
     <form name="shortUrlForm" className="short-url-form" onSubmit={submit}>
-      {isBasicMode && basicComponents}
-      {!isBasicMode && (
+      {basicMode && basicComponents}
+      {!basicMode && (
         <>
           <Row>
             <div className={clsx('mb-3', { 'col-sm-6': supportsDeviceLongUrls, 'col-12': !supportsDeviceLongUrls })}>

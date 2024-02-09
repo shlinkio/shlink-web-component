@@ -1,19 +1,18 @@
-import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faAndroid, faApple } from '@fortawesome/free-brands-svg-icons';
 import { faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { Checkbox, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { parseISO } from 'date-fns';
 import type { ChangeEvent, FC } from 'react';
-import { useEffect, useState } from 'react';
-import { Button, FormGroup, Input, Row } from 'reactstrap';
-import type { InputType } from 'reactstrap/types/lib/Input';
+import { useCallback, useMemo, useState } from 'react';
+import { Button, Input, Row } from 'reactstrap';
 import type { ShlinkCreateShortUrlData, ShlinkDeviceLongUrls, ShlinkEditShortUrlData } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainSelectorProps } from '../domains/DomainSelector';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
 import type { TagsList } from '../tags/reducers/tagsList';
+import type { IconInputProps } from '../utils/components/IconInput';
 import { IconInput } from '../utils/components/IconInput';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import { LabelledDateInput } from '../utils/dates/LabelledDateInput';
@@ -24,8 +23,6 @@ import { UseExistingIfFoundInfoIcon } from './UseExistingIfFoundInfoIcon';
 import './ShortUrlForm.scss';
 
 export type Mode = 'create' | 'create-basic' | 'edit';
-
-type NonDateFields = 'longUrl' | 'customSlug' | 'shortCodeLength' | 'domain' | 'maxVisits' | 'title';
 
 export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEditShortUrlData> {
   // FIXME Try to get rid of the mode param, and infer creation or edition from initialState if possible
@@ -50,6 +47,16 @@ const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData)
   'shortCodeLength' in data && 'customSlug' in data && 'domain' in data;
 
 const isErrorAction = (action: any): boolean => 'error' in action;
+
+const DeviceLongUrlInput: FC<Omit<IconInputProps, 'type' | 'name'>> = ({ id, icon, ...rest }) => (
+  <IconInput
+    name={id}
+    id={id}
+    type="url"
+    icon={icon}
+    {...rest}
+  />
+);
 
 const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   { mode, saving, onSave, initialState, tagsList },
@@ -76,69 +83,47 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
     .then((result: any) => !isEdit && !isErrorAction(result) && reset())
     .catch(() => {}));
 
-  useEffect(() => {
-    setShortUrlData(initialState);
-  }, [initialState]);
+  const onDeviceLogUrlChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>, id: keyof ShlinkDeviceLongUrls) => setShortUrlData((prev) => ({
+      ...prev,
+      deviceLongUrls: {
+        ...(prev.deviceLongUrls ?? {}),
+        [id]: setResettableValue(e.target.value, initialState.deviceLongUrls?.[id]),
+      },
+    })),
+    [initialState.deviceLongUrls],
+  );
 
-  // TODO Consider extracting these functions to local components
-  const renderOptionalInput = (
-    id: NonDateFields,
-    placeholder: string,
-    type: InputType = 'text',
-    props: any = {},
-    fromGroupProps = {},
-  ) => (
-    <FormGroup {...fromGroupProps}>
+  const basicComponents = useMemo(() => (
+    <div className="d-flex flex-column gap-3">
       <Input
-        name={id}
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        // @ts-expect-error FIXME Make sure id is a key from T
-        value={shortUrlData[id] ?? ''}
-        onChange={props.onChange ?? ((e) => setShortUrlData((prev) => ({ ...prev, [id]: e.target.value })))}
-        {...props}
+        name="longUrl"
+        bsSize="lg"
+        type="url"
+        placeholder="URL to be shortened"
+        required
+        value={shortUrlData.longUrl}
+        onChange={(e) => setShortUrlData((prev) => ({ ...prev, longUrl: e.target.value }))}
       />
-    </FormGroup>
-  );
-  const renderDeviceLongUrlInput = (id: keyof ShlinkDeviceLongUrls, placeholder: string, icon: IconProp) => (
-    <IconInput
-      icon={icon}
-      name={id}
-      id={id}
-      type="url"
-      placeholder={placeholder}
-      value={shortUrlData.deviceLongUrls?.[id] ?? ''}
-      onChange={(e) => setShortUrlData((prev) => ({
-        ...prev,
-        deviceLongUrls: {
-          ...(prev.deviceLongUrls ?? {}),
-          [id]: setResettableValue(e.target.value, initialState.deviceLongUrls?.[id]),
-        },
-      }))}
-    />
-  );
-  const basicComponents = (
-    <>
-      <FormGroup>
-        <Input
-          name="longUrl"
-          bsSize="lg"
-          type="url"
-          placeholder="URL to be shortened"
-          required
-          value={shortUrlData.longUrl}
-          onChange={(e) => setShortUrlData((prev) => ({ ...prev, longUrl: e.target.value }))}
-        />
-      </FormGroup>
       <Row>
-        {isBasicMode && renderOptionalInput('customSlug', 'Custom slug', 'text', { bsSize: 'lg' }, { className: 'col-lg-6' })}
+        {isBasicMode && isCreation && (
+          <div className="col-lg-6 mb-3">
+            <Input
+              name="customSlug"
+              id="customSlug"
+              placeholder="Custom slug"
+              value={shortUrlData.customSlug ?? ''}
+              onChange={(e) => setShortUrlData((prev) => ({ ...prev, customSlug: e.target.value }))}
+              bsSize="lg"
+            />
+          </div>
+        )}
         <div className={isBasicMode ? 'col-lg-6 mb-3' : 'col-12'}>
           <TagsSelector tags={tagsList.tags} selectedTags={shortUrlData.tags ?? []} onChange={changeTags} />
         </div>
       </Row>
-    </>
-  );
+    </div>
+  ), [TagsSelector, isBasicMode, isCreation, shortUrlData, tagsList.tags]);
 
   return (
     <form name="shortUrlForm" className="short-url-form" onSubmit={submit}>
@@ -153,14 +138,28 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
             </div>
             {supportsDeviceLongUrls && (
               <div className="col-sm-6 mb-3">
-                <SimpleCard title="Device-specific long URLs">
-                  <FormGroup>
-                    {renderDeviceLongUrlInput('android', 'Android-specific redirection', faAndroid)}
-                  </FormGroup>
-                  <FormGroup>
-                    {renderDeviceLongUrlInput('ios', 'iOS-specific redirection', faApple)}
-                  </FormGroup>
-                  {renderDeviceLongUrlInput('desktop', 'Desktop-specific redirection', faDesktop)}
+                <SimpleCard title="Device-specific long URLs" bodyClassName="d-flex flex-column gap-3">
+                  <DeviceLongUrlInput
+                    icon={faAndroid}
+                    id="android"
+                    placeholder="Android-specific redirection"
+                    value={shortUrlData.deviceLongUrls?.android ?? ''}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => onDeviceLogUrlChange(e, 'android')}
+                  />
+                  <DeviceLongUrlInput
+                    icon={faApple}
+                    id="ios"
+                    placeholder="iOS-specific redirection"
+                    value={shortUrlData.deviceLongUrls?.ios ?? ''}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => onDeviceLogUrlChange(e, 'ios')}
+                  />
+                  <DeviceLongUrlInput
+                    icon={faDesktop}
+                    id="desktop"
+                    placeholder="Desktop-specific redirection"
+                    value={shortUrlData.deviceLongUrls?.desktop ?? ''}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => onDeviceLogUrlChange(e, 'desktop')}
+                  />
                 </SimpleCard>
               </div>
             )}
@@ -168,26 +167,41 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
 
           <Row>
             <div className="col-sm-6 mb-3">
-              <SimpleCard title="Customize the short URL">
-                {renderOptionalInput('title', 'Title', 'text', {
-                  onChange: ({ target }: ChangeEvent<HTMLInputElement>) => setShortUrlData((prev) => ({
+              <SimpleCard title="Customize the short URL" bodyClassName="d-flex flex-column gap-3">
+                <Input
+                  name="title"
+                  id="title"
+                  placeholder="Title"
+                  value={shortUrlData.title ?? ''}
+                  onChange={({ target }: ChangeEvent<HTMLInputElement>) => setShortUrlData((prev) => ({
                     ...prev,
                     title: setResettableValue(target.value, initialState.title),
-                  })),
-                })}
+                  }))}
+                />
                 {!isEdit && isCreation && (
                   <>
                     <Row>
-                      <div className="col-lg-6">
-                        {renderOptionalInput('customSlug', 'Custom slug', 'text', {
-                          disabled: hasValue(shortUrlData.shortCodeLength),
-                        })}
+                      <div className="col-lg-6 mb-3 mb-lg-0">
+                        <Input
+                          name="customSlug"
+                          id="customSlug"
+                          placeholder="Custom slug"
+                          value={shortUrlData.customSlug ?? ''}
+                          onChange={(e) => setShortUrlData((prev) => ({ ...prev, customSlug: e.target.value }))}
+                          disabled={hasValue(shortUrlData.shortCodeLength)}
+                        />
                       </div>
                       <div className="col-lg-6">
-                        {renderOptionalInput('shortCodeLength', 'Short code length', 'number', {
-                          min: 4,
-                          disabled: hasValue(shortUrlData.customSlug),
-                        })}
+                        <Input
+                          name="shortCodeLength"
+                          id="shortCodeLength"
+                          type="number"
+                          placeholder="Short code length"
+                          value={shortUrlData.shortCodeLength ?? ''}
+                          onChange={(e) => setShortUrlData((prev) => ({ ...prev, shortCodeLength: e.target.value }))}
+                          min={4}
+                          disabled={hasValue(shortUrlData.customSlug)}
+                        />
                       </div>
                     </Row>
                     <DomainSelector

@@ -7,7 +7,7 @@ import type { InputProps } from 'reactstrap';
 import { Input } from 'reactstrap';
 import './IconInput.scss';
 
-type IconInputProps = InputProps & {
+export type IconInputProps = InputProps & {
   icon: IconProp;
 };
 

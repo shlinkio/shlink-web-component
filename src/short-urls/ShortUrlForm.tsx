@@ -12,7 +12,6 @@ import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainSelectorProps } from '../domains/DomainSelector';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
 import type { TagsList } from '../tags/reducers/tagsList';
-import type { IconInputProps } from '../utils/components/IconInput';
 import { IconInput } from '../utils/components/IconInput';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import { LabelledDateInput } from '../utils/dates/LabelledDateInput';
@@ -44,16 +43,6 @@ const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData)
   'shortCodeLength' in data && 'customSlug' in data && 'domain' in data;
 
 const isErrorAction = (action: any): boolean => 'error' in action;
-
-const DeviceLongUrlInput: FC<Omit<IconInputProps, 'type' | 'name'>> = ({ id, icon, ...rest }) => (
-  <IconInput
-    name={id}
-    id={id}
-    type="url"
-    icon={icon}
-    {...rest}
-  />
-);
 
 const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   { basicMode = false, saving, onSave, initialState, tagsList },
@@ -106,7 +95,6 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
           <div className="col-lg-6 mb-3">
             <Input
               name="customSlug"
-              id="customSlug"
               placeholder="Custom slug"
               value={shortUrlData.customSlug ?? ''}
               onChange={(e) => setShortUrlData((prev) => ({ ...prev, customSlug: e.target.value }))}
@@ -135,23 +123,26 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
             {supportsDeviceLongUrls && (
               <div className="col-sm-6 mb-3">
                 <SimpleCard title="Device-specific long URLs" bodyClassName="d-flex flex-column gap-3">
-                  <DeviceLongUrlInput
+                  <IconInput
+                    type="url"
                     icon={faAndroid}
-                    id="android"
+                    name="android"
                     placeholder="Android-specific redirection"
                     value={shortUrlData.deviceLongUrls?.android ?? ''}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => onDeviceLogUrlChange(e, 'android')}
                   />
-                  <DeviceLongUrlInput
+                  <IconInput
+                    type="url"
                     icon={faApple}
-                    id="ios"
+                    name="ios"
                     placeholder="iOS-specific redirection"
                     value={shortUrlData.deviceLongUrls?.ios ?? ''}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => onDeviceLogUrlChange(e, 'ios')}
                   />
-                  <DeviceLongUrlInput
+                  <IconInput
+                    type="url"
                     icon={faDesktop}
-                    id="desktop"
+                    name="desktop"
                     placeholder="Desktop-specific redirection"
                     value={shortUrlData.deviceLongUrls?.desktop ?? ''}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => onDeviceLogUrlChange(e, 'desktop')}
@@ -166,7 +157,6 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
               <SimpleCard title="Customize the short URL" bodyClassName="d-flex flex-column gap-3">
                 <Input
                   name="title"
-                  id="title"
                   placeholder="Title"
                   value={shortUrlData.title ?? ''}
                   onChange={({ target }: ChangeEvent<HTMLInputElement>) => setShortUrlData((prev) => ({
@@ -180,7 +170,6 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                       <div className="col-lg-6 mb-3 mb-lg-0">
                         <Input
                           name="customSlug"
-                          id="customSlug"
                           placeholder="Custom slug"
                           value={shortUrlData.customSlug ?? ''}
                           onChange={(e) => setShortUrlData((prev) => ({ ...prev, customSlug: e.target.value }))}
@@ -190,7 +179,6 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                       <div className="col-lg-6">
                         <Input
                           name="shortCodeLength"
-                          id="shortCodeLength"
                           type="number"
                           placeholder="Short code length"
                           value={shortUrlData.shortCodeLength ?? ''}

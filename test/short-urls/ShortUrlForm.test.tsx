@@ -2,7 +2,6 @@ import { screen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
-import type { Mode } from '../../src/short-urls/ShortUrlForm';
 import { ShortUrlFormFactory } from '../../src/short-urls/ShortUrlForm';
 import { FeaturesProvider } from '../../src/utils/features';
 import { checkAccessibility } from '../__helpers__/accessibility';
@@ -10,7 +9,7 @@ import { renderWithEvents } from '../__helpers__/setUpTest';
 
 type SetUpOptions = {
   withDeviceLongUrls ?: boolean;
-  mode?: Mode;
+  basicMode?: boolean;
   title?: string | null;
 };
 
@@ -20,11 +19,11 @@ describe('<ShortUrlForm />', () => {
     TagsSelector: () => <span>TagsSelector</span>,
     DomainSelector: () => <span>DomainSelector</span>,
   }));
-  const setUp = ({ withDeviceLongUrls = false, mode = 'create', title }: SetUpOptions = {}) =>
+  const setUp = ({ withDeviceLongUrls = false, basicMode, title }: SetUpOptions = {}) =>
     renderWithEvents(
       <FeaturesProvider value={fromPartial({ deviceLongUrls: withDeviceLongUrls })}>
         <ShortUrlForm
-          mode={mode}
+          basicMode={basicMode}
           saving={false}
           initialState={{
             validateUrl: true,
@@ -104,12 +103,12 @@ describe('<ShortUrlForm />', () => {
   );
 
   it.each([
-    ['create' as Mode, 5],
-    ['create-basic' as Mode, 0],
+    [false, 5],
+    [true, 0],
   ])(
     'renders expected amount of cards based on server capabilities and mode',
-    (mode, expectedAmountOfCards) => {
-      setUp({ mode });
+    (basicMode, expectedAmountOfCards) => {
+      setUp({ basicMode });
       const cards = screen.queryAllByRole('heading');
 
       expect(cards).toHaveLength(expectedAmountOfCards);

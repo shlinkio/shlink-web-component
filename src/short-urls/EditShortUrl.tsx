@@ -77,7 +77,6 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
       <ShortUrlForm
         initialState={initialState}
         saving={saving}
-        mode="edit"
         onSave={async (shortUrlData) => {
           shortUrl && editShortUrl({ ...shortUrl, data: shortUrlData });
         }}

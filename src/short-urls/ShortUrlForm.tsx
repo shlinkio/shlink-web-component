@@ -1,13 +1,11 @@
-import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faAndroid, faApple } from '@fortawesome/free-brands-svg-icons';
 import { faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { Checkbox, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { parseISO } from 'date-fns';
-import type { ChangeEvent, FC } from 'react';
-import { useEffect, useState } from 'react';
-import { Button, FormGroup, Input, Row } from 'reactstrap';
-import type { InputType } from 'reactstrap/types/lib/Input';
+import type { FC, FormEvent } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { Button, Input, Row } from 'reactstrap';
 import type { ShlinkCreateShortUrlData, ShlinkDeviceLongUrls, ShlinkEditShortUrlData } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -18,18 +16,13 @@ import { IconInput } from '../utils/components/IconInput';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import { LabelledDateInput } from '../utils/dates/LabelledDateInput';
 import { useFeature } from '../utils/features';
-import { handleEventPreventingDefault, hasValue } from '../utils/helpers';
+import { hasValue } from '../utils/helpers';
 import { ShortUrlFormCheckboxGroup } from './helpers/ShortUrlFormCheckboxGroup';
 import { UseExistingIfFoundInfoIcon } from './UseExistingIfFoundInfoIcon';
 import './ShortUrlForm.scss';
 
-export type Mode = 'create' | 'create-basic' | 'edit';
-
-type NonDateFields = 'longUrl' | 'customSlug' | 'shortCodeLength' | 'domain' | 'maxVisits' | 'title';
-
 export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEditShortUrlData> {
-  // FIXME Try to get rid of the mode param, and infer creation or edition from initialState if possible
-  mode: Mode;
+  basicMode?: boolean;
   saving: boolean;
   initialState: T;
   onSave: (shortUrlData: T) => Promise<unknown>;
@@ -52,18 +45,15 @@ const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData)
 const isErrorAction = (action: any): boolean => 'error' in action;
 
 const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
-  { mode, saving, onSave, initialState, tagsList },
+  { basicMode = false, saving, onSave, initialState, tagsList },
 ) => {
   const { TagsSelector, DomainSelector } = useDependencies(ShortUrlForm as unknown as ShortUrlFormDeps);
   const [shortUrlData, setShortUrlData] = useState(initialState);
-  const reset = () => setShortUrlData(initialState);
+  const isCreation = isCreationData(shortUrlData);
   const supportsDeviceLongUrls = useFeature('deviceLongUrls');
 
-  const isEdit = mode === 'edit';
-  const isCreation = isCreationData(shortUrlData);
-  const isBasicMode = mode === 'create-basic';
-  const changeTags = (tags: string[]) => setShortUrlData((prev) => ({ ...prev, tags }));
-  const setResettableValue = (value: string, initialValue?: any) => {
+  const reset = useCallback(() => setShortUrlData(initialState), [initialState]);
+  const setResettableValue = useCallback((value: string, initialValue?: any) => {
     if (hasValue(value)) {
       return value;
     }
@@ -71,79 +61,58 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
     // If an initial value was provided for this when the input is "emptied", explicitly set it to null so that the
     // value gets removed. Otherwise, set undefined so that it gets ignored.
     return hasValue(initialValue) ? null : undefined;
-  };
-  const submit = handleEventPreventingDefault(async () => onSave(shortUrlData)
-    .then((result: any) => !isEdit && !isErrorAction(result) && reset())
-    .catch(() => {}));
+  }, []);
+  const changeDeviceLongUrl = useCallback(
+    (id: keyof ShlinkDeviceLongUrls, url: string) => setShortUrlData(({ deviceLongUrls = {}, ...prev }) => ({
+      ...prev,
+      deviceLongUrls: {
+        ...deviceLongUrls,
+        [id]: setResettableValue(url, initialState.deviceLongUrls?.[id]),
+      },
+    })),
+    [initialState.deviceLongUrls, setResettableValue],
+  );
+  const changeTags = useCallback((tags: string[]) => setShortUrlData((prev) => ({ ...prev, tags })), []);
 
-  useEffect(() => {
-    setShortUrlData(initialState);
-  }, [initialState]);
+  const submit = useCallback(async (e: FormEvent) => {
+    e.preventDefault();
+    return onSave(shortUrlData)
+      .then((result: any) => isCreation && !isErrorAction(result) && reset())
+      .catch(() => {});
+  }, [isCreation, onSave, reset, shortUrlData]);
 
-  // TODO Consider extracting these functions to local components
-  const renderOptionalInput = (
-    id: NonDateFields,
-    placeholder: string,
-    type: InputType = 'text',
-    props: any = {},
-    fromGroupProps = {},
-  ) => (
-    <FormGroup {...fromGroupProps}>
+  const basicComponents = useMemo(() => (
+    <div className="d-flex flex-column gap-3">
       <Input
-        name={id}
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        // @ts-expect-error FIXME Make sure id is a key from T
-        value={shortUrlData[id] ?? ''}
-        onChange={props.onChange ?? ((e) => setShortUrlData((prev) => ({ ...prev, [id]: e.target.value })))}
-        {...props}
+        bsSize="lg"
+        type="url"
+        placeholder="URL to be shortened"
+        required
+        value={shortUrlData.longUrl}
+        onChange={(e) => setShortUrlData((prev) => ({ ...prev, longUrl: e.target.value }))}
       />
-    </FormGroup>
-  );
-  const renderDeviceLongUrlInput = (id: keyof ShlinkDeviceLongUrls, placeholder: string, icon: IconProp) => (
-    <IconInput
-      icon={icon}
-      name={id}
-      id={id}
-      type="url"
-      placeholder={placeholder}
-      value={shortUrlData.deviceLongUrls?.[id] ?? ''}
-      onChange={(e) => setShortUrlData((prev) => ({
-        ...prev,
-        deviceLongUrls: {
-          ...(prev.deviceLongUrls ?? {}),
-          [id]: setResettableValue(e.target.value, initialState.deviceLongUrls?.[id]),
-        },
-      }))}
-    />
-  );
-  const basicComponents = (
-    <>
-      <FormGroup>
-        <Input
-          name="longUrl"
-          bsSize="lg"
-          type="url"
-          placeholder="URL to be shortened"
-          required
-          value={shortUrlData.longUrl}
-          onChange={(e) => setShortUrlData((prev) => ({ ...prev, longUrl: e.target.value }))}
-        />
-      </FormGroup>
       <Row>
-        {isBasicMode && renderOptionalInput('customSlug', 'Custom slug', 'text', { bsSize: 'lg' }, { className: 'col-lg-6' })}
-        <div className={isBasicMode ? 'col-lg-6 mb-3' : 'col-12'}>
+        {basicMode && isCreation && (
+          <div className="col-lg-6 mb-3">
+            <Input
+              bsSize="lg"
+              placeholder="Custom slug"
+              value={shortUrlData.customSlug ?? ''}
+              onChange={(e) => setShortUrlData((prev) => ({ ...prev, customSlug: e.target.value }))}
+            />
+          </div>
+        )}
+        <div className={basicMode ? 'col-lg-6 mb-3' : 'col-12'}>
           <TagsSelector tags={tagsList.tags} selectedTags={shortUrlData.tags ?? []} onChange={changeTags} />
         </div>
       </Row>
-    </>
-  );
+    </div>
+  ), [TagsSelector, basicMode, changeTags, isCreation, shortUrlData, tagsList.tags]);
 
   return (
     <form name="shortUrlForm" className="short-url-form" onSubmit={submit}>
-      {isBasicMode && basicComponents}
-      {!isBasicMode && (
+      {basicMode && basicComponents}
+      {!basicMode && (
         <>
           <Row>
             <div className={clsx('mb-3', { 'col-sm-6': supportsDeviceLongUrls, 'col-12': !supportsDeviceLongUrls })}>
@@ -153,14 +122,28 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
             </div>
             {supportsDeviceLongUrls && (
               <div className="col-sm-6 mb-3">
-                <SimpleCard title="Device-specific long URLs">
-                  <FormGroup>
-                    {renderDeviceLongUrlInput('android', 'Android-specific redirection', faAndroid)}
-                  </FormGroup>
-                  <FormGroup>
-                    {renderDeviceLongUrlInput('ios', 'iOS-specific redirection', faApple)}
-                  </FormGroup>
-                  {renderDeviceLongUrlInput('desktop', 'Desktop-specific redirection', faDesktop)}
+                <SimpleCard title="Device-specific long URLs" bodyClassName="d-flex flex-column gap-3">
+                  <IconInput
+                    type="url"
+                    icon={faAndroid}
+                    placeholder="Android-specific redirection"
+                    value={shortUrlData.deviceLongUrls?.android ?? ''}
+                    onChange={({ target }) => changeDeviceLongUrl('android', target.value)}
+                  />
+                  <IconInput
+                    type="url"
+                    icon={faApple}
+                    placeholder="iOS-specific redirection"
+                    value={shortUrlData.deviceLongUrls?.ios ?? ''}
+                    onChange={({ target }) => changeDeviceLongUrl('ios', target.value)}
+                  />
+                  <IconInput
+                    type="url"
+                    icon={faDesktop}
+                    placeholder="Desktop-specific redirection"
+                    value={shortUrlData.deviceLongUrls?.desktop ?? ''}
+                    onChange={({ target }) => changeDeviceLongUrl('desktop', target.value)}
+                  />
                 </SimpleCard>
               </div>
             )}
@@ -168,31 +151,40 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
 
           <Row>
             <div className="col-sm-6 mb-3">
-              <SimpleCard title="Customize the short URL">
-                {renderOptionalInput('title', 'Title', 'text', {
-                  onChange: ({ target }: ChangeEvent<HTMLInputElement>) => setShortUrlData((prev) => ({
+              <SimpleCard title="Customize the short URL" bodyClassName="d-flex flex-column gap-3">
+                <Input
+                  placeholder="Title"
+                  value={shortUrlData.title ?? ''}
+                  onChange={({ target }) => setShortUrlData((prev) => ({
                     ...prev,
                     title: setResettableValue(target.value, initialState.title),
-                  })),
-                })}
-                {!isEdit && isCreation && (
+                  }))}
+                />
+                {isCreation && (
                   <>
                     <Row>
-                      <div className="col-lg-6">
-                        {renderOptionalInput('customSlug', 'Custom slug', 'text', {
-                          disabled: hasValue(shortUrlData.shortCodeLength),
-                        })}
+                      <div className="col-lg-6 mb-3 mb-lg-0">
+                        <Input
+                          placeholder="Custom slug"
+                          value={shortUrlData.customSlug ?? ''}
+                          onChange={(e) => setShortUrlData((prev) => ({ ...prev, customSlug: e.target.value }))}
+                          disabled={hasValue(shortUrlData.shortCodeLength)}
+                        />
                       </div>
                       <div className="col-lg-6">
-                        {renderOptionalInput('shortCodeLength', 'Short code length', 'number', {
-                          min: 4,
-                          disabled: hasValue(shortUrlData.customSlug),
-                        })}
+                        <Input
+                          type="number"
+                          placeholder="Short code length"
+                          value={shortUrlData.shortCodeLength ?? ''}
+                          onChange={(e) => setShortUrlData((prev) => ({ ...prev, shortCodeLength: e.target.value }))}
+                          min={4}
+                          disabled={hasValue(shortUrlData.customSlug)}
+                        />
                       </div>
                     </Row>
                     <DomainSelector
                       value={shortUrlData.domain}
-                      onChange={(domain?: string) => setShortUrlData((prev) => ({ ...prev, domain }))}
+                      onChange={(domain) => setShortUrlData((prev) => ({ ...prev, domain }))}
                     />
                   </>
                 )}
@@ -207,7 +199,6 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                       label="Enabled since"
                       withTime
                       maxDate={shortUrlData.validUntil ? toDate(shortUrlData.validUntil) : undefined}
-                      name="validSince"
                       value={shortUrlData.validSince ? toDate(shortUrlData.validSince) : null}
                       onChange={(date) => setShortUrlData((prev) => ({ ...prev, validSince: formatIsoDate(date) }))}
                     />
@@ -217,7 +208,6 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                       label="Enabled until"
                       withTime
                       minDate={shortUrlData.validSince ? toDate(shortUrlData.validSince) : undefined}
-                      name="validUntil"
                       value={shortUrlData.validUntil ? toDate(shortUrlData.validUntil) : null}
                       onChange={(date) => setShortUrlData((prev) => ({ ...prev, validUntil: formatIsoDate(date) }))}
                     />
@@ -227,7 +217,6 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                 <div>
                   <label htmlFor="maxVisits" className="mb-1">Maximum visits allowed:</label>
                   <Input
-                    name="maxVisits"
                     id="maxVisits"
                     type="number"
                     min={1}
@@ -253,7 +242,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                 >
                   Validate URL
                 </ShortUrlFormCheckboxGroup>
-                {!isEdit && isCreation && (
+                {isCreation && (
                   <p>
                     <Checkbox
                       inline

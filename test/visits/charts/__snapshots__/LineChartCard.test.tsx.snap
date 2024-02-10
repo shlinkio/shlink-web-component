@@ -163,7 +163,6 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
         </svg>
         <div
           class="recharts-tooltip-wrapper"
-          role="dialog"
           style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
           tabindex="-1"
         >
@@ -346,7 +345,6 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         </svg>
         <div
           class="recharts-tooltip-wrapper"
-          role="dialog"
           style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
           tabindex="-1"
         >
@@ -924,7 +922,6 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         </svg>
         <div
           class="recharts-tooltip-wrapper"
-          role="dialog"
           style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
           tabindex="-1"
         >
@@ -1516,7 +1513,6 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         </svg>
         <div
           class="recharts-tooltip-wrapper"
-          role="dialog"
           style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
           tabindex="-1"
         >
@@ -9177,7 +9173,6 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         </svg>
         <div
           class="recharts-tooltip-wrapper"
-          role="dialog"
           style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
           tabindex="-1"
         >

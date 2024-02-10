@@ -59,7 +59,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
           </svg>
           <div
             class="recharts-tooltip-wrapper"
-            role="dialog"
             style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
             tabindex="-1"
           >
@@ -200,7 +199,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
           </svg>
           <div
             class="recharts-tooltip-wrapper"
-            role="dialog"
             style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
             tabindex="-1"
           >
@@ -345,7 +343,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
           </svg>
           <div
             class="recharts-tooltip-wrapper"
-            role="dialog"
             style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
             tabindex="-1"
           >

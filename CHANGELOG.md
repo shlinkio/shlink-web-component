@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 * [#249](https://github.com/shlinkio/shlink-web-component/issues/249) Replace `react-datepicker` with native `input[type="date"]` and `input[type="datetime-local"]` elements.
+* [#257](https://github.com/shlinkio/shlink-web-component/issues/257) Remove dependency on `react-copy-to-clipboard`.
 
 ### Deprecated
 * *Nothing*

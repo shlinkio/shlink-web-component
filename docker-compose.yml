@@ -4,6 +4,7 @@ services:
     shlink_web_component:
         container_name: shlink_web_component
         image: node:20.5-alpine
+        command: /bin/sh -c "cd /shlink-web-component && npm run dev"
         volumes:
             - ./:/shlink-web-component
         ports:

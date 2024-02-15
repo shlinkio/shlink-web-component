@@ -35,8 +35,8 @@
     "lint:css:fix": "npm run lint:css -- --fix",
     "lint:js:fix": "npm run lint:js -- --fix",
     "types": "tsc",
-    "dev": "vite serve --host=0.0.0.0 --port 3002",
-    "dev:sub-route": "vite serve --host=0.0.0.0 --port 3003 --base=\"/sub/route\""
+    "dev": "vite serve --host 0.0.0.0 --port 3002",
+    "dev:sub-route": "vite serve --host 0.0.0.0 --port 3003 --base=\"/sub/route\""
   },
   "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",

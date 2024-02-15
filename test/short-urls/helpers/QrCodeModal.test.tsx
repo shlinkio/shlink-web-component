@@ -68,9 +68,9 @@ describe('<QrCodeModal />', () => {
 
   it('shows expected components based on server version', () => {
     setUp();
-    const dropdowns = screen.getAllByRole('button');
 
-    expect(dropdowns).toHaveLength(2 + 2); // Add two because of the close and download buttons
+    // Add three because of the close, download and copy-to-clipboard buttons
+    expect(screen.getAllByRole('button')).toHaveLength(2 + 3);
   });
 
   it('saves the QR code image when clicking the Download button', async () => {

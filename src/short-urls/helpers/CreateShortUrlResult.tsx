@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { Result } from '@shlinkio/shlink-frontend-kit';
 import { useEffect } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import { Tooltip } from 'reactstrap';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
+import { copyToClipboard } from '../../utils/helpers/clipboard';
 import type { ShortUrlCreation } from '../reducers/shortUrlCreation';
 import './CreateShortUrlResult.scss';
 
@@ -67,16 +67,14 @@ const CreateShortUrlResult: FCWithDeps<CreateShortUrlResultProps, CreateShortUrl
       )}
       <span><b>Great!</b> The short URL is <b>{shortUrl}</b></span>
 
-      <CopyToClipboard text={shortUrl} onCopy={toggleShowCopyTooltip}>
-        <button
-          className="btn btn-light btn-sm create-short-url-result__copy-btn"
-          id="copyBtn"
-          type="button"
-        >
-          <FontAwesomeIcon icon={copyIcon} /> Copy
-        </button>
-      </CopyToClipboard>
-
+      <button
+        className="btn btn-light btn-sm create-short-url-result__copy-btn"
+        id="copyBtn"
+        type="button"
+        onClick={() => copyToClipboard({ text: shortUrl, onCopy: toggleShowCopyTooltip })}
+      >
+        <FontAwesomeIcon icon={copyIcon} /> Copy <span className="sr-only">{shortUrl} to clipboard</span>
+      </button>
       <Tooltip placement="left" isOpen={showCopyTooltip} target="copyBtn">
         Copied!
       </Tooltip>

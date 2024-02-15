@@ -35,8 +35,8 @@
     "lint:css:fix": "npm run lint:css -- --fix",
     "lint:js:fix": "npm run lint:js -- --fix",
     "types": "tsc",
-    "dev": "vite serve --host=0.0.0.0 --port 3002",
-    "dev:sub-route": "vite serve --host=0.0.0.0 --port 3003 --base=\"/sub/route\""
+    "dev": "vite serve --host 0.0.0.0 --port 3002",
+    "dev:sub-route": "vite serve --host 0.0.0.0 --port 3003 --base=\"/sub/route\""
   },
   "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -68,7 +68,6 @@
     "date-fns": "^3.3.1",
     "event-source-polyfill": "^1.0.31",
     "leaflet": "^1.9.4",
-    "react-copy-to-clipboard": "^5.1.0",
     "react-external-link": "^2.2.0",
     "react-leaflet": "^4.2.1",
     "react-swipeable": "^7.0.1",
@@ -85,7 +84,6 @@
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/leaflet": "^1.9.8",
     "@types/react": "^18.2.55",
-    "@types/react-copy-to-clipboard": "^5.0.7",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/coverage-v8": "^1.2.2",

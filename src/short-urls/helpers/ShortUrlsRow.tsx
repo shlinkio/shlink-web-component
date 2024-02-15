@@ -53,7 +53,11 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
             <ExternalLink href={shortUrl.shortUrl} />
           </span>
           <CopyToClipboardIcon text={shortUrl.shortUrl} onCopy={setCopiedToClipboard} />
-          <span className="badge bg-warning text-black short-urls-row__copy-hint" hidden={!copiedToClipboard}>
+          <span
+            role="status"
+            className="badge bg-warning text-black short-urls-row__copy-hint"
+            hidden={!copiedToClipboard}
+          >
             Copied short URL!
           </span>
         </span>

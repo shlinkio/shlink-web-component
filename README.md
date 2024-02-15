@@ -172,6 +172,6 @@ export function App() {
 
 Since this is a complex component, this project provides a convenient way to do some manual tests.
 
-Simply run `npm run dev` and a local vite server will be started on port `3002`.
+Simply run `npm run dev` or `docker compose up`, and a local vite server will be started on port `3002`.
 
-Just visit http://localhost:3002 to see your changes in real time.
+Then visit http://localhost:3002 to see your changes in real time.

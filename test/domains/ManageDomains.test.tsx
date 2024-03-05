@@ -1,5 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
+import { MemoryRouter } from 'react-router-dom';
 import type { ProblemDetailsError, ShlinkDomain } from '../../src/api-contract';
 import { ManageDomains } from '../../src/domains/ManageDomains';
 import type { DomainsList } from '../../src/domains/reducers/domainsList';
@@ -10,13 +11,15 @@ describe('<ManageDomains />', () => {
   const listDomains = vi.fn();
   const filterDomains = vi.fn();
   const setUp = (domainsList: DomainsList) => renderWithEvents(
-    <ManageDomains
-      listDomains={listDomains}
-      filterDomains={filterDomains}
-      editDomainRedirects={vi.fn()}
-      checkDomainHealth={vi.fn()}
-      domainsList={domainsList}
-    />,
+    <MemoryRouter>
+      <ManageDomains
+        listDomains={listDomains}
+        filterDomains={filterDomains}
+        editDomainRedirects={vi.fn()}
+        checkDomainHealth={vi.fn()}
+        domainsList={domainsList}
+      />
+    </MemoryRouter>,
   );
 
   it('passes a11y checks', () => checkAccessibility(

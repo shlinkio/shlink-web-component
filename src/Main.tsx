@@ -8,7 +8,6 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AsideMenu } from './common/AsideMenu';
 import type { FCWithDeps } from './container/utils';
 import { componentFactory, useDependencies } from './container/utils';
-import { useFeature } from './utils/features';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
 import './Main.scss';
@@ -59,7 +58,6 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
   // Hide sidebar every time the route changes
   useEffect(() => hideSidebar(), [location, hideSidebar]);
 
-  const addDomainVisitsRoute = useFeature('domainVisits');
   const burgerClasses = clsx('shlink-layout__burger-icon', { 'shlink-layout__burger-icon--active': sidebarVisible });
   const swipeableProps = useSwipeable(showSidebar, hideSidebar);
 
@@ -82,7 +80,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
                 <Route path="/short-urls/compare-visits" element={<ShortUrlVisitsComparison />} />
                 <Route path="/tag/:tag/visits/*" element={<TagVisits />} />
                 <Route path="/tags/compare-visits" element={<TagVisitsComparison />} />
-                {addDomainVisitsRoute && <Route path="/domain/:domain/visits/*" element={<DomainVisits />} />}
+                <Route path="/domain/:domain/visits/*" element={<DomainVisits />} />
                 <Route path="/orphan-visits/*" element={<OrphanVisits />} />
                 <Route path="/non-orphan-visits/*" element={<NonOrphanVisits />} />
                 <Route path="/manage-tags" element={<TagsList />} />

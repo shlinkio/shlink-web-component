@@ -3,7 +3,6 @@ import type { SemVer, SemVerOrLatest } from './helpers/version';
 import { versionMatch } from './helpers/version';
 
 const supportedFeatures = {
-  domainVisits: '3.1.0',
   excludeBotsOnShortUrls: '3.4.0',
   filterDisabledUrls: '3.4.0',
   deviceLongUrls: '3.5.0',
@@ -19,7 +18,6 @@ const isFeatureEnabledForVersion = (feature: Feature, serverVersion: SemVerOrLat
   serverVersion === 'latest' || versionMatch(serverVersion, { minVersion: supportedFeatures[feature] });
 
 const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, boolean> => ({
-  domainVisits: isFeatureEnabledForVersion('domainVisits', serverVersion),
   excludeBotsOnShortUrls: isFeatureEnabledForVersion('excludeBotsOnShortUrls', serverVersion),
   filterDisabledUrls: isFeatureEnabledForVersion('filterDisabledUrls', serverVersion),
   deviceLongUrls: isFeatureEnabledForVersion('deviceLongUrls', serverVersion),

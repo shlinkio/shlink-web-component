@@ -1,5 +1,5 @@
 import { fromPartial } from '@total-typescript/shoehorn';
-import type { ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlsResponse } from '../../../src/api-contract';
+import type { ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlsList } from '../../../src/api-contract';
 import { createShortUrl as createShortUrlCreator } from '../../../src/short-urls/reducers/shortUrlCreation';
 import { shortUrlDeleted } from '../../../src/short-urls/reducers/shortUrlDeletion';
 import { editShortUrl as editShortUrlCreator } from '../../../src/short-urls/reducers/shortUrlEdition';
@@ -41,7 +41,7 @@ describe('shortUrlsListReducer', () => {
 
     it('removes matching URL and reduces total on SHORT_URL_DELETED', () => {
       const state = {
-        shortUrls: fromPartial<ShlinkShortUrlsResponse>({
+        shortUrls: fromPartial<ShlinkShortUrlsList>({
           data: [
             { shortCode },
             { shortCode, domain: 'example.com' },
@@ -74,7 +74,7 @@ describe('shortUrlsListReducer', () => {
       [[], 10],
     ])('updates visits count on CREATE_VISITS', (createdVisits, expectedCount) => {
       const state = {
-        shortUrls: fromPartial<ShlinkShortUrlsResponse>({
+        shortUrls: fromPartial<ShlinkShortUrlsList>({
           data: [
             { shortCode, domain: 'example.com', visitsCount: 5 },
             { shortCode, visitsCount: 10 },
@@ -132,7 +132,7 @@ describe('shortUrlsListReducer', () => {
     ])('prepends new short URL and increases total on CREATE_SHORT_URL', (data, expectedData) => {
       const newShortUrl = fromPartial<ShlinkShortUrl>({ shortCode: 'newOne' });
       const state = {
-        shortUrls: fromPartial<ShlinkShortUrlsResponse>({
+        shortUrls: fromPartial<ShlinkShortUrlsList>({
           data,
           pagination: { totalItems: 15 },
         }),
@@ -169,7 +169,7 @@ describe('shortUrlsListReducer', () => {
       })(),
     ])('updates matching short URL on SHORT_URL_EDITED', (editedShortUrl, initialList, expectedList) => {
       const state = {
-        shortUrls: fromPartial<ShlinkShortUrlsResponse>({
+        shortUrls: fromPartial<ShlinkShortUrlsList>({
           data: initialList,
           pagination: { totalItems: 15 },
         }),

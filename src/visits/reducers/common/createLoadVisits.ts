@@ -1,6 +1,6 @@
 import { range, splitEvery } from '@shlinkio/data-manipulation';
 import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { ShlinkPaginator, ShlinkVisit, ShlinkVisits } from '../../../api-contract';
+import type { ShlinkPaginator, ShlinkVisit, ShlinkVisitsList } from '../../../api-contract';
 
 const ITEMS_PER_PAGE = 5000;
 const PARALLEL_STARTING_PAGE = 2;
@@ -10,7 +10,7 @@ export const DEFAULT_BATCH_SIZE = 4;
 const isLastPage = ({ currentPage, pagesCount }: ShlinkPaginator): boolean => currentPage >= pagesCount;
 const calcProgress = (total: number, current: number): number => (current * 100) / total;
 
-export type VisitsLoader = (query: ShlinkVisitsParams) => Promise<ShlinkVisits>;
+export type VisitsLoader = (query: ShlinkVisitsParams) => Promise<ShlinkVisitsList>;
 
 export type LastVisitLoader = (excludeBots?: boolean) => Promise<ShlinkVisit | undefined>;
 
@@ -93,7 +93,7 @@ export const createLoadVisits = ({
 
 export const lastVisitLoaderForLoader = (
   doIntervalFallback: boolean,
-  loader: (params: ShlinkVisitsParams) => Promise<ShlinkVisits>,
+  loader: (params: ShlinkVisitsParams) => Promise<ShlinkVisitsList>,
 ): LastVisitLoader => async (excludeBots?: boolean) => (
   !doIntervalFallback
     ? Promise.resolve(undefined)

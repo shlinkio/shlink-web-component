@@ -1,10 +1,10 @@
+import type { ShlinkTagsStats } from '@shlinkio/shlink-js-sdk/api-contract';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import { createShortUrl as createShortUrlCreator } from '../../../src/short-urls/reducers/shortUrlCreation';
 import { tagDeleted } from '../../../src/tags/reducers/tagDelete';
 import { tagEdited } from '../../../src/tags/reducers/tagEdit';
-import type {
-  TagsList } from '../../../src/tags/reducers/tagsList';
+import type { TagsList } from '../../../src/tags/reducers/tagsList';
 import {
   filterTags,
   listTags as listTagsCreator,
@@ -194,20 +194,26 @@ describe('tagsListReducer', () => {
 
   describe('listTags', () => {
     const dispatch = vi.fn();
-    const listTagsMock = vi.fn();
+    const tagsStatsMock = vi.fn();
 
     it('dispatches loaded lists when no error occurs', async () => {
       const tags = ['foo', 'bar', 'baz'];
+      const stats = tags.map((tag) => fromPartial<ShlinkTagsStats>({ tag }));
+      const expectedStats = {
+        foo: {},
+        bar: {},
+        baz: {},
+      };
 
-      listTagsMock.mockResolvedValue({ tags, stats: [] });
-      buildShlinkApiClient.mockReturnValue({ tagsStats: listTagsMock });
+      tagsStatsMock.mockResolvedValue({ data: stats });
+      buildShlinkApiClient.mockReturnValue({ tagsStats: tagsStatsMock });
 
       await listTags()(dispatch, vi.fn(), {});
 
       expect(buildShlinkApiClient).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { tags, stats: {} },
+        payload: { tags, stats: expectedStats },
       }));
     });
   });

@@ -80,7 +80,7 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
         <ShortUrlVisitsCount
           visitsCount={(
             doExcludeBots ? shortUrl.visitsSummary?.nonBots : shortUrl.visitsSummary?.total
-          ) ?? shortUrl.visitsCount}
+          ) ?? shortUrl.visitsCount ?? 0}
           shortUrl={shortUrl}
           active={active}
           asLink

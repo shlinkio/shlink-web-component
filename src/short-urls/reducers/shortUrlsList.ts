@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient, ShlinkShortUrlsListParams, ShlinkShortUrlsResponse } from '../../api-contract';
+import type { ShlinkApiClient, ShlinkShortUrlsList, ShlinkShortUrlsListParams } from '../../api-contract';
 import { createAsyncThunk } from '../../utils/redux';
 import { createNewVisits } from '../../visits/reducers/visitCreation';
 import { shortUrlMatches } from '../helpers';
@@ -11,7 +11,7 @@ const REDUCER_PREFIX = 'shlink/shortUrlsList';
 export const ITEMS_IN_OVERVIEW_PAGE = 5;
 
 export interface ShortUrlsList {
-  shortUrls?: ShlinkShortUrlsResponse;
+  shortUrls?: ShlinkShortUrlsList;
   loading: boolean;
   error: boolean;
 }
@@ -23,7 +23,7 @@ const initialState: ShortUrlsList = {
 
 export const listShortUrls = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
   `${REDUCER_PREFIX}/listShortUrls`,
-  (params: ShlinkShortUrlsListParams | void): Promise<ShlinkShortUrlsResponse> => apiClientFactory().listShortUrls(
+  (params: ShlinkShortUrlsListParams | void): Promise<ShlinkShortUrlsList> => apiClientFactory().listShortUrls(
     params ?? {},
   ),
 );

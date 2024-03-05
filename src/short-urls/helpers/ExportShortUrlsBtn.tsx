@@ -52,7 +52,7 @@ const ExportShortUrlsBtn: FCWithDeps<ExportShortUrlsBtnProps, ExportShortUrlsBtn
         longUrl: shortUrl.longUrl,
         title: shortUrl.title ?? '',
         tags: shortUrl.tags.join('|'),
-        visits: shortUrl?.visitsSummary?.total ?? shortUrl.visitsCount,
+        visits: shortUrl?.visitsSummary?.total ?? shortUrl.visitsCount ?? 0,
       };
     }));
     stopLoading();

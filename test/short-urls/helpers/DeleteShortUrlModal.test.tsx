@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { InvalidShortUrlDeletion, ShlinkShortUrl } from '../../../src/api-contract';
-import { ErrorTypeV2, ErrorTypeV3 } from '../../../src/api-contract';
+import { ErrorType } from '../../../src/api-contract';
 import { DeleteShortUrlModal } from '../../../src/short-urls/helpers/DeleteShortUrlModal';
 import type { ShortUrlDeletion } from '../../../src/short-urls/reducers/shortUrlDeletion';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -48,10 +48,8 @@ describe('<DeleteShortUrlModal />', () => {
     );
   });
 
-  it.each([
-    [fromPartial<InvalidShortUrlDeletion>({ type: ErrorTypeV3.INVALID_SHORT_URL_DELETION })],
-    [fromPartial<InvalidShortUrlDeletion>({ type: ErrorTypeV2.INVALID_SHORT_URL_DELETION })],
-  ])('shows specific error when threshold error occurs', (errorData) => {
+  it('shows specific error when threshold error occurs', () => {
+    const errorData = fromPartial<InvalidShortUrlDeletion>({ type: ErrorType.INVALID_SHORT_URL_DELETION });
     setUp({ loading: false, error: true, errorData });
     expect(screen.getByText('Something went wrong while deleting the URL :(').parentElement).toHaveClass('bg-warning');
   });

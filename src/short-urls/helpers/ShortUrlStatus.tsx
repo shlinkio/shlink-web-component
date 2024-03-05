@@ -21,7 +21,7 @@ interface StatusResult {
 const resolveShortUrlStatus = (shortUrl: ShlinkShortUrl): StatusResult => {
   const { meta, visitsCount, visitsSummary } = shortUrl;
   const { maxVisits, validSince, validUntil } = meta;
-  const totalVisits = visitsSummary?.total ?? visitsCount;
+  const totalVisits = visitsSummary?.total ?? visitsCount ?? 0;
 
   if (maxVisits && totalVisits >= maxVisits) {
     return {

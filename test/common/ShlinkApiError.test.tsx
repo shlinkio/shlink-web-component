@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { InvalidArgumentError, ProblemDetailsError } from '../../src/api-contract';
-import { ErrorTypeV2, ErrorTypeV3 } from '../../src/api-contract';
+import { ErrorType } from '../../src/api-contract';
 import type { ShlinkApiErrorProps } from '../../src/common/ShlinkApiError';
 import { ShlinkApiError } from '../../src/common/ShlinkApiError';
 import { checkAccessibility } from '../__helpers__/accessibility';
@@ -25,8 +25,7 @@ describe('<ShlinkApiError />', () => {
   it.each([
     [undefined, 0],
     [fromPartial<ProblemDetailsError>({}), 0],
-    [fromPartial<InvalidArgumentError>({ type: ErrorTypeV2.INVALID_ARGUMENT, invalidElements: [] }), 1],
-    [fromPartial<InvalidArgumentError>({ type: ErrorTypeV3.INVALID_ARGUMENT, invalidElements: [] }), 1],
+    [fromPartial<InvalidArgumentError>({ type: ErrorType.INVALID_ARGUMENT, invalidElements: [] }), 1],
   ])('renders list of invalid elements when provided error is an InvalidError', (errorData, expectedElementsCount) => {
     setUp({ errorData });
     expect(screen.queryAllByText(/^Invalid elements/)).toHaveLength(expectedElementsCount);

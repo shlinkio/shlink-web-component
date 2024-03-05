@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
+import { MemoryRouter } from 'react-router-dom';
 import type { ShlinkDomainRedirects } from '../../src/api-contract';
 import type { Domain } from '../../src/domains/data';
 import { DomainRow } from '../../src/domains/DomainRow';
@@ -17,16 +18,18 @@ describe('<DomainRow />', () => {
     ],
   ];
   const setUp = (domain: Domain, defaultRedirects?: ShlinkDomainRedirects) => render(
-    <table>
-      <tbody>
-        <DomainRow
-          domain={domain}
-          defaultRedirects={defaultRedirects}
-          editDomainRedirects={vi.fn()}
-          checkDomainHealth={vi.fn()}
-        />
-      </tbody>
-    </table>,
+    <MemoryRouter>
+      <table>
+        <tbody>
+          <DomainRow
+            domain={domain}
+            defaultRedirects={defaultRedirects}
+            editDomainRedirects={vi.fn()}
+            checkDomainHealth={vi.fn()}
+          />
+        </tbody>
+      </table>
+    </MemoryRouter>,
   );
 
   it('passes a11y checks', () => checkAccessibility(

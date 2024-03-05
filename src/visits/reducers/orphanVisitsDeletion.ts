@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient, ShlinkDeleteVisitsResponse } from '../../api-contract';
+import type { ShlinkApiClient, ShlinkDeleteVisitsResult } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import { createAsyncThunk } from '../../utils/redux';
 import type { VisitsDeletion } from './types';
 
 const REDUCER_PREFIX = 'shlink/orphanVisitsDeletion';
 
-export type OrphanVisitsDeletion = VisitsDeletion & ShlinkDeleteVisitsResponse;
+export type OrphanVisitsDeletion = VisitsDeletion & ShlinkDeleteVisitsResult;
 
 const initialState: OrphanVisitsDeletion = {
   deletedVisits: 0,
@@ -16,7 +16,7 @@ const initialState: OrphanVisitsDeletion = {
 
 export const deleteOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
   `${REDUCER_PREFIX}/deleteOrphanVisits`,
-  (): Promise<ShlinkDeleteVisitsResponse> => apiClientFactory().deleteOrphanVisits(),
+  (): Promise<ShlinkDeleteVisitsResult> => apiClientFactory().deleteOrphanVisits(),
 );
 
 export const orphanVisitsDeletionReducerCreator = (

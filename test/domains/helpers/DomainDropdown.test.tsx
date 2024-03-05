@@ -4,7 +4,6 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { Domain } from '../../../src/domains/data';
 import { DomainDropdown } from '../../../src/domains/helpers/DomainDropdown';
-import { FeaturesProvider } from '../../../src/utils/features';
 import { RoutesPrefixProvider } from '../../../src/utils/routesPrefix';
 import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
@@ -13,24 +12,21 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
   domain?: Domain;
-  withVisits?: boolean;
   visitsComparison?: Partial<VisitsComparison>;
 };
 
 describe('<DomainDropdown />', () => {
   const editDomainRedirects = vi.fn().mockResolvedValue(undefined);
-  const setUp = ({ domain, withVisits = true, visitsComparison }: SetUpOptions = {}) => renderWithEvents(
+  const setUp = ({ domain, visitsComparison }: SetUpOptions = {}) => renderWithEvents(
     <MemoryRouter>
       <VisitsComparisonProvider
         value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
       >
         <RoutesPrefixProvider value="/server/123">
-          <FeaturesProvider value={fromPartial({ domainVisits: withVisits })}>
-            <DomainDropdown
-              domain={domain ?? fromPartial({})}
-              editDomainRedirects={editDomainRedirects}
-            />
-          </FeaturesProvider>
+          <DomainDropdown
+            domain={domain ?? fromPartial({})}
+            editDomainRedirects={editDomainRedirects}
+          />
         </RoutesPrefixProvider>
       </VisitsComparisonProvider>
     </MemoryRouter>,
@@ -51,26 +47,12 @@ describe('<DomainDropdown />', () => {
     }],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
-  it.each([
-    {
-      withVisits: false,
-      assert: () => {
-        expect(screen.queryByText('Visit stats')).not.toBeInTheDocument();
-        expect(screen.queryByText('Compare visits')).not.toBeInTheDocument();
-        expect(screen.getByText('Edit redirects')).toBeInTheDocument();
-      },
-    },
-    {
-      withVisits: true,
-      assert: () => {
-        expect(screen.getByText('Visit stats')).toBeInTheDocument();
-        expect(screen.getByText('Compare visits')).toBeInTheDocument();
-        expect(screen.getByText('Edit redirects')).toBeInTheDocument();
-      },
-    },
-  ])('renders expected menu items', ({ withVisits, assert }) => {
-    setUp({ withVisits });
-    assert();
+  it('renders expected menu items', () => {
+    setUp();
+
+    expect(screen.getByText('Visit stats')).toBeInTheDocument();
+    expect(screen.getByText('Compare visits')).toBeInTheDocument();
+    expect(screen.getByText('Edit redirects')).toBeInTheDocument();
   });
 
   it.each([

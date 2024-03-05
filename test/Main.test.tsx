@@ -3,13 +3,11 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { MainProps } from '../src/Main';
 import { MainFactory } from '../src/Main';
-import { FeaturesProvider } from '../src/utils/features';
 import { checkAccessibility } from './__helpers__/accessibility';
 
 type SetUpOptions = {
   currentPath?: string
   createNotFound?: MainProps['createNotFound'];
-  domainVisitsSupported?: boolean;
 };
 
 describe('<Main />', () => {
@@ -29,11 +27,9 @@ describe('<Main />', () => {
     DomainVisitsComparison: () => <>DomainVisitsComparison</>,
     ShortUrlVisitsComparison: () => <>ShortUrlVisitsComparison</>,
   }));
-  const setUp = ({ createNotFound, currentPath = '', domainVisitsSupported = true }: SetUpOptions) => render(
+  const setUp = ({ createNotFound, currentPath = '' }: SetUpOptions) => render(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
-      <FeaturesProvider value={fromPartial({ domainVisits: domainVisitsSupported })}>
-        <Main createNotFound={createNotFound} />
-      </FeaturesProvider>
+      <Main createNotFound={createNotFound} />
     </MemoryRouter>,
   );
 
@@ -62,13 +58,10 @@ describe('<Main />', () => {
     },
   );
 
-  it.each([
-    ['/domain/domain.com/visits/foo', false],
-    ['/foo/bar/baz', true],
-  ])('renders not-found when trying to navigate to invalid route', (currentPath, domainVisitsSupported) => {
+  it('renders not-found when trying to navigate to invalid route', () => {
     const createNotFound = () => <>Oops! Route not found.</>;
 
-    setUp({ currentPath, domainVisitsSupported, createNotFound });
+    setUp({ currentPath: '/foo/bar/baz', createNotFound });
 
     expect(screen.getByText('Oops! Route not found.')).toBeInTheDocument();
   });

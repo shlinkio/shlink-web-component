@@ -1,6 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
-import type { ShlinkApiClient, ShlinkVisit, ShlinkVisits } from '../../../src/api-contract';
+import type { ShlinkApiClient, ShlinkVisit, ShlinkVisitsList } from '../../../src/api-contract';
 import type { RootState } from '../../../src/container/store';
 import { formatIsoDate } from '../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
@@ -167,7 +167,7 @@ describe('nonOrphanVisitsReducer', () => {
       expectedSecondDispatch,
       expectedAmountOfDispatches,
     ) => {
-      const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisits => ({
+      const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisitsList => ({
         data,
         pagination: {
           currentPage: 1,

@@ -1,4 +1,4 @@
-import type { ShlinkVisits, ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
+import type { ShlinkVisitsList, ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkOrphanVisitType } from '../../api-contract';
 import { isBetween } from '../../utils/dates/helpers/date';
 import { isOrphanVisit } from '../helpers';
@@ -23,7 +23,7 @@ const initialState: VisitsInfo = {
 const matchesType = (visit: ShlinkOrphanVisit, orphanVisitsType?: ShlinkOrphanVisitType) =>
   !orphanVisitsType || orphanVisitsType === visit.type;
 
-const filterOrphanVisitsByType = ({ data, ...rest }: ShlinkVisits, type?: ShlinkOrphanVisitType) => {
+const filterOrphanVisitsByType = ({ data, ...rest }: ShlinkVisitsList, type?: ShlinkOrphanVisitType) => {
   const visits = data.filter((visit) => isOrphanVisit(visit) && matchesType(visit, type));
   return { ...rest, data: visits };
 };

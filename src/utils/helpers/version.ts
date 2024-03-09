@@ -6,7 +6,7 @@ type SemVerPattern = SemVerPatternFragment
 | `${SemVerPatternFragment}.${SemVerPatternFragment}`
 | `${SemVerPatternFragment}.${SemVerPatternFragment}.${SemVerPatternFragment}`;
 
-type Versions = {
+export type Versions = {
   maxVersion?: SemVerPattern;
   minVersion?: SemVerPattern;
 };

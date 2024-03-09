@@ -4,7 +4,7 @@ import type { ShlinkShortUrl } from '../../api-contract';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
 import { urlEncodeShortCode } from './index';
 
-export type LinkSuffix = 'visits' | 'edit';
+export type LinkSuffix = 'visits' | 'edit' | 'redirect-rules';
 
 export type ShortUrlDetailLinkProps = {
   shortUrl?: ShlinkShortUrl | null;

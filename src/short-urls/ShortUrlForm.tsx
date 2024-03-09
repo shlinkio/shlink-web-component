@@ -91,9 +91,9 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
         value={shortUrlData.longUrl}
         onChange={(e) => setShortUrlData((prev) => ({ ...prev, longUrl: e.target.value }))}
       />
-      <Row>
+      <div className={clsx('d-flex flex-column flex-lg-row gap-3', { 'mb-3': basicMode })}>
         {basicMode && isCreation && (
-          <div className="col-lg-6 mb-3">
+          <div className="w-100 w-lg-50">
             <Input
               bsSize="lg"
               placeholder="Custom slug"
@@ -102,10 +102,10 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
             />
           </div>
         )}
-        <div className={basicMode ? 'col-lg-6 mb-3' : 'col-12'}>
+        <div className={clsx('w-100', { 'w-lg-50': basicMode })}>
           <TagsSelector tags={tagsList.tags} selectedTags={shortUrlData.tags ?? []} onChange={changeTags} />
         </div>
-      </Row>
+      </div>
     </div>
   ), [TagsSelector, basicMode, changeTags, isCreation, shortUrlData, tagsList.tags]);
 
@@ -116,7 +116,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
         <>
           <Row>
             <div className={clsx('mb-3', { 'col-sm-6': supportsDeviceLongUrls, 'col-12': !supportsDeviceLongUrls })}>
-              <SimpleCard title="Main options" className="mb-3">
+              <SimpleCard title="Main options">
                 {basicComponents}
               </SimpleCard>
             </div>

@@ -1,4 +1,3 @@
-import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useEffect, useMemo } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -7,7 +6,7 @@ import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ShortUrlIdentifier } from '../short-urls/data';
 import { urlDecodeShortCode } from '../short-urls/helpers';
-import { useDecodedShortCodeFromParams } from '../short-urls/helpers/hooks';
+import { useShortUrlIdentifier } from '../short-urls/helpers/hooks';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import { useFeature } from '../utils/features';
 import type { ReportExporter } from '../utils/services/ReportExporter';
@@ -43,9 +42,7 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
 }: ShortUrlVisitsProps) => {
   const supportsShortUrlVisitsDeletion = useFeature('shortUrlVisitsDeletion');
   const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
-  const { domain } = useParsedQuery<{ domain?: string }>();
-  const shortCode = useDecodedShortCodeFromParams();
-  const identifier = useMemo(() => ({ shortCode, domain }), [domain, shortCode]);
+  const identifier = useShortUrlIdentifier();
   const shortUrl = useMemo(() => shortUrlsDetails.shortUrls?.get(identifier), [identifier, shortUrlsDetails.shortUrls]);
 
   const loadVisits = useCallback(
@@ -65,9 +62,9 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
       return undefined;
     }
 
-    const deleteVisits = () => deleteShortUrlVisits({ shortCode, domain });
+    const deleteVisits = () => deleteShortUrlVisits(identifier);
     return { deleteVisits, visitsDeletion: shortUrlVisitsDeletion };
-  }, [deleteShortUrlVisits, domain, shortCode, shortUrlVisitsDeletion, supportsShortUrlVisitsDeletion]);
+  }, [deleteShortUrlVisits, identifier, shortUrlVisitsDeletion, supportsShortUrlVisitsDeletion]);
 
   useEffect(() => {
     getShortUrlsDetails([identifier]);

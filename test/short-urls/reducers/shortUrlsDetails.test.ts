@@ -43,7 +43,7 @@ describe('shortUrlsDetailsReducer', () => {
     });
   });
 
-  describe('getShortUrlDetail', () => {
+  describe('getShortUrlsDetails', () => {
     const dispatchMock = vi.fn();
     const buildGetState = (shortUrlsList?: ShortUrlsList) => () => fromPartial<RootState>({ shortUrlsList });
 

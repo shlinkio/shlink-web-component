@@ -32,6 +32,7 @@ type MainDeps = {
   TagVisitsComparison: FC,
   DomainVisitsComparison: FC,
   ShortUrlVisitsComparison: FC,
+  ShortUrlRedirectRules: FC,
 };
 
 const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
@@ -50,6 +51,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
     TagVisitsComparison,
     DomainVisitsComparison,
     ShortUrlVisitsComparison,
+    ShortUrlRedirectRules,
   } = useDependencies(Main);
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
@@ -80,7 +82,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
                 <Route path="/short-code/:shortCode/visits/*" element={<ShortUrlVisits />} />
                 <Route path="/short-code/:shortCode/edit" element={<EditShortUrl />} />
                 {supportsRedirectRules && (
-                  <Route path="/short-code/:shortCode/redirect-rules" element={<span>Redirect rules</span>} />
+                  <Route path="/short-code/:shortCode/redirect-rules" element={<ShortUrlRedirectRules />} />
                 )}
                 <Route path="/short-urls/compare-visits" element={<ShortUrlVisitsComparison />} />
                 <Route path="/tag/:tag/visits/*" element={<TagVisits />} />
@@ -116,4 +118,5 @@ export const MainFactory = componentFactory(Main, [
   'TagVisitsComparison',
   'DomainVisitsComparison',
   'ShortUrlVisitsComparison',
+  'ShortUrlRedirectRules',
 ]);

@@ -7,7 +7,7 @@ import { ExternalLink } from 'react-external-link';
 import { Button } from 'reactstrap';
 import { RedirectRuleModal } from './RedirectRuleModal';
 
-type RedirectRuleCardProps = {
+export type RedirectRuleCardProps = {
   redirectRule: ShlinkRedirectRuleData;
   priority: number;
   isLast: boolean;
@@ -30,7 +30,7 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
             outline
             color="secondary"
             size="sm"
-            data-label={`Move rule with priority ${priority} up`}
+            aria-label={`Move rule with priority ${priority} up`}
             disabled={priority === 1}
             onClick={onMoveUp}
             className="rounded-0 rounded-top"
@@ -42,7 +42,7 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
             outline
             color="secondary"
             size="sm"
-            data-label={`Move rule with priority ${priority} down`}
+            aria-label={`Move rule with priority ${priority} down`}
             disabled={isLast}
             onClick={onMoveDown}
             className="rounded-0 rounded-bottom"
@@ -59,7 +59,7 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
                 {condition.type === 'device' && <>Device is {condition.matchValue}</>}
                 {condition.type === 'language' && <>{condition.matchValue} language is accepted</>}
                 {condition.type === 'query-param' && (
-                  <>query string contains {condition.matchKey}={condition.matchValue}</>
+                  <>Query string contains {condition.matchKey}={condition.matchValue}</>
                 )}
               </div>
             ))}
@@ -70,7 +70,7 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
             outline
             color="secondary"
             size="sm"
-            data-label={`Edit rule with priority ${priority}`}
+            aria-label={`Edit rule with priority ${priority}`}
             onClick={toggleModal}
           >
             <FontAwesomeIcon icon={faPencilAlt} />
@@ -79,7 +79,7 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
             outline
             color="danger"
             size="sm"
-            data-label={`Delete rule with priority ${priority}`}
+            aria-label={`Delete rule with priority ${priority}`}
             onClick={onDelete}
           >
             <FontAwesomeIcon icon={faTrashCan} />

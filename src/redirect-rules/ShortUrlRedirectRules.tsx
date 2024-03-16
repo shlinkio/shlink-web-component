@@ -92,11 +92,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = (
         </Card>
       </header>
       <div>
-        <Button
-          outline
-          color="primary"
-          onClick={toggleModal}
-        >
+        <Button outline color="primary" onClick={toggleModal}>
           <FontAwesomeIcon icon={faPlus} className="me-1" /> Add rule
         </Button>
       </div>

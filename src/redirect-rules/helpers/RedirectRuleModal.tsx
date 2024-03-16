@@ -59,7 +59,7 @@ const LanguageControls: FC<{ language?: string; onLanguageChange: (lang: string)
         id={languageId}
         value={language ?? ''}
         onChange={(e) => onLanguageChange(e.target.value)}
-        placeholder="en-US"
+        placeholder="en-US / en"
         required
       />
     </div>
@@ -168,10 +168,8 @@ const Condition: FC<{
   );
 };
 
-const emptyRule: ShlinkRedirectRuleData = { longUrl: '', conditions: [] };
-
 export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, onSave, initialData }) => {
-  const [redirectRule, setRedirectRule] = useState(initialData ?? emptyRule);
+  const [redirectRule, setRedirectRule] = useState(initialData ?? { longUrl: '', conditions: [] });
   const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
     redirectRule && onSave(redirectRule);
@@ -185,14 +183,15 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, 
     }),
   ), []);
   const updateCondition = useCallback((index: number, newCondition: ShlinkRedirectCondition) => setRedirectRule(
-    ({ longUrl, conditions }) => {
-      // eslint-disable-next-line no-param-reassign
+    ({ longUrl, conditions: prevConditions }) => {
+      const conditions = [...prevConditions];
       conditions[index] = newCondition;
       return { longUrl, conditions };
     },
   ), []);
   const removeCondition = useCallback((index: number) => setRedirectRule(
-    ({ longUrl, conditions }) => {
+    ({ longUrl, conditions: oldConditions }) => {
+      const conditions = [...oldConditions];
       conditions.splice(index, 1);
       return { longUrl, conditions };
     },
@@ -200,7 +199,7 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, 
 
   const longUrlRef = useElementRef<HTMLInputElement>();
   const focusLongUrl = useCallback(() => longUrlRef?.current?.focus(), [longUrlRef]);
-  const reset = useCallback(() => setRedirectRule(initialData ?? emptyRule), [initialData]);
+  const reset = useCallback(() => setRedirectRule(initialData ?? { longUrl: '', conditions: [] }), [initialData]);
 
   return (
     <Modal size="xl" isOpen={isOpen} toggle={toggle} centered onOpened={focusLongUrl} onClosed={reset}>

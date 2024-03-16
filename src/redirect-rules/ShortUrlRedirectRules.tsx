@@ -38,6 +38,12 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = (
     copy.splice(index, 1);
     return copy;
   }), []);
+  const updateRule = useCallback((index: number, rule: ShlinkRedirectRuleData) => setRules((prev = []) => {
+    const copy = [...prev];
+    copy[index] = rule;
+    return copy;
+  }), []);
+
   const moveRuleToNewPosition = useCallback((oldIndex: number, newIndex: number) => setRules((prev = []) => {
     if (!prev[newIndex]) {
       return prev;
@@ -104,11 +110,12 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = (
             <RedirectRuleCard
               key={`${rule.longUrl}_${index}`}
               redirectRule={rule}
-              index={index}
+              priority={index + 1}
               isLast={index === rules.length - 1}
-              onDeleteRule={removeRule}
-              onMoveRuleUp={moveRuleUp}
-              onMoveRuleDown={moveRuleDown}
+              onDelete={() => removeRule(index)}
+              onMoveUp={() => moveRuleUp(index)}
+              onMoveDown={() => moveRuleDown(index)}
+              onUpdate={(r) => updateRule(index, r)}
             />
           ))}
         </div>

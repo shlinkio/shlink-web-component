@@ -41,10 +41,10 @@ $input-types: "text", "date", "datetime-local", "password", "number", "email", "
 
 .modal .form-control:not(:disabled),
 .modal .form-control:not(:disabled):hover,
-.modal .form-select:not(:disabled),
-.modal .form-select:not(:disabled):hover,
 .card .form-select:not(:disabled),
-.card .form-select:not(:disabled):hover {
+.modal .form-select:not(:disabled),
+.card .form-select:not(:disabled):hover,
+.modal .form-select:not(:disabled):hover {
   background-color: var(--input-color);
 }
 

@@ -24,7 +24,6 @@ export const getShortUrlRedirectRules = (apiClientFactory: () => ShlinkApiClient
 
 export const shortUrlRedirectRulesReducerCreator = (
   getShortUrlRedirectRulesThunk: ReturnType<typeof getShortUrlRedirectRules>,
-  // setShortUrlRedirectRulesThunk: ReturnType<typeof setShortUrlRedirectRules>,
 ) => createSlice({
   name: REDUCER_PREFIX,
   initialState,

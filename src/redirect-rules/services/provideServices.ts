@@ -1,5 +1,6 @@
 import type Bottle from 'bottlejs';
 import type { ConnectDecorator } from '../../container';
+import { setShortUrlRedirectRules, setShortUrlRedirectRulesReducerCreator } from '../reducers/setShortUrlRedirectRules';
 import {
   getShortUrlRedirectRules,
   shortUrlRedirectRulesReducerCreator,
@@ -10,19 +11,30 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   // Components
   bottle.serviceFactory('ShortUrlRedirectRules', () => ShortUrlRedirectRules);
   bottle.decorator('ShortUrlRedirectRules', connect(
-    ['shortUrlRedirectRules', 'shortUrlsDetails'],
-    ['getShortUrlRedirectRules', 'getShortUrlsDetails'],
+    ['shortUrlRedirectRules', 'shortUrlsDetails', 'shortUrlRedirectRulesSaving'],
+    ['getShortUrlRedirectRules', 'getShortUrlsDetails', 'setShortUrlRedirectRules'],
   ));
 
   // Actions
   bottle.serviceFactory('getShortUrlRedirectRules', getShortUrlRedirectRules, 'apiClientFactory');
+  bottle.serviceFactory('setShortUrlRedirectRules', setShortUrlRedirectRules, 'apiClientFactory');
 
   // Reducers
   bottle.serviceFactory(
     'shortUrlRedirectRulesReducerCreator',
     shortUrlRedirectRulesReducerCreator,
     'getShortUrlRedirectRules',
-    // TODO Add setShortUrlRedirectRules reducer
   );
   bottle.serviceFactory('shortUrlRedirectRulesReducer', (obj) => obj.reducer, 'shortUrlRedirectRulesReducerCreator');
+
+  bottle.serviceFactory(
+    'setShortUrlRedirectRulesReducerCreator',
+    setShortUrlRedirectRulesReducerCreator,
+    'setShortUrlRedirectRules',
+  );
+  bottle.serviceFactory(
+    'setShortUrlRedirectRulesReducer',
+    (obj) => obj.reducer,
+    'setShortUrlRedirectRulesReducerCreator',
+  );
 };

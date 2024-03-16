@@ -23,6 +23,7 @@ const deviceNames = {
   ios: 'iOS',
   desktop: 'Desktop',
 } satisfies Record<string, string>;
+
 type DeviceType = keyof typeof deviceNames;
 
 const DeviceTypeControls: FC<{ deviceType?: string; onDeviceTypeChange: (deviceType: DeviceType) => void }> = ({
@@ -172,6 +173,8 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, 
   const [redirectRule, setRedirectRule] = useState(initialData ?? { longUrl: '', conditions: [] });
   const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
+    e.stopPropagation(); // When editing, this form is inside other form. Let's prevent the parent to be submit
+
     redirectRule && onSave(redirectRule);
     toggle();
   }, [onSave, redirectRule, toggle]);

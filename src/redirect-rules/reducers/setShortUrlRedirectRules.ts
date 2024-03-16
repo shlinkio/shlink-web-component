@@ -1,21 +1,48 @@
-import type { ShlinkSetRedirectRulesData } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { ShlinkApiClient } from '../../api-contract';
+import { createSlice } from '@reduxjs/toolkit';
+import type { ProblemDetailsError, ShlinkApiClient, ShlinkSetRedirectRulesData } from '../../api-contract';
+import { parseApiError } from '../../api-contract/utils';
 import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { createAsyncThunk } from '../../utils/redux';
 
 const REDUCER_PREFIX = 'shlink/setShortUrlRedirectRules';
 
 export type SetShortUrlRedirectRules = {
+  saving: boolean;
+  saved: boolean;
+  error: boolean;
+  errorData?: ProblemDetailsError;
+};
+
+const initialState: SetShortUrlRedirectRules = {
+  saving: false,
+  saved: false,
+  error: false,
+};
+
+export type SetShortUrlRedirectRulesInfo = {
   shortUrl: ShortUrlIdentifier;
   data: ShlinkSetRedirectRulesData;
 };
 
 export const setShortUrlRedirectRules = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
   `${REDUCER_PREFIX}/setShortUrlRedirectRules`,
-  ({ shortUrl, data }: SetShortUrlRedirectRules) => {
+  ({ shortUrl, data }: SetShortUrlRedirectRulesInfo) => {
     const { shortCode, domain } = shortUrl;
     return apiClientFactory().setShortUrlRedirectRules(shortCode, domain, data);
   },
 );
 
-// TODO Create reducer
+export const setShortUrlRedirectRulesReducerCreator = (
+  setShortUrlRedirectRulesThunk: ReturnType<typeof setShortUrlRedirectRules>,
+) => createSlice({
+  name: REDUCER_PREFIX,
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(setShortUrlRedirectRulesThunk.pending, () => ({ saving: true, saved: false, error: false }));
+    builder.addCase(setShortUrlRedirectRulesThunk.rejected, (_, { error }) => (
+      { saving: false, saved: false, error: true, errorData: parseApiError(error) }
+    ));
+    builder.addCase(setShortUrlRedirectRulesThunk.fulfilled, () => ({ saving: false, error: false, saved: true }));
+  },
+});

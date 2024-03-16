@@ -1,34 +1,47 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Message, SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
+import { Message, Result, SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { FC } from 'react';
+import type { FC, FormEvent } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { Button, Card } from 'reactstrap';
+import { ShlinkApiError } from '../common/ShlinkApiError';
 import type { ShortUrlIdentifier } from '../short-urls/data';
 import { useShortUrlIdentifier } from '../short-urls/helpers/hooks';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import { GoBackButton } from '../utils/components/GoBackButton';
 import { RedirectRuleCard } from './helpers/RedirectRuleCard';
 import { RedirectRuleModal } from './helpers/RedirectRuleModal';
+import type { SetShortUrlRedirectRules, SetShortUrlRedirectRulesInfo } from './reducers/setShortUrlRedirectRules';
 import type { ShortUrlRedirectRules as RedirectRules } from './reducers/shortUrlRedirectRules';
 
 type ShortUrlRedirectRulesProps = {
   shortUrlRedirectRules: RedirectRules;
   getShortUrlRedirectRules: (shortUrl: ShortUrlIdentifier) => void;
+
   shortUrlsDetails: ShortUrlsDetails;
   getShortUrlsDetails: (identifiers: ShortUrlIdentifier[]) => void;
+
+  shortUrlRedirectRulesSaving: SetShortUrlRedirectRules;
+  setShortUrlRedirectRules: (info: SetShortUrlRedirectRulesInfo) => void;
 };
 
-export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = (
-  { shortUrlRedirectRules, getShortUrlRedirectRules, getShortUrlsDetails, shortUrlsDetails },
-) => {
+export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
+  shortUrlRedirectRules,
+  getShortUrlRedirectRules,
+  getShortUrlsDetails,
+  shortUrlsDetails,
+  setShortUrlRedirectRules,
+  shortUrlRedirectRulesSaving,
+}) => {
   const identifier = useShortUrlIdentifier();
   const { shortUrls } = shortUrlsDetails;
   const shortUrl = identifier && shortUrls?.get(identifier);
   const [rules, setRules] = useState<ShlinkRedirectRuleData[]>();
   const hasRules = rules && rules.length > 0;
+
+  const { saving, saved, errorData } = shortUrlRedirectRulesSaving;
 
   const [isModalOpen, toggleModal] = useToggle();
 
@@ -58,6 +71,14 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = (
   }), []);
   const moveRuleUp = useCallback((index: number) => moveRuleToNewPosition(index, index - 1), [moveRuleToNewPosition]);
   const moveRuleDown = useCallback((index: number) => moveRuleToNewPosition(index, index + 1), [moveRuleToNewPosition]);
+
+  const onSubmit = useCallback((e: FormEvent) => {
+    e.preventDefault();
+    rules && setShortUrlRedirectRules({
+      shortUrl: identifier,
+      data: { redirectRules: rules },
+    });
+  }, [identifier, rules, setShortUrlRedirectRules]);
 
   useEffect(() => {
     getShortUrlRedirectRules(identifier);
@@ -96,7 +117,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = (
           <FontAwesomeIcon icon={faPlus} className="me-1" /> Add rule
         </Button>
       </div>
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={onSubmit}>
         {shortUrlRedirectRules.loading && <Message loading />}
         {!hasRules && !shortUrlRedirectRules.loading && (
           <SimpleCard className="text-center"><i>This short URL has no dynamic redirect rules</i></SimpleCard>
@@ -116,9 +137,20 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = (
           ))}
         </div>
         <div className="text-center mt-3">
-          <Button outline color="primary" className="btn-sm-block">Save rules</Button>
+          <Button outline color="primary" className="btn-sm-block" disabled={saving}>
+            {saving ? 'Saving...' : 'Save rules'}
+          </Button>
         </div>
       </form>
+      {errorData && (
+        <Result type="error">
+          <ShlinkApiError
+            errorData={errorData}
+            fallbackMessage="An error occurred while saving short URL redirect rules :("
+          />
+        </Result>
+      )}
+      {saved && <Result type="success">Redirect rules properly saved.</Result>}
       <RedirectRuleModal isOpen={isModalOpen} toggle={toggleModal} onSave={pushRule} />
     </div>
   );

@@ -51,7 +51,9 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
           </Button>
         </div>
         <div className="flex-grow-1">
-          <div className="mb-2"><b>Long URL:</b> <ExternalLink href={redirectRule.longUrl} /></div>
+          <div className="mb-2">
+            <b>Long URL:</b> <ExternalLink href={redirectRule.longUrl} data-testid="rule-long-url" />
+          </div>
           <div className="d-flex flex-column flex-lg-row gap-2">
             <b>Conditions:</b>
             {redirectRule.conditions.map((condition, condIndex) => (

@@ -137,7 +137,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
           ))}
         </div>
         <div className="text-center mt-3">
-          <Button outline color="primary" className="btn-sm-block" disabled={saving}>
+          <Button outline color="primary" className="btn-sm-block" disabled={saving} data-testid="save-button">
             {saving ? 'Saving...' : 'Save rules'}
           </Button>
         </div>

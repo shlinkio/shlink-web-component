@@ -72,8 +72,13 @@ describe('<RedirectRuleModal />', () => {
     };
     const { user } = setUp(initialRule);
 
+    // Wait for modal to finish opening, otherwise focus may transition to long URL field while some other field is
+    // being edited
+    await waitFor(() => expect(screen.getByLabelText('Long URL:')).toHaveFocus());
+
     // Change the long URL
-    await user.type(screen.getByLabelText('Long URL:'), '/edited');
+    await user.clear(screen.getByLabelText('Long URL:'));
+    await user.type(screen.getByLabelText('Long URL:'), 'https://www.example.com/edited');
 
     // Change device type to ios
     await user.selectOptions(screen.getByLabelText('Device type:'), ['ios']);
@@ -94,7 +99,7 @@ describe('<RedirectRuleModal />', () => {
 
     await user.click(screen.getByRole('button', { name: 'Confirm' }));
     expect(onSave).toHaveBeenCalledWith({
-      longUrl: 'https://example.com/edited',
+      longUrl: 'https://www.example.com/edited',
       conditions: [
         { type: 'device', matchValue: 'ios', matchKey: null },
         { type: 'query-param', matchValue: 'the_value', matchKey: 'the_key' },

@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.6.0] - 2024-03-17
 ### Added
-* *Nothing*
+* [#271](https://github.com/shlinkio/shlink-web-component/issues/271) Add support for redirect rules when consuming Shlink 4.0.0.
 
 ### Changed
 * [#249](https://github.com/shlinkio/shlink-web-component/issues/249) Replace `react-datepicker` with native `input[type="date"]` and `input[type="datetime-local"]` elements.

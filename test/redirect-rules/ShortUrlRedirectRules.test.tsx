@@ -1,5 +1,5 @@
 import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
-import { screen, waitFor } from '@testing-library/react';
+import { cleanup, screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { ProblemDetailsError } from '../../src/api-contract';
@@ -18,6 +18,7 @@ describe('<ShortUrlRedirectRules />', () => {
   const getShortUrlRedirectRules = vi.fn();
   const getShortUrlsDetails = vi.fn();
   const setShortUrlRedirectRules = vi.fn();
+  const resetSetRules = vi.fn();
   const setUp = ({ loading = false, saving = false, saved = false, errorData }: SetUpOptions = {}) => renderWithEvents(
     <MemoryRouter>
       <ShortUrlRedirectRules
@@ -38,6 +39,7 @@ describe('<ShortUrlRedirectRules />', () => {
         getShortUrlsDetails={getShortUrlsDetails}
         shortUrlRedirectRulesSaving={fromPartial({ saving, saved, errorData })}
         setShortUrlRedirectRules={setShortUrlRedirectRules}
+        resetSetRules={resetSetRules}
       />
     </MemoryRouter>,
   );
@@ -49,6 +51,14 @@ describe('<ShortUrlRedirectRules />', () => {
 
     expect(getShortUrlRedirectRules).toHaveBeenCalledOnce();
     expect(getShortUrlsDetails).toHaveBeenCalledOnce();
+  });
+
+  it('resets rules state when unmounted', () => {
+    setUp();
+
+    expect(resetSetRules).not.toHaveBeenCalled();
+    cleanup();
+    expect(resetSetRules).toHaveBeenCalledOnce();
   });
 
   it('can change rules order', async () => {

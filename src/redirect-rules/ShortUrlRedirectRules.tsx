@@ -25,6 +25,8 @@ type ShortUrlRedirectRulesProps = {
 
   shortUrlRedirectRulesSaving: SetShortUrlRedirectRules;
   setShortUrlRedirectRules: (info: SetShortUrlRedirectRulesInfo) => void;
+
+  resetSetRules: () => void;
 };
 
 export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
@@ -34,6 +36,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
   shortUrlsDetails,
   setShortUrlRedirectRules,
   shortUrlRedirectRulesSaving,
+  resetSetRules,
 }) => {
   const identifier = useShortUrlIdentifier();
   const { shortUrls } = shortUrlsDetails;
@@ -83,7 +86,9 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
   useEffect(() => {
     getShortUrlRedirectRules(identifier);
     getShortUrlsDetails([identifier]);
-  }, [getShortUrlRedirectRules, getShortUrlsDetails, identifier]);
+
+    return resetSetRules;
+  }, [getShortUrlRedirectRules, getShortUrlsDetails, identifier, resetSetRules]);
 
   useEffect(() => {
     // Initialize rules once loaded

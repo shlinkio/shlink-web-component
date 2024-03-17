@@ -12,12 +12,13 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('ShortUrlRedirectRules', () => ShortUrlRedirectRules);
   bottle.decorator('ShortUrlRedirectRules', connect(
     ['shortUrlRedirectRules', 'shortUrlsDetails', 'shortUrlRedirectRulesSaving'],
-    ['getShortUrlRedirectRules', 'getShortUrlsDetails', 'setShortUrlRedirectRules'],
+    ['getShortUrlRedirectRules', 'getShortUrlsDetails', 'setShortUrlRedirectRules', 'resetSetRules'],
   ));
 
   // Actions
   bottle.serviceFactory('getShortUrlRedirectRules', getShortUrlRedirectRules, 'apiClientFactory');
   bottle.serviceFactory('setShortUrlRedirectRules', setShortUrlRedirectRules, 'apiClientFactory');
+  bottle.serviceFactory('resetSetRules', (obj) => obj.resetSetRules, 'setShortUrlRedirectRulesReducerCreator');
 
   // Reducers
   bottle.serviceFactory(

@@ -13,6 +13,7 @@ import { provideServices as provideWebComponentServices } from './provideService
 
 type LazyActionMap = Record<string, Function>;
 
+// FIXME Change this API to be (options: { props: string[] | null; actions?: string[] }) => any;
 export type ConnectDecorator = (props: string[] | null, actions?: string[]) => any;
 
 export const bottle = new Bottle();

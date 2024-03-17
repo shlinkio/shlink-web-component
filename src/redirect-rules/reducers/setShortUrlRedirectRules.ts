@@ -34,15 +34,23 @@ export const setShortUrlRedirectRules = (apiClientFactory: () => ShlinkApiClient
 
 export const setShortUrlRedirectRulesReducerCreator = (
   setShortUrlRedirectRulesThunk: ReturnType<typeof setShortUrlRedirectRules>,
-) => createSlice({
-  name: REDUCER_PREFIX,
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(setShortUrlRedirectRulesThunk.pending, () => ({ saving: true, saved: false, error: false }));
-    builder.addCase(setShortUrlRedirectRulesThunk.rejected, (_, { error }) => (
-      { saving: false, saved: false, error: true, errorData: parseApiError(error) }
-    ));
-    builder.addCase(setShortUrlRedirectRulesThunk.fulfilled, () => ({ saving: false, error: false, saved: true }));
-  },
-});
+) => {
+  const { reducer, actions } = createSlice({
+    name: REDUCER_PREFIX,
+    initialState,
+    reducers: {
+      resetSetRules: () => initialState,
+    },
+    extraReducers: (builder) => {
+      builder.addCase(setShortUrlRedirectRulesThunk.pending, () => ({ saving: true, saved: false, error: false }));
+      builder.addCase(setShortUrlRedirectRulesThunk.rejected, (_, { error }) => (
+        { saving: false, saved: false, error: true, errorData: parseApiError(error) }
+      ));
+      builder.addCase(setShortUrlRedirectRulesThunk.fulfilled, () => ({ saving: false, error: false, saved: true }));
+    },
+  });
+
+  const { resetSetRules } = actions;
+
+  return { reducer, resetSetRules };
+};

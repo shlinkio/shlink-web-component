@@ -14,7 +14,7 @@ describe('setShortUrlRedirectRulesReducer', () => {
     setShortUrlRedirectRules: setShortUrlRedirectRulesCall,
   });
   const setShortUrlRedirectRules = setShortUrlRedirectRulesCreator(buildShlinkApiClient);
-  const { reducer } = setShortUrlRedirectRulesReducerCreator(setShortUrlRedirectRules);
+  const { reducer, resetSetRules } = setShortUrlRedirectRulesReducerCreator(setShortUrlRedirectRules);
 
   describe('reducer', () => {
     it('returns saving on pending', () => {
@@ -37,6 +37,11 @@ describe('setShortUrlRedirectRulesReducer', () => {
         setShortUrlRedirectRules.fulfilled(fromPartial({}), '', fromPartial({}), undefined),
       );
       expect(result).toEqual({ saving: false, saved: true, error: false });
+    });
+
+    it('resets to initial state on resetSetRules', () => {
+      const result = reducer(undefined, resetSetRules());
+      expect(result).toEqual({ saving: false, saved: false, error: false });
     });
   });
 

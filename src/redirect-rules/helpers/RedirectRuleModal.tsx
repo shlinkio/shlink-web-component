@@ -11,13 +11,6 @@ import { useCallback, useId, useState } from 'react';
 import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import './RedirectRuleModal.scss';
 
-type RedirectRuleModalProps = {
-  initialData?: ShlinkRedirectRuleData;
-  onSave: (redirectRule: ShlinkRedirectRuleData) => void;
-  isOpen: boolean;
-  toggle: () => void;
-};
-
 const deviceNames = {
   android: 'Android',
   ios: 'iOS',
@@ -169,6 +162,13 @@ const Condition: FC<{
   );
 };
 
+export type RedirectRuleModalProps = {
+  initialData?: ShlinkRedirectRuleData;
+  onSave: (redirectRule: ShlinkRedirectRuleData) => void;
+  isOpen: boolean;
+  toggle: () => void;
+};
+
 export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, onSave, initialData }) => {
   const [redirectRule, setRedirectRule] = useState(initialData ?? { longUrl: '', conditions: [] });
   const handleSubmit = useCallback((e: FormEvent) => {
@@ -214,7 +214,7 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, 
             id="longUrl"
             type="url"
             placeholder="https://www.example.com"
-            value={redirectRule.longUrl ?? ''}
+            value={redirectRule.longUrl}
             onChange={(e) => setRedirectRule((prev) => ({ ...prev, longUrl: e.target.value }))}
             required
             innerRef={longUrlRef}

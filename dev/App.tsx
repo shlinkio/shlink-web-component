@@ -40,7 +40,7 @@ export const App: FC = () => {
                 path={routesPrefix ? `${routesPrefix}*` : '*'}
                 element={(
                   <ShlinkWebComponent
-                    serverVersion="4.0.0"
+                    serverVersion="latest"
                     apiClient={apiClient}
                     settings={settings}
                     routesPrefix={routesPrefix}

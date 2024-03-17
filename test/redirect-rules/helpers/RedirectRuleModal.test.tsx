@@ -81,8 +81,8 @@ describe('<RedirectRuleModal />', () => {
     // Add a new condition of type query-param
     await user.click(screen.getByLabelText('Add condition'));
     await user.selectOptions(screen.getAllByLabelText('Type:')[2], ['query-param']);
-    await user.type(screen.getByLabelText('Param name:'), 'the key');
-    await user.type(screen.getByLabelText('Param value:'), 'the value');
+    await user.type(screen.getByLabelText('Param name:'), 'the_key');
+    await user.type(screen.getByLabelText('Param value:'), 'the_value');
 
     // Remove the existing language condition
     await user.click(screen.getAllByLabelText('Delete condition')[1]);
@@ -97,7 +97,7 @@ describe('<RedirectRuleModal />', () => {
       longUrl: 'https://example.com/edited',
       conditions: [
         { type: 'device', matchValue: 'ios', matchKey: null },
-        { type: 'query-param', matchValue: 'the value', matchKey: 'the key' },
+        { type: 'query-param', matchValue: 'the_value', matchKey: 'the_key' },
         { type: 'language', matchValue: 'es-ES', matchKey: null },
       ],
     });

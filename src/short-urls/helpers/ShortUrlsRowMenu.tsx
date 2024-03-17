@@ -1,4 +1,5 @@
 import {
+  faArrowsSplitUpAndLeft as rulesIcon,
   faChartLine as lineChartIcon,
   faChartPie as pieChartIcon,
   faEdit as editIcon,
@@ -12,6 +13,7 @@ import { DropdownItem } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
+import { useFeature } from '../../utils/features';
 import { useVisitsComparisonContext } from '../../visits/visits-comparison/VisitsComparisonContext';
 import type { ShortUrlModalProps } from '../data';
 import { shortUrlToQuery } from './index';
@@ -33,9 +35,10 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuProps, ShortUrlsRowMenuDeps> 
   const [isQrModalOpen,, openQrCodeModal, closeQrCodeModal] = useToggle();
   const [isDeleteModalOpen,, openDeleteModal, closeDeleteModal] = useToggle();
   const visitsComparison = useVisitsComparisonContext();
+  const redirectRulesAreSupported = useFeature('shortUrlRedirectRules');
 
   return (
-    <RowDropdownBtn minWidth={190}>
+    <RowDropdownBtn minWidth={redirectRulesAreSupported ? 220 : 190}>
       <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="visits" asLink>
         <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
       </DropdownItem>
@@ -58,6 +61,12 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuProps, ShortUrlsRowMenuDeps> 
       <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="edit" asLink>
         <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit short URL
       </DropdownItem>
+
+      {redirectRulesAreSupported && (
+        <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="redirect-rules" asLink>
+          <FontAwesomeIcon icon={rulesIcon} fixedWidth /> Manage redirect rules
+        </DropdownItem>
+      )}
 
       <DropdownItem onClick={openQrCodeModal}>
         <FontAwesomeIcon icon={qrIcon} fixedWidth /> QR code

@@ -1,4 +1,4 @@
-import { Message, Result, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
+import { Message, Result } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useEffect, useMemo } from 'react';
 import { ExternalLink } from 'react-external-link';
@@ -11,7 +11,7 @@ import { GoBackButton } from '../utils/components/GoBackButton';
 import { useSetting } from '../utils/settings';
 import type { ShortUrlIdentifier } from './data';
 import { shortUrlDataFromShortUrl } from './helpers';
-import { useDecodedShortCodeFromParams } from './helpers/hooks';
+import { useShortUrlIdentifier } from './helpers/hooks';
 import type { EditShortUrl as EditShortUrlInfo, ShortUrlEdition } from './reducers/shortUrlEdition';
 import type { ShortUrlsDetails } from './reducers/shortUrlsDetails';
 import type { ShortUrlFormProps } from './ShortUrlForm';
@@ -31,10 +31,7 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
   { shortUrlsDetails, getShortUrlsDetails, shortUrlEdition, editShortUrl },
 ) => {
   const { ShortUrlForm } = useDependencies(EditShortUrl);
-
-  const { domain } = useParsedQuery<{ domain?: string }>();
-  const shortCode = useDecodedShortCodeFromParams();
-  const identifier = useMemo(() => (shortCode ? { shortCode, domain } : undefined), [domain, shortCode]);
+  const identifier = useShortUrlIdentifier();
   const { loading, error, errorData, shortUrls } = shortUrlsDetails;
   const shortUrl = identifier && shortUrls?.get(identifier);
 
@@ -67,10 +64,9 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
         <Card body>
           <h2 className="d-sm-flex justify-content-between align-items-center mb-0">
             <GoBackButton />
-            <span className="text-center">
+            <div className="text-center flex-grow-1">
               <small>Edit <ExternalLink href={shortUrl?.shortUrl ?? ''} /></small>
-            </span>
-            <span />
+            </div>
           </h2>
         </Card>
       </header>

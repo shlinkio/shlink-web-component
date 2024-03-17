@@ -2,17 +2,13 @@
 @import './utils/StickyCardPaginator.scss';
 @import 'leaflet/dist/leaflet.css';
 
-.input-group-text.input-group-text {
-  border-color: var(--input-border-color);
-}
-
 .top-sticky {
   position: sticky;
   top: $headerHeight;
   z-index: 10;
 }
 
-// This should probably go to shlink-frontend-kit
+// FIXME Remove everything from this point down after updating to shlink-frontend-kit:0.5
 $input-types: "text", "date", "datetime-local", "password", "number", "email", "search", "url";
 
 @each $type in $input-types {
@@ -22,6 +18,45 @@ $input-types: "text", "date", "datetime-local", "password", "number", "email", "
   }
 }
 
+.input-group-text.input-group-text {
+  border-color: var(--input-border-color);
+}
+
 .dropdown label {
   color: var(--text-color) !important;
+}
+
+.form-select.form-select,
+.form-select.form-select:focus {
+  background-color: var(--primary-color);
+  border-color: var(--input-border-color);
+  color: var(--input-text-color);
+}
+
+.form-select.disabled,
+.form-select:disabled {
+  background-color: var(--input-disabled-color);
+  cursor: not-allowed;
+}
+
+.modal .form-control:not(:disabled),
+.modal .form-control:not(:disabled):hover,
+.card .form-select:not(:disabled),
+.modal .form-select:not(:disabled),
+.card .form-select:not(:disabled):hover,
+.modal .form-select:not(:disabled):hover {
+  background-color: var(--input-color);
+}
+
+.btn-primary:disabled,
+.btn-primary:focus-visible,
+.btn-outline-primary:focus-visible.btn-outline-primary:focus-visible{
+  color: #ffffff;
+}
+
+.btn-sm-block {
+  @media (max-width: $smMax) {
+    width: 100%;
+    display: block;
+  }
 }

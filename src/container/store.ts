@@ -2,6 +2,8 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import type { IContainer } from 'bottlejs';
 import type { DomainsList } from '../domains/reducers/domainsList';
 import type { MercureInfo } from '../mercure/reducers/mercureInfo';
+import type { SetShortUrlRedirectRules } from '../redirect-rules/reducers/setShortUrlRedirectRules';
+import type { ShortUrlRedirectRules } from '../redirect-rules/reducers/shortUrlRedirectRules';
 import type { ShortUrlCreation } from '../short-urls/reducers/shortUrlCreation';
 import type { ShortUrlDeletion } from '../short-urls/reducers/shortUrlDeletion';
 import type { ShortUrlEdition } from '../short-urls/reducers/shortUrlEdition';
@@ -43,6 +45,8 @@ export type RootState = {
   mercureInfo: MercureInfo;
   domainsList: DomainsList;
   visitsOverview: VisitsOverview;
+  shortUrlRedirectRules: ShortUrlRedirectRules;
+  shortUrlRedirectRulesSaving: SetShortUrlRedirectRules;
 };
 
 export const setUpStore = (container: IContainer) => configureStore({
@@ -69,6 +73,8 @@ export const setUpStore = (container: IContainer) => configureStore({
     tagEdit: container.tagEditReducer,
     domainsList: container.domainsListReducer,
     visitsOverview: container.visitsOverviewReducer,
+    shortUrlRedirectRules: container.shortUrlRedirectRulesReducer,
+    shortUrlRedirectRulesSaving: container.setShortUrlRedirectRulesReducer,
   } satisfies RootState),
   middleware: (defaultMiddlewaresIncludingReduxThunk) => defaultMiddlewaresIncludingReduxThunk({
     // State is too big for these

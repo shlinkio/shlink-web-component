@@ -8,6 +8,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AsideMenu } from './common/AsideMenu';
 import type { FCWithDeps } from './container/utils';
 import { componentFactory, useDependencies } from './container/utils';
+import { useFeature } from './utils/features';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
 import './Main.scss';
@@ -31,6 +32,7 @@ type MainDeps = {
   TagVisitsComparison: FC,
   DomainVisitsComparison: FC,
   ShortUrlVisitsComparison: FC,
+  ShortUrlRedirectRules: FC,
 };
 
 const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
@@ -49,6 +51,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
     TagVisitsComparison,
     DomainVisitsComparison,
     ShortUrlVisitsComparison,
+    ShortUrlRedirectRules,
   } = useDependencies(Main);
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
@@ -60,6 +63,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
 
   const burgerClasses = clsx('shlink-layout__burger-icon', { 'shlink-layout__burger-icon--active': sidebarVisible });
   const swipeableProps = useSwipeable(showSidebar, hideSidebar);
+  const supportsRedirectRules = useFeature('shortUrlRedirectRules');
 
   return (
     <>
@@ -77,6 +81,9 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
                 <Route path="/create-short-url" element={<CreateShortUrl />} />
                 <Route path="/short-code/:shortCode/visits/*" element={<ShortUrlVisits />} />
                 <Route path="/short-code/:shortCode/edit" element={<EditShortUrl />} />
+                {supportsRedirectRules && (
+                  <Route path="/short-code/:shortCode/redirect-rules" element={<ShortUrlRedirectRules />} />
+                )}
                 <Route path="/short-urls/compare-visits" element={<ShortUrlVisitsComparison />} />
                 <Route path="/tag/:tag/visits/*" element={<TagVisits />} />
                 <Route path="/tags/compare-visits" element={<TagVisitsComparison />} />
@@ -111,4 +118,5 @@ export const MainFactory = componentFactory(Main, [
   'TagVisitsComparison',
   'DomainVisitsComparison',
   'ShortUrlVisitsComparison',
+  'ShortUrlRedirectRules',
 ]);

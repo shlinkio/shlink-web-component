@@ -3,11 +3,13 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { MainProps } from '../src/Main';
 import { MainFactory } from '../src/Main';
+import { FeaturesProvider } from '../src/utils/features';
 import { checkAccessibility } from './__helpers__/accessibility';
 
 type SetUpOptions = {
   currentPath?: string
   createNotFound?: MainProps['createNotFound'];
+  supportsRedirectRules?: boolean;
 };
 
 describe('<Main />', () => {
@@ -26,10 +28,13 @@ describe('<Main />', () => {
     TagVisitsComparison: () => <>TagVisitsComparison</>,
     DomainVisitsComparison: () => <>DomainVisitsComparison</>,
     ShortUrlVisitsComparison: () => <>ShortUrlVisitsComparison</>,
+    ShortUrlRedirectRules: () => <>ShortUrlRedirectRules</>,
   }));
-  const setUp = ({ createNotFound, currentPath = '' }: SetUpOptions) => render(
+  const setUp = ({ createNotFound, currentPath = '', supportsRedirectRules = false }: SetUpOptions) => render(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
-      <Main createNotFound={createNotFound} />
+      <FeaturesProvider value={fromPartial({ shortUrlRedirectRules: supportsRedirectRules })}>
+        <Main createNotFound={createNotFound} />
+      </FeaturesProvider>
     </MemoryRouter>,
   );
 
@@ -41,6 +46,7 @@ describe('<Main />', () => {
     ['/create-short-url', 'CreateShortUrl'],
     ['/short-code/abc123/visits/foo', 'ShortUrlVisits'],
     ['/short-code/abc123/edit', 'EditShortUrl'],
+    ['/short-code/abc123/redirect-rules', 'ShortUrlRedirectRules'],
     ['/tag/foo/visits/foo', 'TagVisits'],
     ['/orphan-visits/foo', 'OrphanVisits'],
     ['/manage-tags', 'TagsList'],
@@ -53,15 +59,19 @@ describe('<Main />', () => {
   ])(
     'renders expected component based on location and server version',
     (currentPath, expectedContent) => {
-      setUp({ currentPath });
+      setUp({ currentPath, supportsRedirectRules: true });
       expect(screen.getByText(expectedContent)).toBeInTheDocument();
     },
   );
 
-  it('renders not-found when trying to navigate to invalid route', () => {
+  it.each([
+    ['/foo/bar/baz', true],
+    ['/foo/bar/baz', false],
+    ['/short-code/abc123/redirect-rules', false],
+  ])('renders not-found when trying to navigate to invalid route', (currentPath, supportsRedirectRules) => {
     const createNotFound = () => <>Oops! Route not found.</>;
 
-    setUp({ currentPath: '/foo/bar/baz', createNotFound });
+    setUp({ currentPath, supportsRedirectRules, createNotFound });
 
     expect(screen.getByText('Oops! Route not found.')).toBeInTheDocument();
   });

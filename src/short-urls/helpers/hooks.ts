@@ -5,7 +5,7 @@ import type { TagsFilteringMode } from '../../api-contract';
 import type { BooleanString } from '../../utils/helpers';
 import { parseOptionalBooleanToString } from '../../utils/helpers';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
-import type { ShortUrlsOrder, ShortUrlsOrderableFields } from '../data';
+import type { ShortUrlIdentifier, ShortUrlsOrder, ShortUrlsOrderableFields } from '../data';
 import { urlDecodeShortCode } from './index';
 
 type ShortUrlsQueryCommon = {
@@ -75,9 +75,11 @@ export const useShortUrlsQuery = (): [ShortUrlsQuery, ToFirstPage] => {
 };
 
 /**
- * Reads the short code from route params, and decodes it
+ * Generates a ShortUrlIdentifier by reading the short code from route params and domain from query params.
+ * The short code is also decoded.
  */
-export const useDecodedShortCodeFromParams = (): string => {
+export const useShortUrlIdentifier = (): ShortUrlIdentifier => {
+  const { domain } = useParsedQuery<{ domain?: string }>();
   const { shortCode = '' } = useParams<{ shortCode: string }>();
-  return useMemo(() => urlDecodeShortCode(shortCode), [shortCode]);
+  return useMemo(() => ({ shortCode: urlDecodeShortCode(shortCode), domain }), [domain, shortCode]);
 };

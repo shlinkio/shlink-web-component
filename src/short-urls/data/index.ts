@@ -1,16 +1,16 @@
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkShortUrl } from '../../api-contract';
 
-export interface ShortUrlIdentifier {
+export type ShortUrlIdentifier = {
   shortCode: string;
   domain?: string | null;
-}
+};
 
-export interface ShortUrlModalProps {
+export type ShortUrlModalProps = {
   shortUrl: ShlinkShortUrl;
   isOpen: boolean;
   toggle: () => void;
-}
+};
 
 export const SHORT_URLS_ORDERABLE_FIELDS = {
   dateCreated: 'Created at',
@@ -24,7 +24,7 @@ export type ShortUrlsOrderableFields = keyof typeof SHORT_URLS_ORDERABLE_FIELDS;
 
 export type ShortUrlsOrder = Order<ShortUrlsOrderableFields>;
 
-export interface ExportableShortUrl {
+export type ExportableShortUrl = {
   createdAt: string;
   title: string;
   shortUrl: string;
@@ -33,10 +33,10 @@ export interface ExportableShortUrl {
   longUrl: string;
   tags: string;
   visits: number;
-}
+};
 
-export interface ShortUrlsFilter {
+export type ShortUrlsFilter = {
   excludeBots?: boolean;
   excludeMaxVisitsReached?: boolean;
   excludePastValidUntil?: boolean;
-}
+};

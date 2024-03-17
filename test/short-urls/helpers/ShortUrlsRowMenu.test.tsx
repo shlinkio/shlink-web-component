@@ -3,10 +3,16 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import { ShortUrlsRowMenuFactory } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
+import { FeaturesProvider } from '../../../src/utils/features';
 import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
+
+type SetUpOptions = {
+  visitsComparison?: Partial<VisitsComparison>;
+  redirectRulesSupported?: boolean;
+};
 
 describe('<ShortUrlsRowMenu />', () => {
   const ShortUrlsRowMenu = ShortUrlsRowMenuFactory(fromPartial({
@@ -17,17 +23,19 @@ describe('<ShortUrlsRowMenu />', () => {
     shortCode: 'abc123',
     shortUrl: 'https://s.test/abc123',
   });
-  const setUp = (visitsComparison?: Partial<VisitsComparison>) => renderWithEvents(
+  const setUp = ({ visitsComparison, redirectRulesSupported = false }: SetUpOptions = {}) => renderWithEvents(
     <MemoryRouter>
-      <VisitsComparisonProvider
-        value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
-      >
-        <ShortUrlsRowMenu shortUrl={shortUrl} />
-      </VisitsComparisonProvider>
+      <FeaturesProvider value={fromPartial({ shortUrlRedirectRules: redirectRulesSupported })}>
+        <VisitsComparisonProvider
+          value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
+        >
+          <ShortUrlsRowMenu shortUrl={shortUrl} />
+        </VisitsComparisonProvider>
+      </FeaturesProvider>
     </MemoryRouter>,
   );
-  const setUpAndOpen = async (visitsComparison?: Partial<VisitsComparison>) => {
-    const result = setUp(visitsComparison);
+  const setUpAndOpen = async (options: SetUpOptions = {}) => {
+    const result = setUp(options);
     await result.user.click(screen.getByRole('button'));
 
     return result;
@@ -36,7 +44,9 @@ describe('<ShortUrlsRowMenu />', () => {
   it.each([
     [setUp],
     [setUpAndOpen],
-    [() => setUpAndOpen({ itemsToCompare: [] })],
+    [() => setUpAndOpen({
+      visitsComparison: { itemsToCompare: [] },
+    })],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders modal windows', () => {
@@ -47,10 +57,12 @@ describe('<ShortUrlsRowMenu />', () => {
   });
 
   it.each([
-    [undefined, 4],
-    [{ itemsToCompare: [] }, 5],
-  ])('renders correct amount of menu items', async (visitsComparison, expectedMenuItems) => {
-    await setUpAndOpen(visitsComparison);
+    [undefined, false, 4],
+    [{ itemsToCompare: [] }, false, 5],
+    [undefined, true, 5],
+    [{ itemsToCompare: [] }, true, 6],
+  ])('renders correct amount of menu items', async (visitsComparison, redirectRulesSupported, expectedMenuItems) => {
+    await setUpAndOpen({ visitsComparison, redirectRulesSupported });
     expect(screen.getAllByRole('menuitem')).toHaveLength(expectedMenuItems);
   });
 
@@ -58,10 +70,12 @@ describe('<ShortUrlsRowMenu />', () => {
     [{ name: shortUrl.shortUrl }, false],
     [{ name: 'something else' }, true],
   ])('disables visits comparison menu if short URL is already selected', async (visitToCompare, canAddItem) => {
-    await setUpAndOpen(fromPartial({
-      itemsToCompare: [visitToCompare],
-      canAddItemWithName: () => canAddItem,
-    }));
+    await setUpAndOpen({
+      visitsComparison: fromPartial({
+        itemsToCompare: [visitToCompare],
+        canAddItemWithName: () => canAddItem,
+      }),
+    });
     const button = screen.getByRole(!canAddItem ? 'button' : 'menuitem', { name: 'Compare visits' });
 
     if (canAddItem) {
@@ -74,8 +88,10 @@ describe('<ShortUrlsRowMenu />', () => {
   it('adds visit to compare when clicked', async () => {
     const addVisitToCompare = vi.fn();
     const { user } = await setUpAndOpen({
-      itemsToCompare: [],
-      addItemToCompare: addVisitToCompare,
+      visitsComparison: {
+        itemsToCompare: [],
+        addItemToCompare: addVisitToCompare,
+      },
     });
 
     await user.click(screen.getByRole('menuitem', { name: 'Compare visits' }));

@@ -1,9 +1,10 @@
+import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Message, Result, SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC, FormEvent } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { Button, Card } from 'reactstrap';
 import { ShlinkApiError } from '../common/ShlinkApiError';
@@ -41,24 +42,26 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
   const identifier = useShortUrlIdentifier();
   const { shortUrls } = shortUrlsDetails;
   const shortUrl = identifier && shortUrls?.get(identifier);
-  const [rules, setRules] = useState<ShlinkRedirectRuleData[]>();
-  const hasRules = rules && rules.length > 0;
+  const [rulesContainerRef, rules, setRules] = useDragAndDrop<HTMLDivElement, ShlinkRedirectRuleData>([], {
+    dragHandle: '.drag-n-drop-handler',
+    dropZoneClass: 'opacity-25',
+  });
 
   const { saving, saved, errorData } = shortUrlRedirectRulesSaving;
 
   const [isModalOpen, toggleModal] = useToggle();
 
-  const pushRule = useCallback((rule: ShlinkRedirectRuleData) => setRules((prev = []) => [...prev, rule]), []);
+  const pushRule = useCallback((rule: ShlinkRedirectRuleData) => setRules((prev = []) => [...prev, rule]), [setRules]);
   const removeRule = useCallback((index: number) => setRules((prev = []) => {
     const copy = [...prev];
     copy.splice(index, 1);
     return copy;
-  }), []);
+  }), [setRules]);
   const updateRule = useCallback((index: number, rule: ShlinkRedirectRuleData) => setRules((prev = []) => {
     const copy = [...prev];
     copy[index] = rule;
     return copy;
-  }), []);
+  }), [setRules]);
 
   const moveRuleToNewPosition = useCallback((oldIndex: number, newIndex: number) => setRules((prev = []) => {
     if (!prev[newIndex]) {
@@ -71,7 +74,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
     copy[oldIndex] = temp;
 
     return copy;
-  }), []);
+  }), [setRules]);
   const moveRuleUp = useCallback((index: number) => moveRuleToNewPosition(index, index - 1), [moveRuleToNewPosition]);
   const moveRuleDown = useCallback((index: number) => moveRuleToNewPosition(index, index + 1), [moveRuleToNewPosition]);
 
@@ -95,7 +98,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
     if (shortUrlRedirectRules.redirectRules) {
       setRules(shortUrlRedirectRules.redirectRules);
     }
-  }, [shortUrlRedirectRules.redirectRules]);
+  }, [setRules, shortUrlRedirectRules.redirectRules]);
 
   return (
     <div className="d-flex flex-column gap-3">
@@ -124,11 +127,11 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
       </div>
       <form onSubmit={onSubmit}>
         {shortUrlRedirectRules.loading && <Message loading />}
-        {!hasRules && !shortUrlRedirectRules.loading && (
+        {rules.length === 0 && !shortUrlRedirectRules.loading && (
           <SimpleCard className="text-center"><i>This short URL has no dynamic redirect rules</i></SimpleCard>
         )}
-        <div className="d-flex flex-column gap-2">
-          {rules?.map((rule, index) => (
+        <div className="d-flex flex-column gap-2" ref={rulesContainerRef}>
+          {rules.map((rule, index) => (
             <RedirectRuleCard
               key={`${rule.longUrl}_${index}`}
               redirectRule={rule}

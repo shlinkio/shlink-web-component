@@ -1,4 +1,4 @@
-import { faArrowDown, faArrowUp, faPencilAlt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faArrowUp, faGripVertical, faPencilAlt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
@@ -25,6 +25,9 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
   return (
     <SimpleCard>
       <div className="d-flex align-content-center gap-3">
+        <div className="d-flex flex-column my-auto drag-n-drop-handler d-none d-md-block" style={{ cursor: 'grab' }}>
+          <FontAwesomeIcon icon={faGripVertical} />
+        </div>
         <div className="d-flex flex-column my-auto">
           <Button
             outline

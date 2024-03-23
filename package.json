@@ -65,7 +65,7 @@
     "bowser": "^2.11.0",
     "clsx": "^2.1.0",
     "compare-versions": "^6.1.0",
-    "date-fns": "^3.5.0",
+    "date-fns": "^3.6.0",
     "event-source-polyfill": "^1.0.31",
     "leaflet": "^1.9.4",
     "react-external-link": "^2.2.0",

@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * [#293](https://github.com/shlinkio/shlink-web-component/issues/293) Allow redirect rules to be ordered via drag'n'drop, when using a desktop device.
 
 ### Changed
-* *Nothing*
+* Update JS coding standard
 
 ### Deprecated
 * *Nothing*

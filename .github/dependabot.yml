@@ -30,6 +30,11 @@ updates:
         patterns:
           - 'vitest'
           - '@vitest/*'
+      eslint:
+        patterns:
+          - '@shlinkio/eslint-config-js-coding-standard'
+          - '@typescript-eslint/*'
+          - 'eslint'
     ignore:
       # Bootstrap can introduce visual breaking changes on styles
       # Ignore it, since the plan is to remove it anyway

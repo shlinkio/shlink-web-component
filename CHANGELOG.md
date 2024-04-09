@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 * Update JS coding standard
+* [#294](https://github.com/shlinkio/shlink-web-component/issues/294) Hide "validate URL" control when consuming Shlink >=4.0, as it is ignored in that case.
 
 ### Deprecated
 * *Nothing*

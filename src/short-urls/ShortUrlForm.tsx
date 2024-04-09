@@ -51,6 +51,8 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   const [shortUrlData, setShortUrlData] = useState(initialState);
   const isCreation = isCreationData(shortUrlData);
   const supportsDeviceLongUrls = useFeature('deviceLongUrls');
+  const supportsValidatingUrls = useFeature('urlValidation');
+  const showExtraChecks = supportsValidatingUrls || isCreation;
 
   const reset = useCallback(() => setShortUrlData(initialState), [initialState]);
   const setResettableValue = useCallback((value: string, initialValue?: any) => {
@@ -233,31 +235,35 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
           </Row>
 
           <Row>
-            <div className="col-sm-6 mb-3">
-              <SimpleCard title="Extra checks">
-                <ShortUrlFormCheckboxGroup
-                  infoTooltip="If checked, Shlink will try to reach the long URL, failing in case it's not publicly accessible."
-                  checked={shortUrlData.validateUrl}
-                  onChange={(validateUrl) => setShortUrlData((prev) => ({ ...prev, validateUrl }))}
-                >
-                  Validate URL
-                </ShortUrlFormCheckboxGroup>
-                {isCreation && (
-                  <p>
-                    <Checkbox
-                      inline
-                      className="me-2"
-                      checked={shortUrlData.findIfExists}
-                      onChange={(findIfExists) => setShortUrlData((prev) => ({ ...prev, findIfExists }))}
+            {showExtraChecks && (
+              <div className="col-sm-6 mb-3">
+                <SimpleCard title="Extra checks">
+                  {supportsValidatingUrls && (
+                    <ShortUrlFormCheckboxGroup
+                      infoTooltip="If checked, Shlink will try to reach the long URL, failing in case it's not publicly accessible."
+                      checked={shortUrlData.validateUrl}
+                      onChange={(validateUrl) => setShortUrlData((prev) => ({ ...prev, validateUrl }))}
                     >
-                      Use existing URL if found
-                    </Checkbox>
-                    <UseExistingIfFoundInfoIcon />
-                  </p>
-                )}
-              </SimpleCard>
-            </div>
-            <div className="col-sm-6 mb-3">
+                      Validate URL
+                    </ShortUrlFormCheckboxGroup>
+                  )}
+                  {isCreation && (
+                    <p>
+                      <Checkbox
+                        inline
+                        className="me-2"
+                        checked={shortUrlData.findIfExists}
+                        onChange={(findIfExists) => setShortUrlData((prev) => ({ ...prev, findIfExists }))}
+                      >
+                        Use existing URL if found
+                      </Checkbox>
+                      <UseExistingIfFoundInfoIcon />
+                    </p>
+                  )}
+                </SimpleCard>
+              </div>
+            )}
+            <div className={clsx('mb-3', { 'col-sm-6': showExtraChecks })}>
               <SimpleCard title="Configure behavior">
                 <ShortUrlFormCheckboxGroup
                   infoTooltip="This short URL will be included in the robots.txt for your Shlink instance, allowing web crawlers (like Google) to index it."

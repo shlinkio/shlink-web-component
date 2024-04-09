@@ -13,40 +13,42 @@ export const DEFAULT_SHORT_URLS_ORDERING: ShortUrlsOrder = {
  * optional, as old instances of the app will load partial objects from local storage until it is saved again.
  */
 
-export interface RealTimeUpdatesSettings {
+export type RealTimeUpdatesSettings = {
   enabled: boolean;
   interval?: number;
-}
+};
 
 export type TagFilteringMode = 'startsWith' | 'includes';
 
-export interface ShortUrlCreationSettings {
-  validateUrls: boolean;
+export type ShortUrlCreationSettings = {
   tagFilteringMode?: TagFilteringMode;
   forwardQuery?: boolean;
-}
 
-export interface VisitsSettings {
+  /** @deprecated Shlink 4.0.0 no longer validates URLs */
+  validateUrls: boolean;
+};
+
+export type VisitsSettings = {
   defaultInterval: DateInterval;
   excludeBots?: boolean;
   loadPrevInterval?: boolean;
-}
+};
 
-export interface TagsSettings {
+export type TagsSettings = {
   defaultOrdering?: TagsOrder;
-}
+};
 
-export interface ShortUrlsListSettings {
+export type ShortUrlsListSettings = {
   defaultOrdering?: ShortUrlsOrder;
-}
+};
 
-export interface Settings {
+export type Settings = {
   realTimeUpdates?: RealTimeUpdatesSettings;
   shortUrlCreation?: ShortUrlCreationSettings;
   shortUrlsList?: ShortUrlsListSettings;
   visits?: VisitsSettings;
   tags?: TagsSettings;
-}
+};
 
 const defaultSettings: Settings = {
   realTimeUpdates: {

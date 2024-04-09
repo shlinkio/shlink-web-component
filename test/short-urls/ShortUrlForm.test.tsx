@@ -1,3 +1,4 @@
+import type { ShlinkCreateShortUrlData } from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
@@ -8,8 +9,10 @@ import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 type SetUpOptions = {
-  withDeviceLongUrls ?: boolean;
+  withDeviceLongUrls?: boolean;
+  withUrlValidation?: boolean;
   basicMode?: boolean;
+  isCreation?: boolean;
   title?: string | null;
 };
 
@@ -19,26 +22,35 @@ describe('<ShortUrlForm />', () => {
     TagsSelector: () => <span>TagsSelector</span>,
     DomainSelector: () => <span>DomainSelector</span>,
   }));
-  const setUp = ({ withDeviceLongUrls = false, basicMode, title }: SetUpOptions = {}) =>
-    renderWithEvents(
-      <FeaturesProvider value={fromPartial({ deviceLongUrls: withDeviceLongUrls })}>
+  const setUp = (
+    { withDeviceLongUrls = false, withUrlValidation = true, basicMode, title, isCreation = true }: SetUpOptions = {},
+  ) => {
+    const initialState: ShlinkCreateShortUrlData = {
+      validateUrl: true,
+      findIfExists: false,
+      title,
+      longUrl: '',
+    };
+
+    // Explicitly set these props, so that the component considers this a creation
+    if (isCreation) {
+      initialState.customSlug = undefined;
+      initialState.shortCodeLength = undefined;
+      initialState.domain = undefined;
+    }
+
+    return renderWithEvents(
+      <FeaturesProvider value={fromPartial({ deviceLongUrls: withDeviceLongUrls, urlValidation: withUrlValidation })}>
         <ShortUrlForm
           basicMode={basicMode}
           saving={false}
-          initialState={{
-            validateUrl: true,
-            findIfExists: false,
-            title,
-            longUrl: '',
-            customSlug: undefined,
-            shortCodeLength: undefined,
-            domain: undefined,
-          }}
+          initialState={initialState}
           onSave={createShortUrl}
           tagsList={fromPartial({ tags: [] })}
         />
       </FeaturesProvider>,
     );
+  };
 
   it('passes a11y checks', () => checkAccessibility(setUp({ withDeviceLongUrls: true })));
 
@@ -103,12 +115,14 @@ describe('<ShortUrlForm />', () => {
   );
 
   it.each([
-    [false, 5],
-    [true, 0],
+    { basicMode: true, expectedAmountOfCards: 0 },
+    { basicMode: false, expectedAmountOfCards: 5 },
+    { basicMode: false, withUrlValidation: false, expectedAmountOfCards: 5 },
+    { basicMode: false, withUrlValidation: false, isCreation: false, expectedAmountOfCards: 4 },
   ])(
     'renders expected amount of cards based on server capabilities and mode',
-    (basicMode, expectedAmountOfCards) => {
-      setUp({ basicMode });
+    ({ basicMode, withUrlValidation, isCreation, expectedAmountOfCards }) => {
+      setUp({ basicMode, withUrlValidation, isCreation });
       const cards = screen.queryAllByRole('heading');
 
       expect(cards).toHaveLength(expectedAmountOfCards);

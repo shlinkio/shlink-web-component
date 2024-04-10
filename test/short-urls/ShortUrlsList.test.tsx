@@ -14,6 +14,12 @@ import { SettingsProvider } from '../../src/utils/settings';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
+type SetUpOptions = {
+  settings?: Partial<Settings>;
+  excludeBotsOnShortUrls?: boolean;
+  loading?: boolean;
+};
+
 describe('<ShortUrlsList />', () => {
   const ShortUrlsTable: ShortUrlsTableType = ({ onTagClick }) => (
     <button type="button" onClick={() => onTagClick?.('foo')} data-testid="add-tag-button">
@@ -37,7 +43,7 @@ describe('<ShortUrlsList />', () => {
   });
   let history: MemoryHistory;
   const ShortUrlsList = ShortUrlsListFactory(fromPartial({ ShortUrlsTable, ShortUrlsFilteringBar }));
-  const setUp = (settings: Partial<Settings> = {}, excludeBotsOnShortUrls = true) => {
+  const setUp = ({ settings = {}, excludeBotsOnShortUrls = true, loading = false }: SetUpOptions = {}) => {
     history = createMemoryHistory();
     history.push({ search: '?tags=test%20tag&search=example.com' });
 
@@ -48,7 +54,7 @@ describe('<ShortUrlsList />', () => {
             <ShortUrlsList
               {...fromPartial<MercureBoundProps>({ mercureInfo: { loading: true } })}
               listShortUrls={listShortUrlsMock}
-              shortUrlsList={shortUrlsList}
+              shortUrlsList={{ ...shortUrlsList, loading }}
             />
           </FeaturesProvider>
         </SettingsProvider>
@@ -76,6 +82,16 @@ describe('<ShortUrlsList />', () => {
     );
   });
 
+  it.each([[true], [false]])('hides paginator while loading', (loading) => {
+    setUp({ loading });
+
+    if (loading) {
+      expect(screen.queryByRole('list')).not.toBeInTheDocument();
+    } else {
+      expect(screen.getByRole('list')).toBeInTheDocument();
+    }
+  });
+
   it('gets list refreshed every time a tag is clicked', async () => {
     const { user } = setUp();
     const getTagsFromQuery = () => new URLSearchParams(history.location.search).get('tags');
@@ -90,7 +106,9 @@ describe('<ShortUrlsList />', () => {
     [fromPartial<ShortUrlsOrder>({ field: 'title', dir: 'DESC' }), 'title', 'DESC'],
     [fromPartial<ShortUrlsOrder>({}), undefined, undefined],
   ])('has expected initial ordering based on settings', (defaultOrdering, field, dir) => {
-    setUp({ shortUrlsList: { defaultOrdering } });
+    setUp({
+      settings: { shortUrlsList: { defaultOrdering } },
+    });
     expect(listShortUrlsMock).toHaveBeenCalledWith(expect.objectContaining({
       orderBy: { field, dir },
     }));
@@ -120,7 +138,7 @@ describe('<ShortUrlsList />', () => {
       visits: { excludeBots: true },
     }), true, { field: 'nonBotVisits', dir: 'ASC' }],
   ])('parses order by based on supported features version and config', (settings, excludeBotsOnShortUrls, expectedOrderBy) => {
-    setUp(settings, excludeBotsOnShortUrls);
+    setUp({ settings, excludeBotsOnShortUrls });
     expect(listShortUrlsMock).toHaveBeenCalledWith(expect.objectContaining({ orderBy: expectedOrderBy }));
   });
 });

@@ -1,5 +1,6 @@
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir } from '@shlinkio/shlink-frontend-kit';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
@@ -124,14 +125,14 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
         className="mb-3"
       />
       <VisitsComparisonCollector type="short-urls" className="mb-3" />
-      <Card body className="pb-0">
+      <Card body className={clsx({ 'pb-0': !shortUrlsList.loading })}>
         <ShortUrlsTable
           shortUrlsList={shortUrlsList}
           orderByColumn={orderByColumn}
           renderOrderIcon={renderOrderIcon}
           onTagClick={addTag}
         />
-        <Paginator paginator={pagination} currentQueryString={location.search} />
+        {!shortUrlsList.loading && <Paginator paginator={pagination} currentQueryString={location.search} />}
       </Card>
     </VisitsComparisonProvider>
 

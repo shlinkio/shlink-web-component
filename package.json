@@ -69,7 +69,7 @@
     "date-fns": "^3.6.0",
     "event-source-polyfill": "^1.0.31",
     "leaflet": "^1.9.4",
-    "react-external-link": "^2.2.0",
+    "react-external-link": "^2.3.1",
     "react-leaflet": "^4.2.1",
     "react-swipeable": "^7.0.1",
     "react-tag-autocomplete": "^7.2.0",

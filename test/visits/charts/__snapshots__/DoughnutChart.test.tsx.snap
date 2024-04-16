@@ -13,7 +13,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
       >
         <div
           class="recharts-wrapper"
-          role="region"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
         >
           <svg
@@ -136,7 +135,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
       >
         <div
           class="recharts-wrapper"
-          role="region"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
         >
           <svg
@@ -276,7 +274,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
       >
         <div
           class="recharts-wrapper"
-          role="region"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
         >
           <svg

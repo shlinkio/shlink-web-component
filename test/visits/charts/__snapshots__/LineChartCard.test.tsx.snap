@@ -72,7 +72,6 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
     >
       <div
         class="recharts-wrapper"
-        role="region"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
         <svg
@@ -254,7 +253,6 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
     >
       <div
         class="recharts-wrapper"
-        role="region"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
         <svg
@@ -482,7 +480,6 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
     >
       <div
         class="recharts-wrapper"
-        role="region"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
         <svg
@@ -1045,7 +1042,6 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
     >
       <div
         class="recharts-wrapper"
-        role="region"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
         <svg
@@ -1650,7 +1646,6 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
     >
       <div
         class="recharts-wrapper"
-        role="region"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
         <svg

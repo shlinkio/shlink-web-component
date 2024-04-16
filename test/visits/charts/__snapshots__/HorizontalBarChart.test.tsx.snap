@@ -4,7 +4,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
 <div>
   <div
     class="recharts-wrapper"
-    role="region"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
     <svg
@@ -500,7 +499,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
 <div>
   <div
     class="recharts-wrapper"
-    role="region"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
     <svg
@@ -1014,7 +1012,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
 <div>
   <div
     class="recharts-wrapper"
-    role="region"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
     <svg
@@ -1585,7 +1582,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
 <div>
   <div
     class="recharts-wrapper"
-    role="region"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
     <svg
@@ -2156,7 +2152,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
 <div>
   <div
     class="recharts-wrapper"
-    role="region"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
     <svg
@@ -2748,7 +2743,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
 <div>
   <div
     class="recharts-wrapper"
-    role="region"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
     <svg

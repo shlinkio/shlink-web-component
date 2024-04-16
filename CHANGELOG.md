@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* Make sure project dependencies are not bundled with package.
+
+
 ## [0.6.1] - 2024-04-10
 ### Added
 * [#293](https://github.com/shlinkio/shlink-web-component/issues/293) Allow redirect rules to be ordered via drag'n'drop, when using a desktop device.

@@ -17,7 +17,8 @@ export default defineConfig({
       name: 'shlink-web-component'
     },
     rollupOptions: {
-      external: [...Object.keys(pack.peerDependencies ?? {}), 'react/jsx-runtime'],
+      // Make sure dependencies and peer dependencies are not bundled with the library
+      external: [...Object.keys(pack.dependencies), ...Object.keys(pack.peerDependencies), 'react/jsx-runtime'],
       output: {
         assetFileNames: "index.[ext]",
       },

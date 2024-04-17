@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { rangeOf } from '../../src/utils/helpers';
-import type { NormalizedVisit } from '../../src/visits/types';
+import type { NormalizedRegularVisit, NormalizedVisit } from '../../src/visits/types';
 import type { VisitsTableProps } from '../../src/visits/VisitsTable';
 import { VisitsTable } from '../../src/visits/VisitsTable';
 import { checkAccessibility } from '../__helpers__/accessibility';
@@ -21,7 +21,6 @@ describe('<VisitsTable />', () => {
   const setUp = (visits: NormalizedVisit[], selectedVisits: NormalizedVisit[] = []) => setUpFactory(
     { visits, selectedVisits },
   );
-  const setUpForOrphanVisits = (isOrphanVisits: boolean) => setUpFactory({ isOrphanVisits });
   const setUpWithBots = () => setUpFactory({
     visits: [
       fromPartial({ potentialBot: false, date: '2022-05-05' }),
@@ -144,10 +143,10 @@ describe('<VisitsTable />', () => {
   });
 
   it.each([
-    [true, 9],
-    [false, 8],
-  ])('displays proper amount of columns for orphan and non-orphan visits', (isOrphanVisits, expectedCols) => {
-    setUpForOrphanVisits(isOrphanVisits);
+    ['foo', 9],
+    [undefined, 8],
+  ])('displays proper amount of columns for orphan and non-orphan visits', (visitedUrl, expectedCols) => {
+    setUp([fromPartial<NormalizedRegularVisit>({ visitedUrl, date: '2020-01-01T09:09:09' })]);
     expect(screen.getAllByRole('columnheader')).toHaveLength(expectedCols);
   });
 

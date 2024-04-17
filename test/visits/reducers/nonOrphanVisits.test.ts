@@ -129,7 +129,7 @@ describe('nonOrphanVisitsReducer', () => {
     });
 
     it('dispatches start and success when promise is resolved', async () => {
-      const visits = visitsMocks.map((visit) => ({ ...visit, visitedUrl: '' }));
+      const visits = visitsMocks.map((visit) => ({ ...visit, type: 'base_url' }));
       const getVisitsParam = { params: {}, options: {} };
 
       getNonOrphanVisitsCall.mockResolvedValue({

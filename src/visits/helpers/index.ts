@@ -15,10 +15,10 @@ import type {
 } from '../types';
 
 export const isOrphanVisit = (visit: ShlinkVisit): visit is ShlinkOrphanVisit =>
-  (visit as ShlinkOrphanVisit).visitedUrl !== undefined;
+  (visit as ShlinkOrphanVisit).type !== undefined;
 
 export const isNormalizedOrphanVisit = (visit: NormalizedVisit): visit is NormalizedOrphanVisit =>
-  (visit as NormalizedOrphanVisit).visitedUrl !== undefined;
+  (visit as NormalizedOrphanVisit).type !== undefined;
 
 export interface GroupedNewVisits {
   orphanVisits: CreateVisit[];

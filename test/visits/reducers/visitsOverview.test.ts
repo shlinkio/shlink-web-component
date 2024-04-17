@@ -62,9 +62,9 @@ describe('visitsOverviewReducer', () => {
         createNewVisits([
           fromPartial({ visit: {} }),
           fromPartial({ visit: {} }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
         ]),
       );
 
@@ -112,9 +112,9 @@ describe('visitsOverviewReducer', () => {
           fromPartial({ visit: {} }),
           fromPartial({ visit: { potentialBot: true } }),
           fromPartial({ visit: { potentialBot: true } }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '', potentialBot: true }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url', potentialBot: true }) }),
         ]),
       );
 

@@ -356,7 +356,6 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                         visits={normalizedVisits}
                         selectedVisits={highlightedVisits}
                         setSelectedVisits={setSelectedVisits}
-                        isOrphanVisits={isOrphanVisits}
                       />
                     </div>
                   )}

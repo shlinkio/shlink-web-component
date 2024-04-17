@@ -11,8 +11,8 @@ describe('visitsTypeHelpers', () => {
       [[], { orphanVisits: [], nonOrphanVisits: [] }],
       ((): [CreateVisit[], GroupedNewVisits] => {
         const orphanVisits: CreateVisit[] = [
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
         ];
         const nonOrphanVisits: CreateVisit[] = [
           fromPartial({ visit: {} }),
@@ -29,9 +29,9 @@ describe('visitsTypeHelpers', () => {
       })(),
       ((): [CreateVisit[], GroupedNewVisits] => {
         const orphanVisits: CreateVisit[] = [
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ visitedUrl: '' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
+          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
         ];
 
         return [orphanVisits, { orphanVisits, nonOrphanVisits: [] }];

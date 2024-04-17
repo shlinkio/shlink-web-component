@@ -204,24 +204,28 @@ describe('orphanVisitsReducer', () => {
         dateRange: { startDate: subDays(now, 1), endDate: addDays(now, 1) },
         loadPrevInterval: true,
         expectsPrevVisits: true,
+        orphanVisitsType: 'base_url' as const,
       },
       // Undefined date range and loadPrevInterval: true -> prev visits are NOT loaded
       {
         dateRange: undefined,
         loadPrevInterval: true,
         expectsPrevVisits: false,
+        orphanVisitsType: 'regular_404' as const,
       },
       // Empty date range and loadPrevInterval: true -> prev visits are NOT loaded
       {
         dateRange: {},
         loadPrevInterval: true,
         expectsPrevVisits: false,
+        orphanVisitsType: 'invalid_short_url' as const,
       },
       // Start date only and loadPrevInterval: true -> prev visits are NOT loaded
       {
         dateRange: { startDate: subDays(now, 2) },
         loadPrevInterval: true,
         expectsPrevVisits: true,
+        orphanVisitsType: 'invalid_short_url' as const,
       },
       // End date only and loadPrevInterval: true -> prev visits are NOT loaded
       {
@@ -236,18 +240,22 @@ describe('orphanVisitsReducer', () => {
         expectsPrevVisits: false,
       },
     ])('returns visits from prev interval when requested and possible', async (
-      { dateRange, loadPrevInterval, expectsPrevVisits },
+      { dateRange, loadPrevInterval, expectsPrevVisits, orphanVisitsType },
     ) => {
       const getVisitsParam: LoadOrphanVisits = {
         params: { dateRange },
         options: { loadPrevInterval },
+        orphanVisitsType,
       };
-      const prevVisits = expectsPrevVisits ? visitsMocks.map(
-        ({ date, ...rest }, index) => ({ ...rest, date: dateForVisit(index + 1 + visitsMocks.length) }),
+      const expectedVisits = visitsMocks.map(
+        (visit) => (orphanVisitsType ? { ...visit, type: orphanVisitsType } : visit),
+      );
+      const prevVisits = expectsPrevVisits ? expectedVisits.map(
+        ({ date, ...rest }, index) => ({ ...rest, date: dateForVisit(index + 1 + expectedVisits.length) }),
       ) : undefined;
 
       getOrphanVisitsCall.mockResolvedValue({
-        data: visitsMocks,
+        data: expectedVisits,
         pagination: {
           currentPage: 1,
           pagesCount: 1,
@@ -259,9 +267,10 @@ describe('orphanVisitsReducer', () => {
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits: visitsMocks, prevVisits, ...getVisitsParam },
+        payload: { visits: expectedVisits, prevVisits, ...getVisitsParam },
       }));
       expect(getOrphanVisitsCall).toHaveBeenCalledTimes(expectsPrevVisits ? 2 : 1);
+      expect(getOrphanVisitsCall).toHaveBeenCalledWith(expect.objectContaining({ type: orphanVisitsType }));
     });
   });
 });

@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.6.2] - 2024-04.17
 ### Added
 * *Nothing*
 
@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 * Make sure project dependencies are not bundled with package.
 * [#244](https://github.com/shlinkio/shlink-web-component/issues/244) Display `visitedUrl` in visits table if the visit object has it, regardless of it being an orphan visit or not.
+* [#327](https://github.com/shlinkio/shlink-web-component/issues/327) Ensure orphan visits type is sent to the server, to enable server-side filtering when consumed Shlink supports it.
 
 
 ## [0.6.1] - 2024-04-10

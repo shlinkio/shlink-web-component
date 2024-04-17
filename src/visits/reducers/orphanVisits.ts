@@ -34,7 +34,11 @@ export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => crea
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false } = options;
 
-    const visitsLoader = async (query: ShlinkVisitsParams) => apiClient.getOrphanVisits(query).then(
+    const visitsLoader = async (query: ShlinkVisitsParams) => apiClient.getOrphanVisits({
+      ...query,
+      type: orphanVisitsType, // Send type to the server, in case it supports filtering by type
+    }).then(
+      // We still try to filter locally, for Shlink older than 4.0.0
       (resp) => filterOrphanVisitsByType(resp, orphanVisitsType),
     );
     const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) => apiClient.getOrphanVisits(q));

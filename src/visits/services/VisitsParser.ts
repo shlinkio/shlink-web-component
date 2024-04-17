@@ -82,7 +82,7 @@ export const processStatsFromVisits = (visits: NormalizedVisit[]) => visits.redu
 
 export const normalizeVisits = (visits: ShlinkVisit[]) => visits.map((visit): NormalizedVisit => {
   const { userAgent, date, referer, visitLocation, potentialBot } = visit;
-  const common = {
+  return {
     date,
     potentialBot,
     ...parseUserAgent(userAgent),
@@ -91,13 +91,9 @@ export const normalizeVisits = (visits: ShlinkVisit[]) => visits.map((visit): No
     city: visitLocation?.cityName || 'Unknown', // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing
     latitude: visitLocation?.latitude,
     longitude: visitLocation?.longitude,
+    visitedUrl: visit.visitedUrl,
+    type: isOrphanVisit(visit) ? visit.type : undefined,
   };
-
-  if (!isOrphanVisit(visit)) {
-    return common;
-  }
-
-  return { ...common, type: visit.type, visitedUrl: visit.visitedUrl };
 });
 
 export interface VisitsParser {

@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { rangeOf } from '../../src/utils/helpers';
-import type { NormalizedVisit } from '../../src/visits/types';
+import type { NormalizedRegularVisit, NormalizedVisit } from '../../src/visits/types';
 import type { VisitsTableProps } from '../../src/visits/VisitsTable';
 import { VisitsTable } from '../../src/visits/VisitsTable';
 import { checkAccessibility } from '../__helpers__/accessibility';
@@ -21,7 +21,6 @@ describe('<VisitsTable />', () => {
   const setUp = (visits: NormalizedVisit[], selectedVisits: NormalizedVisit[] = []) => setUpFactory(
     { visits, selectedVisits },
   );
-  const setUpForOrphanVisits = (isOrphanVisits: boolean) => setUpFactory({ isOrphanVisits });
   const setUpWithBots = () => setUpFactory({
     visits: [
       fromPartial({ potentialBot: false, date: '2022-05-05' }),
@@ -143,12 +142,21 @@ describe('<VisitsTable />', () => {
     expect(setSelectedVisits).toHaveBeenCalledWith([]);
   });
 
-  it.each([
-    [true, 9],
-    [false, 8],
-  ])('displays proper amount of columns for orphan and non-orphan visits', (isOrphanVisits, expectedCols) => {
-    setUpForOrphanVisits(isOrphanVisits);
-    expect(screen.getAllByRole('columnheader')).toHaveLength(expectedCols);
+  it.each([[true], [false]])('displays proper amount of columns', (withVisitedUrl) => {
+    setUp([fromPartial<NormalizedRegularVisit>({
+      visitedUrl: withVisitedUrl ? 'visited_url' : undefined,
+      date: '2020-01-01T09:09:09',
+    })]);
+
+    const cells = screen.getAllByRole('cell');
+    const lastCell = cells[cells.length - 1];
+
+    expect(screen.getAllByRole('columnheader')).toHaveLength(withVisitedUrl ? 9 : 8);
+    if (withVisitedUrl) {
+      expect(lastCell).toHaveTextContent('visited_url');
+    } else {
+      expect(lastCell).not.toHaveTextContent('visited_url');
+    }
   });
 
   it('displays bots icon when a visit is a potential bot', () => {

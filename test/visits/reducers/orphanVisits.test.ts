@@ -17,7 +17,7 @@ import { problemDetailsError } from '../../__mocks__/ProblemDetailsError.mock';
 describe('orphanVisitsReducer', () => {
   const now = new Date();
   const dateForVisit = (day: number) => `2020-01-1${day}T00:00:00Z`;
-  const visitsMocks = rangeOf(2, (index) => fromPartial<ShlinkVisit>({ date: dateForVisit(index), visitedUrl: '' }));
+  const visitsMocks = rangeOf(2, (index) => fromPartial<ShlinkVisit>({ date: dateForVisit(index), type: 'base_url' }));
   const getOrphanVisitsCall = vi.fn();
   const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getOrphanVisits: getOrphanVisitsCall });
   const getOrphanVisits = getOrphanVisitsCreator(buildShlinkApiClientMock);

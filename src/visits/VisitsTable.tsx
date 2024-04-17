@@ -20,7 +20,6 @@ export interface VisitsTableProps {
   selectedVisits?: NormalizedVisit[];
   setSelectedVisits: (visits: NormalizedVisit[]) => void;
   matchMedia?: MediaMatcher;
-  isOrphanVisits?: boolean;
 }
 
 type OrderableFields = 'date' | 'country' | 'city' | 'browser' | 'os' | 'referer' | 'visitedUrl' | 'potentialBot';
@@ -50,7 +49,6 @@ export const VisitsTable = ({
   selectedVisits = [],
   setSelectedVisits,
   matchMedia = window.matchMedia,
-  isOrphanVisits = false,
 }: VisitsTableProps) => {
   const isMobileDevice = useMaxResolution(767, matchMedia);
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
@@ -60,7 +58,11 @@ export const VisitsTable = ({
   const [page, setPage] = useState(1);
   const end = page * PAGE_SIZE;
   const start = end - PAGE_SIZE;
-  const fullSizeColSpan = 8 + Number(isOrphanVisits);
+  const showVisitedUrl = useMemo(
+    () => !!paginator.visitsGroups[page - 1]?.[0]?.visitedUrl,
+    [page, paginator.visitsGroups],
+  );
+  const fullSizeColSpan = 8 + Number(showVisitedUrl);
 
   const orderByColumn = (field: OrderableFields) =>
     () => setOrder({ field, dir: determineOrderDir(field, order.field, order.dir) });
@@ -119,7 +121,7 @@ export const VisitsTable = ({
               Referrer
               {renderOrderIcon('referer')}
             </th>
-            {isOrphanVisits && (
+            {showVisitedUrl && (
               <th className={headerCellsClass} onClick={orderByColumn('visitedUrl')}>
                 Visited URL
                 {renderOrderIcon('visitedUrl')}
@@ -172,7 +174,7 @@ export const VisitsTable = ({
                 <td>{visit.browser}</td>
                 <td>{visit.os}</td>
                 <td>{visit.referer}</td>
-                {isOrphanVisits && <td>{(visit as NormalizedOrphanVisit).visitedUrl}</td>}
+                {visit.visitedUrl && <td>{visit.visitedUrl}</td>}
               </tr>
             );
           })}

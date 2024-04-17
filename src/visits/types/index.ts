@@ -14,6 +14,7 @@ export interface NormalizedRegularVisit extends UserAgent {
   latitude?: number | null;
   longitude?: number | null;
   potentialBot: boolean;
+  visitedUrl?: string; // Optional for Shlink older than 4.1.0
 }
 
 export interface NormalizedOrphanVisit extends NormalizedRegularVisit {

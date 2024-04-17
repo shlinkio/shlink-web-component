@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 * Make sure project dependencies are not bundled with package.
+* [#244](https://github.com/shlinkio/shlink-web-component/issues/244) Display `visitedUrl` in visits table if the visit object has it, regardless of it being an orphan visit or not.
 
 
 ## [0.6.1] - 2024-04-10
@@ -27,7 +28,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 * Update JS coding standard
-* [#294](https://github.com/shlinkio/shlink-web-component/issues/294) Hide "validate URL" control when consuming Shlink >=4.0, as it is ignored in that case.
 
 ### Deprecated
 * *Nothing*
@@ -37,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 * [#302](https://github.com/shlinkio/shlink-web-component/issues/302) Hide short URLs paginator while loading, so that it doesn't display outdated info.
+* [#294](https://github.com/shlinkio/shlink-web-component/issues/294) Hide "validate URL" control when consuming Shlink >=4.0, as it is ignored in that case.
 
 
 ## [0.6.0] - 2024-03-17

@@ -30,6 +30,7 @@ describe('VisitsParser', () => {
     fromPartial({
       userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
       potentialBot: false,
+      visitedUrl: 'foo',
       visitLocation: {
         countryName: 'Spain',
         cityName: '',
@@ -39,6 +40,7 @@ describe('VisitsParser', () => {
       userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
       referer: 'https://m.facebook.com',
       potentialBot: false,
+      visitedUrl: 'foo',
       visitLocation: {
         countryName: 'Spain',
         cityName: 'Zaragoza',
@@ -208,6 +210,7 @@ describe('VisitsParser', () => {
           latitude: undefined,
           longitude: undefined,
           potentialBot: false,
+          visitedUrl: 'foo',
         },
         {
           browser: 'Chrome',
@@ -219,6 +222,7 @@ describe('VisitsParser', () => {
           latitude: 123.45,
           longitude: -543.21,
           potentialBot: false,
+          visitedUrl: 'foo',
         },
         {
           browser: 'Opera',

@@ -142,12 +142,21 @@ describe('<VisitsTable />', () => {
     expect(setSelectedVisits).toHaveBeenCalledWith([]);
   });
 
-  it.each([
-    ['foo', 9],
-    [undefined, 8],
-  ])('displays proper amount of columns for orphan and non-orphan visits', (visitedUrl, expectedCols) => {
-    setUp([fromPartial<NormalizedRegularVisit>({ visitedUrl, date: '2020-01-01T09:09:09' })]);
-    expect(screen.getAllByRole('columnheader')).toHaveLength(expectedCols);
+  it.each([[true], [false]])('displays proper amount of columns', (withVisitedUrl) => {
+    setUp([fromPartial<NormalizedRegularVisit>({
+      visitedUrl: withVisitedUrl ? 'visited_url' : undefined,
+      date: '2020-01-01T09:09:09',
+    })]);
+
+    const cells = screen.getAllByRole('cell');
+    const lastCell = cells[cells.length - 1];
+
+    expect(screen.getAllByRole('columnheader')).toHaveLength(withVisitedUrl ? 9 : 8);
+    if (withVisitedUrl) {
+      expect(lastCell).toHaveTextContent('visited_url');
+    } else {
+      expect(lastCell).not.toHaveTextContent('visited_url');
+    }
   });
 
   it('displays bots icon when a visit is a potential bot', () => {

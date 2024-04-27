@@ -64,7 +64,7 @@
     "@shlinkio/data-manipulation": "^1.0.3",
     "bottlejs": "^2.0.1",
     "bowser": "^2.11.0",
-    "clsx": "^2.1.0",
+    "clsx": "^2.1.1",
     "compare-versions": "^6.1.0",
     "date-fns": "^3.6.0",
     "event-source-polyfill": "^1.0.31",

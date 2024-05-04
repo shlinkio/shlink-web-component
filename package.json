@@ -99,7 +99,7 @@
     "sass": "^1.75.0",
     "stylelint": "^15.11.0",
     "typescript": "^5.4.5",
-    "vite": "^5.2.10",
+    "vite": "^5.2.11",
     "vite-plugin-dts": "^3.9.0",
     "vitest": "^1.2.2"
   },

@@ -1,11 +1,11 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
+import { SettingsProvider } from '../../src/settings';
 import type { TagsList } from '../../src/tags/reducers/tagsList';
 import type { TagsListProps } from '../../src/tags/TagsList';
 import { TagsListFactory } from '../../src/tags/TagsList';
 import type { TagsTableProps } from '../../src/tags/TagsTable';
-import { SettingsProvider } from '../../src/utils/settings';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 

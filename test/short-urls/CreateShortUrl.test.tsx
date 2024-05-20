@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
+import { SettingsProvider } from '../../src/settings';
 import { CreateShortUrlFactory } from '../../src/short-urls/CreateShortUrl';
 import type { ShortUrlCreation } from '../../src/short-urls/reducers/shortUrlCreation';
-import { SettingsProvider } from '../../src/utils/settings';
 import { checkAccessibility } from '../__helpers__/accessibility';
 
 describe('<CreateShortUrl />', () => {

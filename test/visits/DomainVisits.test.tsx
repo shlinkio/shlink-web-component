@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
-import { SettingsProvider } from '../../src/utils/settings';
+import { SettingsProvider } from '../../src/settings';
 import { DomainVisitsFactory } from '../../src/visits/DomainVisits';
 import type { DomainVisits } from '../../src/visits/reducers/domainVisits';
 import { checkAccessibility } from '../__helpers__/accessibility';

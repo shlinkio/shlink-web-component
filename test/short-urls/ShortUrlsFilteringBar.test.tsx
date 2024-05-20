@@ -5,10 +5,10 @@ import { formatISO, parseISO } from 'date-fns';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
+import { SettingsProvider } from '../../src/settings';
 import { ShortUrlsFilteringBarFactory } from '../../src/short-urls/ShortUrlsFilteringBar';
 import { FeaturesProvider } from '../../src/utils/features';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
-import { SettingsProvider } from '../../src/utils/settings';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 

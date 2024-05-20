@@ -1,7 +1,7 @@
 import { fromPartial } from '@total-typescript/shoehorn';
-import type { Settings } from '../../../src';
 import type { ShlinkApiClient } from '../../../src/api-contract';
 import { mercureInfoReducerCreator } from '../../../src/mercure/reducers/mercureInfo';
+import type { Settings } from '../../../src/settings';
 
 describe('mercureInfoReducer', () => {
   const mercureInfo = {

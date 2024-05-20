@@ -1,11 +1,11 @@
 import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
+import { SettingsProvider } from '../../src/settings';
 import type { ShortUrlIdentifier } from '../../src/short-urls/data';
 import { EditShortUrlFactory } from '../../src/short-urls/EditShortUrl';
 import type { ShortUrlEdition } from '../../src/short-urls/reducers/shortUrlEdition';
 import type { ShortUrlsDetails } from '../../src/short-urls/reducers/shortUrlsDetails';
-import { SettingsProvider } from '../../src/utils/settings';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
 

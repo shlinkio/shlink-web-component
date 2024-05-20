@@ -1,6 +1,6 @@
 import type { ShlinkCreateShortUrlData, ShlinkShortUrl } from '../../api-contract';
+import type { ShortUrlCreationSettings } from '../../settings';
 import type { OptionalString } from '../../utils/helpers';
-import type { ShortUrlCreationSettings } from '../../utils/settings';
 import { DEFAULT_DOMAIN } from '../../visits/reducers/domainVisits';
 import type { ShortUrlIdentifier } from '../data';
 

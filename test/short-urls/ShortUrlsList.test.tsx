@@ -3,14 +3,14 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
-import type { Settings } from '../../src';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
+import type { Settings } from '../../src/settings';
+import { SettingsProvider } from '../../src/settings';
 import type { ShortUrlsOrder } from '../../src/short-urls/data';
 import type { ShortUrlsList as ShortUrlsListModel } from '../../src/short-urls/reducers/shortUrlsList';
 import { ShortUrlsListFactory } from '../../src/short-urls/ShortUrlsList';
 import type { ShortUrlsTableType } from '../../src/short-urls/ShortUrlsTable';
 import { FeaturesProvider } from '../../src/utils/features';
-import { SettingsProvider } from '../../src/utils/settings';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 

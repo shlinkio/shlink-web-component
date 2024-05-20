@@ -11,8 +11,8 @@ import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
+import { useSettings } from '../settings';
 import { useFeature } from '../utils/features';
-import { useSettings } from '../utils/settings';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
 import {

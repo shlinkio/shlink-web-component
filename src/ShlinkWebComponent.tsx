@@ -61,7 +61,7 @@ export const createShlinkWebComponent = (
 
   return !theStore ? <></> : (
     <ReduxStoreProvider store={theStore}>
-      <SettingsProvider value={settings}>
+      <SettingsProvider value={settings ?? {}}>
         <FeaturesProvider value={features}>
           <RoutesPrefixProvider value={routesPrefix}>
             <RouterOrFragment>

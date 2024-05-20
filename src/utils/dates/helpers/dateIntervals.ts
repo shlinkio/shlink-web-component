@@ -1,6 +1,9 @@
 import { differenceInDays, endOfDay, startOfDay, subDays } from 'date-fns';
+import type { DateInterval as SettingsDateInterval } from '../../../settings';
 import type { DateOrString } from './date';
 import { formatInternational, isBeforeOrEqual, now, parseISO } from './date';
+
+export type DateInterval = SettingsDateInterval;
 
 export type DateRange = {
   startDate?: Date | null;
@@ -18,7 +21,7 @@ export type StrictDateRange = {
 
 export const ALL = 'all';
 
-const INTERVAL_TO_STRING_MAP = {
+const INTERVAL_TO_STRING_MAP: Record<DateInterval, string | undefined> = {
   today: 'Today',
   yesterday: 'Yesterday',
   last7Days: 'Last 7 days',
@@ -28,8 +31,6 @@ const INTERVAL_TO_STRING_MAP = {
   last365Days: 'Last 365 days',
   [ALL]: undefined,
 } as const;
-
-export type DateInterval = keyof typeof INTERVAL_TO_STRING_MAP;
 
 const INTERVALS = Object.keys(INTERVAL_TO_STRING_MAP) as DateInterval[];
 

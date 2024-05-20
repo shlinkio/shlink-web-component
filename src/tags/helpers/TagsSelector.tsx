@@ -5,8 +5,8 @@ import type { OptionRendererProps, ReactTagsAPI, TagRendererProps, TagSuggestion
 import { ReactTags } from 'react-tag-autocomplete';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
+import { useSetting } from '../../settings';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
-import { useSetting } from '../../utils/settings';
 import { normalizeTag } from './index';
 import { Tag } from './Tag';
 import { TagBullet } from './TagBullet';

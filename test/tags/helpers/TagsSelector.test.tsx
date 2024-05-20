@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
+import type { TagFilteringMode } from '../../../src/settings';
+import { SettingsProvider } from '../../../src/settings';
 import { TagsSelectorFactory } from '../../../src/tags/helpers/TagsSelector';
-import type { TagFilteringMode } from '../../../src/utils/settings';
-import { SettingsProvider } from '../../../src/utils/settings';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';

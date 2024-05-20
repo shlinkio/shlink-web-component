@@ -5,19 +5,19 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 import { BrowserRouter, useInRouterContext } from 'react-router-dom';
 import type { ShlinkApiClient } from './api-contract';
+import type { Settings } from './settings';
+import { SettingsProvider } from './settings';
 import { FeaturesProvider, useFeatures } from './utils/features';
 import type { SemVerOrLatest } from './utils/helpers/version';
 import { RoutesPrefixProvider } from './utils/routesPrefix';
 import type { TagColorsStorage } from './utils/services/TagColorsStorage';
-import type { Settings } from './utils/settings';
-import { SettingsProvider } from './utils/settings';
 
 type ShlinkWebComponentProps = {
   serverVersion: SemVerOrLatest; // FIXME Consider making this optional and trying to resolve it if not set
   apiClient: ShlinkApiClient;
   tagColorsStorage?: TagColorsStorage;
   routesPrefix?: string;
-  settings?: Settings;
+  settings?: Exclude<Settings, 'ui'>;
   createNotFound?: (nonPrefixedHomePath: string) => ReactNode;
 };
 
@@ -61,7 +61,7 @@ export const createShlinkWebComponent = (
 
   return !theStore ? <></> : (
     <ReduxStoreProvider store={theStore}>
-      <SettingsProvider value={settings}>
+      <SettingsProvider value={settings ?? {}}>
         <FeaturesProvider value={features}>
           <RoutesPrefixProvider value={routesPrefix}>
             <RouterOrFragment>

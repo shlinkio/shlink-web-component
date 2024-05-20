@@ -4,7 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [0.6.2] - 2024-04.17
+## [0.7.0] - 2024-05-20
+### Added
+* Add new `@shlinkio/shlink-web-client/settings` entry point, to expose a component rendering the settings form and all settings-related types.
+
+### Changed
+* Update dependencies
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
+## [0.6.2] - 2024-04-17
 ### Added
 * *Nothing*
 

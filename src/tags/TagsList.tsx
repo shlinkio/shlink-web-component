@@ -15,7 +15,7 @@ import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
-import { useSettings } from '../utils/settings';
+import { useSettings } from '../settings';
 import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
 import { useVisitsComparison, VisitsComparisonProvider } from '../visits/visits-comparison/VisitsComparisonContext';
 import type { SimplifiedTag } from './data';

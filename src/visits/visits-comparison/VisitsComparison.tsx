@@ -1,11 +1,11 @@
 import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSetting } from '../../settings';
 import { GoBackButton } from '../../utils/components/GoBackButton';
 import { DateRangeSelector } from '../../utils/dates/DateRangeSelector';
 import type { DateInterval, DateRange } from '../../utils/dates/helpers/dateIntervals';
 import { toDateRange } from '../../utils/dates/helpers/dateIntervals';
-import { useSetting } from '../../utils/settings';
 import { chartColorForIndex } from '../charts/constants';
 import { LineChartCard, type VisitsList } from '../charts/LineChartCard';
 import { useVisitsQuery } from '../helpers/hooks';

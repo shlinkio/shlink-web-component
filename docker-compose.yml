@@ -3,7 +3,7 @@ version: '3'
 services:
     shlink_web_component:
         container_name: shlink_web_component
-        image: node:20.5-alpine
+        image: node:22.2-alpine
         command: /bin/sh -c "cd /shlink-web-component && npm i && npm run dev"
         volumes:
             - ./:/shlink-web-component

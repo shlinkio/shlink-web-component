@@ -13,6 +13,7 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
         'api-contract': resolve(__dirname, 'src/api-contract/index.ts'),
+        'settings': resolve(__dirname, 'src/settings/index.ts'),
       },
       name: 'shlink-web-component'
     },

@@ -3,9 +3,9 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { MercureInfo } from '../../src/mercure/reducers/mercureInfo';
 import { OverviewFactory } from '../../src/overview/Overview';
+import { SettingsProvider } from '../../src/settings';
 import { prettify } from '../../src/utils/helpers/numbers';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
-import { SettingsProvider } from '../../src/utils/settings';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 

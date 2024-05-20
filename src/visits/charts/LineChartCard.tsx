@@ -30,7 +30,7 @@ import { formatInternational } from '../../utils/dates/helpers/date';
 import { rangeOf } from '../../utils/helpers';
 import { useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
-import type { Mandatory, MediaMatcher } from '../../utils/types';
+import type { MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
 import { CHART_TOOLTIP_COMMON_PROPS, PREV_COLOR } from './constants';
 import { LineChartLegend } from './LineChartLegend';
@@ -153,7 +153,7 @@ export const visitsListColor = (v: VisitsList) => {
     return v.color;
   }
 
-  const typeColorMap: Record<Mandatory<VisitsList['type']>, string> = {
+  const typeColorMap: Record<NonNullable<VisitsList['type']>, string> = {
     main: MAIN_COLOR,
     highlighted: HIGHLIGHTED_COLOR,
     previous: PREV_COLOR,

@@ -17,7 +17,7 @@ type ShlinkWebComponentProps = {
   apiClient: ShlinkApiClient;
   tagColorsStorage?: TagColorsStorage;
   routesPrefix?: string;
-  settings?: Settings;
+  settings?: Exclude<Settings, 'ui'>;
   createNotFound?: (nonPrefixedHomePath: string) => ReactNode;
 };
 

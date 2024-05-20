@@ -11,5 +11,3 @@ export type DeepPartial<T> = {
         ? DeepPartial<T[P]>
         : T[P];
 };
-
-export type Mandatory<T> = Exclude<T, undefined | null>;

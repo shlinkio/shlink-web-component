@@ -48,15 +48,33 @@ It is possible to customize some aspects of the UI by providing some optional se
 
 Settings can control default ordering for lists, real-time updates behavior, optional fields for short URL creation, etc.
 
+Everything related with settings is exposed via the `@shlinkio/shlink-web-component/settings` entry point.
+
 ```tsx
 import { ShlinkWebComponent } from '@shlinkio/shlink-web-component';
-import type { Settings } from '@shlinkio/shlink-web-component';
+import type { Settings } from '@shlinkio/shlink-web-component/settings';
 
 export function App() {
   const settings: Settings = {};
 
   return (
     <ShlinkWebComponent settings={settings} {...} />
+  );
+};
+```
+
+This library provides another react component which renders a form designed to configure settings for `<ShlinkWebComponent />`.
+
+
+```tsx
+import type { Settings } from '@shlinkio/shlink-web-component/settings';
+import { ShlinkWebSettings } from '@shlinkio/shlink-web-component/settings';
+
+export function App() {
+  const [settings, setSettings] = useState<Settings>({});
+
+  return (
+    <ShlinkWebSettings settings={settings} updateSettings={setSettings} {...} />
   );
 };
 ```

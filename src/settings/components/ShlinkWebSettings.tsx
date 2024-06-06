@@ -1,6 +1,7 @@
 import { mergeDeepRight } from '@shlinkio/data-manipulation';
 import { NavPillItem, NavPills } from '@shlinkio/shlink-frontend-kit';
-import type { FC, ReactNode } from 'react';
+import type { FC, PropsWithChildren } from 'react';
+import { Children } from 'react';
 import { useCallback } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import type { DeepPartial } from '../../utils/types';
@@ -19,10 +20,9 @@ export type ShlinkWebSettingsProps = {
   updateSettings: (settings: Settings) => void;
 };
 
-const SettingsSections: FC<{ items: ReactNode[] }> = ({ items }) => (
-  <>
-    {items.map((child, index) => <div key={index} className="mb-3">{child}</div>)}
-  </>
+const SettingsSections: FC<PropsWithChildren> = ({ children }) => Children.map(
+  children,
+  (child, index) => <div key={index} className="mb-3">{child}</div>,
 );
 
 export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = (
@@ -57,40 +57,34 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = (
         <Route
           path="general"
           element={(
-            <SettingsSections
-              items={[
-                <UserInterfaceSettings updateUiSettings={(v) => updateSettingsProp('ui', v)} />,
-                <RealTimeUpdates
-                  toggleRealTimeUpdates={toggleRealTimeUpdates}
-                  setRealTimeUpdatesInterval={setRealTimeUpdatesInterval}
-                />,
-              ]}
-            />
+            <SettingsSections>
+              <UserInterfaceSettings updateUiSettings={(v) => updateSettingsProp('ui', v)} />
+              <RealTimeUpdates
+                toggleRealTimeUpdates={toggleRealTimeUpdates}
+                setRealTimeUpdatesInterval={setRealTimeUpdatesInterval}
+              />
+            </SettingsSections>
           )}
         />
         <Route
           path="short-urls"
           element={(
-            <SettingsSections
-              items={[
-                <ShortUrlCreation updateShortUrlCreationSettings={(v) => updateSettingsProp('shortUrlCreation', v)} />,
-                <ShortUrlsList
-                  defaultOrdering={defaultShortUrlsListOrdering}
-                  updateShortUrlsListSettings={(v) => updateSettingsProp('shortUrlsList', v)}
-                />,
-              ]}
-            />
+            <SettingsSections>
+              <ShortUrlCreation updateShortUrlCreationSettings={(v) => updateSettingsProp('shortUrlCreation', v)} />
+              <ShortUrlsList
+                defaultOrdering={defaultShortUrlsListOrdering}
+                updateShortUrlsListSettings={(v) => updateSettingsProp('shortUrlsList', v)}
+              />
+            </SettingsSections>
           )}
         />
         <Route
           path="other-items"
           element={(
-            <SettingsSections
-              items={[
-                <Tags updateTagsSettings={(v) => updateSettingsProp('tags', v)} />,
-                <Visits updateVisitsSettings={(v) => updateSettingsProp('visits', v)} />,
-              ]}
-            />
+            <SettingsSections>
+              <Tags updateTagsSettings={(v) => updateSettingsProp('tags', v)} />
+              <Visits updateVisitsSettings={(v) => updateSettingsProp('visits', v)} />
+            </SettingsSections>
           )}
         />
         <Route path="*" element={<Navigate replace to="general" />} />

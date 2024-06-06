@@ -251,7 +251,7 @@ describe('orphanVisitsReducer', () => {
         (visit) => (orphanVisitsType ? { ...visit, type: orphanVisitsType } : visit),
       );
       const prevVisits = expectsPrevVisits ? expectedVisits.map(
-        ({ date, ...rest }, index) => ({ ...rest, date: dateForVisit(index + 1 + expectedVisits.length) }),
+        (visit, index) => ({ ...visit, date: dateForVisit(index + 1 + expectedVisits.length) }),
       ) : undefined;
 
       getOrphanVisitsCall.mockResolvedValue({

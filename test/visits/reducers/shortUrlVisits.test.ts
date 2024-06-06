@@ -303,7 +303,7 @@ describe('shortUrlVisitsReducer', () => {
         options: { loadPrevInterval },
       };
       const prevVisits = expectsPrevVisits ? visitsMocks.map(
-        ({ date, ...rest }, index) => ({ ...rest, date: dateForVisit(index + 1 + visitsMocks.length) }),
+        (visit, index) => ({ ...visit, date: dateForVisit(index + 1 + visitsMocks.length) }),
       ) : undefined;
 
       getShortUrlVisitsCall.mockResolvedValue({

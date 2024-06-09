@@ -20,9 +20,9 @@ export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion
           <dd className="m-0">This will delete <b>all</b> visits, not only the ones matching current filter.</dd>
         </dl>
         {!doubleConfirmed && (
-        <Button color="danger" className="indivisible" onClick={setDoubleConfirmed}>
-          Delete visits
-        </Button>
+          <Button color="danger" className="indivisible" onClick={setDoubleConfirmed}>
+            Delete visits
+          </Button>
         )}
         {doubleConfirmed && (
           <Button

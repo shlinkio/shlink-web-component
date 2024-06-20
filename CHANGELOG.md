@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * Document how `<ShlinkWebSettings />` is used.
 
 ### Changed
-* *Nothing*
+* Update to `@shlinkio/eslint-config-js-coding-standard` 3.0, and migrate to ESLint flat config.
 
 ### Deprecated
 * *Nothing*

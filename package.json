@@ -35,7 +35,7 @@
     "test:ci": "npm run test -- --coverage",
     "lint": "npm run lint:css && npm run lint:js",
     "lint:css": "stylelint src/*.scss src/**/*.scss dev/*.scss dev/**/*.scss",
-    "lint:js": "eslint --ext .ts,.tsx dev src test",
+    "lint:js": "eslint dev src test",
     "lint:fix": "npm run lint:css:fix && npm run lint:js:fix",
     "lint:css:fix": "npm run lint:css -- --fix",
     "lint:js:fix": "npm run lint:js -- --fix",
@@ -81,9 +81,9 @@
     "recharts": "^2.12.7"
   },
   "devDependencies": {
-    "@shlinkio/eslint-config-js-coding-standard": "~2.5.1",
+    "@shlinkio/eslint-config-js-coding-standard": "~3.0.0",
     "@shlinkio/stylelint-config-css-coding-standard": "~1.1.1",
-    "@stylistic/eslint-plugin": "^2.1.0",
+    "@stylistic/eslint-plugin": "^2.2.2",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
@@ -92,8 +92,6 @@
     "@types/leaflet": "^1.9.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^7.13.0",
-    "@typescript-eslint/parser": "^7.13.0",
     "@vitejs/plugin-react": "^4.3.1",
     "@vitest/coverage-v8": "^1.6.0",
     "axe-core": "^4.9.1",
@@ -109,6 +107,7 @@
     "sass": "^1.77.5",
     "stylelint": "^15.11.0",
     "typescript": "^5.4.5",
+    "typescript-eslint": "^7.13.1",
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1",
     "vitest": "^1.6.0"

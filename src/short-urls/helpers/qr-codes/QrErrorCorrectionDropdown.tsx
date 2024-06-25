@@ -4,7 +4,7 @@ import { DropdownItem } from 'reactstrap';
 import type { QrErrorCorrection } from '../../../utils/helpers/qrCodes';
 
 interface QrErrorCorrectionDropdownProps {
-  errorCorrection: QrErrorCorrection;
+  errorCorrection: QrErrorCorrection|undefined;
   setErrorCorrection: (errorCorrection: QrErrorCorrection) => void;
 }
 

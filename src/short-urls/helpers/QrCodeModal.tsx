@@ -22,10 +22,10 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
   { shortUrl: { shortUrl, shortCode }, toggle, isOpen },
 ) => {
   const { ImageDownloader: imageDownloader } = useDependencies(QrCodeModal);
-  const [size, setSize] = useState(300);
-  const [margin, setMargin] = useState(0);
-  const [format, setFormat] = useState<QrCodeFormat>('png');
-  const [errorCorrection, setErrorCorrection] = useState<QrErrorCorrection>('L');
+  const [size, setSize] = useState<number|undefined>();
+  const [margin, setMargin] = useState<number|undefined>();
+  const [format, setFormat] = useState<QrCodeFormat|undefined>();
+  const [errorCorrection, setErrorCorrection] = useState<QrErrorCorrection|undefined>();
   const qrCodeUrl = useMemo(
     () => buildQrCodeUrl(shortUrl, { size, format, margin, errorCorrection }),
     [shortUrl, size, format, margin, errorCorrection],

@@ -5,17 +5,17 @@ export type QrCodeFormat = 'svg' | 'png';
 export type QrErrorCorrection = 'L' | 'M' | 'Q' | 'H';
 
 export interface QrCodeOptions {
-  size: number;
-  format: QrCodeFormat;
-  margin: number;
-  errorCorrection: QrErrorCorrection;
+  size: number|undefined;
+  format: QrCodeFormat|undefined;
+  margin: number|undefined;
+  errorCorrection: QrErrorCorrection|undefined;
 }
 
 export const buildQrCodeUrl = (shortUrl: string, { margin, ...options }: QrCodeOptions): string => {
   const baseUrl = `${shortUrl}/qr-code`;
   const query = stringifyQuery({
     ...options,
-    margin: margin > 0 ? margin : undefined,
+    margin: (margin != undefined && margin > 0) ? margin : undefined,
   });
 
   return `${baseUrl}${!query ? '' : `?${query}`}`;

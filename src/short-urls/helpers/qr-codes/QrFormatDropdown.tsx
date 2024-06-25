@@ -4,7 +4,7 @@ import { DropdownItem } from 'reactstrap';
 import type { QrCodeFormat } from '../../../utils/helpers/qrCodes';
 
 interface QrFormatDropdownProps {
-  format: QrCodeFormat;
+  format: QrCodeFormat|undefined;
   setFormat: (format: QrCodeFormat) => void;
 }
 

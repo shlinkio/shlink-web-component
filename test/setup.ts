@@ -1,8 +1,7 @@
 import '@testing-library/jest-dom/vitest';
-import { cleanup } from '@testing-library/react';
 import axe from 'axe-core';
 import ResizeObserver from 'resize-observer-polyfill';
-import { afterEach } from 'vitest';
+import { beforeEach } from 'vitest';
 
 axe.configure({
   checks: [
@@ -14,10 +13,9 @@ axe.configure({
   ],
 });
 
-// Clears all mocks and cleanup DOM after every test
-afterEach(() => {
+// Clears all mocks before every test
+beforeEach(() => {
   vi.clearAllMocks();
-  cleanup();
 });
 
 HTMLCanvasElement.prototype.getContext = (() => {}) as any;

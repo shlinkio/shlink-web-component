@@ -15,13 +15,13 @@ export default defineConfig({
         'api-contract': resolve(__dirname, 'src/api-contract/index.ts'),
         'settings': resolve(__dirname, 'src/settings/index.ts'),
       },
-      name: 'shlink-web-component'
+      name: 'shlink-web-component',
     },
     rollupOptions: {
       // Make sure dependencies and peer dependencies are not bundled with the library
       external: [...Object.keys(pack.dependencies), ...Object.keys(pack.peerDependencies), 'react/jsx-runtime'],
       output: {
-        assetFileNames: "index.[ext]",
+        assetFileNames: 'index.[ext]',
       },
     },
   },
@@ -55,7 +55,7 @@ export default defineConfig({
         branches: 90,
         functions: 85,
         lines: 95,
-      }
+      },
     },
   },
 });

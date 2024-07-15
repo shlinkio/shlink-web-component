@@ -1,4 +1,3 @@
-import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
@@ -22,7 +21,7 @@ interface SetUpOptions {
 
 describe('<ShortUrlsRow />', () => {
   const timeoutToggle = vi.fn(() => true);
-  const useTimeoutToggle: TimeoutToggle = vi.fn(() => [false, timeoutToggle]);
+  const useTimeoutToggle = vi.fn(() => [false, timeoutToggle]);
   const shortUrl: ShlinkShortUrl = {
     shortCode: 'abc123',
     shortUrl: 'https://s.test/abc123',

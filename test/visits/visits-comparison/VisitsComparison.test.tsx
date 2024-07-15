@@ -69,7 +69,7 @@ describe('<VisitsComparison />', () => {
 
   it('loads visits every time filters change', async () => {
     const { user } = setUp();
-    const getLastCallParams = (): LoadVisitsForComparison => getVisitsForComparison.mock.lastCall[0];
+    const getLastCallParams = (): LoadVisitsForComparison => getVisitsForComparison.mock.lastCall?.[0];
 
     // First call when the component is mounted
     expect(getVisitsForComparison).toHaveBeenCalledOnce();

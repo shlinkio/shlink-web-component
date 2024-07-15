@@ -53,7 +53,7 @@ describe('<ShortUrlRedirectRules />', () => {
     expect(getShortUrlsDetails).toHaveBeenCalledOnce();
   });
 
-  it('resets rules state when unmounted', () => {
+  it.only('resets rules state when unmounted', async () => {
     setUp();
 
     expect(resetSetRules).not.toHaveBeenCalled();

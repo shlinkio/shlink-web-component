@@ -10,7 +10,7 @@ describe('<ShlinkWebSettings />', () => {
     history.push(activeRoute);
     return render(
       <Router location={history.location} navigator={history}>
-        <ShlinkWebSettings settings={{}} defaultShortUrlsListOrdering={{}} updateSettings={vi.fn} />
+        <ShlinkWebSettings settings={{}} defaultShortUrlsListOrdering={{}} updateSettings={vi.fn()} />
       </Router>,
     );
   };

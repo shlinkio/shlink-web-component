@@ -1,5 +1,5 @@
 import { mergeDeepRight } from '@shlinkio/data-manipulation';
-import { stringifyQuery, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
+import { stringifyQueryParams, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ShlinkOrphanVisitType } from '../../api-contract';
@@ -68,7 +68,7 @@ export const useVisitsQuery = (): [VisitsQuery, UpdateQuery] => {
       orphanVisitsType: newOrphanVisitsType,
       loadPrevInterval: newLoadPrevInterval === undefined ? undefined : parseBooleanToString(newLoadPrevInterval),
     };
-    const stringifiedQuery = stringifyQuery(newQuery);
+    const stringifiedQuery = stringifyQueryParams(newQuery);
     const queryString = !stringifiedQuery ? '' : `?${stringifiedQuery}`;
 
     navigate(queryString, { replace: true, relative: 'route' });

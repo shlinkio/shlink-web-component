@@ -1,4 +1,4 @@
-import { stringifyQuery } from '@shlinkio/shlink-frontend-kit';
+import { stringifyQueryParams } from '@shlinkio/shlink-frontend-kit';
 
 export type QrCodeFormat = 'svg' | 'png';
 
@@ -13,7 +13,7 @@ export interface QrCodeOptions {
 
 export const buildQrCodeUrl = (shortUrl: string, { margin, ...options }: QrCodeOptions): string => {
   const baseUrl = `${shortUrl}/qr-code`;
-  const query = stringifyQuery({
+  const query = stringifyQueryParams({
     ...options,
     margin: margin > 0 ? margin : undefined,
   });

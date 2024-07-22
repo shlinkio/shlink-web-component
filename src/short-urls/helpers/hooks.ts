@@ -1,4 +1,4 @@
-import { orderToString, stringifyQuery, stringToOrder, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
+import { orderToString, stringifyQueryParams, stringToOrder, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { TagsFilteringMode } from '../../api-contract';
@@ -65,7 +65,7 @@ export const useShortUrlsQuery = (): [ShortUrlsQuery, ToFirstPage] => {
       excludeMaxVisitsReached: parseOptionalBooleanToString(excludeMaxVisitsReached),
       excludePastValidUntil: parseOptionalBooleanToString(excludePastValidUntil),
     };
-    const stringifiedQuery = stringifyQuery(newQuery);
+    const stringifiedQuery = stringifyQueryParams(newQuery);
     const queryString = !stringifiedQuery ? '' : `?${stringifiedQuery}`;
 
     navigate(`${routesPrefix}/list-short-urls/1${queryString}`);

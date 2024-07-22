@@ -1,4 +1,8 @@
-import { parseQuery, stringifyQuery, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
+import {
+  parseQueryString,
+  stringifyQueryParams,
+  useParsedQuery,
+} from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSwipeable as useReactSwipeable } from 'react-swipeable';
@@ -28,10 +32,10 @@ export const useQueryState = <T>(paramName: string, initialState: T): [T, (newVa
   const [value, setValue] = useState(initialState);
   const setValueWithLocation = useCallback((valueToSet: T) => {
     const { location, history } = window;
-    const query = parseQuery<any>(location.search);
+    const query = parseQueryString<any>(location.search);
 
     query[paramName] = valueToSet;
-    history.pushState(null, '', `${location.pathname}?${stringifyQuery(query)}`);
+    history.pushState(null, '', `${location.pathname}?${stringifyQueryParams(query)}`);
     setValue(valueToSet);
   }, [paramName]);
 

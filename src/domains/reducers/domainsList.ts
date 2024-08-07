@@ -59,7 +59,7 @@ export const domainsListReducerCreator = (
       try {
         const { status } = await apiClientFactory().health(domain);
         return { domain, status: status === 'pass' ? 'valid' : 'invalid' };
-      } catch (e) {
+      } catch {
         return { domain, status: 'invalid' };
       }
     },

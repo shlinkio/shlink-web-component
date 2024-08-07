@@ -9,7 +9,7 @@ import type { EditDomainRedirects } from './reducers/domainRedirects';
 import type { DomainsList } from './reducers/domainsList';
 
 interface ManageDomainsProps {
-  listDomains: Function;
+  listDomains: () => void;
   filterDomains: (searchTerm: string) => void;
   editDomainRedirects: (redirects: EditDomainRedirects) => Promise<void>;
   checkDomainHealth: (domain: string) => void;

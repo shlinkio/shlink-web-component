@@ -80,10 +80,12 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
 
   const onSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
-    rules && setShortUrlRedirectRules({
-      shortUrl: identifier,
-      data: { redirectRules: rules },
-    });
+    if (rules) {
+      setShortUrlRedirectRules({
+        shortUrl: identifier,
+        data: { redirectRules: rules },
+      });
+    }
   }, [identifier, rules, setShortUrlRedirectRules]);
 
   useEffect(() => {

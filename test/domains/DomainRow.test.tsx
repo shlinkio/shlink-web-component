@@ -40,9 +40,15 @@ describe('<DomainRow />', () => {
     setUp(fromPartial({ domain: '', isDefault: true, redirects }));
     const cells = screen.getAllByRole('cell');
 
-    redirects?.baseUrlRedirect && expect(cells[1]).toHaveTextContent(redirects.baseUrlRedirect);
-    redirects?.regular404Redirect && expect(cells[2]).toHaveTextContent(redirects.regular404Redirect);
-    redirects?.invalidShortUrlRedirect && expect(cells[3]).toHaveTextContent(redirects.invalidShortUrlRedirect);
+    if (redirects?.baseUrlRedirect) {
+      expect(cells[1]).toHaveTextContent(redirects.baseUrlRedirect);
+    }
+    if (redirects?.regular404Redirect) {
+      expect(cells[2]).toHaveTextContent(redirects.regular404Redirect);
+    }
+    if (redirects?.invalidShortUrlRedirect) {
+      expect(cells[3]).toHaveTextContent(redirects.invalidShortUrlRedirect);
+    }
     expect(screen.queryByText('(as fallback)')).not.toBeInTheDocument();
   });
 
@@ -63,15 +69,21 @@ describe('<DomainRow />', () => {
     setUp(fromPartial({ domain: '', isDefault: true }), fallbackRedirects);
     const cells = screen.getAllByRole('cell');
 
-    fallbackRedirects?.baseUrlRedirect && expect(cells[1]).toHaveTextContent(
-      `${fallbackRedirects.baseUrlRedirect} (as fallback)`,
-    );
-    fallbackRedirects?.regular404Redirect && expect(cells[2]).toHaveTextContent(
-      `${fallbackRedirects.regular404Redirect} (as fallback)`,
-    );
-    fallbackRedirects?.invalidShortUrlRedirect && expect(cells[3]).toHaveTextContent(
-      `${fallbackRedirects.invalidShortUrlRedirect} (as fallback)`,
-    );
+    if (fallbackRedirects?.baseUrlRedirect) {
+      expect(cells[1]).toHaveTextContent(
+        `${fallbackRedirects.baseUrlRedirect} (as fallback)`,
+      );
+    }
+    if (fallbackRedirects?.regular404Redirect) {
+      expect(cells[2]).toHaveTextContent(
+        `${fallbackRedirects.regular404Redirect} (as fallback)`,
+      );
+    }
+    if (fallbackRedirects?.invalidShortUrlRedirect) {
+      expect(cells[3]).toHaveTextContent(
+        `${fallbackRedirects.invalidShortUrlRedirect} (as fallback)`,
+      );
+    }
   });
 
   it.each([[true], [false]])('shows icon on default domain only', (isDefault) => {

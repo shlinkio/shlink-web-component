@@ -11,7 +11,9 @@ import { provideServices as provideUtilsServices } from '../utils/services/provi
 import { provideServices as provideVisitsServices } from '../visits/services/provideServices';
 import { provideServices as provideWebComponentServices } from './provideServices';
 
-type LazyActionMap = Record<string, Function>;
+type AnyFunction = (...any: unknown[]) => unknown;
+
+type LazyActionMap = Record<string, AnyFunction>;
 
 // FIXME Change this API to be (options: { props: string[] | null; actions?: string[] }) => any;
 export type ConnectDecorator = (props: string[] | null, actions?: string[]) => any;
@@ -24,7 +26,7 @@ const pickProps = (propsToPick: string[]) => (obj: any) => Object.fromEntries(
   propsToPick.map((key) => [key, obj[key]]),
 );
 
-const lazyService = <T extends Function, K>(cont: IContainer, serviceName: string) =>
+const lazyService = <T extends AnyFunction, K>(cont: IContainer, serviceName: string) =>
   (...args: any[]) => (cont[serviceName] as T)(...args) as K;
 const mapActionService = (map: LazyActionMap, actionName: string): LazyActionMap => ({
   ...map,

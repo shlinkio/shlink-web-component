@@ -49,7 +49,9 @@ export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = bound
   }, [shortUrlVisitsComparison, shortUrlsDetails.loading, loadedShortUrls]);
 
   useEffect(() => {
-    identifiers.length > 0 && getShortUrlsDetails(identifiers);
+    if (identifiers.length > 0) {
+      getShortUrlsDetails(identifiers);
+    }
   }, [getShortUrlsDetails, identifiers]);
 
   return (

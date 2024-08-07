@@ -114,7 +114,9 @@ describe('<VisitsTable />', () => {
     const searchField = screen.getByPlaceholderText('Search...');
     const searchText = async (text: string) => {
       await user.clear(searchField);
-      text.length > 0 && await user.type(searchField, text);
+      if (text.length > 0) {
+        await user.type(searchField, text);
+      }
     };
 
     expect(screen.getAllByRole('row')).toHaveLength(9 + 2);

@@ -11,7 +11,7 @@ export interface MercureBoundProps {
   mercureInfo: MercureInfo;
 }
 
-export function boundToMercureHub<T = {}>(
+export function boundToMercureHub<T extends object>(
   WrappedComponent: FC<MercureBoundProps & T>,
   getTopicsForParams: (routeParams: any) => string[],
 ) {

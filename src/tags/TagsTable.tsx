@@ -32,7 +32,9 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
   const currentPage = pages[page - 1] ?? [];
 
   useEffect(() => {
-    !isFirstLoad.current && setPage(1);
+    if (!isFirstLoad.current) {
+      setPage(1);
+    }
     isFirstLoad.current = false;
   }, [setPage, sortedTags]);
 

@@ -24,7 +24,9 @@ describe('<CopyToClipboardIcon />', () => {
     const { user, container } = setUp(text);
 
     expect(copyToClipboard).not.toHaveBeenCalled();
-    container.firstElementChild && await user.click(container.firstElementChild);
+    if (container.firstElementChild) {
+      await user.click(container.firstElementChild);
+    }
     expect(copyToClipboard).toHaveBeenCalledWith({ text, onCopy });
   });
 });

@@ -175,7 +175,9 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, 
     e.preventDefault();
     e.stopPropagation(); // When editing, this form is inside other form. Let's prevent the parent to be submit
 
-    redirectRule && onSave(redirectRule);
+    if (redirectRule) {
+      onSave(redirectRule);
+    }
     toggle();
   }, [onSave, redirectRule, toggle]);
 

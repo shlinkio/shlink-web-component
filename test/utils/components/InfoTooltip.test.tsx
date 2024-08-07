@@ -34,7 +34,9 @@ describe('<InfoTooltip />', () => {
   ])('passes children down to the nested tooltip component', async (children, expectedContent) => {
     const { container, user } = setUp({ children });
 
-    container.firstElementChild && await user.hover(container.firstElementChild);
+    if (container.firstElementChild) {
+      await user.hover(container.firstElementChild);
+    }
     await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
     expect(screen.getByRole('tooltip')).toHaveTextContent(expectedContent);
   });
@@ -47,7 +49,9 @@ describe('<InfoTooltip />', () => {
   ])('places tooltip where requested', async (placement) => {
     const { container, user } = setUp({ placement });
 
-    container.firstElementChild && await user.hover(container.firstElementChild);
+    if (container.firstElementChild) {
+      await user.hover(container.firstElementChild);
+    }
     await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
     expect(screen.getByRole('tooltip').parentNode).toHaveAttribute('data-popper-placement', placement);
   });

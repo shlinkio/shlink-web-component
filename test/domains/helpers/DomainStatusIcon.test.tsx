@@ -32,7 +32,9 @@ describe('<DomainStatusIcon />', () => {
   ])('renders proper tooltip based on state', async (status) => {
     const { container, user } = setUp(status);
 
-    container.firstElementChild && await user.hover(container.firstElementChild);
+    if (container.firstElementChild) {
+      await user.hover(container.firstElementChild);
+    }
     expect(await screen.findByRole('tooltip')).toMatchSnapshot();
   });
 });

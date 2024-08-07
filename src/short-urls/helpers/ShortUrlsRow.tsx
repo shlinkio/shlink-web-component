@@ -38,7 +38,10 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
   const doExcludeBots = excludeBots ?? visits?.excludeBots;
 
   useEffect(() => {
-    !isFirstRun.current && setActive();
+    if (!isFirstRun.current) {
+      setActive();
+    }
+
     isFirstRun.current = false;
   }, [shortUrl.visitsSummary?.total, shortUrl.visitsSummary?.nonBots, shortUrl.visitsCount, setActive]);
 

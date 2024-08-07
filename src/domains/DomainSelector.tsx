@@ -13,7 +13,7 @@ export interface DomainSelectorProps extends Omit<InputProps, 'onChange'> {
 }
 
 interface DomainSelectorConnectProps extends DomainSelectorProps {
-  listDomains: Function;
+  listDomains: () => void;
   domainsList: DomainsList;
 }
 

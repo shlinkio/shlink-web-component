@@ -47,7 +47,7 @@ export const isBetween = (date: DateOrString, start?: NullableDate, end?: Nullab
   if (parsedStart && parsedEnd) {
     try {
       return isWithinInterval(parsedDate, { start: parsedStart, end: parsedEnd });
-    } catch (e) {
+    } catch {
       return false;
     }
   }

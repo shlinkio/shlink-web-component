@@ -43,7 +43,9 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
   );
 
   useEffect(() => {
-    identifier && getShortUrlsDetails([identifier]);
+    if (identifier) {
+      getShortUrlsDetails([identifier]);
+    }
   }, [getShortUrlsDetails, identifier]);
 
   if (loading) {
@@ -74,7 +76,9 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
         initialState={initialState}
         saving={saving}
         onSave={async (shortUrlData) => {
-          shortUrl && editShortUrl({ ...shortUrl, data: shortUrlData });
+          if (shortUrl) {
+            editShortUrl({ ...shortUrl, data: shortUrlData });
+          }
         }}
       />
       {saved && savingError && (

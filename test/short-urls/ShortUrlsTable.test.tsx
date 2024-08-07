@@ -50,7 +50,9 @@ describe('<ShortUrlsTable />', () => {
       const element = getThElementForSortableField(sortableField);
 
       expect(element).toBeDefined();
-      element && fireEvent.click(element);
+      if (element) {
+        fireEvent.click(element);
+      }
       expect(orderByColumn).toHaveBeenCalled();
     });
   });

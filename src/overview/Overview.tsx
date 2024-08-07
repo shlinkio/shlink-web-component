@@ -25,7 +25,7 @@ type OverviewProps = MercureBoundProps & {
   listShortUrls: (params: ShlinkShortUrlsListParams) => void;
   tagsList: TagsList;
   visitsOverview: VisitsOverview;
-  loadVisitsOverview: Function;
+  loadVisitsOverview: () => void;
 };
 
 type OverviewDeps = {

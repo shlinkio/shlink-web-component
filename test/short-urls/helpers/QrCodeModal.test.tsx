@@ -58,12 +58,18 @@ describe('<QrCodeModal />', () => {
     const sizeInput = formControls?.[0];
     const marginInput = formControls?.[1];
 
-    sizeInput && fireEvent.change(sizeInput, { target: { value: `${size}` } });
-    marginInput && fireEvent.change(marginInput, { target: { value: `${margin}` } });
+    if (sizeInput) {
+      fireEvent.change(sizeInput, { target: { value: `${size}` } });
+    }
+    if (marginInput) {
+      fireEvent.change(marginInput, { target: { value: `${margin}` } });
+    }
 
     expect(screen.getByText(`Size: ${size}px`)).toBeInTheDocument();
     expect(screen.getByText(`Margin: ${margin}px`)).toBeInTheDocument();
-    modalSize && expect(screen.getByRole('document')).toHaveClass(`modal-${modalSize}`);
+    if (modalSize) {
+      expect(screen.getByRole('document')).toHaveClass(`modal-${modalSize}`);
+    }
   });
 
   it('shows expected components based on server version', () => {

@@ -1,4 +1,4 @@
-import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import type {
@@ -7,8 +7,10 @@ import type {
   ShlinkRedirectRuleData,
 } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC, FormEvent } from 'react';
+import { useMemo } from 'react';
 import { useCallback, useId, useState } from 'react';
 import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
+import { useFeature } from '../../utils/features';
 import './RedirectRuleModal.scss';
 
 const deviceNames = {
@@ -41,24 +43,38 @@ const DeviceTypeControls: FC<{ deviceType?: string; onDeviceTypeChange: (deviceT
   );
 };
 
-const LanguageControls: FC<{ language?: string; onLanguageChange: (lang: string) => void; }> = ({
-  language,
-  onLanguageChange,
+const PlainValueControls: FC<{
+  value?: string;
+  onValueChange: (newValue: string) => void;
+  label: string;
+  placeholder: string;
+}> = ({
+  value,
+  onValueChange,
+  label,
+  placeholder,
 }) => {
-  const languageId = useId();
+  const inputId = useId();
   return (
     <div>
-      <label htmlFor={languageId}>Language:</label>
+      <label htmlFor={inputId}>{label}:</label>
       <Input
-        id={languageId}
-        value={language ?? ''}
-        onChange={(e) => onLanguageChange(e.target.value)}
-        placeholder="en-US / en"
+        id={inputId}
+        value={value ?? ''}
+        onChange={(e) => onValueChange(e.target.value)}
+        placeholder={placeholder}
         required
       />
     </div>
   );
 };
+
+const LanguageControls: FC<{ language?: string; onLanguageChange: (lang: string) => void; }> = ({
+  language,
+  onLanguageChange,
+}) => (
+  <PlainValueControls value={language} onValueChange={onLanguageChange} label="Language" placeholder="en-US / en" />
+);
 
 const QueryParamControls: FC<{
   name?: string;
@@ -100,11 +116,11 @@ const QueryParamControls: FC<{
   );
 };
 
-const conditionNames: Record<ShlinkRedirectConditionType, string> = {
-  device: 'Device type',
-  language: 'Language',
-  'query-param': 'Query param',
-};
+const IpAddressControls: FC<{ ipAddress?: string; onIpAddressChange: (lang: string) => void; }> = (
+  { ipAddress, onIpAddressChange },
+) => (
+  <PlainValueControls value={ipAddress} onValueChange={onIpAddressChange} label="IP address" placeholder="192.168.1.10" />
+);
 
 const Condition: FC<{
   condition: ShlinkRedirectCondition;
@@ -125,24 +141,47 @@ const Condition: FC<{
     (newKey: string) => onConditionChange({ ...condition, matchKey: newKey }),
     [condition, onConditionChange],
   );
+  const supportsIpRedirectCondition = useFeature('ipRedirectCondition');
+  const conditionNames = useMemo((): Partial<Record<ShlinkRedirectConditionType, string>> => {
+    const commonConditionNames: Partial<Record<ShlinkRedirectConditionType, string>> = {
+      device: 'Device type',
+      language: 'Language',
+      'query-param': 'Query param',
+    };
+    if (!supportsIpRedirectCondition) {
+      return commonConditionNames;
+    }
+
+    return {
+      ...commonConditionNames,
+      'ip-address': 'IP address',
+    };
+  }, [supportsIpRedirectCondition]);
 
   return (
-    <div className="redirect-rule-modal__condition rounded p-3 h-100 d-flex flex-column gap-2">
+    <div className="redirect-rule-modal__condition rounded p-3 h-100 d-flex flex-column gap-2 position-relative">
       <div>
+        <Button
+          outline
+          size="sm"
+          type="button"
+          aria-label="Remove condition"
+          onClick={onDelete}
+          className="position-absolute rounded-circle redirect-rule-modal__remove-condition-button"
+        >
+          <FontAwesomeIcon icon={faXmark} className="redirect-rule-modal__remove-condition-button-icon" />
+        </Button>
         <label htmlFor={conditionId}>Type:</label>
-        <div className="d-flex gap-2">
-          <select
-            id={conditionId}
-            className="form-select flex-grow-1"
-            value={condition.type}
-            onChange={(e) => switchToType(e.target.value as ShlinkRedirectConditionType)}
-          >
-            {Object.entries(conditionNames).map(([key, value]) => <option key={key} value={key}>{value}</option>)}
-          </select>
-          <Button outline color="danger" type="button" aria-label="Delete condition" onClick={onDelete}>
-            <FontAwesomeIcon icon={faTrashCan} />
-          </Button>
-        </div>
+        <select
+          id={conditionId}
+          className="form-select flex-grow-1"
+          value={condition.type}
+          onChange={(e) => switchToType(e.target.value as ShlinkRedirectConditionType)}
+        >
+          {Object.entries(conditionNames).map(([condition, name]) => (
+            <option key={condition} value={condition}>{name}</option>
+          ))}
+        </select>
       </div>
       {condition.type === 'device' && (
         <DeviceTypeControls deviceType={condition.matchValue} onDeviceTypeChange={setConditionValue} />
@@ -157,6 +196,9 @@ const Condition: FC<{
           onNameChange={setConditionKey}
           onValueChange={setConditionValue}
         />
+      )}
+      {condition.type === 'ip-address' && (
+        <IpAddressControls ipAddress={condition.matchValue} onIpAddressChange={setConditionValue} />
       )}
     </div>
   );
@@ -232,9 +274,9 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, 
           </div>
           {redirectRule.conditions.length === 0 && <div className="text-center"><i>Add conditions...</i></div>}
           {redirectRule.conditions.length > 0 && (
-            <Row>
+            <Row className="redirect-rule-modal__conditions-row">
               {redirectRule.conditions.map((condition, index) => (
-                <div key={`${index}_${condition.type}`} className="col-lg-6 col-xl-4 mt-3">
+                <div key={`${index}_${condition.type}`} className="col-lg-6 col-xl-4 mt-4">
                   <Condition
                     condition={condition}
                     onConditionChange={(c) => updateCondition(index, c)}

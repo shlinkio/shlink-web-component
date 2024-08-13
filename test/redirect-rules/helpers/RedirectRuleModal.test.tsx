@@ -90,7 +90,7 @@ describe('<RedirectRuleModal />', () => {
     await user.type(screen.getByLabelText('Param value:'), 'the_value');
 
     // Remove the existing language condition
-    await user.click(screen.getAllByLabelText('Delete condition')[1]);
+    await user.click(screen.getAllByLabelText('Remove condition')[1]);
 
     // Add a new condition of type language
     await user.click(screen.getByLabelText('Add condition'));

@@ -10,6 +10,7 @@ const supportedFeatures = {
   orphanVisitsDeletion: { minVersion: '3.7.0' },
   shortUrlRedirectRules: { minVersion: '4.0.0' },
   urlValidation: { maxVersion: '3.*.*' },
+  ipRedirectCondition: { minVersion: '4.2.*' },
 } as const satisfies Record<string, Versions>;
 
 Object.freeze(supportedFeatures);
@@ -27,6 +28,7 @@ const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, b
   orphanVisitsDeletion: isFeatureEnabledForVersion('orphanVisitsDeletion', serverVersion),
   shortUrlRedirectRules: isFeatureEnabledForVersion('shortUrlRedirectRules', serverVersion),
   urlValidation: isFeatureEnabledForVersion('urlValidation', serverVersion),
+  ipRedirectCondition: isFeatureEnabledForVersion('ipRedirectCondition', serverVersion),
 });
 
 const FeaturesContext = createContext(getFeaturesForVersion('0.0.0'));

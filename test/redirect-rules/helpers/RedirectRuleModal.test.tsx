@@ -1,19 +1,38 @@
-import type { ShlinkRedirectCondition, ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
+import type {
+  ShlinkRedirectCondition,
+  ShlinkRedirectConditionType,
+  ShlinkRedirectRuleData,
+} from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen, waitFor } from '@testing-library/react';
+import type { UserEvent } from '@testing-library/user-event';
+import { fromPartial } from '@total-typescript/shoehorn';
 import { RedirectRuleModal } from '../../../src/redirect-rules/helpers/RedirectRuleModal';
+import { FeaturesProvider } from '../../../src/utils/features';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 import { TestModalWrapper } from '../../__helpers__/TestModalWrapper';
 
+type SetUpOptions = {
+  initialData?: ShlinkRedirectRuleData;
+  ipRedirectCondition?: boolean;
+};
+
 describe('<RedirectRuleModal />', () => {
   const onSave = vi.fn();
-  const setUp = (initialData?: ShlinkRedirectRuleData) => renderWithEvents(
+  const setUp = ({ initialData, ipRedirectCondition = true }: SetUpOptions) => renderWithEvents(
     <TestModalWrapper
       renderModal={(args) => (
-        <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
+        <FeaturesProvider value={fromPartial({ ipRedirectCondition })}>
+          <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
+        </FeaturesProvider>
       )}
     />,
   );
+  const addConditionWithType = async (user: UserEvent, option: ShlinkRedirectConditionType) => {
+    await user.click(screen.getByLabelText('Add condition'));
+    const [lastTypeSelect] = screen.getAllByLabelText('Type:').reverse();
+    await user.selectOptions(lastTypeSelect, [option]);
+  };
 
   it.each([
     [undefined],
@@ -28,16 +47,17 @@ describe('<RedirectRuleModal />', () => {
         { type: 'language', matchValue: 'en-US', matchKey: null },
       ],
     } satisfies ShlinkRedirectRuleData],
-  ])('passes a11y checks', (initialData) => checkAccessibility(setUp(initialData)));
+  ])('passes a11y checks', (initialData) => checkAccessibility(setUp({ initialData })));
 
   it('can add more conditions', async () => {
-    const { user } = setUp({
+    const initialData: ShlinkRedirectRuleData = {
       longUrl: 'https://example.com',
       conditions: [
         { type: 'device', matchValue: 'android', matchKey: null },
         { type: 'language', matchValue: 'en-US', matchKey: null },
       ],
-    });
+    };
+    const { user } = setUp({ initialData });
 
     expect(screen.getAllByLabelText('Type:')).toHaveLength(2);
 
@@ -53,7 +73,9 @@ describe('<RedirectRuleModal />', () => {
     [[]],
     [[{ type: 'device', matchValue: 'android', matchKey: null } satisfies ShlinkRedirectCondition]],
   ])('disables confirm button as long as there are no conditions', (conditions) => {
-    setUp({ longUrl: 'https://example.com', conditions });
+    setUp({
+      initialData: { longUrl: 'https://example.com', conditions },
+    });
 
     if (conditions.length === 0) {
       expect(screen.getByRole('button', { name: 'Confirm' })).toHaveAttribute('disabled');
@@ -63,14 +85,14 @@ describe('<RedirectRuleModal />', () => {
   });
 
   it('saves rule when form is submit, and closes modal', async () => {
-    const initialRule: ShlinkRedirectRuleData = {
+    const initialData: ShlinkRedirectRuleData = {
       longUrl: 'https://example.com',
       conditions: [
         { type: 'device', matchValue: 'android', matchKey: null },
         { type: 'language', matchValue: 'en-US', matchKey: null },
       ],
     };
-    const { user } = setUp(initialRule);
+    const { user } = setUp({ initialData });
 
     // Wait for modal to finish opening, otherwise focus may transition to long URL field while some other field is
     // being edited
@@ -84,30 +106,51 @@ describe('<RedirectRuleModal />', () => {
     await user.selectOptions(screen.getByLabelText('Device type:'), ['ios']);
 
     // Add a new condition of type query-param
-    await user.click(screen.getByLabelText('Add condition'));
-    await user.selectOptions(screen.getAllByLabelText('Type:')[2], ['query-param']);
+    await addConditionWithType(user, 'query-param');
     await user.type(screen.getByLabelText('Param name:'), 'the_key');
     await user.type(screen.getByLabelText('Param value:'), 'the_value');
 
     // Remove the existing language condition
-    await user.click(screen.getAllByLabelText('Delete condition')[1]);
+    await user.click(screen.getAllByLabelText('Remove condition')[1]);
 
     // Add a new condition of type language
-    await user.click(screen.getByLabelText('Add condition'));
-    await user.selectOptions(screen.getAllByLabelText('Type:')[2], ['language']);
+    await addConditionWithType(user, 'language');
     await user.type(screen.getByLabelText('Language:'), 'es-ES');
 
+    // Add a new condition of type ip-address
+    await addConditionWithType(user, 'ip-address');
+    await user.type(screen.getByLabelText('IP address:'), '192.168.1.*');
+
     await user.click(screen.getByRole('button', { name: 'Confirm' }));
+
     expect(onSave).toHaveBeenCalledWith({
       longUrl: 'https://www.example.com/edited',
       conditions: [
         { type: 'device', matchValue: 'ios', matchKey: null },
         { type: 'query-param', matchValue: 'the_value', matchKey: 'the_key' },
         { type: 'language', matchValue: 'es-ES', matchKey: null },
+        { type: 'ip-address', matchValue: '192.168.1.*', matchKey: null },
       ],
     });
 
     // After form is submit, the modal itself is closed
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+  });
+
+  it.each([
+    { ipRedirectCondition: true, expectedOptions: ['Device', 'Language', 'Query param', 'IP address'] as const },
+    { ipRedirectCondition: false, expectedOptions: ['Device', 'Language', 'Query param'] as const },
+  ])('displays only supported options', async ({ ipRedirectCondition, expectedOptions }) => {
+    const { user } = setUp({ ipRedirectCondition });
+
+    // Add a condition box, with a type other than device-type (default one), so that device type options to not affect
+    // assertions and cause false negatives
+    await addConditionWithType(user, 'language');
+    const options = screen.getAllByRole('option');
+
+    expect(options).toHaveLength(expectedOptions.length);
+    options.forEach((option, index) => {
+      expect(option).toHaveTextContent(expectedOptions[index]);
+    });
   });
 });

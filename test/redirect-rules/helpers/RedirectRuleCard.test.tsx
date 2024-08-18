@@ -11,6 +11,7 @@ describe('<RedirectRuleCard />', () => {
     { type: 'device', matchValue: 'android', matchKey: null },
     { type: 'language', matchValue: 'es-ES', matchKey: null },
     { type: 'query-param', matchValue: 'bar', matchKey: 'foo' },
+    { type: 'ip-address', matchValue: '1.2.3.4', matchKey: null },
   ];
   const setUp = (props: Partial<RedirectRuleCardProps> = {}) => renderWithEvents(
     <RedirectRuleCard
@@ -53,6 +54,7 @@ describe('<RedirectRuleCard />', () => {
     expect(screen.getByText('Device is android')).toBeInTheDocument();
     expect(screen.getByText('es-ES language is accepted')).toBeInTheDocument();
     expect(screen.getByText('Query string contains foo=bar')).toBeInTheDocument();
+    expect(screen.getByText('IP address matches 1.2.3.4')).toBeInTheDocument();
   });
 
   it('can delete the rule', async () => {

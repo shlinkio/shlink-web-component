@@ -1,6 +1,12 @@
-import type { ShlinkRedirectCondition, ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
+import type {
+  ShlinkRedirectCondition,
+  ShlinkRedirectConditionType,
+  ShlinkRedirectRuleData,
+} from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen, waitFor } from '@testing-library/react';
+import { fromPartial } from '@total-typescript/shoehorn';
 import { RedirectRuleModal } from '../../../src/redirect-rules/helpers/RedirectRuleModal';
+import { FeaturesProvider } from '../../../src/utils/features';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 import { TestModalWrapper } from '../../__helpers__/TestModalWrapper';
@@ -10,7 +16,9 @@ describe('<RedirectRuleModal />', () => {
   const setUp = (initialData?: ShlinkRedirectRuleData) => renderWithEvents(
     <TestModalWrapper
       renderModal={(args) => (
-        <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
+        <FeaturesProvider value={fromPartial({ ipRedirectCondition: true })}>
+          <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
+        </FeaturesProvider>
       )}
     />,
   );
@@ -71,6 +79,10 @@ describe('<RedirectRuleModal />', () => {
       ],
     };
     const { user } = setUp(initialRule);
+    const changeConditionType = async (option: ShlinkRedirectConditionType) => {
+      await user.click(screen.getByLabelText('Add condition'));
+      await user.selectOptions(screen.getAllByLabelText('Type:')[2], [option]);
+    };
 
     // Wait for modal to finish opening, otherwise focus may transition to long URL field while some other field is
     // being edited
@@ -84,26 +96,27 @@ describe('<RedirectRuleModal />', () => {
     await user.selectOptions(screen.getByLabelText('Device type:'), ['ios']);
 
     // Add a new condition of type query-param
-    await user.click(screen.getByLabelText('Add condition'));
-    await user.selectOptions(screen.getAllByLabelText('Type:')[2], ['query-param']);
+    await changeConditionType('query-param');
     await user.type(screen.getByLabelText('Param name:'), 'the_key');
     await user.type(screen.getByLabelText('Param value:'), 'the_value');
 
     // Remove the existing language condition
     await user.click(screen.getAllByLabelText('Remove condition')[1]);
 
-    // Add a new condition of type language
-    await user.click(screen.getByLabelText('Add condition'));
-    await user.selectOptions(screen.getAllByLabelText('Type:')[2], ['language']);
-    await user.type(screen.getByLabelText('Language:'), 'es-ES');
+    // Add a new condition of type ip-address
+    await changeConditionType('ip-address');
+    await user.type(screen.getByLabelText('IP address:'), '192.168.1.*');
 
     await user.click(screen.getByRole('button', { name: 'Confirm' }));
+
+    console.log(onSave.mock.lastCall);
+
     expect(onSave).toHaveBeenCalledWith({
       longUrl: 'https://www.example.com/edited',
       conditions: [
         { type: 'device', matchValue: 'ios', matchKey: null },
         { type: 'query-param', matchValue: 'the_value', matchKey: 'the_key' },
-        { type: 'language', matchValue: 'es-ES', matchKey: null },
+        { type: 'ip-address', matchValue: '192.168.1.*', matchKey: null },
       ],
     });
 

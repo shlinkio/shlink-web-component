@@ -7,11 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 * Document how `<ShlinkWebSettings />` is used.
-<<<<<<< Updated upstream
-* Add support for `ip-address` redirect conditions when using Shlink 4.2.
-=======
 * [#411](https://github.com/shlinkio/shlink-web-component/issues/411) Add support for `ip-address` redirect conditions when Shlink server is >=4.2
->>>>>>> Stashed changes
 
 ### Changed
 * Update to `@shlinkio/eslint-config-js-coding-standard` 3.0, and migrate to ESLint flat config.

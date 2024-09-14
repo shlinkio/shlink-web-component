@@ -43,4 +43,38 @@ describe('<ShortUrlsListSettings />', () => {
     await user.click(screen.getByRole('menuitem', { name }));
     expect(setSettings).toHaveBeenCalledWith({ defaultOrdering: { field, dir } });
   });
+
+  it.each([
+    [{ confirmDeletions: true }, true],
+    [{ confirmDeletions: false }, false],
+    [undefined, true],
+  ])('Deletion confirmation switch has proper initial state', (shortUrlCreation, expectedChecked) => {
+    const matcher = /^Request confirmation before deleting a short URL./;
+
+    setUp(shortUrlCreation);
+
+    const checkbox = screen.getByLabelText(matcher);
+    const label = screen.getByText(matcher);
+
+    if (expectedChecked) {
+      expect(checkbox).toBeChecked();
+      expect(label).toHaveTextContent('When deleting a short URL, confirmation will be required.');
+      expect(label).not.toHaveTextContent('When deleting a short URL, confirmation won\'t be required.');
+    } else {
+      expect(checkbox).not.toBeChecked();
+      expect(label).toHaveTextContent('When deleting a short URL, confirmation won\'t be required.');
+      expect(label).not.toHaveTextContent('When deleting a short URL, confirmation will be required.');
+    }
+  });
+
+  it.each([
+    { confirmDeletions: true },
+    { confirmDeletions: false },
+  ])('invokes setSettings when delete confirmation toggle value changes', async ({ confirmDeletions }) => {
+    const { user } = setUp({ confirmDeletions });
+
+    expect(setSettings).not.toHaveBeenCalled();
+    await user.click(screen.getByLabelText(/^Request confirmation before deleting a short URL./));
+    expect(setSettings).toHaveBeenCalledWith({ confirmDeletions: !confirmDeletions });
+  });
 });

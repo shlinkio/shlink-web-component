@@ -1,6 +1,6 @@
 import { DropdownBtn, LabeledFormGroup, SimpleCard, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
-import { DropdownItem, FormGroup } from 'reactstrap';
+import { DropdownItem } from 'reactstrap';
 import type { ShortUrlCreationSettings as ShortUrlsSettings } from '..';
 import { useSetting } from '..';
 import { FormText } from './FormText';
@@ -26,8 +26,8 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ updateShor
   );
 
   return (
-    <SimpleCard title="Short URLs form" className="h-100">
-      <FormGroup>
+    <SimpleCard title="Short URLs form" className="h-100" bodyClassName="d-flex flex-column gap-3">
+      <div>
         <ToggleSwitch
           checked={shortUrlCreation.validateUrls ?? false}
           onChange={(validateUrls) => updateShortUrlCreationSettings({ ...shortUrlCreation, validateUrls })}
@@ -39,8 +39,8 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ updateShor
             be <b>{shortUrlCreation.validateUrls ? 'checked' : 'unchecked'}</b>.
           </FormText>
         </ToggleSwitch>
-      </FormGroup>
-      <FormGroup>
+      </div>
+      <div>
         <ToggleSwitch
           checked={shortUrlCreation.forwardQuery ?? true}
           onChange={(forwardQuery) => updateShortUrlCreationSettings({ ...shortUrlCreation, forwardQuery })}
@@ -51,7 +51,7 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ updateShor
             be <b>{shortUrlCreation.forwardQuery ?? true ? 'checked' : 'unchecked'}</b>.
           </FormText>
         </ToggleSwitch>
-      </FormGroup>
+      </div>
       <LabeledFormGroup noMargin label="Tag suggestions search mode:">
         <DropdownBtn text={tagFilteringModeText(shortUrlCreation.tagFilteringMode)}>
           <DropdownItem

@@ -7,12 +7,15 @@ import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { ShortUrlIdentifier, ShortUrlModalProps } from '../data';
 import type { ShortUrlDeletion } from '../reducers/shortUrlDeletion';
 
-interface DeleteShortUrlModalConnectProps extends ShortUrlModalProps {
-  shortUrlDeletion: ShortUrlDeletion;
+export type DeleteShortUrlModalProps = ShortUrlModalProps & {
   deleteShortUrl: (shortUrl: ShortUrlIdentifier) => Promise<void>;
   shortUrlDeleted: (shortUrl: ShortUrlIdentifier) => void;
+};
+
+type DeleteShortUrlModalConnectProps = DeleteShortUrlModalProps & {
+  shortUrlDeletion: ShortUrlDeletion;
   resetDeleteShortUrl: () => void;
-}
+};
 
 const DELETION_PATTERN = 'delete';
 

@@ -34,6 +34,7 @@ export type TagsSettings = {
 
 export type ShortUrlsListSettings = {
   defaultOrdering?: Order<'dateCreated' | 'shortCode' | 'longUrl' | 'title' | 'visits'>;
+  confirmDeletions?: boolean;
 };
 
 export type UiSettings = {

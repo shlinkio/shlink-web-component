@@ -1,7 +1,8 @@
-import { LabeledFormGroup, OrderingDropdown, SimpleCard } from '@shlinkio/shlink-frontend-kit';
+import { LabeledFormGroup, OrderingDropdown, SimpleCard, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import type { ShortUrlsListSettings as ShortUrlsSettings } from '..';
 import { useSetting } from '..';
+import { FormText } from './FormText';
 
 export type ShortUrlsListSettingsProps = {
   updateShortUrlsListSettings: (settings: ShortUrlsSettings) => void;
@@ -20,9 +21,19 @@ export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = (
   { updateShortUrlsListSettings, defaultOrdering },
 ) => {
   const shortUrlsList = useSetting('shortUrlsList');
+  const confirmDeletions = shortUrlsList?.confirmDeletions ?? true;
 
   return (
-    <SimpleCard title="Short URLs list" className="h-100">
+    <SimpleCard title="Short URLs list" className="h-100" bodyClassName="d-flex flex-column gap-3">
+      <ToggleSwitch
+        checked={confirmDeletions}
+        onChange={(confirmDeletions) => updateShortUrlsListSettings({ ...shortUrlsList, confirmDeletions })}
+      >
+        Request confirmation before deleting a short URL.
+        <FormText>
+          When deleting a short URL, confirmation <b>{confirmDeletions ? 'will' : 'won\'t'}</b> be required.
+        </FormText>
+      </ToggleSwitch>
       <LabeledFormGroup noMargin label="Default ordering for short URLs list:">
         <OrderingDropdown
           items={SHORT_URLS_ORDERABLE_FIELDS}

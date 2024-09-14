@@ -25,8 +25,10 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
 } from 'reactstrap';
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, ReferenceArea, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import type { CategoricalChartState } from 'recharts/types/chart/types';
 import { formatInternational } from '../../utils/dates/helpers/date';
+import type { DateRange } from '../../utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../utils/helpers';
 import { useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
@@ -36,8 +38,8 @@ import { CHART_TOOLTIP_COMMON_PROPS, PREV_COLOR } from './constants';
 import { LineChartLegend } from './LineChartLegend';
 
 type ChartPayloadEntry = {
-  date: string;
-  [key: string]: string | number;
+  formattedDate: string;
+  date: Date;
 };
 
 const STEPS_MAP = {
@@ -118,7 +120,7 @@ const visitsToDatasetGroups = (step: Step, visits: NormalizedVisit[]): Record<st
     {},
   );
 
-const datesWithNoGaps = (step: Step, visitsGroups: Record<string, NormalizedVisit[]>): string[] => {
+const datesWithNoGaps = (step: Step, visitsGroups: Record<string, NormalizedVisit[]>): ChartPayloadEntry[] => {
   const nonEmptyVisitsLists = Object.values(visitsGroups)
     .filter((visits) => visits.length > 0)
     .map((visits) => [...visits].reverse());
@@ -138,8 +140,14 @@ const datesWithNoGaps = (step: Step, visitsGroups: Record<string, NormalizedVisi
   const size = diffFunc(newerDate, oldestDate) + 1; // Add one, as we need both edges to be included
 
   return [
-    formatter(oldestDate),
-    ...rangeOf(size, (num) => formatter(add(oldestDate, duration(num)))),
+    { formattedDate: formatter(oldestDate), date: oldestDate },
+    ...rangeOf(size, (num) => {
+      const date = add(oldestDate, duration(num));
+      return {
+        formattedDate: formatter(date),
+        date,
+      };
+    }),
   ];
 };
 
@@ -180,7 +188,7 @@ const useActiveDot = (
     [setSelectedVisits, step, mainVisits],
   );
   const onDotClick = useCallback((_: any, { payload }: { payload: ChartPayloadEntry }) => {
-    const visitsToHighlight = datasetsByPoint[payload.date] ?? [];
+    const visitsToHighlight = datasetsByPoint[payload.formattedDate] ?? [];
     setSelectedVisits?.(visitsToHighlight === highlightedVisits ? [] : visitsToHighlight);
   }, [datasetsByPoint, highlightedVisits, setSelectedVisits]);
 
@@ -190,9 +198,15 @@ const useActiveDot = (
   };
 };
 
+const payLoadFromChartEvent = (e: CategoricalChartState) =>
+  e.activePayload?.[0].payload as ChartPayloadEntry | undefined;
+
 export type LineChartCardProps = {
   visitsGroups: Record<string, VisitsList>;
   setSelectedVisits?: (visits: NormalizedVisit[]) => void;
+
+  /** Invoked when a date range is selected in the chart */
+  onDateRangeChange: (dateRange: DateRange) => void;
 
   /** Test seam. For tests, a responsive container cannot be used */
   dimensions?: { width: number; height: number };
@@ -200,7 +214,7 @@ export type LineChartCardProps = {
 };
 
 export const LineChartCard: FC<LineChartCardProps> = (
-  { visitsGroups, setSelectedVisits, dimensions, matchMedia },
+  { visitsGroups, setSelectedVisits, dimensions, matchMedia, onDateRangeChange },
 ) => {
   const [step, setStep] = useState<Step>(determineInitialStep(visitsGroups));
   const isMobile = useMaxResolution(767, matchMedia ?? window.matchMedia);
@@ -209,10 +223,11 @@ export const LineChartCard: FC<LineChartCardProps> = (
     const statsGroups = countVisitsByDatePerGroup(step, visitsGroups);
     const groupNames = Object.keys(statsGroups);
 
-    return datesWithNoGaps(step, visitsGroups).map((date) => ({
+    return datesWithNoGaps(step, visitsGroups).map(({ formattedDate, date }) => ({
       date,
+      formattedDate,
       ...groupNames.reduce<Record<string, number>>((acc, name) => {
-        acc[name] = statsGroups[name][date] ?? 0;
+        acc[name] = statsGroups[name][formattedDate] ?? 0;
         return acc;
       }, {}),
     }));
@@ -225,6 +240,41 @@ export const LineChartCard: FC<LineChartCardProps> = (
     () => (dimensions ? {} : { width: '100%', height: isMobile ? 300 : 400 }),
     [dimensions, isMobile],
   );
+
+  // References the items being selected via drag'n'drop
+  const [selectionStart, setSelectionStart] = useState<ChartPayloadEntry>();
+  const [selectionEnd, setSelectionEnd] = useState<ChartPayloadEntry>();
+  const resetSelection = useCallback(() => {
+    setSelectionStart(undefined);
+    setSelectionEnd(undefined);
+  }, []);
+  const resolveSelectionStart = useCallback((e: CategoricalChartState) => {
+    console.log('mouseDown');
+    const payload = payLoadFromChartEvent(e);
+    if (payload) {
+      setSelectionStart(payload);
+    }
+  }, []);
+  const resolveSelectionEnd = useCallback((e: CategoricalChartState) => {
+    console.log('mouseUp');
+    const payload = payLoadFromChartEvent(e);
+    if (selectionStart && payload) {
+      setSelectionEnd(payload);
+    }
+  }, [selectionStart]);
+  const updateDateRange = useCallback(() => {
+    if (!selectionStart || !selectionEnd) {
+      return;
+    }
+
+    // Resolve min and max dates, in case selection was done from right to left
+    const dates = [selectionStart.date, selectionEnd.date];
+    const startDate = min(dates);
+    const endDate = max(dates);
+
+    resetSelection();
+    onDateRangeChange({ startDate, endDate });
+  }, [onDateRangeChange, resetSelection, selectionEnd, selectionStart]);
 
   return (
     <Card>
@@ -247,13 +297,21 @@ export const LineChartCard: FC<LineChartCardProps> = (
       </CardHeader>
       <CardBody>
         <ChartWrapper {...wrapperDimensions}>
-          <LineChart data={chartData} {...dimensions}>
-            <XAxis dataKey="date" />
-            <YAxis tickFormatter={prettify} />
+          <LineChart
+            className="user-select-none"
+            data={chartData}
+            {...dimensions}
+            onMouseDown={resolveSelectionStart}
+            onMouseMove={resolveSelectionEnd}
+            onMouseUp={updateDateRange}
+          >
+            <XAxis dataKey="formattedDate" />
+            <YAxis tickFormatter={prettify} yAxisId="1" />
             <Tooltip formatter={prettify} {...CHART_TOOLTIP_COMMON_PROPS} />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
             {Object.entries(visitsGroups).map(([dataKey, v]) => v.length > 0 && (
               <Line
+                yAxisId="1"
                 key={dataKey}
                 dataKey={dataKey}
                 type="monotone"
@@ -263,6 +321,10 @@ export const LineChartCard: FC<LineChartCardProps> = (
                 strokeDasharray={v.type === 'previous' ? '8 3' : undefined}
               />
             ))}
+
+            {selectionStart && selectionEnd && (
+              <ReferenceArea yAxisId="1" x1={selectionStart.formattedDate} x2={selectionEnd.formattedDate} />
+            )}
           </LineChart>
         </ChartWrapper>
         <LineChartLegend visitsGroups={visitsGroups} />

@@ -106,7 +106,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
       <VisitsLoadingFeedback info={visitsComparisonInfo} />
       {!loading && (
         <VisitsSectionWithFallback showFallback={showFallback}>
-          <LineChartCard visitsGroups={normalizedVisitsGroups} />
+          <LineChartCard visitsGroups={normalizedVisitsGroups} onDateRangeChange={setDates} />
         </VisitsSectionWithFallback>
       )}
     </>

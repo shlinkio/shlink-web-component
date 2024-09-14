@@ -251,7 +251,11 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                   element={(
                     <VisitsSectionWithFallback showFallback={visits.length === 0}>
                       <div className="col-12 mt-3" data-testid="line-chart-container">
-                        <LineChartCard visitsGroups={visitsGroups} setSelectedVisits={setSelectedVisits} />
+                        <LineChartCard
+                          visitsGroups={visitsGroups}
+                          setSelectedVisits={setSelectedVisits}
+                          onDateRangeChange={setDates}
+                        />
                       </div>
                       <PrevVisitsNotice display={!!resolvedFilter.loadPrevInterval && !prevVisits} />
                     </VisitsSectionWithFallback>

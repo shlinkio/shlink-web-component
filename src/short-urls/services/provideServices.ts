@@ -28,8 +28,10 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
 
   bottle.factory('ShortUrlsTable', ShortUrlsTableFactory);
   bottle.factory('ShortUrlsRow', ShortUrlsRowFactory);
-  bottle.factory('ShortUrlsRowMenu', ShortUrlsRowMenuFactory);
   bottle.factory('CreateShortUrlResult', CreateShortUrlResultFactory);
+
+  bottle.factory('ShortUrlsRowMenu', ShortUrlsRowMenuFactory);
+  bottle.decorator('ShortUrlsRowMenu', connect(null, ['shortUrlDeleted', 'deleteShortUrl']));
 
   bottle.factory('ShortUrlForm', ShortUrlFormFactory);
   bottle.decorator('ShortUrlForm', connect(['tagsList']));
@@ -47,10 +49,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   ));
 
   bottle.serviceFactory('DeleteShortUrlModal', () => DeleteShortUrlModal);
-  bottle.decorator('DeleteShortUrlModal', connect(
-    ['shortUrlDeletion'],
-    ['deleteShortUrl', 'shortUrlDeleted', 'resetDeleteShortUrl'],
-  ));
+  bottle.decorator('DeleteShortUrlModal', connect(['shortUrlDeletion'], ['resetDeleteShortUrl']));
 
   bottle.factory('QrCodeModal', QrCodeModalFactory);
   bottle.factory('ExportShortUrlsBtn', ExportShortUrlsBtnFactory);

@@ -1,7 +1,8 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
+import { SettingsProvider } from '../../../src/settings';
 import { ShortUrlsRowMenuFactory } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
 import { FeaturesProvider } from '../../../src/utils/features';
 import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
@@ -12,6 +13,7 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 type SetUpOptions = {
   visitsComparison?: Partial<VisitsComparison>;
   redirectRulesSupported?: boolean;
+  confirmDeletions?: boolean;
 };
 
 describe('<ShortUrlsRowMenu />', () => {
@@ -23,13 +25,23 @@ describe('<ShortUrlsRowMenu />', () => {
     shortCode: 'abc123',
     shortUrl: 'https://s.test/abc123',
   });
-  const setUp = ({ visitsComparison, redirectRulesSupported = false }: SetUpOptions = {}) => renderWithEvents(
+  const deleteShortUrl = vi.fn().mockResolvedValue(undefined);
+  const shortUrlDeleted = vi.fn();
+  const setUp = (
+    { visitsComparison, redirectRulesSupported = false, confirmDeletions = true }: SetUpOptions = {},
+  ) => renderWithEvents(
     <MemoryRouter>
       <FeaturesProvider value={fromPartial({ shortUrlRedirectRules: redirectRulesSupported })}>
         <VisitsComparisonProvider
           value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
         >
-          <ShortUrlsRowMenu shortUrl={shortUrl} />
+          <SettingsProvider
+            value={fromPartial({
+              shortUrlsList: { confirmDeletions },
+            })}
+          >
+            <ShortUrlsRowMenu shortUrl={shortUrl} deleteShortUrl={deleteShortUrl} shortUrlDeleted={shortUrlDeleted} />
+          </SettingsProvider>
         </VisitsComparisonProvider>
       </FeaturesProvider>
     </MemoryRouter>,
@@ -99,5 +111,22 @@ describe('<ShortUrlsRowMenu />', () => {
       name: shortUrl.shortUrl,
       query: expect.stringContaining('abc123'),
     });
+  });
+
+  it.each([
+    { confirmDeletions: false },
+    { confirmDeletions: true },
+  ])('directly deletes short URL if confirmation is disabled', async ({ confirmDeletions }) => {
+    const { user } = await setUpAndOpen({ confirmDeletions });
+
+    await user.click(screen.getByRole('menuitem', { name: 'Delete short URL' }));
+
+    if (!confirmDeletions) {
+      expect(deleteShortUrl).toHaveBeenCalledWith(shortUrl);
+      await waitFor(() => expect(shortUrlDeleted).toHaveBeenCalledOnce());
+    } else {
+      expect(deleteShortUrl).not.toHaveBeenCalled();
+      expect(shortUrlDeleted).not.toHaveBeenCalled();
+    }
   });
 });

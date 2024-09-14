@@ -25,6 +25,15 @@ export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = (
 
   return (
     <SimpleCard title="Short URLs list" className="h-100" bodyClassName="d-flex flex-column gap-3">
+      <ToggleSwitch
+        checked={confirmDeletions}
+        onChange={(confirmDeletions) => updateShortUrlsListSettings({ ...shortUrlsList, confirmDeletions })}
+      >
+        Request confirmation before deleting a short URL.
+        <FormText>
+          When deleting a short URL, confirmation <b>{confirmDeletions ? 'will' : 'won\'t'}</b> be required.
+        </FormText>
+      </ToggleSwitch>
       <LabeledFormGroup noMargin label="Default ordering for short URLs list:">
         <OrderingDropdown
           items={SHORT_URLS_ORDERABLE_FIELDS}
@@ -32,17 +41,6 @@ export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = (
           onChange={(field, dir) => updateShortUrlsListSettings({ defaultOrdering: { field, dir } })}
         />
       </LabeledFormGroup>
-      <div>
-        <ToggleSwitch
-          checked={confirmDeletions}
-          onChange={(confirmDeletions) => updateShortUrlsListSettings({ ...shortUrlsList, confirmDeletions })}
-        >
-          Request confirmation before deleting a short URL.
-          <FormText>
-            When deleting a short URL, confirmation <b>{confirmDeletions ? 'will' : 'won\'t'}</b> be required.
-          </FormText>
-        </ToggleSwitch>
-      </div>
     </SimpleCard>
   );
 };

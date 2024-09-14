@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO, subDays, subMonths, subYears } from 'date-fns';
 import type { VisitsList } from '../../../src/visits/charts/LineChartCard';
@@ -13,8 +13,9 @@ type SetUpOptions = {
 
 describe('<LineChartCard />', () => {
   const dimensions = { width: 800, height: 400 };
+  const onDateRangeChange = vi.fn();
   const setUp = ({ visitsGroups = {} }: SetUpOptions = {}) => renderWithEvents(
-    <LineChartCard visitsGroups={visitsGroups} dimensions={dimensions} />,
+    <LineChartCard visitsGroups={visitsGroups} dimensions={dimensions} onDateRangeChange={onDateRangeChange} />,
   );
   const asMainVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(visits, { type: 'main' as const });
   const asHighlightedVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(
@@ -83,5 +84,34 @@ describe('<LineChartCard />', () => {
   ])('renders chart with expected data', (visitsGroups) => {
     const { container } = setUp({ visitsGroups });
     expect(container).toMatchSnapshot();
+  });
+
+  it('allows date range to be selected via drag and drop', () => {
+    const { container } = setUp({
+      visitsGroups: {
+        foo: asMainVisits([
+          fromPartial<NormalizedVisit>({ date: '2023-04-01' }),
+          fromPartial<NormalizedVisit>({ date: '2023-04-02' }),
+          fromPartial<NormalizedVisit>({ date: '2023-04-03' }),
+        ]),
+        bar: asMainVisits([
+          fromPartial<NormalizedVisit>({ date: '2024-04-01' }),
+          fromPartial<NormalizedVisit>({ date: '2024-04-03' }),
+          fromPartial<NormalizedVisit>({ date: '2024-04-05' }),
+          fromPartial<NormalizedVisit>({ date: '2024-04-07' }),
+        ]),
+      },
+    });
+
+    const chart = container.querySelector('.recharts-surface');
+    if (!chart) {
+      throw new Error('Chart element with selector ".recharts-surface" not found');
+    }
+
+    fireEvent.mouseDown(chart, { clientX: 100, clientY: 200 });
+    fireEvent.mouseMove(chart, { clientX: 300, clientY: 200 });
+    fireEvent.mouseUp(chart, { clientX: 300, clientY: 200 });
+
+    expect(onDateRangeChange).toHaveBeenCalled();
   });
 });

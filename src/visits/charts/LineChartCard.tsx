@@ -28,7 +28,7 @@ import {
 import { CartesianGrid, Line, LineChart, ReferenceArea, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import type { CategoricalChartState } from 'recharts/types/chart/types';
 import { formatInternational } from '../../utils/dates/helpers/date';
-import type { DateRange } from '../../utils/dates/helpers/dateIntervals';
+import type { StrictDateRange } from '../../utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../utils/helpers';
 import { useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
@@ -198,7 +198,7 @@ const useActiveDot = (
   };
 };
 
-const payLoadFromChartEvent = (e: CategoricalChartState) =>
+const payloadFromChartEvent = (e: CategoricalChartState) =>
   e.activePayload?.[0].payload as ChartPayloadEntry | undefined;
 
 export type LineChartCardProps = {
@@ -206,7 +206,7 @@ export type LineChartCardProps = {
   setSelectedVisits?: (visits: NormalizedVisit[]) => void;
 
   /** Invoked when a date range is selected in the chart */
-  onDateRangeChange: (dateRange: DateRange) => void;
+  onDateRangeChange: (dateRange: StrictDateRange) => void;
 
   /** Test seam. For tests, a responsive container cannot be used */
   dimensions?: { width: number; height: number };
@@ -248,16 +248,14 @@ export const LineChartCard: FC<LineChartCardProps> = (
     setSelectionStart(undefined);
     setSelectionEnd(undefined);
   }, []);
-  const resolveSelectionStart = useCallback((e: CategoricalChartState) => {
-    console.log('mouseDown');
-    const payload = payLoadFromChartEvent(e);
-    if (payload) {
+  const resolveSelectionStart = useCallback((e: CategoricalChartState, mouseEvent: MouseEvent) => {
+    const payload = payloadFromChartEvent(e);
+    if (mouseEvent.button === 0 && payload) {
       setSelectionStart(payload);
     }
   }, []);
   const resolveSelectionEnd = useCallback((e: CategoricalChartState) => {
-    console.log('mouseUp');
-    const payload = payLoadFromChartEvent(e);
+    const payload = payloadFromChartEvent(e);
     if (selectionStart && payload) {
       setSelectionEnd(payload);
     }

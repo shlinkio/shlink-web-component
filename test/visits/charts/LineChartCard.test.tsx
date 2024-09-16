@@ -1,6 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { formatISO, subDays, subMonths, subYears } from 'date-fns';
+import { formatISO, isBefore, subDays, subMonths, subYears } from 'date-fns';
+import type { StrictDateRange } from '../../../src/utils/dates/helpers/dateIntervals';
 import type { VisitsList } from '../../../src/visits/charts/LineChartCard';
 import { LineChartCard } from '../../../src/visits/charts/LineChartCard';
 import type { NormalizedVisit } from '../../../src/visits/types';
@@ -17,6 +18,7 @@ describe('<LineChartCard />', () => {
   const setUp = ({ visitsGroups = {} }: SetUpOptions = {}) => renderWithEvents(
     <LineChartCard visitsGroups={visitsGroups} dimensions={dimensions} onDateRangeChange={onDateRangeChange} />,
   );
+
   const asMainVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(visits, { type: 'main' as const });
   const asHighlightedVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(
     visits,
@@ -24,6 +26,29 @@ describe('<LineChartCard />', () => {
   );
   const asPrevVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(visits, { type: 'previous' as const });
   const asColoredVisits = (visits: NormalizedVisit[], color: string): VisitsList => Object.assign(visits, { color });
+
+  const setUpChartWithData = () => {
+    const visitsGroups = {
+      foo: asMainVisits([
+        fromPartial<NormalizedVisit>({ date: '2023-04-01' }),
+        fromPartial<NormalizedVisit>({ date: '2023-04-02' }),
+        fromPartial<NormalizedVisit>({ date: '2023-04-03' }),
+      ]),
+      bar: asMainVisits([
+        fromPartial<NormalizedVisit>({ date: '2024-04-01' }),
+        fromPartial<NormalizedVisit>({ date: '2024-04-03' }),
+        fromPartial<NormalizedVisit>({ date: '2024-04-05' }),
+        fromPartial<NormalizedVisit>({ date: '2024-04-07' }),
+      ]),
+    };
+    const { container, ...rest } = setUp({ visitsGroups });
+    const chart = container.querySelector('.recharts-surface');
+    if (!chart) {
+      throw new Error('Chart element with selector ".recharts-surface" not found');
+    }
+
+    return { chart, container, ...rest };
+  };
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -86,32 +111,35 @@ describe('<LineChartCard />', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('allows date range to be selected via drag and drop', () => {
-    const { container } = setUp({
-      visitsGroups: {
-        foo: asMainVisits([
-          fromPartial<NormalizedVisit>({ date: '2023-04-01' }),
-          fromPartial<NormalizedVisit>({ date: '2023-04-02' }),
-          fromPartial<NormalizedVisit>({ date: '2023-04-03' }),
-        ]),
-        bar: asMainVisits([
-          fromPartial<NormalizedVisit>({ date: '2024-04-01' }),
-          fromPartial<NormalizedVisit>({ date: '2024-04-03' }),
-          fromPartial<NormalizedVisit>({ date: '2024-04-05' }),
-          fromPartial<NormalizedVisit>({ date: '2024-04-07' }),
-        ]),
-      },
-    });
+  it.each([
+    // Left to right
+    { selectionStart: 100, selectionEnd: 300 },
+    // Right to left
+    { selectionStart: 300, selectionEnd: 100 },
+  ])('allows date range to be selected via drag and drop', ({ selectionStart, selectionEnd }) => {
+    const { chart } = setUpChartWithData();
 
-    const chart = container.querySelector('.recharts-surface');
-    if (!chart) {
-      throw new Error('Chart element with selector ".recharts-surface" not found');
-    }
+    fireEvent.mouseDown(chart, { clientX: selectionStart, clientY: 200, button: 0 });
+    fireEvent.mouseMove(chart, { clientX: selectionEnd, clientY: 200 });
+    fireEvent.mouseUp(chart, { clientX: selectionEnd, clientY: 200 });
 
-    fireEvent.mouseDown(chart, { clientX: 100, clientY: 200 });
+    expect(onDateRangeChange).toHaveBeenCalled();
+
+    // Regardless of the selection direction, the oldest date will always be used as start date
+    const [{ startDate, endDate }] = onDateRangeChange.mock.lastCall as [StrictDateRange];
+    expect(isBefore(startDate, endDate)).toBe(true);
+  });
+
+  it.each([
+    { button: 1 },
+    { button: 2 },
+  ])('does not select a date range when clicking with a button other than main one', ({ button }) => {
+    const { chart } = setUpChartWithData();
+
+    fireEvent.mouseDown(chart, { clientX: 100, clientY: 200, button });
     fireEvent.mouseMove(chart, { clientX: 300, clientY: 200 });
     fireEvent.mouseUp(chart, { clientX: 300, clientY: 200 });
 
-    expect(onDateRangeChange).toHaveBeenCalled();
+    expect(onDateRangeChange).not.toHaveBeenCalled();
   });
 });

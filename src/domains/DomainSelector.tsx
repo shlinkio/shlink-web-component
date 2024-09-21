@@ -65,9 +65,10 @@ export const DomainSelector = ({ listDomains, value, domainsList, onChange }: Do
           key={domain}
           active={(value === domain || isDefault) && valueIsEmpty}
           onClick={() => onChange(domain)}
+          className="d-flex justify-content-between align-items-center"
         >
           {domain}
-          {isDefault && <span className="float-end text-muted">default</span>}
+          {isDefault && <span className="text-muted">default</span>}
         </DropdownItem>
       ))}
       <DropdownItem divider />

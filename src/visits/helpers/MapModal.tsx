@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import type { MapContainerProps } from 'react-leaflet';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Modal, ModalBody } from 'reactstrap';
+import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
 import type { CityStats } from '../types';
 import './MapModal.scss';
 
@@ -38,10 +39,10 @@ const calculateMapProps = (locations: CityStats[]): MapContainerProps => {
 export const MapModal = ({ toggle, isOpen, title, locations = [] }: MapModalProps) => (
   <Modal toggle={toggle} isOpen={isOpen} className="map-modal__modal" contentClassName="map-modal__modal-content">
     <ModalBody className="map-modal__modal-body">
-      <h3 className="map-modal__modal-title">
+      <SpaceBetweenContainer className="map-modal__modal-title fs-4">
         {title}
-        <button type="button" className="btn-close float-end" aria-label="Close" onClick={toggle} />
-      </h3>
+        <button type="button" className="btn-close" aria-label="Close" onClick={toggle} />
+      </SpaceBetweenContainer>
       <MapContainer {...calculateMapProps(locations)}>
         <OpenStreetMapTile />
         {locations.map(({ cityName, latLong, count }, index) => (

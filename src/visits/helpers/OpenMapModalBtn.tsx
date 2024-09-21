@@ -5,7 +5,6 @@ import { useCallback, useState } from 'react';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledTooltip } from 'reactstrap';
 import type { CityStats } from '../types';
 import { MapModal } from './MapModal';
-import './OpenMapModalBtn.scss';
 
 interface OpenMapModalBtnProps {
   modalTitle: string;
@@ -29,7 +28,7 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
       {!activeCities && (
         <Button
           color="link"
-          className="open-map-modal-btn__btn"
+          className="p-0"
           id={id}
           onClick={() => openMapWithCities()}
           aria-label="Show in map"
@@ -39,7 +38,7 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
       )}
       {activeCities && (
         <Dropdown isOpen={dropdownIsOpened} toggle={toggleDropdown}>
-          <DropdownToggle color="link" className="open-map-modal-btn__btn" id={id}>
+          <DropdownToggle color="link" className="p-0" id={id}>
             <FontAwesomeIcon icon={mapIcon} />
           </DropdownToggle>
           <DropdownMenu end>

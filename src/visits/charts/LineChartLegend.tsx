@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { forwardRef } from 'react';
 import { useMemo } from 'react';
 import { ColorBullet } from '../../utils/components/ColorBullet';
 import { prettify } from '../../utils/helpers/numbers';
@@ -9,14 +9,14 @@ export type LineChartLegendProps = {
   visitsGroups: Record<string, VisitsList>;
 };
 
-export const LineChartLegend: FC<LineChartLegendProps> = ({ visitsGroups }) => {
+export const LineChartLegend = forwardRef<HTMLUListElement, LineChartLegendProps>(({ visitsGroups }, ref) => {
   const entries = useMemo(() => Object.entries(visitsGroups), [visitsGroups]);
   if (entries.length === 0) {
     return null;
   }
 
   return (
-    <ul className="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3">
+    <ul className="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3" ref={ref}>
       {entries.map(([value, list], index) => (
         <li className="d-inline" key={`${value}${index}`}>
           <ColorBullet color={visitsListColor(list)} />
@@ -25,4 +25,4 @@ export const LineChartLegend: FC<LineChartLegendProps> = ({ visitsGroups }) => {
       ))}
     </ul>
   );
-};
+});

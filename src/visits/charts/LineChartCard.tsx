@@ -1,5 +1,17 @@
+import {
+  faDownLeftAndUpRightToCenter as collapseIcon,
+  faUpRightAndDownLeftFromCenter as expandIcon,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { countBy } from '@shlinkio/data-manipulation';
-import { HIGHLIGHTED_COLOR, isDarkThemeEnabled, MAIN_COLOR } from '@shlinkio/shlink-frontend-kit';
+import {
+  HIGHLIGHTED_COLOR,
+  isDarkThemeEnabled,
+  MAIN_COLOR,
+  useElementRef,
+  useToggle,
+} from '@shlinkio/shlink-frontend-kit';
+import { clsx } from 'clsx';
 import type { Duration } from 'date-fns';
 import {
   add,
@@ -15,8 +27,10 @@ import {
   startOfISOWeek,
 } from 'date-fns';
 import type { FC } from 'react';
+import { useLayoutEffect } from 'react';
 import { Fragment, useCallback, useMemo, useState } from 'react';
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
@@ -199,7 +213,7 @@ const useActiveDot = (
 };
 
 const payloadFromChartEvent = (e: CategoricalChartState) =>
-  e.activePayload?.[0].payload as ChartPayloadEntry | undefined;
+  e.activePayload?.[0]?.payload as ChartPayloadEntry | undefined;
 
 export type LineChartCardProps = {
   visitsGroups: Record<string, VisitsList>;
@@ -234,12 +248,30 @@ export const LineChartCard: FC<LineChartCardProps> = (
   }, [step, visitsGroups]);
   const activeDot = useActiveDot(visitsGroups, step, setSelectedVisits);
 
+  const [isExpanded, toggleExpanded] = useToggle();
+  const bodyRef = useElementRef<HTMLElement>();
+  const legendRef = useElementRef<HTMLUListElement>();
+  const [wrapperHeight, setWrapperHeight] = useState(isMobile ? 300 : 400);
+
+  useLayoutEffect(() => {
+    if (!isExpanded) {
+      setWrapperHeight(isMobile ? 300 : 400);
+      return () => {};
+    }
+
+    const observer = new ResizeObserver(() => {
+      const { height: bodyHeight } = bodyRef.current!.getBoundingClientRect();
+      const { height: legendHeight } = legendRef.current!.getBoundingClientRect();
+
+      setWrapperHeight(bodyHeight - legendHeight - 32 - 16); // 32 is the body's padding, 16 is the legend's top margin
+    });
+    observer.observe(bodyRef.current!);
+    observer.observe(legendRef.current!);
+
+    return () => observer.disconnect();
+  }, [bodyRef, isExpanded, isMobile, legendRef]);
+
   const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
-  const wrapperDimensions = useMemo(
-    // If dimensions were explicitly provided for the chart, we don't need to set dimensions in the wrapper as well
-    () => (dimensions ? {} : { width: '100%', height: isMobile ? 300 : 400 }),
-    [dimensions, isMobile],
-  );
 
   // References the items being selected via drag'n'drop
   const [selectionStart, setSelectionStart] = useState<ChartPayloadEntry>();
@@ -275,24 +307,29 @@ export const LineChartCard: FC<LineChartCardProps> = (
   }, [onDateRangeChange, resetSelection, selectionEnd, selectionStart]);
 
   return (
-    <Card>
+    <Card className={clsx({ 'fixed-top fixed-bottom': isExpanded })}>
       <CardHeader role="heading" aria-level={4} className="d-flex justify-content-between align-items-center">
         Visits over time
-        <UncontrolledDropdown>
-          <DropdownToggle caret color="link" className="btn-sm p-0">
-            Group by
-          </DropdownToggle>
-          <DropdownMenu end>
-            {Object.entries(STEPS_MAP).map(([value, menuText]) => (
-              <DropdownItem key={value} active={step === value} onClick={() => setStep(value as Step)}>
-                {menuText}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </UncontrolledDropdown>
+        <div className="d-flex align-content-center gap-1">
+          <Button aria-label="Expand" size="sm" color="link" onClick={toggleExpanded}>
+            <FontAwesomeIcon icon={isExpanded ? collapseIcon : expandIcon} />
+          </Button>
+          <UncontrolledDropdown className="d-flex align-items-center">
+            <DropdownToggle caret color="link" className="btn-sm p-0">
+              Group by
+            </DropdownToggle>
+            <DropdownMenu end>
+              {Object.entries(STEPS_MAP).map(([value, menuText]) => (
+                <DropdownItem key={value} active={step === value} onClick={() => setStep(value as Step)}>
+                  {menuText}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
       </CardHeader>
-      <CardBody>
-        <ChartWrapper {...wrapperDimensions}>
+      <CardBody innerRef={bodyRef}>
+        <ChartWrapper width={dimensions ? undefined : '100%'} height={dimensions ? undefined : wrapperHeight}>
           <LineChart
             className="user-select-none"
             data={chartData}
@@ -323,7 +360,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
             )}
           </LineChart>
         </ChartWrapper>
-        <LineChartLegend visitsGroups={visitsGroups} />
+        <LineChartLegend visitsGroups={visitsGroups} ref={legendRef} />
       </CardBody>
     </Card>
   );

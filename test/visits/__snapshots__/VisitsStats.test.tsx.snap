@@ -15,54 +15,79 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
     >
       Visits over time
       <div
-        class="dropdown"
+        class="d-flex align-content-center gap-1"
       >
         <button
-          aria-expanded="false"
-          aria-haspopup="true"
-          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          aria-label="Expand"
+          class="btn btn-link btn-sm"
           type="button"
         >
-          Group by
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            data-icon="up-right-and-down-left-from-center"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M344 0H488c13.3 0 24 10.7 24 24V168c0 9.7-5.8 18.5-14.8 22.2s-19.3 1.7-26.2-5.2l-39-39-87 87c-9.4 9.4-24.6 9.4-33.9 0l-32-32c-9.4-9.4-9.4-24.6 0-33.9l87-87L327 41c-6.9-6.9-8.9-17.2-5.2-26.2S334.3 0 344 0zM168 512H24c-13.3 0-24-10.7-24-24V344c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2l39 39 87-87c9.4-9.4 24.6-9.4 33.9 0l32 32c9.4 9.4 9.4 24.6 0 33.9l-87 87 39 39c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8z"
+              fill="currentColor"
+            />
+          </svg>
         </button>
         <div
-          aria-hidden="true"
-          class="dropdown-menu dropdown-menu-end"
-          role="menu"
-          tabindex="-1"
+          class="d-flex align-items-center dropdown"
         >
           <button
-            class="dropdown-item active"
-            role="menuitem"
-            tabindex="0"
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="btn-sm p-0 dropdown-toggle btn btn-link"
             type="button"
           >
-            Month
+            Group by
           </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
+          <div
+            aria-hidden="true"
+            class="dropdown-menu dropdown-menu-end"
+            role="menu"
+            tabindex="-1"
           >
-            Week
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Day
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Hour
-          </button>
+            <button
+              class="dropdown-item active"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Month
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Week
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Day
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Hour
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -111,54 +136,79 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
     >
       Visits over time
       <div
-        class="dropdown"
+        class="d-flex align-content-center gap-1"
       >
         <button
-          aria-expanded="false"
-          aria-haspopup="true"
-          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          aria-label="Expand"
+          class="btn btn-link btn-sm"
           type="button"
         >
-          Group by
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            data-icon="up-right-and-down-left-from-center"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M344 0H488c13.3 0 24 10.7 24 24V168c0 9.7-5.8 18.5-14.8 22.2s-19.3 1.7-26.2-5.2l-39-39-87 87c-9.4 9.4-24.6 9.4-33.9 0l-32-32c-9.4-9.4-9.4-24.6 0-33.9l87-87L327 41c-6.9-6.9-8.9-17.2-5.2-26.2S334.3 0 344 0zM168 512H24c-13.3 0-24-10.7-24-24V344c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2l39 39 87-87c9.4-9.4 24.6-9.4 33.9 0l32 32c9.4 9.4 9.4 24.6 0 33.9l-87 87 39 39c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8z"
+              fill="currentColor"
+            />
+          </svg>
         </button>
         <div
-          aria-hidden="true"
-          class="dropdown-menu dropdown-menu-end"
-          role="menu"
-          tabindex="-1"
+          class="d-flex align-items-center dropdown"
         >
           <button
-            class="dropdown-item active"
-            role="menuitem"
-            tabindex="0"
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="btn-sm p-0 dropdown-toggle btn btn-link"
             type="button"
           >
-            Month
+            Group by
           </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
+          <div
+            aria-hidden="true"
+            class="dropdown-menu dropdown-menu-end"
+            role="menu"
+            tabindex="-1"
           >
-            Week
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Day
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Hour
-          </button>
+            <button
+              class="dropdown-item active"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Month
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Week
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Day
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Hour
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -207,54 +257,79 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
     >
       Visits over time
       <div
-        class="dropdown"
+        class="d-flex align-content-center gap-1"
       >
         <button
-          aria-expanded="false"
-          aria-haspopup="true"
-          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          aria-label="Expand"
+          class="btn btn-link btn-sm"
           type="button"
         >
-          Group by
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            data-icon="up-right-and-down-left-from-center"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M344 0H488c13.3 0 24 10.7 24 24V168c0 9.7-5.8 18.5-14.8 22.2s-19.3 1.7-26.2-5.2l-39-39-87 87c-9.4 9.4-24.6 9.4-33.9 0l-32-32c-9.4-9.4-9.4-24.6 0-33.9l87-87L327 41c-6.9-6.9-8.9-17.2-5.2-26.2S334.3 0 344 0zM168 512H24c-13.3 0-24-10.7-24-24V344c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2l39 39 87-87c9.4-9.4 24.6-9.4 33.9 0l32 32c9.4 9.4 9.4 24.6 0 33.9l-87 87 39 39c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8z"
+              fill="currentColor"
+            />
+          </svg>
         </button>
         <div
-          aria-hidden="true"
-          class="dropdown-menu dropdown-menu-end"
-          role="menu"
-          tabindex="-1"
+          class="d-flex align-items-center dropdown"
         >
           <button
-            class="dropdown-item active"
-            role="menuitem"
-            tabindex="0"
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="btn-sm p-0 dropdown-toggle btn btn-link"
             type="button"
           >
-            Month
+            Group by
           </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
+          <div
+            aria-hidden="true"
+            class="dropdown-menu dropdown-menu-end"
+            role="menu"
+            tabindex="-1"
           >
-            Week
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Day
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Hour
-          </button>
+            <button
+              class="dropdown-item active"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Month
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Week
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Day
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Hour
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -303,54 +378,79 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
     >
       Visits over time
       <div
-        class="dropdown"
+        class="d-flex align-content-center gap-1"
       >
         <button
-          aria-expanded="false"
-          aria-haspopup="true"
-          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          aria-label="Expand"
+          class="btn btn-link btn-sm"
           type="button"
         >
-          Group by
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            data-icon="up-right-and-down-left-from-center"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M344 0H488c13.3 0 24 10.7 24 24V168c0 9.7-5.8 18.5-14.8 22.2s-19.3 1.7-26.2-5.2l-39-39-87 87c-9.4 9.4-24.6 9.4-33.9 0l-32-32c-9.4-9.4-9.4-24.6 0-33.9l87-87L327 41c-6.9-6.9-8.9-17.2-5.2-26.2S334.3 0 344 0zM168 512H24c-13.3 0-24-10.7-24-24V344c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2l39 39 87-87c9.4-9.4 24.6-9.4 33.9 0l32 32c9.4 9.4 9.4 24.6 0 33.9l-87 87 39 39c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8z"
+              fill="currentColor"
+            />
+          </svg>
         </button>
         <div
-          aria-hidden="true"
-          class="dropdown-menu dropdown-menu-end"
-          role="menu"
-          tabindex="-1"
+          class="d-flex align-items-center dropdown"
         >
           <button
-            class="dropdown-item active"
-            role="menuitem"
-            tabindex="0"
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="btn-sm p-0 dropdown-toggle btn btn-link"
             type="button"
           >
-            Month
+            Group by
           </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
+          <div
+            aria-hidden="true"
+            class="dropdown-menu dropdown-menu-end"
+            role="menu"
+            tabindex="-1"
           >
-            Week
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Day
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Hour
-          </button>
+            <button
+              class="dropdown-item active"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Month
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Week
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Day
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Hour
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -413,54 +513,79 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
     >
       Visits over time
       <div
-        class="dropdown"
+        class="d-flex align-content-center gap-1"
       >
         <button
-          aria-expanded="false"
-          aria-haspopup="true"
-          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          aria-label="Expand"
+          class="btn btn-link btn-sm"
           type="button"
         >
-          Group by
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            data-icon="up-right-and-down-left-from-center"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M344 0H488c13.3 0 24 10.7 24 24V168c0 9.7-5.8 18.5-14.8 22.2s-19.3 1.7-26.2-5.2l-39-39-87 87c-9.4 9.4-24.6 9.4-33.9 0l-32-32c-9.4-9.4-9.4-24.6 0-33.9l87-87L327 41c-6.9-6.9-8.9-17.2-5.2-26.2S334.3 0 344 0zM168 512H24c-13.3 0-24-10.7-24-24V344c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2l39 39 87-87c9.4-9.4 24.6-9.4 33.9 0l32 32c9.4 9.4 9.4 24.6 0 33.9l-87 87 39 39c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8z"
+              fill="currentColor"
+            />
+          </svg>
         </button>
         <div
-          aria-hidden="true"
-          class="dropdown-menu dropdown-menu-end"
-          role="menu"
-          tabindex="-1"
+          class="d-flex align-items-center dropdown"
         >
           <button
-            class="dropdown-item active"
-            role="menuitem"
-            tabindex="0"
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="btn-sm p-0 dropdown-toggle btn btn-link"
             type="button"
           >
-            Month
+            Group by
           </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
+          <div
+            aria-hidden="true"
+            class="dropdown-menu dropdown-menu-end"
+            role="menu"
+            tabindex="-1"
           >
-            Week
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Day
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Hour
-          </button>
+            <button
+              class="dropdown-item active"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Month
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Week
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Day
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Hour
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -523,54 +648,79 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
     >
       Visits over time
       <div
-        class="dropdown"
+        class="d-flex align-content-center gap-1"
       >
         <button
-          aria-expanded="false"
-          aria-haspopup="true"
-          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          aria-label="Expand"
+          class="btn btn-link btn-sm"
           type="button"
         >
-          Group by
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            data-icon="up-right-and-down-left-from-center"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M344 0H488c13.3 0 24 10.7 24 24V168c0 9.7-5.8 18.5-14.8 22.2s-19.3 1.7-26.2-5.2l-39-39-87 87c-9.4 9.4-24.6 9.4-33.9 0l-32-32c-9.4-9.4-9.4-24.6 0-33.9l87-87L327 41c-6.9-6.9-8.9-17.2-5.2-26.2S334.3 0 344 0zM168 512H24c-13.3 0-24-10.7-24-24V344c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2l39 39 87-87c9.4-9.4 24.6-9.4 33.9 0l32 32c9.4 9.4 9.4 24.6 0 33.9l-87 87 39 39c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8z"
+              fill="currentColor"
+            />
+          </svg>
         </button>
         <div
-          aria-hidden="true"
-          class="dropdown-menu dropdown-menu-end"
-          role="menu"
-          tabindex="-1"
+          class="d-flex align-items-center dropdown"
         >
           <button
-            class="dropdown-item active"
-            role="menuitem"
-            tabindex="0"
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="btn-sm p-0 dropdown-toggle btn btn-link"
             type="button"
           >
-            Month
+            Group by
           </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
+          <div
+            aria-hidden="true"
+            class="dropdown-menu dropdown-menu-end"
+            role="menu"
+            tabindex="-1"
           >
-            Week
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Day
-          </button>
-          <button
-            class="dropdown-item"
-            role="menuitem"
-            tabindex="0"
-            type="button"
-          >
-            Hour
-          </button>
+            <button
+              class="dropdown-item active"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Month
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Week
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Day
+            </button>
+            <button
+              class="dropdown-item"
+              role="menuitem"
+              tabindex="0"
+              type="button"
+            >
+              Hour
+            </button>
+          </div>
         </div>
       </div>
     </div>

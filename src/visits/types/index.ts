@@ -1,13 +1,14 @@
 import type { ShlinkOrphanVisitType, ShlinkShortUrl, ShlinkVisit } from '../../api-contract';
 import type { DateRange } from '../../utils/dates/helpers/dateIntervals';
 
-export interface UserAgent {
+export interface ParsedUserAgent {
   browser: string;
   os: string;
 }
 
-export interface NormalizedRegularVisit extends UserAgent {
+export interface NormalizedRegularVisit extends ParsedUserAgent {
   date: string;
+  userAgent: string;
   referer: string;
   country: string;
   city: string;

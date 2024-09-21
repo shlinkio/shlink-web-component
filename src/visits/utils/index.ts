@@ -2,7 +2,7 @@ import { zipObj } from '@shlinkio/data-manipulation';
 import bowser from 'bowser';
 import type { Empty } from '../../utils/helpers';
 import { hasValue } from '../../utils/helpers';
-import type { Stats, UserAgent } from '../types';
+import type { ParsedUserAgent, Stats } from '../types';
 
 const DEFAULT = 'Others';
 const BROWSERS_ALLOWLIST = [
@@ -19,7 +19,7 @@ const BROWSERS_ALLOWLIST = [
   'WeChat',
 ];
 
-export const parseUserAgent = (userAgent: string | Empty): UserAgent => {
+export const parseUserAgent = (userAgent: string | Empty): ParsedUserAgent => {
   if (!hasValue(userAgent)) {
     return { browser: DEFAULT, os: DEFAULT };
   }

@@ -1,4 +1,5 @@
 import { screen, waitFor } from '@testing-library/react';
+import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { rangeOf } from '../../src/utils/helpers';
 import type { NormalizedRegularVisit, NormalizedVisit } from '../../src/visits/types';
@@ -18,7 +19,7 @@ describe('<VisitsTable />', () => {
       setSelectedVisits={setSelectedVisits}
     />,
   );
-  const setUp = (visits: NormalizedVisit[], selectedVisits: NormalizedVisit[] = []) => setUpFactory(
+  const setUp = (visits: NormalizedVisit[] = [], selectedVisits: NormalizedVisit[] = []) => setUpFactory(
     { visits, selectedVisits },
   );
   const setUpWithBots = () => setUpFactory({
@@ -28,15 +29,18 @@ describe('<VisitsTable />', () => {
     ],
   });
 
+  const getFirstColumnValue = () => screen.getAllByRole('row')[2]?.querySelectorAll('td')[3]?.textContent;
+  const clickColumn = async (user: UserEvent, index: number) => user.click(screen.getAllByRole('columnheader')[index]);
+
   it('passes a11y checks', () => checkAccessibility(setUpWithBots()));
 
   it('renders expected amount of columns', () => {
-    setUp([], []);
+    setUp();
     expect(screen.getAllByRole('columnheader')).toHaveLength(8);
   });
 
   it('shows warning when no visits are found', () => {
-    setUp([]);
+    setUp();
     expect(screen.getByText('There are no visits matching current filter')).toBeInTheDocument();
   });
 
@@ -92,17 +96,33 @@ describe('<VisitsTable />', () => {
       referer: `${index}`,
       country: `Country_${index}`,
     })));
-    const getFirstColumnValue = () => screen.getAllByRole('row')[2]?.querySelectorAll('td')[3]?.textContent;
-    const clickColumn = async (index: number) => user.click(screen.getAllByRole('columnheader')[index]);
 
     expect(getFirstColumnValue()).toContain('Country_1');
-    await clickColumn(2); // Date column ASC
+    await clickColumn(user, 2); // Date column ASC
     expect(getFirstColumnValue()).toContain('Country_9');
-    await clickColumn(7); // Referer column - ASC
+    await clickColumn(user, 7); // Referer column - ASC
     expect(getFirstColumnValue()).toContain('Country_1');
-    await clickColumn(7); // Referer column - DESC
+    await clickColumn(user, 7); // Referer column - DESC
     expect(getFirstColumnValue()).toContain('Country_9');
-    await clickColumn(7); // Referer column - reset
+    await clickColumn(user, 7); // Referer column - reset
+    expect(getFirstColumnValue()).toContain('Country_1');
+  });
+
+  it('resets table order when toggling user agent', async () => {
+    const { user } = setUp(rangeOf(9, (index) => fromPartial<NormalizedVisit>({
+      browser: '',
+      date: `2022-01-0${10 - index}`,
+      referer: `${index}`,
+      country: `Country_${index}`,
+    })));
+
+    // Check initial order, and verify it changes when clicking a column
+    expect(getFirstColumnValue()).toContain('Country_1');
+    await clickColumn(user, 2);
+    expect(getFirstColumnValue()).toContain('Country_9');
+
+    // Toggle user agent, and verify order is initial one again
+    await user.click(screen.getByLabelText('Show user agent'));
     expect(getFirstColumnValue()).toContain('Country_1');
   });
 
@@ -144,7 +164,10 @@ describe('<VisitsTable />', () => {
     expect(setSelectedVisits).toHaveBeenCalledWith([]);
   });
 
-  it.each([[true], [false]])('displays proper amount of columns', (withVisitedUrl) => {
+  it.each([
+    { withVisitedUrl: true },
+    { withVisitedUrl: false },
+  ])('displays proper amount of columns based on visited URL', ({ withVisitedUrl }) => {
     setUp([fromPartial<NormalizedRegularVisit>({
       visitedUrl: withVisitedUrl ? 'visited_url' : undefined,
       date: '2020-01-01T09:09:09',
@@ -159,6 +182,20 @@ describe('<VisitsTable />', () => {
     } else {
       expect(lastCell).not.toHaveTextContent('visited_url');
     }
+  });
+
+  it.each([
+    { showUserAgent: true, expectedColumns: 7 },
+    { showUserAgent: false, expectedColumns: 8 },
+  ])('displays proper amount of columns based on user agent switch', async ({ showUserAgent, expectedColumns }) => {
+    const { user } = setUp();
+
+    if (showUserAgent) {
+      await user.click(screen.getByLabelText('Show user agent'));
+    }
+
+    const columns = screen.getAllByRole('columnheader');
+    expect(columns).toHaveLength(expectedColumns);
   });
 
   it('displays bots icon when a visit is a potential bot', () => {

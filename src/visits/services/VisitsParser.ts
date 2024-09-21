@@ -85,6 +85,7 @@ export const normalizeVisits = (visits: ShlinkVisit[]) => visits.map((visit): No
   return {
     date,
     potentialBot,
+    userAgent,
     ...parseUserAgent(userAgent),
     referer: extractDomain(referer),
     country: visitLocation?.countryName || 'Unknown', // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing

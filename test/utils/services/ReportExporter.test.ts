@@ -24,6 +24,7 @@ describe('ReportExporter', () => {
           os: 'os',
           referer: 'referer',
           potentialBot: false,
+          userAgent: 'userAgent',
         },
       ];
 

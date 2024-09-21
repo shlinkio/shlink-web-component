@@ -3,6 +3,7 @@ import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useState } from 'react';
+import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
 import { PaginationDropdown } from '../../utils/components/PaginationDropdown';
 import { SimplePaginator } from '../../utils/components/SimplePaginator';
 import { rangeOf } from '../../utils/helpers';
@@ -115,9 +116,21 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
   return (
     <ChartCard
       title={(
-        <>
+        <SpaceBetweenContainer>
           {title}
-          <div className="float-end">
+          <div className="d-flex gap-3">
+            {extraHeaderContent?.(pagination ? activeCities : undefined)}
+            {withPagination && Object.keys(stats).length > 50 && (
+              <PaginationDropdown
+                toggleClassName="btn-sm p-0"
+                ranges={[50, 100, 200, 500]}
+                value={itemsPerPage}
+                setValue={(value) => {
+                  setItemsPerPage(value);
+                  setCurrentPage(1);
+                }}
+              />
+            )}
             <OrderingDropdown
               isButton={false}
               right
@@ -129,25 +142,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
               }}
             />
           </div>
-          {withPagination && Object.keys(stats).length > 50 && (
-            <div className="float-end">
-              <PaginationDropdown
-                toggleClassName="btn-sm p-0 me-3"
-                ranges={[50, 100, 200, 500]}
-                value={itemsPerPage}
-                setValue={(value) => {
-                  setItemsPerPage(value);
-                  setCurrentPage(1);
-                }}
-              />
-            </div>
-          )}
-          {extraHeaderContent && (
-            <div className="float-end">
-              {extraHeaderContent(pagination ? activeCities : undefined)}
-            </div>
-          )}
-        </>
+        </SpaceBetweenContainer>
       )}
       footer={pagination}
     >

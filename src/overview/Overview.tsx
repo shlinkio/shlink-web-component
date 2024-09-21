@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Row } from 'reactstrap';
@@ -19,6 +19,26 @@ import { useRoutesPrefix } from '../utils/routesPrefix';
 import type { VisitsOverview } from '../visits/reducers/visitsOverview';
 import { HighlightCard } from './helpers/HighlightCard';
 import { VisitsHighlightCard } from './helpers/VisitsHighlightCard';
+
+type OverviewCardProps = {
+  children: ReactNode;
+  title: string;
+  titleLink: string;
+  titleLinkText: string;
+};
+
+const OverviewCard: FC<OverviewCardProps> = ({ children, titleLinkText, titleLink, title }) => (
+  <Card>
+    <CardHeader className="d-flex justify-content-between align-items-center">
+      <span className="d-sm-none">{title}</span>
+      <h5 className="d-none d-sm-inline m-0">{title}</h5>
+      <Link to={titleLink}>{titleLinkText} &raquo;</Link>
+    </CardHeader>
+    <CardBody>
+      {children}
+    </CardBody>
+  </Card>
+);
 
 type OverviewProps = MercureBoundProps & {
   shortUrlsList: ShortUrlsListState;
@@ -86,30 +106,26 @@ const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub(({
         </div>
       </Row>
 
-      <Card className="mb-3">
-        <CardHeader>
-          <span className="d-sm-none">Create a short URL</span>
-          <h5 className="d-none d-sm-inline">Create a short URL</h5>
-          <Link className="float-end" to={`${routesPrefix}/create-short-url`}>Advanced options &raquo;</Link>
-        </CardHeader>
-        <CardBody>
+      <div className="d-flex flex-column gap-3">
+        <OverviewCard
+          title="Create a short URL"
+          titleLinkText="Advanced options"
+          titleLink={`${routesPrefix}/create-short-url`}
+        >
           <CreateShortUrl basicMode />
-        </CardBody>
-      </Card>
-      <Card>
-        <CardHeader>
-          <span className="d-sm-none">Recently created URLs</span>
-          <h5 className="d-none d-sm-inline">Recently created URLs</h5>
-          <Link className="float-end" to={`${routesPrefix}/list-short-urls/1`}>See all &raquo;</Link>
-        </CardHeader>
-        <CardBody>
+        </OverviewCard>
+        <OverviewCard
+          title="Recently created URLs"
+          titleLinkText="See all"
+          titleLink={`${routesPrefix}/list-short-urls/1`}
+        >
           <ShortUrlsTable
             shortUrlsList={shortUrlsList}
             className="mb-0"
             onTagClick={(tag) => navigate(`${routesPrefix}/list-short-urls/1?tags=${encodeURIComponent(tag)}`)}
           />
-        </CardBody>
-      </Card>
+        </OverviewCard>
+      </div>
     </>
   );
 }, () => [Topics.visits, Topics.orphanVisits]);

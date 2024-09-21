@@ -19,8 +19,7 @@ export const UserInterfaceSettings: FC<UserInterfaceProps> = ({ updateUiSettings
   const currentTheme = useMemo(() => ui?.theme ?? getSystemPreferredTheme(_matchMedia), [ui?.theme, _matchMedia]);
 
   return (
-    <SimpleCard title="User interface" className="h-100">
-      <FontAwesomeIcon icon={currentTheme === 'dark' ? faMoon : faSun} className="float-end mt-1" />
+    <SimpleCard title="User interface" className="h-100" bodyClassName="d-flex justify-content-between align-items-center">
       <ToggleSwitch
         checked={currentTheme === 'dark'}
         onChange={(useDarkTheme) => {
@@ -30,6 +29,7 @@ export const UserInterfaceSettings: FC<UserInterfaceProps> = ({ updateUiSettings
       >
         Use dark theme.
       </ToggleSwitch>
+      <FontAwesomeIcon icon={currentTheme === 'dark' ? faMoon : faSun} />
     </SimpleCard>
   );
 };

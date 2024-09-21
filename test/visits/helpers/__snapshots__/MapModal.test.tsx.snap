@@ -18,16 +18,16 @@ exports[`<MapModal /> > renders expected map 1`] = `
       <div
         class="map-modal__modal-body modal-body"
       >
-        <h3
-          class="map-modal__modal-title"
+        <div
+          class="d-flex justify-content-between align-items-center map-modal__modal-title fs-4"
         >
           Foobar
           <button
             aria-label="Close"
-            class="btn-close float-end"
+            class="btn-close"
             type="button"
           />
-        </h3>
+        </div>
         <div
           class="leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
           style="position: relative;"

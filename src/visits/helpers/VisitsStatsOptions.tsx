@@ -1,6 +1,7 @@
 import { SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { Button } from 'reactstrap';
+import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
 import type { VisitsDeletion } from '../reducers/types';
 
 export type VisitsStatsOptionsProps = {
@@ -14,7 +15,7 @@ export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion
 
   return (
     <SimpleCard title={<span className="text-danger fw-bold">Danger zone</span>}>
-      <div className="d-flex justify-content-between align-items-center">
+      <SpaceBetweenContainer>
         <dl className="m-0 me-3">
           <dt>Delete visits.</dt>
           <dd className="m-0">This will delete <b>all</b> visits, not only the ones matching current filter.</dd>
@@ -39,7 +40,7 @@ export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion
             {deleting && <>Deleting...</>}
           </Button>
         )}
-      </div>
+      </SpaceBetweenContainer>
     </SimpleCard>
   );
 };

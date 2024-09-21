@@ -276,22 +276,20 @@ export const LineChartCard: FC<LineChartCardProps> = (
 
   return (
     <Card>
-      <CardHeader role="heading" aria-level={4}>
+      <CardHeader role="heading" aria-level={4} className="d-flex justify-content-between align-items-center">
         Visits over time
-        <div className="float-end">
-          <UncontrolledDropdown>
-            <DropdownToggle caret color="link" className="btn-sm p-0">
-              Group by
-            </DropdownToggle>
-            <DropdownMenu end>
-              {Object.entries(STEPS_MAP).map(([value, menuText]) => (
-                <DropdownItem key={value} active={step === value} onClick={() => setStep(value as Step)}>
-                  {menuText}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </div>
+        <UncontrolledDropdown>
+          <DropdownToggle caret color="link" className="btn-sm p-0">
+            Group by
+          </DropdownToggle>
+          <DropdownMenu end>
+            {Object.entries(STEPS_MAP).map(([value, menuText]) => (
+              <DropdownItem key={value} active={step === value} onClick={() => setStep(value as Step)}>
+                {menuText}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </UncontrolledDropdown>
       </CardHeader>
       <CardBody>
         <ChartWrapper {...wrapperDimensions}>

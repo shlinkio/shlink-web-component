@@ -1,5 +1,6 @@
 import { ToggleSwitch, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
+import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
 import { ChartCard } from './ChartCard';
 import type { DoughnutChartProps } from './DoughnutChart';
 import { DoughnutChart } from './DoughnutChart';
@@ -14,14 +15,14 @@ export const DoughnutChartCard: FC<DoughnutChartCardProps> = ({ title, ...rest }
   return (
     <ChartCard
       title={(
-        <>
+        <SpaceBetweenContainer>
           {title}
-          <div className="float-end">
+          <div>
             <ToggleSwitch checked={showNumbersInLegend} onChange={toggleShowNumbersInLegend}>
               Show numbers
             </ToggleSwitch>
           </div>
-        </>
+        </SpaceBetweenContainer>
       )}
     >
       <DoughnutChart {...rest} showNumbersInLegend={showNumbersInLegend} />

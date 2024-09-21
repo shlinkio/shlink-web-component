@@ -7,63 +7,59 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
   >
     <div
       aria-level="4"
-      class="card-header"
+      class="d-flex justify-content-between align-items-center card-header"
       role="heading"
     >
       Visits over time
       <div
-        class="float-end"
+        class="dropdown"
       >
+        <button
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          type="button"
+        >
+          Group by
+        </button>
         <div
-          class="dropdown"
+          aria-hidden="true"
+          class="dropdown-menu dropdown-menu-end"
+          role="menu"
+          tabindex="-1"
         >
           <button
-            aria-expanded="false"
-            aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="dropdown-item active"
+            role="menuitem"
+            tabindex="0"
             type="button"
           >
-            Group by
+            Month
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+            Week
+          </button>
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Day
+          </button>
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Hour
+          </button>
         </div>
       </div>
     </div>
@@ -188,63 +184,59 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
   >
     <div
       aria-level="4"
-      class="card-header"
+      class="d-flex justify-content-between align-items-center card-header"
       role="heading"
     >
       Visits over time
       <div
-        class="float-end"
+        class="dropdown"
       >
+        <button
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          type="button"
+        >
+          Group by
+        </button>
         <div
-          class="dropdown"
+          aria-hidden="true"
+          class="dropdown-menu dropdown-menu-end"
+          role="menu"
+          tabindex="-1"
         >
           <button
-            aria-expanded="false"
-            aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="dropdown-item active"
+            role="menuitem"
+            tabindex="0"
             type="button"
           >
-            Group by
+            Month
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+            Week
+          </button>
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Day
+          </button>
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Hour
+          </button>
         </div>
       </div>
     </div>
@@ -415,63 +407,59 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
   >
     <div
       aria-level="4"
-      class="card-header"
+      class="d-flex justify-content-between align-items-center card-header"
       role="heading"
     >
       Visits over time
       <div
-        class="float-end"
+        class="dropdown"
       >
+        <button
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          type="button"
+        >
+          Group by
+        </button>
         <div
-          class="dropdown"
+          aria-hidden="true"
+          class="dropdown-menu dropdown-menu-end"
+          role="menu"
+          tabindex="-1"
         >
           <button
-            aria-expanded="false"
-            aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="dropdown-item active"
+            role="menuitem"
+            tabindex="0"
             type="button"
           >
-            Group by
+            Month
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+            Week
+          </button>
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Day
+          </button>
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Hour
+          </button>
         </div>
       </div>
     </div>
@@ -977,63 +965,59 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
   >
     <div
       aria-level="4"
-      class="card-header"
+      class="d-flex justify-content-between align-items-center card-header"
       role="heading"
     >
       Visits over time
       <div
-        class="float-end"
+        class="dropdown"
       >
+        <button
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          type="button"
+        >
+          Group by
+        </button>
         <div
-          class="dropdown"
+          aria-hidden="true"
+          class="dropdown-menu dropdown-menu-end"
+          role="menu"
+          tabindex="-1"
         >
           <button
-            aria-expanded="false"
-            aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="dropdown-item active"
+            role="menuitem"
+            tabindex="0"
             type="button"
           >
-            Group by
+            Month
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+            Week
+          </button>
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Day
+          </button>
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Hour
+          </button>
         </div>
       </div>
     </div>
@@ -1581,63 +1565,59 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
   >
     <div
       aria-level="4"
-      class="card-header"
+      class="d-flex justify-content-between align-items-center card-header"
       role="heading"
     >
       Visits over time
       <div
-        class="float-end"
+        class="dropdown"
       >
+        <button
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn-sm p-0 dropdown-toggle btn btn-link"
+          type="button"
+        >
+          Group by
+        </button>
         <div
-          class="dropdown"
+          aria-hidden="true"
+          class="dropdown-menu dropdown-menu-end"
+          role="menu"
+          tabindex="-1"
         >
           <button
-            aria-expanded="false"
-            aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
             type="button"
           >
-            Group by
+            Month
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
+          <button
+            class="dropdown-item active"
+            role="menuitem"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+            Week
+          </button>
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Day
+          </button>
+          <button
+            class="dropdown-item"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Hour
+          </button>
         </div>
       </div>
     </div>

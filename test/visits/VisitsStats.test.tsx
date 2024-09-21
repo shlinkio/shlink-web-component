@@ -83,7 +83,7 @@ describe('<VisitsStats />', () => {
     ['/by-time', 2],
     ['/by-context', 4],
     ['/by-location', 3],
-    ['/list', 1],
+    ['/list', 2],
     ['/options', 2],
   ])('renders expected amount of cards per sub-route', (activeRoute, expectedCards) => {
     const { container } = setUp({ visitsInfo: { visits }, activeRoute, withDeletion: true });

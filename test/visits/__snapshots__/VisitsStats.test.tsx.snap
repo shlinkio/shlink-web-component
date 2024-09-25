@@ -7,6 +7,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
 >
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -18,6 +19,8 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":r1n:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -93,6 +96,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
     </div>
     <div
       class="card-body"
+      id=":r1n:"
     >
       <div
         class="recharts-responsive-container"
@@ -128,6 +132,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
 >
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -139,6 +144,8 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":r1q:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -214,6 +221,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
     </div>
     <div
       class="card-body"
+      id=":r1q:"
     >
       <div
         class="recharts-responsive-container"
@@ -249,6 +257,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
 >
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -260,6 +269,8 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":r1t:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -335,6 +346,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
     </div>
     <div
       class="card-body"
+      id=":r1t:"
     >
       <div
         class="recharts-responsive-container"
@@ -370,6 +382,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
 >
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -381,6 +394,8 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":r20:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -456,6 +471,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
     </div>
     <div
       class="card-body"
+      id=":r20:"
     >
       <div
         class="recharts-responsive-container"
@@ -505,6 +521,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
 >
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -516,6 +533,8 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":r23:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -591,6 +610,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
     </div>
     <div
       class="card-body"
+      id=":r23:"
     >
       <div
         class="recharts-responsive-container"
@@ -640,6 +660,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
 >
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -651,6 +672,8 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":r26:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -726,6 +749,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
     </div>
     <div
       class="card-body"
+      id=":r26:"
     >
       <div
         class="recharts-responsive-container"

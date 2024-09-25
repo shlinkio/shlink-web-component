@@ -142,4 +142,23 @@ describe('<LineChartCard />', () => {
 
     expect(onDateRangeChange).not.toHaveBeenCalled();
   });
+
+  it('allows chart to be expanded', async () => {
+    const { user } = setUpChartWithData();
+    const card = screen.getByTestId('line-chart-card');
+
+    expect(card).not.toHaveClass('fixed-top', 'fixed-bottom');
+    await user.click(screen.getByLabelText('Expand'));
+    expect(card).toHaveClass('fixed-top', 'fixed-bottom');
+  });
+
+  it('collapses chart when pressing Escape while expanded', async () => {
+    const { user } = setUpChartWithData();
+    const card = screen.getByTestId('line-chart-card');
+
+    await user.click(screen.getByLabelText('Expand'));
+    expect(card).toHaveClass('fixed-top', 'fixed-bottom');
+    await user.keyboard('{Escape}');
+    expect(card).not.toHaveClass('fixed-top', 'fixed-bottom');
+  });
 });

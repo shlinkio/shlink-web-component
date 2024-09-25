@@ -27,6 +27,7 @@ import {
   startOfISOWeek,
 } from 'date-fns';
 import type { FC } from 'react';
+import { useId } from 'react';
 import { useLayoutEffect } from 'react';
 import { Fragment, useCallback, useMemo, useState } from 'react';
 import {
@@ -44,7 +45,7 @@ import type { CategoricalChartState } from 'recharts/types/chart/types';
 import { formatInternational } from '../../utils/dates/helpers/date';
 import type { StrictDateRange } from '../../utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../utils/helpers';
-import { useMaxResolution } from '../../utils/helpers/hooks';
+import { useKeyDown, useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
 import type { MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
@@ -248,8 +249,9 @@ export const LineChartCard: FC<LineChartCardProps> = (
   }, [step, visitsGroups]);
   const activeDot = useActiveDot(visitsGroups, step, setSelectedVisits);
 
-  const [isExpanded, toggleExpanded] = useToggle();
+  const [isExpanded, toggleExpanded,, setNotExpanded] = useToggle();
   const bodyRef = useElementRef<HTMLElement>();
+  const bodyId = useId();
   const legendRef = useElementRef<HTMLUListElement>();
   const [wrapperHeight, setWrapperHeight] = useState(isMobile ? 300 : 400);
 
@@ -263,7 +265,10 @@ export const LineChartCard: FC<LineChartCardProps> = (
       const { height: bodyHeight } = bodyRef.current!.getBoundingClientRect();
       const { height: legendHeight } = legendRef.current!.getBoundingClientRect();
 
-      setWrapperHeight(bodyHeight - legendHeight - 32 - 16); // 32 is the body's padding, 16 is the legend's top margin
+      // 32 is the body's padding, 16 is the legend's top margin
+      const offset = 32 + 16;
+
+      setWrapperHeight(bodyHeight - legendHeight - offset);
     });
     observer.observe(bodyRef.current!);
     observer.observe(legendRef.current!);
@@ -271,7 +276,13 @@ export const LineChartCard: FC<LineChartCardProps> = (
     return () => observer.disconnect();
   }, [bodyRef, isExpanded, isMobile, legendRef]);
 
+  useKeyDown('Escape', setNotExpanded, isExpanded);
+
   const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
+  const wrapperProps = useMemo(
+    () => (dimensions ? {} : { width: '100%', height: wrapperHeight }),
+    [dimensions, wrapperHeight],
+  );
 
   // References the items being selected via drag'n'drop
   const [selectionStart, setSelectionStart] = useState<ChartPayloadEntry>();
@@ -307,11 +318,18 @@ export const LineChartCard: FC<LineChartCardProps> = (
   }, [onDateRangeChange, resetSelection, selectionEnd, selectionStart]);
 
   return (
-    <Card className={clsx({ 'fixed-top fixed-bottom': isExpanded })}>
+    <Card className={clsx({ 'fixed-top fixed-bottom': isExpanded })} data-testid="line-chart-card">
       <CardHeader role="heading" aria-level={4} className="d-flex justify-content-between align-items-center">
         Visits over time
         <div className="d-flex align-content-center gap-1">
-          <Button aria-label="Expand" size="sm" color="link" onClick={toggleExpanded}>
+          <Button
+            aria-label={isExpanded ? 'Collapse' : 'Expand'}
+            aria-expanded={isExpanded}
+            aria-controls={bodyId}
+            size="sm"
+            color="link"
+            onClick={toggleExpanded}
+          >
             <FontAwesomeIcon icon={isExpanded ? collapseIcon : expandIcon} />
           </Button>
           <UncontrolledDropdown className="d-flex align-items-center">
@@ -328,8 +346,8 @@ export const LineChartCard: FC<LineChartCardProps> = (
           </UncontrolledDropdown>
         </div>
       </CardHeader>
-      <CardBody innerRef={bodyRef}>
-        <ChartWrapper width={dimensions ? undefined : '100%'} height={dimensions ? undefined : wrapperHeight}>
+      <CardBody innerRef={bodyRef} id={bodyId}>
+        <ChartWrapper {...wrapperProps}>
           <LineChart
             className="user-select-none"
             data={chartData}

@@ -4,6 +4,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
 <div>
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -15,6 +16,8 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":r8:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -90,6 +93,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
     </div>
     <div
       class="card-body"
+      id=":r8:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -206,6 +210,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
 <div>
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -217,6 +222,8 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":r9:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -292,6 +299,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
     </div>
     <div
       class="card-body"
+      id=":r9:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -454,6 +462,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
 <div>
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -465,6 +474,8 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":ra:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -540,6 +551,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
     </div>
     <div
       class="card-body"
+      id=":ra:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -1037,6 +1049,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
 <div>
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -1048,6 +1061,8 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":rb:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -1123,6 +1138,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
     </div>
     <div
       class="card-body"
+      id=":rb:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -1662,6 +1678,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
 <div>
   <div
     class="card"
+    data-testid="line-chart-card"
   >
     <div
       aria-level="4"
@@ -1673,6 +1690,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
+          aria-controls=":rc:"
+          aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
           type="button"
@@ -1748,6 +1767,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
     </div>
     <div
       class="card-body"
+      id=":rc:"
     >
       <div
         class="recharts-wrapper user-select-none"

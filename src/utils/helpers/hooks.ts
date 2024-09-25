@@ -73,3 +73,15 @@ export const useMaxResolution = (maxResolution: number, matchMedia: MediaMatcher
 
   return doesMatchResolution;
 };
+
+export const useKeyDown = (key: string, callback: () => void, enabled: boolean) => {
+  useEffect(() => {
+    if (!enabled) {
+      return () => {};
+    }
+
+    const handler = (e: KeyboardEvent) => e.key === key && callback();
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [enabled, callback, key]);
+};

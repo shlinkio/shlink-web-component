@@ -39,6 +39,7 @@ export const ServerInfoForm: FC<ServerInfoFormProps> = ({ onChange }) => {
         innerRef={(el) => inputRef(el, 'baseUrl')}
       />
       <Input
+        type="password"
         name="apiKey"
         placeholder="API key"
         disabled={formDisabled}

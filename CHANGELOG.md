@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * [#196](https://github.com/shlinkio/shlink-web-component/issues/196) Allow active date range to be changed by selecting a range in visits and visits-comparison line charts.
 * [#307](https://github.com/shlinkio/shlink-web-component/issues/307) Add new setting to disable short URL deletions confirmation.
 * [#435](https://github.com/shlinkio/shlink-web-component/issues/435) Allow toggling between displaying raw user agent and parsed browser/OS in visits table.
+* [#197](https://github.com/shlinkio/shlink-web-component/issues/197) Allow line charts to be expanded to the full size of the viewport, both in individual visits views, and when comparing visits.
 
 ### Changed
 * Update to `@shlinkio/eslint-config-js-coding-standard` 3.0, and migrate to ESLint flat config.

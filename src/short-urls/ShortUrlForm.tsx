@@ -7,6 +7,7 @@ import type { FC, FormEvent } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { Button, Input, Row } from 'reactstrap';
 import type { ShlinkCreateShortUrlData, ShlinkDeviceLongUrls, ShlinkEditShortUrlData } from '../api-contract';
+import { isErrorAction } from '../api-contract/utils';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainSelectorProps } from '../domains/DomainSelector';
@@ -41,8 +42,6 @@ const toDate = (date?: string | Date): Date | undefined => (typeof date === 'str
 
 const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData): data is ShlinkCreateShortUrlData =>
   'shortCodeLength' in data && 'customSlug' in data && 'domain' in data;
-
-const isErrorAction = (action: any): boolean => 'error' in action;
 
 const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   { basicMode = false, saving, onSave, initialState, tagsList },
@@ -79,7 +78,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   const submit = useCallback(async (e: FormEvent) => {
     e.preventDefault();
     return onSave(shortUrlData)
-      .then((result: any) => isCreation && !isErrorAction(result) && reset())
+      .then((result) => isCreation && !isErrorAction(result) && reset())
       .catch(() => {});
   }, [isCreation, onSave, reset, shortUrlData]);
 

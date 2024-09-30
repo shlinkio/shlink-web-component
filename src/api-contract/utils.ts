@@ -11,3 +11,5 @@ const isProblemDetails = (e: unknown): e is ProblemDetailsError =>
   !!e && typeof e === 'object' && ['type', 'detail', 'title', 'status'].every((prop) => prop in e);
 
 export const parseApiError = (e: unknown): ProblemDetailsError | undefined => (isProblemDetails(e) ? e : undefined);
+
+export const isErrorAction = (action: any): boolean => 'error' in action;

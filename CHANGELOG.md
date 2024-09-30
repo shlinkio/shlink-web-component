@@ -23,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Fixed
-* *Nothing*
+* [#331](https://github.com/shlinkio/shlink-web-component/issues/331) Fix short URL deletion confirmation modal getting closed when deleting the short URL failed.
 
 
 ## [0.7.0] - 2024-05-20

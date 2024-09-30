@@ -25,7 +25,7 @@ describe('<ShortUrlsRowMenu />', () => {
     shortCode: 'abc123',
     shortUrl: 'https://s.test/abc123',
   });
-  const deleteShortUrl = vi.fn().mockResolvedValue(undefined);
+  const deleteShortUrl = vi.fn().mockResolvedValue({});
   const shortUrlDeleted = vi.fn();
   const setUp = (
     { visitsComparison, redirectRulesSupported = false, confirmDeletions = true }: SetUpOptions = {},
@@ -128,5 +128,15 @@ describe('<ShortUrlsRowMenu />', () => {
       expect(deleteShortUrl).not.toHaveBeenCalled();
       expect(shortUrlDeleted).not.toHaveBeenCalled();
     }
+  });
+
+  it('does not notify short URL deleted if deleting without confirmation fails', async () => {
+    deleteShortUrl.mockResolvedValue({ error: new Error() });
+    const { user } = await setUpAndOpen({ confirmDeletions: false });
+
+    await user.click(screen.getByRole('menuitem', { name: 'Delete short URL' }));
+
+    expect(deleteShortUrl).toHaveBeenCalledWith(shortUrl);
+    expect(shortUrlDeleted).not.toHaveBeenCalled();
   });
 });

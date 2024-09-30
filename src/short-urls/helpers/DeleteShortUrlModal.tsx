@@ -2,7 +2,7 @@ import { Result } from '@shlinkio/shlink-frontend-kit';
 import type { SyntheticEvent } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { isInvalidDeletionError } from '../../api-contract/utils';
+import { isErrorAction, isInvalidDeletionError } from '../../api-contract/utils';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { ShortUrlIdentifier, ShortUrlModalProps } from '../data';
 import type { ShortUrlDeletion } from '../reducers/shortUrlDeletion';
@@ -39,7 +39,7 @@ export const DeleteShortUrlModal = ({
   }, [resetDeleteShortUrl, toggle]);
   const handleDeleteUrl = useCallback((e: SyntheticEvent) => {
     e.preventDefault();
-    return deleteShortUrl(shortUrl).then(toggle);
+    return deleteShortUrl(shortUrl).then((a) => !isErrorAction(a) && toggle());
   }, [deleteShortUrl, shortUrl, toggle]);
 
   return (

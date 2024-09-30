@@ -12,6 +12,7 @@ import type { FC } from 'react';
 import { useCallback } from 'react';
 import { DropdownItem } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
+import { isErrorAction } from '../../api-contract/utils';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
 import { useSetting } from '../../settings';
@@ -46,8 +47,10 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
   const redirectRulesAreSupported = useFeature('shortUrlRedirectRules');
   const { confirmDeletions } = useSetting('shortUrlsList', { confirmDeletions: true });
   const doDeleteShortUrl = useCallback(async () => {
-    await deleteShortUrl(shortUrl);
-    shortUrlDeleted(shortUrl);
+    const result = await deleteShortUrl(shortUrl);
+    if (!isErrorAction(result)) {
+      shortUrlDeleted(shortUrl);
+    }
   }, [deleteShortUrl, shortUrl, shortUrlDeleted]);
 
   return (

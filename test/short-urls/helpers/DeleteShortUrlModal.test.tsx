@@ -14,7 +14,7 @@ describe('<DeleteShortUrlModal />', () => {
     shortCode: 'abc123',
     longUrl: 'https://long-domain.com/foo/bar',
   });
-  const deleteShortUrl = vi.fn().mockResolvedValue(undefined);
+  const deleteShortUrl = vi.fn().mockResolvedValue({});
   const shortUrlDeleted = vi.fn();
   const setUp = (shortUrlDeletion: Partial<ShortUrlDeletion>) => renderWithEvents(
     <TestModalWrapper
@@ -80,5 +80,20 @@ describe('<DeleteShortUrlModal />', () => {
     await user.click(screen.getByRole('button', { name: 'Delete' }));
     expect(deleteShortUrl).toHaveBeenCalledOnce();
     await waitFor(() => expect(shortUrlDeleted).toHaveBeenCalledOnce());
+  });
+
+  it('does not close modal if deleting the short URL failed', async () => {
+    deleteShortUrl.mockResolvedValue({ error: new Error('') });
+    const { user } = setUp({
+      loading: false,
+      error: false,
+      deleted: true,
+    });
+
+    expect(deleteShortUrl).not.toHaveBeenCalled();
+    await user.type(screen.getByPlaceholderText('Insert delete'), 'delete');
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    expect(deleteShortUrl).toHaveBeenCalledOnce();
+    expect(shortUrlDeleted).not.toHaveBeenCalledOnce();
   });
 });

@@ -12,7 +12,7 @@ import type { ImageDownloader } from '../../utils/services/ImageDownloader';
 import type { ShortUrlModalProps } from '../data';
 import { QrErrorCorrectionDropdown } from './qr-codes/QrErrorCorrectionDropdown';
 import { QrFormatDropdown } from './qr-codes/QrFormatDropdown';
-import './QrCodeModal.scss';
+import { QrCodeDimensionControl } from './QrCodeDimensionControl';
 
 type QrCodeModalDeps = {
   ImageDownloader: ImageDownloader
@@ -22,22 +22,15 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
   { shortUrl: { shortUrl, shortCode }, toggle, isOpen },
 ) => {
   const { ImageDownloader: imageDownloader } = useDependencies(QrCodeModal);
-  const [size, setSize] = useState(300);
-  const [margin, setMargin] = useState(0);
-  const [format, setFormat] = useState<QrCodeFormat>('png');
-  const [errorCorrection, setErrorCorrection] = useState<QrErrorCorrection>('L');
+  const [size, setSize] = useState<number>();
+  const [margin, setMargin] = useState<number>();
+  const [format, setFormat] = useState<QrCodeFormat>();
+  const [errorCorrection, setErrorCorrection] = useState<QrErrorCorrection>();
   const qrCodeUrl = useMemo(
     () => buildQrCodeUrl(shortUrl, { size, format, margin, errorCorrection }),
     [shortUrl, size, format, margin, errorCorrection],
   );
-  const totalSize = useMemo(() => size + margin, [size, margin]);
-  const modalSize = useMemo(() => {
-    if (totalSize < 500) {
-      return undefined;
-    }
-
-    return totalSize < 800 ? 'lg' : 'xl';
-  }, [totalSize]);
+  const [modalSize, setModalSize] = useState<'lg' | 'xl'>();
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} centered size={modalSize}>
@@ -46,36 +39,29 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
       </ModalHeader>
       <ModalBody>
         <Row>
-          <FormGroup className="d-grid col-md-6">
-            <label htmlFor="sizeControl">Size: {size}px</label>
-            <input
-              id="sizeControl"
-              type="range"
-              className="form-control-range"
-              value={size}
-              step={10}
-              min={50}
-              max={1000}
-              onChange={(e) => setSize(Number(e.target.value))}
-            />
-          </FormGroup>
-          <FormGroup className="d-grid col-md-6">
-            <label htmlFor="marginControl">Margin: {margin}px</label>
-            <input
-              id="marginControl"
-              type="range"
-              className="form-control-range"
-              value={margin}
-              step={1}
-              min={0}
-              max={100}
-              onChange={(e) => setMargin(Number(e.target.value))}
-            />
-          </FormGroup>
-          <FormGroup className="d-grid col-md-6">
+          <QrCodeDimensionControl
+            className="col-sm-6"
+            name="size"
+            value={size}
+            step={10}
+            min={50}
+            max={1000}
+            initial={300}
+            onChange={setSize}
+          />
+          <QrCodeDimensionControl
+            className="col-sm-6"
+            name="margin"
+            value={margin}
+            step={1}
+            min={0}
+            max={100}
+            onChange={setMargin}
+          />
+          <FormGroup className="d-grid col-sm-6">
             <QrFormatDropdown format={format} setFormat={setFormat} />
           </FormGroup>
-          <FormGroup className="col-md-6">
+          <FormGroup className="col-sm-6">
             <QrErrorCorrectionDropdown errorCorrection={errorCorrection} setErrorCorrection={setErrorCorrection} />
           </FormGroup>
         </Row>
@@ -84,7 +70,27 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
             <ExternalLink href={qrCodeUrl} />
             <CopyToClipboardIcon text={qrCodeUrl} />
           </div>
-          <img src={qrCodeUrl} className="qr-code-modal__img" alt="QR code" />
+          <img
+            ref={(image) => {
+              if (!image) {
+                return;
+              }
+
+              image.addEventListener('load', () => {
+                const { naturalWidth } = image;
+
+                if (naturalWidth < 500) {
+                  setModalSize(undefined);
+                } else {
+                  setModalSize(naturalWidth < 800 ? 'lg' : 'xl');
+                }
+              });
+            }}
+            src={qrCodeUrl}
+            alt="QR code"
+            className="shadow-lg"
+            style={{ maxWidth: '100%' }}
+          />
           <div className="mt-3">
             <Button
               block

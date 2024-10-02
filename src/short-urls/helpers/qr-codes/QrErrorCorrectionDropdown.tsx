@@ -4,14 +4,16 @@ import { DropdownItem } from 'reactstrap';
 import type { QrErrorCorrection } from '../../../utils/helpers/qrCodes';
 
 interface QrErrorCorrectionDropdownProps {
-  errorCorrection: QrErrorCorrection;
-  setErrorCorrection: (errorCorrection: QrErrorCorrection) => void;
+  errorCorrection?: QrErrorCorrection;
+  setErrorCorrection: (errorCorrection?: QrErrorCorrection) => void;
 }
 
 export const QrErrorCorrectionDropdown: FC<QrErrorCorrectionDropdownProps> = (
   { errorCorrection, setErrorCorrection },
 ) => (
-  <DropdownBtn text={`Error correction (${errorCorrection})`}>
+  <DropdownBtn text={errorCorrection ? `Error correction (${errorCorrection})` : <i>Default error correction</i>}>
+    <DropdownItem active={!errorCorrection} onClick={() => setErrorCorrection(undefined)}>Default</DropdownItem>
+    <DropdownItem divider tag="hr" />
     <DropdownItem active={errorCorrection === 'L'} onClick={() => setErrorCorrection('L')}>
       <b>L</b>ow
     </DropdownItem>

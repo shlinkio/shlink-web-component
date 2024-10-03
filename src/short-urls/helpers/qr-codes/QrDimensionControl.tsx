@@ -7,9 +7,9 @@ import { Button, FormGroup } from 'reactstrap';
 export type QrCodeDimensionControlProps = {
   name: string;
   value?: number;
-  step: number;
-  min: number;
-  max: number;
+  step?: number;
+  min?: number;
+  max?: number;
   initial?: number;
   onChange: (newValue?: number) => void;
   className?: string;

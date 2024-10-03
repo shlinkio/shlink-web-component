@@ -10,9 +10,9 @@ import type { QrCodeFormat, QrErrorCorrection } from '../../utils/helpers/qrCode
 import { buildQrCodeUrl } from '../../utils/helpers/qrCodes';
 import type { ImageDownloader } from '../../utils/services/ImageDownloader';
 import type { ShortUrlModalProps } from '../data';
+import { QrCodeDimensionControl } from './qr-codes/QrCodeDimensionControl';
 import { QrErrorCorrectionDropdown } from './qr-codes/QrErrorCorrectionDropdown';
 import { QrFormatDropdown } from './qr-codes/QrFormatDropdown';
-import { QrCodeDimensionControl } from './QrCodeDimensionControl';
 
 type QrCodeModalDeps = {
   ImageDownloader: ImageDownloader

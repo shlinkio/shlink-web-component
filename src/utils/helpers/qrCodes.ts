@@ -11,12 +11,9 @@ export interface QrCodeOptions {
   errorCorrection?: QrErrorCorrection;
 }
 
-export const buildQrCodeUrl = (shortUrl: string, { margin, ...options }: QrCodeOptions): string => {
+export const buildQrCodeUrl = (shortUrl: string, options: QrCodeOptions): string => {
   const baseUrl = `${shortUrl}/qr-code`;
-  const query = stringifyQueryParams({
-    ...options,
-    margin: margin && margin > 0 ? margin : undefined,
-  });
+  const query = stringifyQueryParams({ ...options });
 
   return `${baseUrl}${!query ? '' : `?${query}`}`;
 };

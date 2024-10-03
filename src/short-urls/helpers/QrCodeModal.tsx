@@ -10,7 +10,7 @@ import type { QrCodeFormat, QrErrorCorrection } from '../../utils/helpers/qrCode
 import { buildQrCodeUrl } from '../../utils/helpers/qrCodes';
 import type { ImageDownloader } from '../../utils/services/ImageDownloader';
 import type { ShortUrlModalProps } from '../data';
-import { QrCodeDimensionControl } from './qr-codes/QrCodeDimensionControl';
+import { QrDimensionControl } from './qr-codes/QrDimensionControl';
 import { QrErrorCorrectionDropdown } from './qr-codes/QrErrorCorrectionDropdown';
 import { QrFormatDropdown } from './qr-codes/QrFormatDropdown';
 
@@ -39,7 +39,7 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
       </ModalHeader>
       <ModalBody>
         <Row>
-          <QrCodeDimensionControl
+          <QrDimensionControl
             className="col-sm-6"
             name="size"
             value={size}
@@ -49,7 +49,7 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
             initial={300}
             onChange={setSize}
           />
-          <QrCodeDimensionControl
+          <QrDimensionControl
             className="col-sm-6"
             name="margin"
             value={margin}
@@ -59,10 +59,10 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
             onChange={setMargin}
           />
           <FormGroup className="d-grid col-sm-6">
-            <QrFormatDropdown format={format} setFormat={setFormat} />
+            <QrFormatDropdown format={format} onChange={setFormat} />
           </FormGroup>
           <FormGroup className="col-sm-6">
-            <QrErrorCorrectionDropdown errorCorrection={errorCorrection} setErrorCorrection={setErrorCorrection} />
+            <QrErrorCorrectionDropdown errorCorrection={errorCorrection} onChange={setErrorCorrection} />
           </FormGroup>
         </Row>
         <div className="text-center">

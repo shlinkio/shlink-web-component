@@ -15,7 +15,7 @@ export type QrCodeDimensionControlProps = {
   className?: string;
 };
 
-export const QrCodeDimensionControl: FC<QrCodeDimensionControlProps> = (
+export const QrDimensionControl: FC<QrCodeDimensionControlProps> = (
   { name, value, step, min, max, onChange, className, initial = min },
 ) => {
   const id = useId();

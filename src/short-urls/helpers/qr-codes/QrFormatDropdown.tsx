@@ -5,14 +5,14 @@ import type { QrCodeFormat } from '../../../utils/helpers/qrCodes';
 
 interface QrFormatDropdownProps {
   format?: QrCodeFormat;
-  setFormat: (format?: QrCodeFormat) => void;
+  onChange: (format?: QrCodeFormat) => void;
 }
 
-export const QrFormatDropdown: FC<QrFormatDropdownProps> = ({ format, setFormat }) => (
+export const QrFormatDropdown: FC<QrFormatDropdownProps> = ({ format, onChange }) => (
   <DropdownBtn text={format ? `Format (${format})` : <i>Default format</i>}>
-    <DropdownItem active={!format} onClick={() => setFormat(undefined)}>Default</DropdownItem>
+    <DropdownItem active={!format} onClick={() => onChange(undefined)}>Default</DropdownItem>
     <DropdownItem divider tag="hr" />
-    <DropdownItem active={format === 'png'} onClick={() => setFormat('png')}>PNG</DropdownItem>
-    <DropdownItem active={format === 'svg'} onClick={() => setFormat('svg')}>SVG</DropdownItem>
+    <DropdownItem active={format === 'png'} onClick={() => onChange('png')}>PNG</DropdownItem>
+    <DropdownItem active={format === 'svg'} onClick={() => onChange('svg')}>SVG</DropdownItem>
   </DropdownBtn>
 );

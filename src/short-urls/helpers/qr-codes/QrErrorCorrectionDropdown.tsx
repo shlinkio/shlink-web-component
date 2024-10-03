@@ -5,25 +5,25 @@ import type { QrErrorCorrection } from '../../../utils/helpers/qrCodes';
 
 interface QrErrorCorrectionDropdownProps {
   errorCorrection?: QrErrorCorrection;
-  setErrorCorrection: (errorCorrection?: QrErrorCorrection) => void;
+  onChange: (errorCorrection?: QrErrorCorrection) => void;
 }
 
 export const QrErrorCorrectionDropdown: FC<QrErrorCorrectionDropdownProps> = (
-  { errorCorrection, setErrorCorrection },
+  { errorCorrection, onChange },
 ) => (
   <DropdownBtn text={errorCorrection ? `Error correction (${errorCorrection})` : <i>Default error correction</i>}>
-    <DropdownItem active={!errorCorrection} onClick={() => setErrorCorrection(undefined)}>Default</DropdownItem>
+    <DropdownItem active={!errorCorrection} onClick={() => onChange(undefined)}>Default</DropdownItem>
     <DropdownItem divider tag="hr" />
-    <DropdownItem active={errorCorrection === 'L'} onClick={() => setErrorCorrection('L')}>
+    <DropdownItem active={errorCorrection === 'L'} onClick={() => onChange('L')}>
       <b>L</b>ow
     </DropdownItem>
-    <DropdownItem active={errorCorrection === 'M'} onClick={() => setErrorCorrection('M')}>
+    <DropdownItem active={errorCorrection === 'M'} onClick={() => onChange('M')}>
       <b>M</b>edium
     </DropdownItem>
-    <DropdownItem active={errorCorrection === 'Q'} onClick={() => setErrorCorrection('Q')}>
+    <DropdownItem active={errorCorrection === 'Q'} onClick={() => onChange('Q')}>
       <b>Q</b>uartile
     </DropdownItem>
-    <DropdownItem active={errorCorrection === 'H'} onClick={() => setErrorCorrection('H')}>
+    <DropdownItem active={errorCorrection === 'H'} onClick={() => onChange('H')}>
       <b>H</b>igh
     </DropdownItem>
   </DropdownBtn>

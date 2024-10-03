@@ -1,7 +1,7 @@
 import { faMapMarkedAlt as mapIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDomId, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { useCallback, useState } from 'react';
+import { useToggle } from '@shlinkio/shlink-frontend-kit';
+import { useCallback, useId, useState } from 'react';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledTooltip } from 'reactstrap';
 import type { CityStats } from '../types';
 import { MapModal } from './MapModal';
@@ -16,7 +16,7 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
   const [mapIsOpened, , openMap, closeMap] = useToggle();
   const [dropdownIsOpened, toggleDropdown] = useToggle();
   const [locationsToShow, setLocationsToShow] = useState<CityStats[]>([]);
-  const id = useDomId();
+  const id = useId();
 
   const openMapWithCities = useCallback((filterCallback?: (city: CityStats) => boolean) => {
     setLocationsToShow(!filterCallback ? locations : locations.filter(filterCallback));

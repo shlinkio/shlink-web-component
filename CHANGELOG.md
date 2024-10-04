@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * [#307](https://github.com/shlinkio/shlink-web-component/issues/307) Add new setting to disable short URL deletions confirmation.
 * [#435](https://github.com/shlinkio/shlink-web-component/issues/435) Allow toggling between displaying raw user agent and parsed browser/OS in visits table.
 * [#197](https://github.com/shlinkio/shlink-web-component/issues/197) Allow line charts to be expanded to the full size of the viewport, both in individual visits views, and when comparing visits.
+* [#382](https://github.com/shlinkio/shlink-web-component/issues/382) Initialize QR code modal with all params unset, so that they fall back to the server defaults. Additionally, allow them to be unset if desired.
 
 ### Changed
 * Update to `@shlinkio/eslint-config-js-coding-standard` 3.0, and migrate to ESLint flat config.

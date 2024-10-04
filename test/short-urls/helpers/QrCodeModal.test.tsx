@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { QrCodeModalFactory } from '../../../src/short-urls/helpers/QrCodeModal';
 import type { ImageDownloader } from '../../../src/utils/services/ImageDownloader';
@@ -63,8 +63,16 @@ describe('<QrCodeModal />', () => {
 
     expect(screen.getByText(`size: ${size}px`)).toBeInTheDocument();
     expect(screen.getByText(`margin: ${margin}px`)).toBeInTheDocument();
+
+    // Fake the images load event with a width that matches the size+margin
+    const image = screen.getByAltText('QR code');
+    Object.defineProperty(image, 'naturalWidth', {
+      get: () => size + margin,
+    });
+    image.dispatchEvent(new Event('load'));
+
     if (modalSize) {
-      expect(screen.getByRole('document')).toHaveClass(`modal-${modalSize}`);
+      await waitFor(() => expect(screen.getByRole('document')).toHaveClass(`modal-${modalSize}`));
     }
   });
 

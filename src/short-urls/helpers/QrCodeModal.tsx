@@ -1,6 +1,7 @@
 import { faFileDownload as downloadIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useMemo, useState } from 'react';
+import type { SyntheticEvent } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { Button, FormGroup, Modal, ModalBody, ModalHeader, Row } from 'reactstrap';
 import type { FCWithDeps } from '../../container/utils';
@@ -31,6 +32,16 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
     [shortUrl, size, format, margin, errorCorrection],
   );
   const [modalSize, setModalSize] = useState<'lg' | 'xl'>();
+  const onImageLoad = useCallback((e: SyntheticEvent<HTMLImageElement>) => {
+    const image = e.target as HTMLImageElement;
+    const { naturalWidth } = image;
+
+    if (naturalWidth < 500) {
+      setModalSize(undefined);
+    } else {
+      setModalSize(naturalWidth < 800 ? 'lg' : 'xl');
+    }
+  }, []);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} centered size={modalSize}>
@@ -71,25 +82,11 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
             <CopyToClipboardIcon text={qrCodeUrl} />
           </div>
           <img
-            ref={(image) => {
-              if (!image) {
-                return;
-              }
-
-              image.addEventListener('load', () => {
-                const { naturalWidth } = image;
-
-                if (naturalWidth < 500) {
-                  setModalSize(undefined);
-                } else {
-                  setModalSize(naturalWidth < 800 ? 'lg' : 'xl');
-                }
-              });
-            }}
             src={qrCodeUrl}
             alt="QR code"
             className="shadow-lg"
             style={{ maxWidth: '100%' }}
+            onLoad={onImageLoad}
           />
           <div className="mt-3">
             <Button

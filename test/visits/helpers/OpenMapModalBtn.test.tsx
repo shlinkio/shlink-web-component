@@ -27,15 +27,13 @@ describe('<OpenMapModalBtn />', () => {
     }],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
-  it('renders tooltip on button hover and opens modal on click', async () => {
+  it('opens modal on click', async () => {
     const { user } = setUp();
 
-    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
 
     await openDropdown(user);
-    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
   });

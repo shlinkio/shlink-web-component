@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { QrCodeModalFactory } from '../../../src/short-urls/helpers/QrCodeModal';
 import type { ImageDownloader } from '../../../src/utils/services/ImageDownloader';
@@ -30,19 +30,13 @@ describe('<QrCodeModal />', () => {
     expect(externalLink).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  it.each([
-    [10, '/qr-code?size=300&format=png&errorCorrection=L&margin=10'],
-    [0, '/qr-code?size=300&format=png&errorCorrection=L'],
-  ])('displays an image with the QR code of the URL', async (margin, expectedUrl) => {
-    const { container } = setUp();
-    const marginControl = container.parentNode?.querySelectorAll('.form-control-range').item(1);
+  it('displays an image with the QR code of the URL', async () => {
+    setUp();
 
-    if (marginControl) {
-      fireEvent.change(marginControl, { target: { value: `${margin}` } });
-    }
+    const expectedUrl = `${shortUrl}/qr-code`;
 
-    expect(screen.getByRole('img')).toHaveAttribute('src', `${shortUrl}${expectedUrl}`);
-    expect(screen.getByText(`${shortUrl}${expectedUrl}`)).toHaveAttribute('href', `${shortUrl}${expectedUrl}`);
+    expect(screen.getByRole('img')).toHaveAttribute('src', expectedUrl);
+    expect(screen.getByText(expectedUrl)).toHaveAttribute('href', expectedUrl);
   });
 
   it.each([
@@ -52,31 +46,41 @@ describe('<QrCodeModal />', () => {
     [430, 80, 'lg'],
     [200, 50, undefined],
     [720, 100, 'xl'],
-  ])('renders expected size', (size, margin, modalSize) => {
-    const { container } = setUp();
-    const formControls = container.parentNode?.querySelectorAll('.form-control-range');
-    const sizeInput = formControls?.[0];
-    const marginInput = formControls?.[1];
+  ])('renders expected size', async (size, margin, modalSize) => {
+    const { user } = setUp();
 
-    if (sizeInput) {
-      fireEvent.change(sizeInput, { target: { value: `${size}` } });
-    }
-    if (marginInput) {
-      fireEvent.change(marginInput, { target: { value: `${margin}` } });
+    // Switch to sliders
+    await user.click(screen.getByRole('button', { name: 'Customize size' }));
+    await user.click(screen.getByRole('button', { name: 'Customize margin' }));
+
+    const [sizeInput, marginInput] = screen.getAllByRole('slider');
+    if (!sizeInput || !marginInput) {
+      throw new Error('Sliders not found');
     }
 
-    expect(screen.getByText(`Size: ${size}px`)).toBeInTheDocument();
-    expect(screen.getByText(`Margin: ${margin}px`)).toBeInTheDocument();
+    fireEvent.change(sizeInput, { target: { value: `${size}` } });
+    fireEvent.change(marginInput, { target: { value: `${margin}` } });
+
+    expect(screen.getByText(`size: ${size}px`)).toBeInTheDocument();
+    expect(screen.getByText(`margin: ${margin}px`)).toBeInTheDocument();
+
+    // Fake the images load event with a width that matches the size+margin
+    const image = screen.getByAltText('QR code');
+    Object.defineProperty(image, 'naturalWidth', {
+      get: () => size + margin,
+    });
+    image.dispatchEvent(new Event('load'));
+
     if (modalSize) {
-      expect(screen.getByRole('document')).toHaveClass(`modal-${modalSize}`);
+      await waitFor(() => expect(screen.getByRole('document')).toHaveClass(`modal-${modalSize}`));
     }
   });
 
-  it('shows expected components based on server version', () => {
+  it('shows expected buttons', () => {
     setUp();
 
     // Add three because of the close, download and copy-to-clipboard buttons
-    expect(screen.getAllByRole('button')).toHaveLength(2 + 3);
+    expect(screen.getAllByRole('button')).toHaveLength(4 + 3);
   });
 
   it('saves the QR code image when clicking the Download button', async () => {

@@ -7,7 +7,7 @@ import { renderWithEvents } from '../../../__helpers__/setUpTest';
 describe('<QrFormatDropdown />', () => {
   const initialFormat: QrCodeFormat = 'svg';
   const setFormat = vi.fn();
-  const setUp = () => renderWithEvents(<QrFormatDropdown format={initialFormat} setFormat={setFormat} />);
+  const setUp = () => renderWithEvents(<QrFormatDropdown format={initialFormat} onChange={setFormat} />);
 
   it.each([
     [setUp],
@@ -28,7 +28,8 @@ describe('<QrFormatDropdown />', () => {
     const items = screen.getAllByRole('menuitem');
 
     expect(items[0]).not.toHaveClass('active');
-    expect(items[1]).toHaveClass('active');
+    expect(items[1]).not.toHaveClass('active');
+    expect(items[2]).toHaveClass('active');
   });
 
   it('invokes callback when items are clicked', async () => {
@@ -45,5 +46,8 @@ describe('<QrFormatDropdown />', () => {
 
     await clickItem('SVG');
     expect(setFormat).toHaveBeenCalledWith('svg');
+
+    await clickItem('Default');
+    expect(setFormat).toHaveBeenCalledWith(undefined);
   });
 });

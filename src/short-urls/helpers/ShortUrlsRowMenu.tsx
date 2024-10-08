@@ -45,7 +45,7 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
   const [isDeleteModalOpen,, openDeleteModal, closeDeleteModal] = useToggle();
   const visitsComparison = useVisitsComparisonContext();
   const redirectRulesAreSupported = useFeature('shortUrlRedirectRules');
-  const { confirmDeletions } = useSetting('shortUrlsList', { confirmDeletions: true });
+  const { confirmDeletions = true } = useSetting('shortUrlsList', {});
   const doDeleteShortUrl = useCallback(async () => {
     const result = await deleteShortUrl(shortUrl);
     if (!isErrorAction(result)) {

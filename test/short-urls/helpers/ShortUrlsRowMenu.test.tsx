@@ -2,6 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
+import type { ShortUrlsListSettings } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';
 import { ShortUrlsRowMenuFactory } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
 import { FeaturesProvider } from '../../../src/utils/features';
@@ -13,7 +14,7 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 type SetUpOptions = {
   visitsComparison?: Partial<VisitsComparison>;
   redirectRulesSupported?: boolean;
-  confirmDeletions?: boolean;
+  shortUrlsListSettings?: ShortUrlsListSettings;
 };
 
 describe('<ShortUrlsRowMenu />', () => {
@@ -28,18 +29,14 @@ describe('<ShortUrlsRowMenu />', () => {
   const deleteShortUrl = vi.fn().mockResolvedValue({});
   const shortUrlDeleted = vi.fn();
   const setUp = (
-    { visitsComparison, redirectRulesSupported = false, confirmDeletions = true }: SetUpOptions = {},
+    { visitsComparison, redirectRulesSupported = false, shortUrlsListSettings }: SetUpOptions = {},
   ) => renderWithEvents(
     <MemoryRouter>
       <FeaturesProvider value={fromPartial({ shortUrlRedirectRules: redirectRulesSupported })}>
         <VisitsComparisonProvider
           value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
         >
-          <SettingsProvider
-            value={fromPartial({
-              shortUrlsList: { confirmDeletions },
-            })}
-          >
+          <SettingsProvider value={fromPartial({ shortUrlsList: shortUrlsListSettings })}>
             <ShortUrlsRowMenu shortUrl={shortUrl} deleteShortUrl={deleteShortUrl} shortUrlDeleted={shortUrlDeleted} />
           </SettingsProvider>
         </VisitsComparisonProvider>
@@ -114,14 +111,30 @@ describe('<ShortUrlsRowMenu />', () => {
   });
 
   it.each([
-    { confirmDeletions: false },
-    { confirmDeletions: true },
-  ])('directly deletes short URL if confirmation is disabled', async ({ confirmDeletions }) => {
-    const { user } = await setUpAndOpen({ confirmDeletions });
+    {
+      shortUrlsListSettings: undefined,
+      shouldRequestConfirmation: true,
+    },
+    {
+      shortUrlsListSettings: {},
+      shouldRequestConfirmation: true,
+    },
+    {
+      shortUrlsListSettings: { confirmDeletions: false },
+      shouldRequestConfirmation: false,
+    },
+    {
+      shortUrlsListSettings: { confirmDeletions: true },
+      shouldRequestConfirmation: true,
+    },
+  ])('directly deletes short URL if confirmation is disabled', async (
+    { shortUrlsListSettings, shouldRequestConfirmation },
+  ) => {
+    const { user } = await setUpAndOpen({ shortUrlsListSettings });
 
     await user.click(screen.getByRole('menuitem', { name: 'Delete short URL' }));
 
-    if (!confirmDeletions) {
+    if (!shouldRequestConfirmation) {
       expect(deleteShortUrl).toHaveBeenCalledWith(shortUrl);
       await waitFor(() => expect(shortUrlDeleted).toHaveBeenCalledOnce());
     } else {
@@ -132,7 +145,9 @@ describe('<ShortUrlsRowMenu />', () => {
 
   it('does not notify short URL deleted if deleting without confirmation fails', async () => {
     deleteShortUrl.mockResolvedValue({ error: new Error() });
-    const { user } = await setUpAndOpen({ confirmDeletions: false });
+    const { user } = await setUpAndOpen({
+      shortUrlsListSettings: { confirmDeletions: false },
+    });
 
     await user.click(screen.getByRole('menuitem', { name: 'Delete short URL' }));
 

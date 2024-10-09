@@ -18,7 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Fixed
-* Ensure `shortUrlsList.confirmDeletion` setting is `true` in any case, except when explicitly set to `false`.
+* [#461](https://github.com/shlinkio/shlink-web-component/issues/461) Ensure `shortUrlsList.confirmDeletion` setting is `true` in any case, except when explicitly set to `false`.
+* [#237](https://github.com/shlinkio/shlink-web-component/issues/237) Set darker color for previous period in charts, when light theme is enabled.
 
 
 ## [0.8.0] - 2024-10-07

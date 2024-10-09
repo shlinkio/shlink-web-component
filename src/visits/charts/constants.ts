@@ -1,3 +1,4 @@
+import { isDarkThemeEnabled } from '@shlinkio/shlink-frontend-kit';
 import type { CSSProperties } from 'react';
 import type { TooltipProps } from 'recharts';
 
@@ -35,6 +36,6 @@ const COLORS = [
 
 export const chartColorForIndex = (index: number) => COLORS[index % COLORS.length];
 
-export const PREV_COLOR = '#46e587';
+export const prevColor = () => isDarkThemeEnabled() ? '#46e587' : '#1DAA58';
 
-export const PREV_COLOR_ALPHA = 'rgba(70, 229, 135, 0.4)';
+export const prevColorAlpha = () => isDarkThemeEnabled() ? 'rgba(70, 229, 135, 0.4)' : 'rgba(29, 170, 88, 0.4)';

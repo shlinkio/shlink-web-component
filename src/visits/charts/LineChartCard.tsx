@@ -49,7 +49,7 @@ import { useKeyDown, useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
 import type { MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
-import { CHART_TOOLTIP_COMMON_PROPS, PREV_COLOR } from './constants';
+import { CHART_TOOLTIP_COMMON_PROPS, prevColor } from './constants';
 import { LineChartLegend } from './LineChartLegend';
 
 type ChartPayloadEntry = {
@@ -179,7 +179,7 @@ export const visitsListColor = (v: VisitsList) => {
   const typeColorMap: Record<NonNullable<VisitsList['type']>, string> = {
     main: MAIN_COLOR,
     highlighted: HIGHLIGHTED_COLOR,
-    previous: PREV_COLOR,
+    previous: prevColor(),
   };
   return v.type ? typeColorMap[v.type] : MAIN_COLOR;
 };

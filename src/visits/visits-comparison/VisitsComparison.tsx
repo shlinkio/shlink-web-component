@@ -89,7 +89,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
             <DateRangeSelector
               disabled={loading}
               defaultText="All visits"
-              dateRangeOrInterval={activeInterval ?? initialInterval.current}
+              dateRangeOrInterval={activeInterval ?? dateRange ?? initialInterval.current}
               onDatesChange={setDates}
             />
           </div>

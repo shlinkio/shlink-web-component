@@ -4,7 +4,7 @@ import { Fragment, useMemo } from 'react';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
-import { CHART_TOOLTIP_STYLES, chartColorForIndex, PREV_COLOR } from './constants';
+import { CHART_TOOLTIP_STYLES, chartColorForIndex, prevColor } from './constants';
 import { DoughnutChartLegend } from './DoughnutChartLegend';
 
 export type DoughnutChartProps = {
@@ -66,7 +66,7 @@ export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, prevStats, showNu
                   innerRadius="20%"
                   animationBegin={0}
                   stroke={borderColor}
-                  fill={PREV_COLOR}
+                  fill={prevColor()}
                 />
               )}
             </PieChart>

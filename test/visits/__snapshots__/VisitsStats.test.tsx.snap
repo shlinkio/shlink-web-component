@@ -499,7 +499,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         >
           <div
             class="color-bullet"
-            style="background-color: rgb(70, 229, 135);"
+            style="background-color: rgb(29, 170, 88);"
           />
           <strong>
             Previous period
@@ -638,7 +638,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         >
           <div
             class="color-bullet"
-            style="background-color: rgb(70, 229, 135);"
+            style="background-color: rgb(29, 170, 88);"
           />
           <strong>
             Previous period
@@ -777,7 +777,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         >
           <div
             class="color-bullet"
-            style="background-color: rgb(70, 229, 135);"
+            style="background-color: rgb(29, 170, 88);"
           />
           <strong>
             Previous period

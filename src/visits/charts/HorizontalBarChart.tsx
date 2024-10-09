@@ -10,7 +10,7 @@ import { Fragment, useMemo } from 'react';
 import { Bar, CartesianGrid, Cell, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
-import { CHART_TOOLTIP_COMMON_PROPS, PREV_COLOR, PREV_COLOR_ALPHA } from './constants';
+import { CHART_TOOLTIP_COMMON_PROPS, prevColor, prevColorAlpha } from './constants';
 
 export type HorizontalBarChartProps = {
   stats: Stats;
@@ -132,9 +132,9 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
           </Bar>
         )}
         {prevStats && (
-          <Bar dataKey="prevAmount" fill={PREV_COLOR}>
+          <Bar dataKey="prevAmount" fill={prevColor()}>
             {chartData.map((entry) => (
-              <Cell key={entry.name} fill={PREV_COLOR_ALPHA} stroke={PREV_COLOR} strokeWidth={2} />
+              <Cell key={entry.name} fill={prevColorAlpha()} stroke={prevColor()} strokeWidth={2} />
             ))}
           </Bar>
         )}

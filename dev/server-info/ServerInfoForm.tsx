@@ -20,7 +20,7 @@ export const ServerInfoForm: FC<ServerInfoFormProps> = ({ onChange }) => {
   const resetForm = () => updateServerInfo({ baseUrl: undefined, apiKey: undefined });
   const inputRef = useCallback((el: HTMLInputElement | HTMLTextAreaElement | null, key: keyof typeof serverInfo) => {
     if (el) {
-      // eslint-disable-next-line no-param-reassign
+
       el.value = serverInfo[key] ?? '';
     }
   }, [serverInfo]);

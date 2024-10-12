@@ -219,7 +219,6 @@ export const VisitsTable = ({
                       </>
                     )}
                   </td>
-                  {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                   <td><Time date={visit.date} /></td>
                   <td>{visit.country}</td>
                   <td>{visit.city}</td>

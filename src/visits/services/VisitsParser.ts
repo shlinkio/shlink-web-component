@@ -3,7 +3,6 @@ import { isNormalizedOrphanVisit, isOrphanVisit } from '../helpers';
 import type { CityStats, NormalizedVisit, Stats, VisitsStats } from '../types';
 import { extractDomain, parseUserAgent } from '../utils';
 
-/* eslint-disable no-param-reassign */
 const visitHasProperty = (visit: NormalizedVisit, propertyName: keyof NormalizedVisit) =>
   visit[propertyName] !== undefined;
 
@@ -88,8 +87,8 @@ export const normalizeVisits = (visits: ShlinkVisit[]) => visits.map((visit): No
     userAgent,
     ...parseUserAgent(userAgent),
     referer: extractDomain(referer),
-    country: visitLocation?.countryName || 'Unknown', // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing
-    city: visitLocation?.cityName || 'Unknown', // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing
+    country: visitLocation?.countryName || 'Unknown',
+    city: visitLocation?.cityName || 'Unknown',
     latitude: visitLocation?.latitude,
     longitude: visitLocation?.longitude,
     visitedUrl: visit.visitedUrl,

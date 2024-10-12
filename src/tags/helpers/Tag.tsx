@@ -20,7 +20,6 @@ type TagProps = ClearableProps | ActionableProps;
 const isClearable = (props: TagProps): props is ClearableProps => !!(props as ClearableProps).onClose;
 const isActionable = (props: TagProps): props is ActionableProps => !!(props as ActionableProps).onClick;
 
-/* eslint-disable react/destructuring-assignment */
 export const Tag: FC<TagProps> = (props) => {
   const { text, children, className, colorGenerator } = props;
   const actionable = isActionable(props);

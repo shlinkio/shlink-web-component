@@ -114,7 +114,7 @@ const countVisitsByDatePerGroup = (
   step: Step,
   visitsGroups: Record<string, NormalizedVisit[]>,
 ) => Object.keys(visitsGroups).reduce<Record<string, Stats>>((countGroups, key) => {
-  // eslint-disable-next-line no-param-reassign
+
   countGroups[key] = countBy(
     visitsGroups[key],
     (visit) => STEP_TO_DATE_FORMAT[step](parseISO(visit.date)),

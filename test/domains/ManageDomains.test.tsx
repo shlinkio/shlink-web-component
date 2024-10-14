@@ -8,12 +8,10 @@ import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<ManageDomains />', () => {
-  const listDomains = vi.fn();
   const filterDomains = vi.fn();
   const setUp = (domainsList: DomainsList) => renderWithEvents(
     <MemoryRouter>
       <ManageDomains
-        listDomains={listDomains}
         filterDomains={filterDomains}
         editDomainRedirects={vi.fn()}
         checkDomainHealth={vi.fn()}

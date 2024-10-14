@@ -10,7 +10,8 @@ import type { ShlinkCreateShortUrlData, ShlinkDeviceLongUrls, ShlinkEditShortUrl
 import { isErrorAction } from '../api-contract/utils';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import type { DomainSelectorProps } from '../domains/DomainSelector';
+import { DomainSelector } from '../domains/DomainSelector';
+import type { DomainsList } from '../domains/reducers/domainsList';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
 import type { TagsList } from '../tags/reducers/tagsList';
 import { IconInput } from '../utils/components/IconInput';
@@ -31,11 +32,11 @@ export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEd
 
 type ShortUrlFormConnectProps = ShortUrlFormProps<ShlinkCreateShortUrlData | ShlinkEditShortUrlData> & {
   tagsList: TagsList;
+  domainsList: DomainsList;
 };
 
 type ShortUrlFormDeps = {
   TagsSelector: FC<TagsSelectorProps>;
-  DomainSelector: FC<DomainSelectorProps>;
 };
 
 const toDate = (date?: string | Date): Date | undefined => (typeof date === 'string' ? parseISO(date) : date);
@@ -44,9 +45,9 @@ const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData)
   'shortCodeLength' in data && 'customSlug' in data && 'domain' in data;
 
 const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
-  { basicMode = false, saving, onSave, initialState, tagsList },
+  { basicMode = false, saving, onSave, initialState, tagsList, domainsList },
 ) => {
-  const { TagsSelector, DomainSelector } = useDependencies(ShortUrlForm as unknown as ShortUrlFormDeps);
+  const { TagsSelector } = useDependencies(ShortUrlForm as unknown as ShortUrlFormDeps);
   const [shortUrlData, setShortUrlData] = useState(initialState);
   const isCreation = isCreationData(shortUrlData);
   const supportsDeviceLongUrls = useFeature('deviceLongUrls');
@@ -186,6 +187,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                     <DomainSelector
                       value={shortUrlData.domain}
                       onChange={(domain) => setShortUrlData((prev) => ({ ...prev, domain }))}
+                      domains={domainsList.domains}
                     />
                   </>
                 )}
@@ -298,4 +300,4 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   );
 };
 
-export const ShortUrlFormFactory = componentFactory(ShortUrlForm, ['TagsSelector', 'DomainSelector']);
+export const ShortUrlFormFactory = componentFactory(ShortUrlForm, ['TagsSelector']);

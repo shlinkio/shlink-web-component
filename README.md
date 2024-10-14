@@ -163,21 +163,24 @@ Make sure you import stylesheets in the order documented here for everything to 
 ```
 
 ```tsx
+import type { Theme } from '@shlinkio/shlink-frontend-kit';
 import { Checkbox, changeThemeInMarkup } from '@shlinkio/shlink-frontend-kit';
 import { ShlinkWebComponent } from '@shlinkio/shlink-web-component';
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import './src/index.scss'; // The stylesheet above
 
 export function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<Theme>('light');
+  const toggleTheme = useCallback((isDarkTheme: boolean) => {
+    const newTheme: Theme = isDarkTheme ? 'dark' : 'light';
 
-  useEffect(() => {
-    changeThemeInMarkup(theme);
-  }, [theme]);
+    setTheme(newTheme);
+    changeThemeInMarkup(newTheme);
+  }, []);
 
   return (
     <>
-      <Checkbox checked={theme === 'dark'} onChange={(checked) => setTheme(checked ? 'dark' : 'ligth')}>
+      <Checkbox checked={theme === 'dark'} onChange={toggleTheme}>
         Dark theme
       </Checkbox>
       <ShlinkWebComponent {...} />

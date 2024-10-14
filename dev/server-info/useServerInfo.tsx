@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export type ServerInfo = {
   baseUrl?: string;
@@ -9,12 +9,14 @@ export const isServerInfoSet = (serverInfo: ServerInfo): serverInfo is Required<
   !!serverInfo.apiKey && !!serverInfo.baseUrl;
 
 export const useServerInfo = (): [ServerInfo, (newServerInfo: ServerInfo) => void] => {
-  const rawInfo = useMemo(() => localStorage.getItem('active_shlink_server_info'), []);
-  const [serverInfo, setServerInfo] = useState<ServerInfo>(rawInfo ? JSON.parse(rawInfo) as ServerInfo : {});
-
-  useEffect(() => {
+  const [serverInfo, setServerInfo] = useState<ServerInfo>(() => {
+    const rawInfo = localStorage.getItem('active_shlink_server_info');
+    return rawInfo ? JSON.parse(rawInfo) as ServerInfo : {};
+  });
+  const updateServerInfo = useCallback((newServerInfo: ServerInfo) => {
     localStorage.setItem('active_shlink_server_info', JSON.stringify(serverInfo));
+    setServerInfo(newServerInfo);
   }, [serverInfo]);
 
-  return [serverInfo, setServerInfo];
+  return [serverInfo, updateServerInfo];
 };

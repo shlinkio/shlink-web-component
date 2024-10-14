@@ -1,6 +1,7 @@
 import { splitEvery } from '@shlinkio/data-manipulation';
 import { SimpleCard, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
+import { useCallback } from 'react';
 import { useEffect, useRef } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -27,20 +28,20 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
   const isFirstLoad = useRef(true);
   const { page: pageFromQuery = 1 } = useParsedQuery<{ page?: number | string }>();
   const [page, setPage] = useQueryState<number>('page', Number(pageFromQuery));
+  const updatePage = useCallback((newPage: number) => {
+    setPage(newPage);
+    scrollTo(0, 0);
+  }, [setPage]);
   const pages = splitEvery(sortedTags, TAGS_PER_PAGE);
   const showPaginator = pages.length > 1;
   const currentPage = pages[page - 1] ?? [];
 
   useEffect(() => {
     if (!isFirstLoad.current) {
-      setPage(1);
+      updatePage(1);
     }
     isFirstLoad.current = false;
-  }, [setPage, sortedTags]);
-
-  useEffect(() => {
-    scrollTo(0, 0);
-  }, [page]);
+  }, [updatePage, sortedTags]);
 
   return (
     <SimpleCard key={page} bodyClassName={showPaginator ? 'pb-1' : ''}>
@@ -70,7 +71,7 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
 
       {showPaginator && (
         <div className="sticky-card-paginator">
-          <SimplePaginator pagesCount={pages.length} currentPage={page} setCurrentPage={setPage} />
+          <SimplePaginator pagesCount={pages.length} currentPage={page} setCurrentPage={updatePage} />
         </div>
       )}
     </SimpleCard>

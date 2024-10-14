@@ -1,19 +1,14 @@
 import type Bottle from 'bottlejs';
 import type { ConnectDecorator } from '../../container';
-import { DomainSelector } from '../DomainSelector';
 import { ManageDomains } from '../ManageDomains';
 import { editDomainRedirects } from '../reducers/domainRedirects';
 import { domainsListReducerCreator } from '../reducers/domainsList';
 
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
-  // Components
-  bottle.serviceFactory('DomainSelector', () => DomainSelector);
-  bottle.decorator('DomainSelector', connect(['domainsList'], ['listDomains']));
-
   bottle.serviceFactory('ManageDomains', () => ManageDomains);
   bottle.decorator('ManageDomains', connect(
     ['domainsList'],
-    ['listDomains', 'filterDomains', 'editDomainRedirects', 'checkDomainHealth'],
+    ['filterDomains', 'editDomainRedirects', 'checkDomainHealth'],
   ));
 
   // Reducer

@@ -2,20 +2,20 @@ import { screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { DomainSelector } from '../../src/domains/DomainSelector';
-import type { DomainsList } from '../../src/domains/reducers/domainsList';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<DomainSelector />', () => {
-  const domainsList = fromPartial<DomainsList>({
-    domains: [
-      fromPartial({ domain: 'default.com', isDefault: true }),
-      fromPartial({ domain: 'foo.com' }),
-      fromPartial({ domain: 'bar.com' }),
-    ],
-  });
   const setUp = (value = '') => renderWithEvents(
-    <DomainSelector value={value} domainsList={domainsList} listDomains={vi.fn()} onChange={vi.fn()} />,
+    <DomainSelector
+      value={value}
+      onChange={vi.fn()}
+      domains={[
+        fromPartial({ domain: 'default.com', isDefault: true }),
+        fromPartial({ domain: 'foo.com' }),
+        fromPartial({ domain: 'bar.com' }),
+      ]}
+    />,
   );
 
   const switchToInputMode = async (user: UserEvent) => {

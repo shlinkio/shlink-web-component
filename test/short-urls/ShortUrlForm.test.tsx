@@ -20,7 +20,6 @@ describe('<ShortUrlForm />', () => {
   const createShortUrl = vi.fn().mockResolvedValue({});
   const ShortUrlForm = ShortUrlFormFactory(fromPartial({
     TagsSelector: () => <span>TagsSelector</span>,
-    DomainSelector: () => <span>DomainSelector</span>,
   }));
   const setUp = (
     { withDeviceLongUrls = false, withUrlValidation = true, basicMode, title, isCreation = true }: SetUpOptions = {},
@@ -47,6 +46,7 @@ describe('<ShortUrlForm />', () => {
           initialState={initialState}
           onSave={createShortUrl}
           tagsList={fromPartial({ tags: [] })}
+          domainsList={fromPartial({ domains: [] })}
         />
       </FeaturesProvider>,
     );

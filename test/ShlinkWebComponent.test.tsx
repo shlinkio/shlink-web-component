@@ -11,6 +11,7 @@ describe('<ShlinkWebComponent />', () => {
   const dispatch = vi.fn();
   const loadMercureInfo = vi.fn();
   const listTags = vi.fn();
+  const listDomains = vi.fn();
   const apiClient = fromPartial<ShlinkApiClient>({});
 
   const setUp = (tagColorsStorage?: TagColorsStorage) => {
@@ -31,6 +32,7 @@ describe('<ShlinkWebComponent />', () => {
     });
     bottle.value('loadMercureInfo', loadMercureInfo);
     bottle.value('listTags', listTags);
+    bottle.value('listDomains', listDomains);
   });
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -53,8 +55,9 @@ describe('<ShlinkWebComponent />', () => {
   it('dispatches some redux actions on mount', async () => {
     setUp();
 
-    await waitFor(() => expect(dispatch).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(dispatch).toHaveBeenCalledTimes(3));
     expect(loadMercureInfo).toHaveBeenCalledOnce();
     expect(listTags).toHaveBeenCalledOnce();
+    expect(listDomains).toHaveBeenCalledOnce();
   });
 });

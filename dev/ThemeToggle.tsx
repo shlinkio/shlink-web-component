@@ -1,15 +1,21 @@
+import type { Theme } from '@shlinkio/shlink-frontend-kit';
 import { changeThemeInMarkup, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export const ThemeToggle: FC = () => {
-  const [checked, setChecked] = useState(localStorage.getItem('active_theme') === 'dark');
+  const [checked, setChecked] = useState(() => {
+    const initialTheme = (localStorage.getItem('active_theme') ?? 'light') as Theme;
+    changeThemeInMarkup(initialTheme);
+    return initialTheme === 'dark';
+  });
+  const toggleTheme = useCallback((isDarkTheme: boolean) => {
+    const newTheme: Theme = isDarkTheme ? 'dark' : 'light';
 
-  useEffect(() => {
-    const theme = checked ? 'dark' : 'light';
-    changeThemeInMarkup(theme);
-    localStorage.setItem('active_theme', theme);
-  }, [checked]);
+    setChecked(isDarkTheme);
+    changeThemeInMarkup(newTheme);
+    localStorage.setItem('active_theme', newTheme);
+  }, []);
 
-  return <ToggleSwitch checked={checked} onChange={setChecked}>Dark theme</ToggleSwitch>;
+  return <ToggleSwitch checked={checked} onChange={toggleTheme}>Dark theme</ToggleSwitch>;
 };

@@ -1,6 +1,5 @@
 import { Message, Result, SearchField, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import { useEffect } from 'react';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
 import { useVisitsComparison, VisitsComparisonProvider } from '../visits/visits-comparison/VisitsComparisonContext';
@@ -9,7 +8,6 @@ import type { EditDomainRedirects } from './reducers/domainRedirects';
 import type { DomainsList } from './reducers/domainsList';
 
 interface ManageDomainsProps {
-  listDomains: () => void;
   filterDomains: (searchTerm: string) => void;
   editDomainRedirects: (redirects: EditDomainRedirects) => Promise<void>;
   checkDomainHealth: (domain: string) => void;
@@ -48,15 +46,11 @@ const headers: Array<{ value: string; isHidden: boolean }> = [
 ];
 
 export const ManageDomains: FC<ManageDomainsProps> = (
-  { listDomains, domainsList, filterDomains, editDomainRedirects, checkDomainHealth },
+  { domainsList, filterDomains, editDomainRedirects, checkDomainHealth },
 ) => {
   const { filteredDomains: domains, defaultRedirects, loading, error, errorData } = domainsList;
   const resolvedDefaultRedirects = defaultRedirects ?? domains.find(({ isDefault }) => isDefault)?.redirects;
   const visitsComparison = useVisitsComparison();
-
-  useEffect(() => {
-    listDomains();
-  }, [listDomains]);
 
   if (loading) {
     return <Message loading />;

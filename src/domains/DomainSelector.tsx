@@ -1,25 +1,20 @@
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import type { InputProps } from 'reactstrap';
 import { Button, DropdownItem, Input, InputGroup, UncontrolledTooltip } from 'reactstrap';
-import type { DomainsList } from './reducers/domainsList';
+import type { Domain } from './data';
 import './DomainSelector.scss';
 
 export interface DomainSelectorProps extends Omit<InputProps, 'onChange'> {
   value?: string;
   onChange: (domain: string) => void;
+  domains: Domain[];
 }
 
-interface DomainSelectorConnectProps extends DomainSelectorProps {
-  listDomains: () => void;
-  domainsList: DomainsList;
-}
-
-export const DomainSelector = ({ listDomains, value, domainsList, onChange }: DomainSelectorConnectProps) => {
+export const DomainSelector = ({ domains, value, onChange }: DomainSelectorProps) => {
   const [inputDisplayed,, showInput, hideInput] = useToggle();
-  const { domains } = domainsList;
   const valueIsEmpty = !value;
   const unselectDomainAndHideInput = useCallback(() => {
     onChange('');
@@ -29,10 +24,6 @@ export const DomainSelector = ({ listDomains, value, domainsList, onChange }: Do
     onChange('');
     showInput();
   }, [onChange, showInput]);
-
-  useEffect(() => {
-    listDomains();
-  }, [listDomains]);
 
   return inputDisplayed ? (
     <InputGroup>

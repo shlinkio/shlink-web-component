@@ -1,33 +1,27 @@
 import type { FC, FormEvent } from 'react';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { Button, Input } from 'reactstrap';
 import type { ServerInfo } from './useServerInfo';
-import { useServerInfo } from './useServerInfo';
 
 type ServerInfoFormProps = {
+  serverInfo: ServerInfo;
   onChange: (serverInfo: ServerInfo) => void;
 };
 
-export const ServerInfoForm: FC<ServerInfoFormProps> = ({ onChange }) => {
-  const [serverInfo, updateServerInfo] = useServerInfo();
+export const ServerInfoForm: FC<ServerInfoFormProps> = ({ serverInfo, onChange }) => {
   const formDisabled = !!serverInfo.baseUrl && !!serverInfo.apiKey;
   const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
 
     // @ts-expect-error - Entries is not recognized for some reason
-    updateServerInfo(Object.fromEntries(new FormData(e.target).entries()));
-  }, [updateServerInfo]);
-  const resetForm = () => updateServerInfo({ baseUrl: undefined, apiKey: undefined });
+    onChange(Object.fromEntries(new FormData(e.target).entries()));
+  }, [onChange]);
+  const resetForm = () => onChange({});
   const inputRef = useCallback((el: HTMLInputElement | HTMLTextAreaElement | null, key: keyof typeof serverInfo) => {
     if (el) {
-
       el.value = serverInfo[key] ?? '';
     }
   }, [serverInfo]);
-
-  useEffect(() => {
-    onChange(serverInfo);
-  }, [onChange, serverInfo]);
 
   return (
     <form className="py-2 ps-2 d-flex gap-2" onSubmit={handleSubmit}>

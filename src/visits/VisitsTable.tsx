@@ -7,7 +7,7 @@ import { ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
 import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { SimplePaginator } from '../utils/components/SimplePaginator';
 import { Time } from '../utils/dates/Time';
@@ -68,8 +68,14 @@ export const VisitsTable = ({
   matchMedia = window.matchMedia,
 }: VisitsTableProps) => {
   const isMobileDevice = useMaxResolution(767, matchMedia);
-  const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
-  const prevSearchTerm = useRef<string | undefined>(searchTerm);
+  const [searchTerm, setSearchTerm] = useState<string>();
+  const updateSearchTerm = useCallback((newSearchTerm?: string) => {
+    setSearchTerm(newSearchTerm);
+
+    // Move to first page and clear selected visits every time the search term changes
+    setPage(1);
+    setSelectedVisits([]);
+  }, [setSelectedVisits]);
   const [order, setOrder] = useState<VisitsOrder>({});
   const [showUserAgent, toggleShowUserAgent] = useToggle();
   const toggleUserAgentAndResetOrder = useCallback(() => {
@@ -90,19 +96,11 @@ export const VisitsTable = ({
   const fullSizeColSpan = 6 + Number(showVisitedUrl) + (showUserAgent ? 1 : 2);
   const hasVisits = paginator.total > 0;
 
-  const orderByColumn = (field: OrderableFields) =>
-    () => setOrder({ field, dir: determineOrderDir(field, order.field, order.dir) });
+  const orderByColumn = (field: OrderableFields) => setOrder(
+    { field, dir: determineOrderDir(field, order.field, order.dir) },
+  );
   const renderOrderIcon = (field: OrderableFields) =>
     <TableOrderIcon currentOrder={order} field={field} className="visits-table__header-icon" />;
-
-  // Move to first page and clear selected visits every time the search term changes
-  useEffect(() => {
-    if (prevSearchTerm.current !== searchTerm) {
-      setPage(1);
-      setSelectedVisits([]);
-    }
-    prevSearchTerm.current = searchTerm;
-  }, [searchTerm, setSelectedVisits]);
 
   return (
     <SimpleCard
@@ -135,46 +133,46 @@ export const VisitsTable = ({
                 <span className="sr-only">Is selected</span>
                 <FontAwesomeIcon icon={checkIcon} className={clsx({ 'text-primary': selectedVisits.length > 0 })} />
               </th>
-              <th className={`${headerCellsClass} text-center`} onClick={orderByColumn('potentialBot')}>
+              <th className={`${headerCellsClass} text-center`} onClick={() => orderByColumn('potentialBot')}>
                 <span className="sr-only">Is bot</span>
                 <FontAwesomeIcon icon={botIcon} />
                 {renderOrderIcon('potentialBot')}
               </th>
-              <th className={headerCellsClass} onClick={orderByColumn('date')}>
+              <th className={headerCellsClass} onClick={() => orderByColumn('date')}>
                 Date
                 {renderOrderIcon('date')}
               </th>
-              <th className={headerCellsClass} onClick={orderByColumn('country')}>
+              <th className={headerCellsClass} onClick={() => orderByColumn('country')}>
                 Country
                 {renderOrderIcon('country')}
               </th>
-              <th className={headerCellsClass} onClick={orderByColumn('city')}>
+              <th className={headerCellsClass} onClick={() => orderByColumn('city')}>
                 City
                 {renderOrderIcon('city')}
               </th>
               {showUserAgent ? (
-                <th className={headerCellsClass} onClick={orderByColumn('userAgent')}>
+                <th className={headerCellsClass} onClick={() => orderByColumn('userAgent')}>
                   User agent
                   {renderOrderIcon('userAgent')}
                 </th>
               ) : (
                 <>
-                  <th className={headerCellsClass} onClick={orderByColumn('browser')}>
+                  <th className={headerCellsClass} onClick={() => orderByColumn('browser')}>
                     Browser
                     {renderOrderIcon('browser')}
                   </th>
-                  <th className={headerCellsClass} onClick={orderByColumn('os')}>
+                  <th className={headerCellsClass} onClick={() => orderByColumn('os')}>
                     OS
                     {renderOrderIcon('os')}
                   </th>
                 </>
               )}
-              <th className={headerCellsClass} onClick={orderByColumn('referer')}>
+              <th className={headerCellsClass} onClick={() => orderByColumn('referer')}>
                 Referrer
                 {renderOrderIcon('referer')}
               </th>
               {showVisitedUrl && (
-                <th className={headerCellsClass} onClick={orderByColumn('visitedUrl')}>
+                <th className={headerCellsClass} onClick={() => orderByColumn('visitedUrl')}>
                   Visited URL
                   {renderOrderIcon('visitedUrl')}
                 </th>
@@ -182,7 +180,7 @@ export const VisitsTable = ({
             </tr>
             <tr>
               <td colSpan={fullSizeColSpan} className="p-0">
-                <SearchField noBorder large={false} onChange={setSearchTerm} />
+                <SearchField noBorder large={false} onChange={updateSearchTerm} />
               </td>
             </tr>
           </thead>

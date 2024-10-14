@@ -34,7 +34,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.decorator('ShortUrlsRowMenu', connect(null, ['shortUrlDeleted', 'deleteShortUrl']));
 
   bottle.factory('ShortUrlForm', ShortUrlFormFactory);
-  bottle.decorator('ShortUrlForm', connect(['tagsList']));
+  bottle.decorator('ShortUrlForm', connect(['tagsList', 'domainsList']));
 
   bottle.factory('CreateShortUrl', CreateShortUrlFactory);
   bottle.decorator(

@@ -1,6 +1,7 @@
 import { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
 import { FetchHttpClient } from '@shlinkio/shlink-js-sdk/browser';
 import type { FC } from 'react';
+import { useCallback } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { ShlinkWebComponent } from '../src';
@@ -8,6 +9,7 @@ import type { Settings } from '../src/settings';
 import { ShlinkWebSettings } from '../src/settings';
 import type { SemVer } from '../src/utils/helpers/version';
 import { ServerInfoForm } from './server-info/ServerInfoForm';
+import type { ServerInfo } from './server-info/useServerInfo';
 import { useServerInfo } from './server-info/useServerInfo';
 import { isServerInfoSet } from './server-info/useServerInfo';
 import { ThemeToggle } from './ThemeToggle';
@@ -15,6 +17,11 @@ import { ThemeToggle } from './ThemeToggle';
 export const App: FC = () => {
   const [serverInfo, updateServerInfo] = useServerInfo();
   const [serverVersion, setServerVersion] = useState<SemVer>();
+  const onServerInfoChange = useCallback((newServerInfo: ServerInfo) => {
+    updateServerInfo(newServerInfo);
+    setServerVersion(undefined);
+  }, [updateServerInfo]);
+
   const apiClient = useMemo(
     () => isServerInfoSet(serverInfo) ? new ShlinkApiClient(new FetchHttpClient(), serverInfo) : null,
     [serverInfo],
@@ -34,7 +41,7 @@ export const App: FC = () => {
   return (
     <BrowserRouter>
       <header className="header fixed-top text-white d-flex justify-content-between">
-        <ServerInfoForm serverInfo={serverInfo} onChange={updateServerInfo} />
+        <ServerInfoForm serverInfo={serverInfo} onChange={onServerInfoChange} />
         <div className="h-100 text-end pe-3 pt-3 d-flex gap-3">
           <Link to="/" className="text-white">Home</Link>
           <Link to="/settings" className="text-white">Settings</Link>

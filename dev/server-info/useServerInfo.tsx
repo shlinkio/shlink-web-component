@@ -14,9 +14,9 @@ export const useServerInfo = (): [ServerInfo, (newServerInfo: ServerInfo) => voi
     return rawInfo ? JSON.parse(rawInfo) as ServerInfo : {};
   });
   const updateServerInfo = useCallback((newServerInfo: ServerInfo) => {
-    localStorage.setItem('active_shlink_server_info', JSON.stringify(serverInfo));
+    localStorage.setItem('active_shlink_server_info', JSON.stringify(newServerInfo));
     setServerInfo(newServerInfo);
-  }, [serverInfo]);
+  }, []);
 
   return [serverInfo, updateServerInfo];
 };

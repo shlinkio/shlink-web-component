@@ -38,6 +38,8 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
   const doExcludeBots = excludeBots ?? visits?.excludeBots;
 
   useEffect(() => {
+    // TODO In order to highlight short URLs when new visits occur, there should be an action adding the short URLs to
+    //  highlight to a list, and taking care of removing them from that list after the timeout.
     if (!isFirstRun.current) {
       setActive();
     }

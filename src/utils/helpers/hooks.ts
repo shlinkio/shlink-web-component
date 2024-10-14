@@ -65,9 +65,7 @@ export const useMaxResolution = (maxResolution: number, matchMedia: MediaMatcher
 
   useEffect(() => {
     const listener = () => setResolutionIsMatched(matchResolution());
-
     window.addEventListener('resize', listener);
-
     return () => window.removeEventListener('resize', listener);
   }, [matchResolution]);
 

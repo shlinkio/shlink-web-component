@@ -148,16 +148,15 @@ const datesWithNoGaps = (step: Step, visitsGroups: Record<string, NormalizedVisi
   const duration = STEP_TO_DURATION_MAP[step];
 
   // We assume the list of visits is ordered, so the first and last visit should have the bigger and smaller dates
-  const firstDates = nonEmptyVisitsLists.map((visits) => parseISO(visits[0].date));
-  const lastDates = nonEmptyVisitsLists.map((visits) => parseISO(visits[visits.length - 1].date));
-  const newerDate = max(lastDates);
-  const oldestDate = min(firstDates);
-  const size = diffFunc(newerDate, oldestDate) + 1; // Add one, as we need both edges to be included
+  const flatVisitsList = nonEmptyVisitsLists.flat();
+  const startDate = parseISO(flatVisitsList[0].date);
+  const endDate = parseISO(flatVisitsList[flatVisitsList.length - 1].date);
+  const extraDots = diffFunc(endDate, startDate) || 1; // Ensure the chart never shows just one dot
 
   return [
-    { formattedDate: formatter(oldestDate), date: oldestDate },
-    ...rangeOf(size, (num) => {
-      const date = add(oldestDate, duration(num));
+    { formattedDate: formatter(startDate), date: startDate },
+    ...rangeOf(extraDots, (num) => {
+      const date = add(startDate, duration(num));
       return {
         formattedDate: formatter(date),
         date,

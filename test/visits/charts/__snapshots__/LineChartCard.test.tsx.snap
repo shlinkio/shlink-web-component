@@ -1861,8 +1861,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="78.77358490566037"
-                  x2="78.77358490566037"
+                  x1="79.03846153846153"
+                  x2="79.03846153846153"
                   y="365"
                   y1="371"
                   y2="365"
@@ -1875,12 +1875,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="78.77358490566037"
+                  x="79.03846153846153"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="78.77358490566037"
+                    x="79.03846153846153"
                   >
                     2023-04-10 - 2023-04-16
                   </tspan>
@@ -1897,8 +1897,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="92.54716981132076"
-                  x2="92.54716981132076"
+                  x1="93.07692307692308"
+                  x2="93.07692307692308"
                   y="365"
                   y1="371"
                   y2="365"
@@ -1911,12 +1911,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="92.54716981132076"
+                  x="93.07692307692308"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="92.54716981132076"
+                    x="93.07692307692308"
                   >
                     2023-04-17 - 2023-04-23
                   </tspan>
@@ -1933,8 +1933,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="106.32075471698113"
-                  x2="106.32075471698113"
+                  x1="107.11538461538461"
+                  x2="107.11538461538461"
                   y="365"
                   y1="371"
                   y2="365"
@@ -1947,12 +1947,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="106.32075471698113"
+                  x="107.11538461538461"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="106.32075471698113"
+                    x="107.11538461538461"
                   >
                     2023-04-24 - 2023-04-30
                   </tspan>
@@ -1969,8 +1969,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="120.09433962264151"
-                  x2="120.09433962264151"
+                  x1="121.15384615384616"
+                  x2="121.15384615384616"
                   y="365"
                   y1="371"
                   y2="365"
@@ -1983,12 +1983,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="120.09433962264151"
+                  x="121.15384615384616"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="120.09433962264151"
+                    x="121.15384615384616"
                   >
                     2023-05-01 - 2023-05-07
                   </tspan>
@@ -2005,8 +2005,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="133.8679245283019"
-                  x2="133.8679245283019"
+                  x1="135.19230769230768"
+                  x2="135.19230769230768"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2019,12 +2019,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="133.8679245283019"
+                  x="135.19230769230768"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="133.8679245283019"
+                    x="135.19230769230768"
                   >
                     2023-05-08 - 2023-05-14
                   </tspan>
@@ -2041,8 +2041,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="147.64150943396226"
-                  x2="147.64150943396226"
+                  x1="149.23076923076923"
+                  x2="149.23076923076923"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2055,12 +2055,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="147.64150943396226"
+                  x="149.23076923076923"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="147.64150943396226"
+                    x="149.23076923076923"
                   >
                     2023-05-15 - 2023-05-21
                   </tspan>
@@ -2077,8 +2077,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="161.41509433962264"
-                  x2="161.41509433962264"
+                  x1="163.26923076923077"
+                  x2="163.26923076923077"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2091,12 +2091,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="161.41509433962264"
+                  x="163.26923076923077"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="161.41509433962264"
+                    x="163.26923076923077"
                   >
                     2023-05-22 - 2023-05-28
                   </tspan>
@@ -2113,8 +2113,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="175.18867924528303"
-                  x2="175.18867924528303"
+                  x1="177.30769230769232"
+                  x2="177.30769230769232"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2127,12 +2127,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="175.18867924528303"
+                  x="177.30769230769232"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="175.18867924528303"
+                    x="177.30769230769232"
                   >
                     2023-05-29 - 2023-06-04
                   </tspan>
@@ -2149,8 +2149,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="188.96226415094338"
-                  x2="188.96226415094338"
+                  x1="191.34615384615384"
+                  x2="191.34615384615384"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2163,12 +2163,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="188.96226415094338"
+                  x="191.34615384615384"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="188.96226415094338"
+                    x="191.34615384615384"
                   >
                     2023-06-05 - 2023-06-11
                   </tspan>
@@ -2185,8 +2185,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="202.73584905660377"
-                  x2="202.73584905660377"
+                  x1="205.3846153846154"
+                  x2="205.3846153846154"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2199,12 +2199,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="202.73584905660377"
+                  x="205.3846153846154"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="202.73584905660377"
+                    x="205.3846153846154"
                   >
                     2023-06-12 - 2023-06-18
                   </tspan>
@@ -2221,8 +2221,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="216.50943396226415"
-                  x2="216.50943396226415"
+                  x1="219.42307692307693"
+                  x2="219.42307692307693"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2235,12 +2235,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="216.50943396226415"
+                  x="219.42307692307693"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="216.50943396226415"
+                    x="219.42307692307693"
                   >
                     2023-06-19 - 2023-06-25
                   </tspan>
@@ -2257,8 +2257,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="230.2830188679245"
-                  x2="230.2830188679245"
+                  x1="233.46153846153845"
+                  x2="233.46153846153845"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2271,12 +2271,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="230.2830188679245"
+                  x="233.46153846153845"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="230.2830188679245"
+                    x="233.46153846153845"
                   >
                     2023-06-26 - 2023-07-02
                   </tspan>
@@ -2293,8 +2293,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="244.0566037735849"
-                  x2="244.0566037735849"
+                  x1="247.5"
+                  x2="247.5"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2307,12 +2307,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="244.0566037735849"
+                  x="247.5"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="244.0566037735849"
+                    x="247.5"
                   >
                     2023-07-03 - 2023-07-09
                   </tspan>
@@ -2329,8 +2329,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="257.8301886792453"
-                  x2="257.8301886792453"
+                  x1="261.53846153846155"
+                  x2="261.53846153846155"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2343,12 +2343,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="257.8301886792453"
+                  x="261.53846153846155"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="257.8301886792453"
+                    x="261.53846153846155"
                   >
                     2023-07-10 - 2023-07-16
                   </tspan>
@@ -2365,8 +2365,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="271.60377358490564"
-                  x2="271.60377358490564"
+                  x1="275.5769230769231"
+                  x2="275.5769230769231"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2379,12 +2379,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="271.60377358490564"
+                  x="275.5769230769231"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="271.60377358490564"
+                    x="275.5769230769231"
                   >
                     2023-07-17 - 2023-07-23
                   </tspan>
@@ -2401,8 +2401,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="285.37735849056605"
-                  x2="285.37735849056605"
+                  x1="289.61538461538464"
+                  x2="289.61538461538464"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2415,12 +2415,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="285.37735849056605"
+                  x="289.61538461538464"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="285.37735849056605"
+                    x="289.61538461538464"
                   >
                     2023-07-24 - 2023-07-30
                   </tspan>
@@ -2437,8 +2437,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="299.1509433962264"
-                  x2="299.1509433962264"
+                  x1="303.6538461538462"
+                  x2="303.6538461538462"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2451,12 +2451,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="299.1509433962264"
+                  x="303.6538461538462"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="299.1509433962264"
+                    x="303.6538461538462"
                   >
                     2023-07-31 - 2023-08-06
                   </tspan>
@@ -2473,8 +2473,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="312.92452830188677"
-                  x2="312.92452830188677"
+                  x1="317.6923076923077"
+                  x2="317.6923076923077"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2487,12 +2487,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="312.92452830188677"
+                  x="317.6923076923077"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="312.92452830188677"
+                    x="317.6923076923077"
                   >
                     2023-08-07 - 2023-08-13
                   </tspan>
@@ -2509,8 +2509,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="326.6981132075472"
-                  x2="326.6981132075472"
+                  x1="331.7307692307692"
+                  x2="331.7307692307692"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2523,12 +2523,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="326.6981132075472"
+                  x="331.7307692307692"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="326.6981132075472"
+                    x="331.7307692307692"
                   >
                     2023-08-14 - 2023-08-20
                   </tspan>
@@ -2545,8 +2545,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="340.47169811320754"
-                  x2="340.47169811320754"
+                  x1="345.7692307692308"
+                  x2="345.7692307692308"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2559,12 +2559,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="340.47169811320754"
+                  x="345.7692307692308"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="340.47169811320754"
+                    x="345.7692307692308"
                   >
                     2023-08-21 - 2023-08-27
                   </tspan>
@@ -2581,8 +2581,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="354.2452830188679"
-                  x2="354.2452830188679"
+                  x1="359.8076923076923"
+                  x2="359.8076923076923"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2595,12 +2595,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="354.2452830188679"
+                  x="359.8076923076923"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="354.2452830188679"
+                    x="359.8076923076923"
                   >
                     2023-08-28 - 2023-09-03
                   </tspan>
@@ -2617,8 +2617,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="368.0188679245283"
-                  x2="368.0188679245283"
+                  x1="373.84615384615387"
+                  x2="373.84615384615387"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2631,12 +2631,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="368.0188679245283"
+                  x="373.84615384615387"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="368.0188679245283"
+                    x="373.84615384615387"
                   >
                     2023-09-04 - 2023-09-10
                   </tspan>
@@ -2653,8 +2653,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="381.79245283018867"
-                  x2="381.79245283018867"
+                  x1="387.88461538461536"
+                  x2="387.88461538461536"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2667,12 +2667,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="381.79245283018867"
+                  x="387.88461538461536"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="381.79245283018867"
+                    x="387.88461538461536"
                   >
                     2023-09-11 - 2023-09-17
                   </tspan>
@@ -2689,8 +2689,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="395.566037735849"
-                  x2="395.566037735849"
+                  x1="401.9230769230769"
+                  x2="401.9230769230769"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2703,12 +2703,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="395.566037735849"
+                  x="401.9230769230769"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="395.566037735849"
+                    x="401.9230769230769"
                   >
                     2023-09-18 - 2023-09-24
                   </tspan>
@@ -2725,8 +2725,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="409.33962264150944"
-                  x2="409.33962264150944"
+                  x1="415.96153846153845"
+                  x2="415.96153846153845"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2739,12 +2739,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="409.33962264150944"
+                  x="415.96153846153845"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="409.33962264150944"
+                    x="415.96153846153845"
                   >
                     2023-09-25 - 2023-10-01
                   </tspan>
@@ -2761,8 +2761,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="423.1132075471698"
-                  x2="423.1132075471698"
+                  x1="430"
+                  x2="430"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2775,12 +2775,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="423.1132075471698"
+                  x="430"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="423.1132075471698"
+                    x="430"
                   >
                     2023-10-02 - 2023-10-08
                   </tspan>
@@ -2797,8 +2797,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="436.88679245283015"
-                  x2="436.88679245283015"
+                  x1="444.03846153846155"
+                  x2="444.03846153846155"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2811,12 +2811,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="436.88679245283015"
+                  x="444.03846153846155"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="436.88679245283015"
+                    x="444.03846153846155"
                   >
                     2023-10-09 - 2023-10-15
                   </tspan>
@@ -2833,8 +2833,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="450.66037735849056"
-                  x2="450.66037735849056"
+                  x1="458.0769230769231"
+                  x2="458.0769230769231"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2847,12 +2847,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="450.66037735849056"
+                  x="458.0769230769231"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="450.66037735849056"
+                    x="458.0769230769231"
                   >
                     2023-10-16 - 2023-10-22
                   </tspan>
@@ -2869,8 +2869,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="464.4339622641509"
-                  x2="464.4339622641509"
+                  x1="472.1153846153846"
+                  x2="472.1153846153846"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2883,12 +2883,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="464.4339622641509"
+                  x="472.1153846153846"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="464.4339622641509"
+                    x="472.1153846153846"
                   >
                     2023-10-23 - 2023-10-29
                   </tspan>
@@ -2905,8 +2905,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="478.2075471698113"
-                  x2="478.2075471698113"
+                  x1="486.15384615384613"
+                  x2="486.15384615384613"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2919,12 +2919,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="478.2075471698113"
+                  x="486.15384615384613"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="478.2075471698113"
+                    x="486.15384615384613"
                   >
                     2023-10-30 - 2023-11-05
                   </tspan>
@@ -2941,8 +2941,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="491.9811320754717"
-                  x2="491.9811320754717"
+                  x1="500.1923076923077"
+                  x2="500.1923076923077"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2955,12 +2955,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="491.9811320754717"
+                  x="500.1923076923077"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="491.9811320754717"
+                    x="500.1923076923077"
                   >
                     2023-11-06 - 2023-11-12
                   </tspan>
@@ -2977,8 +2977,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="505.75471698113205"
-                  x2="505.75471698113205"
+                  x1="514.2307692307693"
+                  x2="514.2307692307693"
                   y="365"
                   y1="371"
                   y2="365"
@@ -2991,12 +2991,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="505.75471698113205"
+                  x="514.2307692307693"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="505.75471698113205"
+                    x="514.2307692307693"
                   >
                     2023-11-13 - 2023-11-19
                   </tspan>
@@ -3013,8 +3013,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="519.5283018867924"
-                  x2="519.5283018867924"
+                  x1="528.2692307692307"
+                  x2="528.2692307692307"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3027,12 +3027,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="519.5283018867924"
+                  x="528.2692307692307"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="519.5283018867924"
+                    x="528.2692307692307"
                   >
                     2023-11-20 - 2023-11-26
                   </tspan>
@@ -3049,8 +3049,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="533.3018867924528"
-                  x2="533.3018867924528"
+                  x1="542.3076923076924"
+                  x2="542.3076923076924"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3063,12 +3063,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="533.3018867924528"
+                  x="542.3076923076924"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="533.3018867924528"
+                    x="542.3076923076924"
                   >
                     2023-11-27 - 2023-12-03
                   </tspan>
@@ -3085,8 +3085,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="547.0754716981132"
-                  x2="547.0754716981132"
+                  x1="556.3461538461538"
+                  x2="556.3461538461538"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3099,12 +3099,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="547.0754716981132"
+                  x="556.3461538461538"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="547.0754716981132"
+                    x="556.3461538461538"
                   >
                     2023-12-04 - 2023-12-10
                   </tspan>
@@ -3121,8 +3121,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="560.8490566037735"
-                  x2="560.8490566037735"
+                  x1="570.3846153846154"
+                  x2="570.3846153846154"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3135,12 +3135,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="560.8490566037735"
+                  x="570.3846153846154"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="560.8490566037735"
+                    x="570.3846153846154"
                   >
                     2023-12-11 - 2023-12-17
                   </tspan>
@@ -3157,8 +3157,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="574.622641509434"
-                  x2="574.622641509434"
+                  x1="584.4230769230769"
+                  x2="584.4230769230769"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3171,12 +3171,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="574.622641509434"
+                  x="584.4230769230769"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="574.622641509434"
+                    x="584.4230769230769"
                   >
                     2023-12-18 - 2023-12-24
                   </tspan>
@@ -3193,8 +3193,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="588.3962264150944"
-                  x2="588.3962264150944"
+                  x1="598.4615384615385"
+                  x2="598.4615384615385"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3207,12 +3207,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="588.3962264150944"
+                  x="598.4615384615385"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="588.3962264150944"
+                    x="598.4615384615385"
                   >
                     2023-12-25 - 2023-12-31
                   </tspan>
@@ -3229,8 +3229,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="602.1698113207547"
-                  x2="602.1698113207547"
+                  x1="612.5"
+                  x2="612.5"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3243,12 +3243,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="602.1698113207547"
+                  x="612.5"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="602.1698113207547"
+                    x="612.5"
                   >
                     2024-01-01 - 2024-01-07
                   </tspan>
@@ -3265,8 +3265,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="615.9433962264151"
-                  x2="615.9433962264151"
+                  x1="626.5384615384615"
+                  x2="626.5384615384615"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3279,12 +3279,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="615.9433962264151"
+                  x="626.5384615384615"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="615.9433962264151"
+                    x="626.5384615384615"
                   >
                     2024-01-08 - 2024-01-14
                   </tspan>
@@ -3301,8 +3301,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="629.7169811320755"
-                  x2="629.7169811320755"
+                  x1="640.5769230769231"
+                  x2="640.5769230769231"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3315,12 +3315,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="629.7169811320755"
+                  x="640.5769230769231"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="629.7169811320755"
+                    x="640.5769230769231"
                   >
                     2024-01-15 - 2024-01-21
                   </tspan>
@@ -3337,8 +3337,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="643.4905660377358"
-                  x2="643.4905660377358"
+                  x1="654.6153846153846"
+                  x2="654.6153846153846"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3351,12 +3351,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="643.4905660377358"
+                  x="654.6153846153846"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="643.4905660377358"
+                    x="654.6153846153846"
                   >
                     2024-01-22 - 2024-01-28
                   </tspan>
@@ -3373,8 +3373,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="657.2641509433962"
-                  x2="657.2641509433962"
+                  x1="668.6538461538462"
+                  x2="668.6538461538462"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3387,12 +3387,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="657.2641509433962"
+                  x="668.6538461538462"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="657.2641509433962"
+                    x="668.6538461538462"
                   >
                     2024-01-29 - 2024-02-04
                   </tspan>
@@ -3409,8 +3409,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="671.0377358490566"
-                  x2="671.0377358490566"
+                  x1="682.6923076923077"
+                  x2="682.6923076923077"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3423,12 +3423,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="671.0377358490566"
+                  x="682.6923076923077"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="671.0377358490566"
+                    x="682.6923076923077"
                   >
                     2024-02-05 - 2024-02-11
                   </tspan>
@@ -3445,8 +3445,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="684.8113207547169"
-                  x2="684.8113207547169"
+                  x1="696.7307692307692"
+                  x2="696.7307692307692"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3459,12 +3459,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="684.8113207547169"
+                  x="696.7307692307692"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="684.8113207547169"
+                    x="696.7307692307692"
                   >
                     2024-02-12 - 2024-02-18
                   </tspan>
@@ -3481,8 +3481,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="698.5849056603773"
-                  x2="698.5849056603773"
+                  x1="710.7692307692307"
+                  x2="710.7692307692307"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3495,12 +3495,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="698.5849056603773"
+                  x="710.7692307692307"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="698.5849056603773"
+                    x="710.7692307692307"
                   >
                     2024-02-19 - 2024-02-25
                   </tspan>
@@ -3517,8 +3517,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="712.3584905660377"
-                  x2="712.3584905660377"
+                  x1="724.8076923076923"
+                  x2="724.8076923076923"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3531,12 +3531,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="712.3584905660377"
+                  x="724.8076923076923"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="712.3584905660377"
+                    x="724.8076923076923"
                   >
                     2024-02-26 - 2024-03-03
                   </tspan>
@@ -3553,8 +3553,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="726.132075471698"
-                  x2="726.132075471698"
+                  x1="738.8461538461538"
+                  x2="738.8461538461538"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3567,12 +3567,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="726.132075471698"
+                  x="738.8461538461538"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="726.132075471698"
+                    x="738.8461538461538"
                   >
                     2024-03-04 - 2024-03-10
                   </tspan>
@@ -3589,8 +3589,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="739.9056603773585"
-                  x2="739.9056603773585"
+                  x1="752.8846153846154"
+                  x2="752.8846153846154"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3603,12 +3603,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="739.9056603773585"
+                  x="752.8846153846154"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="739.9056603773585"
+                    x="752.8846153846154"
                   >
                     2024-03-11 - 2024-03-17
                   </tspan>
@@ -3625,8 +3625,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="753.6792452830189"
-                  x2="753.6792452830189"
+                  x1="766.9230769230769"
+                  x2="766.9230769230769"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3639,12 +3639,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="753.6792452830189"
+                  x="766.9230769230769"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="753.6792452830189"
+                    x="766.9230769230769"
                   >
                     2024-03-18 - 2024-03-24
                   </tspan>
@@ -3661,8 +3661,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="767.4528301886792"
-                  x2="767.4528301886792"
+                  x1="780.9615384615385"
+                  x2="780.9615384615385"
                   y="365"
                   y1="371"
                   y2="365"
@@ -3675,50 +3675,14 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="767.4528301886792"
+                  x="780.9615384615385"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="767.4528301886792"
+                    x="780.9615384615385"
                   >
                     2024-03-25 - 2024-03-31
-                  </tspan>
-                </text>
-              </g>
-              <g
-                class="recharts-layer recharts-cartesian-axis-tick"
-              >
-                <line
-                  class="recharts-cartesian-axis-tick-line"
-                  fill="none"
-                  height="30"
-                  orientation="bottom"
-                  stroke="#666"
-                  width="730"
-                  x="65"
-                  x1="781.2264150943396"
-                  x2="781.2264150943396"
-                  y="365"
-                  y1="371"
-                  y2="365"
-                />
-                <text
-                  class="recharts-text recharts-cartesian-axis-tick-value"
-                  fill="#666"
-                  height="30"
-                  orientation="bottom"
-                  stroke="none"
-                  text-anchor="middle"
-                  width="730"
-                  x="781.2264150943396"
-                  y="373"
-                >
-                  <tspan
-                    dy="0.71em"
-                    x="781.2264150943396"
-                  >
-                    2024-04-01 - 2024-04-07
                   </tspan>
                 </text>
               </g>
@@ -3754,7 +3718,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                     dy="0.71em"
                     x="795"
                   >
-                    2024-04-08 - 2024-04-14
+                    2024-04-01 - 2024-04-07
                   </tspan>
                 </text>
               </g>
@@ -4057,8 +4021,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="78.77358490566037"
-                x2="78.77358490566037"
+                x1="79.03846153846153"
+                x2="79.03846153846153"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4070,8 +4034,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="92.54716981132076"
-                x2="92.54716981132076"
+                x1="93.07692307692308"
+                x2="93.07692307692308"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4083,8 +4047,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="106.32075471698113"
-                x2="106.32075471698113"
+                x1="107.11538461538461"
+                x2="107.11538461538461"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4096,8 +4060,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="120.09433962264151"
-                x2="120.09433962264151"
+                x1="121.15384615384616"
+                x2="121.15384615384616"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4109,8 +4073,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="133.8679245283019"
-                x2="133.8679245283019"
+                x1="135.19230769230768"
+                x2="135.19230769230768"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4122,8 +4086,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="147.64150943396226"
-                x2="147.64150943396226"
+                x1="149.23076923076923"
+                x2="149.23076923076923"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4135,8 +4099,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="161.41509433962264"
-                x2="161.41509433962264"
+                x1="163.26923076923077"
+                x2="163.26923076923077"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4148,8 +4112,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="175.18867924528303"
-                x2="175.18867924528303"
+                x1="177.30769230769232"
+                x2="177.30769230769232"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4161,8 +4125,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="188.96226415094338"
-                x2="188.96226415094338"
+                x1="191.34615384615384"
+                x2="191.34615384615384"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4174,8 +4138,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="202.73584905660377"
-                x2="202.73584905660377"
+                x1="205.3846153846154"
+                x2="205.3846153846154"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4187,8 +4151,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="216.50943396226415"
-                x2="216.50943396226415"
+                x1="219.42307692307693"
+                x2="219.42307692307693"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4200,8 +4164,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="230.2830188679245"
-                x2="230.2830188679245"
+                x1="233.46153846153845"
+                x2="233.46153846153845"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4213,8 +4177,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="244.0566037735849"
-                x2="244.0566037735849"
+                x1="247.5"
+                x2="247.5"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4226,8 +4190,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="257.8301886792453"
-                x2="257.8301886792453"
+                x1="261.53846153846155"
+                x2="261.53846153846155"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4239,8 +4203,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="271.60377358490564"
-                x2="271.60377358490564"
+                x1="275.5769230769231"
+                x2="275.5769230769231"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4252,8 +4216,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="285.37735849056605"
-                x2="285.37735849056605"
+                x1="289.61538461538464"
+                x2="289.61538461538464"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4265,8 +4229,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="299.1509433962264"
-                x2="299.1509433962264"
+                x1="303.6538461538462"
+                x2="303.6538461538462"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4278,8 +4242,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="312.92452830188677"
-                x2="312.92452830188677"
+                x1="317.6923076923077"
+                x2="317.6923076923077"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4291,8 +4255,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="326.6981132075472"
-                x2="326.6981132075472"
+                x1="331.7307692307692"
+                x2="331.7307692307692"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4304,8 +4268,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="340.47169811320754"
-                x2="340.47169811320754"
+                x1="345.7692307692308"
+                x2="345.7692307692308"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4317,8 +4281,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="354.2452830188679"
-                x2="354.2452830188679"
+                x1="359.8076923076923"
+                x2="359.8076923076923"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4330,8 +4294,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="368.0188679245283"
-                x2="368.0188679245283"
+                x1="373.84615384615387"
+                x2="373.84615384615387"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4343,8 +4307,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="381.79245283018867"
-                x2="381.79245283018867"
+                x1="387.88461538461536"
+                x2="387.88461538461536"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4356,8 +4320,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="395.566037735849"
-                x2="395.566037735849"
+                x1="401.9230769230769"
+                x2="401.9230769230769"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4369,8 +4333,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="409.33962264150944"
-                x2="409.33962264150944"
+                x1="415.96153846153845"
+                x2="415.96153846153845"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4382,8 +4346,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="423.1132075471698"
-                x2="423.1132075471698"
+                x1="430"
+                x2="430"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4395,8 +4359,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="436.88679245283015"
-                x2="436.88679245283015"
+                x1="444.03846153846155"
+                x2="444.03846153846155"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4408,8 +4372,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="450.66037735849056"
-                x2="450.66037735849056"
+                x1="458.0769230769231"
+                x2="458.0769230769231"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4421,8 +4385,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="464.4339622641509"
-                x2="464.4339622641509"
+                x1="472.1153846153846"
+                x2="472.1153846153846"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4434,8 +4398,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="478.2075471698113"
-                x2="478.2075471698113"
+                x1="486.15384615384613"
+                x2="486.15384615384613"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4447,8 +4411,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="491.9811320754717"
-                x2="491.9811320754717"
+                x1="500.1923076923077"
+                x2="500.1923076923077"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4460,8 +4424,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="505.75471698113205"
-                x2="505.75471698113205"
+                x1="514.2307692307693"
+                x2="514.2307692307693"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4473,8 +4437,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="519.5283018867924"
-                x2="519.5283018867924"
+                x1="528.2692307692307"
+                x2="528.2692307692307"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4486,8 +4450,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="533.3018867924528"
-                x2="533.3018867924528"
+                x1="542.3076923076924"
+                x2="542.3076923076924"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4499,8 +4463,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="547.0754716981132"
-                x2="547.0754716981132"
+                x1="556.3461538461538"
+                x2="556.3461538461538"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4512,8 +4476,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="560.8490566037735"
-                x2="560.8490566037735"
+                x1="570.3846153846154"
+                x2="570.3846153846154"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4525,8 +4489,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="574.622641509434"
-                x2="574.622641509434"
+                x1="584.4230769230769"
+                x2="584.4230769230769"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4538,8 +4502,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="588.3962264150944"
-                x2="588.3962264150944"
+                x1="598.4615384615385"
+                x2="598.4615384615385"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4551,8 +4515,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="602.1698113207547"
-                x2="602.1698113207547"
+                x1="612.5"
+                x2="612.5"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4564,8 +4528,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="615.9433962264151"
-                x2="615.9433962264151"
+                x1="626.5384615384615"
+                x2="626.5384615384615"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4577,8 +4541,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="629.7169811320755"
-                x2="629.7169811320755"
+                x1="640.5769230769231"
+                x2="640.5769230769231"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4590,8 +4554,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="643.4905660377358"
-                x2="643.4905660377358"
+                x1="654.6153846153846"
+                x2="654.6153846153846"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4603,8 +4567,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="657.2641509433962"
-                x2="657.2641509433962"
+                x1="668.6538461538462"
+                x2="668.6538461538462"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4616,8 +4580,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="671.0377358490566"
-                x2="671.0377358490566"
+                x1="682.6923076923077"
+                x2="682.6923076923077"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4629,8 +4593,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="684.8113207547169"
-                x2="684.8113207547169"
+                x1="696.7307692307692"
+                x2="696.7307692307692"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4642,8 +4606,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="698.5849056603773"
-                x2="698.5849056603773"
+                x1="710.7692307692307"
+                x2="710.7692307692307"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4655,8 +4619,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="712.3584905660377"
-                x2="712.3584905660377"
+                x1="724.8076923076923"
+                x2="724.8076923076923"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4668,8 +4632,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="726.132075471698"
-                x2="726.132075471698"
+                x1="738.8461538461538"
+                x2="738.8461538461538"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4681,8 +4645,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="739.9056603773585"
-                x2="739.9056603773585"
+                x1="752.8846153846154"
+                x2="752.8846153846154"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4694,8 +4658,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="753.6792452830189"
-                x2="753.6792452830189"
+                x1="766.9230769230769"
+                x2="766.9230769230769"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4707,21 +4671,8 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="767.4528301886792"
-                x2="767.4528301886792"
-                y="5"
-                y1="5"
-                y2="365"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="781.2264150943396"
-                x2="781.2264150943396"
+                x1="780.9615384615385"
+                x2="780.9615384615385"
                 y="5"
                 y1="5"
                 y2="365"
@@ -4746,7 +4697,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           >
             <path
               class="recharts-curve recharts-line-curve"
-              d="M65,275C69.59119496855345,320,74.18238993710692,365,78.77358490566037,365C83.36477987421384,365,87.95597484276729,365,92.54716981132076,365C97.13836477987421,365,101.72955974842768,365,106.32075471698113,365C110.9119496855346,365,115.50314465408805,365,120.09433962264151,365C124.68553459119498,365,129.27672955974845,365,133.8679245283019,365C138.45911949685535,365,143.0503144654088,365,147.64150943396226,365C152.2327044025157,365,156.8238993710692,365,161.41509433962264,365C166.0062893081761,365,170.59748427672957,365,175.18867924528303,365C179.77987421383648,365,184.37106918238993,365,188.96226415094338,365C193.55345911949684,365,198.14465408805032,365,202.73584905660377,365C207.32704402515722,365,211.9182389937107,365,216.50943396226415,365C221.1006289308176,365,225.69182389937106,365,230.2830188679245,365C234.87421383647796,365,239.46540880503144,365,244.0566037735849,365C248.64779874213835,365,253.23899371069183,365,257.8301886792453,365C262.42138364779873,365,267.0125786163522,365,271.60377358490564,365C276.1949685534591,365,280.7861635220126,365,285.37735849056605,365C289.9685534591195,365,294.55974842767296,365,299.1509433962264,365C303.74213836477986,365,308.3333333333333,365,312.92452830188677,365C317.5157232704402,365,322.1069182389937,365,326.6981132075472,365C331.28930817610063,365,335.8805031446541,365,340.47169811320754,365C345.062893081761,365,349.65408805031444,365,354.2452830188679,365C358.83647798742135,365,363.42767295597486,365,368.0188679245283,365C372.61006289308176,365,377.2012578616352,365,381.79245283018867,365C386.3836477987421,365,390.97484276729557,365,395.566037735849,365C400.1572327044025,365,404.748427672956,365,409.33962264150944,365C413.9308176100629,365,418.52201257861634,365,423.1132075471698,365C427.70440251572325,365,432.2955974842767,365,436.88679245283015,365C441.4779874213836,365,446.0691823899371,365,450.66037735849056,365C455.251572327044,365,459.84276729559747,365,464.4339622641509,365C469.0251572327044,365,473.6163522012578,365,478.2075471698113,365C482.79874213836473,365,487.38993710691824,365,491.9811320754717,365C496.57232704402514,365,501.1635220125786,365,505.75471698113205,365C510.3459119496855,365,514.9371069182389,365,519.5283018867924,365C524.1194968553459,365,528.7106918238993,365,533.3018867924528,365C537.8930817610063,365,542.4842767295597,365,547.0754716981132,365C551.6666666666666,365,556.2578616352201,365,560.8490566037735,365C565.440251572327,365,570.0314465408804,365,574.622641509434,365C579.2138364779875,365,583.8050314465409,365,588.3962264150944,365C592.9874213836478,365,597.5786163522013,365,602.1698113207547,365C606.7610062893082,365,611.3522012578616,365,615.9433962264151,365C620.5345911949686,365,625.125786163522,365,629.7169811320755,365C634.3081761006289,365,638.8993710691824,365,643.4905660377358,365C648.0817610062893,365,652.6729559748427,365,657.2641509433962,365C661.8553459119497,365,666.4465408805031,365,671.0377358490566,365C675.62893081761,365,680.2201257861635,365,684.8113207547169,365C689.4025157232704,365,693.9937106918238,365,698.5849056603773,365C703.1761006289308,365,707.7672955974842,365,712.3584905660377,365C716.9496855345911,365,721.5408805031446,365,726.132075471698,365C730.7232704402516,365,735.314465408805,365,739.9056603773585,365C744.496855345912,365,749.0880503144654,365,753.6792452830189,365C758.2704402515723,365,762.8616352201258,365,767.4528301886792,365C772.0440251572327,365,776.6352201257861,365,781.2264150943396,365C785.8176100628931,365,790.4088050314465,365,795,365"
+              d="M65,275C69.67948717948718,320,74.35897435897435,365,79.03846153846153,365C83.71794871794872,365,88.3974358974359,365,93.07692307692308,365C97.75641025641026,365,102.43589743589743,365,107.11538461538461,365C111.7948717948718,365,116.47435897435898,365,121.15384615384616,365C125.83333333333333,365,130.5128205128205,365,135.19230769230768,365C139.87179487179486,365,144.55128205128204,365,149.23076923076923,365C153.9102564102564,365,158.5897435897436,365,163.26923076923077,365C167.94871794871796,365,172.62820512820514,365,177.30769230769232,365C181.9871794871795,365,186.66666666666666,365,191.34615384615384,365C196.02564102564102,365,200.7051282051282,365,205.3846153846154,365C210.06410256410257,365,214.74358974358975,365,219.42307692307693,365C224.10256410256412,365,228.78205128205127,365,233.46153846153845,365C238.14102564102564,365,242.82051282051282,365,247.5,365C252.17948717948718,365,256.85897435897436,365,261.53846153846155,365C266.21794871794873,365,270.8974358974359,365,275.5769230769231,365C280.2564102564103,365,284.93589743589746,365,289.61538461538464,365C294.2948717948718,365,298.974358974359,365,303.6538461538462,365C308.33333333333337,365,313.0128205128205,365,317.6923076923077,365C322.37179487179486,365,327.05128205128204,365,331.7307692307692,365C336.4102564102564,365,341.0897435897436,365,345.7692307692308,365C350.44871794871796,365,355.12820512820514,365,359.8076923076923,365C364.4871794871795,365,369.1666666666667,365,373.84615384615387,365C378.52564102564105,365,383.2051282051282,365,387.88461538461536,365C392.56410256410254,365,397.2435897435897,365,401.9230769230769,365C406.6025641025641,365,411.28205128205127,365,415.96153846153845,365C420.64102564102564,365,425.3205128205128,365,430,365C434.6794871794872,365,439.35897435897436,365,444.03846153846155,365C448.71794871794873,365,453.3974358974359,365,458.0769230769231,365C462.7564102564103,365,467.4358974358974,365,472.1153846153846,365C476.79487179487177,365,481.47435897435895,365,486.15384615384613,365C490.8333333333333,365,495.5128205128205,365,500.1923076923077,365C504.87179487179486,365,509.5512820512821,365,514.2307692307693,365C518.9102564102565,365,523.5897435897435,365,528.2692307692307,365C532.9487179487179,365,537.6282051282052,365,542.3076923076924,365C546.9871794871796,365,551.6666666666666,365,556.3461538461538,365C561.025641025641,365,565.7051282051282,365,570.3846153846154,365C575.0641025641025,365,579.7435897435897,365,584.4230769230769,365C589.1025641025641,365,593.7820512820513,365,598.4615384615385,365C603.1410256410256,365,607.8205128205128,365,612.5,365C617.1794871794872,365,621.8589743589744,365,626.5384615384615,365C631.2179487179487,365,635.8974358974359,365,640.5769230769231,365C645.2564102564103,365,649.9358974358975,365,654.6153846153846,365C659.2948717948718,365,663.974358974359,365,668.6538461538462,365C673.3333333333334,365,678.0128205128206,365,682.6923076923077,365C687.3717948717949,365,692.051282051282,365,696.7307692307692,365C701.4102564102564,365,706.0897435897435,365,710.7692307692307,365C715.4487179487179,365,720.1282051282051,365,724.8076923076923,365C729.4871794871794,365,734.1666666666666,365,738.8461538461538,365C743.525641025641,365,748.2051282051282,365,752.8846153846154,365C757.5641025641025,365,762.2435897435897,365,766.9230769230769,365C771.6025641025641,365,776.2820512820513,365,780.9615384615385,365C785.6410256410256,365,790.3205128205128,365,795,365"
               fill="none"
               height="360"
               stroke="red"
@@ -4760,7 +4711,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           >
             <path
               class="recharts-curve recharts-line-curve"
-              d="M65,365C69.59119496855345,365,74.18238993710692,365,78.77358490566037,365C83.36477987421384,365,87.95597484276729,365,92.54716981132076,365C97.13836477987421,365,101.72955974842768,365,106.32075471698113,365C110.9119496855346,365,115.50314465408805,365,120.09433962264151,365C124.68553459119498,365,129.27672955974845,365,133.8679245283019,365C138.45911949685535,365,143.0503144654088,365,147.64150943396226,365C152.2327044025157,365,156.8238993710692,365,161.41509433962264,365C166.0062893081761,365,170.59748427672957,365,175.18867924528303,365C179.77987421383648,365,184.37106918238993,365,188.96226415094338,365C193.55345911949684,365,198.14465408805032,365,202.73584905660377,365C207.32704402515722,365,211.9182389937107,365,216.50943396226415,365C221.1006289308176,365,225.69182389937106,365,230.2830188679245,365C234.87421383647796,365,239.46540880503144,365,244.0566037735849,365C248.64779874213835,365,253.23899371069183,365,257.8301886792453,365C262.42138364779873,365,267.0125786163522,365,271.60377358490564,365C276.1949685534591,365,280.7861635220126,365,285.37735849056605,365C289.9685534591195,365,294.55974842767296,365,299.1509433962264,365C303.74213836477986,365,308.3333333333333,365,312.92452830188677,365C317.5157232704402,365,322.1069182389937,365,326.6981132075472,365C331.28930817610063,365,335.8805031446541,365,340.47169811320754,365C345.062893081761,365,349.65408805031444,365,354.2452830188679,365C358.83647798742135,365,363.42767295597486,365,368.0188679245283,365C372.61006289308176,365,377.2012578616352,365,381.79245283018867,365C386.3836477987421,365,390.97484276729557,365,395.566037735849,365C400.1572327044025,365,404.748427672956,365,409.33962264150944,365C413.9308176100629,365,418.52201257861634,365,423.1132075471698,365C427.70440251572325,365,432.2955974842767,365,436.88679245283015,365C441.4779874213836,365,446.0691823899371,365,450.66037735849056,365C455.251572327044,365,459.84276729559747,365,464.4339622641509,365C469.0251572327044,365,473.6163522012578,365,478.2075471698113,365C482.79874213836473,365,487.38993710691824,365,491.9811320754717,365C496.57232704402514,365,501.1635220125786,365,505.75471698113205,365C510.3459119496855,365,514.9371069182389,365,519.5283018867924,365C524.1194968553459,365,528.7106918238993,365,533.3018867924528,365C537.8930817610063,365,542.4842767295597,365,547.0754716981132,365C551.6666666666666,365,556.2578616352201,365,560.8490566037735,365C565.440251572327,365,570.0314465408804,365,574.622641509434,365C579.2138364779875,365,583.8050314465409,365,588.3962264150944,365C592.9874213836478,365,597.5786163522013,365,602.1698113207547,365C606.7610062893082,365,611.3522012578616,365,615.9433962264151,365C620.5345911949686,365,625.125786163522,365,629.7169811320755,365C634.3081761006289,365,638.8993710691824,365,643.4905660377358,365C648.0817610062893,365,652.6729559748427,365,657.2641509433962,365C661.8553459119497,365,666.4465408805031,365,671.0377358490566,365C675.62893081761,365,680.2201257861635,365,684.8113207547169,365C689.4025157232704,365,693.9937106918238,365,698.5849056603773,365C703.1761006289308,365,707.7672955974842,365,712.3584905660377,365C716.9496855345911,365,721.5408805031446,365,726.132075471698,365C730.7232704402516,365,735.314465408805,365,739.9056603773585,365C744.496855345912,365,749.0880503144654,365,753.6792452830189,365C758.2704402515723,365,762.8616352201258,365,767.4528301886792,365C772.0440251572327,365,776.6352201257861,5,781.2264150943396,5C785.8176100628931,5,790.4088050314465,185.00000000000003,795,365"
+              d="M65,365C69.67948717948718,365,74.35897435897435,365,79.03846153846153,365C83.71794871794872,365,88.3974358974359,365,93.07692307692308,365C97.75641025641026,365,102.43589743589743,365,107.11538461538461,365C111.7948717948718,365,116.47435897435898,365,121.15384615384616,365C125.83333333333333,365,130.5128205128205,365,135.19230769230768,365C139.87179487179486,365,144.55128205128204,365,149.23076923076923,365C153.9102564102564,365,158.5897435897436,365,163.26923076923077,365C167.94871794871796,365,172.62820512820514,365,177.30769230769232,365C181.9871794871795,365,186.66666666666666,365,191.34615384615384,365C196.02564102564102,365,200.7051282051282,365,205.3846153846154,365C210.06410256410257,365,214.74358974358975,365,219.42307692307693,365C224.10256410256412,365,228.78205128205127,365,233.46153846153845,365C238.14102564102564,365,242.82051282051282,365,247.5,365C252.17948717948718,365,256.85897435897436,365,261.53846153846155,365C266.21794871794873,365,270.8974358974359,365,275.5769230769231,365C280.2564102564103,365,284.93589743589746,365,289.61538461538464,365C294.2948717948718,365,298.974358974359,365,303.6538461538462,365C308.33333333333337,365,313.0128205128205,365,317.6923076923077,365C322.37179487179486,365,327.05128205128204,365,331.7307692307692,365C336.4102564102564,365,341.0897435897436,365,345.7692307692308,365C350.44871794871796,365,355.12820512820514,365,359.8076923076923,365C364.4871794871795,365,369.1666666666667,365,373.84615384615387,365C378.52564102564105,365,383.2051282051282,365,387.88461538461536,365C392.56410256410254,365,397.2435897435897,365,401.9230769230769,365C406.6025641025641,365,411.28205128205127,365,415.96153846153845,365C420.64102564102564,365,425.3205128205128,365,430,365C434.6794871794872,365,439.35897435897436,365,444.03846153846155,365C448.71794871794873,365,453.3974358974359,365,458.0769230769231,365C462.7564102564103,365,467.4358974358974,365,472.1153846153846,365C476.79487179487177,365,481.47435897435895,365,486.15384615384613,365C490.8333333333333,365,495.5128205128205,365,500.1923076923077,365C504.87179487179486,365,509.5512820512821,365,514.2307692307693,365C518.9102564102565,365,523.5897435897435,365,528.2692307692307,365C532.9487179487179,365,537.6282051282052,365,542.3076923076924,365C546.9871794871796,365,551.6666666666666,365,556.3461538461538,365C561.025641025641,365,565.7051282051282,365,570.3846153846154,365C575.0641025641025,365,579.7435897435897,365,584.4230769230769,365C589.1025641025641,365,593.7820512820513,365,598.4615384615385,365C603.1410256410256,365,607.8205128205128,365,612.5,365C617.1794871794872,365,621.8589743589744,365,626.5384615384615,365C631.2179487179487,365,635.8974358974359,365,640.5769230769231,365C645.2564102564103,365,649.9358974358975,365,654.6153846153846,365C659.2948717948718,365,663.974358974359,365,668.6538461538462,365C673.3333333333334,365,678.0128205128206,365,682.6923076923077,365C687.3717948717949,365,692.051282051282,365,696.7307692307692,365C701.4102564102564,365,706.0897435897435,365,710.7692307692307,365C715.4487179487179,365,720.1282051282051,365,724.8076923076923,365C729.4871794871794,365,734.1666666666666,365,738.8461538461538,365C743.525641025641,365,748.2051282051282,365,752.8846153846154,365C757.5641025641025,365,762.2435897435897,365,766.9230769230769,365C771.6025641025641,365,776.2820512820513,365,780.9615384615385,365C785.6410256410256,365,790.3205128205128,184.99999999999997,795,5"
               fill="none"
               height="360"
               stroke="yellow"

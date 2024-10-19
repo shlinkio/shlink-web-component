@@ -104,7 +104,7 @@
     "history": "^5.3.0",
     "jsdom": "^25.0.1",
     "resize-observer-polyfill": "^1.5.1",
-    "sass": "^1.79.5",
+    "sass": "^1.80.3",
     "stylelint": "^15.11.0",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.8.1",

@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
 
+## [0.10.1] - 2024-10-19
+### Added
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* [#475](https://github.com/shlinkio/shlink-web-component/issues/475) Fix incorrect amount of dots being displayed in line charts when the difference in days/weeks/months is rounded up.
+
+
 ## [0.10.0] - 2024-10-19
 ### Added
 * *Nothing*

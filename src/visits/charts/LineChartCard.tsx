@@ -15,10 +15,10 @@ import { clsx } from 'clsx';
 import type { Duration } from 'date-fns';
 import {
   add,
-  differenceInDays,
+  differenceInCalendarDays,
+  differenceInCalendarMonths,
+  differenceInCalendarWeeks,
   differenceInHours,
-  differenceInMonths,
-  differenceInWeeks,
   endOfISOWeek,
   format,
   max,
@@ -75,9 +75,9 @@ const STEP_TO_DURATION_MAP: Record<Step, (amount: number) => Duration> = {
 
 const STEP_TO_DIFF_FUNC_MAP: Record<Step, (dateLeft: Date, dateRight: Date) => number> = {
   hourly: differenceInHours,
-  daily: differenceInDays,
-  weekly: differenceInWeeks,
-  monthly: differenceInMonths,
+  daily: differenceInCalendarDays,
+  weekly: differenceInCalendarWeeks,
+  monthly: differenceInCalendarMonths,
 };
 
 const STEP_TO_DATE_FORMAT: Record<Step, (date: Date) => string> = {
@@ -102,9 +102,9 @@ const determineInitialStep = (visitsGroups: Record<string, NormalizedVisit[]>): 
   const lastDates = nonEmptyVisitsLists.map((visits) => parseISO(visits[visits.length - 1].date));
   const oldestDate = max(lastDates);
   const conditions: [() => boolean, Step][] = [
-    [() => differenceInDays(now, oldestDate) <= 2, 'hourly'], // Less than 2 days
-    [() => differenceInMonths(now, oldestDate) <= 1, 'daily'], // Between 2 days and 1 month
-    [() => differenceInMonths(now, oldestDate) <= 6, 'weekly'], // Between 1 and 6 months
+    [() => differenceInCalendarDays(now, oldestDate) <= 2, 'hourly'], // Less than 2 days
+    [() => differenceInCalendarMonths(now, oldestDate) <= 1, 'daily'], // Between 2 days and 1 month
+    [() => differenceInCalendarMonths(now, oldestDate) <= 6, 'weekly'], // Between 1 and 6 months
   ];
 
   return conditions.find(([matcher]) => matcher())?.[1] ?? 'monthly';

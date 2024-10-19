@@ -5,23 +5,19 @@
   "repository": "https://github.com/shlinkio/shlink-web-component",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     },
     "./api-contract": {
       "import": "./dist/api-contract.js",
-      "require": "./dist/api-contract.cjs",
       "types": "./dist/api-contract.d.ts"
     },
     "./settings": {
       "import": "./dist/settings.js",
-      "require": "./dist/settings.cjs",
       "types": "./dist/settings.d.ts"
     },
     "./package.json": "./package.json"

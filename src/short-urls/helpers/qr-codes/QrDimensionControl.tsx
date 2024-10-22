@@ -2,7 +2,7 @@ import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { FC } from 'react';
 import { useId } from 'react';
-import { Button, FormGroup } from 'reactstrap';
+import { Button } from 'reactstrap';
 
 export type QrCodeDimensionControlProps = {
   name: string;
@@ -12,16 +12,15 @@ export type QrCodeDimensionControlProps = {
   max?: number;
   initial?: number;
   onChange: (newValue?: number) => void;
-  className?: string;
 };
 
 export const QrDimensionControl: FC<QrCodeDimensionControlProps> = (
-  { name, value, step, min, max, onChange, className, initial = min },
+  { name, value, step, min, max, onChange, initial = min },
 ) => {
   const id = useId();
 
   return (
-    <FormGroup className={className}>
+    <div>
       {value === undefined && (
         <Button
           outline
@@ -60,6 +59,6 @@ export const QrDimensionControl: FC<QrCodeDimensionControlProps> = (
           </Button>
         </div>
       )}
-    </FormGroup>
+    </div>
   );
 };

@@ -31,6 +31,7 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(
         onChange={(e) => onChange(e.target.value)}
         innerRef={ref}
         name={name}
+        aria-label={name}
       />
     </div>
   ),

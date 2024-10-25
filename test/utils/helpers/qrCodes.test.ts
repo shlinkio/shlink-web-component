@@ -28,6 +28,11 @@ describe('qrCodes', () => {
         { size: 999, format: 'png' as const, errorCorrection: 'Q' as const, margin: 20 },
         'shlink.io/qr-code?size=999&format=png&errorCorrection=Q&margin=20',
       ],
+      [
+        'shlink.io',
+        { color: '#ff0000', bgColor: '001122' },
+        'shlink.io/qr-code?color=ff0000&bgColor=001122',
+      ],
     ])('builds expected URL based in params', (shortUrl, options, expectedUrl) => {
       expect(buildQrCodeUrl(shortUrl, options)).toEqual(expectedUrl);
     });

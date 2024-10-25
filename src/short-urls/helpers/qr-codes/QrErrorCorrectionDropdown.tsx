@@ -11,7 +11,10 @@ interface QrErrorCorrectionDropdownProps {
 export const QrErrorCorrectionDropdown: FC<QrErrorCorrectionDropdownProps> = (
   { errorCorrection, onChange },
 ) => (
-  <DropdownBtn text={errorCorrection ? `Error correction (${errorCorrection})` : <i>Default error correction</i>}>
+  <DropdownBtn
+    text={errorCorrection ? `Error correction (${errorCorrection})` : <i>Default error correction</i>}
+    dropdownClassName="w-100"
+  >
     <DropdownItem active={!errorCorrection} onClick={() => onChange(undefined)}>Default</DropdownItem>
     <DropdownItem divider tag="hr" />
     <DropdownItem active={errorCorrection === 'L'} onClick={() => onChange('L')}>

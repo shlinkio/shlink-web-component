@@ -1,11 +1,10 @@
-import { faPalette as colorIcon } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Result } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useState } from 'react';
 import { Button, Input, InputGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
+import { ColorPicker } from '../../utils/components/ColorPicker';
 import { handleEventPreventingDefault } from '../../utils/helpers';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import type { TagModalProps } from '../data';
@@ -45,21 +44,7 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
         <ModalHeader toggle={toggle}>Edit tag</ModalHeader>
         <ModalBody>
           <InputGroup>
-            <div
-              className="input-group-text p-0 position-relative"
-              style={{ backgroundColor: color, borderColor: color }}
-            >
-              <FontAwesomeIcon
-                icon={colorIcon}
-                className="position-absolute top-50 start-50 translate-middle text-white"
-              />
-              <Input
-                className="form-control-color opacity-0"
-                type="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-              />
-            </div>
+            <ColorPicker color={color} onChange={setColor} className="input-group-text" />
             <Input
               value={newTagName}
               placeholder="Tag"

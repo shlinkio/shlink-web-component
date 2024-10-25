@@ -2,7 +2,7 @@ import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { FC } from 'react';
 import { useId } from 'react';
-import { Button } from 'reactstrap';
+import { Button, type ButtonProps } from 'reactstrap';
 
 export type QrCodeDimensionControlProps = {
   name: string;
@@ -14,26 +14,31 @@ export type QrCodeDimensionControlProps = {
   onChange: (newValue?: number) => void;
 };
 
+const SubtleButton: FC<Omit<ButtonProps, 'outline' | 'color' | 'style'>> = (props) => (
+  <Button
+    outline
+    color="link"
+    style={{ color: 'var(--input-text-color)', borderColor: 'var(--border-color)' }}
+    {...props}
+  />
+);
+
 export const QrDimensionControl: FC<QrCodeDimensionControlProps> = (
   { name, value, step, min, max, onChange, initial = min },
 ) => {
   const id = useId();
 
   return (
-    <div>
-      {value === undefined && (
-        <Button
-          outline
-          color="link"
+    <>
+      {value === undefined ? (
+        <SubtleButton
           className="text-start fst-italic w-100"
-          style={{ color: 'var(--input-text-color)', borderColor: 'var(--border-color)' }}
           onClick={() => onChange(initial)}
         >
           Customize {name}
-        </Button>
-      )}
-      {value !== undefined && (
-        <div className="d-flex gap-3">
+        </SubtleButton>
+      ) : (
+        <div className="d-flex gap-1 w-100">
           <div className="d-flex flex-column flex-grow-1">
             <label htmlFor={id} className="text-capitalize">{name}: {value}px</label>
             <input
@@ -47,18 +52,15 @@ export const QrDimensionControl: FC<QrCodeDimensionControlProps> = (
               onChange={(e) => onChange(Number(e.target.value))}
             />
           </div>
-          <Button
+          <SubtleButton
             aria-label={`Default ${name}`}
             title={`Default ${name}`}
-            outline
-            color="link"
             onClick={() => onChange(undefined)}
-            style={{ color: 'var(--input-text-color)', borderColor: 'var(--border-color)' }}
           >
             <FontAwesomeIcon icon={faArrowRotateLeft} />
-          </Button>
+          </SubtleButton>
         </div>
       )}
-    </div>
+    </>
   );
 };

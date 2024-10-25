@@ -6,13 +6,16 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
 import { CopyToClipboardIcon } from '../../utils/components/CopyToClipboardIcon';
+import { useFeature } from '../../utils/features';
 import type { QrCodeFormat, QrErrorCorrection } from '../../utils/helpers/qrCodes';
 import { buildQrCodeUrl } from '../../utils/helpers/qrCodes';
 import type { ImageDownloader } from '../../utils/services/ImageDownloader';
 import type { ShortUrlModalProps } from '../data';
+import { QrColorControl } from './qr-codes/QrColorControl';
 import { QrDimensionControl } from './qr-codes/QrDimensionControl';
 import { QrErrorCorrectionDropdown } from './qr-codes/QrErrorCorrectionDropdown';
 import { QrFormatDropdown } from './qr-codes/QrFormatDropdown';
+import './QrCodeModal.scss';
 
 type QrCodeModalDeps = {
   ImageDownloader: ImageDownloader
@@ -26,9 +29,14 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
   const [margin, setMargin] = useState<number>();
   const [format, setFormat] = useState<QrCodeFormat>();
   const [errorCorrection, setErrorCorrection] = useState<QrErrorCorrection>();
+  const [color, setColor] = useState<string>();
+  const [bgColor, setBgColor] = useState<string>();
+
+  const qrCodeColorsSupported = useFeature('qrCodeColors');
+
   const qrCodeUrl = useMemo(
-    () => buildQrCodeUrl(shortUrl, { size, format, margin, errorCorrection }),
-    [shortUrl, size, format, margin, errorCorrection],
+    () => buildQrCodeUrl(shortUrl, { size, format, margin, errorCorrection, color, bgColor }),
+    [shortUrl, size, format, margin, errorCorrection, color, bgColor],
   );
 
   return (
@@ -38,9 +46,9 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
       </ModalHeader>
       <ModalBody className="d-flex flex-column-reverse flex-lg-row gap-3">
         <div className="flex-grow-1 d-flex align-items-center justify-content-around text-center">
-          <img src={qrCodeUrl} alt="QR code" className="shadow-lg" style={{ maxWidth: '100%' }} />
+          <img src={qrCodeUrl} alt="QR code" className="shadow" style={{ maxWidth: '100%' }} />
         </div>
-        <div className="d-flex flex-column gap-2">
+        <div className="d-flex flex-column gap-2 qr-code-modal__controls">
           <QrDimensionControl
             name="size"
             value={size}
@@ -61,12 +69,20 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
           <QrFormatDropdown format={format} onChange={setFormat}/>
           <QrErrorCorrectionDropdown errorCorrection={errorCorrection} onChange={setErrorCorrection}/>
 
+          {qrCodeColorsSupported && (
+            <>
+              <QrColorControl name="color" initialColor="#000000" color={color} onChange={setColor}/>
+              <QrColorControl name="background" initialColor="#ffffff" color={bgColor} onChange={setBgColor}/>
+            </>
+          )}
+
           <div className="mt-auto">
             <Button
               block
               color="primary"
               onClick={() => {
-                imageDownloader.saveImage(qrCodeUrl, `${shortCode}-qr-code.${format ?? 'png'}`).catch(() => {});
+                imageDownloader.saveImage(qrCodeUrl, `${shortCode}-qr-code.${format ?? 'png'}`).catch(() => {
+                });
               }}
             >
               Download <FontAwesomeIcon icon={downloadIcon} className="ms-1"/>
@@ -74,8 +90,11 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
           </div>
         </div>
       </ModalBody>
-      <ModalFooter className="sticky-bottom justify-content-around" style={{ backgroundColor: 'var(--primary-color)' }}>
-        <div>
+      <ModalFooter
+        className="sticky-bottom justify-content-around"
+        style={{ backgroundColor: 'var(--primary-color)', zIndex: '1' }}
+      >
+        <div className="text-center">
           <ExternalLink href={qrCodeUrl}/>
           <CopyToClipboardIcon text={qrCodeUrl}/>
         </div>

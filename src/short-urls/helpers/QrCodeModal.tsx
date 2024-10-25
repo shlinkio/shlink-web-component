@@ -66,13 +66,13 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
             min={0}
             max={100}
           />
-          <QrFormatDropdown format={format} onChange={setFormat}/>
-          <QrErrorCorrectionDropdown errorCorrection={errorCorrection} onChange={setErrorCorrection}/>
+          <QrFormatDropdown format={format} onChange={setFormat} />
+          <QrErrorCorrectionDropdown errorCorrection={errorCorrection} onChange={setErrorCorrection} />
 
           {qrCodeColorsSupported && (
             <>
-              <QrColorControl name="color" initialColor="#000000" color={color} onChange={setColor}/>
-              <QrColorControl name="background" initialColor="#ffffff" color={bgColor} onChange={setBgColor}/>
+              <QrColorControl name="color" initialColor="#000000" color={color} onChange={setColor} />
+              <QrColorControl name="background" initialColor="#ffffff" color={bgColor} onChange={setBgColor} />
             </>
           )}
 
@@ -85,7 +85,7 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
                 });
               }}
             >
-              Download <FontAwesomeIcon icon={downloadIcon} className="ms-1"/>
+              Download <FontAwesomeIcon icon={downloadIcon} className="ms-1" />
             </Button>
           </div>
         </div>
@@ -95,8 +95,8 @@ const QrCodeModal: FCWithDeps<ShortUrlModalProps, QrCodeModalDeps> = (
         style={{ backgroundColor: 'var(--primary-color)', zIndex: '1' }}
       >
         <div className="text-center">
-          <ExternalLink href={qrCodeUrl}/>
-          <CopyToClipboardIcon text={qrCodeUrl}/>
+          <ExternalLink href={qrCodeUrl} />
+          <CopyToClipboardIcon text={qrCodeUrl} />
         </div>
       </ModalFooter>
     </Modal>

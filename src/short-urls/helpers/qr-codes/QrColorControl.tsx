@@ -34,13 +34,13 @@ export const QrColorControl: FC<QrColorControlProps> = ({ name, color, initialCo
         </SubtleButton>
       ) : (
         <div className="d-flex gap-1 w-100">
-          <ColorInput color={color} onChange={onChange}/>
+          <ColorInput color={color} onChange={onChange} name={name} />
           <SubtleButton
             aria-label={`Default ${name}`}
             title={`Default ${name}`}
             onClick={() => onChange(undefined)}
           >
-            <FontAwesomeIcon icon={faArrowRotateLeft}/>
+            <FontAwesomeIcon icon={faArrowRotateLeft} />
           </SubtleButton>
         </div>
       )}

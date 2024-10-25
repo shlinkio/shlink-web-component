@@ -44,7 +44,7 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
         <ModalHeader toggle={toggle}>Edit tag</ModalHeader>
         <ModalBody>
           <InputGroup>
-            <ColorPicker color={color} onChange={setColor} className="input-group-text" />
+            <ColorPicker color={color} onChange={setColor} className="input-group-text" name="tag-color" />
             <Input
               value={newTagName}
               placeholder="Tag"

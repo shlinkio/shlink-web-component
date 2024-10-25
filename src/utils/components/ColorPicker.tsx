@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { clsx } from 'clsx';
 import { forwardRef } from 'react';
 import { Input } from 'reactstrap';
+import { isLightColor } from '../helpers/color';
 
 export type ColorPickerProps = {
   name: string;
@@ -19,8 +20,9 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(
     >
       <FontAwesomeIcon
         icon={colorIcon}
+        className="position-absolute top-50 start-50 translate-middle"
         // Text color should be dynamically calculated to keep contrast
-        className="position-absolute top-50 start-50 translate-middle text-white"
+        style={{ color: isLightColor(color.substring(1)) ? '#000' : 'fff' }}
       />
       <Input
         className="form-control-color opacity-0"

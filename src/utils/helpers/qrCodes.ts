@@ -4,16 +4,20 @@ export type QrCodeFormat = 'svg' | 'png';
 
 export type QrErrorCorrection = 'L' | 'M' | 'Q' | 'H';
 
-export interface QrCodeOptions {
+export type QrCodeOptions = {
   size?: number;
   format?: QrCodeFormat;
   margin?: number;
   errorCorrection?: QrErrorCorrection;
-}
+  color?: string;
+  bgColor?: string;
+};
 
-export const buildQrCodeUrl = (shortUrl: string, options: QrCodeOptions): string => {
+const normalizeColor = (color?: string) => color && color.startsWith('#') ? color.substring(1) : color;
+
+export const buildQrCodeUrl = (shortUrl: string, { color, bgColor, ...rest }: QrCodeOptions): string => {
   const baseUrl = `${shortUrl}/qr-code`;
-  const query = stringifyQueryParams({ ...options });
+  const query = stringifyQueryParams({ ...rest, color: normalizeColor(color), bgColor: normalizeColor(bgColor) });
 
   return `${baseUrl}${!query ? '' : `?${query}`}`;
 };

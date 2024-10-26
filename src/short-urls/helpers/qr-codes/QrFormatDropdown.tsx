@@ -9,7 +9,7 @@ interface QrFormatDropdownProps {
 }
 
 export const QrFormatDropdown: FC<QrFormatDropdownProps> = ({ format, onChange }) => (
-  <DropdownBtn text={format ? `Format (${format})` : <i>Default format</i>}>
+  <DropdownBtn text={format ? `Format (${format})` : <i>Default format</i>} dropdownClassName="w-100">
     <DropdownItem active={!format} onClick={() => onChange(undefined)}>Default</DropdownItem>
     <DropdownItem divider tag="hr" />
     <DropdownItem active={format === 'png'} onClick={() => onChange('png')}>PNG</DropdownItem>

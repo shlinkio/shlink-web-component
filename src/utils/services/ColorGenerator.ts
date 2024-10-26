@@ -1,19 +1,8 @@
 import type { CSSProperties } from 'react';
-import { rangeOf } from '../helpers';
+import { buildRandomColor, isLightColor } from '../helpers/color';
 import type { TagColorsStorage } from './TagColorsStorage';
 
-const HEX_COLOR_LENGTH = 6;
-const HEX_DIGITS = '0123456789ABCDEF';
-const LIGHTNESS_BREAKPOINT = 128;
-
-const { floor, random, sqrt, round } = Math;
-const buildRandomColor = () =>
-  `#${rangeOf(HEX_COLOR_LENGTH, () => HEX_DIGITS[floor(random() * HEX_DIGITS.length)]).join('')}`;
 const normalizeKey = (key: string) => key.toLowerCase().trim();
-const hexColorToRgbArray = (colorHex: string): number[] =>
-  (colorHex.match(/../g) ?? []).map((hex) => parseInt(hex, 16) || 0);
-// HSP by Darel Rex Finley https://alienryderflex.com/hsp.html
-const perceivedLightness = (r = 0, g = 0, b = 0) => round(sqrt(0.299 * r ** 2 + 0.587 * g ** 2 + 0.114 * b ** 2));
 
 export class ColorGenerator {
   private readonly colors: Record<string, string>;
@@ -57,8 +46,7 @@ export class ColorGenerator {
     const colorHex = color.substring(1);
 
     if (this.lights[colorHex] === undefined) {
-      const rgb = hexColorToRgbArray(colorHex);
-      this.lights[colorHex] = perceivedLightness(...rgb) >= LIGHTNESS_BREAKPOINT;
+      this.lights[colorHex] = isLightColor(colorHex);
     }
 
     return this.lights[colorHex];

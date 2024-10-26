@@ -2,7 +2,7 @@ import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { FC } from 'react';
 import { useId } from 'react';
-import { Button, FormGroup } from 'reactstrap';
+import { SubtleButton } from '../../../utils/components/SubtleButton';
 
 export type QrCodeDimensionControlProps = {
   name: string;
@@ -12,29 +12,21 @@ export type QrCodeDimensionControlProps = {
   max?: number;
   initial?: number;
   onChange: (newValue?: number) => void;
-  className?: string;
 };
 
 export const QrDimensionControl: FC<QrCodeDimensionControlProps> = (
-  { name, value, step, min, max, onChange, className, initial = min },
+  { name, value, step, min, max, onChange, initial = min },
 ) => {
   const id = useId();
 
   return (
-    <FormGroup className={className}>
-      {value === undefined && (
-        <Button
-          outline
-          color="link"
-          className="text-start fst-italic w-100"
-          style={{ color: 'var(--input-text-color)', borderColor: 'var(--border-color)' }}
-          onClick={() => onChange(initial)}
-        >
+    <>
+      {value === undefined ? (
+        <SubtleButton className="text-start fst-italic w-100" onClick={() => onChange(initial)}>
           Customize {name}
-        </Button>
-      )}
-      {value !== undefined && (
-        <div className="d-flex gap-3">
+        </SubtleButton>
+      ) : (
+        <div className="d-flex gap-1 w-100">
           <div className="d-flex flex-column flex-grow-1">
             <label htmlFor={id} className="text-capitalize">{name}: {value}px</label>
             <input
@@ -48,18 +40,11 @@ export const QrDimensionControl: FC<QrCodeDimensionControlProps> = (
               onChange={(e) => onChange(Number(e.target.value))}
             />
           </div>
-          <Button
-            aria-label={`Default ${name}`}
-            title={`Default ${name}`}
-            outline
-            color="link"
-            onClick={() => onChange(undefined)}
-            style={{ color: 'var(--input-text-color)', borderColor: 'var(--border-color)' }}
-          >
+          <SubtleButton label={`Default ${name}`} onClick={() => onChange(undefined)}>
             <FontAwesomeIcon icon={faArrowRotateLeft} />
-          </Button>
+          </SubtleButton>
         </div>
       )}
-    </FormGroup>
+    </>
   );
 };

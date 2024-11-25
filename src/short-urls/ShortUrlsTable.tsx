@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import type { ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { UnstyledButton } from '../utils/components/UnstyledButton';
@@ -20,6 +20,38 @@ type ShortUrlsTableDeps = {
   ShortUrlsRow: ShortUrlsRowType;
 };
 
+type ShortUrlsTableBodyProps = ShortUrlsTableDeps & Pick<ShortUrlsTableProps, 'shortUrlsList' | 'onTagClick'>;
+
+const ShortUrlsTableBody: FC<ShortUrlsTableBodyProps> = ({ shortUrlsList, onTagClick, ShortUrlsRow }) => {
+  const { error, loading, shortUrls } = shortUrlsList;
+
+  if (error) {
+    return (
+      <tr>
+        <td colSpan={6} className="text-center table-danger text-dark">
+          Something went wrong while loading short URLs :(
+        </td>
+      </tr>
+    );
+  }
+
+  if (loading) {
+    return <tr><td colSpan={6} className="text-center">Loading...</td></tr>;
+  }
+
+  if (!loading && (!shortUrls || shortUrls.data.length === 0)) {
+    return <tr><td colSpan={6} className="text-center">No results found</td></tr>;
+  }
+
+  return shortUrls?.data.map((shortUrl) => (
+    <ShortUrlsRow
+      key={shortUrl.shortUrl}
+      shortUrl={shortUrl}
+      onTagClick={onTagClick}
+    />
+  ));
+};
+
 const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
   orderByColumn,
   renderOrderIcon,
@@ -28,38 +60,9 @@ const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
   className,
 }: ShortUrlsTableProps) => {
   const { ShortUrlsRow } = useDependencies(ShortUrlsTable);
-  const { error, loading, shortUrls } = shortUrlsList;
   const actionableFieldClasses = clsx({ 'short-urls-table__header-cell--with-action': !!orderByColumn });
   const orderableColumnsClasses = clsx('short-urls-table__header-cell', actionableFieldClasses);
   const tableClasses = clsx('table table-hover responsive-table short-urls-table', className);
-
-  const renderShortUrls = () => {
-    if (error) {
-      return (
-        <tr>
-          <td colSpan={6} className="text-center table-danger text-dark">
-            Something went wrong while loading short URLs :(
-          </td>
-        </tr>
-      );
-    }
-
-    if (loading) {
-      return <tr><td colSpan={6} className="text-center">Loading...</td></tr>;
-    }
-
-    if (!loading && (!shortUrls || shortUrls.data.length === 0)) {
-      return <tr><td colSpan={6} className="text-center">No results found</td></tr>;
-    }
-
-    return shortUrls?.data.map((shortUrl) => (
-      <ShortUrlsRow
-        key={shortUrl.shortUrl}
-        shortUrl={shortUrl}
-        onTagClick={onTagClick}
-      />
-    ));
-  };
 
   return (
     <table className={tableClasses}>
@@ -88,7 +91,7 @@ const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
         </tr>
       </thead>
       <tbody>
-        {renderShortUrls()}
+        <ShortUrlsTableBody ShortUrlsRow={ShortUrlsRow} shortUrlsList={shortUrlsList} onTagClick={onTagClick} />
       </tbody>
     </table>
   );

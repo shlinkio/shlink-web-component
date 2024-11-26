@@ -11,7 +11,8 @@ const supportedFeatures = {
   shortUrlRedirectRules: { minVersion: '4.0.0' },
   qrCodeColors: { minVersion: '4.0.0' },
   urlValidation: { maxVersion: '3.*.*' },
-  ipRedirectCondition: { minVersion: '4.2.*' },
+  ipRedirectCondition: { minVersion: '4.2.0' },
+  geolocationRedirectCondition: { minVersion: '4.3.0' },
 } as const satisfies Record<string, Versions>;
 
 Object.freeze(supportedFeatures);
@@ -33,6 +34,7 @@ const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, b
   qrCodeColors: isFeatureEnabledForVersion('qrCodeColors', serverVersion),
   urlValidation: isFeatureEnabledForVersion('urlValidation', serverVersion),
   ipRedirectCondition: isFeatureEnabledForVersion('ipRedirectCondition', serverVersion),
+  geolocationRedirectCondition: isFeatureEnabledForVersion('geolocationRedirectCondition', serverVersion),
 });
 
 const FeaturesContext = createContext(getFeaturesForVersion('0.0.0'));

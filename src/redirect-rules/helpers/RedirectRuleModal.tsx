@@ -10,6 +10,7 @@ import type { FC, FormEvent } from 'react';
 import { useMemo } from 'react';
 import { useCallback, useId, useState } from 'react';
 import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
+import { countryCodes } from '../../utils/country-codes';
 import { useFeature } from '../../utils/features';
 import './RedirectRuleModal.scss';
 
@@ -17,7 +18,7 @@ const deviceNames = {
   android: 'Android',
   ios: 'iOS',
   desktop: 'Desktop',
-} satisfies Record<string, string>;
+} as const satisfies Record<string, string>;
 
 type DeviceType = keyof typeof deviceNames;
 
@@ -116,10 +117,38 @@ const QueryParamControls: FC<{
   );
 };
 
-const IpAddressControls: FC<{ ipAddress?: string; onIpAddressChange: (lang: string) => void; }> = (
+const IpAddressControls: FC<{ ipAddress?: string; onIpAddressChange: (ipAddress: string) => void; }> = (
   { ipAddress, onIpAddressChange },
 ) => (
   <PlainValueControls value={ipAddress} onValueChange={onIpAddressChange} label="IP address" placeholder="192.168.1.10" />
+);
+
+const CountryCodeControls: FC<{ countryCode?: string; onCountryCodeChange: (countryCode: string) => void }> = ({
+  countryCode,
+  onCountryCodeChange,
+}) => {
+  const countryCodeId = useId();
+  return (
+    <div>
+      <label htmlFor={countryCodeId}>Country:</label>
+      <select
+        id={countryCodeId}
+        className="form-select"
+        value={countryCode}
+        onChange={(e) => onCountryCodeChange(e.target.value)}
+        required
+      >
+        {!countryCode && <option value="">- Select country -</option>}
+        {Object.entries(countryCodes).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
+      </select>
+    </div>
+  );
+};
+
+const CityNameControls: FC<{ cityName?: string; onCityNameChange: (cityName: string) => void; }> = (
+  { cityName, onCityNameChange },
+) => (
+  <PlainValueControls value={cityName} onValueChange={onCityNameChange} label="City name" placeholder="New York" />
 );
 
 const Condition: FC<{
@@ -142,21 +171,25 @@ const Condition: FC<{
     [condition, onConditionChange],
   );
   const supportsIpRedirectCondition = useFeature('ipRedirectCondition');
+  const supportsGeolocationRedirectCondition = useFeature('geolocationRedirectCondition');
   const conditionNames = useMemo((): Partial<Record<ShlinkRedirectConditionType, string>> => {
-    const commonConditionNames: Partial<Record<ShlinkRedirectConditionType, string>> = {
+    const conditionNames: Partial<Record<ShlinkRedirectConditionType, string>> = {
       device: 'Device type',
       language: 'Language',
       'query-param': 'Query param',
     };
-    if (!supportsIpRedirectCondition) {
-      return commonConditionNames;
+
+    if (supportsIpRedirectCondition) {
+      conditionNames['ip-address'] = 'IP address';
     }
 
-    return {
-      ...commonConditionNames,
-      'ip-address': 'IP address',
-    };
-  }, [supportsIpRedirectCondition]);
+    if (supportsGeolocationRedirectCondition) {
+      conditionNames['geolocation-country-code'] = 'Country (geolocation)';
+      conditionNames['geolocation-city-name'] = 'City name (geolocation)';
+    }
+
+    return conditionNames;
+  }, [supportsGeolocationRedirectCondition, supportsIpRedirectCondition]);
 
   return (
     <div className="redirect-rule-modal__condition rounded p-3 h-100 d-flex flex-column gap-2 position-relative">
@@ -199,6 +232,12 @@ const Condition: FC<{
       )}
       {condition.type === 'ip-address' && (
         <IpAddressControls ipAddress={condition.matchValue} onIpAddressChange={setConditionValue} />
+      )}
+      {condition.type === 'geolocation-country-code' && (
+        <CountryCodeControls countryCode={condition.matchValue} onCountryCodeChange={setConditionValue} />
+      )}
+      {condition.type === 'geolocation-city-name' && (
+        <CityNameControls cityName={condition.matchValue} onCityNameChange={setConditionValue} />
       )}
     </div>
   );

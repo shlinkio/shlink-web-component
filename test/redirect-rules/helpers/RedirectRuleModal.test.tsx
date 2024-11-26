@@ -7,6 +7,7 @@ import { screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { RedirectRuleModal } from '../../../src/redirect-rules/helpers/RedirectRuleModal';
+import { countryCodes } from '../../../src/utils/country-codes';
 import { FeaturesProvider } from '../../../src/utils/features';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
@@ -15,14 +16,17 @@ import { TestModalWrapper } from '../../__helpers__/TestModalWrapper';
 type SetUpOptions = {
   initialData?: ShlinkRedirectRuleData;
   ipRedirectCondition?: boolean;
+  geolocationRedirectCondition?: boolean;
 };
 
 describe('<RedirectRuleModal />', () => {
   const onSave = vi.fn();
-  const setUp = ({ initialData, ipRedirectCondition = true }: SetUpOptions) => renderWithEvents(
+  const setUp = (
+    { initialData, ipRedirectCondition = true, geolocationRedirectCondition = true }: SetUpOptions,
+  ) => renderWithEvents(
     <TestModalWrapper
       renderModal={(args) => (
-        <FeaturesProvider value={fromPartial({ ipRedirectCondition })}>
+        <FeaturesProvider value={fromPartial({ ipRedirectCondition, geolocationRedirectCondition })}>
           <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
         </FeaturesProvider>
       )}
@@ -121,6 +125,14 @@ describe('<RedirectRuleModal />', () => {
     await addConditionWithType(user, 'ip-address');
     await user.type(screen.getByLabelText('IP address:'), '192.168.1.*');
 
+    // Add a new condition of type geolocation-country-code
+    await addConditionWithType(user, 'geolocation-country-code');
+    await user.selectOptions(screen.getByLabelText('Country:'), [countryCodes.CL]);
+
+    // Add a new condition of type geolocation-city-name
+    await addConditionWithType(user, 'geolocation-city-name');
+    await user.type(screen.getByLabelText('City name:'), 'Los Angeles');
+
     await user.click(screen.getByRole('button', { name: 'Confirm' }));
 
     expect(onSave).toHaveBeenCalledWith({
@@ -130,6 +142,8 @@ describe('<RedirectRuleModal />', () => {
         { type: 'query-param', matchValue: 'the_value', matchKey: 'the_key' },
         { type: 'language', matchValue: 'es-ES', matchKey: null },
         { type: 'ip-address', matchValue: '192.168.1.*', matchKey: null },
+        { type: 'geolocation-country-code', matchValue: 'CL', matchKey: null },
+        { type: 'geolocation-city-name', matchValue: 'Los Angeles', matchKey: null },
       ],
     });
 
@@ -138,10 +152,30 @@ describe('<RedirectRuleModal />', () => {
   });
 
   it.each([
-    { ipRedirectCondition: true, expectedOptions: ['Device', 'Language', 'Query param', 'IP address'] as const },
-    { ipRedirectCondition: false, expectedOptions: ['Device', 'Language', 'Query param'] as const },
-  ])('displays only supported options', async ({ ipRedirectCondition, expectedOptions }) => {
-    const { user } = setUp({ ipRedirectCondition });
+    {
+      ipRedirectCondition: false,
+      geolocationRedirectCondition: false,
+      expectedOptions: ['Device', 'Language', 'Query param'] as const,
+    },
+    {
+      ipRedirectCondition: true,
+      geolocationRedirectCondition: false,
+      expectedOptions: ['Device', 'Language', 'Query param', 'IP address'] as const,
+    },
+    {
+      ipRedirectCondition: true,
+      geolocationRedirectCondition: true,
+      expectedOptions: [
+        'Device',
+        'Language',
+        'Query param',
+        'IP address',
+        'Country (geolocation)',
+        'City name (geolocation)',
+      ] as const,
+    },
+  ])('displays only supported options', async ({ ipRedirectCondition, geolocationRedirectCondition, expectedOptions }) => {
+    const { user } = setUp({ ipRedirectCondition, geolocationRedirectCondition });
 
     // Add a condition box, with a type other than device-type (default one), so that device type options to not affect
     // assertions and cause false negatives

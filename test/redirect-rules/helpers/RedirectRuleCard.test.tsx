@@ -12,6 +12,8 @@ describe('<RedirectRuleCard />', () => {
     { type: 'language', matchValue: 'es-ES', matchKey: null },
     { type: 'query-param', matchValue: 'bar', matchKey: 'foo' },
     { type: 'ip-address', matchValue: '1.2.3.4', matchKey: null },
+    { type: 'geolocation-country-code', matchValue: 'FR', matchKey: null },
+    { type: 'geolocation-city-name', matchValue: 'Paris', matchKey: null },
   ];
   const setUp = (props: Partial<RedirectRuleCardProps> = {}) => renderWithEvents(
     <RedirectRuleCard
@@ -55,6 +57,8 @@ describe('<RedirectRuleCard />', () => {
     expect(screen.getByText('es-ES language is accepted')).toBeInTheDocument();
     expect(screen.getByText('Query string contains foo=bar')).toBeInTheDocument();
     expect(screen.getByText('IP address matches 1.2.3.4')).toBeInTheDocument();
+    expect(screen.getByText('Country code is FR')).toBeInTheDocument();
+    expect(screen.getByText('City name is Paris')).toBeInTheDocument();
   });
 
   it('can delete the rule', async () => {

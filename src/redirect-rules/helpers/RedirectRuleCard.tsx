@@ -67,6 +67,8 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
                   <>Query string contains {condition.matchKey}={condition.matchValue}</>
                 )}
                 {condition.type === 'ip-address' && <>IP address matches {condition.matchValue}</>}
+                {condition.type === 'geolocation-country-code' && <>Country code is {condition.matchValue}</>}
+                {condition.type === 'geolocation-city-name' && <>City name is {condition.matchValue}</>}
               </div>
             ))}
           </div>

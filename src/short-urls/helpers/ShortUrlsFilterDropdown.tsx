@@ -1,17 +1,18 @@
 import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
 import { DropdownItem } from 'reactstrap';
+import { useFeature } from '../../utils/features';
 import type { ShortUrlsFilter } from '../data';
 
 interface ShortUrlsFilterDropdownProps {
   onChange: (filters: ShortUrlsFilter) => void;
-  supportsDisabledFiltering: boolean;
   selected?: ShortUrlsFilter;
   className?: string;
 }
 
 export const ShortUrlsFilterDropdown = (
-  { onChange, selected = {}, className, supportsDisabledFiltering }: ShortUrlsFilterDropdownProps,
+  { onChange, selected = {}, className }: ShortUrlsFilterDropdownProps,
 ) => {
+  const supportsDisabledFiltering = useFeature('filterDisabledUrls');
   const { excludeBots = false, excludeMaxVisitsReached = false, excludePastValidUntil = false } = selected;
   const onFilterClick = (key: keyof ShortUrlsFilter) => () => onChange({ ...selected, [key]: !selected?.[key] });
 

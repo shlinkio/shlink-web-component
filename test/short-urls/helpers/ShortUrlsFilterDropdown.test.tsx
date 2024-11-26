@@ -1,12 +1,16 @@
 import { screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
+import { fromPartial } from '@total-typescript/shoehorn';
 import { ShortUrlsFilterDropdown } from '../../../src/short-urls/helpers/ShortUrlsFilterDropdown';
+import { FeaturesProvider } from '../../../src/utils/features';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<ShortUrlsFilterDropdown />', () => {
   const setUp = (supportsDisabledFiltering: boolean) => renderWithEvents(
-    <ShortUrlsFilterDropdown onChange={vi.fn()} supportsDisabledFiltering={supportsDisabledFiltering} />,
+    <FeaturesProvider value={fromPartial({ filterDisabledUrls: supportsDisabledFiltering })}>
+      <ShortUrlsFilterDropdown onChange={vi.fn()} />
+    </FeaturesProvider>,
   );
   const openMenu = (user: UserEvent) => user.click(screen.getByRole('button', { name: 'Filters' }));
 

@@ -15,7 +15,6 @@ import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import type { DateInterval, DateRange } from '../utils/dates/helpers/dateIntervals';
 import { datesToDateRange } from '../utils/dates/helpers/dateIntervals';
-import { useFeature } from '../utils/features';
 import type { ShortUrlsOrder, ShortUrlsOrderableFields } from './data';
 import { SHORT_URLS_ORDERABLE_FIELDS } from './data';
 import type { ExportShortUrlsBtnProps } from './helpers/ExportShortUrlsBtn';
@@ -53,7 +52,6 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
     excludePastValidUntil,
     tagsMode = 'any',
   }, toFirstPage] = useShortUrlsQuery();
-  const supportsDisabledFiltering = useFeature('filterDisabledUrls');
   const visitsSettings = useSetting('visits');
 
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
@@ -119,7 +117,6 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
                 excludePastValidUntil,
               }}
               onChange={toFirstPage}
-              supportsDisabledFiltering={supportsDisabledFiltering}
             />
           </div>
         </div>

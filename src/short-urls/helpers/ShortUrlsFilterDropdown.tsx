@@ -2,8 +2,8 @@ import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
 import { useCallback } from 'react';
 import { DropdownItem } from 'reactstrap';
 import type { Domain } from '../../domains/data';
+import { DEFAULT_DOMAIN } from '../../domains/data';
 import { useFeature } from '../../utils/features';
-import { DEFAULT_DOMAIN } from '../../visits/reducers/domainVisits';
 import type { ShortUrlsFilter } from '../data';
 
 interface ShortUrlsFilterDropdownProps {

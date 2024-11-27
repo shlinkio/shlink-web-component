@@ -1,5 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
+import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import {
   queryToShortUrl,
   shortUrlDataFromShortUrl,
@@ -7,7 +8,6 @@ import {
   urlDecodeShortCode,
   urlEncodeShortCode,
 } from '../../../src/short-urls/helpers';
-import { DEFAULT_DOMAIN } from '../../../src/visits/reducers/domainVisits';
 
 describe('helpers', () => {
   describe('shortUrlDataFromShortUrl', () => {

@@ -1,7 +1,7 @@
 import type { ShlinkCreateShortUrlData, ShlinkShortUrl } from '../../api-contract';
+import { DEFAULT_DOMAIN } from '../../domains/data';
 import type { ShortUrlCreationSettings } from '../../settings';
 import type { OptionalString } from '../../utils/helpers';
-import { DEFAULT_DOMAIN } from '../../visits/reducers/domainVisits';
 import type { ShortUrlIdentifier } from '../data';
 
 export const shortUrlMatches = (shortUrl: ShlinkShortUrl, shortCode: string, domain: OptionalString): boolean => {

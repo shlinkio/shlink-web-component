@@ -2,10 +2,10 @@ import { screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { Domain } from '../../../src/domains/data';
+import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import type { ShortUrlsFilter } from '../../../src/short-urls/data';
 import { ShortUrlsFilterDropdown } from '../../../src/short-urls/helpers/ShortUrlsFilterDropdown';
 import { FeaturesProvider } from '../../../src/utils/features';
-import { DEFAULT_DOMAIN } from '../../../src/visits/reducers/domainVisits';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 

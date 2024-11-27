@@ -6,8 +6,6 @@ import type { LoadVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/domainVisits';
 
-export const DEFAULT_DOMAIN = 'DEFAULT';
-
 interface WithDomain {
   domain: string;
 }

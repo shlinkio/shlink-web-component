@@ -2,12 +2,12 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
 import type { ShlinkApiClient, ShlinkShortUrl, ShlinkVisit, ShlinkVisitsList } from '../../../src/api-contract';
 import type { RootState } from '../../../src/container/store';
+import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import { formatIsoDate } from '../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../../src/utils/helpers';
 import type { DomainVisits, LoadDomainVisits } from '../../../src/visits/reducers/domainVisits';
 import {
-  DEFAULT_DOMAIN,
   domainVisitsReducerCreator,
   getDomainVisits as getDomainVisitsCreator,
 } from '../../../src/visits/reducers/domainVisits';

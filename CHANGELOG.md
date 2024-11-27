@@ -7,7 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 * [#491](https://github.com/shlinkio/shlink-web-component/issues/491) Add support for colors in QR code configurator.
-* [#515](https://github.com/shlinkio/shlink-web-component/issues/515) Add support for geolocation redirect conditions when using Shlink 4.3 or newer.
+* [#515](https://github.com/shlinkio/shlink-web-component/issues/515) Add support for geolocation redirect conditions, when using Shlink 4.3 or newer.
+* [#514](https://github.com/shlinkio/shlink-web-component/issues/514) Allow filtering short URLs list by domain, when using Shlink 4.3 or newer.
 
 ### Changed
 * *Nothing*

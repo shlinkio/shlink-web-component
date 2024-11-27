@@ -32,7 +32,12 @@ describe('<ShortUrlsFilteringBar />', () => {
         <SettingsProvider value={fromPartial({ visits: {} })}>
           <FeaturesProvider value={fromPartial({ filterDisabledUrls: true })}>
             <RoutesPrefixProvider value={routesPrefix}>
-              <ShortUrlsFilteringBar order={{}} handleOrderBy={handleOrderBy} tagsList={fromPartial({ tags: [] })} />
+              <ShortUrlsFilteringBar
+                order={{}}
+                handleOrderBy={handleOrderBy}
+                tagsList={fromPartial({ tags: [] })}
+                domainsList={fromPartial({})}
+              />
             </RoutesPrefixProvider>
           </FeaturesProvider>
         </SettingsProvider>

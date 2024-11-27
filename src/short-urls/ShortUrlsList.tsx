@@ -57,6 +57,7 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
     excludeBots,
     excludePastValidUntil,
     excludeMaxVisitsReached,
+    domain,
   }, toFirstPage] = useShortUrlsQuery();
   const settings = useSettings();
   const [actualOrderBy, setActualOrderBy] = useState(
@@ -101,6 +102,7 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
       tagsMode,
       excludePastValidUntil,
       excludeMaxVisitsReached,
+      domain,
     });
   }, [
     listShortUrls,
@@ -114,6 +116,7 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
     tagsMode,
     excludePastValidUntil,
     excludeMaxVisitsReached,
+    domain,
   ]);
 
   return (

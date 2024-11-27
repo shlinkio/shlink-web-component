@@ -8,6 +8,7 @@ import { useCallback, useState } from 'react';
 import { Button, InputGroup, Row, UncontrolledTooltip } from 'reactstrap';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
+import type { DomainsList } from '../domains/reducers/domainsList';
 import { useSetting } from '../settings';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
 import type { TagsList } from '../tags/reducers/tagsList';
@@ -15,7 +16,6 @@ import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import type { DateInterval, DateRange } from '../utils/dates/helpers/dateIntervals';
 import { datesToDateRange } from '../utils/dates/helpers/dateIntervals';
-import { useFeature } from '../utils/features';
 import type { ShortUrlsOrder, ShortUrlsOrderableFields } from './data';
 import { SHORT_URLS_ORDERABLE_FIELDS } from './data';
 import type { ExportShortUrlsBtnProps } from './helpers/ExportShortUrlsBtn';
@@ -32,6 +32,7 @@ export type ShortUrlsFilteringBarProps = {
 
 type ShortUrlsFilteringConnectProps = ShortUrlsFilteringBarProps & {
   tagsList: TagsList;
+  domainsList: DomainsList;
 };
 
 type ShortUrlsFilteringBarDeps = {
@@ -40,7 +41,7 @@ type ShortUrlsFilteringBarDeps = {
 };
 
 const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrlsFilteringBarDeps> = (
-  { className, shortUrlsAmount, order, handleOrderBy, tagsList },
+  { className, shortUrlsAmount, order, handleOrderBy, tagsList, domainsList },
 ) => {
   const { ExportShortUrlsBtn, TagsSelector } = useDependencies(ShortUrlsFilteringBar);
   const [{
@@ -51,9 +52,9 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
     excludeBots,
     excludeMaxVisitsReached,
     excludePastValidUntil,
+    domain,
     tagsMode = 'any',
   }, toFirstPage] = useShortUrlsQuery();
-  const supportsDisabledFiltering = useFeature('filterDisabledUrls');
   const visitsSettings = useSetting('visits');
 
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
@@ -117,9 +118,10 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
                 excludeBots: excludeBots ?? visitsSettings?.excludeBots,
                 excludeMaxVisitsReached,
                 excludePastValidUntil,
+                domain,
               }}
               onChange={toFirstPage}
-              supportsDisabledFiltering={supportsDisabledFiltering}
+              domains={domainsList.loading ? undefined : domainsList.domains}
             />
           </div>
         </div>

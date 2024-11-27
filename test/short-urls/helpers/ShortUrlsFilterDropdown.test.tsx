@@ -60,6 +60,44 @@ describe('<ShortUrlsFilterDropdown />', () => {
   });
 
   it.each([
+    {
+      clickedItem: 'Ignore visits from bots',
+      selected: {},
+      expectedSelection: { excludeBots: true },
+    },
+    {
+      clickedItem: 'Ignore visits from bots',
+      selected: { excludeBots: true },
+      expectedSelection: { excludeBots: false },
+    },
+    {
+      clickedItem: 'Exclude with visits reached',
+      selected: {},
+      expectedSelection: { excludeMaxVisitsReached: true },
+    },
+    {
+      clickedItem: 'Exclude with visits reached',
+      selected: { excludeMaxVisitsReached: true },
+      expectedSelection: { excludeMaxVisitsReached: false },
+    },
+    {
+      clickedItem: 'Exclude enabled in the past',
+      selected: {},
+      expectedSelection: { excludePastValidUntil: true },
+    },
+    {
+      clickedItem: 'Exclude enabled in the past',
+      selected: { excludePastValidUntil: true },
+      expectedSelection: { excludePastValidUntil: false },
+    },
+  ])('selects proper filters when options are clicked', async ({ clickedItem, selected, expectedSelection }) => {
+    const { user } = await setUpOpened({ filterDisabledUrls: true, selected });
+
+    await user.click(screen.getByText(clickedItem));
+    expect(onChange).toHaveBeenCalledWith(expect.objectContaining(expectedSelection));
+  });
+
+  it.each([
     { domain: DEFAULT_DOMAIN, expectedSelectedIndex: 0 },
     { domain: domains[1].domain, expectedSelectedIndex: 1 },
     { domain: domains[2].domain, expectedSelectedIndex: 2 },
@@ -95,5 +133,24 @@ describe('<ShortUrlsFilterDropdown />', () => {
     expect(onChange).toHaveBeenCalledWith(expect.objectContaining({
       domain: expectedDomain,
     }));
+  });
+
+  it('disables reset button when no selection is set', async () => {
+    await setUpOpened();
+    expect(screen.getByText('Reset to defaults')).toBeDisabled();
+  });
+
+  it('resets selection when rest button is clicked', async () => {
+    const { user } = await setUpOpened({
+      selected: { excludeBots: true },
+    });
+
+    await user.click(screen.getByText('Reset to defaults'));
+    expect(onChange).toHaveBeenCalledWith({
+      excludeBots: undefined,
+      excludeMaxVisitsReached: undefined,
+      excludePastValidUntil: undefined,
+      domain: undefined,
+    });
   });
 });

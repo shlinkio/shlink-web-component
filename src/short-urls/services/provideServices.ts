@@ -55,7 +55,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.factory('ExportShortUrlsBtn', ExportShortUrlsBtnFactory);
 
   bottle.factory('ShortUrlsFilteringBar', ShortUrlsFilteringBarFactory);
-  bottle.decorator('ShortUrlsFilteringBar', connect(['tagsList']));
+  bottle.decorator('ShortUrlsFilteringBar', connect(['tagsList', 'domainsList']));
 
   // Reducers
   bottle.serviceFactory(

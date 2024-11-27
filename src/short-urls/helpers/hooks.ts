@@ -21,6 +21,7 @@ type ShortUrlsRawQuery = Record<string, unknown> & ShortUrlsQueryCommon & {
   excludeBots?: BooleanString;
   excludeMaxVisitsReached?: BooleanString;
   excludePastValidUntil?: BooleanString;
+  domain?: string;
 };
 
 type ShortUrlsQuery = ShortUrlsQueryCommon & {
@@ -29,6 +30,7 @@ type ShortUrlsQuery = ShortUrlsQueryCommon & {
   excludeBots?: boolean;
   excludeMaxVisitsReached?: boolean;
   excludePastValidUntil?: boolean;
+  domain?: string;
 };
 
 type ToFirstPage = (extra: Partial<ShortUrlsQuery>) => void;

@@ -39,4 +39,5 @@ export type ShortUrlsFilter = {
   excludeBots?: boolean;
   excludeMaxVisitsReached?: boolean;
   excludePastValidUntil?: boolean;
+  domain?: string;
 };

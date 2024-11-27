@@ -8,6 +8,7 @@ import { useCallback, useState } from 'react';
 import { Button, InputGroup, Row, UncontrolledTooltip } from 'reactstrap';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
+import type { DomainsList } from '../domains/reducers/domainsList';
 import { useSetting } from '../settings';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
 import type { TagsList } from '../tags/reducers/tagsList';
@@ -31,6 +32,7 @@ export type ShortUrlsFilteringBarProps = {
 
 type ShortUrlsFilteringConnectProps = ShortUrlsFilteringBarProps & {
   tagsList: TagsList;
+  domainsList: DomainsList;
 };
 
 type ShortUrlsFilteringBarDeps = {
@@ -39,7 +41,7 @@ type ShortUrlsFilteringBarDeps = {
 };
 
 const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrlsFilteringBarDeps> = (
-  { className, shortUrlsAmount, order, handleOrderBy, tagsList },
+  { className, shortUrlsAmount, order, handleOrderBy, tagsList, domainsList },
 ) => {
   const { ExportShortUrlsBtn, TagsSelector } = useDependencies(ShortUrlsFilteringBar);
   const [{
@@ -50,6 +52,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
     excludeBots,
     excludeMaxVisitsReached,
     excludePastValidUntil,
+    domain,
     tagsMode = 'any',
   }, toFirstPage] = useShortUrlsQuery();
   const visitsSettings = useSetting('visits');
@@ -115,8 +118,10 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
                 excludeBots: excludeBots ?? visitsSettings?.excludeBots,
                 excludeMaxVisitsReached,
                 excludePastValidUntil,
+                domain,
               }}
               onChange={toFirstPage}
+              domains={domainsList.loading ? undefined : domainsList.domains}
             />
           </div>
         </div>

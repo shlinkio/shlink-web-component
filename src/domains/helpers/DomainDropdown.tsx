@@ -2,12 +2,14 @@ import {
   faChartLine as lineChartIcon,
   faChartPie as pieChartIcon,
   faEdit as editIcon,
+  faList as listIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RowDropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { DropdownItem } from 'reactstrap';
+import { useFeature } from '../../utils/features';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
 import { useVisitsComparisonContext } from '../../visits/visits-comparison/VisitsComparisonContext';
 import type { Domain } from '../data';
@@ -24,6 +26,7 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
   const [isModalOpen, toggleModal] = useToggle();
   const routesPrefix = useRoutesPrefix();
   const visitsComparison = useVisitsComparisonContext();
+  const canFilterShortUrlsByDomain = useFeature('filterShortUrlsByDomain');
 
   return (
     <RowDropdownBtn>
@@ -43,10 +46,18 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
         <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
       </DropdownItem>
 
-      <DropdownItem divider tag="hr" />
+      {canFilterShortUrlsByDomain && (
+        <DropdownItem
+          tag={Link}
+          to={`${routesPrefix}/list-short-urls/1?domain=${domain.isDefault ? DEFAULT_DOMAIN : domain.domain}`}
+        >
+          <FontAwesomeIcon icon={listIcon} fixedWidth /> Short URLs
+        </DropdownItem>
+      )}
 
+      <DropdownItem divider tag="hr" />
       <DropdownItem onClick={toggleModal}>
-        <FontAwesomeIcon fixedWidth icon={editIcon} /> Edit redirects
+        <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit redirects
       </DropdownItem>
 
       <EditDomainRedirectsModal

@@ -3,7 +3,9 @@ import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router-dom';
 import type { Domain } from '../../../src/domains/data';
+import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import { DomainDropdown } from '../../../src/domains/helpers/DomainDropdown';
+import { FeaturesProvider } from '../../../src/utils/features';
 import { RoutesPrefixProvider } from '../../../src/utils/routesPrefix';
 import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
@@ -13,20 +15,23 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 type SetUpOptions = {
   domain?: Domain;
   visitsComparison?: Partial<VisitsComparison>;
+  filterShortUrlsByDomain?: boolean;
 };
 
 describe('<DomainDropdown />', () => {
   const editDomainRedirects = vi.fn().mockResolvedValue(undefined);
-  const setUp = ({ domain, visitsComparison }: SetUpOptions = {}) => renderWithEvents(
+  const setUp = ({ domain, visitsComparison, filterShortUrlsByDomain = true }: SetUpOptions = {}) => renderWithEvents(
     <MemoryRouter>
       <VisitsComparisonProvider
         value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
       >
         <RoutesPrefixProvider value="/server/123">
-          <DomainDropdown
-            domain={domain ?? fromPartial({})}
-            editDomainRedirects={editDomainRedirects}
-          />
+          <FeaturesProvider value={fromPartial({ filterShortUrlsByDomain })}>
+            <DomainDropdown
+              domain={domain ?? fromPartial({})}
+              editDomainRedirects={editDomainRedirects}
+            />
+          </FeaturesProvider>
         </RoutesPrefixProvider>
       </VisitsComparisonProvider>
     </MemoryRouter>,
@@ -47,21 +52,34 @@ describe('<DomainDropdown />', () => {
     }],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
-  it('renders expected menu items', () => {
-    setUp();
+  it.each([
+    { filterShortUrlsByDomain: true },
+    { filterShortUrlsByDomain: false },
+  ])('renders expected menu items', ({ filterShortUrlsByDomain }) => {
+    setUp({ filterShortUrlsByDomain });
 
     expect(screen.getByText('Visit stats')).toBeInTheDocument();
     expect(screen.getByText('Compare visits')).toBeInTheDocument();
     expect(screen.getByText('Edit redirects')).toBeInTheDocument();
+    if (filterShortUrlsByDomain) {
+      expect(screen.getByText('Short URLs')).toBeInTheDocument();
+    }
   });
 
   it.each([
     [true, '_DEFAULT'],
     [false, ''],
-  ])('points first link to the proper section', (isDefault, expectedLink) => {
+  ])('points visits link to the proper section', (isDefault, expectedLink) => {
     setUp({ domain: fromPartial({ domain: 'foo.com', isDefault }) });
-
     expect(screen.getByText('Visit stats')).toHaveAttribute('href', `/server/123/domain/foo.com${expectedLink}/visits`);
+  });
+
+  it.each([
+    [true, DEFAULT_DOMAIN],
+    [false, 'foo.com'],
+  ])('points short URLs link to the proper section', (isDefault, expectedLink) => {
+    setUp({ domain: fromPartial({ domain: 'foo.com', isDefault }) });
+    expect(screen.getByText('Short URLs')).toHaveAttribute('href', `/server/123/list-short-urls/1?domain=${expectedLink}`);
   });
 
   it.each([

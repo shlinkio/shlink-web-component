@@ -63,6 +63,8 @@ describe('<DomainDropdown />', () => {
     expect(screen.getByText('Edit redirects')).toBeInTheDocument();
     if (filterShortUrlsByDomain) {
       expect(screen.getByText('Short URLs')).toBeInTheDocument();
+    } else {
+      expect(screen.queryByText('Short URLs')).not.toBeInTheDocument();
     }
   });
 

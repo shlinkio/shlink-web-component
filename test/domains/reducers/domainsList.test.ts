@@ -9,6 +9,7 @@ import {
   replaceRedirectsOnDomain,
   replaceStatusOnDomain,
 } from '../../../src/domains/reducers/domainsList';
+import { createShortUrl } from '../../../src/short-urls/reducers/shortUrlCreation';
 
 describe('domainsListReducer', () => {
   const dispatch = vi.fn();
@@ -23,9 +24,11 @@ describe('domainsListReducer', () => {
   const domains: Domain[] = [...filteredDomains, fromPartial({ domain: 'bar', status: 'validating' })];
   const error = { type: 'NOT_FOUND', status: 404 } as unknown as Error;
   const editDomainRedirectsThunk = editDomainRedirects(apiClientFactory);
+  const createShortUrlThunk = createShortUrl(apiClientFactory);
   const { reducer, listDomains: listDomainsAction, checkDomainHealth, filterDomains } = domainsListReducerCreator(
     apiClientFactory,
     editDomainRedirectsThunk,
+    createShortUrlThunk,
   );
 
   describe('reducer', () => {
@@ -84,6 +87,30 @@ describe('domainsListReducer', () => {
         domains: domains.map(replaceStatusOnDomain(domain, 'valid')),
         filteredDomains: filteredDomains.map(replaceStatusOnDomain(domain, 'valid')),
       });
+    });
+
+    it('adds new domains to the list when a short URL is created', () => {
+      const domain = 'new_one';
+      const state = reducer(
+        fromPartial({ domains, filteredDomains }),
+        createShortUrlThunk.fulfilled(fromPartial({ domain }), '', fromPartial({ domain })),
+      );
+
+      expect(state.domains).toHaveLength(domains.length + 1);
+      expect(state.domains[3].domain).toEqual(domain);
+    });
+
+    it.each([
+      { domain: null },
+      { domain: domains[0].domain },
+      { domain: domains[1].domain },
+    ])('ignores existing domains when a short URL is created', ({ domain }) => {
+      const state = reducer(
+        fromPartial({ domains, filteredDomains }),
+        createShortUrlThunk.fulfilled(fromPartial({ domain }), '', fromPartial({ domain: domain ?? undefined })),
+      );
+
+      expect(state.domains).toEqual(domains);
     });
   });
 

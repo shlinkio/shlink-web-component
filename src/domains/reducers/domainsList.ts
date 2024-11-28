@@ -1,10 +1,10 @@
-import type { AsyncThunk } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import type { ProblemDetailsError, ShlinkApiClient, ShlinkDomainRedirects } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
+import type { CreateShortUrlThunk } from '../../short-urls/reducers/shortUrlCreation';
 import { createAsyncThunk } from '../../utils/redux';
 import type { Domain, DomainStatus } from '../data';
-import type { EditDomainRedirects } from './domainRedirects';
+import type { EditDomainRedirects, EditDomainRedirectsThunk } from './domainRedirects';
 
 const REDUCER_PREFIX = 'shlink/domainsList';
 
@@ -42,7 +42,8 @@ export const replaceStatusOnDomain = (domain: string, status: DomainStatus) =>
 
 export const domainsListReducerCreator = (
   apiClientFactory: () => ShlinkApiClient,
-  editDomainRedirects: AsyncThunk<EditDomainRedirects, any, any>,
+  editDomainRedirects: EditDomainRedirectsThunk,
+  createShortUrl: CreateShortUrlThunk,
 ) => {
   const listDomains = createAsyncThunk(`${REDUCER_PREFIX}/listDomains`, async (): Promise<ListDomains> => {
     const { data, defaultRedirects } = await apiClientFactory().listDomains();
@@ -91,11 +92,31 @@ export const domainsListReducerCreator = (
         filteredDomains: state.domains.filter(({ domain }) => domain.toLowerCase().match(payload.toLowerCase())),
       }));
 
+      // Update corresponding domain when its redirects are edited
       builder.addCase(editDomainRedirects.fulfilled, (state, { payload }) => ({
         ...state,
         domains: state.domains.map(replaceRedirectsOnDomain(payload)),
         filteredDomains: state.filteredDomains.map(replaceRedirectsOnDomain(payload)),
       }));
+
+      // When a short URL is created with a new domain, add it to the list
+      builder.addCase(createShortUrl.fulfilled, (state, { payload }) => {
+        // Domain already exists
+        if (payload.domain === null || state.domains.some((d) => d.domain === payload.domain)) {
+          return;
+        }
+
+        state.domains.push({
+          domain: payload.domain,
+          status: 'validating',
+          isDefault: false,
+          redirects: {
+            baseUrlRedirect: null,
+            regular404Redirect: null,
+            invalidShortUrlRedirect: null,
+          },
+        });
+      });
     },
   });
 

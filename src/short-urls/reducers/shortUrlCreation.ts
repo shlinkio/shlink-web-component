@@ -36,7 +36,9 @@ export const createShortUrl = (apiClientFactory: () => ShlinkApiClient) => creat
   (data: ShlinkCreateShortUrlData): Promise<ShlinkShortUrl> => apiClientFactory().createShortUrl(data),
 );
 
-export const shortUrlCreationReducerCreator = (createShortUrlThunk: ReturnType<typeof createShortUrl>) => {
+export type CreateShortUrlThunk = ReturnType<typeof createShortUrl>;
+
+export const shortUrlCreationReducerCreator = (createShortUrlThunk: CreateShortUrlThunk) => {
   const { reducer, actions } = createSlice({
     name: REDUCER_PREFIX,
     initialState: initialState as ShortUrlCreation, // Without this casting it infers type ShortUrlCreationWaiting

@@ -18,3 +18,5 @@ export const editDomainRedirects = (
     return { domain, redirects };
   },
 );
+
+export type EditDomainRedirectsThunk = ReturnType<typeof editDomainRedirects>;

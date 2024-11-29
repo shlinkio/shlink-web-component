@@ -1,3 +1,5 @@
+import { faArrowsSplitUpAndLeft as rulesIcon } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { useEffect, useRef } from 'react';
 import { ExternalLink } from 'react-external-link';
@@ -9,6 +11,7 @@ import { CopyToClipboardIcon } from '../../utils/components/CopyToClipboardIcon'
 import { Time } from '../../utils/dates/Time';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import { useShortUrlsQuery } from './hooks';
+import { ShortUrlDetailLink } from './ShortUrlDetailLink';
 import type { ShortUrlsRowMenuType } from './ShortUrlsRowMenu';
 import { ShortUrlStatus } from './ShortUrlStatus';
 import { ShortUrlVisitsCount } from './ShortUrlVisitsCount';
@@ -92,7 +95,19 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
         />
       </td>
       <td className="responsive-table__cell short-urls-row__cell" data-th="Status">
-        <ShortUrlStatus shortUrl={shortUrl} />
+        <div className="d-flex gap-2">
+          <ShortUrlStatus shortUrl={shortUrl} />
+          {shortUrl.hasRedirectRules && (
+            <ShortUrlDetailLink
+              asLink
+              shortUrl={shortUrl}
+              suffix="redirect-rules"
+              title="This short URL has dynamic redirect rules"
+            >
+              <FontAwesomeIcon icon={rulesIcon} />
+            </ShortUrlDetailLink>
+          )}
+        </div>
       </td>
       <td className="responsive-table__cell short-urls-row__cell text-end">
         <ShortUrlsRowMenu shortUrl={shortUrl} />

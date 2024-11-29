@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * [#514](https://github.com/shlinkio/shlink-web-component/issues/514) Allow filtering short URLs list by domain, when using Shlink 4.3 or newer.
 * [#520](https://github.com/shlinkio/shlink-web-component/issues/520) Allow navigating from domains list to short URLs list filtered by one domain, when using Shlink 4.3 or newer.
 * [#517](https://github.com/shlinkio/shlink-web-component/issues/517) Update list of known domains when a short URL is created with a new domain.
+* [#292](https://github.com/shlinkio/shlink-web-component/issues/292) Add icon in short URLs list indicating if a short URL has redirect rules.
 
 ### Changed
 * *Nothing*

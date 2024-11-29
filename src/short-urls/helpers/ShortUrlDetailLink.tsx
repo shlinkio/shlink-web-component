@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import type { ShlinkShortUrl } from '../../api-contract';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
@@ -6,7 +6,7 @@ import { urlEncodeShortCode } from './index';
 
 export type LinkSuffix = 'visits' | 'edit' | 'redirect-rules';
 
-export type ShortUrlDetailLinkProps = {
+export type ShortUrlDetailLinkProps = Record<string | number, unknown> & PropsWithChildren & {
   shortUrl?: ShlinkShortUrl | null;
   suffix: LinkSuffix;
   asLink?: boolean;
@@ -17,7 +17,7 @@ const buildUrl = (routePrefix: string, { shortCode, domain }: ShlinkShortUrl, su
   return `${routePrefix}/short-code/${urlEncodeShortCode(shortCode)}/${suffix}${query}`;
 };
 
-export const ShortUrlDetailLink: FC<ShortUrlDetailLinkProps & Record<string | number, any>> = (
+export const ShortUrlDetailLink: FC<ShortUrlDetailLinkProps> = (
   { shortUrl, suffix, asLink, children, ...rest },
 ) => {
   const routePrefix = useRoutesPrefix();

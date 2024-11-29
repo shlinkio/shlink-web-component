@@ -17,6 +17,7 @@ interface SetUpOptions {
   meta?: ShlinkShortUrlMeta;
   settings?: Partial<Settings>;
   search?: string;
+  hasRedirectRules?: boolean;
 }
 
 describe('<ShortUrlsRow />', () => {
@@ -47,13 +48,15 @@ describe('<ShortUrlsRow />', () => {
     useTimeoutToggle,
   }));
 
-  const setUp = ({ title, tags = [], meta = {}, settings = {}, search }: SetUpOptions = {}) => renderWithEvents(
+  const setUp = (
+    { title, tags = [], meta = {}, settings = {}, search, hasRedirectRules }: SetUpOptions = {},
+  ) => renderWithEvents(
     <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
       <SettingsProvider value={fromPartial(settings)}>
         <table>
           <tbody>
             <ShortUrlsRow
-              shortUrl={{ ...shortUrl, title, tags, meta: { ...shortUrl.meta, ...meta } }}
+              shortUrl={{ ...shortUrl, title, tags, hasRedirectRules, meta: { ...shortUrl.meta, ...meta } }}
               onTagClick={() => null}
             />
           </tbody>
@@ -62,7 +65,10 @@ describe('<ShortUrlsRow />', () => {
     </MemoryRouter>,
   );
 
-  it('passes a11y checks', () => checkAccessibility(setUp()));
+  it.each([
+    { hasRedirectRules: true },
+    { hasRedirectRules: false },
+  ])('passes a11y checks', (options) => checkAccessibility(setUp(options)));
 
   it.each([
     [null, 7],
@@ -158,5 +164,18 @@ describe('<ShortUrlsRow />', () => {
     expect(statusIcon).toBeInTheDocument();
     expectedIconClasses.forEach((expectedClass) => expect(statusIcon).toHaveClass(expectedClass));
     expect(statusIcon).toMatchSnapshot();
+  });
+
+  it.each([
+    { hasRedirectRules: true },
+    { hasRedirectRules: false },
+  ])('shows indicator when a short URL has redirect rules', ({ hasRedirectRules }) => {
+    setUp({ hasRedirectRules });
+
+    if (hasRedirectRules) {
+      expect(screen.getByTitle('This short URL has dynamic redirect rules')).toBeInTheDocument();
+    } else {
+      expect(screen.queryByTitle('This short URL has dynamic redirect rules')).not.toBeInTheDocument();
+    }
   });
 });

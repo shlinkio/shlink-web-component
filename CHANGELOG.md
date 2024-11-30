@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.11.0] - 2024-11-30
 ### Added
 * [#491](https://github.com/shlinkio/shlink-web-component/issues/491) Add support for colors in QR code configurator.
 * [#515](https://github.com/shlinkio/shlink-web-component/issues/515) Add support for geolocation redirect conditions, when using Shlink 4.3 or newer.
@@ -23,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Fixed
-* *Nothing*
+* [#504](https://github.com/shlinkio/shlink-web-component/issues/504) Fix fallback interval not causing new visits to be loaded.
 
 
 ## [0.10.1] - 2024-10-19

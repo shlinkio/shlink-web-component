@@ -103,8 +103,8 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     },
     [updateQuery],
   );
-  const initialInterval = useRef<DateRange | DateInterval>(
-    dateRange ?? fallbackInterval ?? visitsSettings?.defaultInterval ?? 'last30Days',
+  const [currentFallbackInterval, setCurrentFallbackInterval] = useState<DateInterval>(
+    fallbackInterval ?? visitsSettings?.defaultInterval ?? 'last30Days',
   );
   const [highlightedVisits, setHighlightedVisits] = useState<NormalizedVisit[]>([]);
   const [highlightedLabel, setHighlightedLabel] = useState<string | undefined>();
@@ -158,7 +158,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
 
   useEffect(() => cancelGetVisits, [cancelGetVisits]);
   useEffect(() => {
-    const resolvedDateRange = dateRange ?? toDateRange(initialInterval.current);
+    const resolvedDateRange = dateRange ?? toDateRange(currentFallbackInterval);
     const { loadPrevInterval: doLoadPrevInterval, ...filter } = resolvedFilter;
     const options: GetVisitsOptions = {
       doIntervalFallback: isFirstLoad.current,
@@ -169,13 +169,13 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
 
     setSelectedVisits([]); // Reset selected visits every time we load visits
     isFirstLoad.current = false;
-  }, [dateRange, visitsFilter, getVisits, resolvedFilter, setSelectedVisits]);
+  }, [currentFallbackInterval, dateRange, getVisits, resolvedFilter, setSelectedVisits]);
   useEffect(() => {
     // As soon as the fallback is loaded, if the initial interval used the settings one, we do fall back
-    if (fallbackInterval && initialInterval.current === (visitsSettings?.defaultInterval ?? 'last30Days')) {
-      initialInterval.current = fallbackInterval;
+    if (fallbackInterval && currentFallbackInterval === (visitsSettings?.defaultInterval ?? 'last30Days')) {
+      setCurrentFallbackInterval(fallbackInterval);
     }
-  }, [fallbackInterval, visitsSettings?.defaultInterval]);
+  }, [currentFallbackInterval, fallbackInterval, visitsSettings?.defaultInterval]);
 
   return (
     <>
@@ -188,7 +188,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
               <div className="flex-grow-1">
                 <DateRangeSelector
                   disabled={loading}
-                  dateRangeOrInterval={activeInterval ?? dateRange ?? initialInterval.current}
+                  dateRangeOrInterval={activeInterval ?? dateRange ?? currentFallbackInterval}
                   defaultText="All visits"
                   onDatesChange={setDates}
                 />

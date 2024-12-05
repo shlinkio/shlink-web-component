@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { ModalProps } from 'reactstrap';
 import { TagsTableRowFactory } from '../../src/tags/TagsTableRow';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';

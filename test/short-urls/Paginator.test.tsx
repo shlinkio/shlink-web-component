@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { ShlinkPaginator } from '../../src/api-contract';
 import { Paginator } from '../../src/short-urls/Paginator';
 import { ELLIPSIS } from '../../src/utils/helpers/pagination';

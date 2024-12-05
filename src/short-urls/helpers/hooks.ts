@@ -1,6 +1,6 @@
 import { orderToString, stringifyQueryParams, stringToOrder, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import type { TagsFilteringMode } from '../../api-contract';
 import type { BooleanString } from '../../utils/helpers';
 import { parseOptionalBooleanToString } from '../../utils/helpers';

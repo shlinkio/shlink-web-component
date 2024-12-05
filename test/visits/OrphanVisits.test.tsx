@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import { FeaturesProvider } from '../../src/utils/features';

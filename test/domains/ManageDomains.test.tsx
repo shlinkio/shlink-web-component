@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { ProblemDetailsError, ShlinkDomain } from '../../src/api-contract';
 import { ManageDomains } from '../../src/domains/ManageDomains';
 import type { DomainsList } from '../../src/domains/reducers/domainsList';

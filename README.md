@@ -81,13 +81,13 @@ export function App() {
 
 ### Routes prefix
 
-Sections are handled via client-side routing with `react-router-dom`. `ShlinkWebComponent` will add its own `<BrowserRouter />` unless already rendered inside a router.
+Sections are handled via client-side routing with `react-router`. `ShlinkWebComponent` will add its own `<BrowserRouter />` unless already rendered inside a router.
 
 If you render it inside a router, make sure you pass the prefix for all routes handled by this component.
 
 ```tsx
 import { ShlinkWebComponent } from '@shlinkio/shlink-web-component';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router';
 
 export function App() {
   return (

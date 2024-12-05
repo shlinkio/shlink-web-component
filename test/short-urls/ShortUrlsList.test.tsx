@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { Router } from 'react-router';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import type { Settings } from '../../src/settings';
 import { SettingsProvider } from '../../src/settings';

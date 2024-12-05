@@ -12,7 +12,7 @@ import { NavPillItem, NavPills, SimpleCard } from '@shlinkio/shlink-frontend-kit
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { Button, Row } from 'reactstrap';
 import { useSetting } from '../settings';
 import { ExportBtn } from '../utils/components/ExportBtn';
@@ -110,7 +110,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const [highlightedLabel, setHighlightedLabel] = useState<string | undefined>();
   const isFirstLoad = useRef(true);
   const { search } = useLocation();
-  const buildSectionUrl = useCallback((subPath?: string) => (!subPath ? search : `${subPath}${search}`), [search]);
+  const buildSectionUrl = useCallback((subPath?: string) => (!subPath ? search : `../${subPath}${search}`), [search]);
 
   const normalizedVisits = useMemo(() => normalizeVisits(visits), [visits]);
   const normalizedPrevVisits = useMemo(() => prevVisits && normalizeVisits(prevVisits), [prevVisits]);

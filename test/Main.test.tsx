@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { MainProps } from '../src/Main';
 import { MainFactory } from '../src/Main';
 import { FeaturesProvider } from '../src/utils/features';

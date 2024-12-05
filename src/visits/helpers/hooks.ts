@@ -1,7 +1,7 @@
 import { mergeDeepRight } from '@shlinkio/data-manipulation';
 import { stringifyQueryParams, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import type { ShlinkOrphanVisitType } from '../../api-contract';
 import { formatIsoDate } from '../../utils/dates/helpers/date';
 import type { DateRange } from '../../utils/dates/helpers/dateIntervals';

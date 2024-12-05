@@ -1,7 +1,7 @@
 import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { cleanup, screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { ProblemDetailsError } from '../../src/api-contract';
 import { ShortUrlRedirectRules } from '../../src/redirect-rules/ShortUrlRedirectRules';
 import { checkAccessibility } from '../__helpers__/accessibility';

@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { rangeOf } from '../../../src/utils/helpers';
 import { VisitsComparisonCollector } from '../../../src/visits/visits-comparison/VisitsComparisonCollector';
 import type {

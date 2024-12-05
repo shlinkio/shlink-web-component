@@ -1,7 +1,7 @@
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { Domain } from '../../../src/domains/data';
 import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import { DomainDropdown } from '../../../src/domains/helpers/DomainDropdown';

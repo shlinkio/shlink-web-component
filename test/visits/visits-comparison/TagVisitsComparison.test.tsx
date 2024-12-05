@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { MercureInfo } from '../../../src/mercure/reducers/mercureInfo';
 import { TagVisitsComparisonFactory } from '../../../src/visits/visits-comparison/TagVisitsComparison';
 import { checkAccessibility } from '../../__helpers__/accessibility';

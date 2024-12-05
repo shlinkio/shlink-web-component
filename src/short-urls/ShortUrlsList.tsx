@@ -3,7 +3,7 @@ import { determineOrderDir } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router';
 import { Card } from 'reactstrap';
 import type { ShlinkShortUrlsListParams, ShlinkShortUrlsOrder } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';

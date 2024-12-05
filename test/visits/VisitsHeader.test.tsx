@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { ShlinkVisit } from '../../src/api-contract';
 import { VisitsHeader } from '../../src/visits/VisitsHeader';
 import { checkAccessibility } from '../__helpers__/accessibility';

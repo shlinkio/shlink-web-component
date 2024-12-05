@@ -3,7 +3,7 @@ import { FetchHttpClient } from '@shlinkio/shlink-js-sdk/browser';
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router';
 import { ShlinkWebComponent } from '../src';
 import type { Settings } from '../src/settings';
 import { ShlinkWebSettings } from '../src/settings';
@@ -50,18 +50,21 @@ export const App: FC = () => {
       </header>
       <div className="wrapper">
         <Routes>
-          <Route
-            path="/settings/*"
-            element={(
-              <div className="container pt-4">
-                <ShlinkWebSettings
-                  settings={settings}
-                  updateSettings={setSettings}
-                  defaultShortUrlsListOrdering={{}}
-                />
-              </div>
-            )}
-          />
+          <Route path="/settings">
+            <Route
+              path="*"
+              element={(
+                <div className="container pt-4">
+                  <ShlinkWebSettings
+                    settings={settings}
+                    updateSettings={setSettings}
+                    defaultShortUrlsListOrdering={{}}
+                  />
+                </div>
+              )}
+            />
+            <Route path="" element={<Navigate replace to="general" />} />
+          </Route>
           <Route
             path={routesPrefix ? `${routesPrefix}*` : '*'}
             element={apiClient && serverVersion ? (

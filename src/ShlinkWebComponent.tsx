@@ -3,7 +3,7 @@ import type Bottle from 'bottlejs';
 import type { FC, ReactNode } from 'react';
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { Provider as ReduxStoreProvider } from 'react-redux';
-import { BrowserRouter, useInRouterContext } from 'react-router-dom';
+import { BrowserRouter, useInRouterContext } from 'react-router';
 import type { ShlinkApiClient } from './api-contract';
 import type { Settings } from './settings';
 import { SettingsProvider } from './settings';

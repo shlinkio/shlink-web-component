@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import type { PropsWithChildren } from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { HighlightCardProps } from '../../../src/overview/helpers/HighlightCard';
 import { HighlightCard } from '../../../src/overview/helpers/HighlightCard';
 import { checkAccessibility } from '../../__helpers__/accessibility';

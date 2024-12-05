@@ -4,7 +4,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO, parseISO } from 'date-fns';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { Router } from 'react-router';
 import { SettingsProvider } from '../../src/settings';
 import { ShortUrlsFilteringBarFactory } from '../../src/short-urls/ShortUrlsFilteringBar';
 import { FeaturesProvider } from '../../src/utils/features';

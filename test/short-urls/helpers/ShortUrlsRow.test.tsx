@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { ShlinkShortUrl, ShlinkShortUrlMeta } from '../../../src/api-contract';
 import type { Settings } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';

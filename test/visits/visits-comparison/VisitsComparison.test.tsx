@@ -2,7 +2,7 @@ import type { ShlinkVisit } from '@shlinkio/shlink-js-sdk/api-contract';
 import { cleanup, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { endOfDay, formatISO, startOfDay, subDays } from 'date-fns';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { LoadVisitsForComparison } from '../../../src/visits/visits-comparison/reducers/types';
 import { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparison';
 import { checkAccessibility } from '../../__helpers__/accessibility';

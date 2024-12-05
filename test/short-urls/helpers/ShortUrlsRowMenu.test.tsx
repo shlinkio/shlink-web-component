@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import type { ShortUrlsListSettings } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';

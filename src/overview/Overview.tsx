@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { Card, CardBody, CardHeader, Row } from 'reactstrap';
 import type { ShlinkShortUrlsListParams } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';

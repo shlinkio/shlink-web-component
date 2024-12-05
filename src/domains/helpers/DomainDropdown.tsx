@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RowDropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { DropdownItem } from 'reactstrap';
 import { useFeature } from '../../utils/features';
 import { useRoutesPrefix } from '../../utils/routesPrefix';

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';

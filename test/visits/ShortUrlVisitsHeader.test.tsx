@@ -2,7 +2,7 @@ import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatDistance, parseISO } from 'date-fns';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { ShortUrlVisits } from '../../src/visits/reducers/shortUrlVisits';
 import { ShortUrlVisitsHeader } from '../../src/visits/ShortUrlVisitsHeader';
 import { checkAccessibility } from '../__helpers__/accessibility';

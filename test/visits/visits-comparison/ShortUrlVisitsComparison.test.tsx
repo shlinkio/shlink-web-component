@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import type { MercureInfo } from '../../../src/mercure/reducers/mercureInfo';
 import type { ShortUrlIdentifier } from '../../../src/short-urls/data';

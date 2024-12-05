@@ -3,7 +3,7 @@ import { NavPillItem, NavPills } from '@shlinkio/shlink-frontend-kit';
 import type { FC, PropsWithChildren } from 'react';
 import { Children } from 'react';
 import { useCallback } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router';
 import type { DeepPartial } from '../../utils/types';
 import { SettingsProvider } from '..';
 import type { RealTimeUpdatesSettings, Settings, ShortUrlsListSettings } from '../types';
@@ -48,9 +48,9 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = (
   return (
     <SettingsProvider value={settings}>
       <NavPills className="mb-3">
-        <NavPillItem to="general">General</NavPillItem>
-        <NavPillItem to="short-urls">Short URLs</NavPillItem>
-        <NavPillItem to="other-items">Other items</NavPillItem>
+        <NavPillItem to="../general">General</NavPillItem>
+        <NavPillItem to="../short-urls">Short URLs</NavPillItem>
+        <NavPillItem to="../other-items">Other items</NavPillItem>
       </NavPills>
 
       <Routes>
@@ -87,7 +87,7 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = (
             </SettingsSections>
           )}
         />
-        <Route path="*" element={<Navigate replace to="general" />} />
+        <Route path="*" element={<Navigate replace to="../general" />} />
       </Routes>
     </SettingsProvider>
   );

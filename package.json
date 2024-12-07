@@ -89,7 +89,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
-    "@vitest/coverage-v8": "^2.1.6",
+    "@vitest/coverage-v8": "^2.1.8",
     "axe-core": "^4.10.2",
     "bootstrap": "5.2.3",
     "eslint": "^9.16.0",

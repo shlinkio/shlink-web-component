@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import type { ShlinkPaginator } from '../api-contract';
 import type {

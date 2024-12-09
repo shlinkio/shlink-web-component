@@ -2,7 +2,7 @@ import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { now } from 'tinybench';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';

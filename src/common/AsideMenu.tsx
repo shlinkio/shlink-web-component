@@ -8,8 +8,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
-import type { NavLinkProps } from 'react-router-dom';
-import { NavLink, useLocation } from 'react-router-dom';
+import type { NavLinkProps } from 'react-router';
+import { NavLink, useLocation } from 'react-router';
 import './AsideMenu.scss';
 
 export interface AsideMenuProps {

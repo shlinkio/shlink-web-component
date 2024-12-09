@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { Router } from 'react-router';
 import type { ShlinkVisit } from '../../src/api-contract';
 import type { Settings } from '../../src/settings';
 import { SettingsProvider } from '../../src/settings';

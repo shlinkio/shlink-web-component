@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { MercureInfo } from '../../src/mercure/reducers/mercureInfo';
 import { OverviewFactory } from '../../src/overview/Overview';
 import { SettingsProvider } from '../../src/settings';

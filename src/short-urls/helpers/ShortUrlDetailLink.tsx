@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import type { ShlinkShortUrl } from '../../api-contract';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
 import { urlEncodeShortCode } from './index';

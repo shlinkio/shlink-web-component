@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import type { CreateVisit } from '../../visits/types';
 import type { MercureInfo } from '../reducers/mercureInfo';
 import { bindToMercureTopic } from './index';

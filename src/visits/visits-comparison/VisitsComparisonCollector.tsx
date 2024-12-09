@@ -4,7 +4,7 @@ import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Button } from 'reactstrap';
 import { UnstyledButton } from '../../utils/components/UnstyledButton';
 import { useRoutesPrefix } from '../../utils/routesPrefix';

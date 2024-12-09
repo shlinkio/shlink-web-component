@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import type { ShlinkDomainRedirects } from '../../src/api-contract';
 import type { Domain } from '../../src/domains/data';
 import { DomainRow } from '../../src/domains/DomainRow';

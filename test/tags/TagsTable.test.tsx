@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { TagsTableFactory } from '../../src/tags/TagsTable';
 import type { TagsTableRowProps } from '../../src/tags/TagsTableRow';
 import { rangeOf } from '../../src/utils/helpers';

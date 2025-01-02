@@ -51,6 +51,10 @@ describe('<VisitsHighlightCard />', () => {
       expect(screen.getByText('20')).toBeInTheDocument();
       expect(screen.queryByText('50')).not.toBeInTheDocument();
     }],
+    [true, 0, () => {
+      expect(screen.getByText('0')).toBeInTheDocument();
+      expect(screen.queryByText('50')).not.toBeInTheDocument();
+    }],
     [true, undefined, () => {
       expect(screen.getByText('50')).toBeInTheDocument();
       expect(screen.queryByText('20')).not.toBeInTheDocument();

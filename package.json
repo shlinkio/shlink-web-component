@@ -74,7 +74,7 @@
     "react-leaflet": "^4.2.1",
     "react-swipeable": "^7.0.2",
     "react-tag-autocomplete": "^7.4.0",
-    "recharts": "^2.14.1"
+    "recharts": "^2.15.0"
   },
   "devDependencies": {
     "@shlinkio/eslint-config-js-coding-standard": "~3.2.1",

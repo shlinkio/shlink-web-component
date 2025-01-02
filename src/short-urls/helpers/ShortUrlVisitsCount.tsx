@@ -2,6 +2,7 @@ import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
+import type { RefObject } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
 import { formatHumanFriendly, parseISO } from '../../utils/dates/helpers/date';
@@ -45,7 +46,7 @@ export const ShortUrlVisitsCount = (
           </sup>
         </small>
       </span>
-      <UncontrolledTooltip target={tooltipRef} placement="bottom">
+      <UncontrolledTooltip target={tooltipRef as RefObject<HTMLElement>} placement="bottom">
         <ul className="list-unstyled mb-0">
           {maxVisits && (
             <li className="short-url-visits-count__tooltip-list-item">

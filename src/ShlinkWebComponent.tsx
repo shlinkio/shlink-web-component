@@ -32,7 +32,7 @@ export const createShlinkWebComponent = (
   { serverVersion, apiClient, settings, routesPrefix = '', createNotFound, tagColorsStorage },
 ) => {
   const features = useFeatures(serverVersion);
-  const mainContent = useRef<ReactNode>();
+  const mainContent = useRef<ReactNode>(undefined);
   const [theStore, setStore] = useState<Store | undefined>();
 
   const inRouterContext = useInRouterContext();

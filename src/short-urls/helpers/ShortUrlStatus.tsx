@@ -3,7 +3,7 @@ import { faCalendarXmark, faCheck, faLinkSlash } from '@fortawesome/free-solid-s
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import { isBefore } from 'date-fns';
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactNode, RefObject } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
 import { formatHumanFriendly, now, parseISO } from '../../utils/dates/helpers/date';
@@ -78,7 +78,7 @@ export const ShortUrlStatus: FC<ShortUrlStatusProps> = ({ shortUrl }) => {
       <span style={{ cursor: !description ? undefined : 'help' }} ref={tooltipRef}>
         <FontAwesomeIcon icon={icon} className={className} />
       </span>
-      <UncontrolledTooltip target={tooltipRef} placement="bottom">
+      <UncontrolledTooltip target={tooltipRef as RefObject<HTMLElement>} placement="bottom">
         {description}
       </UncontrolledTooltip>
     </>

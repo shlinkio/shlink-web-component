@@ -5,7 +5,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
-import type { FC } from 'react';
+import type { FC, RefObject } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { UncontrolledTooltip } from 'reactstrap';
 import { useMaxResolution } from '../../utils/helpers/hooks';
@@ -33,7 +33,7 @@ export const DomainStatusIcon: FC<DomainStatusIconProps> = ({ status, matchMedia
           : <FontAwesomeIcon fixedWidth icon={invalidIcon} className="text-danger" />}
       </span>
       <UncontrolledTooltip
-        target={ref}
+        target={ref as RefObject<HTMLSpanElement>}
         placement={isMobile ? 'right' : 'left'}
         autohide={status === 'valid'}
       >

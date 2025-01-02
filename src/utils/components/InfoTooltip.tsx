@@ -2,7 +2,7 @@ import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { Placement } from '@popperjs/core';
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
-import type { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren, RefObject } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 
 export type InfoTooltipProps = PropsWithChildren<{
@@ -18,7 +18,9 @@ export const InfoTooltip: FC<InfoTooltipProps> = ({ className = '', placement, c
       <span className={className} ref={ref}>
         <FontAwesomeIcon icon={infoIcon} />
       </span>
-      <UncontrolledTooltip target={ref} placement={placement}>{children}</UncontrolledTooltip>
+      <UncontrolledTooltip target={ref as RefObject<HTMLSpanElement>} placement={placement}>
+        {children}
+      </UncontrolledTooltip>
     </>
   );
 };

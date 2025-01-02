@@ -1,7 +1,7 @@
 import { faArrowAltCircleRight as linkIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
-import type { FC, PropsWithChildren, ReactNode } from 'react';
+import type { FC, PropsWithChildren, ReactNode, RefObject } from 'react';
 import { Link } from 'react-router';
 import { Card, CardText, CardTitle, UncontrolledTooltip } from 'reactstrap';
 import './HighlightCard.scss';
@@ -22,7 +22,9 @@ export const HighlightCard: FC<HighlightCardProps> = ({ children, title, link, t
         <CardTitle className="lh-sm fw-semibold text-uppercase fs-5 highlight-card__title">{title}</CardTitle>
         <CardText className="fs-2 fw-semibold lh-sm">{children}</CardText>
       </Card>
-      {tooltip && <UncontrolledTooltip target={ref} placement="bottom">{tooltip}</UncontrolledTooltip>}
+      {tooltip && (
+        <UncontrolledTooltip target={ref as RefObject<HTMLElement>} placement="bottom">{tooltip}</UncontrolledTooltip>
+      )}
     </>
   );
 };

@@ -20,7 +20,7 @@ export const VisitsHighlightCard: FC<VisitsHighlightCardProps> = ({ loading, exc
     {...rest}
   >
     {loading ? 'Loading...' : prettify(
-      excludeBots && visitsSummary.nonBots ? visitsSummary.nonBots : visitsSummary.total,
+      excludeBots && visitsSummary.nonBots !== undefined ? visitsSummary.nonBots : visitsSummary.total,
     )}
   </HighlightCard>
 );

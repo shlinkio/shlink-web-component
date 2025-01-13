@@ -483,7 +483,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -996,7 +996,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -1566,7 +1566,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -2136,7 +2136,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -2727,7 +2727,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -3297,7 +3297,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"

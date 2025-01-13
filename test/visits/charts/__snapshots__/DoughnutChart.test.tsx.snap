@@ -63,7 +63,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
           >
             <div
               class="recharts-default-tooltip"
-              style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+              style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
             >
               <p
                 class="recharts-tooltip-label"
@@ -202,7 +202,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
           >
             <div
               class="recharts-default-tooltip"
-              style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+              style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
             >
               <p
                 class="recharts-tooltip-label"
@@ -345,7 +345,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
           >
             <div
               class="recharts-default-tooltip"
-              style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); white-space: nowrap; color: white; border-radius: 5px;"
+              style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
             >
               <p
                 class="recharts-tooltip-label"

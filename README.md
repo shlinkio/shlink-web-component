@@ -156,10 +156,12 @@ Make sure you import stylesheets in the order documented here for everything to 
 
 ```scss
 // src/index.scss
-@import 'node_modules/@shlinkio/shlink-frontend-kit/dist/base'; // Before bootstrap stylesheet. Includes SASS var overrides
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
-@import 'node_modules/@shlinkio/shlink-frontend-kit/dist/index'; // After bootstrap. Includes CSS overrides
-@import 'node_modules/@shlinkio/shlink-web-component/dist/index';
+@use 'node_modules/@shlinkio/shlink-frontend-kit/dist/base'; // Before bootstrap stylesheet
+@use 'node_modules/bootstrap/scss/bootstrap.scss' with (
+  $primary: base.$mainColor // Override bootstrap's primary color
+);
+@use 'node_modules/@shlinkio/shlink-frontend-kit/dist/index'; // After bootstrap. Includes CSS overrides
+@use 'node_modules/@shlinkio/shlink-web-component/dist/index' as c-index;
 ```
 
 ```tsx

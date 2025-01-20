@@ -1,5 +1,7 @@
 @use '../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
-@use '../node_modules/bootstrap/scss/bootstrap.scss';
+@use '../node_modules/bootstrap/scss/bootstrap.scss' with (
+  $primary: base.$mainColor
+);
 @use '../node_modules/@shlinkio/shlink-frontend-kit/dist/index';
 @use '../src/index.scss' as dev-index;
 

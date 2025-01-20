@@ -1,7 +1,7 @@
-@import '../../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
+@use '../../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
 
 .qr-code-modal__controls {
-  @media (min-width: $lgMin) {
+  @media (min-width: base.$lgMin) {
     width: 16rem;
   }
 }

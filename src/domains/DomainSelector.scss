@@ -1,10 +1,9 @@
-@import '../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
-@import '../utils/mixins/vertical-align';
+@use '../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
 
 .domains-dropdown__toggle-btn.domains-dropdown__toggle-btn,
 .domains-dropdown__toggle-btn.domains-dropdown__toggle-btn:hover,
 .domains-dropdown__toggle-btn.domains-dropdown__toggle-btn:active {
-  color: $textPlaceholder !important;
+  color: base.$textPlaceholder !important;
 }
 
 .domains-dropdown__toggle-btn--active.domains-dropdown__toggle-btn--active,

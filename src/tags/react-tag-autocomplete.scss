@@ -1,4 +1,4 @@
-@import '../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
+@use '../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
 
 // Main wrapper
 .react-tags {
@@ -68,7 +68,7 @@
   max-width: 100%;
 }
 
-@media screen and (min-width: $smMin) {
+@media screen and (min-width: base.$smMin) {
   .react-tags__combobox {
     /* this will become the offsetParent for suggestions */
     position: relative;
@@ -113,7 +113,7 @@
   box-shadow: 0 2px 6px rgb(0 0 0 / .2);
 }
 
-@media screen and (min-width: $smMin) {
+@media screen and (min-width: base.$smMin) {
   .react-tags__listbox {
     width: 240px;
   }

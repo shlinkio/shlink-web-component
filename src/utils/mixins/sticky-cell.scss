@@ -1,5 +1,3 @@
-@import '../../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
-
 @mixin sticky-cell($with-separators: true) {
   z-index: 1;
   position: relative;

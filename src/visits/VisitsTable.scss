@@ -1,5 +1,5 @@
-@import '../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
-@import '../utils/mixins/sticky-cell';
+@use '../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
+@use '../utils/mixins/sticky-cell';
 
 .visits-table {
   background-color: var(--primary-color);
@@ -10,11 +10,11 @@
   cursor: pointer;
   margin-bottom: 55px;
 
-  @include sticky-cell();
+  @include sticky-cell.sticky-cell();
 
-  @media (min-width: $mdMin) {
+  @media (min-width: base.$mdMin) {
     &.visits-table__sticky {
-      top: $headerHeight + 40px;
+      top: base.$headerHeight + 40px;
     }
   }
 }
@@ -28,7 +28,7 @@
   bottom: 0;
   margin-top: 34px;
 
-  @include sticky-cell();
+  @include sticky-cell.sticky-cell();
 }
 
 .visits-table__sticky.visits-table__sticky {

@@ -1,4 +1,4 @@
-@import '../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
+@use '../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
 
 .shlink-layout__swipeable {
   height: 100%;
@@ -18,7 +18,7 @@
   cursor: pointer;
   color: rgb(255 255 255 / .5);
 
-  @media (max-width: $smMax) {
+  @media (max-width: base.$smMax) {
     display: inline-block;
   }
 }
@@ -31,7 +31,7 @@
   padding: 20px 0 0;
   min-height: 100%;
 
-  @media (min-width: $mdMin) {
-    padding: 30px 0 0 $asideMenuWidth;
+  @media (min-width: base.$mdMin) {
+    padding: 30px 0 0 base.$asideMenuWidth;
   }
 }

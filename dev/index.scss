@@ -1,13 +1,15 @@
-@import '../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
-@import '../node_modules/bootstrap/scss/bootstrap.scss';
-@import '../node_modules/@shlinkio/shlink-frontend-kit/dist/index';
-@import '../src/index.scss';
+@use '../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
+@use '../node_modules/bootstrap/scss/bootstrap.scss' with (
+  $primary: base.$mainColor
+);
+@use '../node_modules/@shlinkio/shlink-frontend-kit/dist/index';
+@use '../src/index.scss' as dev-index;
 
 .header {
-  height: $headerHeight;
+  height: base.$headerHeight;
   background-color: var(--brand-color);
 }
 
 .wrapper {
-  padding: $headerHeight 0;
+  padding: base.$headerHeight 0;
 }

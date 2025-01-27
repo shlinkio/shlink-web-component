@@ -1,17 +1,17 @@
-@import '../../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
-@import '../../utils/mixins/fit-with-margin';
+@use '../../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
+@use '../../utils/mixins/fit-with-margin';
 
 .map-modal__modal.map-modal__modal {
-  @media (min-width: $mdMin) {
+  @media (min-width: base.$mdMin) {
     $margin: 20px;
 
-    @include fit-with-margin($margin);
+    @include fit-with-margin.fit-with-margin($margin);
   }
 
-  @media (max-width: $smMax) {
+  @media (max-width: base.$smMax) {
     $margin: 10px;
 
-    @include fit-with-margin($margin);
+    @include fit-with-margin.fit-with-margin($margin);
   }
 }
 

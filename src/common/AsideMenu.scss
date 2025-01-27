@@ -1,34 +1,33 @@
-@import '../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
-@import '../utils/mixins/vertical-align';
+@use '../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
 
 .aside-menu {
-  width: $asideMenuWidth;
+  width: base.$asideMenuWidth;
   background-color: var(--primary-color);
   box-shadow: rgb(0 0 0 / .05) 0 8px 15px;
   position: fixed !important;
   padding-top: 13px;
   padding-bottom: 10px;
-  top: $headerHeight;
+  top: base.$headerHeight;
   bottom: 0;
   left: 0;
   display: block;
   z-index: 1010;
   overflow: hidden auto;
 
-  @media (min-width: $mdMin) {
+  @media (min-width: base.$mdMin) {
     padding: 30px 15px 15px;
   }
 
-  @media (max-width: $smMax) {
+  @media (max-width: base.$smMax) {
     transition: left 300ms;
-    top: $headerHeight - 3px;
+    top: base.$headerHeight - 3px;
     box-shadow: -10px 0 50px 11px rgb(0 0 0 / .55);
   }
 }
 
 .aside-menu--hidden {
-  @media (max-width: $smMax) {
-    left: -($asideMenuWidth + 35px);
+  @media (max-width: base.$smMax) {
+    left: -(base.$asideMenuWidth + 35px);
   }
 }
 
@@ -42,7 +41,7 @@
   text-decoration: none !important;
   cursor: pointer;
 
-  @media (max-width: $smMax) {
+  @media (max-width: base.$smMax) {
     margin: 0;
   }
 }

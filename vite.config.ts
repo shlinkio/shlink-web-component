@@ -4,6 +4,9 @@ import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vitest/config';
 import pack from './package.json';
 
+const DEFAULT_NODE_VERSION = 'v22.10.0';
+const nodeVersion = process.version ?? DEFAULT_NODE_VERSION;
+
 // eslint-disable-next-line no-restricted-exports
 export default defineConfig({
   plugins: [react(), dts({ rollupTypes: true })],
@@ -59,5 +62,15 @@ export default defineConfig({
         lines: 95,
       },
     },
+
+    // Workaround for bug in react-router (or vitest module resolution) which causes different react-router versions to
+    // be resolved for the main package and dependencies who have a peer dependency in react-router.
+    // This ensures always the same version is resolved.
+    // See https://github.com/remix-run/react-router/issues/12785 for details
+    alias: nodeVersion > DEFAULT_NODE_VERSION
+      ? {
+        'react-router': resolve(__dirname, 'node_modules/react-router/dist/development/index.mjs'),
+      }
+      : undefined,
   },
 });

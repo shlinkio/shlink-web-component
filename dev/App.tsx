@@ -1,5 +1,5 @@
 import { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
-import { FetchHttpClient } from '@shlinkio/shlink-js-sdk/browser';
+import { FetchHttpClient } from '@shlinkio/shlink-js-sdk/fetch';
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import { useEffect, useMemo, useState } from 'react';

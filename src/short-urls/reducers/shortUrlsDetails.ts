@@ -29,7 +29,7 @@ export const shortUrlsDetailsReducerCreator = (apiClientFactory: () => ShlinkApi
           const { shortCode, domain } = identifier;
           const alreadyLoaded = shortUrlsList?.shortUrls?.data.find((url) => shortUrlMatches(url, shortCode, domain));
 
-          return [identifier, alreadyLoaded ?? await apiClientFactory().getShortUrl(shortCode, domain)];
+          return [identifier, alreadyLoaded ?? await apiClientFactory().getShortUrl({ shortCode, domain })];
         },
       ));
 

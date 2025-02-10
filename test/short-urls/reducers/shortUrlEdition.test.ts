@@ -49,7 +49,7 @@ describe('shortUrlEditionReducer', () => {
 
       expect(buildShlinkApiClient).toHaveBeenCalledOnce();
       expect(updateShortUrl).toHaveBeenCalledOnce();
-      expect(updateShortUrl).toHaveBeenCalledWith(shortCode, domain, { longUrl });
+      expect(updateShortUrl).toHaveBeenCalledWith({ shortCode, domain }, { longUrl });
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({ payload: shortUrl }));
     });

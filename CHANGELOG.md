@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 * Replace sass `@import`s with `@use`.
+* Update to `@shlinkio/shlink-js-sdk` v2.0.
 
 ### Deprecated
 * *Nothing*

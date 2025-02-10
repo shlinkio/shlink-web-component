@@ -147,7 +147,7 @@ describe('domainsListReducer', () => {
       await checkDomainHealth(domain)(dispatch, getState, {});
 
       expect(health).toHaveBeenCalledOnce();
-      expect(health).toHaveBeenCalledWith(domain);
+      expect(health).toHaveBeenCalledWith({ domain });
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { domain, status: 'invalid' },
       }));
@@ -165,7 +165,7 @@ describe('domainsListReducer', () => {
       await checkDomainHealth(domain)(dispatch, getState, {});
 
       expect(health).toHaveBeenCalledOnce();
-      expect(health).toHaveBeenCalledWith(domain);
+      expect(health).toHaveBeenCalledWith({ domain });
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { domain, status: expectedStatus },
       }));

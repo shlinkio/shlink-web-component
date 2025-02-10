@@ -1,10 +1,8 @@
 import type { Order } from '@shlinkio/shlink-frontend-kit';
-import type { ShlinkShortUrl } from '../../api-contract';
+import type { ShlinkShortUrl, ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 
-export type ShortUrlIdentifier = {
-  shortCode: string;
-  domain?: string | null;
-};
+/** @deprecated Use ShlinkShortUrlIdentifier from the SDK's API contract definition */
+export type ShortUrlIdentifier = ShlinkShortUrlIdentifier;
 
 export type ShortUrlModalProps = {
   shortUrl: ShlinkShortUrl;

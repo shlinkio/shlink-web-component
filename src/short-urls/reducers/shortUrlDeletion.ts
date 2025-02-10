@@ -24,7 +24,7 @@ const initialState: ShortUrlDeletion = {
 export const deleteShortUrl = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
   `${REDUCER_PREFIX}/deleteShortUrl`,
   async ({ shortCode, domain }: ShortUrlIdentifier): Promise<ShortUrlIdentifier> => {
-    await apiClientFactory().deleteShortUrl(shortCode, domain);
+    await apiClientFactory().deleteShortUrl({ shortCode, domain });
     return { shortCode, domain };
   },
 );

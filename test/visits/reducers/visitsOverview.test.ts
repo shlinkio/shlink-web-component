@@ -127,29 +127,16 @@ describe('visitsOverviewReducer', () => {
     const dispatchMock = vi.fn();
     const getState = () => fromPartial<RootState>({});
 
-    it.each([
-      [
-        // Shlink <3.5.0
-        { visitsCount: 50, orphanVisitsCount: 20 } satisfies ShlinkVisitsOverview,
-        {
-          nonOrphanVisits: { total: 50, nonBots: undefined, bots: undefined },
-          orphanVisits: { total: 20, nonBots: undefined, bots: undefined },
-        },
-      ],
-      [
-        // Shlink >=3.5.0
-        {
-          nonOrphanVisits: { total: 50, nonBots: 20, bots: 30 },
-          orphanVisits: { total: 50, nonBots: 20, bots: 30 },
-          visitsCount: 3,
-          orphanVisitsCount: 3,
-        } satisfies ShlinkVisitsOverview,
-        {
-          nonOrphanVisits: { total: 50, nonBots: 20, bots: 30 },
-          orphanVisits: { total: 50, nonBots: 20, bots: 30 },
-        },
-      ],
-    ])('dispatches start and success when promise is resolved', async (serverResult, dispatchedPayload) => {
+    it('dispatches start and success when promise is resolved', async () => {
+      const serverResult: ShlinkVisitsOverview = {
+        nonOrphanVisits: { total: 50, nonBots: 20, bots: 30 },
+        orphanVisits: { total: 50, nonBots: 20, bots: 30 },
+      };
+      const dispatchedPayload = {
+        nonOrphanVisits: { total: 50, nonBots: 20, bots: 30 },
+        orphanVisits: { total: 50, nonBots: 20, bots: 30 },
+      };
+
       const resolvedOverview = fromPartial<ShlinkVisitsOverview>(serverResult);
       getVisitsOverview.mockResolvedValue(resolvedOverview);
 

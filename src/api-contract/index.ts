@@ -4,11 +4,11 @@ import type { ErrorType, ProblemDetailsError } from '@shlinkio/shlink-js-sdk/api
 export * from '@shlinkio/shlink-js-sdk/api-contract';
 
 export interface InvalidArgumentError extends ProblemDetailsError {
-  type: ErrorType.INVALID_ARGUMENT;
+  type: typeof ErrorType.INVALID_ARGUMENT;
   invalidElements: string[];
 }
 
 export interface InvalidShortUrlDeletion extends ProblemDetailsError {
-  type: ErrorType.INVALID_SHORT_URL_DELETION;
+  type: typeof ErrorType.INVALID_SHORT_URL_DELETION;
   threshold: number;
 }

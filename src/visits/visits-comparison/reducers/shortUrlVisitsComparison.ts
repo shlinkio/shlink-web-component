@@ -26,10 +26,7 @@ export const getShortUrlVisitsForComparison = (apiClientFactory: () => ShlinkApi
       const apiClient = apiClientFactory();
       const loaderEntries = shortUrls.map((identifier) => [
         shortUrlToQuery(identifier),
-        (query: ShlinkVisitsParams) => apiClient.getShortUrlVisits(
-          identifier.shortCode,
-          { ...query, domain: identifier.domain },
-        ),
+        (query: ShlinkVisitsParams) => apiClient.getShortUrlVisits(identifier, query),
       ]);
 
       return Object.fromEntries(loaderEntries);

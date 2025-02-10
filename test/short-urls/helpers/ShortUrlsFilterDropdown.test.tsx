@@ -10,7 +10,6 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
-  filterDisabledUrls?: boolean;
   filterShortUrlsByDomain?: boolean;
   selected?: ShortUrlsFilter;
 };
@@ -22,12 +21,8 @@ describe('<ShortUrlsFilterDropdown />', () => {
     fromPartial({ domain: 's3.test', isDefault: false }),
   ] as const;
   const onChange = vi.fn();
-  const setUp = ({
-    filterDisabledUrls = false,
-    filterShortUrlsByDomain = false,
-    selected,
-  }: SetUpOptions = {}) => renderWithEvents(
-    <FeaturesProvider value={fromPartial({ filterDisabledUrls, filterShortUrlsByDomain })}>
+  const setUp = ({ filterShortUrlsByDomain = false, selected }: SetUpOptions = {}) => renderWithEvents(
+    <FeaturesProvider value={fromPartial({ filterShortUrlsByDomain })}>
       <ShortUrlsFilterDropdown onChange={onChange} domains={domains} selected={selected} />
     </FeaturesProvider>,
   );
@@ -43,19 +38,16 @@ describe('<ShortUrlsFilterDropdown />', () => {
   };
 
   it.each([
-    [() => setUp({ filterDisabledUrls: true })],
     [() => setUp({ filterShortUrlsByDomain: true })],
-    [() => setUp({ filterDisabledUrls: true, filterShortUrlsByDomain: true })],
     // TODO Enable back once https://github.com/reactstrap/reactstrap/issues/2759 is fixed
-    // [() => setUpOpened({ filterDisabledUrls: true, filterShortUrlsByDomain: true })],
+    // [() => setUpOpened({ filterShortUrlsByDomain: true })],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it.each([
-    { filterDisabledUrls: false, filterShortUrlsByDomain: false, expectedItems: 1 },
-    { filterDisabledUrls: true, filterShortUrlsByDomain: false, expectedItems: 3 },
-    { filterDisabledUrls: true, filterShortUrlsByDomain: true, expectedItems: 3 + domains.length },
-  ])('displays proper amount of menu items', async ({ filterDisabledUrls, filterShortUrlsByDomain, expectedItems }) => {
-    await setUpOpened({ filterDisabledUrls, filterShortUrlsByDomain });
+    { filterShortUrlsByDomain: false, expectedItems: 3 },
+    { filterShortUrlsByDomain: true, expectedItems: 3 + domains.length },
+  ])('displays proper amount of menu items', async ({ filterShortUrlsByDomain, expectedItems }) => {
+    await setUpOpened({ filterShortUrlsByDomain });
     expect(screen.getAllByRole('menuitem')).toHaveLength(expectedItems);
   });
 
@@ -91,7 +83,7 @@ describe('<ShortUrlsFilterDropdown />', () => {
       expectedSelection: { excludePastValidUntil: false },
     },
   ])('selects proper filters when options are clicked', async ({ clickedItem, selected, expectedSelection }) => {
-    const { user } = await setUpOpened({ filterDisabledUrls: true, selected });
+    const { user } = await setUpOpened({ selected });
 
     await user.click(screen.getByText(clickedItem));
     expect(onChange).toHaveBeenCalledWith(expect.objectContaining(expectedSelection));
@@ -109,8 +101,8 @@ describe('<ShortUrlsFilterDropdown />', () => {
 
     const menuItems = screen.getAllByRole('menuitem');
     menuItems.forEach((menuItem, index) => {
-      // Add one to expected index, as there's one item rendered before the domains
-      if (index === expectedSelectedIndex + 1) {
+      // Add the three items that are rendered before the domains
+      if (index === expectedSelectedIndex + 3) {
         expect(menuItem).toHaveClass('active');
       } else {
         expect(menuItem).not.toHaveClass('active');

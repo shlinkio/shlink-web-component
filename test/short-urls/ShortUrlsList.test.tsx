@@ -10,13 +10,11 @@ import type { ShortUrlsOrder } from '../../src/short-urls/data';
 import type { ShortUrlsList as ShortUrlsListModel } from '../../src/short-urls/reducers/shortUrlsList';
 import { ShortUrlsListFactory } from '../../src/short-urls/ShortUrlsList';
 import type { ShortUrlsTableType } from '../../src/short-urls/ShortUrlsTable';
-import { FeaturesProvider } from '../../src/utils/features';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 type SetUpOptions = {
   settings?: Partial<Settings>;
-  excludeBotsOnShortUrls?: boolean;
   loading?: boolean;
 };
 
@@ -43,20 +41,18 @@ describe('<ShortUrlsList />', () => {
   });
   let history: MemoryHistory;
   const ShortUrlsList = ShortUrlsListFactory(fromPartial({ ShortUrlsTable, ShortUrlsFilteringBar }));
-  const setUp = ({ settings = {}, excludeBotsOnShortUrls = true, loading = false }: SetUpOptions = {}) => {
+  const setUp = ({ settings = {}, loading = false }: SetUpOptions = {}) => {
     history = createMemoryHistory();
     history.push({ search: '?tags=test%20tag&search=example.com' });
 
     return renderWithEvents(
       <Router location={history.location} navigator={history}>
         <SettingsProvider value={fromPartial(settings)}>
-          <FeaturesProvider value={fromPartial({ excludeBotsOnShortUrls })}>
-            <ShortUrlsList
-              {...fromPartial<MercureBoundProps>({ mercureInfo: { loading: true } })}
-              listShortUrls={listShortUrlsMock}
-              shortUrlsList={{ ...shortUrlsList, loading }}
-            />
-          </FeaturesProvider>
+          <ShortUrlsList
+            {...fromPartial<MercureBoundProps>({ mercureInfo: { loading: true } })}
+            listShortUrls={listShortUrlsMock}
+            shortUrlsList={{ ...shortUrlsList, loading }}
+          />
         </SettingsProvider>
       </Router>,
     );
@@ -119,26 +115,15 @@ describe('<ShortUrlsList />', () => {
       shortUrlsList: {
         defaultOrdering: { field: 'visits', dir: 'ASC' },
       },
-    }), false, { field: 'visits', dir: 'ASC' }],
+    }), { field: 'visits', dir: 'ASC' }],
     [fromPartial<Settings>({
       shortUrlsList: {
         defaultOrdering: { field: 'visits', dir: 'ASC' },
       },
       visits: { excludeBots: true },
-    }), false, { field: 'visits', dir: 'ASC' }],
-    [fromPartial<Settings>({
-      shortUrlsList: {
-        defaultOrdering: { field: 'visits', dir: 'ASC' },
-      },
-    }), true, { field: 'visits', dir: 'ASC' }],
-    [fromPartial<Settings>({
-      shortUrlsList: {
-        defaultOrdering: { field: 'visits', dir: 'ASC' },
-      },
-      visits: { excludeBots: true },
-    }), true, { field: 'nonBotVisits', dir: 'ASC' }],
-  ])('parses order by based on supported features version and config', (settings, excludeBotsOnShortUrls, expectedOrderBy) => {
-    setUp({ settings, excludeBotsOnShortUrls });
+    }), { field: 'nonBotVisits', dir: 'ASC' }],
+  ])('parses order by based on supported features version and config', (settings, expectedOrderBy) => {
+    setUp({ settings });
     expect(listShortUrlsMock).toHaveBeenCalledWith(expect.objectContaining({ orderBy: expectedOrderBy }));
   });
 });

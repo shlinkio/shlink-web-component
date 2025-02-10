@@ -27,10 +27,10 @@ export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => cr
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false } = options;
 
-    const visitsLoader = (query: ShlinkVisitsParams) => apiClient.getShortUrlVisits(shortCode, { ...query, domain });
+    const visitsLoader = (query: ShlinkVisitsParams) => apiClient.getShortUrlVisits({ shortCode, domain }, query);
     const lastVisitLoader = lastVisitLoaderForLoader(
       doIntervalFallback,
-      (q) => apiClient.getShortUrlVisits(shortCode, { ...q, domain }),
+      (q) => apiClient.getShortUrlVisits({ shortCode, domain }, q),
     );
 
     return { visitsLoader, lastVisitLoader };

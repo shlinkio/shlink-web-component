@@ -12,7 +12,6 @@ import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useSettings } from '../settings';
-import { useFeature } from '../utils/features';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
 import {
@@ -69,7 +68,6 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
     () => excludeBots ?? settings.visits?.excludeBots,
     [excludeBots, settings.visits?.excludeBots],
   );
-  const supportsExcludingBots = useFeature('excludeBotsOnShortUrls');
   const handleOrderBy = useCallback((field?: ShortUrlsOrderableFields, dir?: OrderDir) => {
     toFirstPage({ orderBy: { field, dir } });
     setActualOrderBy({ field, dir });
@@ -83,12 +81,12 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
     [tags, toFirstPage],
   );
   const parseOrderByForShlink = useCallback(({ field, dir }: ShortUrlsOrder): ShlinkShortUrlsOrder => {
-    if (supportsExcludingBots && doExcludeBots && field === 'visits') {
+    if (doExcludeBots && field === 'visits') {
       return { field: 'nonBotVisits', dir };
     }
 
     return { field, dir };
-  }, [doExcludeBots, supportsExcludingBots]);
+  }, [doExcludeBots]);
   const visitsComparisonValue = useVisitsComparison();
 
   useEffect(() => {

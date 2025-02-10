@@ -173,9 +173,11 @@ describe('shortUrlVisitsComparisonReducer', () => {
         payload: { ...getVisitsComparisonParams, visitsGroups },
       }));
       expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(shortUrls.length);
-      expect(getShortUrlVisitsCall).toHaveBeenNthCalledWith(1, 'foo', expect.anything());
-      expect(getShortUrlVisitsCall).toHaveBeenNthCalledWith(2, 'bar', expect.anything());
-      expect(getShortUrlVisitsCall).toHaveBeenNthCalledWith(3, 'baz', expect.anything());
+
+      const containingShortCode = (shortCode: string) => expect.objectContaining({ shortCode });
+      expect(getShortUrlVisitsCall).toHaveBeenNthCalledWith(1, containingShortCode('foo'), expect.anything());
+      expect(getShortUrlVisitsCall).toHaveBeenNthCalledWith(2, containingShortCode('bar'), expect.anything());
+      expect(getShortUrlVisitsCall).toHaveBeenNthCalledWith(3, containingShortCode('baz'), expect.anything());
     });
   });
 });

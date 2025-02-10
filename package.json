@@ -47,7 +47,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@reduxjs/toolkit": "^2.5.0",
     "@shlinkio/shlink-frontend-kit": "^0.7.2",
-    "@shlinkio/shlink-js-sdk": "^1.4.0",
+    "@shlinkio/shlink-js-sdk": "^2.0.0",
     "react": "^18.3 || ^19.0",
     "react-dom": "^18.3 || ^19.0",
     "react-redux": "^9.2.0",

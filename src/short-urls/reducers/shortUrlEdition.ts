@@ -27,7 +27,7 @@ const initialState: ShortUrlEdition = {
 export const editShortUrl = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
   `${REDUCER_PREFIX}/editShortUrl`,
   ({ shortCode, domain, data }: EditShortUrl): Promise<ShlinkShortUrl> =>
-    apiClientFactory().updateShortUrl(shortCode, domain, data as any) // TODO parse dates
+    apiClientFactory().updateShortUrl({ shortCode, domain }, data as any) // TODO parse dates
   ,
 );
 

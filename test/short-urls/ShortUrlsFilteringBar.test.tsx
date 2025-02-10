@@ -7,7 +7,6 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
 import { SettingsProvider } from '../../src/settings';
 import { ShortUrlsFilteringBarFactory } from '../../src/short-urls/ShortUrlsFilteringBar';
-import { FeaturesProvider } from '../../src/utils/features';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
@@ -30,16 +29,14 @@ describe('<ShortUrlsFilteringBar />', () => {
     return renderWithEvents(
       <Router location={history.location} navigator={history}>
         <SettingsProvider value={fromPartial({ visits: {} })}>
-          <FeaturesProvider value={fromPartial({ filterDisabledUrls: true })}>
-            <RoutesPrefixProvider value={routesPrefix}>
-              <ShortUrlsFilteringBar
-                order={{}}
-                handleOrderBy={handleOrderBy}
-                tagsList={fromPartial({ tags: [] })}
-                domainsList={fromPartial({})}
-              />
-            </RoutesPrefixProvider>
-          </FeaturesProvider>
+          <RoutesPrefixProvider value={routesPrefix}>
+            <ShortUrlsFilteringBar
+              order={{}}
+              handleOrderBy={handleOrderBy}
+              tagsList={fromPartial({ tags: [] })}
+              domainsList={fromPartial({})}
+            />
+          </RoutesPrefixProvider>
         </SettingsProvider>
       </Router>,
     );

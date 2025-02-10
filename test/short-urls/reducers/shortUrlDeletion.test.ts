@@ -67,7 +67,7 @@ describe('shortUrlDeletionReducer', () => {
       }));
 
       expect(deleteShortUrlCall).toHaveBeenCalledOnce();
-      expect(deleteShortUrlCall).toHaveBeenCalledWith(shortCode, domain);
+      expect(deleteShortUrlCall).toHaveBeenCalledWith({ shortCode, domain });
     });
   });
 });

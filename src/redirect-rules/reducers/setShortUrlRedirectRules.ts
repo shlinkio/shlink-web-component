@@ -28,7 +28,7 @@ export const setShortUrlRedirectRules = (apiClientFactory: () => ShlinkApiClient
   `${REDUCER_PREFIX}/setShortUrlRedirectRules`,
   ({ shortUrl, data }: SetShortUrlRedirectRulesInfo) => {
     const { shortCode, domain } = shortUrl;
-    return apiClientFactory().setShortUrlRedirectRules(shortCode, domain, data);
+    return apiClientFactory().setShortUrlRedirectRules({ shortCode, domain }, data);
   },
 );
 

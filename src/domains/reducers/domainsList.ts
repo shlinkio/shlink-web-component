@@ -58,7 +58,7 @@ export const domainsListReducerCreator = (
     `${REDUCER_PREFIX}/checkDomainHealth`,
     async (domain: string): Promise<ValidateDomain> => {
       try {
-        const { status } = await apiClientFactory().health(domain);
+        const { status } = await apiClientFactory().health({ domain });
         return { domain, status: status === 'pass' ? 'valid' : 'invalid' };
       } catch {
         return { domain, status: 'invalid' };

@@ -35,7 +35,7 @@ export const editTag = (
 ) => createAsyncThunk(
   `${REDUCER_PREFIX}/editTag`,
   async ({ oldName, newName, color }: EditTag): Promise<EditTag> => {
-    await apiClientFactory().editTag(oldName, newName);
+    await apiClientFactory().editTag({ oldName, newName });
     colorGenerator.setColorForKey(newName, color);
 
     return { oldName, newName, color };

@@ -3,11 +3,9 @@ import type { SemVerOrLatest, Versions } from './helpers/version';
 import { versionMatch } from './helpers/version';
 
 const supportedFeatures = {
-  excludeBotsOnShortUrls: { minVersion: '3.4.0' },
-  filterDisabledUrls: { minVersion: '3.4.0' },
-  deviceLongUrls: { minVersion: '3.5.0', maxVersion: '3.*.*' },
   shortUrlVisitsDeletion: { minVersion: '3.6.0' },
   orphanVisitsDeletion: { minVersion: '3.7.0' },
+  deviceLongUrls: { maxVersion: '3.*.*' },
   shortUrlRedirectRules: { minVersion: '4.0.0' },
   qrCodeColors: { minVersion: '4.0.0' },
   urlValidation: { maxVersion: '3.*.*' },
@@ -26,8 +24,6 @@ const isFeatureEnabledForVersion = (feature: Feature, serverVersion: SemVerOrLat
   versionMatch(serverVersion === 'latest' ? '999.99.99' : serverVersion, supportedFeatures[feature]);
 
 const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, boolean> => ({
-  excludeBotsOnShortUrls: isFeatureEnabledForVersion('excludeBotsOnShortUrls', serverVersion),
-  filterDisabledUrls: isFeatureEnabledForVersion('filterDisabledUrls', serverVersion),
   deviceLongUrls: isFeatureEnabledForVersion('deviceLongUrls', serverVersion),
   shortUrlVisitsDeletion: isFeatureEnabledForVersion('shortUrlVisitsDeletion', serverVersion),
   orphanVisitsDeletion: isFeatureEnabledForVersion('orphanVisitsDeletion', serverVersion),

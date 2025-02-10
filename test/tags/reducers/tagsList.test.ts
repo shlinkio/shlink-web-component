@@ -2,6 +2,7 @@ import type { ShlinkTagsStats } from '@shlinkio/shlink-js-sdk/api-contract';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import { createShortUrl as createShortUrlCreator } from '../../../src/short-urls/reducers/shortUrlCreation';
+import type { TagStats } from '../../../src/tags/data';
 import { tagDeleted } from '../../../src/tags/reducers/tagDelete';
 import { tagEdited } from '../../../src/tags/reducers/tagEdit';
 import type { TagsList } from '../../../src/tags/reducers/tagsList';
@@ -65,16 +66,21 @@ describe('tagsListReducer', () => {
       const oldName = 'bar';
       const newName = 'renamed';
       const expectedTags = ['foo', 'renamed', 'baz'].sort();
+      const stats: TagStats = {
+        shortUrlsCount: 35,
+        visitsSummary: {
+          total: 35,
+          bots: 30,
+          nonBots: 5,
+        },
+      };
 
       expect(reducer(
         state({
           tags,
           filteredTags: tags,
           stats: {
-            [oldName]: {
-              shortUrlsCount: 35,
-              visitsCount: 35,
-            },
+            [oldName]: stats,
           },
         }),
         tagEdited({ oldName, newName, color: '' }),
@@ -82,14 +88,8 @@ describe('tagsListReducer', () => {
         tags: expectedTags,
         filteredTags: expectedTags,
         stats: {
-          [oldName]: {
-            shortUrlsCount: 35,
-            visitsCount: 35,
-          },
-          [newName]: {
-            shortUrlsCount: 35,
-            visitsCount: 35,
-          },
+          [oldName]: stats,
+          [newName]: stats,
         },
       });
     });

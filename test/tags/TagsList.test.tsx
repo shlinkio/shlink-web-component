@@ -50,8 +50,6 @@ describe('<TagsList />', () => {
   });
 
   it.each([
-    [false, undefined, '25,25,25'],
-    [true, undefined, '25,25,25'],
     [
       false,
       {
@@ -76,17 +74,14 @@ describe('<TagsList />', () => {
       stats: {
         foo: {
           visitsSummary,
-          visitsCount: 25,
           shortUrlsCount: 1,
         },
         bar: {
           visitsSummary,
-          visitsCount: 25,
           shortUrlsCount: 1,
         },
         baz: {
           visitsSummary,
-          visitsCount: 25,
           shortUrlsCount: 1,
         },
       },

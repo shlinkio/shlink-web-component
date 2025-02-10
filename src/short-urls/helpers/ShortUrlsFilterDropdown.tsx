@@ -20,7 +20,6 @@ interface ShortUrlsFilterDropdownProps {
 export const ShortUrlsFilterDropdown = (
   { onChange, selected = {}, className, domains }: ShortUrlsFilterDropdownProps,
 ) => {
-  const supportsDisabledFiltering = useFeature('filterDisabledUrls');
   const supportsFilterByDomain = useFeature('filterShortUrlsByDomain');
   const { excludeBots = false, excludeMaxVisitsReached = false, excludePastValidUntil = false, domain } = selected;
 
@@ -40,18 +39,14 @@ export const ShortUrlsFilterDropdown = (
         Ignore visits from bots
       </DropdownItem>
 
-      {supportsDisabledFiltering && (
-        <>
-          <DropdownItem divider tag="hr" />
-          <DropdownItem header aria-hidden>Short URLs:</DropdownItem>
-          <DropdownItem active={excludeMaxVisitsReached} onClick={() => toggleFilter('excludeMaxVisitsReached')}>
-            Exclude with visits reached
-          </DropdownItem>
-          <DropdownItem active={excludePastValidUntil} onClick={() => toggleFilter('excludePastValidUntil')}>
-            Exclude enabled in the past
-          </DropdownItem>
-        </>
-      )}
+      <DropdownItem divider tag="hr" />
+      <DropdownItem header aria-hidden>Short URLs:</DropdownItem>
+      <DropdownItem active={excludeMaxVisitsReached} onClick={() => toggleFilter('excludeMaxVisitsReached')}>
+        Exclude with visits reached
+      </DropdownItem>
+      <DropdownItem active={excludePastValidUntil} onClick={() => toggleFilter('excludePastValidUntil')}>
+        Exclude enabled in the past
+      </DropdownItem>
 
       {supportsFilterByDomain && (
         <>

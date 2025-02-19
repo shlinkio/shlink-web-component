@@ -61,7 +61,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
   }, [currentPage]);
   const renderPagination = useCallback(
     (pagesCount: number): ReactNode =>
-      <SimplePaginator currentPage={currentPage} pagesCount={pagesCount} setCurrentPage={setCurrentPage} />,
+      <SimplePaginator currentPage={currentPage} pagesCount={pagesCount} onPageChange={setCurrentPage} />,
     [currentPage],
   );
   const determineStats = useCallback(

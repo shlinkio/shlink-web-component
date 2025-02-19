@@ -5,7 +5,7 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<SimplePaginator />', () => {
   const setUp = (pagesCount: number, currentPage = 1) => render(
-    <SimplePaginator pagesCount={pagesCount} currentPage={currentPage} setCurrentPage={vi.fn()} />,
+    <SimplePaginator pagesCount={pagesCount} currentPage={currentPage} onPageChange={vi.fn()} />,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp(10)));

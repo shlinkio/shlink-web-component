@@ -71,7 +71,7 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
 
       {showPaginator && (
         <div className="sticky-card-paginator">
-          <SimplePaginator pagesCount={pages.length} currentPage={page} setCurrentPage={updatePage} />
+          <SimplePaginator pagesCount={pages.length} currentPage={page} onPageChange={updatePage} />
         </div>
       )}
     </SimpleCard>

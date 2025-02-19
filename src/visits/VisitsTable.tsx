@@ -242,7 +242,7 @@ export const VisitsTable = ({
                     <SimplePaginator
                       pagesCount={Math.ceil(paginator.total / PAGE_SIZE)}
                       currentPage={page}
-                      setCurrentPage={setPage}
+                      onPageChange={setPage}
                       centered={isMobileDevice}
                     />
                     <div>

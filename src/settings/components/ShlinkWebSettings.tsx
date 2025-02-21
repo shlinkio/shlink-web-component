@@ -17,7 +17,11 @@ import { VisitsSettings as Visits } from './VisitsSettings';
 export type ShlinkWebSettingsProps = {
   settings: Settings;
   defaultShortUrlsListOrdering: NonNullable<ShortUrlsListSettings['defaultOrdering']>;
-  updateSettings: (settings: Settings) => void;
+  /** Callback invoked every time the settings are updated */
+  onUpdateSettings?: (settings: Settings) => void;
+
+  /** @deprecated Use onUpdateSettings instead */
+  updateSettings?: (settings: Settings) => void;
 };
 
 const SettingsSections: FC<PropsWithChildren> = ({ children }) => Children.map(
@@ -25,12 +29,15 @@ const SettingsSections: FC<PropsWithChildren> = ({ children }) => Children.map(
   (child, index) => <div key={index} className="mb-3">{child}</div>,
 );
 
-export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = (
-  { settings, updateSettings, defaultShortUrlsListOrdering },
-) => {
+export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
+  settings,
+  updateSettings,
+  onUpdateSettings = updateSettings,
+  defaultShortUrlsListOrdering,
+}) => {
   const updatePartialSettings = useCallback(
-    (partialSettings: DeepPartial<Settings>) => updateSettings(mergeDeepRight(settings, partialSettings)),
-    [settings, updateSettings],
+    (partialSettings: DeepPartial<Settings>) => onUpdateSettings?.(mergeDeepRight(settings, partialSettings)),
+    [settings, onUpdateSettings],
   );
   const toggleRealTimeUpdates = useCallback(
     (enabled: boolean) => updatePartialSettings({ realTimeUpdates: { enabled } }),

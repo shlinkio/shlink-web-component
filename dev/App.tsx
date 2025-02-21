@@ -3,7 +3,7 @@ import { FetchHttpClient } from '@shlinkio/shlink-js-sdk/fetch';
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router';
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router';
 import { ShlinkWebComponent } from '../src';
 import type { Settings } from '../src/settings';
 import { ShlinkWebSettings } from '../src/settings';
@@ -27,9 +27,10 @@ export const App: FC = () => {
     [serverInfo],
   );
   const [settings, setSettings] = useState<Settings>({});
+  const location = useLocation();
   const routesPrefix = useMemo(
-    () => (window.location.pathname.startsWith('/sub/route') ? '/sub/route' : undefined),
-    [],
+    () => (location.pathname.startsWith('/sub/route') ? '/sub/route' : undefined),
+    [location],
   );
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export const App: FC = () => {
   }, [apiClient, serverVersion]);
 
   return (
-    <BrowserRouter>
+    <>
       <header className="header fixed-top text-white d-flex justify-content-between">
         <ServerInfoForm serverInfo={serverInfo} onChange={onServerInfoChange} />
         <div className="h-100 text-end pe-3 pt-3 d-flex gap-3">
@@ -57,7 +58,7 @@ export const App: FC = () => {
                 <div className="container pt-4">
                   <ShlinkWebSettings
                     settings={settings}
-                    updateSettings={setSettings}
+                    onUpdateSettings={setSettings}
                     defaultShortUrlsListOrdering={{}}
                   />
                 </div>
@@ -79,6 +80,6 @@ export const App: FC = () => {
           <Route path="*" element={<h3 className="mt-3 text-center">Not found</h3>} />
         </Routes>
       </div>
-    </BrowserRouter>
+    </>
   );
 };

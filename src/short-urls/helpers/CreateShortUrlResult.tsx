@@ -26,6 +26,7 @@ const CreateShortUrlResult: FCWithDeps<CreateShortUrlResultProps, CreateShortUrl
   { creation, resetCreateShortUrl, canBeClosed = false }: CreateShortUrlResultProps,
 ) => {
   const { useTimeoutToggle } = useDependencies(CreateShortUrlResult);
+  // eslint-disable-next-line react-compiler/react-compiler
   const [showCopyTooltip, toggleShowCopyTooltip] = useTimeoutToggle();
   const { error, saved } = creation;
 

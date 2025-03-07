@@ -33,7 +33,9 @@ export type ShortUrlsRowType = typeof ShortUrlsRow;
 
 const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUrl, onTagClick }) => {
   const { ShortUrlsRowMenu, ColorGenerator: colorGenerator, useTimeoutToggle } = useDependencies(ShortUrlsRow);
+  // eslint-disable-next-line react-compiler/react-compiler
   const [copiedToClipboard, setCopiedToClipboard] = useTimeoutToggle();
+  // eslint-disable-next-line react-compiler/react-compiler
   const [active, setActive] = useTimeoutToggle(false, 500);
   const isFirstRun = useRef(true);
   const [{ excludeBots }] = useShortUrlsQuery();

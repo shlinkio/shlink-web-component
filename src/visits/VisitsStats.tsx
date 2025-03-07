@@ -75,8 +75,6 @@ const PrevVisitsNotice: FC<{ display: boolean }> = ({ display }) => display && (
   </div>
 );
 
-let selectedBar: string | undefined;
-
 export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const {
     children,
@@ -138,21 +136,22 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   }), [loadPrevInterval, visitsFilter, visitsSettings?.excludeBots, visitsSettings?.loadPrevInterval]);
   const mapLocations = useMemo(() => Object.values(citiesForMap), [citiesForMap]);
 
+  const selectedBarRef = useRef<string>(undefined);
   const setSelectedVisits = useCallback((selectedVisits: NormalizedVisit[]) => {
-    selectedBar = undefined;
+    selectedBarRef.current = undefined;
     setHighlightedVisits(selectedVisits);
   }, []);
   const highlightVisitsForProp = useCallback((prop: HighlightableProps<NormalizedOrphanVisit>, value: string) => {
     const newSelectedBar = `${prop}_${value}`;
 
-    if (selectedBar === newSelectedBar) {
+    if (selectedBarRef.current === newSelectedBar) {
       setHighlightedVisits([]);
       setHighlightedLabel(undefined);
-      selectedBar = undefined;
+      selectedBarRef.current = undefined;
     } else {
       setHighlightedVisits((normalizedVisits as NormalizedOrphanVisit[]).filter((visit) => visit[prop] === value));
       setHighlightedLabel(value);
-      selectedBar = newSelectedBar;
+      selectedBarRef.current = newSelectedBar;
     }
   }, [normalizedVisits]);
 

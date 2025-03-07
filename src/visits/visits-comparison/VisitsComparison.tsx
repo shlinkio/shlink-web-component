@@ -1,6 +1,6 @@
 import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSetting } from '../../settings';
 import { GoBackButton } from '../../utils/components/GoBackButton';
 import { DateRangeSelector } from '../../utils/dates/DateRangeSelector';
@@ -58,22 +58,20 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
     },
     [updateQuery],
   );
-  const initialInterval = useRef<DateRange | DateInterval>(
-    dateRange ?? visitsSettings?.defaultInterval ?? 'last30Days',
-  );
+  const [initialInterval] = useState(() => dateRange ?? visitsSettings?.defaultInterval ?? 'last30Days');
   const resolvedFilter = useMemo(() => ({
     ...visitsFilter,
     excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
   }), [visitsFilter, visitsSettings?.excludeBots]);
 
   useEffect(() => {
-    const resolvedDateRange = dateRange ?? toDateRange(initialInterval.current);
+    const resolvedDateRange = dateRange ?? toDateRange(initialInterval);
     getVisitsForComparison({
       params: { dateRange: resolvedDateRange, filter: resolvedFilter },
     });
 
     return cancelGetVisitsComparison;
-  }, [cancelGetVisitsComparison, dateRange, getVisitsForComparison, resolvedFilter]);
+  }, [cancelGetVisitsComparison, dateRange, getVisitsForComparison, initialInterval, resolvedFilter]);
 
   return (
     <>
@@ -89,7 +87,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
             <DateRangeSelector
               disabled={loading}
               defaultText="All visits"
-              dateRangeOrInterval={activeInterval ?? dateRange ?? initialInterval.current}
+              dateRangeOrInterval={activeInterval ?? dateRange ?? initialInterval}
               onDatesChange={setDates}
             />
           </div>

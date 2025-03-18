@@ -18,7 +18,7 @@ describe('<DomainVisits />', () => {
     ReportExporter: fromPartial({ exportVisits }),
   }));
   const setUp = () => renderWithEvents(
-    <MemoryRouterWithParams params={{ domain: 'foo.com_DEFAULT' }}>
+    <MemoryRouterWithParams params={{ domain: 'foo.com_DEFAULT' }} splat>
       <SettingsProvider value={fromPartial({})}>
         <DomainVisits
           {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}

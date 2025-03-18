@@ -8,9 +8,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
     <div
       class="col-sm-12 col-md-7"
     >
-      <div
-        style="width: 800px; height: 300px;"
-      >
+      <div>
         <div
           class="recharts-wrapper"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
@@ -130,9 +128,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
     <div
       class="col-sm-12 col-md-7"
     >
-      <div
-        style="width: 800px; height: 300px;"
-      >
+      <div>
         <div
           class="recharts-wrapper"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
@@ -269,9 +265,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
     <div
       class="col-sm-12 col-md-7"
     >
-      <div
-        style="width: 800px; height: 300px;"
-      >
+      <div>
         <div
           class="recharts-wrapper"
           style="position: relative; cursor: default; width: 800px; height: 300px;"

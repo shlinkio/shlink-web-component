@@ -29,7 +29,7 @@ import {
 import type { FC } from 'react';
 import { useId } from 'react';
 import { useLayoutEffect } from 'react';
-import { Fragment, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   Button,
   Card,
@@ -40,7 +40,7 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
 } from 'reactstrap';
-import { CartesianGrid, Line, LineChart, ReferenceArea, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, ReferenceArea, Tooltip, XAxis, YAxis } from 'recharts';
 import type { CategoricalChartState } from 'recharts/types/chart/types';
 import { formatInternational } from '../../utils/dates/helpers/date';
 import type { StrictDateRange } from '../../utils/dates/helpers/dateIntervals';
@@ -49,6 +49,7 @@ import { useKeyDown, useMaxResolution } from '../../utils/helpers/hooks';
 import { prettify } from '../../utils/helpers/numbers';
 import type { MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
+import { useChartDimensions } from './ChartDimensionsContext';
 import { CHART_TOOLTIP_COMMON_PROPS, prevColor } from './constants';
 import { LineChartLegend } from './LineChartLegend';
 
@@ -223,12 +224,11 @@ export type LineChartCardProps = {
   onDateRangeChange: (dateRange: StrictDateRange) => void;
 
   /** Test seam. For tests, a responsive container cannot be used */
-  dimensions?: { width: number; height: number };
   matchMedia?: MediaMatcher;
 };
 
 export const LineChartCard: FC<LineChartCardProps> = (
-  { visitsGroups, setSelectedVisits, dimensions, matchMedia, onDateRangeChange },
+  { visitsGroups, setSelectedVisits, matchMedia, onDateRangeChange },
 ) => {
   const [step, setStep] = useState<Step>(determineInitialStep(visitsGroups));
   const isMobile = useMaxResolution(767, matchMedia ?? window.matchMedia);
@@ -277,11 +277,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
 
   useKeyDown('Escape', setNotExpanded, isExpanded);
 
-  const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
-  const wrapperProps = useMemo(
-    () => (dimensions ? {} : { width: '100%', height: wrapperHeight }),
-    [dimensions, wrapperHeight],
-  );
+  const { ChartWrapper, dimensions, wrapperDimensions } = useChartDimensions(wrapperHeight);
 
   // References the items being selected via drag'n'drop
   const [selectionStart, setSelectionStart] = useState<ChartPayloadEntry>();
@@ -346,7 +342,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
         </div>
       </CardHeader>
       <CardBody innerRef={bodyRef} id={bodyId}>
-        <ChartWrapper {...wrapperProps}>
+        <ChartWrapper {...wrapperDimensions}>
           <LineChart
             className="user-select-none"
             data={chartData}

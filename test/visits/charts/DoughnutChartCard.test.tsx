@@ -1,13 +1,15 @@
 import { screen } from '@testing-library/react';
+import { ChartDimensionsProvider } from '../../../src/visits/charts/ChartDimensionsContext';
 import { DoughnutChartCard } from '../../../src/visits/charts/DoughnutChartCard';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<DoughnutChartCard />', () => {
   const stats = { foo: 10, bar: 5602 };
-  const dimensions = { width: 800, height: 400 };
   const setUp = () => renderWithEvents(
-    <DoughnutChartCard title="Stats" stats={stats} prevStats={{}} dimensions={dimensions} />,
+    <ChartDimensionsProvider value={{ width: 800, height: 400 }}>
+      <DoughnutChartCard title="Stats" stats={stats} prevStats={{}} />
+    </ChartDimensionsProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

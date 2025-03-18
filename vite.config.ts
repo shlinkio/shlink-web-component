@@ -51,6 +51,7 @@ export default defineConfig({
         '!src/index.ts',
         '!src/container/*',
         '!src/**/provideServices.ts',
+        '!src/**/ChartDimensionsContext.ts',
       ],
       reporter: ['text', 'text-summary', 'clover', 'html'],
 
@@ -62,6 +63,9 @@ export default defineConfig({
         lines: 95,
       },
     },
+
+    // Silent warnings due to use of propTypes in reactstrap
+    onConsoleLog: (log) => !log.includes('Support for defaultProps will be removed'),
 
     // Workaround for bug in react-router (or vitest module resolution) which causes different react-router versions to
     // be resolved for the main package and dependencies who have a peer dependency in react-router.

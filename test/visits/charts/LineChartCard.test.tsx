@@ -2,6 +2,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO, isBefore, subDays, subMonths, subYears } from 'date-fns';
 import type { StrictDateRange } from '../../../src/utils/dates/helpers/dateIntervals';
+import { ChartDimensionsProvider } from '../../../src/visits/charts/ChartDimensionsContext';
 import type { VisitsList } from '../../../src/visits/charts/LineChartCard';
 import { LineChartCard } from '../../../src/visits/charts/LineChartCard';
 import type { NormalizedVisit } from '../../../src/visits/types';
@@ -13,10 +14,11 @@ type SetUpOptions = {
 };
 
 describe('<LineChartCard />', () => {
-  const dimensions = { width: 800, height: 400 };
   const onDateRangeChange = vi.fn();
   const setUp = ({ visitsGroups = {} }: SetUpOptions = {}) => renderWithEvents(
-    <LineChartCard visitsGroups={visitsGroups} dimensions={dimensions} onDateRangeChange={onDateRangeChange} />,
+    <ChartDimensionsProvider value={{ width: 800, height: 400 }}>
+      <LineChartCard visitsGroups={visitsGroups} onDateRangeChange={onDateRangeChange} />
+    </ChartDimensionsProvider>,
   );
 
   const asMainVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(visits, { type: 'main' as const });

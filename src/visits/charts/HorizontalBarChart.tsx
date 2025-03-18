@@ -6,10 +6,11 @@ import {
   MAIN_COLOR_ALPHA,
 } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import { Fragment, useMemo } from 'react';
-import { Bar, CartesianGrid, Cell, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useMemo } from 'react';
+import { Bar, CartesianGrid, Cell, ComposedChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
+import { useChartDimensions } from './ChartDimensionsContext';
 import { CHART_TOOLTIP_COMMON_PROPS, prevColor, prevColorAlpha } from './constants';
 
 export type HorizontalBarChartProps = {
@@ -19,9 +20,6 @@ export type HorizontalBarChartProps = {
   highlightedLabel?: string;
   max?: number;
   onClick?: (label: string) => void;
-
-  /** Test seam. For tests, a responsive container cannot be used */
-  dimensions?: { width: number; height: number };
 };
 
 type HorizontalBarChartEntry = {
@@ -35,7 +33,7 @@ type HorizontalBarChartEntry = {
 const isHiddenLabel = (label: string) => label.startsWith('hidden_');
 
 export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
-  { stats, prevStats, highlightedStats, highlightedLabel, max, onClick, dimensions },
+  { stats, prevStats, highlightedStats, highlightedLabel, max, onClick },
 ) => {
   const chartData = useMemo((): HorizontalBarChartEntry[] => Object.entries(stats).map(([name, amount]) => {
     const highlightedAmount = highlightedStats?.[name] ?? 0;
@@ -57,16 +55,9 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
     return Math.min(150, longestNameLength * 7);
   }, [chartData]);
 
-  const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
-  const wrapperDimensions = useMemo(() => {
-    // The wrapper should have no dimensions if explicit dimensions were provided to be used on the chart
-    if (dimensions) {
-      return {};
-    }
-
-    const height = Math.max(300, chartData.length * (prevStats ? 44 : 22));
-    return { width: '100%', height };
-  }, [dimensions, chartData.length, prevStats]);
+  const { ChartWrapper, dimensions, wrapperDimensions } = useChartDimensions(
+    Math.max(300, chartData.length * (prevStats ? 44 : 22)),
+  );
 
   return (
     <ChartWrapper {...wrapperDimensions}>

@@ -6,6 +6,7 @@ import type { ShlinkVisit } from '../../src/api-contract';
 import type { Settings } from '../../src/settings';
 import { SettingsProvider } from '../../src/settings';
 import { rangeOf } from '../../src/utils/helpers';
+import { ChartDimensionsProvider } from '../../src/visits/charts/ChartDimensionsContext';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
 import { VisitsStats } from '../../src/visits/VisitsStats';
 import { checkAccessibility } from '../__helpers__/accessibility';
@@ -31,13 +32,15 @@ describe('<VisitsStats />', () => {
       ...renderWithEvents(
         <Router location={history.location} navigator={history}>
           <SettingsProvider value={fromPartial(settings)}>
-            <VisitsStats
-              getVisits={getVisitsMock}
-              visitsInfo={fromPartial({ loading: false, errorData: null, progress: null, visits: [], ...visitsInfo })}
-              cancelGetVisits={() => {}}
-              exportCsv={exportCsv}
-              deletion={withDeletion ? fromPartial({ visitsDeletion: {} }) : undefined}
-            />
+            <ChartDimensionsProvider value={{ width: 800, height: 300 }}>
+              <VisitsStats
+                getVisits={getVisitsMock}
+                visitsInfo={fromPartial({ loading: false, errorData: null, progress: null, visits: [], ...visitsInfo })}
+                cancelGetVisits={() => {}}
+                exportCsv={exportCsv}
+                deletion={withDeletion ? fromPartial({ visitsDeletion: {} }) : undefined}
+              />
+            </ChartDimensionsProvider>
           </SettingsProvider>
         </Router>,
       ),

@@ -51,6 +51,7 @@ export default defineConfig({
         '!src/index.ts',
         '!src/container/*',
         '!src/**/provideServices.ts',
+        '!src/**/ChartDimensionsContext.ts',
       ],
       reporter: ['text', 'text-summary', 'clover', 'html'],
 

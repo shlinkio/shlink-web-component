@@ -1,3 +1,4 @@
+import { ChartDimensionsProvider } from '../../../src/visits/charts/ChartDimensionsContext';
 import type { HorizontalBarChartProps } from '../../../src/visits/charts/HorizontalBarChart';
 import { HorizontalBarChart } from '../../../src/visits/charts/HorizontalBarChart';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -5,7 +6,9 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<HorizontalBarChart />', () => {
   const setUp = (props: Omit<HorizontalBarChartProps, 'dimensions'>) => renderWithEvents(
-    <HorizontalBarChart {...props} dimensions={{ width: 800, height: 400 }} />,
+    <ChartDimensionsProvider value={{ width: 800, height: 400 }}>
+      <HorizontalBarChart {...props} />
+    </ChartDimensionsProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp({ stats: {} })));

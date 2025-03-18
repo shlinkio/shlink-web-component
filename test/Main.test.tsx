@@ -30,7 +30,7 @@ describe('<Main />', () => {
     ShortUrlVisitsComparison: () => <>ShortUrlVisitsComparison</>,
     ShortUrlRedirectRules: () => <>ShortUrlRedirectRules</>,
   }));
-  const setUp = ({ createNotFound, currentPath = '', supportsRedirectRules = false }: SetUpOptions) => render(
+  const setUp = ({ createNotFound, currentPath = '/', supportsRedirectRules = false }: SetUpOptions) => render(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
       <FeaturesProvider value={fromPartial({ shortUrlRedirectRules: supportsRedirectRules })}>
         <Main createNotFound={createNotFound} />

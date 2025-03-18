@@ -20,7 +20,7 @@ describe('<TagVisits />', () => {
     ReportExporter: fromPartial({ exportVisits }),
   }));
   const setUp = () => renderWithEvents(
-    <MemoryRouterWithParams params={{ tag: 'foo' }}>
+    <MemoryRouterWithParams params={{ tag: 'foo' }} splat>
       <SettingsProvider value={fromPartial({})}>
         <TagVisits
           {...fromPartial<TagVisitsProps>({})}

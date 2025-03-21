@@ -1,16 +1,12 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { QrCodeModalFactory } from '../../../src/short-urls/helpers/QrCodeModal';
+import { QrCodeModal } from '../../../src/short-urls/helpers/QrCodeModal';
 import { FeaturesProvider } from '../../../src/utils/features';
-import type { ImageDownloader } from '../../../src/utils/services/ImageDownloader';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<QrCodeModal />', () => {
   const saveImage = vi.fn().mockReturnValue(Promise.resolve());
-  const QrCodeModal = QrCodeModalFactory(fromPartial({
-    ImageDownloader: fromPartial<ImageDownloader>({ saveImage }),
-  }));
   const shortUrl = 'https://s.test/abc123';
   const setUp = ({ qrCodeColors = false }: { qrCodeColors?: boolean } = {}) => renderWithEvents(
     <FeaturesProvider value={fromPartial({ qrCodeColors })}>

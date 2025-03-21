@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RowDropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
+import type { ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import { DropdownItem } from 'reactstrap';
@@ -18,9 +19,9 @@ import { componentFactory, useDependencies } from '../../container/utils';
 import { useSetting } from '../../settings';
 import { useFeature } from '../../utils/features';
 import { useVisitsComparisonContext } from '../../visits/visits-comparison/VisitsComparisonContext';
-import type { ShortUrlIdentifier, ShortUrlModalProps } from '../data';
 import type { DeleteShortUrlModalProps } from './DeleteShortUrlModal';
 import { shortUrlToQuery } from './index';
+import { QrCodeModal } from './QrCodeModal';
 import { ShortUrlDetailLink } from './ShortUrlDetailLink';
 
 type ShortUrlsRowMenuProps = {
@@ -28,19 +29,18 @@ type ShortUrlsRowMenuProps = {
 };
 
 type ShortUrlsRowMenuConnectProps = ShortUrlsRowMenuProps & {
-  deleteShortUrl: (shortUrl: ShortUrlIdentifier) => Promise<void>;
-  shortUrlDeleted: (shortUrl: ShortUrlIdentifier) => void;
+  deleteShortUrl: (shortUrl: ShlinkShortUrlIdentifier) => Promise<void>;
+  shortUrlDeleted: (shortUrl: ShlinkShortUrlIdentifier) => void;
 };
 
 type ShortUrlsRowMenuDeps = {
   DeleteShortUrlModal: FC<DeleteShortUrlModalProps>;
-  QrCodeModal: FC<ShortUrlModalProps>;
 };
 
 const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMenuDeps> = (
   { shortUrl, deleteShortUrl, shortUrlDeleted },
 ) => {
-  const { DeleteShortUrlModal, QrCodeModal } = useDependencies(ShortUrlsRowMenu);
+  const { DeleteShortUrlModal } = useDependencies(ShortUrlsRowMenu);
   const [isQrModalOpen,, openQrCodeModal, closeQrCodeModal] = useToggle();
   const [isDeleteModalOpen,, openDeleteModal, closeDeleteModal] = useToggle();
   const visitsComparison = useVisitsComparisonContext();
@@ -107,4 +107,4 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
 
 export type ShortUrlsRowMenuType = FC<ShortUrlsRowMenuProps>;
 
-export const ShortUrlsRowMenuFactory = componentFactory(ShortUrlsRowMenu, ['DeleteShortUrlModal', 'QrCodeModal']);
+export const ShortUrlsRowMenuFactory = componentFactory(ShortUrlsRowMenu, ['DeleteShortUrlModal']);

@@ -1,6 +1,6 @@
 import { stringifyQueryParams } from '@shlinkio/shlink-frontend-kit';
 
-export type QrCodeFormat = 'svg' | 'png';
+export type QrCodeFormat = 'svg' | 'png' | 'webp';
 
 export type QrErrorCorrection = 'L' | 'M' | 'Q' | 'H';
 

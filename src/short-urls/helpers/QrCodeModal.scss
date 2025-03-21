@@ -1,5 +1,11 @@
 @use '../../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
 
+.qr-code-modal__qr-code {
+  canvas {
+    max-width: 100%;
+  }
+}
+
 .qr-code-modal__controls {
   @media (min-width: base.$lgMin) {
     width: 16rem;

@@ -56,7 +56,7 @@
     }
   },
   "dependencies": {
-    "@formkit/drag-and-drop": "^0.4.1",
+    "@formkit/drag-and-drop": "^0.4.2",
     "@json2csv/plainjs": "^7.0.6",
     "@shlinkio/data-manipulation": "^1.0.3",
     "bottlejs": "^2.0.1",

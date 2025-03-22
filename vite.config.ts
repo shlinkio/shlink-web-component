@@ -71,7 +71,8 @@ export default defineConfig({
     // be resolved for the main package and dependencies who have a peer dependency in react-router.
     // This ensures always the same version is resolved.
     // See https://github.com/remix-run/react-router/issues/12785 for details
-    alias: nodeVersion > DEFAULT_NODE_VERSION
+    // The bug can be reproduced in ^20.19 and in >=22.11
+    alias: (nodeVersion >= 'v20.19.0' && nodeVersion < 'v21.0.0') || nodeVersion > DEFAULT_NODE_VERSION
       ? {
         'react-router': resolve(__dirname, 'node_modules/react-router/dist/development/index.mjs'),
       }

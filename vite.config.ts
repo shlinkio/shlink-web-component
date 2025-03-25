@@ -33,7 +33,7 @@ export default defineConfig({
 
   server: {
     watch: {
-      ignored: ['**/dist/**', '**/.idea/**', '**/node_modules/**', '**/.git/**'],
+      ignored: ['**/dist/**', '**/.idea/**', '**/node_modules/**', '**/.git/**', '**/test/**'],
     },
   },
 

@@ -4,12 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.13.1] - 2025-03-26
 ### Added
-* *Nothing*
+* Add support for `@shlinkio/shlink-frontend-kit` 0.8
 
 ### Changed
-* *Nothing*
+* Update dependencies
 
 ### Deprecated
 * Deprecate `updateSettings` prop in `ShelinkWebSettings`. Use `onUpdateSettings` instead.

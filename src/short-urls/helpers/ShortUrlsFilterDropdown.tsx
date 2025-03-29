@@ -50,7 +50,7 @@ export const ShortUrlsFilterDropdown = (
 
       {supportsFilterByDomain && (
         <>
-          <DropdownItem divider tag="hr"/>
+          <DropdownItem divider tag="hr" />
           <DropdownItem header aria-hidden>Domain: {!domains && <i>loading...</i>}</DropdownItem>
           {domains?.map((d) => {
             const value = d.isDefault ? DEFAULT_DOMAIN : d.domain;

@@ -1,5 +1,4 @@
-import { forwardRef } from 'react';
-import { useMemo } from 'react';
+import { forwardRef , useMemo } from 'react';
 import { ColorBullet } from '../../utils/components/ColorBullet';
 import { prettify } from '../../utils/helpers/numbers';
 import type { VisitsList } from './LineChartCard';

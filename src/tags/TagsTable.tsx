@@ -1,8 +1,7 @@
 import { splitEvery } from '@shlinkio/data-manipulation';
 import { SimpleCard, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import { useCallback } from 'react';
-import { useEffect, useRef } from 'react';
+import { useCallback , useEffect, useRef } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { SimplePaginator } from '../utils/components/SimplePaginator';

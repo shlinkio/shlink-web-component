@@ -2,10 +2,7 @@ import { faCheck as checkIcon, faRobot as botIcon } from '@fortawesome/free-soli
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { splitEvery } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
-import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
-import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
-import { determineOrderDir, SearchField, sortList } from '@shlinkio/shlink-frontend-kit';
+import { determineOrderDir, SearchField, SimpleCard , sortList,ToggleSwitch , useToggle  } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { useCallback, useMemo, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';

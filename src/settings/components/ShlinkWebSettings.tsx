@@ -1,8 +1,7 @@
 import { mergeDeepRight } from '@shlinkio/data-manipulation';
 import { NavPillItem, NavPills } from '@shlinkio/shlink-frontend-kit';
 import type { FC, PropsWithChildren } from 'react';
-import { Children } from 'react';
-import { useCallback } from 'react';
+import { Children , useCallback } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 import type { DeepPartial } from '../../utils/types';
 import { SettingsProvider } from '..';

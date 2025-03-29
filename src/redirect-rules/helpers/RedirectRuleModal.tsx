@@ -7,8 +7,7 @@ import type {
   ShlinkRedirectRuleData,
 } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC, FormEvent } from 'react';
-import { useMemo } from 'react';
-import { useCallback, useId, useState } from 'react';
+import { useCallback, useId, useMemo , useState } from 'react';
 import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import { countryCodes } from '../../utils/country-codes';
 import { useFeature } from '../../utils/features';

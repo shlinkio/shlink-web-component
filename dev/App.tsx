@@ -1,8 +1,7 @@
 import { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
 import { FetchHttpClient } from '@shlinkio/shlink-js-sdk/fetch';
 import type { FC } from 'react';
-import { useCallback } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback , useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router';
 import { ShlinkWebComponent } from '../src';
 import type { Settings } from '../src/settings';
@@ -10,8 +9,7 @@ import { ShlinkWebSettings } from '../src/settings';
 import type { SemVer } from '../src/utils/helpers/version';
 import { ServerInfoForm } from './server-info/ServerInfoForm';
 import type { ServerInfo } from './server-info/useServerInfo';
-import { useServerInfo } from './server-info/useServerInfo';
-import { isServerInfoSet } from './server-info/useServerInfo';
+import { isServerInfoSet,useServerInfo  } from './server-info/useServerInfo';
 import { ThemeToggle } from './ThemeToggle';
 
 export const App: FC = () => {

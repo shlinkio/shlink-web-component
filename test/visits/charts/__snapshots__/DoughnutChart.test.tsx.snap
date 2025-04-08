@@ -55,13 +55,13 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
             </g>
           </svg>
           <div
-            class="recharts-tooltip-wrapper"
-            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+            class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(10px, 10px);"
             tabindex="-1"
           >
             <div
               class="recharts-default-tooltip"
-              style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+              style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
             >
               <p
                 class="recharts-tooltip-label"
@@ -192,13 +192,13 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
             </g>
           </svg>
           <div
-            class="recharts-tooltip-wrapper"
-            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+            class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(10px, 10px);"
             tabindex="-1"
           >
             <div
               class="recharts-default-tooltip"
-              style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+              style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
             >
               <p
                 class="recharts-tooltip-label"
@@ -333,13 +333,13 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
             </g>
           </svg>
           <div
-            class="recharts-tooltip-wrapper"
-            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+            class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(10px, 10px);"
             tabindex="-1"
           >
             <div
               class="recharts-default-tooltip"
-              style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+              style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
             >
               <p
                 class="recharts-tooltip-label"

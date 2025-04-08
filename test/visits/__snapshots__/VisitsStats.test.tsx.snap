@@ -204,12 +204,12 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -407,7 +407,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -566,17 +566,17 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>
@@ -810,12 +810,12 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -1013,7 +1013,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -1172,17 +1172,17 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>
@@ -1416,12 +1416,12 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -1619,7 +1619,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -1778,17 +1778,17 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>
@@ -2022,12 +2022,12 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -2225,7 +2225,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -2429,17 +2429,17 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>
@@ -2687,12 +2687,12 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -2890,7 +2890,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -3094,17 +3094,17 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>
@@ -3352,12 +3352,12 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -3555,7 +3555,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -3759,17 +3759,17 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>

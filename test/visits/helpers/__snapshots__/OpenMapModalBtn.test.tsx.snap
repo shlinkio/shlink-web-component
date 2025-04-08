@@ -29,13 +29,13 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
           />
         </div>
         <div
-          class="leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+          class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
           style="position: relative;"
           tabindex="0"
         >
           <div
             class="leaflet-pane leaflet-map-pane"
-            style="left: 0px; top: 0px;"
+            style="transform: translate3d(0px, 0px, 0px);"
           >
             <div
               class="leaflet-pane leaflet-tile-pane"
@@ -46,13 +46,25 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
               >
                 <div
                   class="leaflet-tile-container leaflet-zoom-animated"
-                  style="z-index: 18; left: 0px; top: 0px;"
+                  style="z-index: 18; transform: translate3d(0px, 0px, 0px) scale(1);"
                 >
                   <img
                     alt=""
                     class="leaflet-tile"
                     src="https://a.tile.openstreetmap.org/0/0/0.png"
-                    style="width: 256px; height: 256px; left: -161px; top: -62px;"
+                    style="width: 256px; height: 256px; transform: translate3d(36px, -14px, 0px);"
+                  />
+                  <img
+                    alt=""
+                    class="leaflet-tile"
+                    src="https://a.tile.openstreetmap.org/0/0/0.png"
+                    style="width: 256px; height: 256px; transform: translate3d(-220px, -14px, 0px);"
+                  />
+                  <img
+                    alt=""
+                    class="leaflet-tile"
+                    src="https://a.tile.openstreetmap.org/0/0/0.png"
+                    style="width: 256px; height: 256px; transform: translate3d(292px, -14px, 0px);"
                   />
                 </div>
               </div>
@@ -65,15 +77,15 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
             >
               <img
                 alt=""
-                class="leaflet-marker-shadow leaflet-zoom-hide"
+                class="leaflet-marker-shadow leaflet-zoom-animated"
                 src="marker-shadow.png"
-                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; left: -29px; top: 62px;"
+                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(168px, 110px, 0px);"
               />
               <img
                 alt=""
-                class="leaflet-marker-shadow leaflet-zoom-hide"
+                class="leaflet-marker-shadow leaflet-zoom-animated"
                 src="marker-shadow.png"
-                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; left: 30px; top: -62px;"
+                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(227px, -14px, 0px);"
               />
             </div>
             <div
@@ -81,18 +93,18 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
             >
               <img
                 alt="Marker"
-                class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+                class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
                 role="button"
                 src="marker-icon.png"
-                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; left: -29px; top: 62px; z-index: 62;"
+                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(168px, 110px, 0px); z-index: 110;"
                 tabindex="0"
               />
               <img
                 alt="Marker"
-                class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+                class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
                 role="button"
                 src="marker-icon.png"
-                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; left: 30px; top: -62px; z-index: -62;"
+                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(227px, -14px, 0px); z-index: -14;"
                 tabindex="0"
               />
             </div>
@@ -101,6 +113,10 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
             />
             <div
               class="leaflet-pane leaflet-popup-pane"
+            />
+            <div
+              class="leaflet-proxy leaflet-zoom-animated"
+              style="transform: translate3d(161.067px, 62.22px, 0px) scale(0.5);"
             />
           </div>
           <div
@@ -158,7 +174,28 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
                   href="https://leafletjs.com"
                   title="A JavaScript library for interactive maps"
                 >
-                  Leaflet
+                  <svg
+                    aria-hidden="true"
+                    class="leaflet-attribution-flag"
+                    height="8"
+                    viewBox="0 0 12 8"
+                    width="12"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0 0h12v4H0z"
+                      fill="#4C7BE1"
+                    />
+                    <path
+                      d="M0 4h12v3H0z"
+                      fill="#FFD500"
+                    />
+                    <path
+                      d="M0 7h12v1H0z"
+                      fill="#E0BC00"
+                    />
+                  </svg>
+                   Leaflet
                 </a>
                  
                 <span
@@ -212,13 +249,13 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
           />
         </div>
         <div
-          class="leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+          class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
           style="position: relative;"
           tabindex="0"
         >
           <div
             class="leaflet-pane leaflet-map-pane"
-            style="left: 0px; top: 0px;"
+            style="transform: translate3d(0px, 0px, 0px);"
           >
             <div
               class="leaflet-pane leaflet-tile-pane"
@@ -229,13 +266,25 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
               >
                 <div
                   class="leaflet-tile-container leaflet-zoom-animated"
-                  style="z-index: 18; left: 0px; top: 0px;"
+                  style="z-index: 18; transform: translate3d(0px, 48px, 0px) scale(1);"
                 >
                   <img
                     alt=""
                     class="leaflet-tile"
                     src="https://a.tile.openstreetmap.org/10/762/0.png"
-                    style="width: 256px; height: 256px; left: -80px; top: 0px;"
+                    style="width: 256px; height: 256px; transform: translate3d(117px, 0px, 0px);"
+                  />
+                  <img
+                    alt=""
+                    class="leaflet-tile"
+                    src="https://c.tile.openstreetmap.org/10/761/0.png"
+                    style="width: 256px; height: 256px; transform: translate3d(-139px, 0px, 0px);"
+                  />
+                  <img
+                    alt=""
+                    class="leaflet-tile"
+                    src="https://b.tile.openstreetmap.org/10/763/0.png"
+                    style="width: 256px; height: 256px; transform: translate3d(373px, 0px, 0px);"
                   />
                 </div>
               </div>
@@ -248,9 +297,9 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
             >
               <img
                 alt=""
-                class="leaflet-marker-shadow leaflet-zoom-hide"
+                class="leaflet-marker-shadow leaflet-zoom-animated"
                 src="marker-shadow.png"
-                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; left: 0px; top: 0px;"
+                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(197px, 48px, 0px);"
               />
             </div>
             <div
@@ -258,10 +307,10 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
             >
               <img
                 alt="Marker"
-                class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+                class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
                 role="button"
                 src="marker-icon.png"
-                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; left: 0px; top: 0px; z-index: 0;"
+                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(197px, 48px, 0px); z-index: 48;"
                 tabindex="0"
               />
             </div>
@@ -270,6 +319,10 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
             />
             <div
               class="leaflet-pane leaflet-popup-pane"
+            />
+            <div
+              class="leaflet-proxy leaflet-zoom-animated"
+              style="transform: translate3d(195152px, 5.58357e-08px, 0px) scale(512);"
             />
           </div>
           <div
@@ -327,7 +380,28 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
                   href="https://leafletjs.com"
                   title="A JavaScript library for interactive maps"
                 >
-                  Leaflet
+                  <svg
+                    aria-hidden="true"
+                    class="leaflet-attribution-flag"
+                    height="8"
+                    viewBox="0 0 12 8"
+                    width="12"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0 0h12v4H0z"
+                      fill="#4C7BE1"
+                    />
+                    <path
+                      d="M0 4h12v3H0z"
+                      fill="#FFD500"
+                    />
+                    <path
+                      d="M0 7h12v1H0z"
+                      fill="#E0BC00"
+                    />
+                  </svg>
+                   Leaflet
                 </a>
                  
                 <span

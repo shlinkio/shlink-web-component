@@ -216,12 +216,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
               stroke="none"
               text-anchor="middle"
               width="769"
-              x="795"
+              x="788"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="795"
+                x="788"
               >
                 600
               </tspan>
@@ -238,7 +238,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
           height="360"
           orientation="left"
           stroke="#666"
-          style="font-size: .8rem;"
+          style="font-size: 0.8rem;"
           width="21"
           x="5"
           x1="26"
@@ -259,7 +259,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="21"
               x="5"
               x1="20"
@@ -274,7 +274,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="21"
               x="18"
@@ -297,7 +297,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="21"
               x="5"
               x1="20"
@@ -312,7 +312,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="21"
               x="18"
@@ -477,17 +477,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
       </g>
     </svg>
     <div
-      class="recharts-tooltip-wrapper"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(26px, 10px);"
       tabindex="-1"
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px 0px; font-weight: bold;"
+          style="margin: 0px 0px 5px; font-weight: bold;"
         />
       </div>
     </div>
@@ -711,12 +711,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
               stroke="none"
               text-anchor="middle"
               width="769"
-              x="795"
+              x="774"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="795"
+                x="774"
               >
                 140,000
               </tspan>
@@ -733,7 +733,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
           height="360"
           orientation="left"
           stroke="#666"
-          style="font-size: .8rem;"
+          style="font-size: 0.8rem;"
           width="21"
           x="5"
           x1="26"
@@ -754,7 +754,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="21"
               x="5"
               x1="20"
@@ -769,7 +769,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="21"
               x="18"
@@ -792,7 +792,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="21"
               x="5"
               x1="20"
@@ -807,7 +807,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="21"
               x="18"
@@ -990,17 +990,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
       </g>
     </svg>
     <div
-      class="recharts-tooltip-wrapper"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(26px, 10px);"
       tabindex="-1"
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px 0px; font-weight: bold;"
+          style="margin: 0px 0px 5px; font-weight: bold;"
         />
       </div>
     </div>
@@ -1224,12 +1224,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
               stroke="none"
               text-anchor="middle"
               width="769"
-              x="795"
+              x="774"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="795"
+                x="774"
               >
                 140,000
               </tspan>
@@ -1246,7 +1246,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
           height="360"
           orientation="left"
           stroke="#666"
-          style="font-size: .8rem;"
+          style="font-size: 0.8rem;"
           width="21"
           x="5"
           x1="26"
@@ -1267,7 +1267,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="21"
               x="5"
               x1="20"
@@ -1282,7 +1282,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="21"
               x="18"
@@ -1305,7 +1305,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="21"
               x="5"
               x1="20"
@@ -1320,7 +1320,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="21"
               x="18"
@@ -1343,7 +1343,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="21"
               x="5"
               x1="20"
@@ -1358,7 +1358,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="21"
               x="18"
@@ -1560,17 +1560,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
       </g>
     </svg>
     <div
-      class="recharts-tooltip-wrapper"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(26px, 10px);"
       tabindex="-1"
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px 0px; font-weight: bold;"
+          style="margin: 0px 0px 5px; font-weight: bold;"
         />
       </div>
     </div>
@@ -1794,12 +1794,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
               stroke="none"
               text-anchor="middle"
               width="755"
-              x="795"
+              x="788"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="795"
+                x="788"
               >
                 300
               </tspan>
@@ -1816,7 +1816,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
           height="360"
           orientation="left"
           stroke="#666"
-          style="font-size: .8rem;"
+          style="font-size: 0.8rem;"
           width="35"
           x="5"
           x1="40"
@@ -1837,7 +1837,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="35"
               x="5"
               x1="34"
@@ -1852,7 +1852,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="35"
               x="32"
@@ -1875,7 +1875,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="35"
               x="5"
               x1="34"
@@ -1890,7 +1890,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="35"
               x="32"
@@ -1913,7 +1913,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="35"
               x="5"
               x1="34"
@@ -1928,7 +1928,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="35"
               x="32"
@@ -2130,17 +2130,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
       </g>
     </svg>
     <div
-      class="recharts-tooltip-wrapper"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(40px, 10px);"
       tabindex="-1"
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px 0px; font-weight: bold;"
+          style="margin: 0px 0px 5px; font-weight: bold;"
         />
       </div>
     </div>
@@ -2364,12 +2364,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
               stroke="none"
               text-anchor="middle"
               width="755"
-              x="795"
+              x="788"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="795"
+                x="788"
               >
                 600
               </tspan>
@@ -2386,7 +2386,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
           height="360"
           orientation="left"
           stroke="#666"
-          style="font-size: .8rem;"
+          style="font-size: 0.8rem;"
           width="35"
           x="5"
           x1="40"
@@ -2407,7 +2407,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="35"
               x="5"
               x1="34"
@@ -2422,7 +2422,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="35"
               x="32"
@@ -2445,7 +2445,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="35"
               x="5"
               x1="34"
@@ -2460,7 +2460,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="35"
               x="32"
@@ -2483,7 +2483,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="35"
               x="5"
               x1="34"
@@ -2498,7 +2498,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="35"
               x="32"
@@ -2721,17 +2721,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
       </g>
     </svg>
     <div
-      class="recharts-tooltip-wrapper"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(40px, 10px);"
       tabindex="-1"
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px 0px; font-weight: bold;"
+          style="margin: 0px 0px 5px; font-weight: bold;"
         />
       </div>
     </div>
@@ -2955,12 +2955,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
               stroke="none"
               text-anchor="middle"
               width="755"
-              x="795"
+              x="788"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="795"
+                x="788"
               >
                 600
               </tspan>
@@ -2977,7 +2977,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
           height="360"
           orientation="left"
           stroke="#666"
-          style="font-size: .8rem;"
+          style="font-size: 0.8rem;"
           width="35"
           x="5"
           x1="40"
@@ -2998,7 +2998,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="35"
               x="5"
               x1="34"
@@ -3013,7 +3013,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="35"
               x="32"
@@ -3036,7 +3036,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="35"
               x="5"
               x1="34"
@@ -3051,7 +3051,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="35"
               x="32"
@@ -3074,7 +3074,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
               height="360"
               orientation="left"
               stroke="#666"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               width="35"
               x="5"
               x1="34"
@@ -3089,7 +3089,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
               height="360"
               orientation="left"
               stroke="none"
-              style="font-size: .8rem;"
+              style="font-size: 0.8rem;"
               text-anchor="end"
               width="35"
               x="32"
@@ -3291,17 +3291,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
       </g>
     </svg>
     <div
-      class="recharts-tooltip-wrapper"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(40px, 10px);"
       tabindex="-1"
     >
       <div
         class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px 0px; font-weight: bold;"
+          style="margin: 0px 0px 5px; font-weight: bold;"
         />
       </div>
     </div>

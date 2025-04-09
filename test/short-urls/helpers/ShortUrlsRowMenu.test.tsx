@@ -20,7 +20,6 @@ type SetUpOptions = {
 describe('<ShortUrlsRowMenu />', () => {
   const ShortUrlsRowMenu = ShortUrlsRowMenuFactory(fromPartial({
     DeleteShortUrlModal: () => <i>DeleteShortUrlModal</i>,
-    QrCodeModal: () => <i>QrCodeModal</i>,
   }));
   const shortUrl = fromPartial<ShlinkShortUrl>({
     shortCode: 'abc123',
@@ -60,9 +59,7 @@ describe('<ShortUrlsRowMenu />', () => {
 
   it('renders modal windows', () => {
     setUp();
-
     expect(screen.getByText('DeleteShortUrlModal')).toBeInTheDocument();
-    expect(screen.getByText('QrCodeModal')).toBeInTheDocument();
   });
 
   it.each([

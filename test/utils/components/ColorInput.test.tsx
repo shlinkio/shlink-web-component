@@ -11,11 +11,8 @@ describe('<ColorInput />', () => {
   it('sets color in text and color inputs', () => {
     const color = '#010101';
     setUp(color);
-    const inputs = screen.getAllByLabelText('name');
 
-    expect(inputs).toHaveLength(2);
-    inputs.forEach((input) => {
-      expect(input).toHaveValue(color);
-    });
+    expect(screen.getByLabelText('name')).toHaveValue(color);
+    expect(screen.getByLabelText('name-picker')).toHaveValue(color);
   });
 });

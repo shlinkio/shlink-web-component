@@ -1,9 +1,11 @@
+import type { DrawType } from 'qr-code-styling';
 import QRCodeStyling from 'qr-code-styling';
 import { forwardRef, useCallback , useEffect , useImperativeHandle , useRef } from 'react';
 import type { QrCodeFormat, QrCodeOptions } from '../helpers/qrCodes';
 
 export type QrCodeProps = Omit<QrCodeOptions, 'format'> & {
   data: string;
+  drawType?: DrawType;
 };
 
 export type QrRef = {
@@ -17,6 +19,7 @@ export const QrCode = forwardRef<QrRef, QrCodeProps>(({
   margin = 0,
   errorCorrection = 'L',
   size = 300,
+  drawType = 'canvas',
 }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const qrCodeRef = useRef(new QRCodeStyling());
@@ -35,7 +38,7 @@ export const QrCode = forwardRef<QrRef, QrCodeProps>(({
 
   useEffect(() => {
     qrCodeRef.current.update({
-      type: 'canvas',
+      type: drawType,
       data,
       width: size + margin,
       height: size + margin,
@@ -44,7 +47,7 @@ export const QrCode = forwardRef<QrRef, QrCodeProps>(({
       backgroundOptions: { color: bgColor },
       qrOptions: { errorCorrectionLevel: errorCorrection },
     });
-  }, [bgColor, color, data, errorCorrection, margin, size]);
+  }, [bgColor, color, data, drawType, errorCorrection, margin, size]);
 
   return <div ref={containerRef} />;
 });

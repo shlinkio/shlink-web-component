@@ -9,7 +9,13 @@ export const ColorInput: FC<Omit<ColorPickerProps, 'className'>> = ({ color, onC
 
   return (
     <InputGroup>
-      <ColorPicker name={name} color={color} onChange={onChange} className="input-group-text" ref={colorPickerRef} />
+      <ColorPicker
+        name={`${name}-picker`}
+        color={color}
+        onChange={onChange}
+        className="input-group-text"
+        ref={colorPickerRef}
+      />
       <Input
         readOnly
         value={color}

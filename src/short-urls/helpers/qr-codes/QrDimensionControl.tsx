@@ -7,7 +7,6 @@ export type QrCodeDimensionControlProps = {
   step?: number;
   min?: number;
   max?: number;
-  initial?: number;
   onChange: (newValue: number) => void;
 };
 

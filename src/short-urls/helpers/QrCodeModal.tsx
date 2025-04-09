@@ -39,12 +39,12 @@ export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shor
         <div className="flex-grow-1 d-flex align-items-center justify-content-around text-center qr-code-modal__qr-code">
           <QrCode
             ref={qrCodeRef}
-            size={size}
             data={shortUrl}
-            bgColor={bgColor}
-            color={color}
+            size={size}
             margin={margin}
             errorCorrection={errorCorrection}
+            color={color}
+            bgColor={bgColor}
           />
         </div>
         <div className="d-flex flex-column gap-2 qr-code-modal__controls">
@@ -55,7 +55,6 @@ export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shor
             step={10}
             min={50}
             max={1000}
-            initial={300}
           />
           <QrDimensionControl
             name="margin"
@@ -79,7 +78,6 @@ export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shor
               Download <FontAwesomeIcon icon={downloadIcon} className="ms-1" />
             </Button>
           </div>
-
         </div>
       </ModalBody>
     </Modal>

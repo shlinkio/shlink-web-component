@@ -29,7 +29,7 @@
     "build": "vite build",
     "test": "vitest run",
     "test:ci": "npm run test -- --coverage",
-    "lint": "eslint dev src test",
+    "lint": "eslint dev src test *.config.{js,ts}",
     "lint:fix": "npm run lint -- --fix",
     "types": "tsc",
     "dev": "vite serve --host 0.0.0.0 --port 3002",

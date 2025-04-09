@@ -31,9 +31,8 @@ describe('<QrErrorCorrectionDropdown />', () => {
 
     expect(items[0]).not.toHaveClass('active');
     expect(items[1]).not.toHaveClass('active');
-    expect(items[2]).not.toHaveClass('active');
-    expect(items[3]).toHaveClass('active');
-    expect(items[4]).not.toHaveClass('active');
+    expect(items[2]).toHaveClass('active');
+    expect(items[3]).not.toHaveClass('active');
   });
 
   it('invokes callback when items are clicked', async () => {
@@ -56,8 +55,5 @@ describe('<QrErrorCorrectionDropdown />', () => {
 
     await clickItem(/igh/);
     expect(setErrorCorrection).toHaveBeenCalledWith('H');
-
-    await clickItem('Default');
-    expect(setErrorCorrection).toHaveBeenCalledWith(undefined);
   });
 });

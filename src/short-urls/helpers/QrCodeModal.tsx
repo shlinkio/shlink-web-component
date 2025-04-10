@@ -1,4 +1,4 @@
-import { faFileDownload as downloadIcon } from '@fortawesome/free-solid-svg-icons';
+import { faClone, faFileDownload as downloadIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { FC } from 'react';
 import { useCallback , useRef , useState } from 'react';
@@ -8,10 +8,12 @@ import { ColorInput } from '../../utils/components/ColorInput';
 import type { QrRef } from '../../utils/components/QrCode';
 import { QrCode } from '../../utils/components/QrCode';
 import { useFeature } from '../../utils/features';
+import { copyToClipboard } from '../../utils/helpers/clipboard';
 import type { QrCodeFormat, QrErrorCorrection } from '../../utils/helpers/qrCodes';
 import type { ShortUrlModalProps } from '../data';
 import { QrDimensionControl } from './qr-codes/QrDimensionControl';
 import { QrErrorCorrectionDropdown } from './qr-codes/QrErrorCorrectionDropdown';
+import { QrFormatDropdown } from './qr-codes/QrFormatDropdown';
 import './QrCodeModal.scss';
 
 export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shortCode }, toggle, isOpen }) => {
@@ -21,14 +23,19 @@ export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shor
   const [errorCorrection, setErrorCorrection] = useState<QrErrorCorrection>('L');
   const [color, setColor] = useState('#000000');
   const [bgColor, setBgColor] = useState('#ffffff');
+  const [format, setFormat] = useState<QrCodeFormat>('png');
 
   const qrCodeColorsSupported = useFeature('qrCodeColors');
 
   const qrCodeRef = useRef<QrRef>(null);
   const downloadQrCode = useCallback(
-    (format: QrCodeFormat = 'png') => qrCodeRef.current?.download(`${shortCode}-qr-code`, format),
-    [shortCode],
+    () => qrCodeRef.current?.download(`${shortCode}-qr-code`, format),
+    [format, shortCode],
   );
+  const copy = useCallback(() => {
+    const uri = qrCodeRef.current?.getDataUri(format) ?? '';
+    return copyToClipboard({ text: uri });
+  }, [format]);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} centered size="lg">
@@ -36,16 +43,19 @@ export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shor
         QR code for <ExternalLink href={shortUrl}>{shortUrl}</ExternalLink>
       </ModalHeader>
       <ModalBody className="d-flex flex-column-reverse flex-lg-row gap-3">
-        <div className="flex-grow-1 d-flex align-items-center justify-content-around text-center qr-code-modal__qr-code">
-          <QrCode
-            ref={qrCodeRef}
-            data={shortUrl}
-            size={size}
-            margin={margin}
-            errorCorrection={errorCorrection}
-            color={color}
-            bgColor={bgColor}
-          />
+        <div className="flex-grow-1 d-flex align-items-center justify-content-around qr-code-modal__qr-code">
+          <div className="d-flex flex-column gap-1">
+            <QrCode
+              ref={qrCodeRef}
+              data={shortUrl}
+              size={size}
+              margin={margin}
+              errorCorrection={errorCorrection}
+              color={color}
+              bgColor={bgColor}
+            />
+            <div className="text-center fst-italic">Preview ({size + margin}x{size + margin})</div>
+          </div>
         </div>
         <div className="d-flex flex-column gap-2 qr-code-modal__controls">
           <QrDimensionControl
@@ -73,10 +83,20 @@ export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shor
             </>
           )}
 
-          <div className="mt-auto">
-            <Button block color="primary" onClick={() => downloadQrCode()}>
-              Download <FontAwesomeIcon icon={downloadIcon} className="ms-1" />
-            </Button>
+          <div className="my-auto">
+            <hr className="my-2" />
+          </div>
+
+          <div className="d-flex flex-column gap-2">
+            <QrFormatDropdown format={format} onChange={setFormat} />
+            <div className="d-flex align-items-center gap-2">
+              <Button color="primary" onClick={downloadQrCode} className="flex-grow-1">
+                Download <FontAwesomeIcon icon={downloadIcon} className="ms-1" />
+              </Button>
+              <Button outline color="primary" onClick={copy} aria-label="Copy to clipboard" title="Copy to clipboard">
+                <FontAwesomeIcon icon={faClone} fixedWidth />
+              </Button>
+            </div>
           </div>
         </div>
       </ModalBody>

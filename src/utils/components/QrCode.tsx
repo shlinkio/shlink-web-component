@@ -9,7 +9,8 @@ export type QrCodeProps = Omit<QrCodeOptions, 'format'> & {
 };
 
 export type QrRef = {
-  download: (name: string, format?: QrCodeFormat) => void;
+  download: (name: string, format: QrCodeFormat) => void;
+  getDataUri: (format: QrCodeFormat) => Promise<string>;
 };
 
 export const QrCode = forwardRef<QrRef, QrCodeProps>(({
@@ -24,12 +25,32 @@ export const QrCode = forwardRef<QrRef, QrCodeProps>(({
   const containerRef = useRef<HTMLDivElement>(null);
   const qrCodeRef = useRef(new QRCodeStyling());
   const download = useCallback(
-    (name: string, format: QrCodeFormat = 'png') => qrCodeRef.current.download({ name, extension: format }),
+    (name: string, format: QrCodeFormat) => qrCodeRef.current.download({ name, extension: format }),
     [],
   );
+  const getDataUri = useCallback((format: QrCodeFormat) => new Promise<string>((resolve, reject) => {
+    const rawDataPromise = qrCodeRef.current.getRawData(format);
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const { result } = reader;
+      if (result) {
+        resolve(result.toString());
+      }
+    };
+    reader.onerror = reject;
+
+    rawDataPromise.then((blob) => {
+      if (blob instanceof Blob) {
+        reader.readAsDataURL(blob);
+      } else {
+        reject(new Error('QR code image blob not available'));
+      }
+    });
+  }), []);
 
   // Expose the download method via provided ref
-  useImperativeHandle(ref, () => ({ download }), [download]);
+  useImperativeHandle(ref, () => ({ download, getDataUri }), [download, getDataUri]);
 
   useEffect(() => {
     const element = containerRef.current!;

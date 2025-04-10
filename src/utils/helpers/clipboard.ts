@@ -1,6 +1,11 @@
+export type CopyToClipboardResult = {
+  text: string;
+  copied: boolean;
+};
+
 export type CopyToClipboardOptions = {
   text: string | Promise<string>;
-  onCopy?: (result: { text: string; copied: boolean }) => void;
+  onCopy?: (result: CopyToClipboardResult) => void;
 };
 
 export const copyToClipboard = async (

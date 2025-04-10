@@ -1,5 +1,7 @@
-import { faClone, faFileDownload as downloadIcon } from '@fortawesome/free-solid-svg-icons';
+import { faClone } from '@fortawesome/free-regular-svg-icons';
+import { faCheck, faFileDownload as downloadIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useCallback , useRef , useState } from 'react';
 import { ExternalLink } from 'react-external-link';
@@ -32,10 +34,11 @@ export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shor
     () => qrCodeRef.current?.download(`${shortCode}-qr-code`, format),
     [format, shortCode],
   );
+  const [copied, toggleCopied] = useTimeoutToggle();
   const copy = useCallback(() => {
     const uri = qrCodeRef.current?.getDataUri(format) ?? '';
-    return copyToClipboard({ text: uri });
-  }, [format]);
+    return copyToClipboard({ text: uri, onCopy: toggleCopied });
+  }, [format, toggleCopied]);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} centered size="lg">
@@ -90,11 +93,11 @@ export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shor
           <div className="d-flex flex-column gap-2">
             <QrFormatDropdown format={format} onChange={setFormat} />
             <div className="d-flex align-items-center gap-2">
+              <Button outline color="primary" onClick={copy} aria-label="Copy data URI" title="Copy data URI">
+                <FontAwesomeIcon icon={copied ? faCheck : faClone} fixedWidth />
+              </Button>
               <Button color="primary" onClick={downloadQrCode} className="flex-grow-1">
                 Download <FontAwesomeIcon icon={downloadIcon} className="ms-1" />
-              </Button>
-              <Button outline color="primary" onClick={copy} aria-label="Copy to clipboard" title="Copy to clipboard">
-                <FontAwesomeIcon icon={faClone} fixedWidth />
               </Button>
             </div>
           </div>

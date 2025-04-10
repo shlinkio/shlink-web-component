@@ -34,8 +34,6 @@ export type ShortUrlsRowType = typeof ShortUrlsRow;
 const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUrl, onTagClick }) => {
   const { ShortUrlsRowMenu, ColorGenerator: colorGenerator, useTimeoutToggle } = useDependencies(ShortUrlsRow);
   // eslint-disable-next-line react-compiler/react-compiler
-  const [copiedToClipboard, setCopiedToClipboard] = useTimeoutToggle();
-  // eslint-disable-next-line react-compiler/react-compiler
   const [active, setActive] = useTimeoutToggle(false, 500);
   const isFirstRun = useRef(true);
   const [{ excludeBots }] = useShortUrlsQuery();
@@ -62,14 +60,7 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
           <span className="short-urls-row__short-url-wrapper">
             <ExternalLink href={shortUrl.shortUrl} />
           </span>
-          <CopyToClipboardIcon text={shortUrl.shortUrl} onCopy={setCopiedToClipboard} />
-          <span
-            role="status"
-            className="badge bg-warning text-black short-urls-row__copy-hint"
-            hidden={!copiedToClipboard}
-          >
-            Copied short URL!
-          </span>
+          <CopyToClipboardIcon text={shortUrl.shortUrl} />
         </span>
       </td>
       <td

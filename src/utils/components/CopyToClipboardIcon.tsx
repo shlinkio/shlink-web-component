@@ -14,7 +14,7 @@ export const CopyToClipboardIcon: FC<CopyToClipboardIconProps> = (
 ) => (
   <UnstyledButton
     className="ms-2 p-0"
-    aria-label={`Copy ${text} to clipboard`}
+    aria-label={typeof text === 'string' ? `Copy ${text} to clipboard` : 'Copy to clipboard'}
     onClick={() => copyToClipboard({ text, onCopy })}
   >
     <FontAwesomeIcon icon={copyIcon} className="fs-5" />

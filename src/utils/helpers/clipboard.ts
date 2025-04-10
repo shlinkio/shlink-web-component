@@ -1,9 +1,14 @@
 export type CopyToClipboardOptions = {
-  text: string;
-  onCopy?: (text: string, copied: boolean) => void;
+  text: string | Promise<string>;
+  onCopy?: (result: { text: string; copied: boolean }) => void;
 };
 
-export const copyToClipboard = ({ text, onCopy }: CopyToClipboardOptions, navigator_: Navigator = navigator) =>
-  navigator_.clipboard?.writeText(text)
-    .then(() => onCopy?.(text, true))
-    .catch(() => onCopy?.(text, false));
+export const copyToClipboard = async (
+  { text: textOrPromise, onCopy }: CopyToClipboardOptions,
+  navigator_: Navigator = navigator,
+) => {
+  const text = typeof textOrPromise === 'string' ? textOrPromise : await textOrPromise;
+  return navigator_.clipboard?.writeText(text)
+    .then(() => onCopy?.({ text, copied: true }))
+    .catch(() => onCopy?.({ text, copied: false }));
+};

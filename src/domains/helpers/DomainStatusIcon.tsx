@@ -4,8 +4,8 @@ import {
   faTimes as invalidIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import type { FC, RefObject } from 'react';
+import { useRef } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { UncontrolledTooltip } from 'reactstrap';
 import { useMaxResolution } from '../../utils/helpers/hooks';
@@ -18,7 +18,7 @@ interface DomainStatusIconProps {
 }
 
 export const DomainStatusIcon: FC<DomainStatusIconProps> = ({ status, matchMedia = window.matchMedia }) => {
-  const ref = useElementRef<HTMLSpanElement>();
+  const ref = useRef<HTMLSpanElement>(null);
   const isMobile = useMaxResolution(991, matchMedia);
 
   if (status === 'validating') {

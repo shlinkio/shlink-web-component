@@ -50,7 +50,7 @@ describe('<OpenMapModalBtn />', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it.only.each([
+  it.each([
     ['Show all locations', 2],
     ['Show locations in current page', 1],
   ])('filters out non-active cities from list of locations', async (name, expectedMarkers) => {

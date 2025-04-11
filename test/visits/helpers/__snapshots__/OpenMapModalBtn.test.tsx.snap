@@ -50,21 +50,21 @@ exports[`<OpenMapModalBtn /> > filters out non-active cities from list of locati
                 >
                   <img
                     alt=""
-                    class="leaflet-tile"
+                    class="leaflet-tile leaflet-tile-loaded"
                     src="https://a.tile.openstreetmap.org/0/0/0.png"
-                    style="width: 256px; height: 256px; transform: translate3d(36px, -14px, 0px);"
+                    style="width: 256px; height: 256px; transform: translate3d(36px, -14px, 0px); opacity: 0;"
                   />
                   <img
                     alt=""
-                    class="leaflet-tile"
+                    class="leaflet-tile leaflet-tile-loaded"
                     src="https://a.tile.openstreetmap.org/0/0/0.png"
-                    style="width: 256px; height: 256px; transform: translate3d(-220px, -14px, 0px);"
+                    style="width: 256px; height: 256px; transform: translate3d(-220px, -14px, 0px); opacity: 0;"
                   />
                   <img
                     alt=""
-                    class="leaflet-tile"
+                    class="leaflet-tile leaflet-tile-loaded"
                     src="https://a.tile.openstreetmap.org/0/0/0.png"
-                    style="width: 256px; height: 256px; transform: translate3d(292px, -14px, 0px);"
+                    style="width: 256px; height: 256px; transform: translate3d(292px, -14px, 0px); opacity: 0;"
                   />
                 </div>
               </div>

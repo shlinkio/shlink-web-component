@@ -5,7 +5,6 @@ import { EditShortUrlFactory } from '../EditShortUrl';
 import { CreateShortUrlResultFactory } from '../helpers/CreateShortUrlResult';
 import { DeleteShortUrlModal } from '../helpers/DeleteShortUrlModal';
 import { ExportShortUrlsBtnFactory } from '../helpers/ExportShortUrlsBtn';
-import { QrCodeModalFactory } from '../helpers/QrCodeModal';
 import { ShortUrlsRowFactory } from '../helpers/ShortUrlsRow';
 import { ShortUrlsRowMenuFactory } from '../helpers/ShortUrlsRowMenu';
 import { createShortUrl, shortUrlCreationReducerCreator } from '../reducers/shortUrlCreation';
@@ -51,7 +50,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('DeleteShortUrlModal', () => DeleteShortUrlModal);
   bottle.decorator('DeleteShortUrlModal', connect(['shortUrlDeletion'], ['resetDeleteShortUrl']));
 
-  bottle.factory('QrCodeModal', QrCodeModalFactory);
   bottle.factory('ExportShortUrlsBtn', ExportShortUrlsBtnFactory);
 
   bottle.factory('ShortUrlsFilteringBar', ShortUrlsFilteringBarFactory);

@@ -1,13 +1,11 @@
 import { screen } from '@testing-library/react';
 import { QrFormatDropdown } from '../../../../src/short-urls/helpers/qr-codes/QrFormatDropdown';
-import type { QrCodeFormat } from '../../../../src/utils/helpers/qrCodes';
 import { checkAccessibility } from '../../../__helpers__/accessibility';
 import { renderWithEvents } from '../../../__helpers__/setUpTest';
 
 describe('<QrFormatDropdown />', () => {
-  const initialFormat: QrCodeFormat = 'svg';
   const setFormat = vi.fn();
-  const setUp = () => renderWithEvents(<QrFormatDropdown format={initialFormat} onChange={setFormat} />);
+  const setUp = () => renderWithEvents(<QrFormatDropdown format="svg" onChange={setFormat} />);
 
   it.each([
     [setUp],
@@ -28,8 +26,9 @@ describe('<QrFormatDropdown />', () => {
     const items = screen.getAllByRole('menuitem');
 
     expect(items[0]).not.toHaveClass('active');
-    expect(items[1]).not.toHaveClass('active');
-    expect(items[2]).toHaveClass('active');
+    expect(items[1]).toHaveClass('active');
+    expect(items[2]).not.toHaveClass('active');
+    expect(items[3]).not.toHaveClass('active');
   });
 
   it('invokes callback when items are clicked', async () => {
@@ -41,13 +40,16 @@ describe('<QrFormatDropdown />', () => {
 
     expect(setFormat).not.toHaveBeenCalled();
 
-    await clickItem('PNG');
+    await clickItem('png');
     expect(setFormat).toHaveBeenCalledWith('png');
 
-    await clickItem('SVG');
+    await clickItem('svg');
     expect(setFormat).toHaveBeenCalledWith('svg');
 
-    await clickItem('Default');
-    expect(setFormat).toHaveBeenCalledWith(undefined);
+    await clickItem('webp');
+    expect(setFormat).toHaveBeenCalledWith('webp');
+
+    await clickItem('jpeg');
+    expect(setFormat).toHaveBeenCalledWith('jpeg');
   });
 });

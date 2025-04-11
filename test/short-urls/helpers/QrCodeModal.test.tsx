@@ -1,16 +1,12 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { QrCodeModalFactory } from '../../../src/short-urls/helpers/QrCodeModal';
+import { QrCodeModal } from '../../../src/short-urls/helpers/QrCodeModal';
 import { FeaturesProvider } from '../../../src/utils/features';
-import type { ImageDownloader } from '../../../src/utils/services/ImageDownloader';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<QrCodeModal />', () => {
-  const saveImage = vi.fn().mockReturnValue(Promise.resolve());
-  const QrCodeModal = QrCodeModalFactory(fromPartial({
-    ImageDownloader: fromPartial<ImageDownloader>({ saveImage }),
-  }));
   const shortUrl = 'https://s.test/abc123';
   const setUp = ({ qrCodeColors = false }: { qrCodeColors?: boolean } = {}) => renderWithEvents(
     <FeaturesProvider value={fromPartial({ qrCodeColors })}>
@@ -18,6 +14,7 @@ describe('<QrCodeModal />', () => {
         isOpen
         shortUrl={fromPartial({ shortUrl })}
         toggle={() => {}}
+        qrDrawType="svg" // Render as SVG so that we can test certain functionalities via snapshots
       />
     </FeaturesProvider>,
   );
@@ -36,56 +33,76 @@ describe('<QrCodeModal />', () => {
     expect(externalLink).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  it('displays an image with the QR code of the URL', async () => {
+  it.each([
+    { applyChanges: () => {} },
+    {
+      // Setting size and margin
+      applyChanges: () => {
+        const [sizeInput, marginInput] = screen.getAllByRole('slider');
+        if (!sizeInput || !marginInput) {
+          throw new Error('Sliders not found');
+        }
+
+        fireEvent.change(sizeInput, { target: { value: '560' } });
+        fireEvent.change(marginInput, { target: { value: '20' } });
+      },
+    },
+    {
+      // Select error correction
+      applyChanges: async (user: UserEvent) => {
+        await user.click(screen.getByRole('button', { name: /^Error correction/ }));
+        await user.click(screen.getByRole('menuitem', { name: /uartile/ }));
+      },
+    },
+    {
+      // Set custom colors
+      applyChanges: () => {
+        fireEvent.change(screen.getByLabelText('color picker'), { target: { value: '#ff0000' } });
+        fireEvent.change(screen.getByLabelText('background picker'), { target: { value: '#0000ff' } });
+      },
+    },
+  ])('displays an image with expected configuration', async ({ applyChanges }) => {
     const { user } = setUp({ qrCodeColors: true });
-    const assertUrl = (url: string) => {
-      expect(screen.getByRole('img')).toHaveAttribute('src', url);
-      expect(screen.getByText(url)).toHaveAttribute('href', url);
-    };
 
-    // Initially, no arguments are appended
-    assertUrl(`${shortUrl}/qr-code`);
-
-    // Switch to sliders
-    await user.click(screen.getByRole('button', { name: 'Customize size' }));
-    await user.click(screen.getByRole('button', { name: 'Customize margin' }));
-
-    const [sizeInput, marginInput] = screen.getAllByRole('slider');
-    if (!sizeInput || !marginInput) {
-      throw new Error('Sliders not found');
-    }
-
-    // Setting size and margin should reflect in the QR code URL
-    fireEvent.change(sizeInput, { target: { value: '560' } });
-    fireEvent.change(marginInput, { target: { value: '20' } });
-    assertUrl(`${shortUrl}/qr-code?size=560&margin=20`);
-
-    // Unset margin and select error correction
-    await user.click(screen.getByRole('button', { name: 'Default margin' }));
-    await user.click(screen.getByRole('button', { name: 'Default error correction' }));
-    await user.click(screen.getByRole('menuitem', { name: /uartile/ }));
-    assertUrl(`${shortUrl}/qr-code?size=560&errorCorrection=Q`);
-
-    // Set custom color
-    await user.click(screen.getByRole('button', { name: 'Customize color' }));
-    assertUrl(`${shortUrl}/qr-code?size=560&errorCorrection=Q&color=000000`);
+    await applyChanges(user);
+    expect(screen.getByTestId('qr-code-container')).toMatchSnapshot();
   });
 
   it.each([
-    { qrCodeColors: false, expectedButtons: 4 },
-    { qrCodeColors: true, expectedButtons: 6 },
-  ])('shows expected buttons', ({ expectedButtons, qrCodeColors }) => {
+    { qrCodeColors: false },
+    { qrCodeColors: true },
+  ])('shows color controls only if feature is supported', ({ qrCodeColors }) => {
     setUp({ qrCodeColors });
 
-    // Add three because of the close, download and copy-to-clipboard buttons
-    expect(screen.getAllByRole('button')).toHaveLength(expectedButtons + 3);
+    if (qrCodeColors) {
+      expect(screen.getByLabelText('color')).toBeInTheDocument();
+      expect(screen.getByLabelText('background')).toBeInTheDocument();
+    } else {
+      expect(screen.queryByLabelText('color')).not.toBeInTheDocument();
+      expect(screen.queryByLabelText('background')).not.toBeInTheDocument();
+    }
   });
 
-  it('saves the QR code image when clicking the Download button', async () => {
+  // FIXME This test needs a real browser
+  it.skip('saves the QR code image when clicking the Download button', async () => {
     const { user } = setUp();
-
-    expect(saveImage).not.toHaveBeenCalled();
     await user.click(screen.getByRole('button', { name: /^Download/ }));
-    expect(saveImage).toHaveBeenCalledOnce();
+  });
+
+  // FIXME This test does not seem to work in JSDOM. Try again in a real browser
+  it.skip('copies the QR data URI when clicking the Copy button', async () => {
+    const { user } = setUp();
+    const writeText = vi.fn().mockResolvedValue(undefined);
+
+    vi.stubGlobal('navigator', {
+      clipboard: { writeText },
+    });
+
+    try {
+      await user.click(screen.getByLabelText('Copy data URI'));
+      await waitFor(() => expect(writeText).toHaveBeenCalledWith(expect.stringMatching(/^data:image\//)));
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 });

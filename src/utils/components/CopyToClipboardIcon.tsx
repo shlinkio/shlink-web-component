@@ -1,22 +1,31 @@
 import { faClone as copyIcon } from '@fortawesome/free-regular-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import type { CopyToClipboardOptions } from '../helpers/clipboard';
-import { copyToClipboard as defaultCopyToClipboard } from '../helpers/clipboard';
+import { copyToClipboard as defaultCopyToClipboard  } from '../helpers/clipboard';
 import { UnstyledButton } from './UnstyledButton';
 
-type CopyToClipboardIconProps = CopyToClipboardOptions & {
+type CopyToClipboardIconProps = {
+  text: string;
+
+  /** Test seam */
   copyToClipboard?: typeof defaultCopyToClipboard;
+  /** Test seam */
+  initialCopied?: boolean;
 };
 
 export const CopyToClipboardIcon: FC<CopyToClipboardIconProps> = (
-  { text, onCopy, copyToClipboard = defaultCopyToClipboard },
-) => (
-  <UnstyledButton
-    className="ms-2 p-0"
-    aria-label={`Copy ${text} to clipboard`}
-    onClick={() => copyToClipboard({ text, onCopy })}
-  >
-    <FontAwesomeIcon icon={copyIcon} className="fs-5" />
-  </UnstyledButton>
-);
+  { text, copyToClipboard = defaultCopyToClipboard, initialCopied = false },
+) => {
+  const [copied, toggleCopied] = useTimeoutToggle(initialCopied);
+  return (
+    <UnstyledButton
+      className="ms-2 p-0"
+      aria-label={`Copy ${text} to clipboard`}
+      onClick={() => copyToClipboard({ text, onCopy: toggleCopied })}
+    >
+      <FontAwesomeIcon icon={copied ? faCheck : copyIcon} className="fs-5" fixedWidth />
+    </UnstyledButton>
+  );
+};

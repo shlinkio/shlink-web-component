@@ -11,35 +11,17 @@ type SetUpOptions = {
 describe('<QrDimensionControl />', () => {
   const onChange = vi.fn();
   const setUp = ({ name = 'the dimension', value }: SetUpOptions = {}) => renderWithEvents(
-    <QrDimensionControl name={name} value={value} initial={30} onChange={onChange} />,
+    <QrDimensionControl name={name} value={value ?? 30} onChange={onChange} />,
   );
 
-  it.each([
-    [setUp],
-    [() => setUp({ value: 15 })],
-  ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it.each([
-    { value: undefined, hasSlider: false },
-    { value: 15, hasSlider: true },
-  ])('shows a range slider when the value is set', ({ value, hasSlider }) => {
+    { value: undefined },
+    { value: 15 },
+  ])('shows a range slider', ({ value }) => {
     setUp({ value });
-
-    if (hasSlider) {
-      expect(screen.getByRole('slider')).toBeInTheDocument();
-    } else {
-      expect(screen.queryByRole('slider')).not.toBeInTheDocument();
-    }
-  });
-
-  it.each([
-    { value: undefined, expectedChangedValue: 30 },
-    { value: 12, expectedChangedValue: undefined },
-  ])('can switch from button to slider and back', async ({ value, expectedChangedValue }) => {
-    const { user } = setUp({ value });
-
-    await user.click(screen.getByRole('button'));
-    expect(onChange).toHaveBeenCalledWith(expectedChangedValue);
+    expect(screen.getByRole('slider')).toBeInTheDocument();
   });
 
   it('can change selected value in slider', () => {
@@ -52,22 +34,10 @@ describe('<QrDimensionControl />', () => {
   });
 
   it.each([
-    { name: 'size', expectedText: 'Customize size' },
-    { name: 'margin', expectedText: 'Customize margin' },
-  ])('shows name in default button', ({ name, expectedText }) => {
-    setUp({ name });
-    expect(screen.getByText(expectedText)).toBeInTheDocument();
-  });
-
-  it.each([
-    { name: 'size', expectedLabelText: 'size: 15px', expectedButtonText: 'Default size' },
-    { name: 'margin', expectedLabelText: 'margin: 15px', expectedButtonText: 'Default margin' },
-  ])('shows name in slider', ({ name, expectedLabelText, expectedButtonText }) => {
+    { name: 'size', expectedLabelText: 'size: 15px' },
+    { name: 'margin', expectedLabelText: 'margin: 15px' },
+  ])('shows name in slider', ({ name, expectedLabelText }) => {
     setUp({ name, value: 15 });
-
-    const button = screen.getByLabelText(expectedButtonText);
-
     expect(screen.getByText(expectedLabelText)).toBeInTheDocument();
-    expect(button).toHaveAttribute('title', expectedButtonText);
   });
 });

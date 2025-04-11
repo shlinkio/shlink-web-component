@@ -133,14 +133,6 @@ describe('<ShortUrlsRow />', () => {
     expect(screen.getAllByRole('cell')[4]).toHaveTextContent(`${expectedAmount}`);
   });
 
-  it('updates state when copied to clipboard', async () => {
-    const { user } = setUp();
-
-    expect(timeoutToggle).not.toHaveBeenCalled();
-    await user.click(screen.getAllByRole('img', { hidden: true })[0]);
-    expect(timeoutToggle).toHaveBeenCalledOnce();
-  });
-
   it.each([
     [{ validUntil: formatISO(subDays(now(), 1)) }, ['fa-calendar-xmark', 'text-danger']],
     [{ validSince: formatISO(addDays(now(), 1)) }, ['fa-calendar-xmark', 'text-warning']],

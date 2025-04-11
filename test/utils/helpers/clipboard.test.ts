@@ -6,22 +6,28 @@ describe('clipboard', () => {
   const navigator = fromPartial<Navigator>({
     clipboard: { writeText },
   });
-  const text = 'foo';
+  const defaultText = 'foo';
   const onCopy = vi.fn();
 
   it('does nothing when clipboard is not defined', async () => {
-    await copyToClipboard({ text, onCopy }, fromPartial({}));
+    await copyToClipboard({ text: defaultText, onCopy }, fromPartial({}));
     expect(onCopy).not.toHaveBeenCalled();
   });
 
-  it('invokes callback with true when copying succeeds', async () => {
+  it.each([
+    defaultText,
+    Promise.resolve(defaultText),
+  ])('invokes callback with true when copying succeeds', async (text) => {
     await copyToClipboard({ text, onCopy }, navigator);
-    expect(onCopy).toHaveBeenCalledWith(text, true);
+    expect(onCopy).toHaveBeenCalledWith({ text: defaultText, copied: true });
   });
 
-  it('invokes callback with false when copying fails', async () => {
+  it.each([
+    defaultText,
+    Promise.resolve(defaultText),
+  ])('invokes callback with false when copying fails', async (text) => {
     writeText.mockRejectedValue(undefined);
     await copyToClipboard({ text, onCopy }, navigator);
-    expect(onCopy).toHaveBeenCalledWith(text, false);
+    expect(onCopy).toHaveBeenCalledWith({ text: defaultText, copied: false });
   });
 });

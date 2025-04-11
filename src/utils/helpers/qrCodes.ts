@@ -1,8 +1,12 @@
-import { stringifyQueryParams } from '@shlinkio/shlink-frontend-kit';
+import type { DrawType, ErrorCorrectionLevel, FileExtension } from 'qr-code-styling';
 
-export type QrCodeFormat = 'svg' | 'png';
+export type QrCodeFormat = FileExtension;
 
-export type QrErrorCorrection = 'L' | 'M' | 'Q' | 'H';
+export const qrFormats: QrCodeFormat[] = ['png', 'svg', 'webp', 'jpeg'];
+
+export type QrErrorCorrection = ErrorCorrectionLevel;
+
+export type QrDrawType = DrawType;
 
 export type QrCodeOptions = {
   size?: number;
@@ -11,13 +15,4 @@ export type QrCodeOptions = {
   errorCorrection?: QrErrorCorrection;
   color?: string;
   bgColor?: string;
-};
-
-const normalizeColor = (color?: string) => color && color.startsWith('#') ? color.substring(1) : color;
-
-export const buildQrCodeUrl = (shortUrl: string, { color, bgColor, ...rest }: QrCodeOptions): string => {
-  const baseUrl = `${shortUrl}/qr-code`;
-  const query = stringifyQueryParams({ ...rest, color: normalizeColor(color), bgColor: normalizeColor(bgColor) });
-
-  return `${baseUrl}${!query ? '' : `?${query}`}`;
 };

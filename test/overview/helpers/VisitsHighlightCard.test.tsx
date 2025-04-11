@@ -43,7 +43,7 @@ describe('<VisitsHighlightCard />', () => {
     });
 
     await user.hover(screen.getByText('Foo'));
-    await waitFor(() => expect(screen.getByText(/potential bot visits$/)).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText(/potential bot visits$/)).toBeInTheDocument(), { timeout: 2000 });
   });
 
   it.each([

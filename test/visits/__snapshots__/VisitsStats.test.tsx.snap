@@ -19,7 +19,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r20:"
+          aria-controls=":rg:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -57,46 +57,13 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r20:"
+      id=":rg:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -204,12 +171,12 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -407,7 +374,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -566,17 +533,17 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>
@@ -625,7 +592,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r23:"
+          aria-controls=":rh:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -663,46 +630,13 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r23:"
+      id=":rh:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -810,12 +744,12 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -1013,7 +947,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -1172,17 +1106,17 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>
@@ -1231,7 +1165,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r26:"
+          aria-controls=":ri:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -1269,46 +1203,13 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r26:"
+      id=":ri:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -1416,12 +1317,12 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -1619,7 +1520,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -1778,17 +1679,17 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>
@@ -1837,7 +1738,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r29:"
+          aria-controls=":rj:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -1875,46 +1776,13 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r29:"
+      id=":rj:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -2022,12 +1890,12 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -2225,7 +2093,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -2429,17 +2297,17 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>
@@ -2502,7 +2370,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r2c:"
+          aria-controls=":rk:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -2540,46 +2408,13 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r2c:"
+      id=":rk:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -2687,12 +2522,12 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -2890,7 +2725,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -3094,17 +2929,17 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>
@@ -3167,7 +3002,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r2f:"
+          aria-controls=":rl:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -3205,46 +3040,13 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r2f:"
+      id=":rl:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -3352,12 +3154,12 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2020-02
                   </tspan>
@@ -3555,7 +3357,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -3759,17 +3561,17 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             >
               2020-01
             </p>

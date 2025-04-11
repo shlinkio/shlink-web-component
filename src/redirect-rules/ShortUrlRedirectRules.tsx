@@ -2,13 +2,12 @@ import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Message, Result, SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
-import type { ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
+import type { ShlinkRedirectRuleData, ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC, FormEvent } from 'react';
 import { useCallback, useEffect } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { Button, Card } from 'reactstrap';
 import { ShlinkApiError } from '../common/ShlinkApiError';
-import type { ShortUrlIdentifier } from '../short-urls/data';
 import { useShortUrlIdentifier } from '../short-urls/helpers/hooks';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import { GoBackButton } from '../utils/components/GoBackButton';
@@ -19,10 +18,10 @@ import type { ShortUrlRedirectRules as RedirectRules } from './reducers/shortUrl
 
 type ShortUrlRedirectRulesProps = {
   shortUrlRedirectRules: RedirectRules;
-  getShortUrlRedirectRules: (shortUrl: ShortUrlIdentifier) => void;
+  getShortUrlRedirectRules: (shortUrl: ShlinkShortUrlIdentifier) => void;
 
   shortUrlsDetails: ShortUrlsDetails;
-  getShortUrlsDetails: (identifiers: ShortUrlIdentifier[]) => void;
+  getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
 
   shortUrlRedirectRulesSaving: SetShortUrlRedirectRules;
   setShortUrlRedirectRules: (info: SetShortUrlRedirectRulesInfo) => void;

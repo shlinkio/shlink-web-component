@@ -57,8 +57,8 @@ describe('<ShortUrlsRowMenu />', () => {
     })],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
-  it('renders modal windows', () => {
-    setUp();
+  it('renders modal windows', async () => {
+    await setUpAndOpen();
     expect(screen.getByText('DeleteShortUrlModal')).toBeInTheDocument();
   });
 

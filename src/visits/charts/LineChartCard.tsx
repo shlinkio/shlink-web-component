@@ -33,10 +33,10 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  UncontrolledDropdown,
 } from 'reactstrap';
 import { CartesianGrid, Line, LineChart, ReferenceArea, Tooltip, XAxis, YAxis } from 'recharts';
 import type { CategoricalChartState } from 'recharts/types/chart/types';
@@ -310,6 +310,8 @@ export const LineChartCard: FC<LineChartCardProps> = (
     onDateRangeChange({ startDate, endDate });
   }, [onDateRangeChange, resetSelection, selectionEnd, selectionStart]);
 
+  const [groupByMenuOpen, toggleGroupByMenu] = useToggle();
+
   return (
     <Card className={clsx({ 'fixed-top fixed-bottom': isExpanded })} data-testid="line-chart-card">
       <CardHeader role="heading" aria-level={4} className="d-flex justify-content-between align-items-center">
@@ -325,18 +327,18 @@ export const LineChartCard: FC<LineChartCardProps> = (
           >
             <FontAwesomeIcon icon={isExpanded ? collapseIcon : expandIcon} />
           </Button>
-          <UncontrolledDropdown className="d-flex align-items-center">
+          <Dropdown isOpen={groupByMenuOpen} toggle={toggleGroupByMenu} className="d-flex align-items-center">
             <DropdownToggle caret color="link" className="btn-sm p-0">
               Group by
             </DropdownToggle>
             <DropdownMenu end>
-              {Object.entries(STEPS_MAP).map(([value, menuText]) => (
+              {groupByMenuOpen && Object.entries(STEPS_MAP).map(([value, menuText]) => (
                 <DropdownItem key={value} active={step === value} onClick={() => setStep(value as Step)}>
                   {menuText}
                 </DropdownItem>
               ))}
             </DropdownMenu>
-          </UncontrolledDropdown>
+          </Dropdown>
         </div>
       </CardHeader>
       <CardBody innerRef={bodyRef} id={bodyId}>

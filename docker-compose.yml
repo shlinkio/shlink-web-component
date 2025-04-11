@@ -2,7 +2,8 @@ services:
     shlink_web_component:
         container_name: shlink_web_component
         user: 1000:1000
-        image: node:22.10-alpine
+        build:
+            context: .
         command: /bin/sh -c "cd /shlink-web-component && npm i && npm run dev"
         volumes:
             - ./:/shlink-web-component

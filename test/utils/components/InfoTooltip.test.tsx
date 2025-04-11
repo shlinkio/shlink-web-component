@@ -33,12 +33,16 @@ describe('<InfoTooltip />', () => {
     [['One', 'Two', <span key={3} />], 'OneTwo'],
   ])('passes children down to the nested tooltip component', async (children, expectedContent) => {
     const { container, user } = setUp({ children });
-
-    if (container.firstElementChild) {
-      await user.hover(container.firstElementChild);
+    const element = container.firstElementChild;
+    if (!element) {
+      throw new Error('Element not found');
     }
-    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
+
+    await user.hover(element);
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument(), { timeout: 2000 });
     expect(screen.getByRole('tooltip')).toHaveTextContent(expectedContent);
+
+    await user.unhover(element);
   });
 
   it.each([
@@ -48,11 +52,15 @@ describe('<InfoTooltip />', () => {
     ['bottom' as Placement],
   ])('places tooltip where requested', async (placement) => {
     const { container, user } = setUp({ placement });
-
-    if (container.firstElementChild) {
-      await user.hover(container.firstElementChild);
+    const element = container.firstElementChild;
+    if (!element) {
+      throw new Error('Element not found');
     }
-    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
+
+    await user.hover(element);
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument(), { timeout: 2000 });
     expect(screen.getByRole('tooltip').parentNode).toHaveAttribute('data-popper-placement', placement);
+
+    await user.unhover(element);
   });
 });

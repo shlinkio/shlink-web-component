@@ -38,7 +38,14 @@ export default defineConfig({
   },
 
   test: {
-    environment: 'jsdom',
+    // Run tests in an actual browser
+    browser: {
+      provider: 'playwright',
+      enabled: true,
+      headless: true,
+      screenshotFailures: false,
+      instances: [{ browser: 'chromium' }],
+    },
     globals: true,
     allowOnly: true,
     setupFiles: './test/setup.ts',

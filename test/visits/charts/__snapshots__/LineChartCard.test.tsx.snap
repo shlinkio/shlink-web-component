@@ -54,40 +54,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -186,17 +153,17 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             />
           </div>
         </div>
@@ -260,40 +227,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -392,17 +326,17 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             />
           </div>
         </div>
@@ -512,40 +446,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -659,12 +560,12 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2016-05
                   </tspan>
@@ -862,7 +763,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -986,24 +887,24 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
               fill="none"
               height="360"
               stroke="#4696e5"
-              stroke-dasharray="0px 0px"
+              stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
               width="730"
             />
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             />
           </div>
         </div>
@@ -1099,40 +1000,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -1246,12 +1114,12 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2016-05
                   </tspan>
@@ -1449,7 +1317,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -1573,7 +1441,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               fill="none"
               height="360"
               stroke="#4696e5"
-              stroke-dasharray="0px 0px"
+              stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
               width="730"
             />
@@ -1587,7 +1455,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               fill="none"
               height="360"
               stroke="#f77f28"
-              stroke-dasharray="0px 0px"
+              stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
               width="730"
             />
@@ -1601,24 +1469,24 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               fill="none"
               height="360"
               stroke="#1DAA58"
-              stroke-dasharray="0px, 0px"
+              stroke-dasharray="0px, 813.9410400390625px"
               stroke-width="2"
               width="730"
             />
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             />
           </div>
         </div>
@@ -1728,40 +1596,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -2221,42 +2056,6 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="#666"
                   width="730"
                   x="65"
-                  x1="734.1666666666667"
-                  x2="734.1666666666667"
-                  y="365"
-                  y1="371"
-                  y2="365"
-                />
-                <text
-                  class="recharts-text recharts-cartesian-axis-tick-value"
-                  fill="#666"
-                  height="30"
-                  orientation="bottom"
-                  stroke="none"
-                  text-anchor="middle"
-                  width="730"
-                  x="734.1666666666667"
-                  y="373"
-                >
-                  <tspan
-                    dy="0.71em"
-                    x="734.1666666666667"
-                  >
-                    2024-03
-                  </tspan>
-                </text>
-              </g>
-              <g
-                class="recharts-layer recharts-cartesian-axis-tick"
-              >
-                <line
-                  class="recharts-cartesian-axis-tick-line"
-                  fill="none"
-                  height="30"
-                  orientation="bottom"
-                  stroke="#666"
-                  width="730"
-                  x="65"
                   x1="795"
                   x2="795"
                   y="365"
@@ -2271,12 +2070,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="795"
+                  x="773.3359375"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="795"
+                    x="773.3359375"
                   >
                     2024-04
                   </tspan>
@@ -2474,7 +2273,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   text-anchor="end"
                   width="60"
                   x="57"
-                  y="5"
+                  y="9"
                 >
                   <tspan
                     dy="0.355em"
@@ -2711,19 +2510,6 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 stroke-opacity="0.9"
                 width="730"
                 x="65"
-                x1="734.1666666666667"
-                x2="734.1666666666667"
-                y="5"
-                y1="5"
-                y2="365"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
                 x1="795"
                 x2="795"
                 y="5"
@@ -2737,11 +2523,11 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           >
             <path
               class="recharts-curve recharts-line-curve"
-              d="M65,95C85.27777777777779,230,105.55555555555556,365,125.83333333333334,365C146.11111111111111,365,166.3888888888889,365,186.66666666666669,365C206.94444444444446,365,227.22222222222223,365,247.5,365C267.77777777777777,365,288.0555555555556,365,308.33333333333337,365C328.61111111111114,365,348.8888888888889,365,369.1666666666667,365C389.44444444444446,365,409.72222222222223,365,430,365C450.27777777777777,365,470.5555555555556,365,490.83333333333337,365C511.11111111111114,365,531.3888888888889,365,551.6666666666667,365C571.9444444444445,365,592.2222222222223,365,612.5,365C632.7777777777778,365,653.0555555555555,365,673.3333333333334,365C693.6111111111112,365,713.8888888888889,365,734.1666666666667,365C754.4444444444445,365,774.7222222222223,365,795,365"
+              d="M65,95C85.278,230,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,365,795,365"
               fill="none"
               height="360"
               stroke="red"
-              stroke-dasharray="0px 0px"
+              stroke-dasharray="0px 949.263916015625px"
               stroke-width="2"
               width="730"
             />
@@ -2751,28 +2537,28 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           >
             <path
               class="recharts-curve recharts-line-curve"
-              d="M65,365C85.27777777777779,365,105.55555555555556,365,125.83333333333334,365C146.11111111111111,365,166.3888888888889,365,186.66666666666669,365C206.94444444444446,365,227.22222222222223,365,247.5,365C267.77777777777777,365,288.0555555555556,365,308.33333333333337,365C328.61111111111114,365,348.8888888888889,365,369.1666666666667,365C389.44444444444446,365,409.72222222222223,365,430,365C450.27777777777777,365,470.5555555555556,365,490.83333333333337,365C511.11111111111114,365,531.3888888888889,365,551.6666666666667,365C571.9444444444445,365,592.2222222222223,365,612.5,365C632.7777777777778,365,653.0555555555555,365,673.3333333333334,365C693.6111111111112,365,713.8888888888889,365,734.1666666666667,365C754.4444444444445,365,774.7222222222223,185,795,5"
+              d="M65,365C85.278,365,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,185,795,5"
               fill="none"
               height="360"
               stroke="yellow"
-              stroke-dasharray="0px 0px"
+              stroke-dasharray="0px 1037.2572021484375px"
               stroke-width="2"
               width="730"
             />
           </g>
         </svg>
         <div
-          class="recharts-tooltip-wrapper"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"
           tabindex="-1"
         >
           <div
             class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; white-space: nowrap; color: white; background: rgba(0, 0, 0, 0.9); border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px 0px; font-weight: bold;"
+              style="margin: 0px 0px 5px; font-weight: bold;"
             />
           </div>
         </div>

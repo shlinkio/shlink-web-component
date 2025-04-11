@@ -11,12 +11,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 * Update dependencies
 * QR codes are now client-side generated, without hitting Shlink's server.
+* Run unit tests in an actual browser using vitest browser mode and playwright.
 
 ### Deprecated
 * *Nothing*
 
 ### Removed
-* *Nothing*
+* Drop support for `@shlinkio/shlink-frontend-kit` 0.7.*
 
 ### Fixed
 * *Nothing*

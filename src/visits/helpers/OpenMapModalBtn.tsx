@@ -41,10 +41,14 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
             <FontAwesomeIcon icon={mapIcon} />
           </DropdownToggle>
           <DropdownMenu end>
-            <DropdownItem onClick={() => openMapWithCities()}>Show all locations</DropdownItem>
-            <DropdownItem onClick={() => openMapWithCities(({ cityName }) => activeCities.includes(cityName))}>
-              Show locations in current page
-            </DropdownItem>
+            {dropdownIsOpened && (
+              <>
+                <DropdownItem onClick={() => openMapWithCities()}>Show all locations</DropdownItem>
+                <DropdownItem onClick={() => openMapWithCities(({ cityName }) => activeCities.includes(cityName))}>
+                  Show locations in current page
+                </DropdownItem>
+              </>
+            )}
           </DropdownMenu>
         </Dropdown>
       )}

@@ -48,6 +48,6 @@ describe('<ShortUrlStatus />', () => {
     const { user } = setUp(fromPartial({ meta, visitsSummary }));
 
     await user.hover(screen.getByRole('img', { hidden: true }));
-    await waitFor(() => expect(screen.getByRole('tooltip')).toHaveTextContent(expectedTooltip));
+    await waitFor(() => expect(screen.getByRole('tooltip')).toHaveTextContent(expectedTooltip), { timeout: 2000 });
   });
 });

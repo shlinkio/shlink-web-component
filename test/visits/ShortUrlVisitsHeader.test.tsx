@@ -38,7 +38,7 @@ describe('<ShortUrlVisitsHeader />', () => {
     expect(dateElement).toBeInTheDocument();
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
     await user.hover(dateElement);
-    await waitFor(() => expect(screen.getByRole('tooltip')).toHaveTextContent('2018-01-01 10:00'));
+    await waitFor(() => expect(screen.getByRole('tooltip')).toHaveTextContent('2018-01-01 10:00'), { timeout: 2000 });
   });
 
   it.each([

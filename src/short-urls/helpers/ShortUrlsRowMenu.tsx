@@ -54,46 +54,49 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
   }, [deleteShortUrl, shortUrl, shortUrlDeleted]);
 
   return (
-    <RowDropdownBtn minWidth={redirectRulesAreSupported ? 220 : 190}>
-      <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="visits" asLink>
-        <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
-      </DropdownItem>
-      {visitsComparison && (
-        <>
-          <DropdownItem
-            disabled={!visitsComparison.canAddItemWithName(shortUrl.shortUrl)}
-            onClick={() => visitsComparison.addItemToCompare({
-              name: shortUrl.shortUrl,
-              query: shortUrlToQuery(shortUrl),
-            })}
-          >
-            <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
-          </DropdownItem>
-
-          <DropdownItem divider tag="hr" />
-        </>
-      )}
-
-      <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="edit" asLink>
-        <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit short URL
-      </DropdownItem>
-
-      {redirectRulesAreSupported && (
-        <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="redirect-rules" asLink>
-          <FontAwesomeIcon icon={rulesIcon} fixedWidth /> Manage redirect rules
+    <>
+      <RowDropdownBtn minWidth={redirectRulesAreSupported ? 220 : 190}>
+        <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="visits" asLink>
+          <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
         </DropdownItem>
-      )}
+        {visitsComparison && (
+          <>
+            <DropdownItem
+              disabled={!visitsComparison.canAddItemWithName(shortUrl.shortUrl)}
+              onClick={() => visitsComparison.addItemToCompare({
+                name: shortUrl.shortUrl,
+                query: shortUrlToQuery(shortUrl),
+              })}
+            >
+              <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
+            </DropdownItem>
 
-      <DropdownItem onClick={openQrCodeModal}>
-        <FontAwesomeIcon icon={qrIcon} fixedWidth /> QR code
-      </DropdownItem>
+            <DropdownItem divider tag="hr" />
+          </>
+        )}
+
+        <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="edit" asLink>
+          <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit short URL
+        </DropdownItem>
+
+        {redirectRulesAreSupported && (
+          <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="redirect-rules" asLink>
+            <FontAwesomeIcon icon={rulesIcon} fixedWidth /> Manage redirect rules
+          </DropdownItem>
+        )}
+
+        <DropdownItem onClick={openQrCodeModal}>
+          <FontAwesomeIcon icon={qrIcon} fixedWidth /> QR code
+        </DropdownItem>
+
+        <DropdownItem divider tag="hr" />
+
+        <DropdownItem className="dropdown-item--danger" onClick={confirmDeletions ? openDeleteModal : doDeleteShortUrl}>
+          <FontAwesomeIcon icon={deleteIcon} fixedWidth /> Delete short URL
+        </DropdownItem>
+      </RowDropdownBtn>
+
       <QrCodeModal shortUrl={shortUrl} isOpen={isQrModalOpen} toggle={closeQrCodeModal} />
-
-      <DropdownItem divider tag="hr" />
-
-      <DropdownItem className="dropdown-item--danger" onClick={confirmDeletions ? openDeleteModal : doDeleteShortUrl}>
-        <FontAwesomeIcon icon={deleteIcon} fixedWidth /> Delete short URL
-      </DropdownItem>
       <DeleteShortUrlModal
         shortUrl={shortUrl}
         deleteShortUrl={deleteShortUrl}
@@ -101,7 +104,7 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
         isOpen={isDeleteModalOpen}
         toggle={closeDeleteModal}
       />
-    </RowDropdownBtn>
+    </>
   );
 };
 

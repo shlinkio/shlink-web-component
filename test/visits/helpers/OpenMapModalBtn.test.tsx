@@ -51,14 +51,15 @@ describe('<OpenMapModalBtn />', () => {
   });
 
   it.each([
-    ['Show all locations'],
-    ['Show locations in current page'],
-  ])('filters out non-active cities from list of locations', async (name) => {
+    ['Show all locations', 2],
+    ['Show locations in current page', 1],
+  ])('filters out non-active cities from list of locations', async (name, expectedMarkers) => {
     const { user } = setUp(['bar']);
 
     await openDropdown(user);
     await user.click(screen.getByRole('menuitem', { name }));
+    await screen.findByRole('dialog');
 
-    expect(screen.getByRole('dialog')).toMatchSnapshot();
+    expect(screen.getAllByAltText('Marker')).toHaveLength(expectedMarkers);
   });
 });

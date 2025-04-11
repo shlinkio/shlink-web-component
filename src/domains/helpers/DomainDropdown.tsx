@@ -29,36 +29,38 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
   const canFilterShortUrlsByDomain = useFeature('filterShortUrlsByDomain');
 
   return (
-    <RowDropdownBtn>
-      <DropdownItem
-        tag={Link}
-        to={`${routesPrefix}/domain/${domain.domain}${domain.isDefault ? `_${DEFAULT_DOMAIN}` : ''}/visits`}
-      >
-        <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
-      </DropdownItem>
-      <DropdownItem
-        disabled={!visitsComparison || !visitsComparison.canAddItemWithName(domain.domain)}
-        onClick={() => visitsComparison?.addItemToCompare({
-          name: domain.domain,
-          query: domain.domain,
-        })}
-      >
-        <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
-      </DropdownItem>
-
-      {canFilterShortUrlsByDomain && (
+    <>
+      <RowDropdownBtn>
         <DropdownItem
           tag={Link}
-          to={`${routesPrefix}/list-short-urls/1?domain=${domain.isDefault ? DEFAULT_DOMAIN : domain.domain}`}
+          to={`${routesPrefix}/domain/${domain.domain}${domain.isDefault ? `_${DEFAULT_DOMAIN}` : ''}/visits`}
         >
-          <FontAwesomeIcon icon={listIcon} fixedWidth /> Short URLs
+          <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
         </DropdownItem>
-      )}
+        <DropdownItem
+          disabled={!visitsComparison || !visitsComparison.canAddItemWithName(domain.domain)}
+          onClick={() => visitsComparison?.addItemToCompare({
+            name: domain.domain,
+            query: domain.domain,
+          })}
+        >
+          <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
+        </DropdownItem>
 
-      <DropdownItem divider tag="hr" />
-      <DropdownItem onClick={toggleModal}>
-        <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit redirects
-      </DropdownItem>
+        {canFilterShortUrlsByDomain && (
+          <DropdownItem
+            tag={Link}
+            to={`${routesPrefix}/list-short-urls/1?domain=${domain.isDefault ? DEFAULT_DOMAIN : domain.domain}`}
+          >
+            <FontAwesomeIcon icon={listIcon} fixedWidth /> Short URLs
+          </DropdownItem>
+        )}
+
+        <DropdownItem divider tag="hr" />
+        <DropdownItem onClick={toggleModal}>
+          <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit redirects
+        </DropdownItem>
+      </RowDropdownBtn>
 
       <EditDomainRedirectsModal
         domain={domain}
@@ -66,6 +68,6 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
         toggle={toggleModal}
         editDomainRedirects={editDomainRedirects}
       />
-    </RowDropdownBtn>
+    </>
   );
 };

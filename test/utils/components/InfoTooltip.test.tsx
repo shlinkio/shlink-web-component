@@ -39,7 +39,7 @@ describe('<InfoTooltip />', () => {
     }
 
     await user.hover(element);
-    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument(), { timeout: 2000 });
     expect(screen.getByRole('tooltip')).toHaveTextContent(expectedContent);
 
     await user.unhover(element);

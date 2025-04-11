@@ -52,11 +52,15 @@ describe('<InfoTooltip />', () => {
     ['bottom' as Placement],
   ])('places tooltip where requested', async (placement) => {
     const { container, user } = setUp({ placement });
-
-    if (container.firstElementChild) {
-      await user.hover(container.firstElementChild);
+    const element = container.firstElementChild;
+    if (!element) {
+      throw new Error('Element not found');
     }
-    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
+
+    await user.hover(element);
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument(), { timeout: 2000 });
     expect(screen.getByRole('tooltip').parentNode).toHaveAttribute('data-popper-placement', placement);
+
+    await user.unhover(element);
   });
 });

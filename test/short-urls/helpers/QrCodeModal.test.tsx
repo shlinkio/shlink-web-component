@@ -1,4 +1,5 @@
 import { fireEvent, screen } from '@testing-library/react';
+import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { QrCodeModal } from '../../../src/short-urls/helpers/QrCodeModal';
 import { FeaturesProvider } from '../../../src/utils/features';
@@ -13,6 +14,7 @@ describe('<QrCodeModal />', () => {
         isOpen
         shortUrl={fromPartial({ shortUrl })}
         toggle={() => {}}
+        qrDrawType="svg" // Render as SVG so that we can test certain functionalities via snapshots
       />
     </FeaturesProvider>,
   );
@@ -31,39 +33,39 @@ describe('<QrCodeModal />', () => {
     expect(externalLink).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  it.skip('displays an image with the QR code of the URL', async () => {
+  it.each([
+    { applyChanges: () => {} },
+    {
+      // Setting size and margin
+      applyChanges: () => {
+        const [sizeInput, marginInput] = screen.getAllByRole('slider');
+        if (!sizeInput || !marginInput) {
+          throw new Error('Sliders not found');
+        }
+
+        fireEvent.change(sizeInput, { target: { value: '560' } });
+        fireEvent.change(marginInput, { target: { value: '20' } });
+      },
+    },
+    {
+      // Select error correction
+      applyChanges: async (user: UserEvent) => {
+        await user.click(screen.getByRole('button', { name: /^Error correction/ }));
+        await user.click(screen.getByRole('menuitem', { name: /uartile/ }));
+      },
+    },
+    {
+      // Set custom colors
+      applyChanges: () => {
+        fireEvent.change(screen.getByLabelText('color picker'), { target: { value: '#ff0000' } });
+        fireEvent.change(screen.getByLabelText('background picker'), { target: { value: '#0000ff' } });
+      },
+    },
+  ])('displays an image with expected configuration', async ({ applyChanges }) => {
     const { user } = setUp({ qrCodeColors: true });
-    const assertUrl = (url: string) => {
-      expect(screen.getByRole('img')).toHaveAttribute('src', url);
-      expect(screen.getByText(url)).toHaveAttribute('href', url);
-    };
 
-    // Initially, no arguments are appended
-    assertUrl(`${shortUrl}/qr-code`);
-
-    // Switch to sliders
-    await user.click(screen.getByRole('button', { name: 'Customize size' }));
-    await user.click(screen.getByRole('button', { name: 'Customize margin' }));
-
-    const [sizeInput, marginInput] = screen.getAllByRole('slider');
-    if (!sizeInput || !marginInput) {
-      throw new Error('Sliders not found');
-    }
-
-    // Setting size and margin should reflect in the QR code URL
-    fireEvent.change(sizeInput, { target: { value: '560' } });
-    fireEvent.change(marginInput, { target: { value: '20' } });
-    assertUrl(`${shortUrl}/qr-code?size=560&margin=20`);
-
-    // Unset margin and select error correction
-    await user.click(screen.getByRole('button', { name: 'Default margin' }));
-    await user.click(screen.getByRole('button', { name: 'Default error correction' }));
-    await user.click(screen.getByRole('menuitem', { name: /uartile/ }));
-    assertUrl(`${shortUrl}/qr-code?size=560&errorCorrection=Q`);
-
-    // Set custom color
-    await user.click(screen.getByRole('button', { name: 'Customize color' }));
-    assertUrl(`${shortUrl}/qr-code?size=560&errorCorrection=Q&color=000000`);
+    await applyChanges(user);
+    expect(screen.getByTestId('qr-code-container')).toMatchSnapshot();
   });
 
   it.each([
@@ -85,5 +87,11 @@ describe('<QrCodeModal />', () => {
     const { user } = setUp();
 
     await user.click(screen.getByRole('button', { name: /^Download/ }));
+  });
+
+  it.todo('copies the QR data URI when clicking the Copy button', async () => {
+    const { user } = setUp();
+
+    await user.click(screen.getByLabelText('Copy data URI'));
   });
 });

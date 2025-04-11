@@ -11,14 +11,20 @@ import type { QrRef } from '../../utils/components/QrCode';
 import { QrCode } from '../../utils/components/QrCode';
 import { useFeature } from '../../utils/features';
 import { copyToClipboard } from '../../utils/helpers/clipboard';
-import type { QrCodeFormat, QrErrorCorrection } from '../../utils/helpers/qrCodes';
+import type { QrCodeFormat, QrDrawType, QrErrorCorrection } from '../../utils/helpers/qrCodes';
 import type { ShortUrlModalProps } from '../data';
 import { QrDimensionControl } from './qr-codes/QrDimensionControl';
 import { QrErrorCorrectionDropdown } from './qr-codes/QrErrorCorrectionDropdown';
 import { QrFormatDropdown } from './qr-codes/QrFormatDropdown';
 import './QrCodeModal.scss';
 
-export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shortCode }, toggle, isOpen }) => {
+export type QrCodeModalProps = ShortUrlModalProps & {
+  qrDrawType?: QrDrawType;
+};
+
+export const QrCodeModal: FC<QrCodeModalProps> = (
+  { shortUrl: { shortUrl, shortCode }, toggle, isOpen, qrDrawType },
+) => {
   // TODO Allow customizing defaults via settings
   const [size, setSize] = useState(300);
   const [margin, setMargin] = useState(0);
@@ -47,7 +53,7 @@ export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shor
       </ModalHeader>
       <ModalBody className="d-flex flex-column-reverse flex-lg-row gap-3">
         <div className="flex-grow-1 d-flex align-items-center justify-content-around qr-code-modal__qr-code">
-          <div className="d-flex flex-column gap-1">
+          <div className="d-flex flex-column gap-1" data-testid="qr-code-container">
             <QrCode
               ref={qrCodeRef}
               data={shortUrl}
@@ -56,6 +62,7 @@ export const QrCodeModal: FC<ShortUrlModalProps> = ({ shortUrl: { shortUrl, shor
               errorCorrection={errorCorrection}
               color={color}
               bgColor={bgColor}
+              drawType={qrDrawType}
             />
             <div className="text-center fst-italic">Preview ({size + margin}x{size + margin})</div>
           </div>

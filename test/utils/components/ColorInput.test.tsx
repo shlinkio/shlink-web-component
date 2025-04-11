@@ -13,6 +13,6 @@ describe('<ColorInput />', () => {
     setUp(color);
 
     expect(screen.getByLabelText('name')).toHaveValue(color);
-    expect(screen.getByLabelText('name-picker')).toHaveValue(color);
+    expect(screen.getByLabelText('name picker')).toHaveValue(color);
   });
 });

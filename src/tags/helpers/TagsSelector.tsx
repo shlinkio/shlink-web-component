@@ -1,6 +1,6 @@
-import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
-import type { MutableRefObject } from 'react';
+import type { RefObject } from 'react';
+import { useRef } from 'react';
 import type { OptionRendererProps, ReactTagsAPI, TagRendererProps, TagSuggestion } from 'react-tag-autocomplete';
 import { ReactTags } from 'react-tag-autocomplete';
 import type { FCWithDeps } from '../../container/utils';
@@ -27,7 +27,7 @@ const toTagObject = (tag: string): TagSuggestion => {
 const buildTagRenderer = (colorGenerator: ColorGenerator) => ({ tag, onClick: deleteTag }: TagRendererProps) => (
   <Tag colorGenerator={colorGenerator} text={tag.label} className="react-tags__tag" onClose={deleteTag} />
 );
-const buildOptionRenderer = (colorGenerator: ColorGenerator, api: MutableRefObject<ReactTagsAPI | null>) => (
+const buildOptionRenderer = (colorGenerator: ColorGenerator, api: RefObject<ReactTagsAPI | null>) => (
   { option, classNames: classes, ...rest }: OptionRendererProps,
 ) => {
   const isSelectable = isSelectableOption(option.label);
@@ -70,7 +70,7 @@ const TagsSelector: FCWithDeps<TagsSelectorProps, TagsSelectorDeps> = (
   const { ColorGenerator: colorGenerator } = useDependencies(TagsSelector);
   const shortUrlCreation = useSetting('shortUrlCreation');
   const searchMode = shortUrlCreation?.tagFilteringMode ?? 'startsWith';
-  const apiRef = useElementRef<ReactTagsAPI>();
+  const apiRef = useRef<ReactTagsAPI>(null);
 
   return (
     <ReactTags
@@ -78,6 +78,7 @@ const TagsSelector: FCWithDeps<TagsSelectorProps, TagsSelectorDeps> = (
       selected={selectedTags.map(toTagObject)}
       suggestions={tags.filter((tag) => !selectedTags.includes(tag)).map(toTagObject)}
       renderTag={buildTagRenderer(colorGenerator)}
+      // eslint-disable-next-line react-compiler/react-compiler
       renderOption={buildOptionRenderer(colorGenerator, apiRef)}
       activateFirstOption
       allowNew={!immutable}

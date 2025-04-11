@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { QrCodeModal } from '../../../src/short-urls/helpers/QrCodeModal';
@@ -83,15 +83,26 @@ describe('<QrCodeModal />', () => {
     }
   });
 
-  it.todo('saves the QR code image when clicking the Download button', async () => {
+  // FIXME This test needs a real browser
+  it.skip('saves the QR code image when clicking the Download button', async () => {
     const { user } = setUp();
-
     await user.click(screen.getByRole('button', { name: /^Download/ }));
   });
 
-  it.todo('copies the QR data URI when clicking the Copy button', async () => {
+  // FIXME This test does not seem to work in JSDOM. Try again in a real browser
+  it.skip('copies the QR data URI when clicking the Copy button', async () => {
     const { user } = setUp();
+    const writeText = vi.fn().mockResolvedValue(undefined);
 
-    await user.click(screen.getByLabelText('Copy data URI'));
+    vi.stubGlobal('navigator', {
+      clipboard: { writeText },
+    });
+
+    try {
+      await user.click(screen.getByLabelText('Copy data URI'));
+      await waitFor(() => expect(writeText).toHaveBeenCalledWith(expect.stringMatching(/^data:image\//)));
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 });

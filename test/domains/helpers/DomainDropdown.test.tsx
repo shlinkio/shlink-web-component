@@ -55,8 +55,9 @@ describe('<DomainDropdown />', () => {
   it.each([
     { filterShortUrlsByDomain: true },
     { filterShortUrlsByDomain: false },
-  ])('renders expected menu items', ({ filterShortUrlsByDomain }) => {
-    setUp({ filterShortUrlsByDomain });
+  ])('renders expected menu items', async ({ filterShortUrlsByDomain }) => {
+    const { user } = setUp({ filterShortUrlsByDomain });
+    await openMenu(user);
 
     expect(screen.getByText('Visit stats')).toBeInTheDocument();
     expect(screen.getByText('Compare visits')).toBeInTheDocument();
@@ -71,16 +72,18 @@ describe('<DomainDropdown />', () => {
   it.each([
     [true, '_DEFAULT'],
     [false, ''],
-  ])('points visits link to the proper section', (isDefault, expectedLink) => {
-    setUp({ domain: fromPartial({ domain: 'foo.com', isDefault }) });
+  ])('points visits link to the proper section', async (isDefault, expectedLink) => {
+    const { user } = setUp({ domain: fromPartial({ domain: 'foo.com', isDefault }) });
+    await openMenu(user);
     expect(screen.getByText('Visit stats')).toHaveAttribute('href', `/server/123/domain/foo.com${expectedLink}/visits`);
   });
 
   it.each([
     [true, DEFAULT_DOMAIN],
     [false, 'foo.com'],
-  ])('points short URLs link to the proper section', (isDefault, expectedLink) => {
-    setUp({ domain: fromPartial({ domain: 'foo.com', isDefault }) });
+  ])('points short URLs link to the proper section', async (isDefault, expectedLink) => {
+    const { user } = setUp({ domain: fromPartial({ domain: 'foo.com', isDefault }) });
+    await openMenu(user);
     expect(screen.getByText('Short URLs')).toHaveAttribute('href', `/server/123/list-short-urls/1?domain=${expectedLink}`);
   });
 
@@ -93,6 +96,8 @@ describe('<DomainDropdown />', () => {
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(screen.queryByRole('form')).not.toBeInTheDocument();
+    await openMenu(user);
+
     await user.click(screen.getByText('Edit redirects'));
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
 

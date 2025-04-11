@@ -19,7 +19,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r20:"
+          aria-controls=":rg:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -57,46 +57,13 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r20:"
+      id=":rg:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -625,7 +592,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r23:"
+          aria-controls=":rh:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -663,46 +630,13 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r23:"
+      id=":rh:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -1231,7 +1165,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r26:"
+          aria-controls=":ri:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -1269,46 +1203,13 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r26:"
+      id=":ri:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -1837,7 +1738,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r29:"
+          aria-controls=":rj:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -1875,46 +1776,13 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r29:"
+      id=":rj:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -2502,7 +2370,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r2c:"
+          aria-controls=":rk:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -2540,46 +2408,13 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r2c:"
+      id=":rk:"
     >
       <div
         class="recharts-wrapper user-select-none"
@@ -3167,7 +3002,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         class="d-flex align-content-center gap-1"
       >
         <button
-          aria-controls=":r2f:"
+          aria-controls=":rl:"
           aria-expanded="false"
           aria-label="Expand"
           class="btn btn-link btn-sm"
@@ -3205,46 +3040,13 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
     <div
       class="card-body"
-      id=":r2f:"
+      id=":rl:"
     >
       <div
         class="recharts-wrapper user-select-none"

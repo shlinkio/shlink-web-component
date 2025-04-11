@@ -54,40 +54,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -260,40 +227,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -512,40 +446,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -1099,40 +1000,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -1728,40 +1596,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             class="dropdown-menu dropdown-menu-end"
             role="menu"
             tabindex="-1"
-          >
-            <button
-              class="dropdown-item active"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Month
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Week
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Day
-            </button>
-            <button
-              class="dropdown-item"
-              role="menuitem"
-              tabindex="0"
-              type="button"
-            >
-              Hour
-            </button>
-          </div>
+          />
         </div>
       </div>
     </div>

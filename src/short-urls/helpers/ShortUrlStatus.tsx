@@ -1,22 +1,21 @@
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faCalendarXmark, faCheck, faLinkSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import { isBefore } from 'date-fns';
-import type { FC, ReactNode, RefObject } from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
+import type { FC } from 'react';
+import { useMemo } from 'react';
 import type { ShlinkShortUrl } from '../../api-contract';
 import { formatHumanFriendly, now, parseISO } from '../../utils/dates/helpers/date';
 
-interface ShortUrlStatusProps {
+export type ShortUrlStatusProps = {
   shortUrl: ShlinkShortUrl;
-}
+};
 
-interface StatusResult {
+type StatusResult = {
   icon: IconDefinition;
   className: string;
-  description: ReactNode;
-}
+  description: string;
+};
 
 const resolveShortUrlStatus = (shortUrl: ShlinkShortUrl): StatusResult => {
   const { meta, visitsCount, visitsSummary } = shortUrl;
@@ -27,12 +26,7 @@ const resolveShortUrlStatus = (shortUrl: ShlinkShortUrl): StatusResult => {
     return {
       icon: faLinkSlash,
       className: 'text-danger',
-      description: (
-        <>
-          This short URL cannot be currently visited because it has reached the maximum
-          amount of <b>{maxVisits}</b> visit{maxVisits > 1 ? 's' : ''}.
-        </>
-      ),
+      description: `This short URL cannot be currently visited because it has reached the maximum amount of ${maxVisits} visit${maxVisits > 1 ? 's' : ''}`,
     };
   }
 
@@ -40,12 +34,7 @@ const resolveShortUrlStatus = (shortUrl: ShlinkShortUrl): StatusResult => {
     return {
       icon: faCalendarXmark,
       className: 'text-danger',
-      description: (
-        <>
-          This short URL cannot be visited
-          since <b className="indivisible">{formatHumanFriendly(parseISO(validUntil))}</b>.
-        </>
-      ),
+      description: `This short URL cannot be visited since ${formatHumanFriendly(parseISO(validUntil))}`,
     };
   }
 
@@ -53,34 +42,23 @@ const resolveShortUrlStatus = (shortUrl: ShlinkShortUrl): StatusResult => {
     return {
       icon: faCalendarXmark,
       className: 'text-warning',
-      description: (
-        <>
-          This short URL will start working
-          on <b className="indivisible">{formatHumanFriendly(parseISO(validSince))}</b>.
-        </>
-      ),
+      description: `This short URL will start working on ${formatHumanFriendly(parseISO(validSince))}`,
     };
   }
 
   return {
     icon: faCheck,
     className: 'text-primary',
-    description: 'This short URL can be visited normally.',
+    description: 'This short URL can be visited normally',
   };
 };
 
 export const ShortUrlStatus: FC<ShortUrlStatusProps> = ({ shortUrl }) => {
-  const tooltipRef = useElementRef<HTMLElement>();
-  const { icon, className, description } = resolveShortUrlStatus(shortUrl);
+  const { icon, className, description } = useMemo(() => resolveShortUrlStatus(shortUrl), [shortUrl]);
 
   return (
-    <>
-      <span style={{ cursor: !description ? undefined : 'help' }} ref={tooltipRef}>
-        <FontAwesomeIcon icon={icon} className={className} />
-      </span>
-      <UncontrolledTooltip target={tooltipRef as RefObject<HTMLElement>} placement="bottom">
-        {description}
-      </UncontrolledTooltip>
-    </>
+    <span style={{ cursor: !description ? undefined : 'help' }} title={description}>
+      <FontAwesomeIcon icon={icon} className={className} />
+    </span>
   );
 };

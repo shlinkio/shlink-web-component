@@ -89,8 +89,12 @@ describe('<QrCodeModal />', () => {
     await user.click(screen.getByRole('button', { name: /^Download/ }));
   });
 
-  // FIXME This test does not seem to work in JSDOM. Try again in a real browser
-  it.skip('copies the QR data URI when clicking the Copy button', async () => {
+  it.each([
+    'png',
+    'svg',
+    'jpeg',
+    'webp',
+  ])('copies the QR data URI when clicking the Copy button', async (format) => {
     const { user } = setUp();
     const writeText = vi.fn().mockResolvedValue(undefined);
 
@@ -99,8 +103,14 @@ describe('<QrCodeModal />', () => {
     });
 
     try {
+      // Select format in the dropdown
+      await user.click(screen.getByRole('button', { name: /^Format/ }));
+      await user.click(screen.getByRole('menuitem', { name: format }));
+      // Copy to clipboard
       await user.click(screen.getByLabelText('Copy data URI'));
-      await waitFor(() => expect(writeText).toHaveBeenCalledWith(expect.stringMatching(/^data:image\//)));
+      await waitFor(
+        () => expect(writeText).toHaveBeenCalledWith(expect.stringMatching(new RegExp(`^data:image/${format}`))),
+      );
     } finally {
       vi.unstubAllGlobals();
     }

@@ -66,7 +66,7 @@
     "date-fns": "^4.1.0",
     "event-source-polyfill": "^1.0.31",
     "leaflet": "^1.9.4",
-    "qr-code-styling": "^1.9.1",
+    "qr-code-styling": "^1.9.2",
     "react-external-link": "^2.5.0",
     "react-leaflet": "^4.2.1 || ^5.0",
     "react-swipeable": "^7.0.2",

@@ -37,6 +37,17 @@ export default defineConfig({
     },
   },
 
+  // Vitest recommended to add these dependencies here to avoid flaky tests
+  optimizeDeps: {
+    entries: [
+      '@fortawesome/free-regular-svg-icons',
+      'react-external-link',
+      'compare-versions',
+      '@shlinkio/shlink-js-sdk/api-contract',
+      'qr-code-styling',
+    ],
+  },
+
   test: {
     // Run tests in an actual browser
     browser: {
@@ -47,7 +58,6 @@ export default defineConfig({
       instances: [{ browser: 'chromium' }],
     },
     globals: true,
-    allowOnly: true,
     setupFiles: './test/setup.ts',
     coverage: {
       provider: 'v8',

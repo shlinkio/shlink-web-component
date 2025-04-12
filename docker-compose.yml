@@ -4,7 +4,8 @@ services:
         user: 1000:1000
         build:
             context: .
-        command: /bin/sh -c "cd /shlink-web-component && npm i && npm run dev"
+        working_dir: /shlink-web-component
+        command: /bin/sh -c "npm i && node --run dev"
         volumes:
             - ./:/shlink-web-component
         ports:

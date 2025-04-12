@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.13.2] - 2025-04-12
 ### Added
 * *Nothing*
 
@@ -20,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * Drop support for `@shlinkio/shlink-frontend-kit` 0.7.*
 
 ### Fixed
-* *Nothing*
+* Simplified some tests to be less dependent on complex and brittle snapshots.
 
 
 ## [0.13.1] - 2025-03-26

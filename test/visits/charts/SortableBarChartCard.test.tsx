@@ -1,7 +1,6 @@
 import { range } from '@shlinkio/data-manipulation';
 import { screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
-import { rangeOf } from '../../../src/utils/helpers';
 import { SortableBarChartCard } from '../../../src/visits/charts/SortableBarChartCard';
 import type { Stats } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -40,74 +39,103 @@ describe('<SortableBarChartCard />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('renders stats unchanged when no ordering is set', () => {
-    const { container } = setUp();
+  it.each([
+    'Name',
+    'Amount',
+  ])('renders properly ordered stats when ordering is set', async (orderField) => {
+    const { user, container } = setUp();
+    const checkCoordinates = () => {
+      const spans = Array.from(container.querySelectorAll('tspan'));
+      const fooY = spans.find((span) => span.textContent === 'Foo')?.parentElement?.getAttribute('y');
+      const barY = spans.find((span) => span.textContent === 'Bar')?.parentElement?.getAttribute('y');
 
-    expect(container.firstChild).not.toBeNull();
-    expect(container.firstChild).toMatchSnapshot();
+      return [Number(fooY), Number(barY)];
+    };
+    const orderByField = async () => {
+      await user.click(screen.getByRole('button', { name: 'Order by' }));
+      await user.click(screen.getByRole('menuitem', { name: orderField }));
+    };
+
+    // Order by the field in one direction. Bar should be first
+    await orderByField();
+    const [initialDirectionFooY, initialDirectionBarY] = checkCoordinates();
+    expect(initialDirectionFooY).toBeGreaterThan(initialDirectionBarY);
+
+    // Order by the field in the opposite direction. Foo should be first
+    await orderByField();
+    const [oppositeDirectionFooY, oppositeDirectionBarY] = checkCoordinates();
+    expect(oppositeDirectionFooY).toBeLessThan(oppositeDirectionBarY);
+
+    // Reset order. Foo should be first
+    await orderByField();
+    const [fooYAfterReset, barYAfterReset] = checkCoordinates();
+    expect(fooYAfterReset).toBeLessThan(barYAfterReset);
   });
 
   it.each([
-    ['Name', 1],
-    ['Amount', 1],
-    ['Name', 2],
-    ['Amount', 2],
-  ])('renders properly ordered stats when ordering is set', async (name, clicks) => {
-    const { user } = setUp();
-
-    await user.click(screen.getByRole('button'));
-    await Promise.all(rangeOf(clicks, async () => user.click(screen.getByRole('menuitem', { name }))));
-
-    expect(screen.getByRole('document')).toMatchSnapshot();
-  });
-
-  it.each([
-    [0],
-    [1],
-    [2],
-    [3],
-  ])('renders properly paginated stats when pagination is set', async (itemIndex) => {
+    [0, 5],
+    [1, 3],
+    [2, 2],
+    [3, 0],
+    ['Clear pagination', 0],
+  ])('renders properly paginated stats when pagination is set', async (itemIndex, expectedPages) => {
     const { user } = setUp({
       withPagination: true,
-      extraStats: range(1, 159).reduce<Stats>((accum, value) => {
+      extraStats: range(1, 200).reduce<Stats>((accum, value) => {
         accum[`key_${value}`] = value;
         return accum;
       }, {}),
     });
 
-    await user.click(screen.getAllByRole('button')[1]);
-    await user.click(screen.getAllByRole('menuitem')[itemIndex]);
+    await user.click(screen.getByRole('button', { name: 'Paginate' }));
+    if (typeof itemIndex === 'string') {
+      await user.click(screen.getByRole('menuitem', { name: 'Clear pagination' }));
+    } else {
+      await user.click(screen.getAllByRole('menuitem', { name: /items per page$/ })[itemIndex]);
+    }
 
-    expect(screen.getByRole('document')).toMatchSnapshot();
+    if (expectedPages > 0) {
+      const pagination = screen.getByLabelText('pagination');
+      expect(pagination).toBeInTheDocument();
+      // We add two pages for the next/prev ones
+      expect(pagination.querySelectorAll('li')).toHaveLength(expectedPages + 2);
+    } else {
+      expect(screen.queryByLabelText('pagination')).not.toBeInTheDocument();
+    }
   });
 
-  it('renders highlighted and prev stats when provided', () => {
+  it.each([
+    { withHighlights: true, withPrev: true, expectedRectangles: 3 },
+    { withHighlights: true, withPrev: false, expectedRectangles: 2 },
+    { withHighlights: false, withPrev: true, expectedRectangles: 2 },
+    { withHighlights: false, withPrev: false, expectedRectangles: 1 },
+  ])('renders highlighted and prev stats when provided', ({ withHighlights, withPrev, expectedRectangles }) => {
     const { container } = setUp({
-      highlightedStats: {
+      highlightedStats: withHighlights ? {
         Foo: 25,
         Bar: 40,
-      },
-      prevStats: {
+      } : undefined,
+      prevStats: withPrev ? {
         Foo: 25,
         Bar: 40,
         Baz: 400,
-      },
+      } : undefined,
     });
 
-    expect(container.firstChild).toMatchSnapshot();
+    expect(container.querySelectorAll('.recharts-bar-rectangles')).toHaveLength(expectedRectangles);
   });
 
   it('renders extra header content', () => {
     setUp({
       extra: () => (
         <span>
-          <span className="foo-span">Foo in header</span>
-          <span className="bar-span">Bar in header</span>
+          <span>Foo in header</span>
+          <span>Bar in header</span>
         </span>
       ),
     });
 
-    expect(screen.getByText('Foo in header')).toHaveClass('foo-span');
-    expect(screen.getByText('Bar in header')).toHaveClass('bar-span');
+    expect(screen.getByText('Foo in header')).toBeInTheDocument();
+    expect(screen.getByText('Bar in header')).toBeInTheDocument();
   });
 });

@@ -1,15 +1,14 @@
-import { faClone } from '@fortawesome/free-regular-svg-icons';
-import { faCheck, faFileDownload as downloadIcon } from '@fortawesome/free-solid-svg-icons';
+import { faClone, faImage } from '@fortawesome/free-regular-svg-icons';
+import { faCheck, faFileDownload as downloadIcon, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTimeoutToggle } from '@shlinkio/shlink-frontend-kit';
-import type { FC } from 'react';
+import type { ChangeEvent, FC } from 'react';
 import { useCallback , useRef , useState } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { ColorInput } from '../../utils/components/ColorInput';
 import type { QrRef } from '../../utils/components/QrCode';
 import { QrCode } from '../../utils/components/QrCode';
-import { useFeature } from '../../utils/features';
 import { copyToClipboard } from '../../utils/helpers/clipboard';
 import type { QrCodeFormat, QrDrawType, QrErrorCorrection } from '../../utils/helpers/qrCodes';
 import type { ShortUrlModalProps } from '../data';
@@ -32,8 +31,18 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
   const [color, setColor] = useState('#000000');
   const [bgColor, setBgColor] = useState('#ffffff');
   const [format, setFormat] = useState<QrCodeFormat>('png');
+  const [logo, setLogo] = useState<{ url: string; name: string }>();
 
-  const qrCodeColorsSupported = useFeature('qrCodeColors');
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const onSelectLogo = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setLogo({
+        url: URL.createObjectURL(new Blob([file], { type: file.type })),
+        name: file.name,
+      });
+    }
+  }, []);
 
   const qrCodeRef = useRef<QrRef>(null);
   const downloadQrCode = useCallback(
@@ -46,14 +55,24 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
     return copyToClipboard({ text: uri, onCopy: toggleCopied });
   }, [format, toggleCopied]);
 
+  const resetOptions = useCallback(() => {
+    setSize(300);
+    setMargin(0);
+    setErrorCorrection('L');
+    setColor('#000000');
+    setBgColor('#ffffff');
+    setFormat('png');
+    setLogo(undefined);
+  }, []);
+
   return (
-    <Modal isOpen={isOpen} toggle={toggle} centered size="lg">
+    <Modal isOpen={isOpen} toggle={toggle} centered size="lg" onClosed={resetOptions}>
       <ModalHeader toggle={toggle}>
         QR code for <ExternalLink href={shortUrl}>{shortUrl}</ExternalLink>
       </ModalHeader>
       <ModalBody className="d-flex flex-column-reverse flex-lg-row gap-3">
         <div className="flex-grow-1 d-flex align-items-center justify-content-around qr-code-modal__qr-code">
-          <div className="d-flex flex-column gap-1" data-testid="qr-code-container">
+          <div className="d-flex flex-column gap-1 align-items-center" data-testid="qr-code-container">
             <QrCode
               ref={qrCodeRef}
               data={shortUrl}
@@ -62,6 +81,7 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
               errorCorrection={errorCorrection}
               color={color}
               bgColor={bgColor}
+              logo={logo?.url}
               drawType={qrDrawType}
             />
             <div className="text-center fst-italic">Preview ({size + margin}x{size + margin})</div>
@@ -85,12 +105,40 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
             max={100}
           />
           <QrErrorCorrectionDropdown errorCorrection={errorCorrection} onChange={setErrorCorrection} />
+          <ColorInput name="color" color={color} onChange={setColor} />
+          <ColorInput name="background" color={bgColor} onChange={setBgColor} />
 
-          {qrCodeColorsSupported && (
+          {!logo && (
             <>
-              <ColorInput name="color" color={color} onChange={setColor} />
-              <ColorInput name="background" color={bgColor} onChange={setBgColor} />
+              <Button
+                outline
+                className="d-flex align-items-center gap-1"
+                onClick={() => logoInputRef.current?.click()}
+              >
+                <FontAwesomeIcon icon={faImage} />
+                Select logo
+              </Button>
+              <input
+                ref={logoInputRef}
+                type="file"
+                accept="image/*"
+                aria-hidden
+                tabIndex={-1}
+                className="d-none"
+                onChange={onSelectLogo}
+                data-testid="logo-input"
+              />
             </>
+          )}
+          {logo && (
+            <Button
+              outline
+              className="d-flex align-items-center gap-1"
+              onClick={() => setLogo(undefined)}
+            >
+              <FontAwesomeIcon icon={faXmark} />
+              <div className="text-truncate">Clear logo ({logo.name})</div>
+            </Button>
           )}
 
           <div className="my-auto">

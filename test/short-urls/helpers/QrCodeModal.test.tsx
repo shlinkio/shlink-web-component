@@ -2,27 +2,21 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { QrCodeModal } from '../../../src/short-urls/helpers/QrCodeModal';
-import { FeaturesProvider } from '../../../src/utils/features';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<QrCodeModal />', () => {
   const shortUrl = 'https://s.test/abc123';
-  const setUp = ({ qrCodeColors = false }: { qrCodeColors?: boolean } = {}) => renderWithEvents(
-    <FeaturesProvider value={fromPartial({ qrCodeColors })}>
-      <QrCodeModal
-        isOpen
-        shortUrl={fromPartial({ shortUrl })}
-        toggle={() => {}}
-        qrDrawType="svg" // Render as SVG so that we can test certain functionalities via snapshots
-      />
-    </FeaturesProvider>,
+  const setUp = () => renderWithEvents(
+    <QrCodeModal
+      isOpen
+      shortUrl={fromPartial({ shortUrl })}
+      toggle={() => {}}
+      qrDrawType="svg" // Render as SVG so that we can test certain functionalities via snapshots
+    />,
   );
 
-  it.each([{ qrCodeColors: false }, { qrCodeColors: true }])(
-    'passes a11y checks',
-    ({ qrCodeColors }) => checkAccessibility(setUp({ qrCodeColors })),
-  );
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('shows an external link to the URL in the header', () => {
     setUp();
@@ -61,26 +55,47 @@ describe('<QrCodeModal />', () => {
         fireEvent.change(screen.getByLabelText('background picker'), { target: { value: '#0000ff' } });
       },
     },
+    {
+      // Set custom logo
+      applyChanges: async (user: UserEvent) => {
+        const byteCharacters = atob('iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII');
+        const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
+        const byteArray = new Uint8Array(byteNumbers);
+        const logo = new File([byteArray], 'logo.png', { type: 'image/svg' });
+
+        await user.upload(screen.getByTestId('logo-input'), [logo]);
+      },
+    },
   ])('displays an image with expected configuration', async ({ applyChanges }) => {
-    const { user } = setUp({ qrCodeColors: true });
+    const { user } = setUp();
 
     await applyChanges(user);
     expect(screen.getByTestId('qr-code-container')).toMatchSnapshot();
   });
 
   it.each([
-    { qrCodeColors: false },
-    { qrCodeColors: true },
-  ])('shows color controls only if feature is supported', ({ qrCodeColors }) => {
-    setUp({ qrCodeColors });
+    'logo.png',
+    'some-image.svg',
+    'whatever.jpg',
+  ])('allows logo to be seat and cleared', async (logoName) => {
+    const logo = new File([''], logoName, { type: 'image/svg' });
+    const { user } = setUp();
 
-    if (qrCodeColors) {
-      expect(screen.getByLabelText('color')).toBeInTheDocument();
-      expect(screen.getByLabelText('background')).toBeInTheDocument();
-    } else {
-      expect(screen.queryByLabelText('color')).not.toBeInTheDocument();
-      expect(screen.queryByLabelText('background')).not.toBeInTheDocument();
-    }
+    // At first, we can select a logo
+    expect(screen.getByRole('button', { name: 'Select logo' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /^Clear logo/ })).not.toBeInTheDocument();
+
+    await user.upload(screen.getByTestId('logo-input'), [logo]);
+
+    // Once a logo has been selected, we can clear it
+    expect(screen.queryByRole('button', { name: 'Select logo' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^Clear logo/ })).toHaveTextContent(`Clear logo (${logoName})`);
+
+    await user.click(screen.getByRole('button', { name: /^Clear logo/ }));
+
+    // After clearing previous logo, we can select a new one
+    expect(screen.getByRole('button', { name: 'Select logo' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /^Clear logo/ })).not.toBeInTheDocument();
   });
 
   // FIXME This test needs a real browser

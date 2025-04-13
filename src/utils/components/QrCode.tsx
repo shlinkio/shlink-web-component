@@ -1,6 +1,6 @@
 import QRCodeStyling from 'qr-code-styling';
 import { forwardRef, useCallback , useEffect , useImperativeHandle , useRef } from 'react';
-import type { QrCodeFormat, QrCodeOptions, QrDrawType } from '../helpers/qrCodes';
+import type { QrCodeFormat, QrCodeOptions, QrDrawType, QrErrorCorrection } from '../helpers/qrCodes';
 
 export type QrCodeProps = Omit<QrCodeOptions, 'format'> & {
   data: string;
@@ -12,6 +12,17 @@ export type QrRef = {
   getDataUri: (format: QrCodeFormat) => Promise<string>;
 };
 
+function errorCorrectionToLogoSize(errorCorrection: QrErrorCorrection): number {
+  switch (errorCorrection) {
+    case 'L':
+      return 1;
+    case 'M':
+      return 0.5;
+    default:
+      return 0.3;
+  }
+}
+
 export const QrCode = forwardRef<QrRef, QrCodeProps>(({
   data,
   color = '#000000',
@@ -20,6 +31,7 @@ export const QrCode = forwardRef<QrRef, QrCodeProps>(({
   errorCorrection = 'L',
   size = 300,
   drawType = 'canvas',
+  logo,
 }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const qrCodeRef = useRef(new QRCodeStyling());
@@ -48,7 +60,7 @@ export const QrCode = forwardRef<QrRef, QrCodeProps>(({
     });
   }), []);
 
-  // Expose the download method via provided ref
+  // Expose the download and getDataUri methods via provided ref
   useImperativeHandle(ref, () => ({ download, getDataUri }), [download, getDataUri]);
 
   useEffect(() => {
@@ -66,8 +78,13 @@ export const QrCode = forwardRef<QrRef, QrCodeProps>(({
       dotsOptions: { color },
       backgroundOptions: { color: bgColor },
       qrOptions: { errorCorrectionLevel: errorCorrection },
+      imageOptions: {
+        margin: 5,
+        imageSize: errorCorrectionToLogoSize(errorCorrection),
+      },
+      image: logo,
     });
-  }, [bgColor, color, data, drawType, errorCorrection, margin, size]);
+  }, [bgColor, color, data, drawType, errorCorrection, logo, margin, size]);
 
   return <div ref={containerRef} />;
 });

@@ -15,4 +15,5 @@ export type QrCodeOptions = {
   errorCorrection?: QrErrorCorrection;
   color?: string;
   bgColor?: string;
+  logo?: string;
 };

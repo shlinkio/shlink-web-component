@@ -26,7 +26,7 @@ export const QrCodeColorSettings: FC<QrCodeColorSettingsProps> = ({ onChange, cl
           onChange={(e) => onChange({ ...qrCodesSettings, color: e.target.value })}
         />
         <small className="text-muted">
-          QR codes will initially use <b>{color}</b> color.
+          QR codes will initially use <b data-testid="color">{color}</b> color.
         </small>
       </div>
       <div className="d-flex flex-column gap-1">
@@ -38,7 +38,7 @@ export const QrCodeColorSettings: FC<QrCodeColorSettingsProps> = ({ onChange, cl
           onChange={(e) => onChange({ ...qrCodesSettings, bgColor: e.target.value })}
         />
         <small className="text-muted">
-          QR codes will initially use <b>{bgColor}</b> background color.
+          QR codes will initially use <b data-testid="bg-color">{bgColor}</b> background color.
         </small>
       </div>
     </SimpleCard>

@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { QrCodeSettings } from '../../../../src/settings';
 import { defaultQrCodeSettings , SettingsProvider } from '../../../../src/settings';

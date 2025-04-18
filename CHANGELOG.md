@@ -4,9 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.13.3]
 ### Added
 * [#641](https://github.com/shlinkio/shlink-web-component/issues/641) Allow custom logos to be selected for the short URL QR code.
+* [#640](https://github.com/shlinkio/shlink-web-component/issues/640) Allow default QR code settings to be handled via app settings.
 
 ### Changed
 * *Nothing*

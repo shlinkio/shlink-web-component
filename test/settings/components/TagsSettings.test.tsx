@@ -10,7 +10,7 @@ describe('<TagsSettings />', () => {
   const setTagsSettings = vi.fn();
   const setUp = (tags?: TagsSettingsOptions) => renderWithEvents(
     <SettingsProvider value={fromPartial({ tags })}>
-      <TagsSettings updateTagsSettings={setTagsSettings} />
+      <TagsSettings onChange={setTagsSettings} />
     </SettingsProvider>,
   );
 

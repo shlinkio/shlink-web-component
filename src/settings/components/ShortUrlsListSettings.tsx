@@ -5,7 +5,7 @@ import { useSetting } from '..';
 import { FormText } from './FormText';
 
 export type ShortUrlsListSettingsProps = {
-  updateShortUrlsListSettings: (settings: ShortUrlsSettings) => void;
+  onChange: (settings: ShortUrlsSettings) => void;
   defaultOrdering: NonNullable<ShortUrlsSettings['defaultOrdering']>;
 };
 
@@ -17,9 +17,7 @@ const SHORT_URLS_ORDERABLE_FIELDS = {
   visits: 'Visits',
 };
 
-export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = (
-  { updateShortUrlsListSettings, defaultOrdering },
-) => {
+export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = ({ onChange, defaultOrdering }) => {
   const shortUrlsList = useSetting('shortUrlsList');
   const confirmDeletions = shortUrlsList?.confirmDeletions ?? true;
 
@@ -27,7 +25,7 @@ export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = (
     <SimpleCard title="Short URLs list" className="h-100" bodyClassName="d-flex flex-column gap-3">
       <ToggleSwitch
         checked={confirmDeletions}
-        onChange={(confirmDeletions) => updateShortUrlsListSettings({ ...shortUrlsList, confirmDeletions })}
+        onChange={(confirmDeletions) => onChange({ ...shortUrlsList, confirmDeletions })}
       >
         Request confirmation before deleting a short URL.
         <FormText>
@@ -38,7 +36,7 @@ export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = (
         <OrderingDropdown
           items={SHORT_URLS_ORDERABLE_FIELDS}
           order={shortUrlsList?.defaultOrdering ?? defaultOrdering}
-          onChange={(field, dir) => updateShortUrlsListSettings({ defaultOrdering: { field, dir } })}
+          onChange={(field, dir) => onChange({ defaultOrdering: { field, dir } })}
         />
       </LabeledFormGroup>
     </SimpleCard>

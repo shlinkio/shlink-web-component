@@ -1,6 +1,5 @@
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import type { Theme } from '@shlinkio/shlink-frontend-kit';
 import { getSystemPreferredTheme, SimpleCard, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useMemo } from 'react';
@@ -8,13 +7,13 @@ import { useSetting } from '..';
 import type { UiSettings } from '../types';
 
 interface UserInterfaceProps {
-  updateUiSettings: (settings: UiSettings) => void;
+  onChange: (settings: UiSettings) => void;
 
   /* Test seam */
   _matchMedia?: typeof window.matchMedia;
 }
 
-export const UserInterfaceSettings: FC<UserInterfaceProps> = ({ updateUiSettings, _matchMedia }) => {
+export const UserInterfaceSettings: FC<UserInterfaceProps> = ({ onChange, _matchMedia }) => {
   const ui = useSetting('ui');
   const currentTheme = useMemo(() => ui?.theme ?? getSystemPreferredTheme(_matchMedia), [ui?.theme, _matchMedia]);
 
@@ -22,10 +21,7 @@ export const UserInterfaceSettings: FC<UserInterfaceProps> = ({ updateUiSettings
     <SimpleCard title="User interface" className="h-100" bodyClassName="d-flex justify-content-between align-items-center">
       <ToggleSwitch
         checked={currentTheme === 'dark'}
-        onChange={(useDarkTheme) => {
-          const theme: Theme = useDarkTheme ? 'dark' : 'light';
-          updateUiSettings({ ...ui, theme });
-        }}
+        onChange={(useDarkTheme) => onChange({ ...ui, theme: useDarkTheme ? 'dark' : 'light' })}
       >
         Use dark theme.
       </ToggleSwitch>

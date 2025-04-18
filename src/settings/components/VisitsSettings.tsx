@@ -8,19 +8,19 @@ import { DateIntervalSelector } from './DateIntervalSelector';
 import { FormText } from './FormText';
 
 export type VisitsProps = {
-  updateVisitsSettings: (settings: VisitsSettingsConfig) => void;
+  onChange: (settings: VisitsSettingsConfig) => void;
 };
 
 const currentDefaultInterval = (visitsSettings?: VisitsSettingsConfig): DateInterval =>
   visitsSettings?.defaultInterval ?? 'last30Days';
 
-export const VisitsSettings: FC<VisitsProps> = ({ updateVisitsSettings }) => {
+export const VisitsSettings: FC<VisitsProps> = ({ onChange }) => {
   const visitsSettings = useSetting('visits');
   const updateSettings = useCallback(
-    ({ defaultInterval, ...rest }: Partial<VisitsSettingsConfig>) => updateVisitsSettings(
+    ({ defaultInterval, ...rest }: Partial<VisitsSettingsConfig>) => onChange(
       { defaultInterval: defaultInterval ?? currentDefaultInterval(visitsSettings), ...rest },
     ),
-    [updateVisitsSettings, visitsSettings],
+    [onChange, visitsSettings],
   );
 
   return (

@@ -4,7 +4,7 @@ import type { TagsSettings as TagsSettingsOptions } from '..';
 import { useSetting } from '..';
 
 export type TagsProps = {
-  updateTagsSettings: (settings: TagsSettingsOptions) => void;
+  onChange: (settings: TagsSettingsOptions) => void;
 };
 
 const TAGS_ORDERABLE_FIELDS = {
@@ -13,7 +13,7 @@ const TAGS_ORDERABLE_FIELDS = {
   visits: 'Visits',
 };
 
-export const TagsSettings: FC<TagsProps> = ({ updateTagsSettings }) => {
+export const TagsSettings: FC<TagsProps> = ({ onChange }) => {
   const tags = useSetting('tags', {});
 
   return (
@@ -22,7 +22,7 @@ export const TagsSettings: FC<TagsProps> = ({ updateTagsSettings }) => {
         <OrderingDropdown
           items={TAGS_ORDERABLE_FIELDS}
           order={tags.defaultOrdering ?? {}}
-          onChange={(field, dir) => updateTagsSettings({ ...tags, defaultOrdering: { field, dir } })}
+          onChange={(field, dir) => onChange({ ...tags, defaultOrdering: { field, dir } })}
         />
       </LabeledFormGroup>
     </SimpleCard>

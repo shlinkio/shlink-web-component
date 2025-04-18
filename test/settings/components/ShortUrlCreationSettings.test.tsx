@@ -10,7 +10,7 @@ describe('<ShortUrlCreationSettings />', () => {
   const setShortUrlCreationSettings = vi.fn();
   const setUp = (shortUrlCreation?: ShortUrlsSettings) => renderWithEvents(
     <SettingsProvider value={fromPartial({ shortUrlCreation })}>
-      <ShortUrlCreationSettings updateShortUrlCreationSettings={setShortUrlCreationSettings} />
+      <ShortUrlCreationSettings onChange={setShortUrlCreationSettings} />
     </SettingsProvider>,
   );
 

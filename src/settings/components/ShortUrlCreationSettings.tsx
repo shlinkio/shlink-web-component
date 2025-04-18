@@ -8,7 +8,7 @@ import { FormText } from './FormText';
 type TagFilteringMode = NonNullable<ShortUrlsSettings['tagFilteringMode']>;
 
 interface ShortUrlCreationProps {
-  updateShortUrlCreationSettings: (settings: ShortUrlsSettings) => void;
+  onChange: (settings: ShortUrlsSettings) => void;
 }
 
 const tagFilteringModeText = (tagFilteringMode: TagFilteringMode | undefined): string =>
@@ -19,9 +19,9 @@ const tagFilteringModeHint = (tagFilteringMode: TagFilteringMode | undefined): R
     : <>The list of suggested tags will contain those <b>starting with</b> provided input.</>
 );
 
-export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ updateShortUrlCreationSettings }) => {
+export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ onChange }) => {
   const shortUrlCreation = useSetting('shortUrlCreation', { validateUrls: false });
-  const changeTagsFilteringMode = (tagFilteringMode: TagFilteringMode) => () => updateShortUrlCreationSettings(
+  const changeTagsFilteringMode = (tagFilteringMode: TagFilteringMode) => () => onChange(
     { ...shortUrlCreation ?? { validateUrls: false }, tagFilteringMode },
   );
 
@@ -29,7 +29,7 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ updateShor
     <SimpleCard title="Short URLs form" className="h-100" bodyClassName="d-flex flex-column gap-3">
       <ToggleSwitch
         checked={shortUrlCreation.validateUrls ?? false}
-        onChange={(validateUrls) => updateShortUrlCreationSettings({ ...shortUrlCreation, validateUrls })}
+        onChange={(validateUrls) => onChange({ ...shortUrlCreation, validateUrls })}
       >
         Request validation on long URLs when creating new short URLs.{' '}
         <b>This option is ignored by Shlink {'>='}4.0.0</b>
@@ -40,7 +40,7 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ updateShor
       </ToggleSwitch>
       <ToggleSwitch
         checked={shortUrlCreation.forwardQuery ?? true}
-        onChange={(forwardQuery) => updateShortUrlCreationSettings({ ...shortUrlCreation, forwardQuery })}
+        onChange={(forwardQuery) => onChange({ ...shortUrlCreation, forwardQuery })}
       >
         Make all new short URLs forward their query params to the long URL.
         <FormText>

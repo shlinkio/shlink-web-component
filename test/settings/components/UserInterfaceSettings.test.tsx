@@ -11,7 +11,7 @@ describe('<UserInterfaceSettings />', () => {
   const setUp = (ui?: UiSettings, defaultDarkTheme = false) => renderWithEvents(
     <SettingsProvider value={fromPartial({ ui })}>
       <UserInterfaceSettings
-        updateUiSettings={setUiSettings}
+        onChange={setUiSettings}
         _matchMedia={vi.fn().mockReturnValue({ matches: defaultDarkTheme })}
       />
     </SettingsProvider>,

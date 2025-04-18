@@ -1,13 +1,14 @@
 import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { DropdownItem } from 'reactstrap';
-import type { QrCodeFormat } from '../../../utils/helpers/qrCodes';
-import { qrFormats } from '../../../utils/helpers/qrCodes';
+import type { QrCodeFormat } from '../../../settings';
 
-interface QrFormatDropdownProps {
+export const qrFormats: QrCodeFormat[] = ['png', 'svg', 'webp', 'jpeg'];
+
+export type QrFormatDropdownProps = {
   format: QrCodeFormat;
   onChange: (format: QrCodeFormat) => void;
-}
+};
 
 export const QrFormatDropdown: FC<QrFormatDropdownProps> = ({ format, onChange }) => (
   <DropdownBtn text={`Format (${format})`} dropdownClassName="w-100">

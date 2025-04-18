@@ -13,7 +13,7 @@ describe('<RealTimeUpdatesSettings />', () => {
     <SettingsProvider value={fromPartial({ realTimeUpdates })}>
       <RealTimeUpdatesSettings
         toggleRealTimeUpdates={toggleRealTimeUpdates}
-        setRealTimeUpdatesInterval={setRealTimeUpdatesInterval}
+        onIntervalChange={setRealTimeUpdatesInterval}
       />
     </SettingsProvider>,
   );

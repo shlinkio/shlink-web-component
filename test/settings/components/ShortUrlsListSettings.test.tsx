@@ -11,7 +11,7 @@ describe('<ShortUrlsListSettings />', () => {
   const setUp = (shortUrlsList?: ShortUrlsSettings) => renderWithEvents(
     <SettingsProvider value={fromPartial({ shortUrlsList })}>
       <ShortUrlsListSettings
-        updateShortUrlsListSettings={setSettings}
+        onChange={setSettings}
         defaultOrdering={{ field: 'dateCreated', dir: 'DESC' }}
       />
     </SettingsProvider>,

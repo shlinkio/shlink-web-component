@@ -6,11 +6,13 @@ import type { ChangeEvent, FC } from 'react';
 import { useCallback , useRef , useState } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import type { QrCodeSettings } from '../../settings';
+import { defaultQrCodeSettings, useSetting } from '../../settings';
 import { ColorInput } from '../../utils/components/ColorInput';
 import type { QrRef } from '../../utils/components/QrCode';
 import { QrCode } from '../../utils/components/QrCode';
 import { copyToClipboard } from '../../utils/helpers/clipboard';
-import type { QrCodeFormat, QrDrawType, QrErrorCorrection } from '../../utils/helpers/qrCodes';
+import type { QrDrawType } from '../../utils/helpers/qrCodes';
 import type { ShortUrlModalProps } from '../data';
 import { QrDimensionControl } from './qr-codes/QrDimensionControl';
 import { QrErrorCorrectionDropdown } from './qr-codes/QrErrorCorrectionDropdown';
@@ -24,16 +26,15 @@ export type QrCodeModalProps = ShortUrlModalProps & {
 export const QrCodeModal: FC<QrCodeModalProps> = (
   { shortUrl: { shortUrl, shortCode }, toggle, isOpen, qrDrawType },
 ) => {
-  // TODO Allow customizing defaults via settings
-  const [size, setSize] = useState(300);
-  const [margin, setMargin] = useState(0);
-  const [errorCorrection, setErrorCorrection] = useState<QrErrorCorrection>('L');
-  const [color, setColor] = useState('#000000');
-  const [bgColor, setBgColor] = useState('#ffffff');
-  const [format, setFormat] = useState<QrCodeFormat>('png');
-  const [logo, setLogo] = useState<{ url: string; name: string }>();
+  const initialQrSettings = useSetting('qrCodes', defaultQrCodeSettings);
+  const [{ size, margin, color, bgColor, errorCorrection, format }, setQrCodeOptions] = useState(initialQrSettings);
+  const setQrOption = useCallback(
+    (newOptions: Partial<QrCodeSettings>) => setQrCodeOptions((prev) => ({ ...prev, ...newOptions })),
+    [],
+  );
 
   const logoInputRef = useRef<HTMLInputElement>(null);
+  const [logo, setLogo] = useState<{ url: string; name: string }>();
   const onSelectLogo = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -56,14 +57,9 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
   }, [format, toggleCopied]);
 
   const resetOptions = useCallback(() => {
-    setSize(300);
-    setMargin(0);
-    setErrorCorrection('L');
-    setColor('#000000');
-    setBgColor('#ffffff');
-    setFormat('png');
+    setQrCodeOptions(initialQrSettings);
     setLogo(undefined);
-  }, []);
+  }, [initialQrSettings]);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} centered size="lg" onClosed={resetOptions}>
@@ -91,7 +87,7 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
           <QrDimensionControl
             name="size"
             value={size}
-            onChange={setSize}
+            onChange={(size) => setQrOption({ size })}
             step={10}
             min={50}
             max={1000}
@@ -99,14 +95,17 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
           <QrDimensionControl
             name="margin"
             value={margin}
-            onChange={setMargin}
+            onChange={(margin) => setQrOption({ margin })}
             step={1}
             min={0}
             max={100}
           />
-          <QrErrorCorrectionDropdown errorCorrection={errorCorrection} onChange={setErrorCorrection} />
-          <ColorInput name="color" color={color} onChange={setColor} />
-          <ColorInput name="background" color={bgColor} onChange={setBgColor} />
+          <QrErrorCorrectionDropdown
+            errorCorrection={errorCorrection}
+            onChange={(errorCorrection) => setQrOption({ errorCorrection })}
+          />
+          <ColorInput name="color" color={color} onChange={(color) => setQrOption({ color })} />
+          <ColorInput name="background" color={bgColor} onChange={(bgColor) => setQrOption({ bgColor })} />
 
           {!logo && (
             <>
@@ -146,7 +145,7 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
           </div>
 
           <div className="d-flex flex-column gap-2">
-            <QrFormatDropdown format={format} onChange={setFormat} />
+            <QrFormatDropdown format={format} onChange={(format) => setQrOption({ format })} />
             <div className="d-flex align-items-center gap-2">
               <Button outline color="primary" onClick={copy} aria-label="Copy data URI" title="Copy data URI">
                 <FontAwesomeIcon icon={copied ? faCheck : faClone} fixedWidth />

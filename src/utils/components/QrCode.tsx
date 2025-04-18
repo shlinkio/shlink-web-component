@@ -1,10 +1,12 @@
 import QRCodeStyling from 'qr-code-styling';
 import { forwardRef, useCallback , useEffect , useImperativeHandle , useRef } from 'react';
-import type { QrCodeFormat, QrCodeOptions, QrDrawType, QrErrorCorrection } from '../helpers/qrCodes';
+import type { QrCodeFormat, QrCodeSettings, QrErrorCorrection } from '../../settings';
+import type { QrDrawType } from '../helpers/qrCodes';
 
-export type QrCodeProps = Omit<QrCodeOptions, 'format'> & {
+export type QrCodeProps = Omit<QrCodeSettings, 'format' | 'logo'> & {
   data: string;
   drawType?: QrDrawType;
+  logo?: string;
 };
 
 export type QrRef = {

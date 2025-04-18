@@ -1,19 +1,6 @@
-import type { DrawType, ErrorCorrectionLevel, FileExtension } from 'qr-code-styling';
-
-export type QrCodeFormat = FileExtension;
+import type { DrawType } from 'qr-code-styling';
+import type { QrCodeFormat } from '../../settings';
 
 export const qrFormats: QrCodeFormat[] = ['png', 'svg', 'webp', 'jpeg'];
 
-export type QrErrorCorrection = ErrorCorrectionLevel;
-
 export type QrDrawType = DrawType;
-
-export type QrCodeOptions = {
-  size?: number;
-  format?: QrCodeFormat;
-  margin?: number;
-  errorCorrection?: QrErrorCorrection;
-  color?: string;
-  bgColor?: string;
-  logo?: string;
-};

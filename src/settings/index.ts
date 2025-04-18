@@ -1,5 +1,16 @@
 import { createContext, useContext } from 'react';
-import type { Settings } from './types';
+import type { QrCodeSettings, Settings } from './types';
+
+export const defaultQrCodeSettings: QrCodeSettings = {
+  size: 300,
+  margin: 0,
+  color: '#000000',
+  bgColor: '#ffffff',
+  errorCorrection: 'L',
+  format: 'png',
+} as const;
+
+Object.freeze(defaultQrCodeSettings);
 
 const defaultSettings: Settings = {
   realTimeUpdates: {
@@ -17,6 +28,7 @@ const defaultSettings: Settings = {
       dir: 'DESC',
     },
   },
+  qrCodes: defaultQrCodeSettings,
 };
 
 const SettingsContext = createContext(defaultSettings);

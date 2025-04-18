@@ -1,7 +1,7 @@
 import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { DropdownItem } from 'reactstrap';
-import type { QrErrorCorrection } from '../../../utils/helpers/qrCodes';
+import type { QrErrorCorrection } from '../../../settings';
 
 interface QrErrorCorrectionDropdownProps {
   errorCorrection: QrErrorCorrection;

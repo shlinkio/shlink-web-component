@@ -10,7 +10,7 @@ describe('<VisitsSettings />', () => {
   const setVisitsSettings = vi.fn();
   const setUp = (settings: Partial<Settings> = {}) => renderWithEvents(
     <SettingsProvider value={fromPartial(settings)}>
-      <VisitsSettings updateVisitsSettings={setVisitsSettings} />
+      <VisitsSettings onChange={setVisitsSettings} />
     </SettingsProvider>,
   );
 

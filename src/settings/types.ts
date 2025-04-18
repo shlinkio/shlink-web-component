@@ -41,6 +41,20 @@ export type UiSettings = {
   theme: Theme;
 };
 
+export type QrCodeFormat = 'png' | 'svg' | 'jpeg' | 'webp';
+
+export type QrErrorCorrection = 'L' | 'M' | 'Q' | 'H';
+
+export type QrCodeSettings = {
+  size: number;
+  format: QrCodeFormat;
+  margin: number;
+  errorCorrection: QrErrorCorrection;
+  color: string;
+  bgColor: string;
+  logo?: { url: string; name: string };
+};
+
 export type Settings = {
   realTimeUpdates?: RealTimeUpdatesSettings;
   shortUrlCreation?: ShortUrlCreationSettings;
@@ -48,4 +62,5 @@ export type Settings = {
   visits?: VisitsSettings;
   tags?: TagsSettings;
   ui?: UiSettings;
+  qrCodes?: QrCodeSettings;
 };

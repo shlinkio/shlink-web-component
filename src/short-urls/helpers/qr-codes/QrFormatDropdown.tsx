@@ -1,7 +1,7 @@
 import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { DropdownItem } from 'reactstrap';
-import type { QrCodeFormat } from '../../../utils/helpers/qrCodes';
+import type { QrCodeFormat } from '../../../settings';
 import { qrFormats } from '../../../utils/helpers/qrCodes';
 
 interface QrFormatDropdownProps {

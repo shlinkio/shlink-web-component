@@ -7,11 +7,11 @@ import { FormText } from './FormText';
 
 export type RealTimeUpdatesProps = {
   toggleRealTimeUpdates: (enabled: boolean) => void;
-  setRealTimeUpdatesInterval: (interval: number) => void;
+  onIntervalChange: (interval: number) => void;
 };
 
 export const RealTimeUpdatesSettings = (
-  { toggleRealTimeUpdates, setRealTimeUpdatesInterval }: RealTimeUpdatesProps,
+  { toggleRealTimeUpdates, onIntervalChange }: RealTimeUpdatesProps,
 ) => {
   const { enabled, interval } = useSetting('realTimeUpdates', { enabled: true });
   const inputId = useId();
@@ -39,7 +39,7 @@ export const RealTimeUpdatesSettings = (
           disabled={!enabled}
           value={`${interval ?? ''}`}
           id={inputId}
-          onChange={({ target }) => setRealTimeUpdatesInterval(Number(target.value))}
+          onChange={({ target }) => onIntervalChange(Number(target.value))}
         />
         {enabled && (
           <FormText>

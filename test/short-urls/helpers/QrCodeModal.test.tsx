@@ -1,6 +1,7 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
+import { SettingsProvider } from '../../../src/settings';
 import { QrCodeModal } from '../../../src/short-urls/helpers/QrCodeModal';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
@@ -8,12 +9,14 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<QrCodeModal />', () => {
   const shortUrl = 'https://s.test/abc123';
   const setUp = () => renderWithEvents(
-    <QrCodeModal
-      isOpen
-      shortUrl={fromPartial({ shortUrl })}
-      toggle={() => {}}
-      qrDrawType="svg" // Render as SVG so that we can test certain functionalities via snapshots
-    />,
+    <SettingsProvider value={{}}>
+      <QrCodeModal
+        isOpen
+        shortUrl={fromPartial({ shortUrl })}
+        toggle={() => {}}
+        qrDrawType="svg" // Render as SVG so that we can test certain functionalities via snapshots
+      />
+    </SettingsProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

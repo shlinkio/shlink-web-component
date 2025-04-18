@@ -22,7 +22,7 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(
         icon={colorIcon}
         className="position-absolute top-50 start-50 translate-middle"
         // Text color should be dynamically calculated to keep contrast
-        style={{ color: isLightColor(color.substring(1)) ? '#000' : 'fff' }}
+        style={{ color: isLightColor(color.substring(1)) ? '#000' : '#fff' }}
       />
       <Input
         className="form-control-color opacity-0"

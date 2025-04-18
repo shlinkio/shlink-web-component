@@ -29,7 +29,7 @@ export const QrCodeSizeSettings: FC<QrCodeSizeSettingsProps> = ({ onChange, clas
           onChange={(e) => onChange({ ...qrCodesSettings, size: Number(e.target.value) })}
         />
         <small className="text-muted d-block">
-          QR codes will be initially generated with <b>{size}x{size}px</b>.
+          QR codes will be initially generated with <b data-testid="size">{size}x{size}px</b>.
         </small>
       </div>
       <div className="d-flex flex-column gap-1">
@@ -44,7 +44,7 @@ export const QrCodeSizeSettings: FC<QrCodeSizeSettingsProps> = ({ onChange, clas
           onChange={(e) => onChange({ ...qrCodesSettings, margin: Number(e.target.value) })}
         />
         <small className="text-muted d-block">
-          QR codes will be initially generated with a <b>{margin}px</b> margin.
+          QR codes will be initially generated with a <b data-testid="margin">{margin}px</b> margin.
         </small>
       </div>
     </SimpleCard>

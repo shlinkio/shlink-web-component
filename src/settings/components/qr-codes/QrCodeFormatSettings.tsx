@@ -21,7 +21,7 @@ export const QrCodeFormatSettings: FC<QrCodeFormatSettingsProps> = ({ onChange }
           onChange={(format) => onChange({ ...qrCodesSettings, format })}
         />
         <small className="text-muted">
-          When downloading a QR code, it will use <b>{format}</b> format by default.
+          When downloading a QR code, it will use <b data-testid="format">{format}</b> format by default.
         </small>
       </div>
       <div className="d-flex flex-column gap-1">
@@ -30,7 +30,7 @@ export const QrCodeFormatSettings: FC<QrCodeFormatSettingsProps> = ({ onChange }
           onChange={(errorCorrection) => onChange({ ...qrCodesSettings, errorCorrection })}
         />
         <small className="text-muted">
-          QR codes will initially have a <b>{errorCorrection}</b> error correction.
+          QR codes will initially have a <b data-testid="error-correction">{errorCorrection}</b> error correction.
         </small>
       </div>
     </SimpleCard>

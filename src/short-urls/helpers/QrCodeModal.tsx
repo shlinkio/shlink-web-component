@@ -2,6 +2,7 @@ import { faClone, faImage } from '@fortawesome/free-regular-svg-icons';
 import { faCheck, faFileDownload as downloadIcon, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTimeoutToggle } from '@shlinkio/shlink-frontend-kit';
+import type { DrawType } from 'qr-code-styling';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback , useRef , useState } from 'react';
 import { ExternalLink } from 'react-external-link';
@@ -12,7 +13,6 @@ import { ColorInput } from '../../utils/components/ColorInput';
 import type { QrRef } from '../../utils/components/QrCode';
 import { QrCode } from '../../utils/components/QrCode';
 import { copyToClipboard } from '../../utils/helpers/clipboard';
-import type { QrDrawType } from '../../utils/helpers/qrCodes';
 import type { ShortUrlModalProps } from '../data';
 import { QrDimensionControl } from './qr-codes/QrDimensionControl';
 import { QrErrorCorrectionDropdown } from './qr-codes/QrErrorCorrectionDropdown';
@@ -20,7 +20,7 @@ import { QrFormatDropdown } from './qr-codes/QrFormatDropdown';
 import './QrCodeModal.scss';
 
 export type QrCodeModalProps = ShortUrlModalProps & {
-  qrDrawType?: QrDrawType;
+  qrDrawType?: DrawType;
 };
 
 export const QrCodeModal: FC<QrCodeModalProps> = (

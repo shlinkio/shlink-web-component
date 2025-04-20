@@ -5,7 +5,7 @@ import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
 import { ColorPicker } from '../../utils/components/ColorPicker';
-import { handleEventPreventingDefault } from '../../utils/helpers';
+import { usePreventDefault } from '../../utils/helpers';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import type { TagModalProps } from '../data';
 import type { EditTag, TagEdition } from '../reducers/tagEdit';
@@ -27,12 +27,10 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
   const [newTagName, setNewTagName] = useState(tag);
   const [color, setColor] = useState(colorGenerator.getColorForKey(tag));
   const { editing, error, edited, errorData } = tagEdit;
-  const saveTag = handleEventPreventingDefault(
-    async () => {
-      await editTag({ oldName: tag, newName: newTagName, color });
-      toggle();
-    },
-  );
+  const saveTag = usePreventDefault(async () => {
+    await editTag({ oldName: tag, newName: newTagName, color });
+    toggle();
+  });
   const onClosed = useCallback(
     () => edited && tagEdited({ oldName: tag, newName: newTagName, color }),
     [color, edited, newTagName, tag, tagEdited],

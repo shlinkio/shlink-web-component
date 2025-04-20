@@ -78,7 +78,6 @@ const TagsSelector: FCWithDeps<TagsSelectorProps, TagsSelectorDeps> = (
       selected={selectedTags.map(toTagObject)}
       suggestions={tags.filter((tag) => !selectedTags.includes(tag)).map(toTagObject)}
       renderTag={buildTagRenderer(colorGenerator)}
-      // eslint-disable-next-line react-compiler/react-compiler
       renderOption={buildOptionRenderer(colorGenerator, apiRef)}
       activateFirstOption
       allowNew={!immutable}

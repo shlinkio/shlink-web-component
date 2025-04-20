@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import type { ShlinkDomain } from '../../api-contract';
 import { InfoTooltip } from '../../utils/components/InfoTooltip';
-import { handleEventPreventingDefault, nonEmptyStringOrNull } from '../../utils/helpers';
+import { nonEmptyStringOrNull, usePreventDefault } from '../../utils/helpers';
 import type { EditDomainRedirects } from '../reducers/domainRedirects';
 
 interface EditDomainRedirectsModalProps {
@@ -33,7 +33,7 @@ export const EditDomainRedirectsModal: FC<EditDomainRedirectsModalProps> = (
   const [invalidShortUrlRedirect, setInvalidShortUrlRedirect] = useState(
     domain.redirects?.invalidShortUrlRedirect ?? '',
   );
-  const handleSubmit = handleEventPreventingDefault(async () => editDomainRedirects({
+  const handleSubmit = usePreventDefault(() => editDomainRedirects({
     domain: domain.domain,
     redirects: {
       baseUrlRedirect: nonEmptyStringOrNull(baseUrlRedirect),

@@ -1,12 +1,17 @@
 import { range } from '@shlinkio/data-manipulation';
 import type { SyntheticEvent } from 'react';
+import { useCallback } from 'react';
 
 export type OptionalString = string | null | undefined;
 
-export const handleEventPreventingDefault = <T>(handler: () => T) => (e: SyntheticEvent) => {
-  e.preventDefault();
-  handler();
-};
+/**
+ * Wraps an event handler so that it calls e.preventDefault() before invoking the event handler
+ */
+export const usePreventDefault = <Event extends SyntheticEvent = SyntheticEvent>(handler: (e: Event) => void) =>
+  useCallback((e: Event) => {
+    e.preventDefault();
+    handler(e);
+  }, [handler]);
 
 export const rangeOf = <T>(size: number, mappingFn: (value: number) => T, startAt = 1): T[] =>
   range(startAt, size + 1).map(mappingFn);

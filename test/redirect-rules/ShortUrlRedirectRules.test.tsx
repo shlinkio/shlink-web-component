@@ -44,9 +44,7 @@ describe('<ShortUrlRedirectRules />', () => {
     </MemoryRouter>,
   );
 
-  // FIXME Enable again once formkit/drag-and-drop allows customizing node roles
-  //       See https://github.com/formkit/drag-and-drop/issues/120
-  it.skip('passes a11y checks', () => checkAccessibility(setUp()));
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('loads rules and details when loaded', () => {
     setUp();

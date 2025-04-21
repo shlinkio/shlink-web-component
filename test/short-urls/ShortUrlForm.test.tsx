@@ -25,7 +25,6 @@ describe('<ShortUrlForm />', () => {
     { withDeviceLongUrls = false, withUrlValidation = true, basicMode, title, isCreation = true }: SetUpOptions = {},
   ) => {
     const initialState: ShlinkCreateShortUrlData = {
-      validateUrl: true,
       findIfExists: false,
       title,
       longUrl: '',
@@ -52,7 +51,7 @@ describe('<ShortUrlForm />', () => {
     );
   };
 
-  it('passes a11y checks', () => checkAccessibility(setUp({ withDeviceLongUrls: true })));
+  it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it.each([
     [
@@ -103,7 +102,6 @@ describe('<ShortUrlForm />', () => {
         validUntil: formatISO(new Date('2017-01-06 08:33')),
         maxVisits: 20,
         findIfExists: false,
-        validateUrl: true,
         domain: undefined,
         shortCodeLength: undefined,
         customSlug: undefined,

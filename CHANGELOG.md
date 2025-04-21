@@ -4,7 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [0.13.3]
+## [Unreleased]
+### Added
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* [#639](https://github.com/shlinkio/shlink-web-component/issues/639) Fix contrast ration issues reported by axe in a11y tests.
+
+
+## [0.13.3] - 2025-04-20
 ### Added
 * [#641](https://github.com/shlinkio/shlink-web-component/issues/641) Allow custom logos to be selected for the short URL QR code.
 * [#640](https://github.com/shlinkio/shlink-web-component/issues/640) Allow default QR code settings to be handled via app settings.

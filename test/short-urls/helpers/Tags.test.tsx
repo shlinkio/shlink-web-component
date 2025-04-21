@@ -6,7 +6,10 @@ import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerato
 describe('<Tags />', () => {
   const setUp = (tags: string[]) => render(<Tags tags={tags} colorGenerator={colorGeneratorMock} />);
 
-  it('passes a11y checks', () => checkAccessibility(setUp(['foo', 'bar', 'baz'])));
+  it.each([
+    { tags: [] },
+    { tags: ['foo', 'bar', 'baz'] },
+  ])('passes a11y checks', ({ tags }) => checkAccessibility(setUp(tags)));
 
   it('returns no tags when the list is empty', () => {
     setUp([]);

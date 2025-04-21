@@ -1,9 +1,10 @@
+@use 'sass:color';
 @use '../../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
 
 .domains-dropdown__toggle-btn.domains-dropdown__toggle-btn,
 .domains-dropdown__toggle-btn.domains-dropdown__toggle-btn:hover,
 .domains-dropdown__toggle-btn.domains-dropdown__toggle-btn:active {
-  color: base.$textPlaceholder !important;
+  color: color.adjust(base.$textPlaceholder, $lightness: -3%, $space: hsl) !important;
 }
 
 .domains-dropdown__toggle-btn--active.domains-dropdown__toggle-btn--active,

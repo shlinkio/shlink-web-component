@@ -1,6 +1,7 @@
 import { faArrowDown, faArrowUp, faGripVertical, faPencilAlt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
+import { useToggle } from '@shlinkio/shlink-frontend-kit';
+import { SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { ExternalLink } from 'react-external-link';
@@ -20,7 +21,7 @@ export type RedirectRuleCardProps = {
 export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
   { priority, isLast, redirectRule, onDelete, onMoveUp, onMoveDown, onUpdate },
 ) => {
-  const [isModalOpen, toggleModal] = useToggle();
+  const { flag: isModalOpen, toggle: toggleModal } = useToggle(true, true);
 
   return (
     <SimpleCard>

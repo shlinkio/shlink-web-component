@@ -1,7 +1,8 @@
 import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Message, Result, SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
+import { useToggle } from '@shlinkio/shlink-frontend-kit';
+import { Message, Result, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { ShlinkRedirectRuleData, ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC, FormEvent } from 'react';
 import { useCallback, useEffect } from 'react';
@@ -152,14 +153,14 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
         </div>
       </form>
       {errorData && (
-        <Result type="error">
+        <Result variant="error">
           <ShlinkApiError
             errorData={errorData}
             fallbackMessage="An error occurred while saving short URL redirect rules :("
           />
         </Result>
       )}
-      {saved && <Result type="success">Redirect rules properly saved.</Result>}
+      {saved && <Result variant="success">Redirect rules properly saved.</Result>}
       <RedirectRuleModal isOpen={isModalOpen} toggle={toggleModal} onSave={pushRule} />
     </div>
   );

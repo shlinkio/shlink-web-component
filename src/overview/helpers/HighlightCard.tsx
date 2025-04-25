@@ -1,7 +1,7 @@
 import { faArrowAltCircleRight as linkIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import type { FC, PropsWithChildren, ReactNode, RefObject } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router';
 import { Card, CardText, CardTitle, UncontrolledTooltip } from 'reactstrap';
 import './HighlightCard.scss';
@@ -13,7 +13,7 @@ export type HighlightCardProps = PropsWithChildren<{
 }>;
 
 export const HighlightCard: FC<HighlightCardProps> = ({ children, title, link, tooltip }) => {
-  const ref = useElementRef<HTMLElement>();
+  const ref = useRef<HTMLElement>(null);
 
   return (
     <>

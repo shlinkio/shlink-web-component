@@ -1,7 +1,5 @@
-import { LabeledFormGroup, SimpleCard, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
+import { Label, LabelledInput, SimpleCard, ToggleSwitch } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
-import { useId } from 'react';
-import { FormGroup, Input } from 'reactstrap';
 import { useSetting } from '..';
 import { FormText } from './FormText';
 
@@ -14,31 +12,30 @@ export const RealTimeUpdatesSettings = (
   { toggleRealTimeUpdates, onIntervalChange }: RealTimeUpdatesProps,
 ) => {
   const { enabled, interval } = useSetting('realTimeUpdates', { enabled: true });
-  const inputId = useId();
 
   return (
-    <SimpleCard title="Real-time updates" className="h-100">
-      <FormGroup>
-        <ToggleSwitch checked={enabled} onChange={toggleRealTimeUpdates}>
+    <SimpleCard title="Real-time updates" className="h-100" bodyClassName="tw:flex tw:flex-col tw:gap-y-4">
+      <div>
+        <Label className="tw:flex tw:items-center tw:gap-x-1.5">
+          <ToggleSwitch checked={enabled} onChange={toggleRealTimeUpdates} />
           Enable or disable real-time updates.
-          <FormText>
-            Real-time updates are currently being <b>{enabled ? 'processed' : 'ignored'}</b>.
-          </FormText>
-        </ToggleSwitch>
-      </FormGroup>
-      <LabeledFormGroup
-        noMargin
-        label="Real-time updates frequency (in minutes):"
-        labelClassName={clsx('form-label', { 'text-muted': !enabled })}
-        id={inputId}
-      >
-        <Input
+        </Label>
+        <FormText className="tw:pl-9.5">
+          Real-time updates are currently being <b>{enabled ? 'processed' : 'ignored'}</b>.
+        </FormText>
+      </div>
+      <div>
+        <LabelledInput
+          label={(
+            <span className={clsx('form-label', { 'text-muted': !enabled })}>
+              Real-time updates frequency (in minutes):
+            </span>
+          )}
           type="number"
           min={0}
           placeholder="Immediate"
           disabled={!enabled}
           value={`${interval ?? ''}`}
-          id={inputId}
           onChange={({ target }) => onIntervalChange(Number(target.value))}
         />
         {enabled && (
@@ -51,7 +48,7 @@ export const RealTimeUpdatesSettings = (
             ) : 'Updates will be reflected in the UI as soon as they happen.'}
           </FormText>
         )}
-      </LabeledFormGroup>
+      </div>
     </SimpleCard>
   );
 };

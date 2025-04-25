@@ -1,6 +1,6 @@
+import { Button, Input } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, FormEvent } from 'react';
 import { useCallback } from 'react';
-import { Button, Input } from 'reactstrap';
 import type { ServerInfo } from './useServerInfo';
 
 type ServerInfoFormProps = {
@@ -30,17 +30,17 @@ export const ServerInfoForm: FC<ServerInfoFormProps> = ({ serverInfo, onChange }
         placeholder="Server URL"
         type="url"
         disabled={formDisabled}
-        innerRef={(el) => inputRef(el, 'baseUrl')}
+        ref={(el) => inputRef(el, 'baseUrl')}
       />
       <Input
         type="password"
         name="apiKey"
         placeholder="API key"
         disabled={formDisabled}
-        innerRef={(el) => inputRef(el, 'apiKey')}
+        ref={(el) => inputRef(el, 'apiKey')}
       />
-      {!formDisabled && <Button type="submit" color="light">Load</Button>}
-      {formDisabled && <Button type="reset" color="light" onClick={resetForm}>Reset</Button>}
+      {!formDisabled && <Button type="submit" variant="secondary" solid>Load</Button>}
+      {formDisabled && <Button type="reset" variant="secondary" solid onClick={resetForm}>Reset</Button>}
     </form>
   );
 };

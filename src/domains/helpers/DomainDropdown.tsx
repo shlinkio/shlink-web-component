@@ -23,7 +23,7 @@ interface DomainDropdownProps {
 }
 
 export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedirects }) => {
-  const [isModalOpen,, openModal, closeModal] = useToggle();
+  const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle(false, true);
   const routesPrefix = useRoutesPrefix();
   const visitsComparison = useVisitsComparisonContext();
   const canFilterShortUrlsByDomain = useFeature('filterShortUrlsByDomain');

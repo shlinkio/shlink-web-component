@@ -1,5 +1,6 @@
 import type { Theme } from '@shlinkio/shlink-frontend-kit';
-import { changeThemeInMarkup, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
+import { changeThemeInMarkup } from '@shlinkio/shlink-frontend-kit';
+import { Label, ToggleSwitch } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
 
@@ -17,5 +18,9 @@ export const ThemeToggle: FC = () => {
     localStorage.setItem('active_theme', newTheme);
   }, []);
 
-  return <ToggleSwitch checked={checked} onChange={toggleTheme}>Dark theme</ToggleSwitch>;
+  return (
+    <Label className="tw:flex tw:items-center tw:gap-x-1.5">
+      <ToggleSwitch checked={checked} onChange={toggleTheme} /> Dark theme
+    </Label>
+  );
 };

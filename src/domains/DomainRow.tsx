@@ -1,5 +1,6 @@
 import { faDotCircle as defaultDomainIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
@@ -17,14 +18,14 @@ interface DomainRowProps {
 }
 
 const Nr: FC<{ fallback?: string | null }> = ({ fallback }) => (
-  <span className="text-muted">
+  <span className="tw:text-gray-500">
     {!fallback && <small>No redirect</small>}
     {fallback && <>{fallback} <small>(as fallback)</small></>}
   </span>
 );
 const DefaultDomain: FC = () => (
   <>
-    <FontAwesomeIcon fixedWidth icon={defaultDomainIcon} className="text-primary" id="defaultDomainIcon" />
+    <FontAwesomeIcon fixedWidth icon={defaultDomainIcon} className="tw:text-brand" id="defaultDomainIcon" />
     <UncontrolledTooltip target="defaultDomainIcon" placement="right">Default domain</UncontrolledTooltip>
   </>
 );
@@ -39,24 +40,24 @@ export const DomainRow: FC<DomainRowProps> = (
   }, [checkDomainHealth, domain.domain]);
 
   return (
-    <tr className="responsive-table__row">
-      <td className="responsive-table__cell" data-th="Is default domain">{isDefault && <DefaultDomain />}</td>
-      <th className="responsive-table__cell" data-th="Domain">{authority}</th>
-      <td className="responsive-table__cell" data-th="Base path redirect">
+    <Table.Row className="tw:max-md:relative">
+      <Table.Cell columnName="Is default domain">{isDefault && <DefaultDomain />}</Table.Cell>
+      <Table.Cell columnName="Domain"><b>{authority}</b></Table.Cell>
+      <Table.Cell columnName="Base path redirect">
         {redirects?.baseUrlRedirect ?? <Nr fallback={defaultRedirects?.baseUrlRedirect} />}
-      </td>
-      <td className="responsive-table__cell" data-th="Regular 404 redirect">
+      </Table.Cell>
+      <Table.Cell columnName="Regular 404 redirect">
         {redirects?.regular404Redirect ?? <Nr fallback={defaultRedirects?.regular404Redirect} />}
-      </td>
-      <td className="responsive-table__cell" data-th="Invalid short URL redirect">
+      </Table.Cell>
+      <Table.Cell columnName="Invalid short URL redirect">
         {redirects?.invalidShortUrlRedirect ?? <Nr fallback={defaultRedirects?.invalidShortUrlRedirect} />}
-      </td>
-      <td className="responsive-table__cell text-lg-center" data-th="Status">
+      </Table.Cell>
+      <Table.Cell className="tw:lg:text-center" columnName="Status">
         <DomainStatusIcon status={status} />
-      </td>
-      <td className="responsive-table__cell text-end">
+      </Table.Cell>
+      <Table.Cell className="tw:text-right tw:max-md:absolute tw:max-md:-top-0.5 tw:max-md:right-0">
         <DomainDropdown domain={domain} editDomainRedirects={editDomainRedirects} />
-      </td>
-    </tr>
+      </Table.Cell>
+    </Table.Row>
   );
 };

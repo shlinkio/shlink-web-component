@@ -1,3 +1,4 @@
+import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
@@ -19,16 +20,14 @@ describe('<DomainRow />', () => {
   ];
   const setUp = (domain: Domain, defaultRedirects?: ShlinkDomainRedirects) => render(
     <MemoryRouter>
-      <table>
-        <tbody>
-          <DomainRow
-            domain={domain}
-            defaultRedirects={defaultRedirects}
-            editDomainRedirects={vi.fn()}
-            checkDomainHealth={vi.fn()}
-          />
-        </tbody>
-      </table>
+      <Table header={<></>}>
+        <DomainRow
+          domain={domain}
+          defaultRedirects={defaultRedirects}
+          editDomainRedirects={vi.fn()}
+          checkDomainHealth={vi.fn()}
+        />
+      </Table>
     </MemoryRouter>,
   );
 
@@ -38,16 +37,15 @@ describe('<DomainRow />', () => {
 
   it.each(redirectsCombinations)('shows expected redirects', (redirects) => {
     setUp(fromPartial({ domain: '', isDefault: true, redirects }));
-    const cells = screen.getAllByRole('cell');
 
     if (redirects?.baseUrlRedirect) {
-      expect(cells[1]).toHaveTextContent(redirects.baseUrlRedirect);
+      expect(screen.getByRole('cell', { name: redirects.baseUrlRedirect })).toBeInTheDocument();
     }
     if (redirects?.regular404Redirect) {
-      expect(cells[2]).toHaveTextContent(redirects.regular404Redirect);
+      expect(screen.getByRole('cell', { name: redirects.regular404Redirect })).toBeInTheDocument();
     }
     if (redirects?.invalidShortUrlRedirect) {
-      expect(cells[3]).toHaveTextContent(redirects.invalidShortUrlRedirect);
+      expect(screen.getByRole('cell', { name: redirects.invalidShortUrlRedirect })).toBeInTheDocument();
     }
     expect(screen.queryByText('(as fallback)')).not.toBeInTheDocument();
   });
@@ -57,32 +55,28 @@ describe('<DomainRow />', () => {
     [fromPartial<ShlinkDomainRedirects>({})],
   ])('shows expected "no redirects"', (redirects) => {
     setUp(fromPartial({ domain: '', isDefault: true, redirects }));
-    const cells = screen.getAllByRole('cell');
 
-    expect(cells[1]).toHaveTextContent('No redirect');
-    expect(cells[2]).toHaveTextContent('No redirect');
-    expect(cells[3]).toHaveTextContent('No redirect');
+    expect(screen.getAllByRole('cell', { name: 'No redirect' })).toHaveLength(3);
     expect(screen.queryByText('(as fallback)')).not.toBeInTheDocument();
   });
 
   it.each(redirectsCombinations)('shows expected fallback redirects', (fallbackRedirects) => {
     setUp(fromPartial({ domain: '', isDefault: true }), fallbackRedirects);
-    const cells = screen.getAllByRole('cell');
 
     if (fallbackRedirects?.baseUrlRedirect) {
-      expect(cells[1]).toHaveTextContent(
-        `${fallbackRedirects.baseUrlRedirect} (as fallback)`,
-      );
+      expect(
+        screen.getByRole('cell', { name: `${fallbackRedirects.baseUrlRedirect} (as fallback)` }),
+      ).toBeInTheDocument();
     }
     if (fallbackRedirects?.regular404Redirect) {
-      expect(cells[2]).toHaveTextContent(
-        `${fallbackRedirects.regular404Redirect} (as fallback)`,
-      );
+      expect(
+        screen.getByRole('cell', { name: `${fallbackRedirects.regular404Redirect} (as fallback)` }),
+      ).toBeInTheDocument();
     }
     if (fallbackRedirects?.invalidShortUrlRedirect) {
-      expect(cells[3]).toHaveTextContent(
-        `${fallbackRedirects.invalidShortUrlRedirect} (as fallback)`,
-      );
+      expect(
+        screen.getByRole('cell', { name: `${fallbackRedirects.invalidShortUrlRedirect} (as fallback)` }),
+      ).toBeInTheDocument();
     }
   });
 

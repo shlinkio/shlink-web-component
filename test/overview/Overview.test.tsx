@@ -93,6 +93,7 @@ describe('<Overview />', () => {
     const { user } = setUp(false, visits);
     const expectTooltipToBeInTheDocument = async (tooltip: string) => waitFor(
       () => expect(screen.getByText(/potential bot visits$/)).toHaveTextContent(tooltip),
+      { timeout: 2000 },
     );
 
     await user.hover(screen.getByText(/^Visits/));

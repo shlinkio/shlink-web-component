@@ -1,5 +1,5 @@
 import { mergeDeepRight } from '@shlinkio/data-manipulation';
-import { NavPillItem, NavPills } from '@shlinkio/shlink-frontend-kit';
+import { NavPills } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback } from 'react';
@@ -29,7 +29,7 @@ export type ShlinkWebSettingsProps = {
 };
 
 const SettingsSections: FC<PropsWithChildren<{ className?: string }>> = ({ children, className }) => (
-  <div className={clsx('d-flex flex-column gap-3', className)}>
+  <div className={clsx('tw:flex tw:flex-col tw:gap-4', className)}>
     {children}
   </div>
 );
@@ -63,11 +63,11 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
 
   return (
     <SettingsProvider value={settings}>
-      <NavPills className="mb-3">
-        <NavPillItem to="../general">General</NavPillItem>
-        <NavPillItem to="../short-urls">Short URLs</NavPillItem>
-        <NavPillItem to="../qr-codes">QR codes</NavPillItem>
-        <NavPillItem to="../other-items">Other items</NavPillItem>
+      <NavPills className="tw:mb-4">
+        <NavPills.Pill to="../general">General</NavPills.Pill>
+        <NavPills.Pill to="../short-urls">Short URLs</NavPills.Pill>
+        <NavPills.Pill to="../qr-codes">QR codes</NavPills.Pill>
+        <NavPills.Pill to="../other-items">Other items</NavPills.Pill>
       </NavPills>
 
       <Routes>
@@ -108,9 +108,9 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
           path="qr-codes"
           element={(
             <SettingsSections>
-              <div className="d-flex flex-column flex-lg-row gap-3">
-                <QrCodeSizeSettings onChange={updateQrCodeSettings} className="w-100" />
-                <QrCodeColorSettings onChange={updateQrCodeSettings} className="w-100" />
+              <div className="tw:flex tw:flex-col tw:lg:flex-row tw:gap-4">
+                <QrCodeSizeSettings onChange={updateQrCodeSettings} className="tw:w-full" />
+                <QrCodeColorSettings onChange={updateQrCodeSettings} className="tw:w-full" />
               </div>
               <QrCodeFormatSettings onChange={updateQrCodeSettings} />
             </SettingsSections>

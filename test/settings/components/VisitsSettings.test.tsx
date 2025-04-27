@@ -85,10 +85,10 @@ describe('<VisitsSettings />', () => {
   ])('displays expected helper text for exclude bots control', (settings, expectedText, notExpectedText) => {
     setUp(settings);
 
-    const visitsComponent = screen.getByText(/^Exclude bots wherever possible/);
+    const helperText = screen.getByTestId('exclude-bots-help-text');
 
-    expect(visitsComponent).toHaveTextContent(expectedText);
-    expect(visitsComponent).not.toHaveTextContent(notExpectedText);
+    expect(helperText).toHaveTextContent(expectedText);
+    expect(helperText).not.toHaveTextContent(notExpectedText);
   });
 
   it('invokes setVisitsSettings when bot exclusion is toggled', async () => {
@@ -117,10 +117,10 @@ describe('<VisitsSettings />', () => {
   ])('displays expected helper text for prev interval control', (settings, expectedText, notExpectedText) => {
     setUp(settings);
 
-    const visitsComponent = screen.getByText('Compare visits with previous period.');
+    const helperText = screen.getByTestId('compare-visits-help-text');
 
-    expect(visitsComponent).toHaveTextContent(expectedText);
-    expect(visitsComponent).not.toHaveTextContent(notExpectedText);
+    expect(helperText).toHaveTextContent(expectedText);
+    expect(helperText).not.toHaveTextContent(notExpectedText);
   });
 
   it('invokes setVisitsSettings when loading prev visits is toggled', async () => {

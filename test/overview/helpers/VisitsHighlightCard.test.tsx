@@ -44,6 +44,7 @@ describe('<VisitsHighlightCard />', () => {
 
     await user.hover(screen.getByText('Foo'));
     await waitFor(() => expect(screen.getByTestId('tooltip-amount')).toHaveTextContent('1,000'), { timeout: 2000 });
+    await user.unhover(screen.getByText('Foo'));
   });
 
   it.each([

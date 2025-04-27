@@ -1,15 +1,14 @@
-import { Message, Result } from '@shlinkio/shlink-frontend-kit';
+import { Message, Result, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { useEffect, useMemo } from 'react';
 import { ExternalLink } from 'react-external-link';
-import { Card } from 'reactstrap';
 import type { ShlinkEditShortUrlData } from '../api-contract';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { useSetting } from '../settings';
 import { GoBackButton } from '../utils/components/GoBackButton';
-import type { ShortUrlIdentifier } from './data';
 import { shortUrlDataFromShortUrl } from './helpers';
 import { useShortUrlIdentifier } from './helpers/hooks';
 import type { EditShortUrl as EditShortUrlInfo, ShortUrlEdition } from './reducers/shortUrlEdition';
@@ -19,7 +18,7 @@ import type { ShortUrlFormProps } from './ShortUrlForm';
 type EditShortUrlProps = {
   shortUrlsDetails: ShortUrlsDetails;
   shortUrlEdition: ShortUrlEdition;
-  getShortUrlsDetails: (identifiers: ShortUrlIdentifier[]) => void;
+  getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
   editShortUrl: (editShortUrl: EditShortUrlInfo) => void;
 };
 
@@ -54,23 +53,23 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
 
   if (error) {
     return (
-      <Result type="error">
+      <Result variant="error">
         <ShlinkApiError errorData={errorData} fallbackMessage="An error occurred while loading short URL detail :(" />
       </Result>
     );
   }
 
   return (
-    <>
-      <header className="mb-3">
-        <Card body>
-          <h2 className="d-sm-flex justify-content-between align-items-center mb-0">
+    <div className="tw:flex tw:flex-col tw:gap-y-4">
+      <header>
+        <SimpleCard>
+          <h2 className="tw:sm:flex tw:items-center">
             <GoBackButton />
-            <div className="text-center flex-grow-1">
+            <div className="tw:text-center tw:grow">
               <small>Edit <ExternalLink href={shortUrl?.shortUrl ?? ''} /></small>
             </div>
           </h2>
-        </Card>
+        </SimpleCard>
       </header>
       <ShortUrlForm
         initialState={initialState}
@@ -82,12 +81,12 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
         }}
       />
       {saved && savingError && (
-        <Result type="error" className="mt-3">
+        <Result variant="error">
           <ShlinkApiError errorData={savingErrorData} fallbackMessage="An error occurred while updating short URL :(" />
         </Result>
       )}
-      {saved && !savingError && <Result type="success" className="mt-3">Short URL properly edited.</Result>}
-    </>
+      {saved && !savingError && <Result variant="success">Short URL properly edited.</Result>}
+    </div>
   );
 };
 

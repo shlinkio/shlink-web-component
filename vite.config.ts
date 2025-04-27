@@ -61,7 +61,6 @@ export default defineConfig({
   test: {
     globals: true,
     setupFiles: './test/setup.ts',
-    reporters: [['default', { summary: false }]],
     // Run tests in an actual browser
     browser: {
       provider: 'playwright',

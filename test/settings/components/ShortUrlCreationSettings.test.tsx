@@ -26,16 +26,16 @@ describe('<ShortUrlCreationSettings />', () => {
     setUp(shortUrlCreation);
 
     const checkbox = screen.getByLabelText(matcher);
-    const label = screen.getByText(matcher);
+    const helpText = screen.getByTestId('validate-url-help-text');
 
     if (expectedChecked) {
       expect(checkbox).toBeChecked();
-      expect(label).toHaveTextContent('Validate URL checkbox will be checked');
-      expect(label).not.toHaveTextContent('Validate URL checkbox will be unchecked');
+      expect(helpText).toHaveTextContent('Validate URL checkbox will be checked');
+      expect(helpText).not.toHaveTextContent('Validate URL checkbox will be unchecked');
     } else {
       expect(checkbox).not.toBeChecked();
-      expect(label).toHaveTextContent('Validate URL checkbox will be unchecked');
-      expect(label).not.toHaveTextContent('Validate URL checkbox will be checked');
+      expect(helpText).toHaveTextContent('Validate URL checkbox will be unchecked');
+      expect(helpText).not.toHaveTextContent('Validate URL checkbox will be checked');
     }
   });
 
@@ -49,16 +49,16 @@ describe('<ShortUrlCreationSettings />', () => {
     setUp({ validateUrls: true, ...shortUrlCreation });
 
     const checkbox = screen.getByLabelText(matcher);
-    const label = screen.getByText(matcher);
+    const helpText = screen.getByTestId('forward-query-help-text');
 
     if (expectedChecked) {
       expect(checkbox).toBeChecked();
-      expect(label).toHaveTextContent('Forward query params on redirect checkbox will be checked');
-      expect(label).not.toHaveTextContent('Forward query params on redirect checkbox will be unchecked');
+      expect(helpText).toHaveTextContent('Forward query params on redirect checkbox will be checked');
+      expect(helpText).not.toHaveTextContent('Forward query params on redirect checkbox will be unchecked');
     } else {
       expect(checkbox).not.toBeChecked();
-      expect(label).toHaveTextContent('Forward query params on redirect checkbox will be unchecked');
-      expect(label).not.toHaveTextContent('Forward query params on redirect checkbox will be checked');
+      expect(helpText).toHaveTextContent('Forward query params on redirect checkbox will be unchecked');
+      expect(helpText).not.toHaveTextContent('Forward query params on redirect checkbox will be checked');
     }
   });
 

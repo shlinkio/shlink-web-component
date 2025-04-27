@@ -1,6 +1,7 @@
-import { Label, LabelledInput, SimpleCard, ToggleSwitch } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import { useSetting } from '..';
+import { LabelledToggle } from './fe-kit/LabelledToggle';
 import { FormText } from './FormText';
 
 export type RealTimeUpdatesProps = {
@@ -15,15 +16,13 @@ export const RealTimeUpdatesSettings = (
 
   return (
     <SimpleCard title="Real-time updates" className="h-100" bodyClassName="tw:flex tw:flex-col tw:gap-y-4">
-      <div>
-        <Label className="tw:flex tw:items-center tw:gap-x-1.5">
-          <ToggleSwitch checked={enabled} onChange={toggleRealTimeUpdates} />
-          Enable or disable real-time updates.
-        </Label>
-        <FormText className="tw:pl-9.5">
-          Real-time updates are currently being <b>{enabled ? 'processed' : 'ignored'}</b>.
-        </FormText>
-      </div>
+      <LabelledToggle
+        checked={enabled}
+        onChange={toggleRealTimeUpdates}
+        helpText={<>Real-time updates are currently being <b>{enabled ? 'processed' : 'ignored'}</b>.</>}
+      >
+        Enable or disable real-time updates.
+      </LabelledToggle>
       <div>
         <LabelledInput
           label={(

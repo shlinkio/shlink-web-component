@@ -60,7 +60,7 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
           <span className="short-urls-row__short-url-wrapper">
             <ExternalLink href={shortUrl.shortUrl} />
           </span>
-          <CopyToClipboardIcon text={shortUrl.shortUrl} />
+          <CopyToClipboardIcon text={shortUrl.shortUrl} className="tw:ml-2" />
         </span>
       </td>
       <td

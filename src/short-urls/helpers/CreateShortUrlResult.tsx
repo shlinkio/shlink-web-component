@@ -1,16 +1,9 @@
-import { faClone as copyIcon } from '@fortawesome/free-regular-svg-icons';
-import { faTimes as closeIcon } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
-import { Result } from '@shlinkio/shlink-frontend-kit';
+import { CloseButton, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { FC } from 'react';
 import { useEffect } from 'react';
-import { Tooltip } from 'reactstrap';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
-import type { FCWithDeps } from '../../container/utils';
-import { componentFactory, useDependencies } from '../../container/utils';
-import { copyToClipboard } from '../../utils/helpers/clipboard';
+import { CopyToClipboardIcon } from '../../utils/components/CopyToClipboardIcon';
 import type { ShortUrlCreation } from '../reducers/shortUrlCreation';
-import './CreateShortUrlResult.scss';
 
 export type CreateShortUrlResultProps = {
   creation: ShortUrlCreation;
@@ -18,16 +11,9 @@ export type CreateShortUrlResultProps = {
   canBeClosed?: boolean;
 };
 
-type CreateShortUrlResultDeps = {
-  useTimeoutToggle: TimeoutToggle;
-};
-
-const CreateShortUrlResult: FCWithDeps<CreateShortUrlResultProps, CreateShortUrlResultDeps> = (
+export const CreateShortUrlResult: FC<CreateShortUrlResultProps> = (
   { creation, resetCreateShortUrl, canBeClosed = false }: CreateShortUrlResultProps,
 ) => {
-  const { useTimeoutToggle } = useDependencies(CreateShortUrlResult);
-  // eslint-disable-next-line react-compiler/react-compiler
-  const [showCopyTooltip, toggleShowCopyTooltip] = useTimeoutToggle();
   const { error, saved } = creation;
 
   useEffect(() => {
@@ -36,14 +22,11 @@ const CreateShortUrlResult: FCWithDeps<CreateShortUrlResultProps, CreateShortUrl
 
   if (error) {
     return (
-      <Result type="error" className="mt-3">
+      <Result variant="error" className="tw:mt-4 tw:relative">
         {canBeClosed && (
-          <FontAwesomeIcon
-            data-testid="error-close-button"
-            icon={closeIcon}
-            className="float-end pointer"
-            onClick={resetCreateShortUrl}
-          />
+          <div className="tw:absolute tw:right-1.5 tw:top-1.5" data-testid="error-close-button">
+            <CloseButton onClick={resetCreateShortUrl} />
+          </div>
         )}
         <ShlinkApiError errorData={creation.errorData} fallbackMessage="An error occurred while creating the URL :(" />
       </Result>
@@ -57,30 +40,16 @@ const CreateShortUrlResult: FCWithDeps<CreateShortUrlResultProps, CreateShortUrl
   const { shortUrl } = creation.result;
 
   return (
-    <Result type="success" className="mt-3">
+    <Result variant="success" className="tw:mt-4 tw:relative">
       {canBeClosed && (
-        <FontAwesomeIcon
-          data-testid="success-close-button"
-          icon={closeIcon}
-          className="float-end pointer"
-          onClick={resetCreateShortUrl}
-        />
+        <div className="tw:absolute tw:right-1.5 tw:top-1.5" data-testid="success-close-button">
+          <CloseButton onClick={resetCreateShortUrl} />
+        </div>
       )}
-      <span><b>Great!</b> The short URL is <b>{shortUrl}</b></span>
-
-      <button
-        className="btn btn-light btn-sm create-short-url-result__copy-btn"
-        id="copyBtn"
-        type="button"
-        onClick={() => copyToClipboard({ text: shortUrl, onCopy: toggleShowCopyTooltip })}
-      >
-        <FontAwesomeIcon icon={copyIcon} /> Copy <span className="sr-only">{shortUrl} to clipboard</span>
-      </button>
-      <Tooltip placement="left" isOpen={showCopyTooltip} target="copyBtn">
-        Copied!
-      </Tooltip>
+      <div className="tw:flex tw:items-center tw:justify-center tw:gap-1">
+        <span><b>Great!</b> The short URL is <b>{shortUrl}</b></span>
+        <CopyToClipboardIcon text={shortUrl} />
+      </div>
     </Result>
   );
 };
-
-export const CreateShortUrlResultFactory = componentFactory(CreateShortUrlResult, ['useTimeoutToggle']);

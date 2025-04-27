@@ -1,8 +1,10 @@
-import { DropdownBtn, LabeledFormGroup, SimpleCard, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
+import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
+import { Label, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, ReactNode } from 'react';
 import { DropdownItem } from 'reactstrap';
 import type { ShortUrlCreationSettings as ShortUrlsSettings } from '..';
 import { useSetting } from '..';
+import { LabelledToggle } from './fe-kit/LabelledToggle';
 import { FormText } from './FormText';
 
 type TagFilteringMode = NonNullable<ShortUrlsSettings['tagFilteringMode']>;
@@ -26,29 +28,36 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ onChange }
   );
 
   return (
-    <SimpleCard title="Short URLs form" className="h-100" bodyClassName="d-flex flex-column gap-3">
-      <ToggleSwitch
+    <SimpleCard title="Short URLs form" className="card" bodyClassName="tw:flex tw:flex-col tw:gap-4">
+      <LabelledToggle
+        data-testid="validate-url"
         checked={shortUrlCreation.validateUrls ?? false}
         onChange={(validateUrls) => onChange({ ...shortUrlCreation, validateUrls })}
+        helpText={(
+          <>
+            The initial state of the <b>Validate URL</b> checkbox will
+            be <b>{shortUrlCreation.validateUrls ? 'checked' : 'unchecked'}</b>.
+          </>
+        )}
       >
         Request validation on long URLs when creating new short URLs.{' '}
         <b>This option is ignored by Shlink {'>='}4.0.0</b>
-        <FormText>
-          The initial state of the <b>Validate URL</b> checkbox will
-          be <b>{shortUrlCreation.validateUrls ? 'checked' : 'unchecked'}</b>.
-        </FormText>
-      </ToggleSwitch>
-      <ToggleSwitch
+      </LabelledToggle>
+      <LabelledToggle
+        data-testid="forward-query"
         checked={shortUrlCreation.forwardQuery ?? true}
         onChange={(forwardQuery) => onChange({ ...shortUrlCreation, forwardQuery })}
+        helpText={(
+          <>
+            The initial state of the <b>Forward query params on redirect</b> checkbox will
+            be <b>{shortUrlCreation.forwardQuery ?? true ? 'checked' : 'unchecked'}</b>.
+          </>
+        )}
       >
         Make all new short URLs forward their query params to the long URL.
-        <FormText>
-          The initial state of the <b>Forward query params on redirect</b> checkbox will
-          be <b>{shortUrlCreation.forwardQuery ?? true ? 'checked' : 'unchecked'}</b>.
-        </FormText>
-      </ToggleSwitch>
-      <LabeledFormGroup noMargin label="Tag suggestions search mode:">
+      </LabelledToggle>
+      <div>
+        <Label className="tw:mb-1.5">Tag suggestions search mode:</Label>
         <DropdownBtn text={tagFilteringModeText(shortUrlCreation.tagFilteringMode)}>
           <DropdownItem
             active={!shortUrlCreation.tagFilteringMode || shortUrlCreation.tagFilteringMode === 'startsWith'}
@@ -64,7 +73,7 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ onChange }
           </DropdownItem>
         </DropdownBtn>
         <FormText>{tagFilteringModeHint(shortUrlCreation.tagFilteringMode)}</FormText>
-      </LabeledFormGroup>
+      </div>
     </SimpleCard>
   );
 };

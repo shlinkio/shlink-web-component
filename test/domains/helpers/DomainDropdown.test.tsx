@@ -1,4 +1,4 @@
-import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
@@ -104,8 +104,6 @@ describe('<DomainDropdown />', () => {
     expect(editDomainRedirects).not.toHaveBeenCalled();
     await user.click(screen.getByText('Save'));
     expect(editDomainRedirects).toHaveBeenCalledWith(expect.objectContaining({ domain }));
-
-    await waitForElementToBeRemoved(() => screen.queryByRole('dialog'));
   });
 
   it('displays dropdown when clicked', async () => {

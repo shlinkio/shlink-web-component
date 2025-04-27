@@ -29,7 +29,7 @@ export const DomainStatusIcon: FC<DomainStatusIconProps> = ({ status, matchMedia
     <>
       <span ref={ref}>
         {status === 'valid'
-          ? <FontAwesomeIcon fixedWidth icon={checkIcon} className="text-muted" />
+          ? <FontAwesomeIcon fixedWidth icon={checkIcon} />
           : <FontAwesomeIcon fixedWidth icon={invalidIcon} className="text-danger" />}
       </span>
       <UncontrolledTooltip

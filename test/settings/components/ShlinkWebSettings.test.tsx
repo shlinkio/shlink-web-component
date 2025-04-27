@@ -53,8 +53,8 @@ describe('<ShlinkWebSettings />', () => {
   it('renders expected menu', () => {
     setUp();
 
-    expect(screen.getByRole('link', { name: 'General' })).toHaveAttribute('href', '/general');
-    expect(screen.getByRole('link', { name: 'Short URLs' })).toHaveAttribute('href', '/short-urls');
-    expect(screen.getByRole('link', { name: 'Other items' })).toHaveAttribute('href', '/other-items');
+    expect(screen.getByRole('menuitem', { name: 'General' })).toHaveAttribute('href', '/general');
+    expect(screen.getByRole('menuitem', { name: 'Short URLs' })).toHaveAttribute('href', '/short-urls');
+    expect(screen.getByRole('menuitem', { name: 'Other items' })).toHaveAttribute('href', '/other-items');
   });
 });

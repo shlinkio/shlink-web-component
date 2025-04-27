@@ -1,13 +1,12 @@
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import type {
   ShlinkRedirectCondition,
   ShlinkRedirectConditionType,
   ShlinkRedirectRuleData,
 } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC, FormEvent } from 'react';
-import { useCallback, useId, useMemo , useState } from 'react';
+import { useCallback, useId, useMemo , useRef , useState } from 'react';
 import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import { countryCodes } from '../../utils/country-codes';
 import { useFeature } from '../../utils/features';
@@ -282,7 +281,7 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, 
     },
   ), []);
 
-  const longUrlRef = useElementRef<HTMLInputElement>();
+  const longUrlRef = useRef<HTMLInputElement>(null);
   const focusLongUrl = useCallback(() => longUrlRef?.current?.focus(), [longUrlRef]);
   const reset = useCallback(() => setRedirectRule(initialData ?? { longUrl: '', conditions: [] }), [initialData]);
 

@@ -56,7 +56,10 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
 
-  const [sidebarVisible, toggleSidebar, showSidebar, hideSidebar] = useToggle();
+  const { flag: sidebarVisible, toggle: toggleSidebar, setToTrue: showSidebar, setToFalse: hideSidebar } = useToggle(
+    false,
+    true,
+  );
 
   // Hide sidebar every time the route changes
   useEffect(() => hideSidebar(), [location, hideSidebar]);

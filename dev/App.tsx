@@ -41,7 +41,7 @@ export const App: FC = () => {
     <>
       <header className="header fixed-top text-white d-flex justify-content-between">
         <ServerInfoForm serverInfo={serverInfo} onChange={onServerInfoChange} />
-        <div className="h-100 text-end pe-3 pt-3 d-flex gap-3">
+        <div className="tw:h-full tw:pr-4 tw:flex tw:items-center tw:gap-4">
           <Link to="/" className="text-white">Home</Link>
           <Link to="/settings" className="text-white">Settings</Link>
           <ThemeToggle />

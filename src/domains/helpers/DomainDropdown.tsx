@@ -23,7 +23,7 @@ interface DomainDropdownProps {
 }
 
 export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedirects }) => {
-  const [isModalOpen, toggleModal] = useToggle();
+  const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle(false, true);
   const routesPrefix = useRoutesPrefix();
   const visitsComparison = useVisitsComparisonContext();
   const canFilterShortUrlsByDomain = useFeature('filterShortUrlsByDomain');
@@ -57,7 +57,7 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
         )}
 
         <DropdownItem divider tag="hr" />
-        <DropdownItem onClick={toggleModal}>
+        <DropdownItem onClick={openModal}>
           <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit redirects
         </DropdownItem>
       </RowDropdownBtn>
@@ -65,7 +65,7 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
       <EditDomainRedirectsModal
         domain={domain}
         isOpen={isModalOpen}
-        toggle={toggleModal}
+        onClose={closeModal}
         editDomainRedirects={editDomainRedirects}
       />
     </>

@@ -1,8 +1,9 @@
-import { LabeledFormGroup, OrderingDropdown, SimpleCard, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
+import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
+import { Label, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import type { ShortUrlsListSettings as ShortUrlsSettings } from '..';
 import { useSetting } from '..';
-import { FormText } from './FormText';
+import { LabelledToggle } from './fe-kit/LabelledToggle';
 
 export type ShortUrlsListSettingsProps = {
   onChange: (settings: ShortUrlsSettings) => void;
@@ -22,23 +23,22 @@ export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = ({ onChange
   const confirmDeletions = shortUrlsList?.confirmDeletions ?? true;
 
   return (
-    <SimpleCard title="Short URLs list" className="h-100" bodyClassName="d-flex flex-column gap-3">
-      <ToggleSwitch
+    <SimpleCard title="Short URLs list" className="card" bodyClassName="tw:flex tw:flex-col tw:gap-4">
+      <LabelledToggle
         checked={confirmDeletions}
         onChange={(confirmDeletions) => onChange({ ...shortUrlsList, confirmDeletions })}
+        helpText={<>When deleting a short URL, confirmation <b>{confirmDeletions ? 'will' : 'won\'t'}</b> be required.</>}
       >
         Request confirmation before deleting a short URL.
-        <FormText>
-          When deleting a short URL, confirmation <b>{confirmDeletions ? 'will' : 'won\'t'}</b> be required.
-        </FormText>
-      </ToggleSwitch>
-      <LabeledFormGroup noMargin label="Default ordering for short URLs list:">
+      </LabelledToggle>
+      <div>
+        <Label className="tw:mb-1.5">Default ordering for short URLs list:</Label>
         <OrderingDropdown
           items={SHORT_URLS_ORDERABLE_FIELDS}
           order={shortUrlsList?.defaultOrdering ?? defaultOrdering}
           onChange={(field, dir) => onChange({ defaultOrdering: { field, dir } })}
         />
-      </LabeledFormGroup>
+      </div>
     </SimpleCard>
   );
 };

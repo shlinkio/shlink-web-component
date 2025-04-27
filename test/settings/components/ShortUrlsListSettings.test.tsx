@@ -54,16 +54,16 @@ describe('<ShortUrlsListSettings />', () => {
     setUp(shortUrlCreation);
 
     const checkbox = screen.getByLabelText(matcher);
-    const label = screen.getByText(matcher);
+    const helpText = screen.getByTestId('help-text');
 
     if (expectedChecked) {
       expect(checkbox).toBeChecked();
-      expect(label).toHaveTextContent('When deleting a short URL, confirmation will be required.');
-      expect(label).not.toHaveTextContent('When deleting a short URL, confirmation won\'t be required.');
+      expect(helpText).toHaveTextContent('When deleting a short URL, confirmation will be required.');
+      expect(helpText).not.toHaveTextContent('When deleting a short URL, confirmation won\'t be required.');
     } else {
       expect(checkbox).not.toBeChecked();
-      expect(label).toHaveTextContent('When deleting a short URL, confirmation won\'t be required.');
-      expect(label).not.toHaveTextContent('When deleting a short URL, confirmation will be required.');
+      expect(helpText).toHaveTextContent('When deleting a short URL, confirmation won\'t be required.');
+      expect(helpText).not.toHaveTextContent('When deleting a short URL, confirmation will be required.');
     }
   });
 

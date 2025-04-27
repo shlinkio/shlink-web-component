@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
@@ -9,7 +10,7 @@ const nodeVersion = process.version ?? DEFAULT_NODE_VERSION;
 
 // eslint-disable-next-line no-restricted-exports
 export default defineConfig({
-  plugins: [react(), dts({ rollupTypes: true })],
+  plugins: [react(), tailwindcss(), dts({ rollupTypes: true })],
 
   build: {
     lib: {
@@ -49,6 +50,9 @@ export default defineConfig({
   },
 
   test: {
+    globals: true,
+    setupFiles: './test/setup.ts',
+    reporters: [['default', { summary: false }]],
     // Run tests in an actual browser
     browser: {
       provider: 'playwright',
@@ -57,8 +61,6 @@ export default defineConfig({
       screenshotFailures: false,
       instances: [{ browser: 'chromium' }],
     },
-    globals: true,
-    setupFiles: './test/setup.ts',
     coverage: {
       provider: 'v8',
       reportsDirectory: './coverage',

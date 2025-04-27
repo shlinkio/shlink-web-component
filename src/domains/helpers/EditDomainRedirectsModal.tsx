@@ -1,78 +1,105 @@
-import type { InputFormGroupProps } from '@shlinkio/shlink-frontend-kit';
-import { InputFormGroup } from '@shlinkio/shlink-frontend-kit';
+import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { InputProps } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { CardModal ,LabelledInput   } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
-import { useState } from 'react';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { useCallback , useState } from 'react';
 import type { ShlinkDomain } from '../../api-contract';
-import { InfoTooltip } from '../../utils/components/InfoTooltip';
-import { nonEmptyStringOrNull, usePreventDefault } from '../../utils/helpers';
+import { nonEmptyStringOrNull } from '../../utils/helpers';
 import type { EditDomainRedirects } from '../reducers/domainRedirects';
 
-interface EditDomainRedirectsModalProps {
-  domain: ShlinkDomain;
-  isOpen: boolean;
-  toggle: () => void;
-  editDomainRedirects: (redirects: EditDomainRedirects) => Promise<void>;
-}
+type FormGroupProps = Omit<InputProps, 'type' | 'placeholder' | 'onChange' | 'onKeyDown'> & {
+  onConfirm: () => void;
+  onChange: (newValue: string) => void;
+};
 
-const FormGroup: FC<InputFormGroupProps & { isLast?: boolean }> = ({ isLast, ...rest }) => (
-  <InputFormGroup
+const FormGroup: FC<FormGroupProps> = ({ children, onChange, onConfirm, ...rest }) => (
+  <LabelledInput
     {...rest}
-    required={false}
+    onChange={(e) => onChange(e.target.value)}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter') {
+        onConfirm();
+      }
+    }}
+    label={children ?? ''}
     type="url"
     placeholder="No redirect"
-    className={isLast ? 'mb-0' : ''}
   />
 );
 
+export type EditDomainRedirectsModalProps = {
+  domain: ShlinkDomain;
+  isOpen: boolean;
+  onClose: () => void;
+  editDomainRedirects: (redirects: EditDomainRedirects) => Promise<void>;
+};
+
 export const EditDomainRedirectsModal: FC<EditDomainRedirectsModalProps> = (
-  { isOpen, toggle, domain, editDomainRedirects },
+  { isOpen, onClose, domain, editDomainRedirects },
 ) => {
   const [baseUrlRedirect, setBaseUrlRedirect] = useState(domain.redirects?.baseUrlRedirect ?? '');
   const [regular404Redirect, setRegular404Redirect] = useState(domain.redirects?.regular404Redirect ?? '');
   const [invalidShortUrlRedirect, setInvalidShortUrlRedirect] = useState(
     domain.redirects?.invalidShortUrlRedirect ?? '',
   );
-  const handleSubmit = usePreventDefault(() => editDomainRedirects({
-    domain: domain.domain,
-    redirects: {
-      baseUrlRedirect: nonEmptyStringOrNull(baseUrlRedirect),
-      regular404Redirect: nonEmptyStringOrNull(regular404Redirect),
-      invalidShortUrlRedirect: nonEmptyStringOrNull(invalidShortUrlRedirect),
+
+  const [saving, setSaving] = useState(false);
+  const onConfirm = useCallback(
+    async () => {
+      setSaving(true);
+      try {
+        await editDomainRedirects({
+          domain: domain.domain,
+          redirects: {
+            baseUrlRedirect: nonEmptyStringOrNull(baseUrlRedirect),
+            regular404Redirect: nonEmptyStringOrNull(regular404Redirect),
+            invalidShortUrlRedirect: nonEmptyStringOrNull(invalidShortUrlRedirect),
+          },
+        });
+        onClose();
+      } finally {
+        setSaving(false);
+      }
     },
-  }).then(toggle));
+    [editDomainRedirects, domain.domain, baseUrlRedirect, regular404Redirect, invalidShortUrlRedirect, onClose],
+  );
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} centered>
-      <form name="domainRedirectsModal" onSubmit={handleSubmit}>
-        <ModalHeader toggle={toggle}>Edit redirects for <b>{domain.domain}</b></ModalHeader>
-        <ModalBody>
-          <FormGroup value={baseUrlRedirect} onChange={setBaseUrlRedirect}>
-            <InfoTooltip className="me-2" placement="bottom">
-              Visitors accessing the base url, as in <b>https://{domain.domain}/</b>, will be redirected to this URL.
-            </InfoTooltip>
-            Base URL
-          </FormGroup>
-          <FormGroup value={regular404Redirect} onChange={setRegular404Redirect}>
-            <InfoTooltip className="me-2" placement="bottom">
-              Visitors accessing a url not matching a short URL pattern, as in <b>https://{domain.domain}/???/[...]</b>,
-              will be redirected to this URL.
-            </InfoTooltip>
-            Regular 404
-          </FormGroup>
-          <FormGroup value={invalidShortUrlRedirect} isLast onChange={setInvalidShortUrlRedirect}>
-            <InfoTooltip className="me-2" placement="bottom">
-              Visitors accessing a url matching a short URL pattern, but not matching an existing short code, will be
-              redirected to this URL.
-            </InfoTooltip>
-            Invalid short URL
-          </FormGroup>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="link" type="button" onClick={toggle}>Cancel</Button>
-          <Button color="primary">Save</Button>
-        </ModalFooter>
-      </form>
-    </Modal>
+    <CardModal
+      title={`Edit redirects for ${domain.domain}`}
+      open={isOpen}
+      onClose={onClose}
+      onConfirm={onConfirm}
+      confirmText={saving ? 'Saving...' : 'Save'}
+      confirmDisabled={saving}
+    >
+      <div className="tw:flex tw:flex-col tw:gap-y-3">
+        <FormGroup value={baseUrlRedirect} onChange={setBaseUrlRedirect} onConfirm={onConfirm}>
+          <FontAwesomeIcon
+            className="tw:mr-1.5"
+            icon={infoIcon}
+            title={`Visitors accessing the base url, as in https://${domain.domain}/, will be redirected to this URL.`}
+          />
+          Base URL
+        </FormGroup>
+        <FormGroup value={regular404Redirect} onChange={setRegular404Redirect} onConfirm={onConfirm}>
+          <FontAwesomeIcon
+            className="tw:mr-1.5"
+            icon={infoIcon}
+            title={`Visitors accessing a url not matching a short URL pattern, as in https://${domain.domain}/???/[...], will be redirected to this URL.`}
+          />
+          Regular 404
+        </FormGroup>
+        <FormGroup value={invalidShortUrlRedirect} onChange={setInvalidShortUrlRedirect} onConfirm={onConfirm}>
+          <FontAwesomeIcon
+            className="tw:mr-1.5"
+            icon={infoIcon}
+            title="Visitors accessing a url matching a short URL pattern, but not matching an existing short code, will be redirected to this URL."
+          />
+          Invalid short URL
+        </FormGroup>
+      </div>
+    </CardModal>
   );
 };

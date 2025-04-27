@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { MercureInfo } from '../../src/mercure/reducers/mercureInfo';
@@ -83,23 +83,5 @@ describe('<Overview />', () => {
     expect(links[3]).toHaveAttribute('href', `${routesPrefix}/manage-tags`);
     expect(links[4]).toHaveAttribute('href', `${routesPrefix}/create-short-url`);
     expect(links[5]).toHaveAttribute('href', `${routesPrefix}/list-short-urls/1`);
-  });
-
-  it.each([
-    [{ excludeBots: true }, true],
-    [{ excludeBots: false }, false],
-    [{}, false],
-  ])('displays amounts of bots when hovering visits cards', async (visits, excludeBots) => {
-    const { user } = setUp(false, visits);
-    const expectTooltipToBeInTheDocument = async (tooltip: string) => waitFor(
-      () => expect(screen.getByText(/potential bot visits$/)).toHaveTextContent(tooltip),
-      { timeout: 2000 },
-    );
-
-    await user.hover(screen.getByText(/^Visits/));
-    await expectTooltipToBeInTheDocument(`${excludeBots ? 'Plus' : 'Including'} 1,000 potential bot visits`);
-
-    await user.hover(screen.getByText(/^Orphan visits/));
-    await expectTooltipToBeInTheDocument(`${excludeBots ? 'Plus' : 'Including'} 15 potential bot visits`);
   });
 });

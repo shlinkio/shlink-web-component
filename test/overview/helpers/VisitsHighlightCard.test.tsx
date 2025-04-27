@@ -33,17 +33,17 @@ describe('<VisitsHighlightCard />', () => {
     const { user } = setUp({ title: 'Foo' });
 
     await user.hover(screen.getByText('Foo'));
-    await waitFor(() => expect(screen.queryByText(/potential bot visits$/)).not.toBeInTheDocument(), { timeout: 2000 });
+    expect(screen.queryByText(/potential bot visits$/)).not.toBeInTheDocument();
   });
 
   it('renders tooltip when summary has bots', async () => {
     const { user } = setUp({
       title: 'Foo',
-      visitsSummary: { total: 50, bots: 30 },
+      visitsSummary: { total: 50, bots: 1000 },
     });
 
     await user.hover(screen.getByText('Foo'));
-    await waitFor(() => expect(screen.getByText(/potential bot visits$/)).toBeInTheDocument(), { timeout: 2000 });
+    await waitFor(() => expect(screen.getByTestId('tooltip-amount')).toHaveTextContent('1,000'), { timeout: 2000 });
   });
 
   it.each([

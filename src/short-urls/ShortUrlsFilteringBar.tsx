@@ -6,7 +6,7 @@ import { Button, SearchInput } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
-import { InputGroup, Row, UncontrolledTooltip } from 'reactstrap';
+import { InputGroup, UncontrolledTooltip } from 'reactstrap';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainsList } from '../domains/reducers/domainsList';
@@ -108,41 +108,40 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
         )}
       </InputGroup>
 
-      <Row className="tw:lg:flex-row-reverse">
-        <div className="col-lg-8 col-xl-6">
-          <div className="d-md-flex">
-            <div className="flex-grow-1">
-              <DateRangeSelector
-                defaultText="All short URLs"
-                dateRangeOrInterval={activeInterval ?? datesToDateRange(startDate, endDate)}
-                onDatesChange={setDates}
-              />
-            </div>
-            <ShortUrlsFilterDropdown
-              className="ms-0 ms-md-2"
-              selected={{
-                excludeBots: excludeBots ?? visitsSettings?.excludeBots,
-                excludeMaxVisitsReached,
-                excludePastValidUntil,
-                domain,
-              }}
-              onChange={toFirstPage}
-              domains={domainsList.loading ? undefined : domainsList.domains}
+      <div className="tw:flex tw:flex-col tw:lg:flex-row-reverse tw:gap-y-4">
+        <div className="tw:lg:w-2/3 tw:xl:w-1/2 tw:inline-flex tw:flex-col tw:md:flex-row tw:gap-4">
+          <div className="tw:grow">
+            <DateRangeSelector
+              defaultText="All short URLs"
+              dateRangeOrInterval={activeInterval ?? datesToDateRange(startDate, endDate)}
+              onDatesChange={setDates}
             />
           </div>
-        </div>
-        <div className="col-6 col-lg-4 col-xl-6">
-          <ExportShortUrlsBtn amount={shortUrlsAmount} />
-        </div>
-        <div className="col-6 d-lg-none">
-          <OrderingDropdown
-            prefixed={false}
-            items={SHORT_URLS_ORDERABLE_FIELDS}
-            order={order}
-            onChange={handleOrderBy}
+          <ShortUrlsFilterDropdown
+            selected={{
+              excludeBots: excludeBots ?? visitsSettings?.excludeBots,
+              excludeMaxVisitsReached,
+              excludePastValidUntil,
+              domain,
+            }}
+            onChange={toFirstPage}
+            domains={domainsList.loading ? undefined : domainsList.domains}
           />
         </div>
-      </Row>
+        <div className="tw:lg:w-1/3 tw:xl:w-1/2 tw:inline-flex tw:gap-3">
+          <div className="tw:max-lg:w-1/2 tw:lg:hidden">
+            <OrderingDropdown
+              prefixed={false}
+              items={SHORT_URLS_ORDERABLE_FIELDS}
+              order={order}
+              onChange={handleOrderBy}
+            />
+          </div>
+          <div className="tw:max-lg:w-1/2">
+            <ExportShortUrlsBtn amount={shortUrlsAmount} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

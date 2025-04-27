@@ -1,11 +1,12 @@
 import { faTag, faTags } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
-import { OrderingDropdown, SearchField } from '@shlinkio/shlink-frontend-kit';
+import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
+import { Button, SearchInput } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
-import { Button, InputGroup, Row, UncontrolledTooltip } from 'reactstrap';
+import { InputGroup, Row, UncontrolledTooltip } from 'reactstrap';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainsList } from '../domains/reducers/domainsList';
@@ -21,7 +22,6 @@ import { SHORT_URLS_ORDERABLE_FIELDS } from './data';
 import type { ExportShortUrlsBtnProps } from './helpers/ExportShortUrlsBtn';
 import { useShortUrlsQuery } from './helpers/hooks';
 import { ShortUrlsFilterDropdown } from './helpers/ShortUrlsFilterDropdown';
-import './ShortUrlsFilteringBar.scss';
 
 export type ShortUrlsFilteringBarProps = {
   order: ShortUrlsOrder;
@@ -79,10 +79,10 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
   );
 
   return (
-    <div className={clsx('short-urls-filtering-bar-container', className)}>
-      <SearchField initialValue={search} onChange={setSearch} />
+    <div className={clsx('tw:flex tw:flex-col tw:gap-y-4', className)}>
+      <SearchInput defaultValue={search} onChange={setSearch} />
 
-      <InputGroup className="mt-3">
+      <InputGroup>
         <TagsSelector
           immutable
           placeholder="With tags..."
@@ -92,8 +92,14 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
         />
         {tags.length > 1 && (
           <>
-            <Button outline color="secondary" onClick={toggleTagsMode} id="tagsModeBtn" aria-label="Change tags mode">
-              <FontAwesomeIcon className="short-urls-filtering-bar__tags-icon" icon={tagsMode === 'all' ? faTags : faTag} />
+            <Button
+              variant="secondary"
+              onClick={toggleTagsMode}
+              id="tagsModeBtn"
+              aria-label="Change tags mode"
+              className="tw:[&]:border-l-none tw:[&]:rounded-l-none"
+            >
+              <FontAwesomeIcon className="tw:text-2xl" icon={tagsMode === 'all' ? faTags : faTag} />
             </Button>
             <UncontrolledTooltip target="tagsModeBtn" placement="left">
               {tagsMode === 'all' ? 'With all the tags.' : 'With any of the tags.'}
@@ -102,8 +108,8 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
         )}
       </InputGroup>
 
-      <Row className="flex-lg-row-reverse">
-        <div className="col-lg-8 col-xl-6 mt-3">
+      <Row className="tw:lg:flex-row-reverse">
+        <div className="col-lg-8 col-xl-6">
           <div className="d-md-flex">
             <div className="flex-grow-1">
               <DateRangeSelector
@@ -113,7 +119,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
               />
             </div>
             <ShortUrlsFilterDropdown
-              className="ms-0 ms-md-2 mt-3 mt-md-0"
+              className="ms-0 ms-md-2"
               selected={{
                 excludeBots: excludeBots ?? visitsSettings?.excludeBots,
                 excludeMaxVisitsReached,
@@ -125,10 +131,10 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
             />
           </div>
         </div>
-        <div className="col-6 col-lg-4 col-xl-6 mt-3">
+        <div className="col-6 col-lg-4 col-xl-6">
           <ExportShortUrlsBtn amount={shortUrlsAmount} />
         </div>
-        <div className="col-6 d-lg-none mt-3">
+        <div className="col-6 d-lg-none">
           <OrderingDropdown
             prefixed={false}
             items={SHORT_URLS_ORDERABLE_FIELDS}

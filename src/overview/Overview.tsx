@@ -1,7 +1,8 @@
+import { Card } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Card, CardBody, CardHeader, Row } from 'reactstrap';
+import { Row } from 'reactstrap';
 import type { ShlinkShortUrlsListParams } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -28,15 +29,15 @@ type OverviewCardProps = {
 };
 
 const OverviewCard: FC<OverviewCardProps> = ({ children, titleLinkText, titleLink, title }) => (
-  <Card>
-    <CardHeader className="d-flex justify-content-between align-items-center">
-      <span className="d-sm-none">{title}</span>
-      <h5 className="d-none d-sm-inline m-0">{title}</h5>
+  <Card className="card">
+    <Card.Header className="tw:flex tw:justify-between tw:items-center">
+      <span className="tw:sm:hidden">{title}</span>
+      <h5 className="tw:hidden tw:sm:inline">{title}</h5>
       <Link to={titleLink}>{titleLinkText} &raquo;</Link>
-    </CardHeader>
-    <CardBody>
+    </Card.Header>
+    <Card.Body>
       {children}
-    </CardBody>
+    </Card.Body>
   </Card>
 );
 
@@ -121,7 +122,6 @@ const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub(({
         >
           <ShortUrlsTable
             shortUrlsList={shortUrlsList}
-            className="mb-0"
             onTagClick={(tag) => navigate(`${routesPrefix}/list-short-urls/1?tags=${encodeURIComponent(tag)}`)}
           />
         </OverviewCard>

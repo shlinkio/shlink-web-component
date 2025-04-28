@@ -4,7 +4,6 @@ import {
   useParsedQuery,
 } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router';
 import { useSwipeable as useReactSwipeable } from 'react-swipeable';
 import type { MediaMatcher } from '../types';
 
@@ -49,11 +48,6 @@ export const useQueryState = <T>(paramName: string, initialState: T): [T, (newVa
 export const useArrayQueryParam = (name: string): string[] => {
   const query = useParsedQuery<Record<string, string | undefined>>();
   return useMemo(() => query[name]?.split(',').filter(Boolean) ?? [], [name, query]);
-};
-
-export const useGoBack = () => {
-  const navigate = useNavigate();
-  return useCallback(() => navigate(-1), [navigate]);
 };
 
 export const useMaxResolution = (maxResolution: number, matchMedia: MediaMatcher) => {

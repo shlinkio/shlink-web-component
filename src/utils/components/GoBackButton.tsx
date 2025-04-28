@@ -1,8 +1,8 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGoBack } from '@shlinkio/shlink-frontend-kit';
 import { LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
-import { useGoBack } from '../helpers/hooks';
 
 export const GoBackButton: FC = () => {
   const goBack = useGoBack();

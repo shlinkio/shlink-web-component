@@ -7,7 +7,7 @@ import type { ShlinkShortUrl } from '../../api-contract';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
 import { useSetting } from '../../settings';
-import { CopyToClipboardIcon } from '../../utils/components/CopyToClipboardIcon';
+import { CopyToClipboardButton } from '../../utils/components/CopyToClipboardButton';
 import { Time } from '../../utils/dates/Time';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import { useShortUrlsQuery } from './hooks';
@@ -60,7 +60,7 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
           <span className="short-urls-row__short-url-wrapper">
             <ExternalLink href={shortUrl.shortUrl} />
           </span>
-          <CopyToClipboardIcon text={shortUrl.shortUrl} className="tw:ml-2" />
+          <CopyToClipboardButton text={shortUrl.shortUrl} className="tw:ml-2" />
         </span>
       </td>
       <td

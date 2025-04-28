@@ -1,12 +1,16 @@
 import { screen } from '@testing-library/react';
-import { CopyToClipboardIcon } from '../../../src/utils/components/CopyToClipboardIcon';
+import { fromPartial } from '@total-typescript/shoehorn';
+import { CopyToClipboardButton } from '../../../src/utils/components/CopyToClipboardButton';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
-describe('<CopyToClipboardIcon />', () => {
-  const copyToClipboard = vi.fn();
+describe('<CopyToClipboardButton />', () => {
+  const writeText = vi.fn().mockResolvedValue(undefined);
+  const navigator = fromPartial<typeof globalThis.navigator>({
+    clipboard: { writeText },
+  });
   const setUp = (text = 'foo', initialCopied = false) => renderWithEvents(
-    <CopyToClipboardIcon text={text} copyToClipboard={copyToClipboard} initialCopied={initialCopied} />,
+    <CopyToClipboardButton text={text} navigator_={navigator} initialCopied={initialCopied} />,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -18,9 +22,9 @@ describe('<CopyToClipboardIcon />', () => {
   ])('copies content to clipboard when clicked', async (text) => {
     const { user } = setUp(text);
 
-    expect(copyToClipboard).not.toHaveBeenCalled();
+    expect(writeText).not.toHaveBeenCalled();
     await user.click(screen.getByLabelText(`Copy ${text} to clipboard`));
-    expect(copyToClipboard).toHaveBeenCalledWith(expect.objectContaining({ text }));
+    expect(writeText).toHaveBeenCalledWith(text);
   });
 
   it.each([

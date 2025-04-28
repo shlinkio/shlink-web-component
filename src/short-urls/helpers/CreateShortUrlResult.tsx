@@ -2,7 +2,7 @@ import { CloseButton, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
-import { CopyToClipboardIcon } from '../../utils/components/CopyToClipboardIcon';
+import { CopyToClipboardButton } from '../../utils/components/CopyToClipboardButton';
 import type { ShortUrlCreation } from '../reducers/shortUrlCreation';
 
 export type CreateShortUrlResultProps = {
@@ -48,7 +48,7 @@ export const CreateShortUrlResult: FC<CreateShortUrlResultProps> = (
       )}
       <div className="tw:flex tw:items-center tw:justify-center tw:gap-1">
         <span><b>Great!</b> The short URL is <b>{shortUrl}</b></span>
-        <CopyToClipboardIcon text={shortUrl} />
+        <CopyToClipboardButton text={shortUrl} />
       </div>
     </Result>
   );

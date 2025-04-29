@@ -2,11 +2,10 @@ import { faClone, faImage } from '@fortawesome/free-regular-svg-icons';
 import { faCheck, faFileDownload as downloadIcon, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTimeoutToggle } from '@shlinkio/shlink-frontend-kit';
+import { Button, CardModal } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { DrawType } from 'qr-code-styling';
 import type { ChangeEvent, FC } from 'react';
-import { useCallback , useRef , useState } from 'react';
-import { ExternalLink } from 'react-external-link';
-import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { useCallback, useRef, useState } from 'react';
 import type { QrCodeSettings } from '../../settings';
 import { defaultQrCodeSettings, useSetting } from '../../settings';
 import { ColorInput } from '../../utils/components/ColorInput';
@@ -17,7 +16,6 @@ import type { ShortUrlModalProps } from '../data';
 import { QrDimensionControl } from './qr-codes/QrDimensionControl';
 import { QrErrorCorrectionDropdown } from './qr-codes/QrErrorCorrectionDropdown';
 import { QrFormatDropdown } from './qr-codes/QrFormatDropdown';
-import './QrCodeModal.scss';
 
 export type QrCodeModalProps = ShortUrlModalProps & {
   qrDrawType?: DrawType;
@@ -62,13 +60,11 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
   }, [initialQrSettings]);
 
   return (
-    <Modal isOpen={isOpen} toggle={onClose} centered size="lg" onClosed={resetOptions}>
-      <ModalHeader toggle={onClose}>
-        QR code for <ExternalLink href={shortUrl}>{shortUrl}</ExternalLink>
-      </ModalHeader>
-      <ModalBody className="d-flex flex-column-reverse flex-lg-row gap-3">
-        <div className="flex-grow-1 d-flex align-items-center justify-content-around qr-code-modal__qr-code">
-          <div className="d-flex flex-column gap-1 align-items-center" data-testid="qr-code-container">
+    // TODO Use a link for the header's shortURL as soon as title can be a ReactNode
+    <CardModal open={isOpen} onClose={onClose} title={`QR code for ${shortUrl}`} size="lg" onClosed={resetOptions}>
+      <div className="tw:flex tw:flex-col-reverse tw:lg:flex-row tw:gap-4">
+        <div className="tw:grow tw:flex tw:items-center tw:justify-around">
+          <div className="tw:flex tw:flex-col tw:gap-1 tw:items-center" data-testid="qr-code-container">
             <QrCode
               ref={qrCodeRef}
               data={shortUrl}
@@ -80,10 +76,10 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
               logo={logo?.url}
               drawType={qrDrawType}
             />
-            <div className="text-center fst-italic">Preview ({size + margin}x{size + margin})</div>
+            <div className="tw:italic">Preview ({size + margin}x{size + margin})</div>
           </div>
         </div>
-        <div className="d-flex flex-column gap-2 qr-code-modal__controls">
+        <div className="tw:flex tw:flex-col tw:gap-2 tw:lg:w-64">
           <QrDimensionControl
             name="size"
             value={size}
@@ -109,11 +105,7 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
 
           {!logo && (
             <>
-              <Button
-                outline
-                className="d-flex align-items-center gap-1"
-                onClick={() => logoInputRef.current?.click()}
-              >
+              <Button variant="secondary" onClick={() => logoInputRef.current?.click()}>
                 <FontAwesomeIcon icon={faImage} />
                 Select logo
               </Button>
@@ -123,40 +115,36 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
                 accept="image/*"
                 aria-hidden
                 tabIndex={-1}
-                className="d-none"
+                className="tw:hidden"
                 onChange={onSelectLogo}
                 data-testid="logo-input"
               />
             </>
           )}
           {logo && (
-            <Button
-              outline
-              className="d-flex align-items-center gap-1"
-              onClick={() => setLogo(undefined)}
-            >
+            <Button variant="secondary" onClick={() => setLogo(undefined)}>
               <FontAwesomeIcon icon={faXmark} />
-              <div className="text-truncate">Clear logo ({logo.name})</div>
+              <div className="tw:truncate">Clear logo ({logo.name})</div>
             </Button>
           )}
 
-          <div className="my-auto">
-            <hr className="my-2" />
+          <div className="tw:my-auto">
+            <hr className="tw:my-2" />
           </div>
 
-          <div className="d-flex flex-column gap-2">
+          <div className="tw:flex tw:flex-col tw:gap-2">
             <QrFormatDropdown format={format} onChange={(format) => setQrOption({ format })} />
-            <div className="d-flex align-items-center gap-2">
-              <Button outline color="primary" onClick={copy} aria-label="Copy data URI" title="Copy data URI">
+            <div className="tw:flex tw:items-center tw:gap-2">
+              <Button onClick={copy} aria-label="Copy data URI" title="Copy data URI" className="tw:h-full">
                 <FontAwesomeIcon icon={copied ? faCheck : faClone} fixedWidth />
               </Button>
-              <Button color="primary" onClick={downloadQrCode} className="flex-grow-1">
-                Download <FontAwesomeIcon icon={downloadIcon} className="ms-1" />
+              <Button solid onClick={downloadQrCode} className="tw:grow">
+                Download <FontAwesomeIcon icon={downloadIcon} />
               </Button>
             </div>
           </div>
         </div>
-      </ModalBody>
-    </Modal>
+      </div>
+    </CardModal>
   );
 };

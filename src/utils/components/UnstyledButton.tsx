@@ -1,11 +1,10 @@
 import { clsx } from 'clsx';
 import type { FC, HTMLProps } from 'react';
 
-export const UnstyledButton: FC<Omit<HTMLProps<HTMLButtonElement>, 'type'>> = ({ style, className, ...rest }) => (
+export const UnstyledButton: FC<Omit<HTMLProps<HTMLButtonElement>, 'type'>> = ({ className, ...rest }) => (
   <button
     type="button"
-    className={clsx('border-0', className)}
-    style={{ backgroundColor: 'inherit', fontWeight: 'inherit', color: 'inherit', ...style }}
+    className={clsx('tw:rounded-sm tw:focus-ring', className)}
     {...rest}
   />
 );

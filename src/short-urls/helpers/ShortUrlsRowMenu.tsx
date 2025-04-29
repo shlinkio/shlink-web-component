@@ -96,13 +96,13 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
         </DropdownItem>
       </RowDropdownBtn>
 
-      <QrCodeModal shortUrl={shortUrl} isOpen={isQrModalOpen} toggle={closeQrCodeModal} />
+      <QrCodeModal shortUrl={shortUrl} isOpen={isQrModalOpen} onClose={closeQrCodeModal} />
       <DeleteShortUrlModal
         shortUrl={shortUrl}
         deleteShortUrl={deleteShortUrl}
         shortUrlDeleted={shortUrlDeleted}
         isOpen={isDeleteModalOpen}
-        toggle={closeDeleteModal}
+        onClose={closeDeleteModal}
       />
     </>
   );

@@ -13,7 +13,7 @@ describe('<QrCodeModal />', () => {
       <QrCodeModal
         isOpen
         shortUrl={fromPartial({ shortUrl })}
-        toggle={() => {}}
+        onClose={() => {}}
         qrDrawType="svg" // Render as SVG so that we can test certain functionalities via snapshots
       />
     </SettingsProvider>,

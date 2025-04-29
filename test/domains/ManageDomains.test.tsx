@@ -53,7 +53,10 @@ describe('<ManageDomains />', () => {
   it('shows expected headers and one row when list of domains is empty', () => {
     setUp(fromPartial({ loading: false, error: false, filteredDomains: [] }));
 
-    expect(screen.getAllByRole('columnheader')).toHaveLength(7);
+    expect(screen.getAllByRole('columnheader', {
+      // Tests are run in a mobile resolution, where table headers are hidden
+      hidden: true,
+    })).toHaveLength(7);
     expect(screen.getByText('No results found')).toBeInTheDocument();
   });
 
@@ -65,7 +68,7 @@ describe('<ManageDomains />', () => {
     ];
     setUp(fromPartial({ loading: false, error: false, filteredDomains }));
 
-    expect(screen.getAllByRole('row')).toHaveLength(filteredDomains.length + 1);
+    expect(screen.getAllByRole('row')).toHaveLength(filteredDomains.length);
     expect(screen.getByText('foo')).toBeInTheDocument();
     expect(screen.getByText('bar')).toBeInTheDocument();
     expect(screen.getByText('baz')).toBeInTheDocument();

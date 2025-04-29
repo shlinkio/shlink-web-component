@@ -60,7 +60,12 @@ export default defineConfig({
 
   test: {
     globals: true,
-    setupFiles: './test/setup.ts',
+    setupFiles: [
+      './test/setup.ts',
+      // Load styles in tests, as they affect how components look and behave, and are important for a11y contrast checks
+      './dev/tailwind.css',
+    ],
+
     // Run tests in an actual browser
     browser: {
       provider: 'playwright',
@@ -69,6 +74,7 @@ export default defineConfig({
       screenshotFailures: false,
       instances: [{ browser: 'chromium' }],
     },
+
     coverage: {
       provider: 'v8',
       reportsDirectory: './coverage',

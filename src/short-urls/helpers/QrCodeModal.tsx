@@ -24,7 +24,7 @@ export type QrCodeModalProps = ShortUrlModalProps & {
 };
 
 export const QrCodeModal: FC<QrCodeModalProps> = (
-  { shortUrl: { shortUrl, shortCode }, toggle, isOpen, qrDrawType },
+  { shortUrl: { shortUrl, shortCode }, onClose, isOpen, qrDrawType },
 ) => {
   const initialQrSettings = useSetting('qrCodes', defaultQrCodeSettings);
   const [{ size, margin, color, bgColor, errorCorrection, format }, setQrCodeOptions] = useState(initialQrSettings);
@@ -62,8 +62,8 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
   }, [initialQrSettings]);
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} centered size="lg" onClosed={resetOptions}>
-      <ModalHeader toggle={toggle}>
+    <Modal isOpen={isOpen} toggle={onClose} centered size="lg" onClosed={resetOptions}>
+      <ModalHeader toggle={onClose}>
         QR code for <ExternalLink href={shortUrl}>{shortUrl}</ExternalLink>
       </ModalHeader>
       <ModalBody className="d-flex flex-column-reverse flex-lg-row gap-3">

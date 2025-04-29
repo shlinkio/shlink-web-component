@@ -1,15 +1,14 @@
-import { Result } from '@shlinkio/shlink-frontend-kit';
-import type { SyntheticEvent } from 'react';
+import { CardModal, LabelledInput, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import { useCallback, useEffect, useState } from 'react';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { isErrorAction, isInvalidDeletionError } from '../../api-contract/utils';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
-import type { ShortUrlIdentifier, ShortUrlModalProps } from '../data';
+import type { ShortUrlModalProps } from '../data';
 import type { ShortUrlDeletion } from '../reducers/shortUrlDeletion';
 
 export type DeleteShortUrlModalProps = ShortUrlModalProps & {
-  deleteShortUrl: (shortUrl: ShortUrlIdentifier) => Promise<void>;
-  shortUrlDeleted: (shortUrl: ShortUrlIdentifier) => void;
+  deleteShortUrl: (shortUrl: ShlinkShortUrlIdentifier) => Promise<void>;
+  shortUrlDeleted: (shortUrl: ShlinkShortUrlIdentifier) => void;
 };
 
 type DeleteShortUrlModalConnectProps = DeleteShortUrlModalProps & {
@@ -21,7 +20,7 @@ const DELETION_PATTERN = 'delete';
 
 export const DeleteShortUrlModal = ({
   shortUrl,
-  toggle,
+  onClose,
   isOpen,
   shortUrlDeletion,
   resetDeleteShortUrl,
@@ -35,49 +34,43 @@ export const DeleteShortUrlModal = ({
   const { loading, error, deleted, errorData } = shortUrlDeletion;
   const close = useCallback(() => {
     resetDeleteShortUrl();
-    toggle();
-  }, [resetDeleteShortUrl, toggle]);
-  const handleDeleteUrl = useCallback((e: SyntheticEvent) => {
-    e.preventDefault();
-    return deleteShortUrl(shortUrl).then((a) => !isErrorAction(a) && toggle());
-  }, [deleteShortUrl, shortUrl, toggle]);
+    onClose();
+  }, [resetDeleteShortUrl, onClose]);
+  const handleDeleteUrl = useCallback(
+    () => deleteShortUrl(shortUrl).then((a) => !isErrorAction(a) && onClose()),
+    [deleteShortUrl, shortUrl, onClose],
+  );
 
   return (
-    <Modal isOpen={isOpen} toggle={close} centered onClosed={() => deleted && shortUrlDeleted(shortUrl)}>
-      <form onSubmit={handleDeleteUrl}>
-        <ModalHeader toggle={close}>
-          <span className="text-danger">Delete short URL</span>
-        </ModalHeader>
-        <ModalBody>
-          <p><b className="text-danger">Caution!</b> You are about to delete a short URL.</p>
-          <p>This action cannot be undone. Once you have deleted it, all the visits stats will be lost.</p>
-          <p>Write <b>{DELETION_PATTERN}</b> to confirm deletion.</p>
+    <CardModal
+      open={isOpen}
+      title="Delete short URL"
+      variant="danger"
+      confirmText={loading ? 'Deleting...' : 'Delete'}
+      confirmDisabled={inputValue !== DELETION_PATTERN || loading}
+      onConfirm={handleDeleteUrl}
+      onClose={close}
+      onClosed={() => deleted && shortUrlDeleted(shortUrl)}
+    >
+      <div className="tw:flex tw:flex-col tw:gap-y-2">
+        <p><b className="text-danger">Caution!</b> You are about to delete a short URL.</p>
+        <p>This action cannot be undone. Once you have deleted it, all the visits stats will be lost.</p>
 
-          <input
-            type="text"
-            className="form-control"
-            placeholder={`Insert ${DELETION_PATTERN}`}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
+        <LabelledInput
+          label={<>Type <b>{DELETION_PATTERN}</b> to confirm deletion.</>}
+          type="text"
+          placeholder={DELETION_PATTERN}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleDeleteUrl()}
+        />
 
-          {error && (
-            <Result type={isInvalidDeletionError(errorData) ? 'warning' : 'error'} small className="mt-2">
-              <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while deleting the URL :(" />
-            </Result>
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <button type="button" className="btn btn-link" onClick={close}>Cancel</button>
-          <button
-            type="submit"
-            className="btn btn-danger"
-            disabled={inputValue !== DELETION_PATTERN || loading}
-          >
-            {loading ? 'Deleting...' : 'Delete'}
-          </button>
-        </ModalFooter>
-      </form>
-    </Modal>
+        {error && (
+          <Result variant={isInvalidDeletionError(errorData) ? 'warning' : 'error'} size="sm" className="tw:mt-2">
+            <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while deleting the URL :(" />
+          </Result>
+        )}
+      </div>
+    </CardModal>
   );
 };

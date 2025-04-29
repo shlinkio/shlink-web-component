@@ -1,14 +1,8 @@
-import { Link } from 'react-router';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import type { NumberOrEllipsis } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Paginator as ShlinkPagination } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { clsx } from 'clsx';
+import { useCallback } from 'react';
 import type { ShlinkPaginator } from '../api-contract';
-import type {
-  NumberOrEllipsis } from '../utils/helpers/pagination';
-import {
-  keyForPage,
-  pageIsEllipsis,
-  prettifyPageNumber,
-  progressivePagination,
-} from '../utils/helpers/pagination';
 import { useRoutesPrefix } from '../utils/routesPrefix';
 
 interface PaginatorProps {
@@ -19,35 +13,26 @@ interface PaginatorProps {
 export const Paginator = ({ paginator, currentQueryString = '' }: PaginatorProps) => {
   const { currentPage = 0, pagesCount = 0 } = paginator ?? {};
   const routesPrefix = useRoutesPrefix();
-  const urlForPage = (pageNumber: NumberOrEllipsis) =>
-    `${routesPrefix}/list-short-urls/${pageNumber}${currentQueryString}`;
+  const urlForPage = useCallback(
+    (pageNumber: NumberOrEllipsis) => `${routesPrefix}/list-short-urls/${pageNumber}${currentQueryString}`,
+    [currentQueryString, routesPrefix],
+  );
 
   if (pagesCount <= 1) {
-    return <div className="pb-3" />; // Return some space
+    return <div data-testid="empty-gap" className="tw:pb-4" />; // Return some space
   }
 
-  const renderPages = () =>
-    progressivePagination(currentPage, pagesCount).map((pageNumber, index) => (
-      <PaginationItem
-        key={keyForPage(pageNumber, index)}
-        disabled={pageIsEllipsis(pageNumber)}
-        active={currentPage === pageNumber}
-      >
-        <PaginationLink tag={Link} to={urlForPage(pageNumber)}>
-          {prettifyPageNumber(pageNumber)}
-        </PaginationLink>
-      </PaginationItem>
-    ));
-
   return (
-    <Pagination className="sticky-card-paginator py-3" listClassName="flex-wrap justify-content-center mb-0">
-      <PaginationItem disabled={currentPage === 1}>
-        <PaginationLink previous tag={Link} to={urlForPage(currentPage - 1)} />
-      </PaginationItem>
-      {renderPages()}
-      <PaginationItem disabled={currentPage >= pagesCount}>
-        <PaginationLink next tag={Link} to={urlForPage(currentPage + 1)} />
-      </PaginationItem>
-    </Pagination>
+    <div
+      data-testid="short-urls-paginator"
+      className={clsx(
+        'tw:sticky tw:bottom-0 tw:py-4 tw:-mx-0.5',
+        'tw:flex tw:justify-around',
+        'tw:bg-lm-primary tw:dark:bg-dm-primary',
+        'tw:border-t tw:border-lm-border tw:dark:border-dm-border',
+      )}
+    >
+      <ShlinkPagination urlForPage={urlForPage} currentPage={currentPage} pagesCount={pagesCount} />
+    </div>
   );
 };

@@ -1,9 +1,9 @@
+import { ELLIPSIS } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { ShlinkPaginator } from '../../src/api-contract';
 import { Paginator } from '../../src/short-urls/Paginator';
-import { ELLIPSIS } from '../../src/utils/helpers/pagination';
 import { checkAccessibility } from '../__helpers__/accessibility';
 
 describe('<Paginator />', () => {
@@ -30,24 +30,22 @@ describe('<Paginator />', () => {
     [buildPaginator(0)],
     [buildPaginator(1)],
   ])('renders an empty gap if the number of pages is below 2', (paginator) => {
-    const { container } = setUp(paginator);
-
-    expect(container.firstChild).toBeEmptyDOMElement();
-    expect(container.firstChild).toHaveClass('pb-3');
+    setUp(paginator);
+    expect(screen.getByTestId('empty-gap')).toBeInTheDocument();
   });
 
   it.each([
-    [buildPaginator(2), 4, 0],
-    [buildPaginator(3), 5, 0],
-    [buildPaginator(4), 6, 0],
-    [buildPaginator(5), 7, 1],
-    [buildPaginator(6), 7, 1],
-    [buildPaginator(23), 7, 1],
-  ])('renders previous, next and the list of pages, with ellipses when expected', (
+    { paginator: buildPaginator(2), expectedPages: 3, expectedEllipsis: 0 },
+    { paginator: buildPaginator(3), expectedPages: 4, expectedEllipsis: 0 },
+    { paginator: buildPaginator(4), expectedPages: 5, expectedEllipsis: 0 },
+    { paginator: buildPaginator(5), expectedPages: 5, expectedEllipsis: 1 },
+    { paginator: buildPaginator(6), expectedPages: 5, expectedEllipsis: 1 },
+    { paginator: buildPaginator(23), expectedPages: 5, expectedEllipsis: 1 },
+  ])('renders previous, next and the list of pages, with ellipses when expected', ({
     paginator,
     expectedPages,
     expectedEllipsis,
-  ) => {
+  }) => {
     setUp(paginator);
 
     const links = screen.getAllByRole('link');
@@ -64,7 +62,7 @@ describe('<Paginator />', () => {
     setUp(paginator, currentQueryString);
     const links = screen.getAllByRole('link');
 
-    expect(links).toHaveLength(5);
+    expect(links).toHaveLength(4);
     links.forEach((link) => expect(link).toHaveAttribute('href', expect.stringContaining(currentQueryString)));
   });
 });

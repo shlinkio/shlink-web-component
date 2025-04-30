@@ -36,7 +36,7 @@ export const ShortUrlVisitsCount = (
 
   return (
     <>
-      <span className="indivisible">
+      <span className="tw:whitespace-nowrap">
         {visitsLink}
         <small className="tw:cursor-help" ref={tooltipRef}>
           {maxVisits && <> / {prettify(maxVisits)}</>}
@@ -55,13 +55,13 @@ export const ShortUrlVisitsCount = (
           {validSince && (
             <li>
               This short URL will not accept visits
-              before <b className="indivisible">{formatHumanFriendly(parseISO(validSince))}</b>.
+              before <b className="tw:whitespace-nowrap">{formatHumanFriendly(parseISO(validSince))}</b>.
             </li>
           )}
           {validUntil && (
             <li>
               This short URL will not accept visits
-              after <b className="indivisible">{formatHumanFriendly(parseISO(validUntil))}</b>.
+              after <b className="tw:whitespace-nowrap">{formatHumanFriendly(parseISO(validUntil))}</b>.
             </li>
           )}
         </ul>

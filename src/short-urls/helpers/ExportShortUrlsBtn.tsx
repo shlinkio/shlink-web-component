@@ -70,7 +70,7 @@ const ExportShortUrlsBtn: FCWithDeps<ExportShortUrlsBtnProps, ExportShortUrlsBtn
     tagsMode,
   ]);
 
-  return <ExportBtn loading={loading} className="btn-md-block" amount={amount} onClick={exportAllUrls} />;
+  return <ExportBtn loading={loading} className="tw:max-lg:w-full" amount={amount} onClick={exportAllUrls} />;
 };
 
 export const ExportShortUrlsBtnFactory = componentFactory(ExportShortUrlsBtn, ['apiClientFactory', 'ReportExporter']);

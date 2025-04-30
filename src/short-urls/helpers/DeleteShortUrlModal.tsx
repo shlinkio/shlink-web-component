@@ -53,7 +53,7 @@ export const DeleteShortUrlModal = ({
       onClosed={() => deleted && shortUrlDeleted(shortUrl)}
     >
       <div className="tw:flex tw:flex-col tw:gap-y-2">
-        <p><b className="text-danger">Caution!</b> You are about to delete a short URL.</p>
+        <p><b className="tw:text-danger">Caution!</b> You are about to delete a short URL.</p>
         <p>This action cannot be undone. Once you have deleted it, all the visits stats will be lost.</p>
 
         <LabelledInput

@@ -11,7 +11,7 @@ export type QrFormatDropdownProps = {
 };
 
 export const QrFormatDropdown: FC<QrFormatDropdownProps> = ({ format, onChange }) => (
-  <DropdownBtn text={`Format (${format})`} dropdownClassName="w-100">
+  <DropdownBtn text={`Format (${format})`} dropdownClassName="tw:w-full">
     {qrFormats.map((f) => (
       <DropdownItem key={f} active={format === f} onClick={() => onChange(f)}>{f}</DropdownItem>
     ))}

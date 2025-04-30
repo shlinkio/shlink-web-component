@@ -91,7 +91,7 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
 
         <DropdownItem divider tag="hr" />
 
-        <DropdownItem className="dropdown-item--danger" onClick={confirmDeletions ? openDeleteModal : doDeleteShortUrl}>
+        <DropdownItem className="tw:text-danger" onClick={confirmDeletions ? openDeleteModal : doDeleteShortUrl}>
           <FontAwesomeIcon icon={deleteIcon} fixedWidth /> Delete short URL
         </DropdownItem>
       </RowDropdownBtn>

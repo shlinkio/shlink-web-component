@@ -67,7 +67,7 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
 
           <DropdownItem divider tag="hr" />
 
-          <DropdownItem className="dropdown-item--danger" onClick={toggleDelete}>
+          <DropdownItem className="tw:text-danger" onClick={toggleDelete}>
             <FontAwesomeIcon icon={deleteIcon} fixedWidth className="me-1" /> Delete tag
           </DropdownItem>
         </RowDropdownBtn>

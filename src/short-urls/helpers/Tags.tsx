@@ -10,7 +10,7 @@ interface TagsProps {
 
 export const Tags: FC<TagsProps> = ({ tags, onTagClick, colorGenerator }) => {
   if (tags.length === 0) {
-    return <i className="indivisible"><small>No tags</small></i>;
+    return <i className="tw:whitespace-nowrap"><small>No tags</small></i>;
   }
 
   return (

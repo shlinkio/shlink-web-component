@@ -83,7 +83,7 @@ export const ShortUrlsFilterDropdown = (
           excludePastValidUntil: undefined,
           domain: undefined,
         })}
-        className="fst-italic"
+        className="tw:italic"
       >
         Reset to defaults
       </DropdownItem>

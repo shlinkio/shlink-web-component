@@ -133,20 +133,20 @@ describe('<ShortUrlsRow />', () => {
   });
 
   it.each([
-    [{ validUntil: formatISO(subDays(now(), 1)) }, ['fa-calendar-xmark', 'text-danger']],
-    [{ validSince: formatISO(addDays(now(), 1)) }, ['fa-calendar-xmark', 'text-warning']],
-    [{ maxVisits: 45 }, ['fa-link-slash', 'text-danger']],
-    [{ maxVisits: 45, validSince: formatISO(addDays(now(), 1)) }, ['fa-link-slash', 'text-danger']],
+    [{ validUntil: formatISO(subDays(now(), 1)) }, ['fa-calendar-xmark', 'tw:text-danger']],
+    [{ validSince: formatISO(addDays(now(), 1)) }, ['fa-calendar-xmark', 'tw:text-warning']],
+    [{ maxVisits: 45 }, ['fa-link-slash', 'tw:text-danger']],
+    [{ maxVisits: 45, validSince: formatISO(addDays(now(), 1)) }, ['fa-link-slash', 'tw:text-danger']],
     [
       { validSince: formatISO(addDays(now(), 1)), validUntil: formatISO(subDays(now(), 1)) },
-      ['fa-calendar-xmark', 'text-danger'],
+      ['fa-calendar-xmark', 'tw:text-danger'],
     ],
     [
       { validSince: formatISO(subDays(now(), 1)), validUntil: formatISO(addDays(now(), 1)) },
-      ['fa-check', 'text-primary'],
+      ['fa-check', 'tw:text-brand'],
     ],
-    [{ maxVisits: 500 }, ['fa-check', 'text-primary']],
-    [{}, ['fa-check', 'text-primary']],
+    [{ maxVisits: 500 }, ['fa-check', 'tw:text-brand']],
+    [{}, ['fa-check', 'tw:text-brand']],
   ])('displays expected status icon', (meta, expectedIconClasses) => {
     setUp({ meta });
     const icons = screen.getAllByRole('img', { hidden: true });

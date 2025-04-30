@@ -1,3 +1,4 @@
+import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
@@ -53,14 +54,12 @@ describe('<ShortUrlsRow />', () => {
   ) => renderWithEvents(
     <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
       <SettingsProvider value={fromPartial(settings)}>
-        <table>
-          <tbody>
-            <ShortUrlsRow
-              shortUrl={{ ...shortUrl, title, tags, hasRedirectRules, meta: { ...shortUrl.meta, ...meta } }}
-              onTagClick={() => null}
-            />
-          </tbody>
-        </table>
+        <Table header={<></>}>
+          <ShortUrlsRow
+            shortUrl={{ ...shortUrl, title, tags, hasRedirectRules, meta: { ...shortUrl.meta, ...meta } }}
+            onTagClick={() => null}
+          />
+        </Table>
       </SettingsProvider>
     </MemoryRouter>,
   );
@@ -130,7 +129,7 @@ describe('<ShortUrlsRow />', () => {
     [{}, 'excludeBots=false', shortUrl.visitsSummary?.total],
   ])('renders visits count in fifth row', (settings, search, expectedAmount) => {
     setUp({ settings, search });
-    expect(screen.getAllByRole('cell')[4]).toHaveTextContent(`${expectedAmount}`);
+    expect(screen.getAllByRole('cell', { hidden: true })[4]).toHaveTextContent(`${expectedAmount}`);
   });
 
   it.each([

@@ -24,7 +24,7 @@ describe('<ShortUrlsTable />', () => {
 
   it('should render row groups by default', () => {
     setUp();
-    expect(screen.getAllByRole('rowgroup')).toHaveLength(2);
+    expect(screen.getAllByRole('rowgroup')).toHaveLength(1);
   });
 
   it('should render expected amount of table header cells', () => {
@@ -40,7 +40,10 @@ describe('<ShortUrlsTable />', () => {
   it('should render table header cells with conditional order by icon', () => {
     setUp();
 
-    const getThElementForSortableField = (orderableField: string) => screen.getAllByRole('columnheader').find(
+    const getThElementForSortableField = (orderableField: string) => screen.getAllByRole(
+      'columnheader',
+      { hidden: true },
+    ).find(
       ({ innerHTML }) => innerHTML.includes(SHORT_URLS_ORDERABLE_FIELDS[orderableField as ShortUrlsOrderableFields]),
     );
     const sortableFields = Object.keys(SHORT_URLS_ORDERABLE_FIELDS).filter((sortableField) => sortableField !== 'title');
@@ -60,7 +63,7 @@ describe('<ShortUrlsTable />', () => {
   it('should render composed title column', () => {
     setUp();
 
-    const { innerHTML } = screen.getAllByRole('columnheader')[2];
+    const { innerHTML } = screen.getAllByRole('columnheader', { hidden: true })[2];
 
     expect(innerHTML).toContain('Title');
     expect(innerHTML).toContain('Long URL');

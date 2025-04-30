@@ -1,6 +1,7 @@
 import { faArrowsSplitUpAndLeft as rulesIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
+import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { useEffect, useRef } from 'react';
 import { ExternalLink } from 'react-external-link';
 import type { ShlinkShortUrl } from '../../api-contract';
@@ -16,7 +17,6 @@ import type { ShortUrlsRowMenuType } from './ShortUrlsRowMenu';
 import { ShortUrlStatus } from './ShortUrlStatus';
 import { ShortUrlVisitsCount } from './ShortUrlVisitsCount';
 import { Tags } from './Tags';
-import './ShortUrlsRow.scss';
 
 type ShortUrlsRowProps = {
   onTagClick?: (tag: string) => void;
@@ -51,33 +51,28 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
   }, [shortUrl.visitsSummary?.total, shortUrl.visitsSummary?.nonBots, shortUrl.visitsCount, setActive]);
 
   return (
-    <tr className="responsive-table__row">
-      <td className="indivisible short-urls-row__cell responsive-table__cell" data-th="Created at">
+    <Table.Row className="tw:relative">
+      <Table.Cell className="tw:whitespace-nowrap" columnName="Created at:">
         <Time date={shortUrl.dateCreated} />
-      </td>
-      <td className="responsive-table__cell short-urls-row__cell" data-th="Short URL">
-        <span className="position-relative short-urls-row__cell--indivisible">
-          <span className="short-urls-row__short-url-wrapper">
-            <ExternalLink href={shortUrl.shortUrl} />
-          </span>
-          <CopyToClipboardButton text={shortUrl.shortUrl} className="tw:ml-2" />
+      </Table.Cell>
+      <Table.Cell columnName="Short URL:">
+        <span className="tw:lg:whitespace-nowrap tw:inline-flex tw:items-center tw:gap-x-2">
+          <ExternalLink href={shortUrl.shortUrl} className="tw:max-md:break-all tw:lg:truncate tw:max-w-72" />
+          <CopyToClipboardButton text={shortUrl.shortUrl} />
         </span>
-      </td>
-      <td
-        className="responsive-table__cell short-urls-row__cell short-urls-row__cell--break"
-        data-th={`${shortUrl.title ? 'Title' : 'Long URL'}`}
-      >
+      </Table.Cell>
+      <Table.Cell className="tw:break-all" columnName={`${shortUrl.title ? 'Title' : 'Long URL'}:`}>
         <ExternalLink href={shortUrl.longUrl}>{shortUrl.title ?? shortUrl.longUrl}</ExternalLink>
-      </td>
+      </Table.Cell>
       {shortUrl.title && (
-        <td className="short-urls-row__cell responsive-table__cell short-urls-row__cell--break d-lg-none" data-th="Long URL">
+        <Table.Cell className="tw:break-all tw:[&]:lg:hidden" columnName="Long URL:">
           <ExternalLink href={shortUrl.longUrl} />
-        </td>
+        </Table.Cell>
       )}
-      <td className="responsive-table__cell short-urls-row__cell" data-th="Tags">
+      <Table.Cell columnName="Tags:">
         <Tags tags={shortUrl.tags} colorGenerator={colorGenerator} onTagClick={onTagClick} />
-      </td>
-      <td className="responsive-table__cell short-urls-row__cell text-lg-end" data-th="Visits">
+      </Table.Cell>
+      <Table.Cell className="tw:lg:text-right" columnName="Visits:">
         <ShortUrlVisitsCount
           visitsCount={(
             doExcludeBots ? shortUrl.visitsSummary?.nonBots : shortUrl.visitsSummary?.total
@@ -86,9 +81,9 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
           active={active}
           asLink
         />
-      </td>
-      <td className="responsive-table__cell short-urls-row__cell" data-th="Status">
-        <div className="d-flex gap-2">
+      </Table.Cell>
+      <Table.Cell columnName="Status:" className="tw:max-lg:border-none">
+        <div className="tw:inline-flex tw:gap-2">
           <ShortUrlStatus shortUrl={shortUrl} />
           {shortUrl.hasRedirectRules && (
             <ShortUrlDetailLink
@@ -101,11 +96,11 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
             </ShortUrlDetailLink>
           )}
         </div>
-      </td>
-      <td className="responsive-table__cell short-urls-row__cell text-end">
+      </Table.Cell>
+      <Table.Cell className="tw:text-right tw:max-lg:absolute tw:max-lg:top-1 tw:max-lg:right-1 tw:max-lg:p-0">
         <ShortUrlsRowMenu shortUrl={shortUrl} />
-      </td>
-    </tr>
+      </Table.Cell>
+    </Table.Row>
   );
 };
 

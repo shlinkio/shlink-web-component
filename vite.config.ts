@@ -32,6 +32,15 @@ export default defineConfig({
     },
   },
 
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Silence annoying sass deprecation warnings until we get rid of bootstrap
+        silenceDeprecations: ['mixed-decls', 'abs-percent', 'color-functions', 'global-builtin', 'import'],
+      },
+    },
+  },
+
   server: {
     watch: {
       ignored: ['**/dist/**', '**/.idea/**', '**/node_modules/**', '**/.git/**', '**/test/**'],

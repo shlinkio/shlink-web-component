@@ -46,12 +46,16 @@ export default defineConfig({
 
   // Vitest recommended to add these dependencies here to avoid flaky tests
   optimizeDeps: {
-    entries: [
+    include: [
       '@fortawesome/free-regular-svg-icons',
-      'react-external-link',
-      'compare-versions',
+      '@json2csv/plainjs',
+      '@shlinkio/shlink-js-sdk',
       '@shlinkio/shlink-js-sdk/api-contract',
+      '@shlinkio/shlink-js-sdk/fetch',
+      'compare-versions',
       'qr-code-styling',
+      'react-dom/client',
+      'react-external-link',
     ],
   },
 

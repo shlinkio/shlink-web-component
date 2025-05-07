@@ -66,6 +66,9 @@ export default defineConfig({
       './dev/tailwind.css',
     ],
 
+    // Propagate env vars from process.env, so that they can be accessed from tests
+    env: process.env,
+
     // Run tests in an actual browser
     browser: {
       provider: 'playwright',

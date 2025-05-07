@@ -40,22 +40,22 @@ export const DomainRow: FC<DomainRowProps> = (
   }, [checkDomainHealth, domain.domain]);
 
   return (
-    <Table.Row className="tw:max-md:relative">
-      <Table.Cell columnName="Is default domain">{isDefault && <DefaultDomain />}</Table.Cell>
-      <Table.Cell columnName="Domain"><b>{authority}</b></Table.Cell>
-      <Table.Cell columnName="Base path redirect">
+    <Table.Row className="tw:relative">
+      <Table.Cell columnName="Is default domain:">{isDefault && <DefaultDomain />}</Table.Cell>
+      <Table.Cell columnName="Domain:"><b>{authority}</b></Table.Cell>
+      <Table.Cell columnName="Base path redirect:">
         {redirects?.baseUrlRedirect ?? <Nr fallback={defaultRedirects?.baseUrlRedirect} />}
       </Table.Cell>
-      <Table.Cell columnName="Regular 404 redirect">
+      <Table.Cell columnName="Regular 404 redirect:">
         {redirects?.regular404Redirect ?? <Nr fallback={defaultRedirects?.regular404Redirect} />}
       </Table.Cell>
-      <Table.Cell columnName="Invalid short URL redirect">
+      <Table.Cell columnName="Invalid short URL redirect:">
         {redirects?.invalidShortUrlRedirect ?? <Nr fallback={defaultRedirects?.invalidShortUrlRedirect} />}
       </Table.Cell>
-      <Table.Cell className="tw:lg:text-center" columnName="Status">
+      <Table.Cell className="tw:lg:text-center tw:max-lg:border-none" columnName="Status:">
         <DomainStatusIcon status={status} />
       </Table.Cell>
-      <Table.Cell className="tw:text-right tw:max-md:absolute tw:max-md:-top-0.5 tw:max-md:right-0">
+      <Table.Cell className="tw:text-right tw:max-lg:absolute tw:max-lg:top-1 tw:max-lg:right-1 tw:max-lg:p-0">
         <DomainDropdown domain={domain} editDomainRedirects={editDomainRedirects} />
       </Table.Cell>
     </Table.Row>

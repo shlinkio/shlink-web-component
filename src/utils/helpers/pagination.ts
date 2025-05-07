@@ -1,39 +1,26 @@
-import { range } from '@shlinkio/data-manipulation';
-import { prettify } from './numbers';
+import type { NumberOrEllipsis as ShlinkNumberOrEllipsis } from '@shlinkio/shlink-frontend-kit/tailwind';
+import {
+  ELLIPSIS as SHLINK_ELLIPSIS,
+  keyForPage as shlinkKeyForPage,
+  pageIsEllipsis as shlinkPageIsEllipsis,
+  prettifyPageNumber as shlinkPrettifyPageNumber,
+  progressivePagination as shlinkProgressivePagination,
+} from '@shlinkio/shlink-frontend-kit/tailwind';
 
-const DELTA = 2;
+/** @deprecated Use same symbol from @shlinkio/shlink-frontend-kit/tailwind */
+export const ELLIPSIS = SHLINK_ELLIPSIS;
 
-export const ELLIPSIS = '...';
+/** @deprecated Use same symbol from @shlinkio/shlink-frontend-kit/tailwind */
+export type NumberOrEllipsis = ShlinkNumberOrEllipsis;
 
-type Ellipsis = typeof ELLIPSIS;
+/** @deprecated se same symbol from @shlinkio/shlink-frontend-kit/tailwind */
+export const progressivePagination = shlinkProgressivePagination;
 
-export type NumberOrEllipsis = number | Ellipsis;
+/** @deprecated se same symbol from @shlinkio/shlink-frontend-kit/tailwind */
+export const pageIsEllipsis = shlinkPageIsEllipsis;
 
-export const progressivePagination = (currentPage: number, pageCount: number): NumberOrEllipsis[] => {
-  const pages: NumberOrEllipsis[] = range(
-    Math.max(DELTA, currentPage - DELTA),
-    Math.min(pageCount - 1, currentPage + DELTA) + 1,
-  );
+/** @deprecated se same symbol from @shlinkio/shlink-frontend-kit/tailwind */
+export const prettifyPageNumber = shlinkPrettifyPageNumber;
 
-  if (currentPage - DELTA > DELTA) {
-    pages.unshift(ELLIPSIS);
-  }
-  if (currentPage + DELTA < pageCount - 1) {
-    pages.push(ELLIPSIS);
-  }
-
-  pages.unshift(1);
-  pages.push(pageCount);
-
-  return pages;
-};
-
-export const pageIsEllipsis = (pageNumber: NumberOrEllipsis): pageNumber is Ellipsis => pageNumber === ELLIPSIS;
-
-export const prettifyPageNumber = (pageNumber: NumberOrEllipsis): string => (
-  pageIsEllipsis(pageNumber) ? pageNumber : prettify(pageNumber)
-);
-
-export const keyForPage = (pageNumber: NumberOrEllipsis, index: number) => (
-  !pageIsEllipsis(pageNumber) ? `${pageNumber}` : `${pageNumber}_${index}`
-);
+/** @deprecated se same symbol from @shlinkio/shlink-frontend-kit/tailwind */
+export const keyForPage = shlinkKeyForPage;

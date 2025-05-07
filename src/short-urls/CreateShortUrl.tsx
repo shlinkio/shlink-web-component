@@ -5,7 +5,7 @@ import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { ShortUrlCreationSettings } from '../settings';
 import { useSetting } from '../settings';
-import type { CreateShortUrlResultProps } from './helpers/CreateShortUrlResult';
+import { CreateShortUrlResult } from './helpers/CreateShortUrlResult';
 import type { ShortUrlCreation } from './reducers/shortUrlCreation';
 import type { ShortUrlFormProps } from './ShortUrlForm';
 
@@ -21,7 +21,6 @@ interface CreateShortUrlConnectProps extends CreateShortUrlProps {
 
 type CreateShortUrlDeps = {
   ShortUrlForm: FC<ShortUrlFormProps<ShlinkCreateShortUrlData>>;
-  CreateShortUrlResult: FC<CreateShortUrlResultProps>;
 };
 
 const getInitialState = (settings?: ShortUrlCreationSettings): ShlinkCreateShortUrlData => ({
@@ -45,7 +44,7 @@ const CreateShortUrl: FCWithDeps<CreateShortUrlConnectProps, CreateShortUrlDeps>
   resetCreateShortUrl,
   basicMode = false,
 }: CreateShortUrlConnectProps) => {
-  const { ShortUrlForm, CreateShortUrlResult } = useDependencies(CreateShortUrl);
+  const { ShortUrlForm } = useDependencies(CreateShortUrl);
   const shortUrlCreationSettings = useSetting('shortUrlCreation');
   const initialState = useMemo(() => getInitialState(shortUrlCreationSettings), [shortUrlCreationSettings]);
 
@@ -69,4 +68,4 @@ const CreateShortUrl: FCWithDeps<CreateShortUrlConnectProps, CreateShortUrlDeps>
   );
 };
 
-export const CreateShortUrlFactory = componentFactory(CreateShortUrl, ['ShortUrlForm', 'CreateShortUrlResult']);
+export const CreateShortUrlFactory = componentFactory(CreateShortUrl, ['ShortUrlForm']);

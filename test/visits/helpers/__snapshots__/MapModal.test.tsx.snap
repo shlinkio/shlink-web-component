@@ -52,19 +52,19 @@ exports[`<MapModal /> > renders expected map 1`] = `
                     alt=""
                     class="leaflet-tile"
                     src="https://c.tile.openstreetmap.org/2/1/1.png"
-                    style="width: 256px; height: 256px; transform: translate3d(47px, -79px, 0px);"
+                    style="width: 256px; height: 256px; transform: translate3d(47px, -69px, 0px);"
                   />
                   <img
                     alt=""
                     class="leaflet-tile"
                     src="https://b.tile.openstreetmap.org/2/0/1.png"
-                    style="width: 256px; height: 256px; transform: translate3d(-209px, -79px, 0px);"
+                    style="width: 256px; height: 256px; transform: translate3d(-209px, -69px, 0px);"
                   />
                   <img
                     alt=""
                     class="leaflet-tile"
                     src="https://a.tile.openstreetmap.org/2/2/1.png"
-                    style="width: 256px; height: 256px; transform: translate3d(303px, -79px, 0px);"
+                    style="width: 256px; height: 256px; transform: translate3d(303px, -69px, 0px);"
                   />
                 </div>
               </div>
@@ -79,13 +79,13 @@ exports[`<MapModal /> > renders expected map 1`] = `
                 alt=""
                 class="leaflet-marker-shadow leaflet-zoom-animated"
                 src="marker-shadow.png"
-                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(301px, 46px, 0px);"
+                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(301px, 56px, 0px);"
               />
               <img
                 alt=""
                 class="leaflet-marker-shadow leaflet-zoom-animated"
                 src="marker-shadow.png"
-                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(93px, 50px, 0px);"
+                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(93px, 60px, 0px);"
               />
             </div>
             <div
@@ -96,7 +96,7 @@ exports[`<MapModal /> > renders expected map 1`] = `
                 class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
                 role="button"
                 src="marker-icon.png"
-                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(301px, 46px, 0px); z-index: 46;"
+                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(301px, 56px, 0px); z-index: 56;"
                 tabindex="0"
               />
               <img
@@ -104,7 +104,7 @@ exports[`<MapModal /> > renders expected map 1`] = `
                 class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
                 role="button"
                 src="marker-icon.png"
-                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(93px, 50px, 0px); z-index: 50;"
+                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(93px, 60px, 0px); z-index: 60;"
                 tabindex="0"
               />
             </div>

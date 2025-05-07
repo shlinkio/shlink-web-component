@@ -1,19 +1,18 @@
+import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
-import type { FC, ReactNode } from 'react';
+import type { FC, PropsWithChildren, ReactNode } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { UnstyledButton } from '../utils/components/UnstyledButton';
 import type { ShortUrlsOrderableFields } from './data';
 import type { ShortUrlsRowType } from './helpers/ShortUrlsRow';
 import type { ShortUrlsList as ShortUrlsListState } from './reducers/shortUrlsList';
-import './ShortUrlsTable.scss';
 
 type ShortUrlsTableProps = {
   orderByColumn?: (column: ShortUrlsOrderableFields) => () => void;
   renderOrderIcon?: (column: ShortUrlsOrderableFields) => ReactNode;
   shortUrlsList: ShortUrlsListState;
   onTagClick?: (tag: string) => void;
-  className?: string;
 };
 
 type ShortUrlsTableDeps = {
@@ -22,25 +21,27 @@ type ShortUrlsTableDeps = {
 
 type ShortUrlsTableBodyProps = ShortUrlsTableDeps & Pick<ShortUrlsTableProps, 'shortUrlsList' | 'onTagClick'>;
 
+const FullRow: FC<PropsWithChildren<{ danger?: boolean }>> = ({ children, danger }) => (
+  <Table.Row>
+    <Table.Cell colSpan={6} className={clsx('tw:text-center', { 'tw:text-danger tw:font-bold': danger })}>
+      {children}
+    </Table.Cell>
+  </Table.Row>
+);
+
 const ShortUrlsTableBody: FC<ShortUrlsTableBodyProps> = ({ shortUrlsList, onTagClick, ShortUrlsRow }) => {
   const { error, loading, shortUrls } = shortUrlsList;
 
   if (error) {
-    return (
-      <tr>
-        <td colSpan={6} className="text-center table-danger text-dark">
-          Something went wrong while loading short URLs :(
-        </td>
-      </tr>
-    );
+    return <FullRow danger>Something went wrong while loading short URLs :(</FullRow>;
   }
 
   if (loading) {
-    return <tr><td colSpan={6} className="text-center">Loading...</td></tr>;
+    return <FullRow>Loading...</FullRow>;
   }
 
-  if (!loading && (!shortUrls || shortUrls.data.length === 0)) {
-    return <tr><td colSpan={6} className="text-center">No results found</td></tr>;
+  if (!shortUrls || shortUrls.data.length === 0) {
+    return <FullRow>No results found</FullRow>;
   }
 
   return shortUrls?.data.map((shortUrl) => (
@@ -57,43 +58,40 @@ const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
   renderOrderIcon,
   shortUrlsList,
   onTagClick,
-  className,
 }: ShortUrlsTableProps) => {
   const { ShortUrlsRow } = useDependencies(ShortUrlsTable);
-  const actionableFieldClasses = clsx({ 'short-urls-table__header-cell--with-action': !!orderByColumn });
-  const orderableColumnsClasses = clsx('short-urls-table__header-cell', actionableFieldClasses);
-  const tableClasses = clsx('table table-hover responsive-table short-urls-table', className);
+  const columnsClasses = clsx({ 'tw:cursor-pointer': !!orderByColumn });
 
   return (
-    <table className={tableClasses}>
-      <thead className="responsive-table__header short-urls-table__header">
-        <tr>
-          <th className={orderableColumnsClasses} onClick={orderByColumn?.('dateCreated')}>
+    <Table
+      className="tw:mb-[-1px] tw:w-full"
+      header={(
+        <Table.Row>
+          <Table.Cell className={columnsClasses} onClick={orderByColumn?.('dateCreated')}>
             Created at {renderOrderIcon?.('dateCreated')}
-          </th>
-          <th className={orderableColumnsClasses} onClick={orderByColumn?.('shortCode')}>
+          </Table.Cell>
+          <Table.Cell className={columnsClasses} onClick={orderByColumn?.('shortCode')}>
             Short URL {renderOrderIcon?.('shortCode')}
-          </th>
-          <th className="short-urls-table__header-cell">
-            <UnstyledButton className={clsx('p-0', actionableFieldClasses)} onClick={orderByColumn?.('title')}>
+          </Table.Cell>
+          <Table.Cell>
+            <UnstyledButton className={clsx('tw:p-0', columnsClasses)} onClick={orderByColumn?.('title')}>
               Title {renderOrderIcon?.('title')}
             </UnstyledButton>
             &nbsp;&nbsp;/&nbsp;&nbsp;
-            <UnstyledButton className={clsx('p-0', actionableFieldClasses)} onClick={orderByColumn?.('longUrl')}>
-              <span className="indivisible">Long URL</span> {renderOrderIcon?.('longUrl')}
+            <UnstyledButton className={clsx('tw:p-0', columnsClasses)} onClick={orderByColumn?.('longUrl')}>
+              <span className="tw:whitespace-nowrap">Long URL</span> {renderOrderIcon?.('longUrl')}
             </UnstyledButton>
-          </th>
-          <th className="short-urls-table__header-cell">Tags</th>
-          <th className={orderableColumnsClasses} onClick={orderByColumn?.('visits')}>
-            <span className="indivisible">Visits {renderOrderIcon?.('visits')}</span>
-          </th>
-          <th className="short-urls-table__header-cell" colSpan={2} aria-hidden />
-        </tr>
-      </thead>
-      <tbody>
-        <ShortUrlsTableBody ShortUrlsRow={ShortUrlsRow} shortUrlsList={shortUrlsList} onTagClick={onTagClick} />
-      </tbody>
-    </table>
+          </Table.Cell>
+          <Table.Cell>Tags</Table.Cell>
+          <Table.Cell className={columnsClasses} onClick={orderByColumn?.('visits')}>
+            <span className="tw:whitespace-nowrap">Visits {renderOrderIcon?.('visits')}</span>
+          </Table.Cell>
+          <Table.Cell colSpan={2} aria-hidden />
+        </Table.Row>
+      )}
+    >
+      <ShortUrlsTableBody ShortUrlsRow={ShortUrlsRow} shortUrlsList={shortUrlsList} onTagClick={onTagClick} />
+    </Table>
   );
 };
 

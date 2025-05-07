@@ -1,14 +1,12 @@
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { CardModal } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { UnstyledButton } from '../utils/components/UnstyledButton';
-import './UseExistingIfFoundInfoIcon.scss';
 
-const InfoModal = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }) => (
-  <Modal isOpen={isOpen} toggle={toggle} centered size="lg">
-    <ModalHeader toggle={toggle}>Info</ModalHeader>
-    <ModalBody>
+const InfoModal = (props: { open: boolean; onClose: () => void }) => (
+  <CardModal {...props} title="Info" size="lg">
+    <div className="tw:flex tw:flex-col tw:gap-y-2">
       <p>
         When the&nbsp;
         <b><i>&quot;Use existing URL if found&quot;</i></b>
@@ -17,9 +15,10 @@ const InfoModal = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }) 
       <p>
         These are the checks performed by Shlink in order to determine if an existing short URL should be returned:
       </p>
-      <ul>
+      <ul className="tw:list-disc tw:mb-0">
         <li>
-          When only the long URL is provided: The most recent match will be returned, or a new short URL will be created
+          When only the long URL is provided: The most recent match will be returned, or a new short URL will be
+          created
           if none is found.
         </li>
         <li>
@@ -33,20 +32,20 @@ const InfoModal = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }) 
           all provided data. If any of them does not match, a new short URL will be created
         </li>
       </ul>
-    </ModalBody>
-  </Modal>
+    </div>
+  </CardModal>
 );
 
 export const UseExistingIfFoundInfoIcon = () => {
-  const [isModalOpen, toggleModal] = useToggle();
+  const { flag: isModalOpen, setToFalse: closeModal, setToTrue: openModal } = useToggle(false, true);
 
   // TODO Replace native title with bootstrap tooltip + aria-label for accessibility
   return (
     <>
-      <UnstyledButton className="p-0" title="What does this mean?" onClick={toggleModal}>
+      <UnstyledButton title="What does this mean?" onClick={openModal}>
         <FontAwesomeIcon icon={infoIcon} />
       </UnstyledButton>
-      <InfoModal isOpen={isModalOpen} toggle={toggleModal} />
+      <InfoModal open={isModalOpen} onClose={closeModal} />
     </>
   );
 };

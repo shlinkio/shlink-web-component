@@ -2,7 +2,6 @@ import type Bottle from 'bottlejs';
 import type { ConnectDecorator } from '../../container';
 import { CreateShortUrlFactory } from '../CreateShortUrl';
 import { EditShortUrlFactory } from '../EditShortUrl';
-import { CreateShortUrlResultFactory } from '../helpers/CreateShortUrlResult';
 import { DeleteShortUrlModal } from '../helpers/DeleteShortUrlModal';
 import { ExportShortUrlsBtnFactory } from '../helpers/ExportShortUrlsBtn';
 import { ShortUrlsRowFactory } from '../helpers/ShortUrlsRow';
@@ -27,7 +26,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
 
   bottle.factory('ShortUrlsTable', ShortUrlsTableFactory);
   bottle.factory('ShortUrlsRow', ShortUrlsRowFactory);
-  bottle.factory('CreateShortUrlResult', CreateShortUrlResultFactory);
 
   bottle.factory('ShortUrlsRowMenu', ShortUrlsRowMenuFactory);
   bottle.decorator('ShortUrlsRowMenu', connect(null, ['shortUrlDeleted', 'deleteShortUrl']));

@@ -7,7 +7,7 @@ export type ShortUrlIdentifier = ShlinkShortUrlIdentifier;
 export type ShortUrlModalProps = {
   shortUrl: ShlinkShortUrl;
   isOpen: boolean;
-  toggle: () => void;
+  onClose: () => void;
 };
 
 export const SHORT_URLS_ORDERABLE_FIELDS = {

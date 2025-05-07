@@ -16,12 +16,11 @@ export const QrDimensionControl: FC<QrCodeDimensionControlProps> = (
   const id = useId();
 
   return (
-    <div className="d-flex flex-column gap-1">
-      <label htmlFor={id} className="text-capitalize">{name}: {value}px</label>
+    <div className="tw:flex tw:flex-col tw:gap-1">
+      <label htmlFor={id} className="tw:capitalize">{name}: {value}px</label>
       <input
         id={id}
         type="range"
-        className="form-control-range"
         value={value}
         step={step}
         min={min}

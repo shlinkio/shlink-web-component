@@ -216,12 +216,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
               stroke="none"
               text-anchor="middle"
               width="769"
-              x="788"
+              x="785.609375"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="788"
+                x="785.609375"
               >
                 600
               </tspan>
@@ -711,12 +711,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
               stroke="none"
               text-anchor="middle"
               width="769"
-              x="774"
+              x="768.8203125"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="774"
+                x="768.8203125"
               >
                 140,000
               </tspan>
@@ -1224,12 +1224,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
               stroke="none"
               text-anchor="middle"
               width="769"
-              x="774"
+              x="768.8203125"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="774"
+                x="768.8203125"
               >
                 140,000
               </tspan>
@@ -1794,12 +1794,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
               stroke="none"
               text-anchor="middle"
               width="755"
-              x="788"
+              x="785.609375"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="788"
+                x="785.609375"
               >
                 300
               </tspan>
@@ -2364,12 +2364,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
               stroke="none"
               text-anchor="middle"
               width="755"
-              x="788"
+              x="785.609375"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="788"
+                x="785.609375"
               >
                 600
               </tspan>
@@ -2955,12 +2955,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
               stroke="none"
               text-anchor="middle"
               width="755"
-              x="788"
+              x="785.609375"
               y="373"
             >
               <tspan
                 dy="0.71em"
-                x="788"
+                x="785.609375"
               >
                 600
               </tspan>

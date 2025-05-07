@@ -1,10 +1,10 @@
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir } from '@shlinkio/shlink-frontend-kit';
+import { SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useParams } from 'react-router';
-import { Card } from 'reactstrap';
 import type { ShlinkShortUrlsListParams, ShlinkShortUrlsOrder } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -123,10 +123,10 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
         shortUrlsAmount={shortUrlsList.shortUrls?.pagination.totalItems}
         order={actualOrderBy}
         handleOrderBy={handleOrderBy}
-        className="mb-3"
+        className="tw:mb-4"
       />
-      <VisitsComparisonCollector type="short-urls" className="mb-3" />
-      <Card body className={clsx({ 'pb-0': !shortUrlsList.loading })}>
+      <VisitsComparisonCollector type="short-urls" className="tw:mb-4" />
+      <SimpleCard bodyClassName={clsx({ 'tw:pb-0': !shortUrlsList.loading })}>
         <ShortUrlsTable
           shortUrlsList={shortUrlsList}
           orderByColumn={orderByColumn}
@@ -134,7 +134,7 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
           onTagClick={addTag}
         />
         {!shortUrlsList.loading && <Paginator paginator={pagination} currentQueryString={location.search} />}
-      </Card>
+      </SimpleCard>
     </VisitsComparisonProvider>
 
   );

@@ -1,6 +1,6 @@
 import type { DrawType } from 'qr-code-styling';
 import QRCodeStyling from 'qr-code-styling';
-import { forwardRef, useCallback , useEffect , useImperativeHandle , useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
 import type { QrCodeFormat, QrCodeSettings, QrErrorCorrection } from '../../settings';
 
 export type QrCodeProps = Omit<QrCodeSettings, 'format' | 'logo'> & {
@@ -88,5 +88,13 @@ export const QrCode = forwardRef<QrRef, QrCodeProps>(({
     });
   }, [bgColor, color, data, drawType, errorCorrection, logo, margin, size]);
 
-  return <div ref={containerRef} />;
+  return (
+    <>
+      <style
+        // This ensures the canvas never grows more than 100%
+        dangerouslySetInnerHTML={{ __html: '#qr-code-canvas-container canvas { max-width: 100% }' }}
+      />
+      <div ref={containerRef} id="qr-code-canvas-container" />
+    </>
+  );
 });

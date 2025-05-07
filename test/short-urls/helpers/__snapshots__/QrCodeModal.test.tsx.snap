@@ -2,10 +2,15 @@
 
 exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
 <div
-  class="d-flex flex-column gap-1 align-items-center"
+  class="tw:flex tw:flex-col tw:gap-1 tw:items-center"
   data-testid="qr-code-container"
 >
-  <div>
+  <style>
+    #qr-code-canvas-container canvas { max-width: 100% }
+  </style>
+  <div
+    id="qr-code-canvas-container"
+  >
     <svg
       height="300"
       viewBox="0 0 300 300"
@@ -14,7 +19,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
     >
       <defs>
         <clippath
-          id="clip-path-background-color-2"
+          id="clip-path-background-color-1"
         >
           <rect
             height="300"
@@ -24,7 +29,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
           />
         </clippath>
         <clippath
-          id="clip-path-dot-color-2"
+          id="clip-path-dot-color-1"
         >
           <rect
             height="12"
@@ -2367,7 +2372,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
         </clippath>
       </defs>
       <rect
-        clip-path="url('#clip-path-background-color-2')"
+        clip-path="url('#clip-path-background-color-1')"
         fill="#ffffff"
         height="300"
         width="300"
@@ -2375,7 +2380,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
         y="0"
       />
       <rect
-        clip-path="url('#clip-path-dot-color-2')"
+        clip-path="url('#clip-path-dot-color-1')"
         fill="#000000"
         height="300"
         width="300"
@@ -2385,7 +2390,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
     </svg>
   </div>
   <div
-    class="text-center fst-italic"
+    class="tw:italic"
   >
     Preview (
     300
@@ -2398,10 +2403,15 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
 
 exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
 <div
-  class="d-flex flex-column gap-1 align-items-center"
+  class="tw:flex tw:flex-col tw:gap-1 tw:items-center"
   data-testid="qr-code-container"
 >
-  <div>
+  <style>
+    #qr-code-canvas-container canvas { max-width: 100% }
+  </style>
+  <div
+    id="qr-code-canvas-container"
+  >
     <svg
       height="580"
       viewBox="0 0 580 580"
@@ -2410,7 +2420,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
     >
       <defs>
         <clippath
-          id="clip-path-background-color-5"
+          id="clip-path-background-color-4"
         >
           <rect
             height="580"
@@ -2420,7 +2430,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
           />
         </clippath>
         <clippath
-          id="clip-path-dot-color-5"
+          id="clip-path-dot-color-4"
         >
           <rect
             height="21"
@@ -4763,7 +4773,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
         </clippath>
       </defs>
       <rect
-        clip-path="url('#clip-path-background-color-5')"
+        clip-path="url('#clip-path-background-color-4')"
         fill="#ffffff"
         height="580"
         width="580"
@@ -4771,7 +4781,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
         y="0"
       />
       <rect
-        clip-path="url('#clip-path-dot-color-5')"
+        clip-path="url('#clip-path-dot-color-4')"
         fill="#000000"
         height="580"
         width="580"
@@ -4781,7 +4791,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
     </svg>
   </div>
   <div
-    class="text-center fst-italic"
+    class="tw:italic"
   >
     Preview (
     580
@@ -4794,10 +4804,15 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
 
 exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
 <div
-  class="d-flex flex-column gap-1 align-items-center"
+  class="tw:flex tw:flex-col tw:gap-1 tw:items-center"
   data-testid="qr-code-container"
 >
-  <div>
+  <style>
+    #qr-code-canvas-container canvas { max-width: 100% }
+  </style>
+  <div
+    id="qr-code-canvas-container"
+  >
     <svg
       height="300"
       viewBox="0 0 300 300"
@@ -4806,7 +4821,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
     >
       <defs>
         <clippath
-          id="clip-path-background-color-7"
+          id="clip-path-background-color-6"
         >
           <rect
             height="300"
@@ -4816,7 +4831,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
           />
         </clippath>
         <clippath
-          id="clip-path-dot-color-7"
+          id="clip-path-dot-color-6"
         >
           <rect
             height="10"
@@ -7782,7 +7797,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
         </clippath>
       </defs>
       <rect
-        clip-path="url('#clip-path-background-color-7')"
+        clip-path="url('#clip-path-background-color-6')"
         fill="#ffffff"
         height="300"
         width="300"
@@ -7790,7 +7805,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
         y="0"
       />
       <rect
-        clip-path="url('#clip-path-dot-color-7')"
+        clip-path="url('#clip-path-dot-color-6')"
         fill="#000000"
         height="300"
         width="300"
@@ -7800,7 +7815,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
     </svg>
   </div>
   <div
-    class="text-center fst-italic"
+    class="tw:italic"
   >
     Preview (
     300
@@ -7813,10 +7828,15 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
 
 exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
 <div
-  class="d-flex flex-column gap-1 align-items-center"
+  class="tw:flex tw:flex-col tw:gap-1 tw:items-center"
   data-testid="qr-code-container"
 >
-  <div>
+  <style>
+    #qr-code-canvas-container canvas { max-width: 100% }
+  </style>
+  <div
+    id="qr-code-canvas-container"
+  >
     <svg
       height="300"
       viewBox="0 0 300 300"
@@ -7825,7 +7845,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
     >
       <defs>
         <clippath
-          id="clip-path-background-color-10"
+          id="clip-path-background-color-9"
         >
           <rect
             height="300"
@@ -7835,7 +7855,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
           />
         </clippath>
         <clippath
-          id="clip-path-dot-color-10"
+          id="clip-path-dot-color-9"
         >
           <rect
             height="12"
@@ -10178,7 +10198,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
         </clippath>
       </defs>
       <rect
-        clip-path="url('#clip-path-background-color-10')"
+        clip-path="url('#clip-path-background-color-9')"
         fill="#0000ff"
         height="300"
         width="300"
@@ -10186,7 +10206,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
         y="0"
       />
       <rect
-        clip-path="url('#clip-path-dot-color-10')"
+        clip-path="url('#clip-path-dot-color-9')"
         fill="#ff0000"
         height="300"
         width="300"
@@ -10196,7 +10216,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
     </svg>
   </div>
   <div
-    class="text-center fst-italic"
+    class="tw:italic"
   >
     Preview (
     300
@@ -10209,10 +10229,15 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
 
 exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
 <div
-  class="d-flex flex-column gap-1 align-items-center"
+  class="tw:flex tw:flex-col tw:gap-1 tw:items-center"
   data-testid="qr-code-container"
 >
-  <div>
+  <style>
+    #qr-code-canvas-container canvas { max-width: 100% }
+  </style>
+  <div
+    id="qr-code-canvas-container"
+  >
     <svg
       height="300"
       viewBox="0 0 300 300"
@@ -10221,7 +10246,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
     >
       <defs>
         <clippath
-          id="clip-path-background-color-12"
+          id="clip-path-background-color-11"
         >
           <rect
             height="300"
@@ -10231,7 +10256,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
           />
         </clippath>
         <clippath
-          id="clip-path-dot-color-12"
+          id="clip-path-dot-color-11"
         >
           <rect
             height="12"
@@ -12469,7 +12494,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
         </clippath>
       </defs>
       <rect
-        clip-path="url('#clip-path-background-color-12')"
+        clip-path="url('#clip-path-background-color-11')"
         fill="#ffffff"
         height="300"
         width="300"
@@ -12477,7 +12502,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
         y="0"
       />
       <rect
-        clip-path="url('#clip-path-dot-color-12')"
+        clip-path="url('#clip-path-dot-color-11')"
         fill="#000000"
         height="300"
         width="300"
@@ -12495,7 +12520,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
     </svg>
   </div>
   <div
-    class="text-center fst-italic"
+    class="tw:italic"
   >
     Preview (
     300

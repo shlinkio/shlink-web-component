@@ -82,9 +82,9 @@ describe('<ShortUrlsList />', () => {
     setUp({ loading });
 
     if (loading) {
-      expect(screen.queryByRole('list')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('short-urls-paginator')).not.toBeInTheDocument();
     } else {
-      expect(screen.getByRole('list')).toBeInTheDocument();
+      expect(screen.getByTestId('short-urls-paginator')).toBeInTheDocument();
     }
   });
 

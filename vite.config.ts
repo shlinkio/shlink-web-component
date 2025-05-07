@@ -58,7 +58,7 @@ export default defineConfig({
   test: {
     globals: true,
     setupFiles: [
-      './test/setup.ts',
+      './test/__helpers__/setup.ts',
       // Load styles in tests, as they affect how components look and behave, and are important for a11y contrast checks
       './dev/tailwind.css',
     ],

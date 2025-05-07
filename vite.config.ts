@@ -5,9 +5,6 @@ import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vitest/config';
 import pack from './package.json';
 
-const DEFAULT_NODE_VERSION = 'v22.10.0';
-const nodeVersion = process.version ?? DEFAULT_NODE_VERSION;
-
 // eslint-disable-next-line no-restricted-exports
 export default defineConfig({
   plugins: [react(), tailwindcss(), dts({ rollupTypes: true })],
@@ -104,14 +101,12 @@ export default defineConfig({
     onConsoleLog: (log) => !log.includes('Support for defaultProps will be removed'),
 
     // Workaround for bug in react-router (or vitest module resolution) which causes different react-router versions to
-    // be resolved for the main package and dependencies who have a peer dependency in react-router.
+    // be resolved for the main package and dependencies which have a peer dependency in react-router.
     // This ensures always the same version is resolved.
     // See https://github.com/remix-run/react-router/issues/12785 for details
     // The bug can be reproduced in ^20.19 and in >=22.11
-    alias: (nodeVersion >= 'v20.19.0' && nodeVersion < 'v21.0.0') || nodeVersion > DEFAULT_NODE_VERSION
-      ? {
-        'react-router': resolve(__dirname, 'node_modules/react-router/dist/development/index.mjs'),
-      }
-      : undefined,
+    alias: {
+      'react-router': resolve(__dirname, 'node_modules/react-router/dist/development/index.mjs'),
+    },
   },
 });

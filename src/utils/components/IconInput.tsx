@@ -1,4 +1,4 @@
-import type { IconProp } from '@fortawesome/fontawesome-svg-core';
+import type { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useElementRef } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
@@ -8,7 +8,7 @@ import { Input } from 'reactstrap';
 import './IconInput.scss';
 
 export type IconInputProps = InputProps & {
-  icon: IconProp;
+  icon: FontAwesomeIconProps['icon'];
 };
 
 export const IconInput: FC<IconInputProps> = ({ icon, className, ...rest }) => {

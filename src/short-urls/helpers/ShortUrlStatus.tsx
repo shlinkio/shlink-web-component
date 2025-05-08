@@ -48,7 +48,7 @@ const resolveShortUrlStatus = (shortUrl: ShlinkShortUrl): StatusResult => {
 
   return {
     icon: faCheck,
-    className: 'tw:text-brand',
+    className: 'tw:text-lm-brand tw:dark:text-dm-brand',
     description: 'This short URL can be visited normally',
   };
 };

@@ -4,12 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.14.0] - 2025-05-09
 ### Added
 * *Nothing*
 
 ### Changed
-* *Nothing*
+* Start migration to tailwind
+* Start using new light mode brand color in some places
 
 ### Deprecated
 * *Nothing*
@@ -18,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Fixed
-* [#639](https://github.com/shlinkio/shlink-web-component/issues/639) Fix contrast ration issues reported by axe in a11y tests.
+* [#639](https://github.com/shlinkio/shlink-web-component/issues/639) Fix some contrast ration issues reported by axe in a11y tests.
 
 
 ## [0.13.3] - 2025-04-20

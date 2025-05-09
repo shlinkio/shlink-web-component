@@ -1,8 +1,7 @@
-import { CloseButton, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { CloseButton, CopyToClipboardButton, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
-import { CopyToClipboardButton } from '../../utils/components/CopyToClipboardButton';
 import type { ShortUrlCreation } from '../reducers/shortUrlCreation';
 
 export type CreateShortUrlResultProps = {

@@ -143,10 +143,10 @@ describe('<ShortUrlsRow />', () => {
     ],
     [
       { validSince: formatISO(subDays(now(), 1)), validUntil: formatISO(addDays(now(), 1)) },
-      ['fa-check', 'tw:text-brand'],
+      ['fa-check', 'tw:text-lm-brand tw:dark:text-dm-brand'],
     ],
-    [{ maxVisits: 500 }, ['fa-check', 'tw:text-brand']],
-    [{}, ['fa-check', 'tw:text-brand']],
+    [{ maxVisits: 500 }, ['fa-check', 'tw:text-lm-brand tw:dark:text-dm-brand']],
+    [{}, ['fa-check', 'tw:text-lm-brand tw:dark:text-dm-brand']],
   ])('displays expected status icon', (meta, expectedIconClasses) => {
     setUp({ meta });
     const icons = screen.getAllByRole('img', { hidden: true });

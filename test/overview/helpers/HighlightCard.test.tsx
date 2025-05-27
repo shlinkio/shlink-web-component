@@ -21,7 +21,7 @@ describe('<HighlightCard />', () => {
     ['baz'],
   ])('renders provided title', (title) => {
     setUp({ title });
-    expect(screen.getByText(title)).toHaveClass('highlight-card__title');
+    expect(screen.getByRole('heading')).toHaveTextContent(title);
   });
 
   it.each([
@@ -30,7 +30,7 @@ describe('<HighlightCard />', () => {
     ['baz'],
   ])('renders provided children', (children) => {
     setUp({ children });
-    expect(screen.getByText(children)).toHaveClass('card-text');
+    expect(screen.getByText(children)).toBeInTheDocument();
   });
 
   it.each([

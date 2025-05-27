@@ -2,7 +2,6 @@ import { Card } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Row } from 'reactstrap';
 import type { ShlinkShortUrlsListParams } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -70,63 +69,57 @@ const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub(({
   const visits = useSetting('visits');
 
   useEffect(() => {
-    listShortUrls({ itemsPerPage: ITEMS_IN_OVERVIEW_PAGE, orderBy: { field: 'dateCreated', dir: 'DESC' } });
+    listShortUrls({
+      itemsPerPage: ITEMS_IN_OVERVIEW_PAGE,
+      orderBy: { field: 'dateCreated', dir: 'DESC' },
+    });
     loadVisitsOverview();
   }, [listShortUrls, loadVisitsOverview]);
 
   return (
-    <>
-      <Row>
-        <div className="col-lg-6 col-xl-3 mb-3">
-          <VisitsHighlightCard
-            title="Visits"
-            link={`${routesPrefix}/non-orphan-visits`}
-            excludeBots={visits?.excludeBots ?? false}
-            loading={loadingVisits}
-            visitsSummary={nonOrphanVisits}
-          />
-        </div>
-        <div className="col-lg-6 col-xl-3 mb-3">
-          <VisitsHighlightCard
-            title="Orphan visits"
-            link={`${routesPrefix}/orphan-visits`}
-            excludeBots={visits?.excludeBots ?? false}
-            loading={loadingVisits}
-            visitsSummary={orphanVisits}
-          />
-        </div>
-        <div className="col-lg-6 col-xl-3 mb-3">
-          <HighlightCard title="Short URLs" link={`${routesPrefix}/list-short-urls/1`}>
-            {loading ? 'Loading...' : prettify(shortUrls?.pagination.totalItems ?? 0)}
-          </HighlightCard>
-        </div>
-        <div className="col-lg-6 col-xl-3 mb-3">
-          <HighlightCard title="Tags" link={`${routesPrefix}/manage-tags`}>
-            {loadingTags ? 'Loading...' : prettify(tagsList.tags.length)}
-          </HighlightCard>
-        </div>
-      </Row>
-
-      <div className="d-flex flex-column gap-3">
-        <OverviewCard
-          title="Create a short URL"
-          titleLinkText="Advanced options"
-          titleLink={`${routesPrefix}/create-short-url`}
-        >
-          <CreateShortUrl basicMode />
-        </OverviewCard>
-        <OverviewCard
-          title="Recently created URLs"
-          titleLinkText="See all"
-          titleLink={`${routesPrefix}/list-short-urls/1`}
-        >
-          <ShortUrlsTable
-            shortUrlsList={shortUrlsList}
-            onTagClick={(tag) => navigate(`${routesPrefix}/list-short-urls/1?tags=${encodeURIComponent(tag)}`)}
-          />
-        </OverviewCard>
+    <div className="tw:flex tw:flex-col tw:gap-4">
+      <div className="tw:grid tw:grid-cols-1 tw:lg:grid-cols-2 tw:xl:grid-cols-4 tw:gap-4">
+        <VisitsHighlightCard
+          title="Visits"
+          link={`${routesPrefix}/non-orphan-visits`}
+          excludeBots={visits?.excludeBots ?? false}
+          loading={loadingVisits}
+          visitsSummary={nonOrphanVisits}
+        />
+        <VisitsHighlightCard
+          title="Orphan visits"
+          link={`${routesPrefix}/orphan-visits`}
+          excludeBots={visits?.excludeBots ?? false}
+          loading={loadingVisits}
+          visitsSummary={orphanVisits}
+        />
+        <HighlightCard title="Short URLs" link={`${routesPrefix}/list-short-urls/1`}>
+          {loading ? 'Loading...' : prettify(shortUrls?.pagination.totalItems ?? 0)}
+        </HighlightCard>
+        <HighlightCard title="Tags" link={`${routesPrefix}/manage-tags`}>
+          {loadingTags ? 'Loading...' : prettify(tagsList.tags.length)}
+        </HighlightCard>
       </div>
-    </>
+
+      <OverviewCard
+        title="Create a short URL"
+        titleLinkText="Advanced options"
+        titleLink={`${routesPrefix}/create-short-url`}
+      >
+        <CreateShortUrl basicMode />
+      </OverviewCard>
+
+      <OverviewCard
+        title="Recently created URLs"
+        titleLinkText="See all"
+        titleLink={`${routesPrefix}/list-short-urls/1`}
+      >
+        <ShortUrlsTable
+          shortUrlsList={shortUrlsList}
+          onTagClick={(tag) => navigate(`${routesPrefix}/list-short-urls/1?tags=${encodeURIComponent(tag)}`)}
+        />
+      </OverviewCard>
+    </div>
   );
 }, () => [Topics.visits, Topics.orphanVisits]);
 

@@ -2,12 +2,11 @@ import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Message, Result, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, Message, Result, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { ShlinkRedirectRuleData, ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC, FormEvent } from 'react';
 import { useCallback, useEffect } from 'react';
 import { ExternalLink } from 'react-external-link';
-import { Button, Card } from 'reactstrap';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import { useShortUrlIdentifier } from '../short-urls/helpers/hooks';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
@@ -44,7 +43,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
   const shortUrl = identifier && shortUrls?.get(identifier);
   const [rulesContainerRef, rules, setRules] = useDragAndDrop<HTMLDivElement, ShlinkRedirectRuleData>([], {
     dragHandle: '.drag-n-drop-handler',
-    dropZoneClass: 'opacity-25',
+    dropZoneClass: 'tw:opacity-25',
   });
 
   const { saving, saved, errorData } = shortUrlRedirectRulesSaving;
@@ -103,12 +102,12 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
   }, [setRules, shortUrlRedirectRules.redirectRules]);
 
   return (
-    <div className="d-flex flex-column gap-3">
+    <div className="tw:flex tw:flex-col tw:gap-4">
       <header>
-        <Card body>
-          <h2 className="d-sm-flex justify-content-between align-items-center mb-0">
+        <SimpleCard>
+          <h2 className="tw:sm:flex tw:justify-between tw:items-center">
             <GoBackButton />
-            <div className="text-center flex-grow-1">
+            <div className="tw:text-center tw:grow">
               {shortUrlsDetails.loading && <>Loading...</>}
               {!shortUrlsDetails.loading && (
                 <small>Redirect rules for <ExternalLink href={shortUrl?.shortUrl ?? ''} /></small>
@@ -117,22 +116,24 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
           </h2>
           <hr />
           <div>
-            <p className="mb-2">Configure dynamic conditions that will be checked at runtime.</p>
-            If no conditions match, visitors will be redirected to: <ExternalLink href={shortUrlRedirectRules.defaultLongUrl ?? ''} />
+            <p>Configure dynamic conditions that will be checked at runtime.</p>
+            <p>
+              If no conditions match, visitors will be redirected to: <ExternalLink href={shortUrlRedirectRules.defaultLongUrl ?? ''} />
+            </p>
           </div>
-        </Card>
+        </SimpleCard>
       </header>
       <div>
-        <Button outline color="primary" onClick={toggleModal}>
-          <FontAwesomeIcon icon={faPlus} className="me-1" /> Add rule
+        <Button onClick={toggleModal}>
+          <FontAwesomeIcon icon={faPlus} /> Add rule
         </Button>
       </div>
       <form onSubmit={onSubmit}>
         {shortUrlRedirectRules.loading && <Message loading />}
         {rules.length === 0 && !shortUrlRedirectRules.loading && (
-          <SimpleCard className="text-center"><i>This short URL has no dynamic redirect rules</i></SimpleCard>
+          <SimpleCard className="tw:text-center"><i>This short URL has no dynamic redirect rules</i></SimpleCard>
         )}
-        <div className="d-flex flex-column gap-2" ref={rulesContainerRef}>
+        <div className="tw:flex tw:flex-col tw:gap-2" ref={rulesContainerRef}>
           {rules.map((rule, index) => (
             <RedirectRuleCard
               key={`${rule.longUrl}_${index}`}
@@ -146,8 +147,8 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
             />
           ))}
         </div>
-        <div className="text-center mt-3">
-          <Button outline color="primary" className="btn-sm-block" disabled={saving} data-testid="save-button">
+        <div className="tw:text-center tw:mt-4">
+          <Button type="submit" inline className="tw:max-md:w-full" disabled={saving} data-testid="save-button">
             {saving ? 'Saving...' : 'Save rules'}
           </Button>
         </div>

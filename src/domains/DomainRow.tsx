@@ -25,7 +25,12 @@ const Nr: FC<{ fallback?: string | null }> = ({ fallback }) => (
 );
 const DefaultDomain: FC = () => (
   <>
-    <FontAwesomeIcon fixedWidth icon={defaultDomainIcon} className="tw:text-lm-brand tw:dark:text-dm-brand" id="defaultDomainIcon" />
+    <FontAwesomeIcon
+      fixedWidth
+      icon={defaultDomainIcon}
+      className="tw:text-lm-brand tw:dark:text-dm-brand"
+      id="defaultDomainIcon"
+    />
     <UncontrolledTooltip target="defaultDomainIcon" placement="right">Default domain</UncontrolledTooltip>
   </>
 );

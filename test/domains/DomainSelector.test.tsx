@@ -34,16 +34,18 @@ describe('<DomainSelector />', () => {
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it.each([
-    ['', 'Domain', 'domains-dropdown__toggle-btn'],
-    ['my-domain.com', 'Domain: my-domain.com', 'domains-dropdown__toggle-btn--active'],
-  ])('shows dropdown by default', async (value, expectedText, expectedClassName) => {
+    ['', 'Domain', true],
+    ['my-domain.com', 'Domain: my-domain.com', false],
+  ])('shows dropdown by default', async (value, expectedText, hasPlaceholderClass) => {
     const { user } = setUp(value);
     const btn = screen.getByRole('button', { name: expectedText });
 
     expect(screen.queryByPlaceholderText('Domain')).not.toBeInTheDocument();
-    expect(btn).toHaveClass(
-      `dropdown-btn__toggle ${expectedClassName} btn-block dropdown-btn__toggle--with-caret dropdown-toggle btn btn-primary`,
-    );
+    if (hasPlaceholderClass) {
+      expect(btn).toHaveClass('tw:text-placeholder');
+    } else {
+      expect(btn).not.toHaveClass('tw:text-placeholder');
+    }
     await user.click(btn);
 
     await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());

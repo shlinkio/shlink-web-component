@@ -4,6 +4,7 @@ import {
   faTimes as invalidIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { clsx } from 'clsx';
 import type { FC, RefObject } from 'react';
 import { useRef } from 'react';
 import { ExternalLink } from 'react-external-link';
@@ -28,9 +29,11 @@ export const DomainStatusIcon: FC<DomainStatusIconProps> = ({ status, matchMedia
   return (
     <>
       <span ref={ref}>
-        {status === 'valid'
-          ? <FontAwesomeIcon fixedWidth icon={checkIcon} />
-          : <FontAwesomeIcon fixedWidth icon={invalidIcon} className="text-danger" />}
+        <FontAwesomeIcon
+          fixedWidth
+          icon={status === 'valid' ? checkIcon : invalidIcon}
+          className={clsx({ 'tw:text-danger': status !== 'valid' })}
+        />
       </span>
       <UncontrolledTooltip
         target={ref as RefObject<HTMLSpanElement>}

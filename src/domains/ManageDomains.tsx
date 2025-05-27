@@ -72,7 +72,7 @@ export const ManageDomains: FC<ManageDomainsProps> = (
               <Table.Row>
                 {headers.map((column, index) => (
                   <Table.Cell key={index}>
-                    <span className={column.isHidden ? 'sr-only' : undefined}>{column.value}</span>
+                    <span className={column.isHidden ? 'tw:sr-only' : undefined}>{column.value}</span>
                   </Table.Cell>
                 ))}
               </Table.Row>

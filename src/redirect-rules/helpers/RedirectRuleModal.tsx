@@ -1,16 +1,22 @@
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Button,
+  LabelledInput,
+  LabelledSelect,
+  LinkButton,
+} from '@shlinkio/shlink-frontend-kit/tailwind';
 import type {
   ShlinkRedirectCondition,
   ShlinkRedirectConditionType,
   ShlinkRedirectRuleData,
 } from '@shlinkio/shlink-js-sdk/api-contract';
+import { clsx } from 'clsx';
 import type { FC, FormEvent } from 'react';
-import { useCallback, useId, useMemo , useRef , useState } from 'react';
-import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
+import { useCallback, useMemo , useRef , useState } from 'react';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { countryCodes } from '../../utils/country-codes';
 import { useFeature } from '../../utils/features';
-import './RedirectRuleModal.scss';
 
 const deviceNames = {
   android: 'Android',
@@ -23,24 +29,17 @@ type DeviceType = keyof typeof deviceNames;
 const DeviceTypeControls: FC<{ deviceType?: string; onDeviceTypeChange: (deviceType: DeviceType) => void }> = ({
   deviceType,
   onDeviceTypeChange,
-}) => {
-  const deviceId = useId();
-  return (
-    <div>
-      <label htmlFor={deviceId}>Device type:</label>
-      <select
-        id={deviceId}
-        className="form-select"
-        value={deviceType}
-        onChange={(e) => onDeviceTypeChange(e.target.value as DeviceType)}
-        required
-      >
-        {!deviceType && <option value="">- Select type -</option>}
-        {Object.entries(deviceNames).map(([key, value]) => <option key={key} value={key}>{value}</option>)}
-      </select>
-    </div>
-  );
-};
+}) => (
+  <LabelledSelect
+    label="Device type:"
+    value={deviceType}
+    onChange={(e) => onDeviceTypeChange((e.target as HTMLSelectElement).value as DeviceType)}
+    hiddenRequired
+  >
+    {!deviceType && <option value="">- Select type -</option>}
+    {Object.entries(deviceNames).map(([key, value]) => <option key={key} value={key}>{value}</option>)}
+  </LabelledSelect>
+);
 
 const PlainValueControls: FC<{
   value?: string;
@@ -52,21 +51,15 @@ const PlainValueControls: FC<{
   onValueChange,
   label,
   placeholder,
-}) => {
-  const inputId = useId();
-  return (
-    <div>
-      <label htmlFor={inputId}>{label}:</label>
-      <Input
-        id={inputId}
-        value={value ?? ''}
-        onChange={(e) => onValueChange(e.target.value)}
-        placeholder={placeholder}
-        required
-      />
-    </div>
-  );
-};
+}) => (
+  <LabelledInput
+    label={`${label}:`}
+    value={value ?? ''}
+    onChange={(e) => onValueChange(e.target.value)}
+    placeholder={placeholder}
+    hiddenRequired
+  />
+);
 
 const LanguageControls: FC<{ language?: string; onLanguageChange: (lang: string) => void; }> = ({
   language,
@@ -85,35 +78,24 @@ const QueryParamControls: FC<{
   value,
   onNameChange,
   onValueChange,
-}) => {
-  const nameId = useId();
-  const keyId = useId();
-
-  return (
-    <>
-      <div>
-        <label htmlFor={nameId}>Param name:</label>
-        <Input
-          id={nameId}
-          value={name ?? ''}
-          onChange={(e) => onNameChange(e.target.value)}
-          placeholder="hello"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor={keyId}>Param value:</label>
-        <Input
-          id={keyId}
-          value={value ?? ''}
-          onChange={(e) => onValueChange(e.target.value)}
-          placeholder="world"
-          required
-        />
-      </div>
-    </>
-  );
-};
+}) => (
+  <>
+    <LabelledInput
+      label="Param name:"
+      value={name ?? ''}
+      onChange={(e) => onNameChange(e.target.value)}
+      placeholder="hello"
+      hiddenRequired
+    />
+    <LabelledInput
+      label="Param value:"
+      value={value ?? ''}
+      onChange={(e) => onValueChange(e.target.value)}
+      placeholder="world"
+      hiddenRequired
+    />
+  </>
+);
 
 const IpAddressControls: FC<{ ipAddress?: string; onIpAddressChange: (ipAddress: string) => void; }> = (
   { ipAddress, onIpAddressChange },
@@ -124,24 +106,17 @@ const IpAddressControls: FC<{ ipAddress?: string; onIpAddressChange: (ipAddress:
 const CountryCodeControls: FC<{ countryCode?: string; onCountryCodeChange: (countryCode: string) => void }> = ({
   countryCode,
   onCountryCodeChange,
-}) => {
-  const countryCodeId = useId();
-  return (
-    <div>
-      <label htmlFor={countryCodeId}>Country:</label>
-      <select
-        id={countryCodeId}
-        className="form-select"
-        value={countryCode}
-        onChange={(e) => onCountryCodeChange(e.target.value)}
-        required
-      >
-        {!countryCode && <option value="">- Select country -</option>}
-        {Object.entries(countryCodes).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
-      </select>
-    </div>
-  );
-};
+}) => (
+  <LabelledSelect
+    label="Country:"
+    value={countryCode}
+    onChange={(e) => onCountryCodeChange((e.target as HTMLSelectElement).value)}
+    hiddenRequired
+  >
+    {!countryCode && <option value="">- Select country -</option>}
+    {Object.entries(countryCodes).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
+  </LabelledSelect>
+);
 
 const CityNameControls: FC<{ cityName?: string; onCityNameChange: (cityName: string) => void; }> = (
   { cityName, onCityNameChange },
@@ -154,7 +129,6 @@ const Condition: FC<{
   onConditionChange: (condition: ShlinkRedirectCondition) => void;
   onDelete: () => void;
 }> = ({ condition, onConditionChange, onDelete }) => {
-  const conditionId = useId();
   const switchToType = useCallback((newType: ShlinkRedirectConditionType) => onConditionChange({
     type: newType,
     matchValue: '',
@@ -190,29 +164,33 @@ const Condition: FC<{
   }, [supportsGeolocationRedirectCondition, supportsIpRedirectCondition]);
 
   return (
-    <div className="redirect-rule-modal__condition rounded p-3 h-100 d-flex flex-column gap-2 position-relative">
+    <div className={clsx(
+      'tw:flex tw:flex-col tw:gap-2',
+      'tw:border tw:border-lm-border tw:dark:border-dm-border',
+      'tw:rounded-md tw:relative tw:p-4 tw:h-full',
+    )}>
       <div>
         <Button
-          outline
-          size="sm"
-          type="button"
+          variant="secondary"
           aria-label="Remove condition"
           onClick={onDelete}
-          className="position-absolute rounded-circle redirect-rule-modal__remove-condition-button"
+          className={clsx(
+            'tw:absolute tw:-top-3.5 tw:-right-3.5 tw:[&]:px-2',
+            'tw:[&]:rounded-full tw:bg-lm-primary tw:dark:bg-dm-primary',
+          )}
         >
-          <FontAwesomeIcon icon={faXmark} className="redirect-rule-modal__remove-condition-button-icon" />
+          <FontAwesomeIcon icon={faXmark} />
         </Button>
-        <label htmlFor={conditionId}>Type:</label>
-        <select
-          id={conditionId}
-          className="form-select flex-grow-1"
+        <LabelledSelect
+          label="Type:"
           value={condition.type}
-          onChange={(e) => switchToType(e.target.value as ShlinkRedirectConditionType)}
+          onChange={(e) => switchToType((e.target as HTMLSelectElement).value as ShlinkRedirectConditionType)}
+          hiddenRequired
         >
           {Object.entries(conditionNames).map(([condition, name]) => (
             <option key={condition} value={condition}>{name}</option>
           ))}
-        </select>
+        </LabelledSelect>
       </div>
       {condition.type === 'device' && (
         <DeviceTypeControls deviceType={condition.matchValue} onDeviceTypeChange={setConditionValue} />
@@ -288,32 +266,31 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, 
   return (
     <Modal size="xl" isOpen={isOpen} toggle={toggle} centered onOpened={focusLongUrl} onClosed={reset}>
       <form onSubmit={handleSubmit}>
-        <ModalHeader toggle={toggle} className="sticky-top redirect-rule-modal__header">Redirect rule</ModalHeader>
+        <ModalHeader toggle={toggle} className="sticky-top">Redirect rule</ModalHeader>
         <ModalBody>
-          <label htmlFor="longUrl" className="fw-bold">Long URL:</label>
-          <Input
-            id="longUrl"
+          <LabelledInput
+            label="Long URL:"
             type="url"
             placeholder="https://www.example.com"
             value={redirectRule.longUrl}
             onChange={(e) => setRedirectRule((prev) => ({ ...prev, longUrl: e.target.value }))}
-            required
-            innerRef={longUrlRef}
+            hiddenRequired
+            ref={longUrlRef}
           />
 
           <hr />
 
           <div className="d-flex justify-content-between">
             <b>Conditions:</b>
-            <Button outline size="sm" type="button" aria-label="Add condition" onClick={addDraftCondition}>
+            <Button className="tw:[&]:px-1.5" variant="secondary" aria-label="Add condition" onClick={addDraftCondition}>
               <FontAwesomeIcon icon={faPlus} />
             </Button>
           </div>
           {redirectRule.conditions.length === 0 && <div className="text-center"><i>Add conditions...</i></div>}
           {redirectRule.conditions.length > 0 && (
-            <Row className="redirect-rule-modal__conditions-row">
+            <div className="tw:pr-3 tw:mt-6 tw:grid tw:grid-cols-1 tw:lg:grid-cols-2 tw:xl:grid-cols-3 tw:gap-6">
               {redirectRule.conditions.map((condition, index) => (
-                <div key={`${index}_${condition.type}`} className="col-lg-6 col-xl-4 mt-4">
+                <div key={`${index}_${condition.type}`} className="">
                   <Condition
                     condition={condition}
                     onConditionChange={(c) => updateCondition(index, c)}
@@ -321,12 +298,12 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, 
                   />
                 </div>
               ))}
-            </Row>
+            </div>
           )}
         </ModalBody>
-        <ModalFooter className="sticky-bottom redirect-rule-modal__footer">
-          <Button type="button" color="link" onClick={toggle}>Cancel</Button>
-          <Button color="primary" disabled={redirectRule.conditions.length === 0}>Confirm</Button>
+        <ModalFooter className="sticky-bottom">
+          <LinkButton onClick={toggle}>Cancel</LinkButton>
+          <Button solid type="submit" disabled={redirectRule.conditions.length === 0}>Confirm</Button>
         </ModalFooter>
       </form>
     </Modal>

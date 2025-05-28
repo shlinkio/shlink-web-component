@@ -20,7 +20,7 @@ export type RedirectRuleCardProps = {
 export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
   { priority, isLast, redirectRule, onDelete, onMoveUp, onMoveDown, onUpdate },
 ) => {
-  const { flag: isModalOpen, toggle: toggleModal } = useToggle(true, true);
+  const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle(true, true);
 
   return (
     <SimpleCard>
@@ -76,7 +76,7 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
             className="tw:[&]:px-1.5"
             variant="secondary"
             aria-label={`Edit rule with priority ${priority}`}
-            onClick={toggleModal}
+            onClick={openModal}
           >
             <FontAwesomeIcon icon={faPencilAlt} />
           </Button>
@@ -90,7 +90,7 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
           </Button>
         </div>
       </div>
-      <RedirectRuleModal onSave={onUpdate} isOpen={isModalOpen} toggle={toggleModal} initialData={redirectRule} />
+      <RedirectRuleModal onSave={onUpdate} isOpen={isModalOpen} onClose={closeModal} initialData={redirectRule} />
     </SimpleCard>
   );
 };

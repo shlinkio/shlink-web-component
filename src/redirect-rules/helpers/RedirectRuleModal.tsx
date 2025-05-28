@@ -1,20 +1,14 @@
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  Button,
-  LabelledInput,
-  LabelledSelect,
-  LinkButton,
-} from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, CardModal, LabelledInput, LabelledSelect } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type {
   ShlinkRedirectCondition,
   ShlinkRedirectConditionType,
   ShlinkRedirectRuleData,
 } from '@shlinkio/shlink-js-sdk/api-contract';
 import { clsx } from 'clsx';
-import type { FC, FormEvent } from 'react';
-import { useCallback, useMemo , useRef , useState } from 'react';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import type { FC } from 'react';
+import { useCallback, useEffect , useMemo, useRef, useState } from 'react';
 import { countryCodes } from '../../utils/country-codes';
 import { useFeature } from '../../utils/features';
 
@@ -223,20 +217,17 @@ export type RedirectRuleModalProps = {
   initialData?: ShlinkRedirectRuleData;
   onSave: (redirectRule: ShlinkRedirectRuleData) => void;
   isOpen: boolean;
-  toggle: () => void;
+  onClose: () => void;
 };
 
-export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, onSave, initialData }) => {
+export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
   const [redirectRule, setRedirectRule] = useState(initialData ?? { longUrl: '', conditions: [] });
-  const handleSubmit = useCallback((e: FormEvent) => {
-    e.preventDefault();
-    e.stopPropagation(); // When editing, this form is inside other form. Let's prevent the parent to be submit
-
+  const save = useCallback(() => {
     if (redirectRule) {
       onSave(redirectRule);
     }
-    toggle();
-  }, [onSave, redirectRule, toggle]);
+    onClose();
+  }, [onSave, redirectRule, onClose]);
 
   const addDraftCondition = useCallback(() => setRedirectRule(
     ({ longUrl, conditions }) => ({
@@ -260,52 +251,64 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, toggle, 
   ), []);
 
   const longUrlRef = useRef<HTMLInputElement>(null);
-  const focusLongUrl = useCallback(() => longUrlRef?.current?.focus(), [longUrlRef]);
   const reset = useCallback(() => setRedirectRule(initialData ?? { longUrl: '', conditions: [] }), [initialData]);
 
+  // Focus URL input as soon as it's added to the DOM
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      if (longUrlRef.current && isOpen) {
+        longUrlRef.current.focus();
+        observer.disconnect(); // Stop observing until the modal is open again
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [isOpen]);
+
   return (
-    <Modal size="xl" isOpen={isOpen} toggle={toggle} centered onOpened={focusLongUrl} onClosed={reset}>
-      <form onSubmit={handleSubmit}>
-        <ModalHeader toggle={toggle} className="sticky-top">Redirect rule</ModalHeader>
-        <ModalBody>
-          <LabelledInput
-            label="Long URL:"
-            type="url"
-            placeholder="https://www.example.com"
-            value={redirectRule.longUrl}
-            onChange={(e) => setRedirectRule((prev) => ({ ...prev, longUrl: e.target.value }))}
-            hiddenRequired
-            ref={longUrlRef}
-          />
+    <CardModal
+      size="xl"
+      title="Redirect rule"
+      open={isOpen}
+      onClose={onClose}
+      onClosed={reset}
+      onConfirm={save}
+      confirmDisabled={redirectRule.conditions.length === 0}
+      confirmText="Confirm"
+    >
+      <LabelledInput
+        label="Long URL:"
+        type="url"
+        placeholder="https://www.example.com"
+        value={redirectRule.longUrl}
+        onChange={(e) => setRedirectRule((prev) => ({ ...prev, longUrl: e.target.value }))}
+        hiddenRequired
+        ref={longUrlRef}
+      />
 
-          <hr />
+      <hr />
 
-          <div className="d-flex justify-content-between">
-            <b>Conditions:</b>
-            <Button className="tw:[&]:px-1.5" variant="secondary" aria-label="Add condition" onClick={addDraftCondition}>
-              <FontAwesomeIcon icon={faPlus} />
-            </Button>
-          </div>
-          {redirectRule.conditions.length === 0 && <div className="text-center"><i>Add conditions...</i></div>}
-          {redirectRule.conditions.length > 0 && (
-            <div className="tw:pr-3 tw:mt-6 tw:grid tw:grid-cols-1 tw:lg:grid-cols-2 tw:xl:grid-cols-3 tw:gap-6">
-              {redirectRule.conditions.map((condition, index) => (
-                <div key={`${index}_${condition.type}`} className="">
-                  <Condition
-                    condition={condition}
-                    onConditionChange={(c) => updateCondition(index, c)}
-                    onDelete={() => removeCondition(index)}
-                  />
-                </div>
-              ))}
+      <div className="d-flex justify-content-between">
+        <b>Conditions:</b>
+        <Button className="tw:[&]:px-1.5" variant="secondary" aria-label="Add condition" onClick={addDraftCondition}>
+          <FontAwesomeIcon icon={faPlus} />
+        </Button>
+      </div>
+      {redirectRule.conditions.length === 0 && <div className="text-center"><i>Add conditions...</i></div>}
+      {redirectRule.conditions.length > 0 && (
+        <div className="tw:pr-3 tw:mt-6 tw:grid tw:grid-cols-1 tw:md:grid-cols-2 tw:lg:grid-cols-3 tw:gap-6">
+          {redirectRule.conditions.map((condition, index) => (
+            <div key={`${index}_${condition.type}`} className="">
+              <Condition
+                condition={condition}
+                onConditionChange={(c) => updateCondition(index, c)}
+                onDelete={() => removeCondition(index)}
+              />
             </div>
-          )}
-        </ModalBody>
-        <ModalFooter className="sticky-bottom">
-          <LinkButton onClick={toggle}>Cancel</LinkButton>
-          <Button solid type="submit" disabled={redirectRule.conditions.length === 0}>Confirm</Button>
-        </ModalFooter>
-      </form>
-    </Modal>
+          ))}
+        </div>
+      )}
+    </CardModal>
   );
 };

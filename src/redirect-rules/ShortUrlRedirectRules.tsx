@@ -48,7 +48,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
 
   const { saving, saved, errorData } = shortUrlRedirectRulesSaving;
 
-  const [isModalOpen, toggleModal] = useToggle();
+  const { flag: isModalOpen, setToFalse: closeModal, setToTrue: openModal } = useToggle(false, true);
 
   const pushRule = useCallback((rule: ShlinkRedirectRuleData) => setRules((prev = []) => [...prev, rule]), [setRules]);
   const removeRule = useCallback((index: number) => setRules((prev = []) => {
@@ -124,7 +124,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
         </SimpleCard>
       </header>
       <div>
-        <Button onClick={toggleModal}>
+        <Button onClick={openModal}>
           <FontAwesomeIcon icon={faPlus} /> Add rule
         </Button>
       </div>
@@ -162,7 +162,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
         </Result>
       )}
       {saved && <Result variant="success">Redirect rules properly saved.</Result>}
-      <RedirectRuleModal isOpen={isModalOpen} toggle={toggleModal} onSave={pushRule} />
+      <RedirectRuleModal isOpen={isModalOpen} onClose={closeModal} onSave={pushRule} />
     </div>
   );
 };

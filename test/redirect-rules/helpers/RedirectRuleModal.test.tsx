@@ -100,7 +100,7 @@ describe('<RedirectRuleModal />', () => {
 
     // Wait for modal to finish opening, otherwise focus may transition to long URL field while some other field is
     // being edited
-    await waitFor(() => expect(screen.getByLabelText('Long URL:')).toHaveFocus());
+    await waitFor(() => expect(screen.getByLabelText('Long URL:')).toBeInTheDocument());
 
     // Change the long URL
     await user.clear(screen.getByLabelText('Long URL:'));

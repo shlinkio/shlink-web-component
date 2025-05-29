@@ -1,3 +1,60 @@
 @import 'tailwindcss' prefix(tw) important;
 @source '../node_modules/@shlinkio/shlink-frontend-kit';
 @import '@shlinkio/shlink-frontend-kit/tailwind.preset.css';
+
+@layer base {
+    :root {
+        /** Assumed header height */
+        --header-height: 56px;
+        /* Width of ShlinkWebComponent's side menu when not collapsed */
+        --aside-menu-width: 260px;
+    }
+}
+
+@utility sticky-cell-base {
+    @apply tw:z-1 tw:relative;
+
+    &:before {
+        @apply tw:absolute tw:bg-lm-table-border tw:dark:bg-dm-table-border;
+        content: '';
+        z-index: -2;
+    }
+
+    &:after {
+        @apply tw:absolute tw:bg-lm-primary tw:dark:bg-dm-primary;
+        content: '';
+        z-index: -1;
+    }
+
+    &:first-child:after {
+        left: 0;
+    }
+}
+
+@utility sticky-cell {
+    @apply tw:sticky-cell-base;
+
+    &:before {
+        inset: -1px 0 -1px 0;
+    }
+    &:first-child:before {
+        left: 0;
+    }
+    &:after {
+        inset: 0 0 0 0;
+    }
+}
+
+@utility sticky-cell-separated {
+    @apply tw:sticky-cell-base;
+
+    &:before {
+        inset: -1px -1px -1px 0;
+    }
+    &:first-child:before {
+        left: -1px;
+    }
+    &:after {
+        inset: 0 0 0 1px;
+    }
+}

@@ -25,7 +25,7 @@ describe('<EditTagModal />', () => {
 
     expect(onClose).not.toHaveBeenCalled();
 
-    await user.click(screen.getByLabelText('Close'));
+    await user.click(screen.getByLabelText('Close dialog'));
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
 
     expect(onClose).toHaveBeenCalledTimes(2);

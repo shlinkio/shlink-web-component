@@ -18,7 +18,7 @@ interface DomainRowProps {
 }
 
 const Nr: FC<{ fallback?: string | null }> = ({ fallback }) => (
-  <span className="tw:text-gray-500">
+  <span className="tw:text-gray-500 tw:dark:text-gray-400">
     {!fallback && <small>No redirect</small>}
     {fallback && <>{fallback} <small>(as fallback)</small></>}
   </span>

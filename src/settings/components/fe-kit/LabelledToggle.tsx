@@ -1,7 +1,7 @@
 import type { RequiredReactNode, ToggleSwitchProps } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { Label, ToggleSwitch } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, PropsWithChildren } from 'react';
-import { FormText } from '../FormText';
+import { Muted } from '../../../utils/components/Muted';
 
 export type LabelledToggleProps = ToggleSwitchProps & PropsWithChildren<{
   helpText?: RequiredReactNode;
@@ -16,7 +16,9 @@ export const LabelledToggle: FC<LabelledToggleProps> = ({ children, helpText, 'd
         {children}
       </Label>
       {helpText && (
-        <FormText data-testid={testId ? `${testId}-help-text` : 'help-text'} className="tw:pl-10">{helpText}</FormText>
+        <Muted size="sm" data-testid={testId ? `${testId}-help-text` : 'help-text'} className="tw:pl-10">
+          {helpText}
+        </Muted>
       )}
     </div>
   );

@@ -2,10 +2,10 @@ import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
 import { Label, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, ReactNode } from 'react';
 import { DropdownItem } from 'reactstrap';
+import { Muted } from '../../utils/components/Muted';
 import type { ShortUrlCreationSettings as ShortUrlsSettings } from '..';
 import { useSetting } from '..';
 import { LabelledToggle } from './fe-kit/LabelledToggle';
-import { FormText } from './FormText';
 
 type TagFilteringMode = NonNullable<ShortUrlsSettings['tagFilteringMode']>;
 
@@ -72,7 +72,7 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ onChange }
             {tagFilteringModeText('includes')}
           </DropdownItem>
         </DropdownBtn>
-        <FormText>{tagFilteringModeHint(shortUrlCreation.tagFilteringMode)}</FormText>
+        <Muted size="sm">{tagFilteringModeHint(shortUrlCreation.tagFilteringMode)}</Muted>
       </div>
     </SimpleCard>
   );

@@ -15,7 +15,7 @@ export const QrCodeColorSettings: FC<QrCodeColorSettingsProps> = ({ onChange, cl
   const { color, bgColor } = qrCodesSettings;
 
   return (
-    <SimpleCard title="Colors" className={className} bodyClassName="d-flex flex-column gap-3">
+    <SimpleCard title="Colors" className={className} bodyClassName="tw:flex tw:flex-col tw:gap-4">
       <LabelledInput
         label="Default color:"
         helpText={<>QR codes will initially use <b data-testid="color">{color}</b> color.</>}

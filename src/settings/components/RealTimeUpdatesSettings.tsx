@@ -1,8 +1,8 @@
 import { LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
+import { Muted } from '../../utils/components/Muted';
 import { useSetting } from '..';
 import { LabelledToggle } from './fe-kit/LabelledToggle';
-import { FormText } from './FormText';
 
 export type RealTimeUpdatesProps = {
   toggleRealTimeUpdates: (enabled: boolean) => void;
@@ -15,7 +15,7 @@ export const RealTimeUpdatesSettings = (
   const { enabled, interval } = useSetting('realTimeUpdates', { enabled: true });
 
   return (
-    <SimpleCard title="Real-time updates" className="h-100" bodyClassName="tw:flex tw:flex-col tw:gap-y-4">
+    <SimpleCard title="Real-time updates" className="tw:h-full" bodyClassName="tw:flex tw:flex-col tw:gap-y-4">
       <LabelledToggle
         checked={enabled}
         onChange={toggleRealTimeUpdates}
@@ -26,7 +26,7 @@ export const RealTimeUpdatesSettings = (
       <div>
         <LabelledInput
           label={(
-            <span className={clsx('form-label', { 'text-muted': !enabled })}>
+            <span className={clsx({ 'tw:dark:text-gray-400': !enabled })}>
               Real-time updates frequency (in minutes):
             </span>
           )}
@@ -38,14 +38,14 @@ export const RealTimeUpdatesSettings = (
           onChange={({ target }) => onIntervalChange(Number(target.value))}
         />
         {enabled && (
-          <FormText>
+          <Muted size="sm">
             {interval ? (
               <span>
                 Updates will be reflected in the UI
                 every <b>{interval}</b> minute{interval > 1 && 's'}.
               </span>
             ) : 'Updates will be reflected in the UI as soon as they happen.'}
-          </FormText>
+          </Muted>
         )}
       </div>
     </SimpleCard>

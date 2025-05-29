@@ -60,7 +60,7 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
               Visits <TableOrderIcon currentOrder={currentOrder} field="visits" />
             </Table.Cell>
             <Table.Cell className={headerClasses}>
-              <span className="sr-only">Options</span>
+              <span className="tw:sr-only">Options</span>
             </Table.Cell>
           </Table.Row>
         }

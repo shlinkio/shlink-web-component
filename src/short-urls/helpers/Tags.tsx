@@ -14,7 +14,7 @@ export const Tags: FC<TagsProps> = ({ tags, onTagClick, colorGenerator }) => {
   }
 
   return (
-    <>
+    <div className="tw:inline-flex tw:flex-wrap tw:gap-1 tw:items-center">
       {tags.map((tag) => (
         <Tag
           key={tag}
@@ -23,6 +23,6 @@ export const Tags: FC<TagsProps> = ({ tags, onTagClick, colorGenerator }) => {
           onClick={() => onTagClick?.(tag)}
         />
       ))}
-    </>
+    </div>
   );
 };

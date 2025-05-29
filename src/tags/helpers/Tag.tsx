@@ -1,9 +1,10 @@
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { clsx } from 'clsx';
 import type { FC, MouseEventHandler, PropsWithChildren } from 'react';
 import { useMemo } from 'react';
 import { UnstyledButton } from '../../utils/components/UnstyledButton';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
-import './Tag.scss';
 
 type CommonProps = PropsWithChildren<{
   colorGenerator: ColorGenerator;
@@ -23,23 +24,34 @@ const isActionable = (props: TagProps): props is ActionableProps => !!(props as 
 export const Tag: FC<TagProps> = (props) => {
   const { text, children, className, colorGenerator } = props;
   const actionable = isActionable(props);
+  const clearable = isClearable(props);
   const Wrapper = actionable ? UnstyledButton : 'span';
   const style = useMemo(() => colorGenerator.stylesForKey(text), [text, colorGenerator]);
 
   return (
     <Wrapper
-      className={clsx('badge tag fw-bold', className, { pointer: actionable })}
+      className={clsx(
+        'tw:inline-flex tw:items-center tw:gap-1',
+        'tw:font-bold tw:[&]:rounded-md',
+        {
+          'tw:text-sm tw:px-1.5 tw:py-0.5': !clearable,
+          'tw:py-1 tw:px-2': clearable,
+          'tw:cursor-pointer': actionable,
+        },
+        className,
+      )}
       style={style}
       onClick={actionable ? props.onClick : undefined}
+      data-testid="tag"
     >
       {children ?? text}
-      {isClearable(props) && (
+      {clearable && (
         <UnstyledButton
           aria-label={`Remove ${text}`}
-          className="bg-transparent ms-1 opacity-100 p-0 fw-bold tag__close"
+          className="tw:p-0 tw:text-lg tw:leading-5.5"
           onClick={props.onClose}
         >
-          &times;
+          <FontAwesomeIcon icon={faClose} size="sm" />
         </UnstyledButton>
       )}
     </Wrapper>

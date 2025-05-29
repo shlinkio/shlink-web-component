@@ -27,7 +27,7 @@ describe('<TagVisitsHeader />', () => {
   });
 
   it('shows title for tag', () => {
-    const { container } = setUp();
-    expect(container.querySelector('.badge.tag')).toHaveTextContent(tagVisits.tag);
+    setUp();
+    expect(screen.getAllByText(tagVisits.tag)).not.toHaveLength(0);
   });
 });

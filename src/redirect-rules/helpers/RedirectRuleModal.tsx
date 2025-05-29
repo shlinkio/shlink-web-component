@@ -289,23 +289,22 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, onClose,
 
       <hr />
 
-      <div className="d-flex justify-content-between">
+      <div className="tw:flex tw:justify-between">
         <b>Conditions:</b>
         <Button className="tw:[&]:px-1.5" variant="secondary" aria-label="Add condition" onClick={addDraftCondition}>
           <FontAwesomeIcon icon={faPlus} />
         </Button>
       </div>
-      {redirectRule.conditions.length === 0 && <div className="text-center"><i>Add conditions...</i></div>}
+      {redirectRule.conditions.length === 0 && <div className="tw:text-center"><i>Add conditions...</i></div>}
       {redirectRule.conditions.length > 0 && (
         <div className="tw:pr-3 tw:mt-6 tw:grid tw:grid-cols-1 tw:md:grid-cols-2 tw:lg:grid-cols-3 tw:gap-6">
           {redirectRule.conditions.map((condition, index) => (
-            <div key={`${index}_${condition.type}`} className="">
-              <Condition
-                condition={condition}
-                onConditionChange={(c) => updateCondition(index, c)}
-                onDelete={() => removeCondition(index)}
-              />
-            </div>
+            <Condition
+              key={`${index}_${condition.type}`}
+              condition={condition}
+              onConditionChange={(c) => updateCondition(index, c)}
+              onDelete={() => removeCondition(index)}
+            />
           ))}
         </div>
       )}

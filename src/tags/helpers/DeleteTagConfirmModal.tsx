@@ -1,5 +1,4 @@
-import { Result } from '@shlinkio/shlink-frontend-kit';
-import { CardModal } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { CardModal, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { TagModalProps } from '../data';
 import type { TagDeletion } from '../reducers/tagDelete';
@@ -32,7 +31,7 @@ export const DeleteTagConfirmModal = (
     >
       Are you sure you want to delete tag <b>{tag}</b>?
       {error && (
-        <Result type="error" small className="tw:mt-2">
+        <Result variant="error" size="sm" className="tw:mt-2">
           <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while deleting the tag :(" />
         </Result>
       )}

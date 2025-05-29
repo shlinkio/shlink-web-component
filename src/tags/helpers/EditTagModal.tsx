@@ -1,5 +1,4 @@
-import { Result } from '@shlinkio/shlink-frontend-kit';
-import { CardModal, Input } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { CardModal, Input, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { useCallback, useState } from 'react';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { FCWithDeps } from '../../container/utils';
@@ -57,7 +56,7 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
       </div>
 
       {error && (
-        <Result type="error" small className="tw:mt-2">
+        <Result variant="error" size="sm" className="tw:mt-2">
           <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while editing the tag :(" />
         </Result>
       )}

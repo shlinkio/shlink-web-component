@@ -5,7 +5,7 @@ export type TagStats = Omit<ShlinkTagsStats, 'tag'>;
 export interface TagModalProps {
   tag: string;
   isOpen: boolean;
-  toggle: () => void;
+  onClose: () => void;
 }
 
 export interface SimplifiedTag {

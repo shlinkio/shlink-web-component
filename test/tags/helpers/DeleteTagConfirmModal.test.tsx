@@ -1,4 +1,4 @@
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { DeleteTagConfirmModal } from '../../../src/tags/helpers/DeleteTagConfirmModal';
 import type { TagDeletion } from '../../../src/tags/reducers/tagDelete';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -48,8 +48,7 @@ describe('<DeleteTagConfirmModal />', () => {
     const delBtn = screen.getByRole('button', { name: 'Deleting tag...' });
 
     expect(delBtn).toBeInTheDocument();
-    expect(delBtn).toHaveClass('disabled');
-    expect(delBtn).toHaveAttribute('disabled');
+    expect(delBtn).toBeDisabled();
   });
 
   it('hides tag modal when btn is clicked', async () => {
@@ -66,12 +65,9 @@ describe('<DeleteTagConfirmModal />', () => {
   it('does no further actions when modal is closed without deleting tag', async () => {
     const { user } = setUp();
 
-    await user.click(screen.getByLabelText('Close'));
+    await user.click(screen.getByLabelText('Close dialog'));
 
     expect(deleteTag).not.toHaveBeenCalled();
-
-    // After the modal is closed, the callback is still not invoked
-    await waitForElementToBeRemoved(screen.getByLabelText('Close'));
     expect(tagDeleted).not.toHaveBeenCalled();
   });
 });

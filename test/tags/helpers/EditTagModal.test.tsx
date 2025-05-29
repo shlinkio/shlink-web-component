@@ -10,25 +10,25 @@ describe('<EditTagModal />', () => {
     ColorGenerator: fromPartial({ getColorForKey: vi.fn(() => 'green') }),
   }));
   const editTag = vi.fn().mockReturnValue(Promise.resolve());
-  const toggle = vi.fn();
+  const onClose = vi.fn();
   const setUp = (tagEdit: Partial<TagEdition> = {}) => {
     const edition = fromPartial<TagEdition>(tagEdit);
     return renderWithEvents(
-      <EditTagModal isOpen tag="foo" tagEdit={edition} editTag={editTag} tagEdited={vi.fn()} toggle={toggle} />,
+      <EditTagModal isOpen tag="foo" tagEdit={edition} editTag={editTag} tagEdited={vi.fn()} onClose={onClose} />,
     );
   };
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('allows modal to be toggled with different mechanisms', async () => {
+  it('allows modal to be closed with different mechanisms', async () => {
     const { user } = setUp();
 
-    expect(toggle).not.toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
 
     await user.click(screen.getByLabelText('Close'));
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
 
-    expect(toggle).toHaveBeenCalledTimes(2);
+    expect(onClose).toHaveBeenCalledTimes(2);
     expect(editTag).not.toHaveBeenCalled();
   });
 
@@ -62,11 +62,11 @@ describe('<EditTagModal />', () => {
     const { user } = setUp();
 
     expect(editTag).not.toHaveBeenCalled();
-    expect(toggle).not.toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
 
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
     expect(editTag).toHaveBeenCalled();
-    expect(toggle).toHaveBeenCalled();
+    expect(onClose).toHaveBeenCalled();
   });
 });

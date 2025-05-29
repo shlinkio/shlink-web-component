@@ -21,7 +21,7 @@ type EditTagModalDeps = {
 };
 
 const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
-  { tag, editTag, toggle, tagEdited, isOpen, tagEdit },
+  { tag, editTag, onClose, tagEdited, isOpen, tagEdit },
 ) => {
   const { ColorGenerator: colorGenerator } = useDependencies(EditTagModal);
   const [newTagName, setNewTagName] = useState(tag);
@@ -29,7 +29,7 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
   const { editing, error, edited, errorData } = tagEdit;
   const saveTag = usePreventDefault(async () => {
     await editTag({ oldName: tag, newName: newTagName, color });
-    toggle();
+    onClose();
   });
   const onClosed = useCallback(
     () => edited && tagEdited({ oldName: tag, newName: newTagName, color }),
@@ -37,9 +37,9 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
   );
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} centered onClosed={onClosed}>
+    <Modal isOpen={isOpen} toggle={onClose} centered onClosed={onClosed}>
       <form name="editTag" onSubmit={saveTag}>
-        <ModalHeader toggle={toggle}>Edit tag</ModalHeader>
+        <ModalHeader toggle={onClose}>Edit tag</ModalHeader>
         <ModalBody>
           <InputGroup>
             <ColorPicker color={color} onChange={setColor} className="input-group-text" name="tag-color" />
@@ -58,7 +58,7 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
           )}
         </ModalBody>
         <ModalFooter>
-          <Button type="button" color="link" onClick={toggle}>Cancel</Button>
+          <Button type="button" color="link" onClick={onClose}>Cancel</Button>
           <Button color="primary" disabled={editing}>{editing ? 'Saving...' : 'Save'}</Button>
         </ModalFooter>
       </form>

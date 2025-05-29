@@ -89,7 +89,7 @@ describe('<TagsTable />', () => {
 
   it('orders tags when column is clicked', async () => {
     const { user } = setUp(tags(100));
-    const headers = screen.getAllByRole('columnheader');
+    const headers = screen.getAllByRole('columnheader', { hidden: true });
 
     expect(orderByColumn).not.toHaveBeenCalled();
     await user.click(headers[0]);

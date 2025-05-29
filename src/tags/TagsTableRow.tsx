@@ -30,8 +30,8 @@ type TagsTableRowDeps = {
 
 const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) => {
   const { DeleteTagConfirmModal, EditTagModal, ColorGenerator: colorGenerator } = useDependencies(TagsTableRow);
-  const [isDeleteModalOpen, toggleDelete] = useToggle();
-  const [isEditModalOpen, toggleEdit] = useToggle();
+  const { flag: isDeleteModalOpen, setToFalse: closeDelete, setToTrue: openDelete } = useToggle(false, true);
+  const { flag: isEditModalOpen, setToFalse: closeEdit, setToTrue: openEdit } = useToggle(false, true);
   const routesPrefix = useRoutesPrefix();
   const visitsComparison = useVisitsComparisonContext();
 
@@ -52,7 +52,7 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
       </Table.Cell>
       <Table.Cell className="tw:lg:text-right tw:max-lg:absolute tw:max-lg:top-[-19px] tw:max-lg:right-0 tw:max-lg:p-0">
         <RowDropdownBtn>
-          <DropdownItem onClick={toggleEdit}>
+          <DropdownItem onClick={openEdit}>
             <FontAwesomeIcon icon={editIcon} fixedWidth className="tw:mr-1" /> Edit
           </DropdownItem>
           <DropdownItem
@@ -68,14 +68,14 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
 
           <DropdownItem divider tag="hr" />
 
-          <DropdownItem className="tw:text-danger" onClick={toggleDelete}>
+          <DropdownItem className="tw:text-danger" onClick={openDelete}>
             <FontAwesomeIcon icon={deleteIcon} fixedWidth className="tw:mr-1" /> Delete tag
           </DropdownItem>
         </RowDropdownBtn>
       </Table.Cell>
 
-      <EditTagModal tag={tag.tag} toggle={toggleEdit} isOpen={isEditModalOpen} />
-      <DeleteTagConfirmModal tag={tag.tag} toggle={toggleDelete} isOpen={isDeleteModalOpen} />
+      <EditTagModal tag={tag.tag} onClose={closeEdit} isOpen={isEditModalOpen} />
+      <DeleteTagConfirmModal tag={tag.tag} onClose={closeDelete} isOpen={isDeleteModalOpen} />
     </Table.Row>
   );
 };

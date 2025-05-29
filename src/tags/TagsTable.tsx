@@ -43,9 +43,7 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
     isFirstLoad.current = false;
   }, [updatePage, sortedTags]);
 
-  const headerClasses = clsx(
-    'tw:cursor-pointer tw:sticky tw:top-(--header-height) tw:sticky-cell',
-  );
+  const headerClasses = 'tw:cursor-pointer tw:top-(--header-height) tw:sticky-cell';
 
   return (
     <SimpleCard key={page} bodyClassName={showPaginator ? 'pb-1' : ''}>

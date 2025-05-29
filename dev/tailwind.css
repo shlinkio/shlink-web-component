@@ -12,20 +12,13 @@
 }
 
 @utility sticky-cell-base {
-    @apply tw:z-1 tw:relative;
+    @apply tw:z-1 tw:relative tw:sticky;
+    @apply tw:before:absolute tw:before:bg-lm-table-border tw:dark:before:bg-dm-table-border tw:before:-z-2;
+    @apply tw:after:absolute tw:after:bg-lm-primary tw:dark:after:bg-dm-primary tw:after:-z-1;
 
-    &:before {
-        @apply tw:absolute tw:bg-lm-table-border tw:dark:bg-dm-table-border;
+    &:before, &:after {
         content: '';
-        z-index: -2;
     }
-
-    &:after {
-        @apply tw:absolute tw:bg-lm-primary tw:dark:bg-dm-primary;
-        content: '';
-        z-index: -1;
-    }
-
     &:first-child:after {
         left: 0;
     }

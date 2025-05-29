@@ -1,6 +1,6 @@
 import { splitEvery } from '@shlinkio/data-manipulation';
-import { SimpleCard, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
-import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
+import { SimpleCard, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback , useEffect, useRef } from 'react';
@@ -46,7 +46,7 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
   const headerClasses = 'tw:cursor-pointer tw:top-(--header-height) tw:sticky-cell';
 
   return (
-    <SimpleCard key={page} bodyClassName={showPaginator ? 'pb-1' : ''}>
+    <SimpleCard key={page} bodyClassName={showPaginator ? 'tw:pb-1' : ''}>
       <Table
         header={
           <Table.Row>

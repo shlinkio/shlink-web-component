@@ -4,8 +4,6 @@
 
 @layer base {
     :root {
-        /** Assumed header height */
-        --header-height: 56px;
         /* Width of ShlinkWebComponent's side menu when not collapsed */
         --aside-menu-width: 260px;
     }

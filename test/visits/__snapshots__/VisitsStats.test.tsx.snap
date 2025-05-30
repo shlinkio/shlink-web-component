@@ -557,7 +557,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           class="d-inline"
         >
           <div
-            class="color-bullet"
+            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
             style="background-color: rgb(70, 150, 229);"
           />
           <strong>
@@ -1130,7 +1130,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           class="d-inline"
         >
           <div
-            class="color-bullet"
+            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
             style="background-color: rgb(70, 150, 229);"
           />
           <strong>
@@ -1703,7 +1703,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           class="d-inline"
         >
           <div
-            class="color-bullet"
+            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
             style="background-color: rgb(70, 150, 229);"
           />
           <strong>
@@ -2321,7 +2321,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           class="d-inline"
         >
           <div
-            class="color-bullet"
+            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
             style="background-color: rgb(70, 150, 229);"
           />
           <strong>
@@ -2335,7 +2335,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           class="d-inline"
         >
           <div
-            class="color-bullet"
+            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
             style="background-color: rgb(29, 170, 88);"
           />
           <strong>
@@ -2953,7 +2953,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           class="d-inline"
         >
           <div
-            class="color-bullet"
+            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
             style="background-color: rgb(70, 150, 229);"
           />
           <strong>
@@ -2967,7 +2967,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           class="d-inline"
         >
           <div
-            class="color-bullet"
+            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
             style="background-color: rgb(29, 170, 88);"
           />
           <strong>
@@ -3585,7 +3585,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           class="d-inline"
         >
           <div
-            class="color-bullet"
+            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
             style="background-color: rgb(70, 150, 229);"
           />
           <strong>
@@ -3599,7 +3599,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           class="d-inline"
         >
           <div
-            class="color-bullet"
+            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
             style="background-color: rgb(29, 170, 88);"
           />
           <strong>

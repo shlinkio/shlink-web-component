@@ -9,20 +9,20 @@ import { nonEmptyStringOrNull } from '../../utils/helpers';
 import type { EditDomainRedirects } from '../reducers/domainRedirects';
 
 type FormGroupProps = Omit<InputProps, 'type' | 'placeholder' | 'onChange' | 'onKeyDown'> & {
-  onConfirm: () => void;
   onChange: (newValue: string) => void;
+  infoTitle: string;
 };
 
-const FormGroup: FC<FormGroupProps> = ({ children, onChange, onConfirm, ...rest }) => (
+const FormGroup: FC<FormGroupProps> = ({ children, onChange, infoTitle, ...rest }) => (
   <LabelledInput
     {...rest}
     onChange={(e) => onChange(e.target.value)}
-    onKeyDown={(e) => {
-      if (e.key === 'Enter') {
-        onConfirm();
-      }
-    }}
-    label={children ?? ''}
+    label={(
+      <>
+        <FontAwesomeIcon className="tw:mr-1.5" icon={infoIcon} title={infoTitle} />
+        {children}
+      </>
+    )}
     type="url"
     placeholder="No redirect"
   />
@@ -75,28 +75,25 @@ export const EditDomainRedirectsModal: FC<EditDomainRedirectsModalProps> = (
       confirmDisabled={saving}
     >
       <div className="tw:flex tw:flex-col tw:gap-y-3">
-        <FormGroup value={baseUrlRedirect} onChange={setBaseUrlRedirect} onConfirm={onConfirm}>
-          <FontAwesomeIcon
-            className="tw:mr-1.5"
-            icon={infoIcon}
-            title={`Visitors accessing the base url, as in https://${domain.domain}/, will be redirected to this URL.`}
-          />
+        <FormGroup
+          value={baseUrlRedirect}
+          onChange={setBaseUrlRedirect}
+          infoTitle={`Visitors accessing the base url, as in https://${domain.domain}/, will be redirected to this URL.`}
+        >
           Base URL
         </FormGroup>
-        <FormGroup value={regular404Redirect} onChange={setRegular404Redirect} onConfirm={onConfirm}>
-          <FontAwesomeIcon
-            className="tw:mr-1.5"
-            icon={infoIcon}
-            title={`Visitors accessing a url not matching a short URL pattern, as in https://${domain.domain}/???/[...], will be redirected to this URL.`}
-          />
+        <FormGroup
+          value={regular404Redirect}
+          onChange={setRegular404Redirect}
+          infoTitle={`Visitors accessing a url not matching a short URL pattern, as in https://${domain.domain}/???/[...], will be redirected to this URL.`}
+        >
           Regular 404
         </FormGroup>
-        <FormGroup value={invalidShortUrlRedirect} onChange={setInvalidShortUrlRedirect} onConfirm={onConfirm}>
-          <FontAwesomeIcon
-            className="tw:mr-1.5"
-            icon={infoIcon}
-            title="Visitors accessing a url matching a short URL pattern, but not matching an existing short code, will be redirected to this URL."
-          />
+        <FormGroup
+          value={invalidShortUrlRedirect}
+          onChange={setInvalidShortUrlRedirect}
+          infoTitle="Visitors accessing a url matching a short URL pattern, but not matching an existing short code, will be redirected to this URL."
+        >
           Invalid short URL
         </FormGroup>
       </div>

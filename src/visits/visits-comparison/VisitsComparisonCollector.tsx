@@ -29,7 +29,7 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
 
   const { itemsToCompare, clearItemsToCompare, removeItemToCompare } = context;
   return (
-    <div className={clsx('top-sticky', className)}>
+    <div className={clsx('tw:sticky tw:top-(--header-height) tw:z-10', className)}>
       <SimpleCard bodyClassName="d-md-flex gap-3 align-items-center">
         <ul className="d-flex flex-wrap gap-1 flex-grow-1 p-0 m-0">
           {itemsToCompare.map((item, index) => (

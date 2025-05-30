@@ -1,9 +1,3 @@
 @use '../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
 @use './tags/react-tag-autocomplete';
 @use 'leaflet/dist/leaflet.css';
-
-.top-sticky {
-  position: sticky;
-  top: base.$headerHeight;
-  z-index: 10;
-}

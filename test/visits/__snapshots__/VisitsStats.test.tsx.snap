@@ -2,7 +2,6 @@
 
 exports[`<VisitsStats /> > loads visits when mounted 1`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
@@ -575,7 +574,6 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
 
 exports[`<VisitsStats /> > loads visits when mounted 2`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
@@ -1148,7 +1146,6 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
 
 exports[`<VisitsStats /> > loads visits when mounted 3`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
@@ -1721,7 +1718,6 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
 
 exports[`<VisitsStats /> > loads visits when mounted 4`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
@@ -2353,7 +2349,6 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
 
 exports[`<VisitsStats /> > loads visits when mounted 5`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
@@ -2985,7 +2980,6 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
 
 exports[`<VisitsStats /> > loads visits when mounted 6`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div

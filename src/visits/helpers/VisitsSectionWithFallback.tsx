@@ -5,7 +5,7 @@ export const VisitsSectionWithFallback: FC<PropsWithChildren<{ showFallback: boo
   { children, showFallback },
 ) => (
   <>
-    {showFallback && <Message className="mt-3">There are no visits matching current filter</Message>}
+    {showFallback && <Message>There are no visits matching current filter</Message>}
     {!showFallback && <>{children}</>}
   </>
 );

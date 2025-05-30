@@ -101,7 +101,6 @@ export const VisitsTable = ({
 
   return (
     <SimpleCard
-      className="mt-3"
       // Adding a bottom padding to work around the fact that it's not possible to set border radius in internal table
       // elements, and we can also not hide the overflow of the table itself because then sticky elements get hidden
       bodyClassName="p-0 pb-1"

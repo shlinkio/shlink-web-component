@@ -1,12 +1,11 @@
 import { splitEvery } from '@shlinkio/data-manipulation';
 import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
-import { SimpleCard, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Paginator, SimpleCard, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback , useEffect, useRef } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import { SimplePaginator } from '../utils/components/SimplePaginator';
 import { useQueryState } from '../utils/helpers/hooks';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import type { TagsListChildrenProps, TagsOrder, TagsOrderableFields } from './data/TagsListChildrenProps';
@@ -83,7 +82,7 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
           )}
           data-testid="tags-paginator"
         >
-          <SimplePaginator pagesCount={pages.length} currentPage={page} onPageChange={updatePage} />
+          <Paginator pagesCount={pages.length} currentPage={page} onPageChange={updatePage} />
         </div>
       )}
     </SimpleCard>

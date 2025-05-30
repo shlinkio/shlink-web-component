@@ -50,7 +50,7 @@ export const DateRangeSelector = (
     <DropdownBtn disabled={disabled} text={text}>
       <DateIntervalDropdownItems allText={defaultText} active={activeInterval} onChange={updateDateRangeOrInterval} />
       <DropdownItem divider tag="hr" />
-      <div className="px-3 py-1">
+      <div className="tw:px-4 tw:py-1">
         <DateRangeRow
           {...activeDateRange}
           onStartDateChange={(startDate) => updateDateRangeOrInterval({ ...activeDateRange, startDate })}

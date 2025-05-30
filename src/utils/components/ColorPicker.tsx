@@ -15,7 +15,7 @@ export type ColorPickerProps = {
 export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(
   ({ name, color, onChange, className }, ref) => (
     <div
-      className={clsx('tw:relative tw:rounded tw:w-10', className)}
+      className={clsx('tw:relative tw:rounded tw:w-12', className)}
       style={{ backgroundColor: color, borderColor: color }}
     >
       <Input

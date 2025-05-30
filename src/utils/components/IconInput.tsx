@@ -1,26 +1,25 @@
 import type { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useElementRef } from '@shlinkio/shlink-frontend-kit';
+import type { InputProps } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Input } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
-import type { InputProps } from 'reactstrap';
-import { Input } from 'reactstrap';
-import './IconInput.scss';
+import { useRef } from 'react';
 
 export type IconInputProps = InputProps & {
   icon: FontAwesomeIconProps['icon'];
 };
 
 export const IconInput: FC<IconInputProps> = ({ icon, className, ...rest }) => {
-  const ref = useElementRef<HTMLInputElement>();
+  const ref = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="icon-input-container">
-      <Input className={clsx('icon-input-container__input', className)} innerRef={ref} {...rest} />
+    <div className="tw:relative">
+      <Input className={clsx('tw:pr-11', className)} ref={ref} {...rest} />
       <FontAwesomeIcon
         icon={icon}
         fixedWidth
-        className="icon-input-container__icon"
+        className="tw:absolute tw:right-3 tw:top-1/2 tw:-translate-y-1/2 tw:cursor-pointer"
         onClick={() => ref.current?.focus()}
       />
     </div>

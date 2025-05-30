@@ -9,7 +9,7 @@ export const LabelledDateInput: FC<LabelledDateInputProps> = ({ label, id, ...re
   const inputId = useId();
   return (
     <>
-      <label htmlFor={id ?? inputId} className="mb-1">{label}:</label>
+      <label htmlFor={id ?? inputId} className="tw:mb-1">{label}:</label>
       <DateInput id={id ?? inputId} {...rest} />
     </>
   );

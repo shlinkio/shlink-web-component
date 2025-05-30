@@ -12,8 +12,8 @@ interface DateRangeRowProps extends DateRange {
 export const DateRangeRow: FC<DateRangeRowProps> = (
   { startDate, endDate, disabled = false, onStartDateChange, onEndDateChange },
 ) => (
-  <div className="row">
-    <div className="col-md-6">
+  <div className="tw:grid tw:grid-cols-1 tw:md:grid-cols-2 tw:gap-y-3 tw:gap-x-4">
+    <div>
       <LabelledDateInput
         label="Since"
         value={startDate}
@@ -22,7 +22,7 @@ export const DateRangeRow: FC<DateRangeRowProps> = (
         onChange={onStartDateChange}
       />
     </div>
-    <div className="col-md-6 mt-3 mt-md-0">
+    <div>
       <LabelledDateInput
         label="Until"
         value={endDate}

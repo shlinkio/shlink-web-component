@@ -22,7 +22,7 @@ describe('<InfoTooltip />', () => {
     if (className) {
       expect(container.firstChild).toHaveClass(className);
     } else {
-      expect(container.firstChild).toHaveAttribute('class', '');
+      expect(container.firstChild).not.toHaveAttribute('class');
     }
   });
 

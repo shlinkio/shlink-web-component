@@ -10,7 +10,7 @@ export type InfoTooltipProps = PropsWithChildren<{
   placement: Placement;
 }>;
 
-export const InfoTooltip: FC<InfoTooltipProps> = ({ className = '', placement, children }) => {
+export const InfoTooltip: FC<InfoTooltipProps> = ({ className, placement, children }) => {
   const ref = useRef<HTMLSpanElement>(null);
 
   return (

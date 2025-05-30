@@ -80,9 +80,9 @@ describe('<Tag />', () => {
 
     expect(screen.queryAllByLabelText(/^Remove/)).toHaveLength(expectedCloseBtnAmount);
     if (expectedPointer) {
-      expect(container.firstChild).toHaveClass('pointer');
+      expect(container.firstChild).toHaveClass('tw:cursor-pointer');
     } else {
-      expect(container.firstChild).not.toHaveClass('pointer');
+      expect(container.firstChild).not.toHaveClass('tw:cursor-pointer');
     }
   });
 

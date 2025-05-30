@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkDomain } from '../../../src/api-contract';
 import { EditDomainRedirectsModal } from '../../../src/domains/helpers/EditDomainRedirectsModal';
@@ -36,10 +36,10 @@ describe('<EditDomainRedirectsModal />', () => {
 
   it('saves expected values when form is submitted', async () => {
     const { user } = setUp();
-    const submitForm = () => user.click(screen.getByRole('button', { name: 'Save' }));
+    const submitForm = () => fireEvent.submit(screen.getByTestId('transition-container'));
 
     expect(editDomainRedirects).not.toHaveBeenCalled();
-    await submitForm();
+    submitForm();
     expect(editDomainRedirects).toHaveBeenCalledWith({
       domain: 'foo.com',
       redirects: {
@@ -52,7 +52,7 @@ describe('<EditDomainRedirectsModal />', () => {
     await user.clear(screen.getByDisplayValue('baz'));
     await user.type(screen.getAllByPlaceholderText('No redirect')[0], 'new_base_url');
     await user.type(screen.getAllByPlaceholderText('No redirect')[2], 'new_invalid_short_url');
-    await submitForm();
+    submitForm();
     expect(editDomainRedirects).toHaveBeenCalledWith({
       domain: 'foo.com',
       redirects: {
@@ -64,7 +64,7 @@ describe('<EditDomainRedirectsModal />', () => {
 
     await user.type(screen.getAllByPlaceholderText('No redirect')[1], 'new_regular_404');
     await user.clear(screen.getByDisplayValue('new_invalid_short_url'));
-    await submitForm();
+    submitForm();
     expect(editDomainRedirects).toHaveBeenCalledWith({
       domain: 'foo.com',
       redirects: {
@@ -75,7 +75,7 @@ describe('<EditDomainRedirectsModal />', () => {
     });
 
     await Promise.all(screen.getAllByPlaceholderText('No redirect').map((element) => user.clear(element)));
-    await submitForm();
+    submitForm();
     expect(editDomainRedirects).toHaveBeenCalledWith({
       domain: 'foo.com',
       redirects: {

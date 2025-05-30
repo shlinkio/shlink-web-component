@@ -47,15 +47,20 @@ describe('<TagsTable />', () => {
   });
 
   it.each([
-    [['foo', 'bar', 'baz'], 0],
-    [['foo'], 0],
-    [tags(19), 0],
-    [tags(20), 0],
-    [tags(30), 1],
-    [tags(100), 1],
-  ])('renders paginator if there are more than one page', (filteredTags, expectedPaginators) => {
-    const { container } = setUp(filteredTags);
-    expect(container.querySelectorAll('.sticky-card-paginator')).toHaveLength(expectedPaginators);
+    [['foo', 'bar', 'baz'], false],
+    [['foo'], false],
+    [tags(19), false],
+    [tags(20), false],
+    [tags(30), true],
+    [tags(100), true],
+  ])('renders paginator if there are more than one page', (filteredTags, shouldRenderPaginator) => {
+    setUp(filteredTags);
+
+    if (shouldRenderPaginator) {
+      expect(screen.getByTestId('tags-paginator')).toBeInTheDocument();
+    } else {
+      expect(screen.queryByTestId('tags-paginator')).not.toBeInTheDocument();
+    }
   });
 
   it.each([
@@ -84,7 +89,7 @@ describe('<TagsTable />', () => {
 
   it('orders tags when column is clicked', async () => {
     const { user } = setUp(tags(100));
-    const headers = screen.getAllByRole('columnheader');
+    const headers = screen.getAllByRole('columnheader', { hidden: true });
 
     expect(orderByColumn).not.toHaveBeenCalled();
     await user.click(headers[0]);

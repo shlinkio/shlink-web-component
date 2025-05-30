@@ -1,5 +1,4 @@
-import { Result } from '@shlinkio/shlink-frontend-kit';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { CardModal, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { TagModalProps } from '../data';
 import type { TagDeletion } from '../reducers/tagDelete';
@@ -11,31 +10,31 @@ interface DeleteTagConfirmModalProps extends TagModalProps {
 }
 
 export const DeleteTagConfirmModal = (
-  { tag, toggle, isOpen, deleteTag, tagDelete, tagDeleted }: DeleteTagConfirmModalProps,
+  { tag, onClose, isOpen, deleteTag, tagDelete, tagDeleted }: DeleteTagConfirmModalProps,
 ) => {
   const { deleting, error, deleted, errorData } = tagDelete;
   const doDelete = async () => {
     await deleteTag(tag);
-    toggle();
+    onClose();
   };
 
   return (
-    <Modal toggle={toggle} isOpen={isOpen} centered onClosed={() => deleted && tagDeleted(tag)}>
-      <ModalHeader toggle={toggle} className="text-danger">Delete tag</ModalHeader>
-      <ModalBody>
-        Are you sure you want to delete tag <b>{tag}</b>?
-        {error && (
-          <Result type="error" small className="mt-2">
-            <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while deleting the tag :(" />
-          </Result>
-        )}
-      </ModalBody>
-      <ModalFooter>
-        <Button color="link" onClick={toggle}>Cancel</Button>
-        <Button color="danger" disabled={deleting} onClick={doDelete}>
-          {deleting ? 'Deleting tag...' : 'Delete tag'}
-        </Button>
-      </ModalFooter>
-    </Modal>
+    <CardModal
+      title="Delete tag"
+      variant="danger"
+      open={isOpen}
+      onClose={onClose}
+      onClosed={() => deleted && tagDeleted(tag)}
+      onConfirm={doDelete}
+      confirmText={deleting ? 'Deleting tag...' : 'Delete tag'}
+      confirmDisabled={deleting}
+    >
+      Are you sure you want to delete tag <b>{tag}</b>?
+      {error && (
+        <Result variant="error" size="sm" className="tw:mt-2">
+          <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while deleting the tag :(" />
+        </Result>
+      )}
+    </CardModal>
   );
 };

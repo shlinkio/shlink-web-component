@@ -1,5 +1,7 @@
 import { splitEvery } from '@shlinkio/data-manipulation';
-import { SimpleCard, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
+import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
+import { SimpleCard, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback , useEffect, useRef } from 'react';
 import type { FCWithDeps } from '../container/utils';
@@ -9,7 +11,6 @@ import { useQueryState } from '../utils/helpers/hooks';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import type { TagsListChildrenProps, TagsOrder, TagsOrderableFields } from './data/TagsListChildrenProps';
 import type { TagsTableRowProps } from './TagsTableRow';
-import './TagsTable.scss';
 
 export interface TagsTableProps extends TagsListChildrenProps {
   orderByColumn: (field: TagsOrderableFields) => () => void;
@@ -42,34 +43,46 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
     isFirstLoad.current = false;
   }, [updatePage, sortedTags]);
 
+  const headerClasses = 'tw:cursor-pointer tw:top-(--header-height) tw:sticky-cell';
+
   return (
-    <SimpleCard key={page} bodyClassName={showPaginator ? 'pb-1' : ''}>
-      <table className="table table-hover responsive-table mb-0">
-        <thead className="responsive-table__header">
-          <tr>
-            <th className="tags-table__header-cell" onClick={orderByColumn('tag')}>
+    <SimpleCard key={page} bodyClassName={showPaginator ? 'tw:pb-1' : ''}>
+      <Table
+        header={
+          <Table.Row>
+            <Table.Cell onClick={orderByColumn('tag')} className={headerClasses}>
               Tag <TableOrderIcon currentOrder={currentOrder} field="tag" />
-            </th>
-            <th className="tags-table__header-cell text-lg-end" onClick={orderByColumn('shortUrls')}>
+            </Table.Cell>
+            <Table.Cell onClick={orderByColumn('shortUrls')} className={`tw:lg:text-right ${headerClasses}`}>
               Short URLs <TableOrderIcon currentOrder={currentOrder} field="shortUrls" />
-            </th>
-            <th className="tags-table__header-cell text-lg-end" onClick={orderByColumn('visits')}>
+            </Table.Cell>
+            <Table.Cell onClick={orderByColumn('visits')} className={`tw:lg:text-right ${headerClasses}`}>
               Visits <TableOrderIcon currentOrder={currentOrder} field="visits" />
-            </th>
-            <th className="tags-table__header-cell">
-              <span className="sr-only">Options</span>
-            </th>
-          </tr>
-          <tr><th aria-hidden colSpan={4} className="p-0 border-top-0" /></tr>
-        </thead>
-        <tbody>
-          {currentPage.length === 0 && <tr><td colSpan={4} className="text-center">No tags found</td></tr>}
-          {currentPage.map((tag) => <TagsTableRow key={tag.tag} tag={tag} />)}
-        </tbody>
-      </table>
+            </Table.Cell>
+            <Table.Cell className={headerClasses}>
+              <span className="tw:sr-only">Options</span>
+            </Table.Cell>
+          </Table.Row>
+        }
+      >
+        {currentPage.length === 0 && (
+          <Table.Row>
+            <Table.Cell colSpan={4} className="tw:text-center">No tags found</Table.Cell>
+          </Table.Row>
+        )}
+        {currentPage.map((tag) => <TagsTableRow key={tag.tag} tag={tag} />)}
+      </Table>
 
       {showPaginator && (
-        <div className="sticky-card-paginator">
+        <div
+          className={clsx(
+            'tw:sticky tw:bottom-0 tw:py-4 tw:-mx-0.5',
+            'tw:flex tw:justify-around',
+            'tw:bg-lm-primary tw:dark:bg-dm-primary',
+            'tw:border-t tw:border-lm-border tw:dark:border-dm-border',
+          )}
+          data-testid="tags-paginator"
+        >
           <SimplePaginator pagesCount={pages.length} currentPage={page} onPageChange={updatePage} />
         </div>
       )}

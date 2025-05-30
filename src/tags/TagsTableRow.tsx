@@ -5,6 +5,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RowDropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
+import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { Link } from 'react-router';
 import { DropdownItem } from 'reactstrap';
@@ -29,30 +30,30 @@ type TagsTableRowDeps = {
 
 const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) => {
   const { DeleteTagConfirmModal, EditTagModal, ColorGenerator: colorGenerator } = useDependencies(TagsTableRow);
-  const [isDeleteModalOpen, toggleDelete] = useToggle();
-  const [isEditModalOpen, toggleEdit] = useToggle();
+  const { flag: isDeleteModalOpen, setToFalse: closeDelete, setToTrue: openDelete } = useToggle(false, true);
+  const { flag: isEditModalOpen, setToFalse: closeEdit, setToTrue: openEdit } = useToggle(false, true);
   const routesPrefix = useRoutesPrefix();
   const visitsComparison = useVisitsComparisonContext();
 
   return (
-    <tr className="responsive-table__row">
-      <th className="responsive-table__cell" data-th="Tag">
+    <Table.Row className="tw:max-lg:relative">
+      <Table.Cell columnName="Tag">
         <TagBullet tag={tag.tag} colorGenerator={colorGenerator} /> {tag.tag}
-      </th>
-      <td className="responsive-table__cell text-lg-end" data-th="Short URLs">
+      </Table.Cell>
+      <Table.Cell className="tw:lg:text-right" columnName="Short URLs">
         <Link to={`${routesPrefix}/list-short-urls/1?tags=${encodeURIComponent(tag.tag)}`}>
           {prettify(tag.shortUrls)}
         </Link>
-      </td>
-      <td className="responsive-table__cell text-lg-end" data-th="Visits">
+      </Table.Cell>
+      <Table.Cell className="tw:lg:text-right" columnName="Visits">
         <Link to={`${routesPrefix}/tag/${tag.tag}/visits`}>
           {prettify(tag.visits)}
         </Link>
-      </td>
-      <td className="responsive-table__cell text-lg-end">
+      </Table.Cell>
+      <Table.Cell className="tw:lg:text-right tw:max-lg:absolute tw:max-lg:top-[-19px] tw:max-lg:right-0 tw:max-lg:p-0">
         <RowDropdownBtn>
-          <DropdownItem onClick={toggleEdit}>
-            <FontAwesomeIcon icon={editIcon} fixedWidth className="me-1" /> Edit
+          <DropdownItem onClick={openEdit}>
+            <FontAwesomeIcon icon={editIcon} fixedWidth className="tw:mr-1" /> Edit
           </DropdownItem>
           <DropdownItem
             disabled={!visitsComparison || !visitsComparison.canAddItemWithName(tag.tag)}
@@ -62,20 +63,20 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
               style: colorGenerator.stylesForKey(tag.tag),
             })}
           >
-            <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
+            <FontAwesomeIcon icon={lineChartIcon} fixedWidth className="tw:mr-1" /> Compare visits
           </DropdownItem>
 
           <DropdownItem divider tag="hr" />
 
-          <DropdownItem className="tw:text-danger" onClick={toggleDelete}>
-            <FontAwesomeIcon icon={deleteIcon} fixedWidth className="me-1" /> Delete tag
+          <DropdownItem className="tw:text-danger" onClick={openDelete}>
+            <FontAwesomeIcon icon={deleteIcon} fixedWidth className="tw:mr-1" /> Delete tag
           </DropdownItem>
         </RowDropdownBtn>
-      </td>
+      </Table.Cell>
 
-      <EditTagModal tag={tag.tag} toggle={toggleEdit} isOpen={isEditModalOpen} />
-      <DeleteTagConfirmModal tag={tag.tag} toggle={toggleDelete} isOpen={isDeleteModalOpen} />
-    </tr>
+      <EditTagModal tag={tag.tag} onClose={closeEdit} isOpen={isEditModalOpen} />
+      <DeleteTagConfirmModal tag={tag.tag} onClose={closeDelete} isOpen={isDeleteModalOpen} />
+    </Table.Row>
   );
 };
 

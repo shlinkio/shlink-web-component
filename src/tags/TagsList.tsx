@@ -1,14 +1,7 @@
-import {
-  determineOrderDir,
-  Message,
-  OrderingDropdown,
-  Result,
-  SearchField,
-  sortList,
-} from '@shlinkio/shlink-frontend-kit';
+import { determineOrderDir, OrderingDropdown, sortList } from '@shlinkio/shlink-frontend-kit';
+import { Message, Result, SearchInput } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
-import { Row } from 'reactstrap';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -62,7 +55,7 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
 
   if (tagsList.error) {
     return (
-      <Result type="error">
+      <Result variant="error">
         <ShlinkApiError errorData={tagsList.errorData} fallbackMessage="Error loading tags :(" />
       </Result>
     );
@@ -75,22 +68,24 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
 
   return (
     <VisitsComparisonProvider value={visitsComparison}>
-      <SearchField className="mb-3" onChange={filterTags} />
-      <Row className="mb-3">
-        <div className="col-lg-6 offset-lg-6">
-          <OrderingDropdown
-            items={TAGS_ORDERABLE_FIELDS}
-            order={order}
-            onChange={(field, dir) => setOrder({ field, dir })}
-          />
+      <div className="tw:flex tw:flex-col tw:gap-4">
+        <SearchInput onChange={filterTags} />
+        <div className="tw:flex tw:flex-col tw:lg:flex-row tw:lg:justify-end">
+          <div className="tw:lg:w-1/2">
+            <OrderingDropdown
+              items={TAGS_ORDERABLE_FIELDS}
+              order={order}
+              onChange={(field, dir) => setOrder({ field, dir })}
+            />
+          </div>
         </div>
-      </Row>
-      <VisitsComparisonCollector type="tags" className="mb-3" />
-      <TagsTable
-        sortedTags={sortedTags}
-        currentOrder={order}
-        orderByColumn={orderByColumn}
-      />
+        <VisitsComparisonCollector type="tags" />
+        <TagsTable
+          sortedTags={sortedTags}
+          currentOrder={order}
+          orderByColumn={orderByColumn}
+        />
+      </div>
     </VisitsComparisonProvider>
   );
 }, () => [Topics.visits]);

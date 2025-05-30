@@ -1,5 +1,5 @@
 import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Dropdown,DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 
 interface PaginationDropdownProps {
   ranges: number[];

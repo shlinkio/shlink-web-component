@@ -18,6 +18,7 @@ interface SimplePaginatorProps {
   centered?: boolean;
 }
 
+/** @deprecated. Use Paginator from @shlinkio/shlink-frontend-kit */
 export const SimplePaginator: FC<SimplePaginatorProps> = (
   { pagesCount, currentPage, onPageChange, centered = true },
 ) => {

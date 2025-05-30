@@ -3,15 +3,14 @@
 exports[`<IconInput /> > displays provided icon 1`] = `
 <div>
   <div
-    class="icon-input-container"
+    class="tw:relative"
   >
     <input
-      class="icon-input-container__input form-control"
-      type="text"
+      class="tw:w-full tw:focus-ring tw:px-3 tw:py-1.5 tw:rounded-md tw:border tw:border-lm-input-border tw:dark:border-dm-input-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:group-[&]/card:bg-lm-input tw:group-[&]/card:dark:bg-dm-input tw:pr-11"
     />
     <svg
       aria-hidden="true"
-      class="svg-inline--fa fa-calendar fa-fw icon-input-container__icon"
+      class="svg-inline--fa fa-calendar fa-fw tw:absolute tw:right-3 tw:top-1/2 tw:-translate-y-1/2 tw:cursor-pointer"
       data-icon="calendar"
       data-prefix="fas"
       focusable="false"
@@ -31,15 +30,14 @@ exports[`<IconInput /> > displays provided icon 1`] = `
 exports[`<IconInput /> > displays provided icon 2`] = `
 <div>
   <div
-    class="icon-input-container"
+    class="tw:relative"
   >
     <input
-      class="icon-input-container__input form-control"
-      type="text"
+      class="tw:w-full tw:focus-ring tw:px-3 tw:py-1.5 tw:rounded-md tw:border tw:border-lm-input-border tw:dark:border-dm-input-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:group-[&]/card:bg-lm-input tw:group-[&]/card:dark:bg-dm-input tw:pr-11"
     />
     <svg
       aria-hidden="true"
-      class="svg-inline--fa fa-apple-whole fa-fw icon-input-container__icon"
+      class="svg-inline--fa fa-apple-whole fa-fw tw:absolute tw:right-3 tw:top-1/2 tw:-translate-y-1/2 tw:cursor-pointer"
       data-icon="apple-whole"
       data-prefix="fas"
       focusable="false"
@@ -59,15 +57,14 @@ exports[`<IconInput /> > displays provided icon 2`] = `
 exports[`<IconInput /> > displays provided icon 3`] = `
 <div>
   <div
-    class="icon-input-container"
+    class="tw:relative"
   >
     <input
-      class="icon-input-container__input form-control"
-      type="text"
+      class="tw:w-full tw:focus-ring tw:px-3 tw:py-1.5 tw:rounded-md tw:border tw:border-lm-input-border tw:dark:border-dm-input-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:group-[&]/card:bg-lm-input tw:group-[&]/card:dark:bg-dm-input tw:pr-11"
     />
     <svg
       aria-hidden="true"
-      class="svg-inline--fa fa-table fa-fw icon-input-container__icon"
+      class="svg-inline--fa fa-table fa-fw tw:absolute tw:right-3 tw:top-1/2 tw:-translate-y-1/2 tw:cursor-pointer"
       data-icon="table"
       data-prefix="fas"
       focusable="false"

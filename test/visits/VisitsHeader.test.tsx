@@ -17,8 +17,8 @@ describe('<VisitsHeader />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('shows the amount of visits', () => {
-    const { container } = setUp();
-    expect(container.querySelector('.badge')).toHaveTextContent(`Visits: ${visits.length}`);
+    setUp();
+    expect(screen.getByTestId('badge')).toHaveTextContent(`Visits: ${visits.length}`);
   });
 
   it('shows the title in two places', () => {

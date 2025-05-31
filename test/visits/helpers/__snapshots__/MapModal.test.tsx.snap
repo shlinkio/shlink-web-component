@@ -1,221 +1,287 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`<MapModal /> > renders expected map 1`] = `
-<div
-  aria-modal="true"
-  class="modal fade"
-  role="dialog"
-  style="display: block;"
-  tabindex="-1"
+<dialog
+  class="tw:bg-transparent tw:backdrop:bg-black/50 tw:flex tw:w-screen tw:h-screen tw:max-w-screen tw:max-h-screen tw:overflow-hidden"
+  open=""
 >
-  <div
-    class="modal-dialog map-modal__modal"
-    role="document"
+  <form
+    class="tw:w-full tw:m-auto tw:p-4 tw:sm:p-6 tw:-translate-y-4 tw:data-open:translate-y-0 tw:opacity-0 tw:data-open:opacity-100 tw:transition-[opacity_,_translate] tw:duration-300 tw:h-full"
+    data-open=""
+    data-testid="transition-container"
   >
     <div
-      class="modal-content map-modal__modal-content"
+      class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:w-full tw:h-full tw:relative tw:overflow-auto"
     >
       <div
-        class="map-modal__modal-body modal-body"
+        class="tw:px-4 tw:py-3 tw:absolute tw:top-0 tw:left-0 tw:right-0 tw:z-3000 tw:flex tw:items-center tw:justify-between tw:text-white tw:bg-linear-to-b tw:from-black/70 tw:to-black/10 tw:[text-shadow:_0_2px_4px_rgb(0_0_0/_0.8)]"
+      >
+        <h5>
+          Foobar
+        </h5>
+        <button
+          aria-label="Close dialog"
+          class="tw:opacity-50 tw:highlight:opacity-80 tw:transition-opacity tw:rounded-md tw:focus-ring"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-xmark fa-xl "
+            data-icon="xmark"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 384 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="tw:h-full tw:w-full leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        style="position: relative;"
+        tabindex="0"
       >
         <div
-          class="d-flex justify-content-between align-items-center map-modal__modal-title fs-4"
-        >
-          Foobar
-          <button
-            aria-label="Close"
-            class="btn-close"
-            type="button"
-          />
-        </div>
-        <div
-          class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-          style="position: relative;"
-          tabindex="0"
+          class="leaflet-pane leaflet-map-pane"
+          style="transform: translate3d(0px, 0px, 0px);"
         >
           <div
-            class="leaflet-pane leaflet-map-pane"
-            style="transform: translate3d(0px, 0px, 0px);"
+            class="leaflet-pane leaflet-tile-pane"
           >
             <div
-              class="leaflet-pane leaflet-tile-pane"
+              class="leaflet-layer "
+              style="z-index: 1;"
             >
               <div
-                class="leaflet-layer "
-                style="z-index: 1;"
+                class="leaflet-tile-container leaflet-zoom-animated"
+                style="z-index: 18; transform: translate3d(0px, 48px, 0px) scale(1);"
               >
-                <div
-                  class="leaflet-tile-container leaflet-zoom-animated"
-                  style="z-index: 18; transform: translate3d(0px, 0px, 0px) scale(1);"
-                >
-                  <img
-                    alt=""
-                    class="leaflet-tile"
-                    src="https://c.tile.openstreetmap.org/2/1/1.png"
-                    style="width: 256px; height: 256px; transform: translate3d(47px, -69px, 0px);"
-                  />
-                  <img
-                    alt=""
-                    class="leaflet-tile"
-                    src="https://b.tile.openstreetmap.org/2/0/1.png"
-                    style="width: 256px; height: 256px; transform: translate3d(-209px, -69px, 0px);"
-                  />
-                  <img
-                    alt=""
-                    class="leaflet-tile"
-                    src="https://a.tile.openstreetmap.org/2/2/1.png"
-                    style="width: 256px; height: 256px; transform: translate3d(303px, -69px, 0px);"
-                  />
-                </div>
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://c.tile.openstreetmap.org/2/1/1.png"
+                  style="width: 256px; height: 256px; transform: translate3d(40px, 256px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://b.tile.openstreetmap.org/2/1/0.png"
+                  style="width: 256px; height: 256px; transform: translate3d(40px, 0px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://b.tile.openstreetmap.org/2/0/1.png"
+                  style="width: 256px; height: 256px; transform: translate3d(-216px, 256px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://a.tile.openstreetmap.org/2/2/1.png"
+                  style="width: 256px; height: 256px; transform: translate3d(296px, 256px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://a.tile.openstreetmap.org/2/1/2.png"
+                  style="width: 256px; height: 256px; transform: translate3d(40px, 512px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://a.tile.openstreetmap.org/2/0/0.png"
+                  style="width: 256px; height: 256px; transform: translate3d(-216px, 0px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://c.tile.openstreetmap.org/2/2/0.png"
+                  style="width: 256px; height: 256px; transform: translate3d(296px, 0px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://c.tile.openstreetmap.org/2/0/2.png"
+                  style="width: 256px; height: 256px; transform: translate3d(-216px, 512px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://b.tile.openstreetmap.org/2/2/2.png"
+                  style="width: 256px; height: 256px; transform: translate3d(296px, 512px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://b.tile.openstreetmap.org/2/1/3.png"
+                  style="width: 256px; height: 256px; transform: translate3d(40px, 768px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://a.tile.openstreetmap.org/2/0/3.png"
+                  style="width: 256px; height: 256px; transform: translate3d(-216px, 768px, 0px);"
+                />
+                <img
+                  alt=""
+                  class="leaflet-tile"
+                  src="https://c.tile.openstreetmap.org/2/2/3.png"
+                  style="width: 256px; height: 256px; transform: translate3d(296px, 768px, 0px);"
+                />
               </div>
             </div>
-            <div
-              class="leaflet-pane leaflet-overlay-pane"
+          </div>
+          <div
+            class="leaflet-pane leaflet-overlay-pane"
+          />
+          <div
+            class="leaflet-pane leaflet-shadow-pane"
+          >
+            <img
+              alt=""
+              class="leaflet-marker-shadow leaflet-zoom-animated"
+              src="marker-shadow.png"
+              style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(294px, 429px, 0px);"
             />
-            <div
-              class="leaflet-pane leaflet-shadow-pane"
-            >
-              <img
-                alt=""
-                class="leaflet-marker-shadow leaflet-zoom-animated"
-                src="marker-shadow.png"
-                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(301px, 56px, 0px);"
-              />
-              <img
-                alt=""
-                class="leaflet-marker-shadow leaflet-zoom-animated"
-                src="marker-shadow.png"
-                style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(93px, 60px, 0px);"
-              />
-            </div>
-            <div
-              class="leaflet-pane leaflet-marker-pane"
-            >
-              <img
-                alt="Marker"
-                class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
-                role="button"
-                src="marker-icon.png"
-                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(301px, 56px, 0px); z-index: 56;"
-                tabindex="0"
-              />
-              <img
-                alt="Marker"
-                class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
-                role="button"
-                src="marker-icon.png"
-                style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(93px, 60px, 0px); z-index: 60;"
-                tabindex="0"
-              />
-            </div>
-            <div
-              class="leaflet-pane leaflet-tooltip-pane"
-            />
-            <div
-              class="leaflet-pane leaflet-popup-pane"
-            />
-            <div
-              class="leaflet-proxy leaflet-zoom-animated"
-              style="transform: translate3d(405.601px, 383.188px, 0px) scale(2);"
+            <img
+              alt=""
+              class="leaflet-marker-shadow leaflet-zoom-animated"
+              src="marker-shadow.png"
+              style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(86px, 433px, 0px);"
             />
           </div>
           <div
-            class="leaflet-control-container"
+            class="leaflet-pane leaflet-marker-pane"
+          >
+            <img
+              alt="Marker"
+              class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
+              role="button"
+              src="marker-icon.png"
+              style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(294px, 429px, 0px); z-index: 429;"
+              tabindex="0"
+            />
+            <img
+              alt="Marker"
+              class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
+              role="button"
+              src="marker-icon.png"
+              style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(86px, 433px, 0px); z-index: 433;"
+              tabindex="0"
+            />
+          </div>
+          <div
+            class="leaflet-pane leaflet-tooltip-pane"
+          />
+          <div
+            class="leaflet-pane leaflet-popup-pane"
+          />
+          <div
+            class="leaflet-proxy leaflet-zoom-animated"
+            style="transform: translate3d(405.601px, 383.188px, 0px) scale(2);"
+          />
+        </div>
+        <div
+          class="leaflet-control-container"
+        >
+          <div
+            class="leaflet-top leaflet-left"
           >
             <div
-              class="leaflet-top leaflet-left"
+              class="leaflet-control-zoom leaflet-bar leaflet-control"
             >
-              <div
-                class="leaflet-control-zoom leaflet-bar leaflet-control"
+              <a
+                aria-disabled="false"
+                aria-label="Zoom in"
+                class="leaflet-control-zoom-in"
+                href="#"
+                role="button"
+                title="Zoom in"
               >
-                <a
-                  aria-disabled="false"
-                  aria-label="Zoom in"
-                  class="leaflet-control-zoom-in"
-                  href="#"
-                  role="button"
-                  title="Zoom in"
-                >
-                  <span
-                    aria-hidden="true"
-                  >
-                    +
-                  </span>
-                </a>
-                <a
-                  aria-disabled="false"
-                  aria-label="Zoom out"
-                  class="leaflet-control-zoom-out"
-                  href="#"
-                  role="button"
-                  title="Zoom out"
-                >
-                  <span
-                    aria-hidden="true"
-                  >
-                    −
-                  </span>
-                </a>
-              </div>
-            </div>
-            <div
-              class="leaflet-top leaflet-right"
-            />
-            <div
-              class="leaflet-bottom leaflet-left"
-            />
-            <div
-              class="leaflet-bottom leaflet-right"
-            >
-              <div
-                class="leaflet-control-attribution leaflet-control"
-              >
-                <a
-                  href="https://leafletjs.com"
-                  title="A JavaScript library for interactive maps"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="leaflet-attribution-flag"
-                    height="8"
-                    viewBox="0 0 12 8"
-                    width="12"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0 0h12v4H0z"
-                      fill="#4C7BE1"
-                    />
-                    <path
-                      d="M0 4h12v3H0z"
-                      fill="#FFD500"
-                    />
-                    <path
-                      d="M0 7h12v1H0z"
-                      fill="#E0BC00"
-                    />
-                  </svg>
-                   Leaflet
-                </a>
-                 
                 <span
                   aria-hidden="true"
                 >
-                  |
+                  +
                 </span>
-                 © 
-                <a
-                  href="https://osm.org/copyright"
+              </a>
+              <a
+                aria-disabled="false"
+                aria-label="Zoom out"
+                class="leaflet-control-zoom-out"
+                href="#"
+                role="button"
+                title="Zoom out"
+              >
+                <span
+                  aria-hidden="true"
                 >
-                  OpenStreetMap
-                </a>
-                 contributors
-              </div>
+                  −
+                </span>
+              </a>
+            </div>
+          </div>
+          <div
+            class="leaflet-top leaflet-right"
+          />
+          <div
+            class="leaflet-bottom leaflet-left"
+          />
+          <div
+            class="leaflet-bottom leaflet-right"
+          >
+            <div
+              class="leaflet-control-attribution leaflet-control"
+            >
+              <a
+                href="https://leafletjs.com"
+                title="A JavaScript library for interactive maps"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="leaflet-attribution-flag"
+                  height="8"
+                  viewBox="0 0 12 8"
+                  width="12"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 0h12v4H0z"
+                    fill="#4C7BE1"
+                  />
+                  <path
+                    d="M0 4h12v3H0z"
+                    fill="#FFD500"
+                  />
+                  <path
+                    d="M0 7h12v1H0z"
+                    fill="#E0BC00"
+                  />
+                </svg>
+                 Leaflet
+              </a>
+               
+              <span
+                aria-hidden="true"
+              >
+                |
+              </span>
+               © 
+              <a
+                href="https://osm.org/copyright"
+              >
+                OpenStreetMap
+              </a>
+               contributors
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  </form>
+</dialog>
 `;

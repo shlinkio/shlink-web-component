@@ -1,8 +1,8 @@
 import { isDarkThemeEnabled, PRIMARY_DARK_COLOR, PRIMARY_LIGHT_COLOR } from '@shlinkio/shlink-frontend-kit';
+import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Cell, Pie, PieChart, Tooltip } from 'recharts';
-import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
 import { useChartDimensions } from './ChartDimensionsContext';
 import { CHART_TOOLTIP_STYLES, chartColorForIndex, prevColor } from './constants';
@@ -33,12 +33,12 @@ export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, prevStats, showNu
   const { ChartWrapper, dimensions, wrapperDimensions } = useChartDimensions(300);
 
   return (
-    <div className="row align-items-center">
-      <div className="col-sm-12 col-md-7">
+    <div className="tw:flex tw:flex-col tw:md:flex-row tw:md:items-center tw:gap-y-4">
+      <div className="tw:md:flex-7">
         <div style={wrapperDimensions}>
           <ChartWrapper>
             <PieChart {...dimensions}>
-              <Tooltip formatter={prettify} contentStyle={CHART_TOOLTIP_STYLES} itemStyle={{ color: 'white' }} />
+              <Tooltip formatter={formatNumber} contentStyle={CHART_TOOLTIP_STYLES} itemStyle={{ color: 'white' }} />
               <Pie
                 data={chartData}
                 dataKey="value"
@@ -71,7 +71,7 @@ export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, prevStats, showNu
           </ChartWrapper>
         </div>
       </div>
-      <div className="col-sm-12 col-md-5">
+      <div className="tw:md:flex-5">
         <DoughnutChartLegend chartData={chartData} showNumbers={showNumbersInLegend} />
       </div>
     </div>

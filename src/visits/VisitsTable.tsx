@@ -2,18 +2,23 @@ import { faCheck as checkIcon, faRobot as botIcon } from '@fortawesome/free-soli
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { splitEvery } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
-import { determineOrderDir, SearchField, SimpleCard , sortList,ToggleSwitch , useToggle  } from '@shlinkio/shlink-frontend-kit';
+import { determineOrderDir, sortList, useToggle } from '@shlinkio/shlink-frontend-kit';
+import {
+  formatNumber,
+  Label,
+  Paginator,
+  SearchInput,
+  SimpleCard,
+  Table,
+  ToggleSwitch,
+} from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import { useCallback, useMemo, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
-import { SimplePaginator } from '../utils/components/SimplePaginator';
 import { Time } from '../utils/dates/Time';
-import { useMaxResolution } from '../utils/helpers/hooks';
-import { prettify } from '../utils/helpers/numbers';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import type { MediaMatcher } from '../utils/types';
 import type { NormalizedOrphanVisit, NormalizedVisit } from './types';
-import './VisitsTable.scss';
 
 export interface VisitsTableProps {
   visits: NormalizedVisit[];
@@ -56,15 +61,9 @@ const paginateVisits = ({ visits: allVisits, searchTerm, order, searchInRawUserA
   return { visitsGroups, total };
 };
 
-const headerCellsClass = 'visits-table__header-cell visits-table__sticky';
+const headerCellsClass = 'tw:cursor-pointer tw:md:sticky-cell-separated tw:md:top-[calc(var(--header-height)+41px)]';
 
-export const VisitsTable = ({
-  visits,
-  selectedVisits = [],
-  setSelectedVisits,
-  matchMedia = window.matchMedia,
-}: VisitsTableProps) => {
-  const isMobileDevice = useMaxResolution(767, matchMedia);
+export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: VisitsTableProps) => {
   const [searchTerm, setSearchTerm] = useState<string>();
   const updateSearchTerm = useCallback((newSearchTerm?: string) => {
     setSearchTerm(newSearchTerm);
@@ -74,7 +73,7 @@ export const VisitsTable = ({
     setSelectedVisits([]);
   }, [setSelectedVisits]);
   const [order, setOrder] = useState<VisitsOrder>({});
-  const [showUserAgent, toggleShowUserAgent] = useToggle();
+  const { flag: showUserAgent, toggle: toggleShowUserAgent } = useToggle(false, true);
   const toggleUserAgentAndResetOrder = useCallback(() => {
     toggleShowUserAgent();
     setOrder({});
@@ -97,162 +96,166 @@ export const VisitsTable = ({
     { field, dir: determineOrderDir(field, order.field, order.dir) },
   );
   const renderOrderIcon = (field: OrderableFields) =>
-    <TableOrderIcon currentOrder={order} field={field} className="visits-table__header-icon" />;
+    <TableOrderIcon currentOrder={order} field={field} className="tw:float-right tw:mt-[5px] tw:ml-[5px]" />;
 
   return (
     <SimpleCard
       // Adding a bottom padding to work around the fact that it's not possible to set border radius in internal table
       // elements, and we can also not hide the overflow of the table itself because then sticky elements get hidden
-      bodyClassName="p-0 pb-1"
+      bodyClassName="tw:[&]:p-0 tw:[&]:pb-1"
       title={
-        <div className="d-flex justify-content-between align-items-center">
+        <span className="tw:flex tw:justify-between tw:items-center tw:text-base">
           Visits list
-          <ToggleSwitch checked={showUserAgent} onChange={toggleUserAgentAndResetOrder}>
+          <Label className="tw:flex tw:items-center tw:gap-2">
+            <ToggleSwitch checked={showUserAgent} onChange={toggleUserAgentAndResetOrder} />
             Show user agent
-          </ToggleSwitch>
-        </div>
+          </Label>
+        </span>
       }>
-      <div className="table-responsive-md">
-        <table
-          className={clsx('table table-sm position-relative m-0 visits-table', {
-            'table-hover': hasVisits,
-          })}
-        >
-          <thead className="visits-table__header">
-            <tr>
-              <th
-                className={`${headerCellsClass} text-center`}
+      <Table
+        responsive={false}
+        size="sm"
+        className="tw:w-full tw:relative tw:overflow-y-hidden tw:bg-lm-primary tw:dark:bg-dm-primary"
+        header={(
+          <>
+            <Table.Row>
+              <Table.Cell
+                className={clsx(headerCellsClass, 'tw:text-center')}
                 onClick={() => setSelectedVisits(
                   selectedVisits.length < paginator.total ? paginator.visitsGroups.flat() : [],
                 )}
               >
-                <span className="sr-only">Is selected</span>
-                <FontAwesomeIcon icon={checkIcon} className={clsx({ 'text-primary': selectedVisits.length > 0 })} />
-              </th>
-              <th className={`${headerCellsClass} text-center`} onClick={() => orderByColumn('potentialBot')}>
-                <span className="sr-only">Is bot</span>
+                <span className="tw:sr-only">Is selected</span>
+                <FontAwesomeIcon
+                  icon={checkIcon}
+                  className={clsx({ 'tw:text-lm-brand tw:dark:text-dm-brand': selectedVisits.length > 0 })}
+                />
+              </Table.Cell>
+              <Table.Cell
+                className={clsx(headerCellsClass, 'tw:text-center')}
+                onClick={() => orderByColumn('potentialBot')}
+              >
+                <span className="tw:sr-only">Is bot</span>
                 <FontAwesomeIcon icon={botIcon} />
                 {renderOrderIcon('potentialBot')}
-              </th>
-              <th className={headerCellsClass} onClick={() => orderByColumn('date')}>
+              </Table.Cell>
+              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('date')}>
                 Date
                 {renderOrderIcon('date')}
-              </th>
-              <th className={headerCellsClass} onClick={() => orderByColumn('country')}>
+              </Table.Cell>
+              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('country')}>
                 Country
                 {renderOrderIcon('country')}
-              </th>
-              <th className={headerCellsClass} onClick={() => orderByColumn('city')}>
+              </Table.Cell>
+              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('city')}>
                 City
                 {renderOrderIcon('city')}
-              </th>
+              </Table.Cell>
               {showUserAgent ? (
-                <th className={headerCellsClass} onClick={() => orderByColumn('userAgent')}>
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('userAgent')}>
                   User agent
                   {renderOrderIcon('userAgent')}
-                </th>
+                </Table.Cell>
               ) : (
                 <>
-                  <th className={headerCellsClass} onClick={() => orderByColumn('browser')}>
+                  <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('browser')}>
                     Browser
                     {renderOrderIcon('browser')}
-                  </th>
-                  <th className={headerCellsClass} onClick={() => orderByColumn('os')}>
+                  </Table.Cell>
+                  <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('os')}>
                     OS
                     {renderOrderIcon('os')}
-                  </th>
+                  </Table.Cell>
                 </>
               )}
-              <th className={headerCellsClass} onClick={() => orderByColumn('referer')}>
+              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('referer')}>
                 Referrer
                 {renderOrderIcon('referer')}
-              </th>
+              </Table.Cell>
               {showVisitedUrl && (
-                <th className={headerCellsClass} onClick={() => orderByColumn('visitedUrl')}>
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('visitedUrl')}>
                   Visited URL
                   {renderOrderIcon('visitedUrl')}
-                </th>
+                </Table.Cell>
               )}
-            </tr>
-            <tr>
-              <td colSpan={fullSizeColSpan} className="p-0">
-                <SearchField noBorder large={false} onChange={updateSearchTerm} />
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            {!hasVisits && (
-              <tr>
-                <td colSpan={fullSizeColSpan} className="text-center">
-                  There are no visits matching current filter
-                </td>
-              </tr>
-            )}
-            {paginator.visitsGroups[page - 1]?.map((visit, index) => {
-              const isSelected = selectedVisits.includes(visit);
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell colSpan={fullSizeColSpan} className="tw:[&]:p-0">
+                <SearchInput size="md" borderless onChange={updateSearchTerm} />
+              </Table.Cell>
+            </Table.Row>
+          </>
+        )}
+        footer={paginator.total > PAGE_SIZE ? (
+          <Table.Row>
+            <Table.Cell type="td" colSpan={fullSizeColSpan} className="tw:md:sticky-cell-separated tw:bottom-0">
+              <div className="tw:flex tw:flex-col tw:md:flex-row tw:justify-between tw:items-center tw:gap-4 tw:p-1">
+                <Paginator
+                  pagesCount={Math.ceil(paginator.total / PAGE_SIZE)}
+                  currentPage={page}
+                  onPageChange={setPage}
+                />
+                <div>
+                  Visits <b>{formatNumber(start + 1)}</b> to{' '}
+                  <b>{formatNumber(Math.min(end, paginator.total))}</b> of{' '}
+                  <b>{formatNumber(paginator.total)}</b>
+                </div>
+              </div>
+            </Table.Cell>
+          </Table.Row>
+        ) : undefined}
+      >
+        {!hasVisits && (
+          <Table.Row>
+            <Table.Cell colSpan={fullSizeColSpan} className="tw:text-center">
+              There are no visits matching current filter
+            </Table.Cell>
+          </Table.Row>
+        )}
 
-              return (
-                <tr
-                  key={index}
-                  style={{ cursor: 'pointer' }}
-                  className={clsx({ 'table-active': isSelected })}
-                  onClick={() => setSelectedVisits(
-                    isSelected ? selectedVisits.filter((v) => v !== visit) : [...selectedVisits, visit],
-                  )}
-                >
-                  <td className="text-center">
-                    {isSelected && <FontAwesomeIcon icon={checkIcon} className="text-primary" />}
-                  </td>
-                  <td className="text-center">
-                    {visit.potentialBot && (
-                      <>
-                        <FontAwesomeIcon icon={botIcon} id={`botIcon${index}`} />
-                        <UncontrolledTooltip placement="right" target={`botIcon${index}`}>
-                          Potentially a visit from a bot or crawler
-                        </UncontrolledTooltip>
-                      </>
-                    )}
-                  </td>
-                  <td><Time date={visit.date} /></td>
-                  <td>{visit.country}</td>
-                  <td>{visit.city}</td>
-                  {showUserAgent ? (
-                    <td>{visit.userAgent}</td>
-                  ) : (
-                    <>
-                      <td>{visit.browser}</td>
-                      <td>{visit.os}</td>
-                    </>
-                  )}
-                  <td>{visit.referer}</td>
-                  {visit.visitedUrl && <td>{visit.visitedUrl}</td>}
-                </tr>
-              );
-            })}
-          </tbody>
-          {paginator.total > PAGE_SIZE && (
-            <tfoot>
-              <tr>
-                <td colSpan={fullSizeColSpan} className="visits-table__footer-cell visits-table__sticky">
-                  <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 p-2">
-                    <SimplePaginator
-                      pagesCount={Math.ceil(paginator.total / PAGE_SIZE)}
-                      currentPage={page}
-                      onPageChange={setPage}
-                      centered={isMobileDevice}
-                    />
-                    <div>
-                      Visits <b>{prettify(start + 1)}</b> to{' '}
-                      <b>{prettify(Math.min(end, paginator.total))}</b> of{' '}
-                      <b>{prettify(paginator.total)}</b>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
-          )}
-        </table>
-      </div>
+        {paginator.visitsGroups[page - 1]?.map((visit, index) => {
+          const isSelected = selectedVisits.includes(visit);
+          return (
+            <Table.Row
+              key={index}
+              className={clsx('tw:cursor-pointer', isSelected && [
+                'tw:bg-lm-table-highlight tw:hover:[&]:bg-lm-table-highlight',
+                'tw:dark:bg-dm-table-highlight tw:dark:hover:[&]:bg-dm-table-highlight',
+              ])}
+              onClick={() => setSelectedVisits(
+                isSelected ? selectedVisits.filter((v) => v !== visit) : [...selectedVisits, visit],
+              )}
+            >
+              <Table.Cell className="tw:text-center">
+                {isSelected && <FontAwesomeIcon icon={checkIcon} className="tw:text-lm-brand tw:dark:text-dm-brand" />}
+              </Table.Cell>
+              <Table.Cell className="tw:text-center">
+                {visit.potentialBot && (
+                  <>
+                    <FontAwesomeIcon icon={botIcon} id={`botIcon${index}`} />
+                    <UncontrolledTooltip placement="right" target={`botIcon${index}`}>
+                      Potentially a visit from a bot or crawler
+                    </UncontrolledTooltip>
+                  </>
+                )}
+              </Table.Cell>
+              <Table.Cell><Time date={visit.date} /></Table.Cell>
+              <Table.Cell>{visit.country}</Table.Cell>
+              <Table.Cell>{visit.city}</Table.Cell>
+              {showUserAgent ? (
+                <Table.Cell>{visit.userAgent}</Table.Cell>
+              ) : (
+                <>
+                  <Table.Cell>{visit.browser}</Table.Cell>
+                  <Table.Cell>{visit.os}</Table.Cell>
+                </>
+              )}
+              <Table.Cell>{visit.referer}</Table.Cell>
+              {showVisitedUrl && <Table.Cell>{visit.visitedUrl ?? ''}</Table.Cell>}
+            </Table.Row>
+          );
+        })}
+      </Table>
     </SimpleCard>
   );
 };

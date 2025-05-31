@@ -200,30 +200,32 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
             })}
           />
         </div>
-        {visits.length > 0 && (
-          <div className="tw:lg:flex-2 tw:xl:flex-3 tw:flex tw:gap-2">
-            <ExportBtn
-              className="tw:max-lg:w-full"
-              amount={normalizedVisits.length}
-              onClick={() => exportCsv(normalizedVisits)}
-            />
-            <Button
-              variant="secondary"
-              disabled={highlightedVisits.length === 0}
-              className="tw:max-lg:w-full"
-              onClick={() => setSelectedVisits([])}
-            >
-              Clear selection {highlightedVisits.length > 0 && <>({prettify(highlightedVisits.length)})</>}
-            </Button>
-          </div>
-        )}
+        <div className="tw:lg:flex-2 tw:xl:flex-3 tw:flex tw:gap-2">
+          {visits.length > 0 && (
+            <>
+              <ExportBtn
+                className="tw:max-lg:w-full"
+                amount={normalizedVisits.length}
+                onClick={() => exportCsv(normalizedVisits)}
+              />
+              <Button
+                variant="secondary"
+                disabled={highlightedVisits.length === 0}
+                className="tw:max-lg:w-full"
+                onClick={() => setSelectedVisits([])}
+              >
+                Clear selection {highlightedVisits.length > 0 && <>({prettify(highlightedVisits.length)})</>}
+              </Button>
+            </>
+          )}
+        </div>
       </section>
 
       <section className="tw:flex tw:flex-col tw:gap-4">
         <VisitsLoadingFeedback info={visitsInfo} />
         {!loading && !errorData && (
           <>
-            <NavPills fill>
+            <NavPills fill className="tw:sticky tw:top-(--header-height) tw:z-2">
               {Object.values(sections).map(({ title, icon, subPath, shouldRender }: VisitsNavLinkOptions, index) => (
                 !shouldRender || shouldRender(props)
                   ? (

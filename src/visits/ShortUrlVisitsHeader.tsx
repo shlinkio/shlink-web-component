@@ -4,7 +4,6 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { Time } from '../utils/dates/Time';
 import type { ShortUrlVisits } from './reducers/shortUrlVisits';
 import { VisitsHeader } from './VisitsHeader';
-import './ShortUrlVisitsHeader.scss';
 
 interface ShortUrlVisitsHeaderProps {
   loading: boolean;
@@ -20,7 +19,7 @@ export const ShortUrlVisitsHeader = ({ shortUrl, loading, shortUrlVisits }: Shor
 
   const renderDate = () => (!shortUrl ? <small>Loading...</small> : (
     <span>
-      <b id="created" className="short-url-visits-header__created-at">
+      <b id="created" className="tw:cursor-default">
         <Time date={shortUrl.dateCreated} relative />
       </b>
       <UncontrolledTooltip placement="bottom" target="created">
@@ -34,7 +33,7 @@ export const ShortUrlVisitsHeader = ({ shortUrl, loading, shortUrlVisits }: Shor
     <VisitsHeader title={visitsStatsTitle} visits={visits} shortUrl={shortUrl}>
       <hr />
       <div>Created: {renderDate()}</div>
-      <div className="long-url-container">
+      <div data-testid="long-url-container">
         {`${title ? 'Title' : 'Long URL'}: `}
         {loading && <small>Loading...</small>}
         {!loading && <ExternalLink href={longLink}>{title ?? longLink}</ExternalLink>}

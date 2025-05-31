@@ -20,10 +20,10 @@ describe('<TagVisitsHeader />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('shows expected visits', () => {
-    const { container } = setUp();
+    setUp();
 
     expect(screen.getAllByText('Visits for')).toHaveLength(2);
-    expect(container.querySelector('.badge:not(.tag)')).toHaveTextContent(`Visits: ${tagVisits.visits.length}`);
+    expect(screen.getByTestId('badge')).toHaveTextContent(`Visits: ${tagVisits.visits.length}`);
   });
 
   it('shows title for tag', () => {

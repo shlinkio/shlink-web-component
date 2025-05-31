@@ -1,8 +1,9 @@
 import { faMapMarkedAlt as mapIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useToggle } from '@shlinkio/shlink-frontend-kit';
+import { LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { useCallback, useState } from 'react';
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import type { CityStats } from '../types';
 import { MapModal } from './MapModal';
 
@@ -13,8 +14,8 @@ interface OpenMapModalBtnProps {
 }
 
 export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: OpenMapModalBtnProps) => {
-  const [mapIsOpened, , openMap, closeMap] = useToggle();
-  const [dropdownIsOpened, toggleDropdown] = useToggle();
+  const { flag: mapIsOpened, setToTrue: openMap, setToFalse: closeMap } = useToggle(false, true);
+  const { flag: dropdownIsOpened, toggle: toggleDropdown } = useToggle(false, true);
   const [locationsToShow, setLocationsToShow] = useState<CityStats[]>([]);
 
   const openMapWithCities = useCallback((filterCallback?: (city: CityStats) => boolean) => {
@@ -25,19 +26,17 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
   return (
     <>
       {!activeCities && (
-        <Button
-          color="link"
-          className="p-0"
+        <LinkButton
           onClick={() => openMapWithCities()}
           aria-label="Show in map"
           title="Show in map"
         >
           <FontAwesomeIcon icon={mapIcon} />
-        </Button>
+        </LinkButton>
       )}
       {activeCities && (
         <Dropdown isOpen={dropdownIsOpened} toggle={toggleDropdown}>
-          <DropdownToggle color="link" className="p-0" title="Show in map">
+          <DropdownToggle color="link" title="Show in map">
             <FontAwesomeIcon icon={mapIcon} />
           </DropdownToggle>
           <DropdownMenu end>

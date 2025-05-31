@@ -4,13 +4,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { countBy } from '@shlinkio/data-manipulation';
-import {
-  HIGHLIGHTED_COLOR,
-  isDarkThemeEnabled,
-  MAIN_COLOR,
-  useElementRef,
-  useToggle,
-} from '@shlinkio/shlink-frontend-kit';
+import { HIGHLIGHTED_COLOR, isDarkThemeEnabled, MAIN_COLOR, useToggle } from '@shlinkio/shlink-frontend-kit';
+import { Card, LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { Duration } from 'date-fns';
 import {
@@ -27,17 +22,8 @@ import {
   startOfISOWeek,
 } from 'date-fns';
 import type { FC } from 'react';
-import { useCallback, useId , useLayoutEffect , useMemo, useState } from 'react';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-} from 'reactstrap';
+import { useCallback, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import { CartesianGrid, Line, LineChart, ReferenceArea, Tooltip, XAxis, YAxis } from 'recharts';
 import type { CategoricalChartState } from 'recharts/types/chart/types';
 import { formatInternational } from '../../utils/dates/helpers/date';
@@ -246,10 +232,9 @@ export const LineChartCard: FC<LineChartCardProps> = (
   }, [step, visitsGroups]);
   const activeDot = useActiveDot(visitsGroups, step, setSelectedVisits);
 
-  const [isExpanded, toggleExpanded,, setNotExpanded] = useToggle();
-  const bodyRef = useElementRef<HTMLElement>();
+  const { flag: isExpanded, toggle: toggleExpanded, setToFalse: setNotExpanded } = useToggle(false, true);
   const bodyId = useId();
-  const legendRef = useElementRef<HTMLUListElement>();
+  const legendRef = useRef<HTMLUListElement>(null);
   const [wrapperHeight, setWrapperHeight] = useState(isMobile ? 300 : 400);
 
   useLayoutEffect(() => {
@@ -259,19 +244,18 @@ export const LineChartCard: FC<LineChartCardProps> = (
     }
 
     const observer = new ResizeObserver(() => {
-      const { height: bodyHeight } = bodyRef.current!.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
       const { height: legendHeight } = legendRef.current!.getBoundingClientRect();
 
-      // 32 is the body's padding, 16 is the legend's top margin
-      const offset = 32 + 16;
+      // 32 is the body's padding, 16 is the legend's top margin, 50 is the header's height
+      const offset = 32 + 16 + 50;
 
-      setWrapperHeight(bodyHeight - legendHeight - offset);
+      setWrapperHeight(windowHeight - legendHeight - offset);
     });
-    observer.observe(bodyRef.current!);
     observer.observe(legendRef.current!);
 
     return () => observer.disconnect();
-  }, [bodyRef, isExpanded, isMobile, legendRef]);
+  }, [isExpanded, isMobile, legendRef]);
 
   useKeyDown('Escape', setNotExpanded, isExpanded);
 
@@ -310,25 +294,27 @@ export const LineChartCard: FC<LineChartCardProps> = (
     onDateRangeChange({ startDate, endDate });
   }, [onDateRangeChange, resetSelection, selectionEnd, selectionStart]);
 
-  const [groupByMenuOpen, toggleGroupByMenu] = useToggle();
+  const { flag: groupByMenuOpen, toggle: toggleGroupByMenu } = useToggle(false, true);
 
   return (
-    <Card className={clsx({ 'fixed-top fixed-bottom': isExpanded })} data-testid="line-chart-card">
-      <CardHeader role="heading" aria-level={4} className="d-flex justify-content-between align-items-center">
+    <Card
+      className={clsx({ 'tw:fixed tw:top-0 tw:bottom-0 tw:left-0 tw:right-0 tw:z-1030': isExpanded })}
+      data-testid="line-chart-card"
+    >
+      <Card.Header role="heading" aria-level={4} className="tw:flex tw:justify-between tw:items-center">
         Visits over time
-        <div className="d-flex align-content-center gap-1">
-          <Button
+        <div className="tw:flex tw:content-center tw:gap-1">
+          <LinkButton
             aria-label={isExpanded ? 'Collapse' : 'Expand'}
             aria-expanded={isExpanded}
             aria-controls={bodyId}
             size="sm"
-            color="link"
             onClick={toggleExpanded}
           >
             <FontAwesomeIcon icon={isExpanded ? collapseIcon : expandIcon} />
-          </Button>
-          <Dropdown isOpen={groupByMenuOpen} toggle={toggleGroupByMenu} className="d-flex align-items-center">
-            <DropdownToggle caret color="link" className="btn-sm p-0">
+          </LinkButton>
+          <Dropdown isOpen={groupByMenuOpen} toggle={toggleGroupByMenu} className="tw:flex tw:items-center">
+            <DropdownToggle caret color="link" className="tw:text-sm tw:p-0">
               Group by
             </DropdownToggle>
             <DropdownMenu end>
@@ -340,11 +326,11 @@ export const LineChartCard: FC<LineChartCardProps> = (
             </DropdownMenu>
           </Dropdown>
         </div>
-      </CardHeader>
-      <CardBody innerRef={bodyRef} id={bodyId}>
+      </Card.Header>
+      <Card.Body id={bodyId}>
         <ChartWrapper {...wrapperDimensions}>
           <LineChart
-            className="user-select-none"
+            className="tw:select-none"
             data={chartData}
             {...dimensions}
             onMouseDown={resolveSelectionStart}
@@ -374,7 +360,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
           </LineChart>
         </ChartWrapper>
         <LineChartLegend visitsGroups={visitsGroups} ref={legendRef} />
-      </CardBody>
+      </Card.Body>
     </Card>
   );
 };

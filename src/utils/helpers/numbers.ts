@@ -1,7 +1,7 @@
-const formatter = new Intl.NumberFormat('en-US');
+import { formatNumber, roundTen as sharedRoundTen } from '@shlinkio/shlink-frontend-kit/tailwind';
 
-export const prettify = (number: number | string) => formatter.format(Number(number));
+/** @deprecated Use formatNumber from @shlinkio/shlink-frontend-kit */
+export const prettify = formatNumber;
 
-const TEN_ROUNDING_NUMBER = 10;
-
-export const roundTen = (number: number) => Math.ceil(number / TEN_ROUNDING_NUMBER) * TEN_ROUNDING_NUMBER;
+/** @deprecated Use roundTen from @shlinkio/shlink-frontend-kit */
+export const roundTen = sharedRoundTen;

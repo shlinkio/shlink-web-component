@@ -9,13 +9,11 @@ import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<VisitsTable />', () => {
-  const matchMedia = () => fromPartial<MediaQueryList>({ matches: false });
   const setSelectedVisits = vi.fn();
   const setUpFactory = (props: Partial<VisitsTableProps> = {}) => renderWithEvents(
     <VisitsTable
       visits={[]}
       {...props}
-      matchMedia={matchMedia}
       setSelectedVisits={setSelectedVisits}
     />,
   );
@@ -36,26 +34,12 @@ describe('<VisitsTable />', () => {
 
   it('renders expected amount of columns', () => {
     setUp();
-    expect(screen.getAllByRole('columnheader')).toHaveLength(8);
+    expect(screen.getAllByRole('columnheader')).toHaveLength(9);
   });
 
   it('shows warning when no visits are found', () => {
     setUp();
     expect(screen.getByText('There are no visits matching current filter')).toBeInTheDocument();
-  });
-
-  it.each([
-    [50, 5, 1],
-    [21, 4, 1],
-    [30, 4, 1],
-    [60, 5, 1],
-    [115, 7, 2], // This one will have ellipsis
-  ])('renders the expected amount of pages', (visitsCount, expectedAmountOfPageItems, expectedDisabledItems) => {
-    const { container } = setUp(
-      rangeOf(visitsCount, () => fromPartial<NormalizedVisit>({ browser: '', date: '2022-01-01', referer: '' })),
-    );
-    expect(container.querySelectorAll('.page-item')).toHaveLength(expectedAmountOfPageItems);
-    expect(container.querySelectorAll('.disabled')).toHaveLength(expectedDisabledItems);
   });
 
   it.each(
@@ -74,7 +58,7 @@ describe('<VisitsTable />', () => {
     const { container, user } = setUp(visits, [visits[1], visits[2]]);
 
     // Initial situation
-    expect(container.querySelectorAll('.table-active')).toHaveLength(2);
+    expect(container.querySelectorAll('.tw\\:bg-lm-table-highlight')).toHaveLength(2);
 
     // Select one extra
     await user.click(screen.getAllByRole('row')[5]);
@@ -155,7 +139,7 @@ describe('<VisitsTable />', () => {
     const { user } = setUp(visits, [visits[1], visits[2]]);
 
     // Jump to second page, and then set some filtering text
-    await user.click(screen.getByRole('link', { name: '2' }));
+    await user.click(screen.getByRole('button', { name: '2' }));
     await user.type(screen.getByPlaceholderText('Search...'), 'foo');
 
     // Search is deferred, so let's wait for it to apply
@@ -176,7 +160,7 @@ describe('<VisitsTable />', () => {
     const cells = screen.getAllByRole('cell');
     const lastCell = cells[cells.length - 1];
 
-    expect(screen.getAllByRole('columnheader')).toHaveLength(withVisitedUrl ? 9 : 8);
+    expect(screen.getAllByRole('columnheader')).toHaveLength(withVisitedUrl ? 10 : 9);
     if (withVisitedUrl) {
       expect(lastCell).toHaveTextContent('visited_url');
     } else {
@@ -185,8 +169,8 @@ describe('<VisitsTable />', () => {
   });
 
   it.each([
-    { showUserAgent: true, expectedColumns: 7 },
-    { showUserAgent: false, expectedColumns: 8 },
+    { showUserAgent: true, expectedColumns: 8 },
+    { showUserAgent: false, expectedColumns: 9 },
   ])('displays proper amount of columns based on user agent switch', async ({ showUserAgent, expectedColumns }) => {
     const { user } = setUp();
 

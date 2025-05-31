@@ -1,4 +1,4 @@
-import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
+import { SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSetting } from '../../settings';
@@ -74,16 +74,15 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   }, [cancelGetVisitsComparison, dateRange, getVisitsForComparison, initialInterval, resolvedFilter]);
 
   return (
-    <>
-      <div className="mb-3">
-        <SimpleCard bodyClassName="d-flex">
-          <GoBackButton />
-          <h3 className="mb-0 flex-grow-1 text-center">{title}</h3>
-        </SimpleCard>
-      </div>
-      <div className="col-lg-7 col-xl-6 offset-lg-5 offset-xl-6 mb-3">
-        <div className="d-md-flex">
-          <div className="flex-grow-1">
+    <div className="tw:flex tw:flex-col tw:gap-4">
+      <SimpleCard bodyClassName="tw:flex tw:items-center">
+        <GoBackButton />
+        <h3 className="tw:grow tw:text-center">{title}</h3>
+      </SimpleCard>
+
+      <div className="tw:flex tw:flex-col tw:lg:flex-row-reverse tw:gap-4">
+        <div className="tw:lg:flex-3 tw:flex tw:flex-col tw:md:flex-row tw:gap-x-2 tw:gap-y-4">
+          <div className="tw:grow">
             <DateRangeSelector
               disabled={loading}
               defaultText="All visits"
@@ -93,20 +92,21 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
           </div>
           <VisitsDropdown
             disabled={loading}
-            className="ms-0 ms-md-2 mt-3 mt-md-0"
             selected={resolvedFilter}
             onChange={({ orphanVisitsType, excludeBots }) => updateQuery({
               visitsFilter: { orphanVisitsType, excludeBots },
             })}
           />
         </div>
+        <div className="tw:hidden tw:lg:block tw:lg:flex-2 tw:xl:flex-3" />
       </div>
+
       <VisitsLoadingFeedback info={visitsComparisonInfo} />
       {!loading && (
         <VisitsSectionWithFallback showFallback={showFallback}>
           <LineChartCard visitsGroups={normalizedVisitsGroups} onDateRangeChange={setDates} />
         </VisitsSectionWithFallback>
       )}
-    </>
+    </div>
   );
 };

@@ -46,9 +46,9 @@ describe('<ShortUrlVisitsHeader />', () => {
     [undefined, `Long URL: ${longUrl}`],
     ['My cool title', 'Title: My cool title'],
   ])('shows the long URL and title', (title, expectedContent) => {
-    const { container } = setUp(title);
+    setUp(title);
 
-    expect(container.querySelector('.long-url-container')).toHaveTextContent(expectedContent);
+    expect(screen.getByTestId('long-url-container')).toHaveTextContent(expectedContent);
     expect(screen.getByRole('link', { name: title ?? longUrl })).toHaveAttribute('href', longUrl);
   });
 });

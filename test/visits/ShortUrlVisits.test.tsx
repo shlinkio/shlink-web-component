@@ -74,9 +74,9 @@ describe('<ShortUrlVisits />', () => {
     setUp(shortUrlVisitsDeletion);
 
     if (shortUrlVisitsDeletion) {
-      expect(screen.getByRole('link', { name: 'Options' })).toBeInTheDocument();
+      expect(screen.getByRole('menuitem', { name: 'Options' })).toBeInTheDocument();
     } else {
-      expect(screen.queryByRole('link', { name: 'Options' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('menuitem', { name: 'Options' })).not.toBeInTheDocument();
     }
   });
 });

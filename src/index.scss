@@ -1,3 +1,7 @@
 @use '../node_modules/@shlinkio/shlink-frontend-kit/dist/base';
 @use './tags/react-tag-autocomplete';
 @use 'leaflet/dist/leaflet.css';
+
+dialog .leaflet-top .leaflet-control {
+  margin-top: 60px;
+}

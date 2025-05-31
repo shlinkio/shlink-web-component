@@ -83,14 +83,17 @@ describe('<VisitsStats />', () => {
   });
 
   it.each([
-    ['/by-time', 2],
-    ['/by-context', 4],
-    ['/by-location', 3],
-    ['/list', 2],
-    ['/options', 2],
-  ])('renders expected amount of cards per sub-route', (activeRoute, expectedCards) => {
-    const { container } = setUp({ visitsInfo: { visits }, activeRoute, withDeletion: true });
-    expect(container.querySelectorAll('.card')).toHaveLength(expectedCards);
+    ['/by-time', ['Visits over time']],
+    ['/by-context', ['Operating systems', 'Browsers', 'Referrers']],
+    ['/by-location', ['Countries', 'Cities']],
+    ['/list', ['Visits list']],
+    ['/options', ['Danger zone']],
+  ])('renders expected cards per sub-route', (activeRoute, expectedCards) => {
+    setUp({ visitsInfo: { visits }, activeRoute, withDeletion: true });
+
+    expectedCards.forEach((cardTitle) => {
+      expect(screen.getByText(cardTitle)).toBeInTheDocument();
+    });
   });
 
   it('renders danger zone in options sub-route', () => {

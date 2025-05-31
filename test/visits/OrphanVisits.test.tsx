@@ -57,9 +57,9 @@ describe('<OrphanVisits />', () => {
     setUp(orphanVisitsDeletion);
 
     if (orphanVisitsDeletion) {
-      expect(screen.getByRole('link', { name: 'Options' })).toBeInTheDocument();
+      expect(screen.getByRole('menuitem', { name: 'Options' })).toBeInTheDocument();
     } else {
-      expect(screen.queryByRole('link', { name: 'Options' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('menuitem', { name: 'Options' })).not.toBeInTheDocument();
     }
   });
 });

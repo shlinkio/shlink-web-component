@@ -5,20 +5,8 @@ import type { ReactNode } from 'react';
 import { Tag } from '../../../src/tags/helpers/Tag';
 import type { ColorGenerator } from '../../../src/utils/services/ColorGenerator';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import { hexToRgb } from '../../__helpers__/colors';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
-
-const hexToRgb = (hex: string) => {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  if (!result) {
-    throw new Error((`Could not convert color ${hex} to RGB`));
-  }
-
-  return {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16),
-  };
-};
 
 describe('<Tag />', () => {
   const onClick = vi.fn();
@@ -48,10 +36,7 @@ describe('<Tag />', () => {
     const { container } = setUp('foo');
     const { r, g, b } = hexToRgb(backgroundColor);
 
-    expect(container.firstChild).toHaveAttribute(
-      'style',
-      expect.stringContaining(`background-color: rgb(${r}, ${g}, ${b})`),
-    );
+    expect(container.firstChild).toHaveStyle({ 'background-color': `rgb(${r}, ${g}, ${b})` });
   });
 
   it.each([[true], [false]])('invokes expected callbacks when appropriate events are triggered', async (clearable) => {

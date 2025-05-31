@@ -2,27 +2,26 @@
 
 exports[`<VisitsStats /> > loads visits when mounted 1`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
-    class="card"
+    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="d-flex justify-content-between align-items-center card-header"
+      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="d-flex align-content-center gap-1"
+        class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":rg:"
+          aria-controls=":r7:"
           aria-expanded="false"
           aria-label="Expand"
-          class="btn btn-link btn-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
           type="button"
         >
           <svg
@@ -42,12 +41,12 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           </svg>
         </button>
         <div
-          class="d-flex align-items-center dropdown"
+          class="tw:flex tw:items-center dropdown"
         >
           <button
             aria-expanded="false"
             aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
             type="button"
           >
             Group by
@@ -62,11 +61,11 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
       </div>
     </div>
     <div
-      class="card-body"
-      id=":rg:"
+      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      id=":r7:"
     >
       <div
-        class="recharts-wrapper user-select-none"
+        class="recharts-wrapper tw:select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -551,10 +550,10 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -575,27 +574,26 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
 
 exports[`<VisitsStats /> > loads visits when mounted 2`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
-    class="card"
+    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="d-flex justify-content-between align-items-center card-header"
+      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="d-flex align-content-center gap-1"
+        class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":rh:"
+          aria-controls=":r8:"
           aria-expanded="false"
           aria-label="Expand"
-          class="btn btn-link btn-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
           type="button"
         >
           <svg
@@ -615,12 +613,12 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           </svg>
         </button>
         <div
-          class="d-flex align-items-center dropdown"
+          class="tw:flex tw:items-center dropdown"
         >
           <button
             aria-expanded="false"
             aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
             type="button"
           >
             Group by
@@ -635,11 +633,11 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
       </div>
     </div>
     <div
-      class="card-body"
-      id=":rh:"
+      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      id=":r8:"
     >
       <div
-        class="recharts-wrapper user-select-none"
+        class="recharts-wrapper tw:select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -1124,10 +1122,10 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -1148,27 +1146,26 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
 
 exports[`<VisitsStats /> > loads visits when mounted 3`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
-    class="card"
+    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="d-flex justify-content-between align-items-center card-header"
+      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="d-flex align-content-center gap-1"
+        class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":ri:"
+          aria-controls=":r9:"
           aria-expanded="false"
           aria-label="Expand"
-          class="btn btn-link btn-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
           type="button"
         >
           <svg
@@ -1188,12 +1185,12 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           </svg>
         </button>
         <div
-          class="d-flex align-items-center dropdown"
+          class="tw:flex tw:items-center dropdown"
         >
           <button
             aria-expanded="false"
             aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
             type="button"
           >
             Group by
@@ -1208,11 +1205,11 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
       </div>
     </div>
     <div
-      class="card-body"
-      id=":ri:"
+      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      id=":r9:"
     >
       <div
-        class="recharts-wrapper user-select-none"
+        class="recharts-wrapper tw:select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -1697,10 +1694,10 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -1721,27 +1718,26 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
 
 exports[`<VisitsStats /> > loads visits when mounted 4`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
-    class="card"
+    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="d-flex justify-content-between align-items-center card-header"
+      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="d-flex align-content-center gap-1"
+        class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":rj:"
+          aria-controls=":ra:"
           aria-expanded="false"
           aria-label="Expand"
-          class="btn btn-link btn-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
           type="button"
         >
           <svg
@@ -1761,12 +1757,12 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           </svg>
         </button>
         <div
-          class="d-flex align-items-center dropdown"
+          class="tw:flex tw:items-center dropdown"
         >
           <button
             aria-expanded="false"
             aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
             type="button"
           >
             Group by
@@ -1781,11 +1777,11 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
       </div>
     </div>
     <div
-      class="card-body"
-      id=":rj:"
+      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      id=":ra:"
     >
       <div
-        class="recharts-wrapper user-select-none"
+        class="recharts-wrapper tw:select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -2315,10 +2311,10 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -2332,7 +2328,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -2353,27 +2349,26 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
 
 exports[`<VisitsStats /> > loads visits when mounted 5`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
-    class="card"
+    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="d-flex justify-content-between align-items-center card-header"
+      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="d-flex align-content-center gap-1"
+        class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":rk:"
+          aria-controls=":rb:"
           aria-expanded="false"
           aria-label="Expand"
-          class="btn btn-link btn-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
           type="button"
         >
           <svg
@@ -2393,12 +2388,12 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           </svg>
         </button>
         <div
-          class="d-flex align-items-center dropdown"
+          class="tw:flex tw:items-center dropdown"
         >
           <button
             aria-expanded="false"
             aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
             type="button"
           >
             Group by
@@ -2413,11 +2408,11 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
       </div>
     </div>
     <div
-      class="card-body"
-      id=":rk:"
+      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      id=":rb:"
     >
       <div
-        class="recharts-wrapper user-select-none"
+        class="recharts-wrapper tw:select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -2947,10 +2942,10 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -2964,7 +2959,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -2985,27 +2980,26 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
 
 exports[`<VisitsStats /> > loads visits when mounted 6`] = `
 <div
-  class="col-12 mt-3"
   data-testid="line-chart-container"
 >
   <div
-    class="card"
+    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="d-flex justify-content-between align-items-center card-header"
+      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="d-flex align-content-center gap-1"
+        class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":rl:"
+          aria-controls=":rc:"
           aria-expanded="false"
           aria-label="Expand"
-          class="btn btn-link btn-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
           type="button"
         >
           <svg
@@ -3025,12 +3019,12 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           </svg>
         </button>
         <div
-          class="d-flex align-items-center dropdown"
+          class="tw:flex tw:items-center dropdown"
         >
           <button
             aria-expanded="false"
             aria-haspopup="true"
-            class="btn-sm p-0 dropdown-toggle btn btn-link"
+            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
             type="button"
           >
             Group by
@@ -3045,11 +3039,11 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
       </div>
     </div>
     <div
-      class="card-body"
-      id=":rl:"
+      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      id=":rc:"
     >
       <div
-        class="recharts-wrapper user-select-none"
+        class="recharts-wrapper tw:select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -3579,10 +3573,10 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -3596,7 +3590,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"

@@ -72,8 +72,8 @@ export const useKeyDown = (key: string, callback: () => void, enabled: boolean) 
       return () => {};
     }
 
-    const handler = (e: KeyboardEvent) => e.key === key && callback();
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+    const controller = new AbortController();
+    document.addEventListener('keydown', (e) => e.key === key && callback(), { signal: controller.signal });
+    return () => controller.abort();
   }, [enabled, callback, key]);
 };

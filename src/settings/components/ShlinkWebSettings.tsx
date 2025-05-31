@@ -63,7 +63,7 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
 
   return (
     <SettingsProvider value={settings}>
-      <NavPills className="tw:mb-4">
+      <NavPills className="tw:mb-4 tw:sticky tw:top-(--header-height) tw:z-2">
         <NavPills.Pill to="../general">General</NavPills.Pill>
         <NavPills.Pill to="../short-urls">Short URLs</NavPills.Pill>
         <NavPills.Pill to="../qr-codes">QR codes</NavPills.Pill>

@@ -3,18 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { splitEvery } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, sortList, useToggle } from '@shlinkio/shlink-frontend-kit';
-import {
-  formatNumber,
-  Label,
-  Paginator,
-  SearchInput,
-  SimpleCard,
-  Table,
-  ToggleSwitch,
-} from '@shlinkio/shlink-frontend-kit/tailwind';
+import { formatNumber, Paginator, SearchInput, SimpleCard, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import { useCallback, useMemo, useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
+import { LabelledToggle } from '../settings/components/fe-kit/LabelledToggle';
 import { Time } from '../utils/dates/Time';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import type { MediaMatcher } from '../utils/types';
@@ -106,10 +99,9 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
       title={
         <span className="tw:flex tw:justify-between tw:items-center tw:text-base">
           Visits list
-          <Label className="tw:flex tw:items-center tw:gap-2">
-            <ToggleSwitch checked={showUserAgent} onChange={toggleUserAgentAndResetOrder} />
+          <LabelledToggle checked={showUserAgent} onChange={toggleUserAgentAndResetOrder}>
             Show user agent
-          </Label>
+          </LabelledToggle>
         </span>
       }>
       <Table

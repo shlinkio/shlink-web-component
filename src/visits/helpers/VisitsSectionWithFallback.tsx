@@ -1,4 +1,4 @@
-import { Message } from '@shlinkio/shlink-frontend-kit';
+import { Message } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, PropsWithChildren } from 'react';
 
 export const VisitsSectionWithFallback: FC<PropsWithChildren<{ showFallback: boolean }>> = (

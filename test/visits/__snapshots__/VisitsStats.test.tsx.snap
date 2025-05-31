@@ -550,10 +550,10 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -1122,10 +1122,10 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -1694,10 +1694,10 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -2311,10 +2311,10 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -2328,7 +2328,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -2942,10 +2942,10 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -2959,7 +2959,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -3573,10 +3573,10 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -3590,7 +3590,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"

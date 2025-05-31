@@ -342,10 +342,10 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -359,7 +359,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -373,7 +373,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -910,10 +910,10 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -927,7 +927,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -1492,10 +1492,10 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -1509,7 +1509,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -1523,7 +1523,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -2319,10 +2319,10 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         </div>
       </div>
       <ul
-        class="list-unstyled mb-0 mt-2 d-flex flex-wrap justify-content-center gap-3"
+        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
@@ -2336,7 +2336,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           </strong>
         </li>
         <li
-          class="d-inline"
+          class="tw:inline"
         >
           <div
             class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"

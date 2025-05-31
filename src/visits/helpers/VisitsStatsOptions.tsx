@@ -1,6 +1,6 @@
-import { SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
+import { useToggle } from '@shlinkio/shlink-frontend-kit';
+import { Button, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
-import { Button } from 'reactstrap';
 import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
 import type { VisitsDeletion } from '../reducers/types';
 
@@ -11,30 +11,29 @@ export type VisitsStatsOptionsProps = {
 
 export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion, deleteVisits }) => {
   const { deleting } = visitsDeletion;
-  const [doubleConfirmed,, setDoubleConfirmed] = useToggle();
+  const { flag: doubleConfirmed, setToTrue: setDoubleConfirmed } = useToggle(false, true);
 
   return (
-    <SimpleCard title={<span className="text-danger fw-bold">Danger zone</span>}>
+    <SimpleCard title={<span className="tw:text-danger tw:font-bold tw:text-base">Danger zone</span>}>
       <SpaceBetweenContainer>
-        <dl className="m-0 me-3">
+        <dl className="tw:m-0 tw:mr-3">
           <dt>Delete visits.</dt>
-          <dd className="m-0">This will delete <b>all</b> visits, not only the ones matching current filter.</dd>
+          <dd className="tw:m-0">This will delete <b>all</b> visits, not only the ones matching current filter.</dd>
         </dl>
         {!doubleConfirmed && (
-          <Button color="danger" className="indivisible" onClick={setDoubleConfirmed}>
+          <Button variant="danger" solid className="tw:whitespace-nowrap" onClick={setDoubleConfirmed}>
             Delete visits
           </Button>
         )}
         {doubleConfirmed && (
           <Button
-            color="danger"
+            solid
+            variant="danger"
             disabled={deleting}
-            className="indivisible"
+            className="tw:whitespace-nowrap"
             onClick={deleteVisits}
-            innerRef={(e) => {
-              // Focus this button when mounted, to allow interacting with keyboard by pressing Enter twice
-              e?.focus();
-            }}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
           >
             {!deleting && <>Click again to confirm</>}
             {deleting && <>Deleting...</>}

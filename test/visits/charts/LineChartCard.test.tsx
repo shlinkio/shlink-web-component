@@ -147,16 +147,16 @@ describe('<LineChartCard />', () => {
     expect(onDateRangeChange).not.toHaveBeenCalled();
   });
 
-  it.skip('allows chart to be expanded', async () => {
+  it('allows chart to be expanded', async () => {
     const { user } = setUpChartWithData();
     const card = screen.getByTestId('line-chart-card');
 
-    expect(card).not.toHaveClass('fixed-top', 'fixed-bottom');
+    expect(card).not.toHaveClass('tw:fixed');
     await user.click(screen.getByLabelText('Expand'));
-    expect(card).toHaveClass('fixed-top', 'fixed-bottom');
+    expect(card).toHaveClass('tw:fixed');
   });
 
-  it.skip('collapses chart when pressing Escape while expanded', async () => {
+  it('collapses chart when pressing Escape while expanded', async () => {
     const { user } = setUpChartWithData();
     const card = screen.getByTestId('line-chart-card');
 

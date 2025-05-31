@@ -232,8 +232,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
   }, [step, visitsGroups]);
   const activeDot = useActiveDot(visitsGroups, step, setSelectedVisits);
 
-  const { flag: isExpanded, /* toggle: toggleExpanded,*/ setToFalse: setNotExpanded } = useToggle(false, true);
-  const bodyRef = useRef<HTMLDivElement>(null);
+  const { flag: isExpanded, toggle: toggleExpanded, setToFalse: setNotExpanded } = useToggle(false, true);
   const bodyId = useId();
   const legendRef = useRef<HTMLUListElement>(null);
   const [wrapperHeight, setWrapperHeight] = useState(isMobile ? 300 : 400);
@@ -245,19 +244,18 @@ export const LineChartCard: FC<LineChartCardProps> = (
     }
 
     const observer = new ResizeObserver(() => {
-      const { height: bodyHeight } = bodyRef.current!.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
       const { height: legendHeight } = legendRef.current!.getBoundingClientRect();
 
-      // 32 is the body's padding, 16 is the legend's top margin
-      const offset = 32 + 16;
+      // 32 is the body's padding, 16 is the legend's top margin, 50 is the header's height
+      const offset = 32 + 16 + 50;
 
-      setWrapperHeight(bodyHeight - legendHeight - offset);
+      setWrapperHeight(windowHeight - legendHeight - offset);
     });
-    observer.observe(bodyRef.current!);
     observer.observe(legendRef.current!);
 
     return () => observer.disconnect();
-  }, [bodyRef, isExpanded, isMobile, legendRef]);
+  }, [isExpanded, isMobile, legendRef]);
 
   useKeyDown('Escape', setNotExpanded, isExpanded);
 
@@ -300,7 +298,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
 
   return (
     <Card
-      className={clsx({ 'tw:fixed tw:top-0 tw:bottom-0 tw:left-0 tw:top-0 tw:z-1000': isExpanded })}
+      className={clsx({ 'tw:fixed tw:top-0 tw:bottom-0 tw:left-0 tw:right-0 tw:z-1030': isExpanded })}
       data-testid="line-chart-card"
     >
       <Card.Header role="heading" aria-level={4} className="tw:flex tw:justify-between tw:items-center">
@@ -311,7 +309,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
             aria-expanded={isExpanded}
             aria-controls={bodyId}
             size="sm"
-            // onClick={toggleExpanded}
+            onClick={toggleExpanded}
           >
             <FontAwesomeIcon icon={isExpanded ? collapseIcon : expandIcon} />
           </LinkButton>
@@ -329,7 +327,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
           </Dropdown>
         </div>
       </Card.Header>
-      <Card.Body ref={bodyRef} id={bodyId}>
+      <Card.Body id={bodyId}>
         <ChartWrapper {...wrapperDimensions}>
           <LineChart
             className="tw:select-none"

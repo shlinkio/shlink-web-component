@@ -1,12 +1,9 @@
-import { faChartLine as lineChartIcon } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine, faChevronRight, faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
+import { Button, CloseButton, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useMemo } from 'react';
-import { Link } from 'react-router';
-import { Button } from 'reactstrap';
-import { UnstyledButton } from '../../utils/components/UnstyledButton';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
 import { useVisitsComparisonContext } from './VisitsComparisonContext';
 
@@ -30,45 +27,42 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
   const { itemsToCompare, clearItemsToCompare, removeItemToCompare } = context;
   return (
     <div className={clsx('tw:sticky tw:top-(--header-height) tw:z-10', className)}>
-      <SimpleCard bodyClassName="d-md-flex gap-3 align-items-center">
-        <ul className="d-flex flex-wrap gap-1 flex-grow-1 p-0 m-0">
+      <SimpleCard bodyClassName="tw:flex tw:flex-col tw:lg:flex-row tw:gap-4 tw:items-center">
+        <ul className="tw:flex tw:flex-wrap tw:gap-1 tw:grow tw:items-center tw:p-0 tw:m-0">
           {itemsToCompare.map((item, index) => (
             <li
               key={`${item.name}_${index}`}
-              className={clsx('badge pe-1', { 'bg-secondary': !item.style?.backgroundColor })}
+              className={clsx(
+                'tw:flex tw:items-center tw:gap-1 tw:text-sm tw:font-bold tw:text-white tw:py-0.5 tw:px-1.5 tw:rounded',
+                { 'tw:bg-gray-500': !item.style?.backgroundColor },
+              )}
               style={item.style}
             >
               {item.name}
-              <UnstyledButton
-                aria-label={`Remove ${item.name}`}
-                className="fw-bold fs-6"
+              <CloseButton
+                label={`Remove ${item.name}`}
+                className="tw:text-xs"
                 onClick={() => removeItemToCompare(item)}
-              >
-                &times;
-              </UnstyledButton>
+              />
             </li>
           ))}
         </ul>
-        <div className="d-flex mt-3 mt-md-0">
+        <div className="tw:flex tw:gap-2 tw:max-lg:w-full">
           <Button
-            outline
-            color="primary"
-            className="flex-grow-1 indivisible"
+            className="tw:grow tw:whitespace-nowrap"
             disabled={itemsToCompare.length < 2}
-            tag={Link}
-            to={`${routesPrefix}/${type}/compare-visits?${type}=${query}`}
+            to={itemsToCompare.length > 1 ? `${routesPrefix}/${type}/compare-visits?${type}=${query}` : undefined}
           >
-            <FontAwesomeIcon icon={lineChartIcon} fixedWidth className="me-1" />
-            Compare ({itemsToCompare.length}/5) &raquo;
+            <FontAwesomeIcon icon={faChartLine} />
+            Compare ({itemsToCompare.length}/5)
+            <FontAwesomeIcon icon={faChevronRight} />
           </Button>
           <Button
             aria-label="Close compare"
-            outline
-            color="secondary"
-            className="ms-2 fw-bold"
+            variant="secondary"
             onClick={clearItemsToCompare}
           >
-            &times;
+            <FontAwesomeIcon icon={faClose} />
           </Button>
         </div>
       </SimpleCard>

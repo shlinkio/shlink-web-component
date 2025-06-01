@@ -1,7 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
-import type { ShlinkApiClient, ShlinkShortUrl } from '../../../src/api-contract';
+import type { ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../../src/api-contract';
 import type { RootState } from '../../../src/container/store';
-import type { ShortUrlIdentifier } from '../../../src/short-urls/data';
 import { shortUrlsDetailsReducerCreator } from '../../../src/short-urls/reducers/shortUrlsDetails';
 import type { ShortUrlsList } from '../../../src/short-urls/reducers/shortUrlsList';
 
@@ -28,7 +27,7 @@ describe('shortUrlsDetailsReducer', () => {
 
     it('return short URLs on fulfilled', () => {
       const identifier = { shortCode: 'abc123' };
-      const actionShortUrls = new Map<ShortUrlIdentifier, ShlinkShortUrl>([
+      const actionShortUrls = new Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>([
         [identifier, fromPartial<ShlinkShortUrl>({ longUrl: 'foo', shortCode: 'bar' })],
       ]);
       const state = reducer(

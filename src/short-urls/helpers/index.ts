@@ -1,8 +1,7 @@
-import type { ShlinkCreateShortUrlData, ShlinkShortUrl } from '../../api-contract';
+import type { ShlinkCreateShortUrlData, ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../api-contract';
 import { DEFAULT_DOMAIN } from '../../domains/data';
 import type { ShortUrlCreationSettings } from '../../settings';
 import type { OptionalString } from '../../utils/helpers';
-import type { ShortUrlIdentifier } from '../data';
 
 export const shortUrlMatches = (shortUrl: ShlinkShortUrl, shortCode: string, domain: OptionalString): boolean => {
   if (domain === undefined || domain === null) {
@@ -64,13 +63,13 @@ export const urlDecodeShortCode = (shortCode: string): string => shortCode.repla
 /**
  * String representation of a short URL, so that it can be used as query param
  */
-export const shortUrlToQuery = ({ domain, shortCode }: ShortUrlIdentifier): string =>
+export const shortUrlToQuery = ({ domain, shortCode }: ShlinkShortUrlIdentifier): string =>
   `${domain ?? DEFAULT_DOMAIN}__${urlEncodeShortCode(shortCode)}`;
 
 /**
  * String representation of a short URL, so that it can be used as query param
  */
-export const queryToShortUrl = (shortUrlQuery: string): ShortUrlIdentifier => {
+export const queryToShortUrl = (shortUrlQuery: string): ShlinkShortUrlIdentifier => {
   // Split in two segments only. The second one may also contain the split placeholder if it is a multi-segment slug
   const [domain, shortCode] = shortUrlQuery.split(/__(.+)/);
   if (!shortCode) {

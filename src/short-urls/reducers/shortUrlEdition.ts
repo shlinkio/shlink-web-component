@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ProblemDetailsError, ShlinkApiClient, ShlinkEditShortUrlData, ShlinkShortUrl } from '../../api-contract';
+import type {
+  ProblemDetailsError,
+  ShlinkApiClient,
+  ShlinkEditShortUrlData,
+  ShlinkShortUrl,
+  ShlinkShortUrlIdentifier,
+} from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import { createAsyncThunk } from '../../utils/redux';
-import type { ShortUrlIdentifier } from '../data';
 
 const REDUCER_PREFIX = 'shlink/shortUrlEdition';
 
@@ -14,7 +19,7 @@ export interface ShortUrlEdition {
   errorData?: ProblemDetailsError;
 }
 
-export interface EditShortUrl extends ShortUrlIdentifier {
+export interface EditShortUrl extends ShlinkShortUrlIdentifier {
   data: ShlinkEditShortUrlData;
 }
 

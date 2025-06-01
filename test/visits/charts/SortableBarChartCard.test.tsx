@@ -73,7 +73,7 @@ describe('<SortableBarChartCard />', () => {
   });
 
   it.each([
-    [0, 5],
+    [0, 4],
     [1, 3],
     [2, 2],
     [3, 0],
@@ -89,18 +89,18 @@ describe('<SortableBarChartCard />', () => {
 
     await user.click(screen.getByRole('button', { name: 'Paginate' }));
     if (typeof itemIndex === 'string') {
-      await user.click(screen.getByRole('menuitem', { name: 'Clear pagination' }));
+      await user.click(screen.getByRole('menuitem', { name: itemIndex }));
     } else {
       await user.click(screen.getAllByRole('menuitem', { name: /items per page$/ })[itemIndex]);
     }
 
     if (expectedPages > 0) {
-      const pagination = screen.getByLabelText('pagination');
+      const pagination = screen.getByTestId('chart-paginator');
       expect(pagination).toBeInTheDocument();
-      // We add two pages for the next/prev ones
-      expect(pagination.querySelectorAll('li')).toHaveLength(expectedPages + 2);
+      // Add one page for the `next` button
+      expect(pagination.querySelectorAll('button')).toHaveLength(expectedPages + 1);
     } else {
-      expect(screen.queryByLabelText('pagination')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('chart-paginator')).not.toBeInTheDocument();
     }
   });
 

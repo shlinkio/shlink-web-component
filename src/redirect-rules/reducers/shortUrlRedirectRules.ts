@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient, ShlinkRedirectRuleData } from '../../api-contract';
-import type { ShortUrlIdentifier } from '../../short-urls/data';
+import type { ShlinkApiClient, ShlinkRedirectRuleData, ShlinkShortUrlIdentifier } from '../../api-contract';
 import { createAsyncThunk } from '../../utils/redux';
 
 const REDUCER_PREFIX = 'shlink/getShortUrlRedirectRules';
@@ -19,7 +18,9 @@ const initialState: ShortUrlRedirectRules = {
 
 export const getShortUrlRedirectRules = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
   `${REDUCER_PREFIX}/getShortUrlRedirectRules`,
-  ({ shortCode, domain }: ShortUrlIdentifier) => apiClientFactory().getShortUrlRedirectRules({ shortCode, domain }),
+  ({ shortCode, domain }: ShlinkShortUrlIdentifier) => apiClientFactory().getShortUrlRedirectRules(
+    { shortCode, domain },
+  ),
 );
 
 export const shortUrlRedirectRulesReducerCreator = (

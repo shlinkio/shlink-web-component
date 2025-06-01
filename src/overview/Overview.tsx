@@ -1,4 +1,4 @@
-import { Card } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Card, formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
@@ -14,7 +14,6 @@ import type { ShortUrlsList as ShortUrlsListState } from '../short-urls/reducers
 import { ITEMS_IN_OVERVIEW_PAGE } from '../short-urls/reducers/shortUrlsList';
 import type { ShortUrlsTableType } from '../short-urls/ShortUrlsTable';
 import type { TagsList } from '../tags/reducers/tagsList';
-import { prettify } from '../utils/helpers/numbers';
 import { useRoutesPrefix } from '../utils/routesPrefix';
 import type { VisitsOverview } from '../visits/reducers/visitsOverview';
 import { HighlightCard } from './helpers/HighlightCard';
@@ -94,10 +93,10 @@ const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub(({
           visitsSummary={orphanVisits}
         />
         <HighlightCard title="Short URLs" link={`${routesPrefix}/list-short-urls/1`}>
-          {loading ? 'Loading...' : prettify(shortUrls?.pagination.totalItems ?? 0)}
+          {loading ? 'Loading...' : formatNumber(shortUrls?.pagination.totalItems ?? 0)}
         </HighlightCard>
         <HighlightCard title="Tags" link={`${routesPrefix}/manage-tags`}>
-          {loadingTags ? 'Loading...' : prettify(tagsList.tags.length)}
+          {loadingTags ? 'Loading...' : formatNumber(tagsList.tags.length)}
         </HighlightCard>
       </div>
 

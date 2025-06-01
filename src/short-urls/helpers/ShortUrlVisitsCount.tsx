@@ -1,12 +1,12 @@
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { RefObject } from 'react';
 import { useRef } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
 import { formatHumanFriendly, parseISO } from '../../utils/dates/helpers/date';
-import { prettify } from '../../utils/helpers/numbers';
 import { ShortUrlDetailLink } from './ShortUrlDetailLink';
 
 interface ShortUrlVisitsCountProps {
@@ -25,7 +25,7 @@ export const ShortUrlVisitsCount = (
   const visitsLink = (
     <ShortUrlDetailLink shortUrl={shortUrl} suffix="visits" asLink={asLink}>
       <strong className={clsx('tw:inline-block tw:transition-all tw:duration-300', { 'tw:scale-150': active })}>
-        {prettify(visitsCount)}
+        {formatNumber(visitsCount)}
       </strong>
     </ShortUrlDetailLink>
   );
@@ -39,7 +39,7 @@ export const ShortUrlVisitsCount = (
       <span className="tw:whitespace-nowrap">
         {visitsLink}
         <small className="tw:cursor-help" ref={tooltipRef}>
-          {maxVisits && <> / {prettify(maxVisits)}</>}
+          {maxVisits && <> / {formatNumber(maxVisits)}</>}
           <sup className="tw:ml-1">
             <FontAwesomeIcon icon={infoIcon} />
           </sup>
@@ -49,7 +49,7 @@ export const ShortUrlVisitsCount = (
         <ul className="tw:p-0 tw:m-0 tw:flex tw:flex-col tw:gap-y-2">
           {maxVisits && (
             <li>
-              This short URL will not accept more than <b>{prettify(maxVisits)}</b> visit{maxVisits === 1 ? '' : 's'}.
+              This short URL will not accept more than <b>{formatNumber(maxVisits)}</b> visit{maxVisits === 1 ? '' : 's'}.
             </li>
           )}
           {validSince && (

@@ -8,7 +8,7 @@ import {
   faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, NavPills, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, formatNumber, NavPills, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -18,7 +18,6 @@ import { ExportBtn } from '../utils/components/ExportBtn';
 import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import type { DateInterval, DateRange } from '../utils/dates/helpers/dateIntervals';
 import { toDateRange } from '../utils/dates/helpers/dateIntervals';
-import { prettify } from '../utils/helpers/numbers';
 import { DoughnutChartCard } from './charts/DoughnutChartCard';
 import { LineChartCard } from './charts/LineChartCard';
 import { SortableBarChartCard } from './charts/SortableBarChartCard';
@@ -214,7 +213,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                 className="tw:max-lg:w-full"
                 onClick={() => setSelectedVisits([])}
               >
-                Clear selection {highlightedVisits.length > 0 && <>({prettify(highlightedVisits.length)})</>}
+                Clear selection {highlightedVisits.length > 0 && <>({formatNumber(highlightedVisits.length)})</>}
               </Button>
             </>
           )}

@@ -1,10 +1,10 @@
+import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { MercureInfo } from '../../src/mercure/reducers/mercureInfo';
 import { OverviewFactory } from '../../src/overview/Overview';
 import { SettingsProvider } from '../../src/settings';
-import { prettify } from '../../src/utils/helpers/numbers';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
@@ -58,10 +58,10 @@ describe('<Overview />', () => {
     const headingElements = screen.getAllByRole('link');
 
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
-    expect(headingElements[0]).toHaveTextContent(`Visits${prettify(expectedVisits)}`);
-    expect(headingElements[1]).toHaveTextContent(`Orphan visits${prettify(expectedOrphanVisits)}`);
-    expect(headingElements[2]).toHaveTextContent(`Short URLs${prettify(83710)}`);
-    expect(headingElements[3]).toHaveTextContent(`Tags${prettify(3)}`);
+    expect(headingElements[0]).toHaveTextContent(`Visits${formatNumber(expectedVisits)}`);
+    expect(headingElements[1]).toHaveTextContent(`Orphan visits${formatNumber(expectedOrphanVisits)}`);
+    expect(headingElements[2]).toHaveTextContent(`Short URLs${formatNumber(83710)}`);
+    expect(headingElements[3]).toHaveTextContent(`Tags${formatNumber(3)}`);
   });
 
   it('nests injected components', () => {

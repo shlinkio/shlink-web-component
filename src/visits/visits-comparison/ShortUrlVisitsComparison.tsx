@@ -1,10 +1,9 @@
-import type { ShlinkVisit } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { useCallback, useEffect, useMemo } from 'react';
+import type { ShlinkShortUrlIdentifier,ShlinkVisit } from '../../api-contract';
 import type { MercureBoundProps } from '../../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../../mercure/helpers/boundToMercureHub';
 import { Topics } from '../../mercure/helpers/Topics';
-import type { ShortUrlIdentifier } from '../../short-urls/data';
 import { queryToShortUrl, shortUrlToQuery } from '../../short-urls/helpers';
 import type { ShortUrlsDetails } from '../../short-urls/reducers/shortUrlsDetails';
 import { useArrayQueryParam } from '../../utils/helpers/hooks';
@@ -17,7 +16,7 @@ type ShortUrlVisitsComparisonProps = MercureBoundProps & {
   shortUrlVisitsComparison: VisitsComparisonInfo;
   cancelGetShortUrlVisitsComparison: () => void;
   shortUrlsDetails: ShortUrlsDetails;
-  getShortUrlsDetails: (identifiers: ShortUrlIdentifier[]) => void;
+  getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
 };
 
 export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = boundToMercureHub(({

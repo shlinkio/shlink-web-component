@@ -172,6 +172,7 @@ Make sure you import stylesheets in the order documented here for everything to 
 @source '../node_modules/@shlinkio/shlink-frontend-kit';
 @source '../node_modules/@shlinkio/shlink-web-component';
 @import '@shlinkio/shlink-frontend-kit/tailwind.preset.css';
+@import '@shlinkio/shlink-web-component/tailwind.preset.css';
 ```
 
 ```tsx

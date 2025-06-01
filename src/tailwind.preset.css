@@ -1,0 +1,6 @@
+@layer base {
+    :root {
+        --header-height: 56px;
+        --aside-menu-width: 260px;
+    }
+}

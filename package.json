@@ -20,13 +20,17 @@
       "import": "./dist/settings.js",
       "types": "./dist/settings.d.ts"
     },
+    "./tailwind.preset.css": {
+      "style": "./dist/tailwind.preset.css",
+      "default": "./dist/tailwind.preset.css"
+    },
     "./package.json": "./package.json"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && cp ./src/tailwind.preset.css ./dist/tailwind.preset.css",
     "test": "vitest run",
     "test:ci": "npm run test -- --coverage",
     "lint": "eslint dev src test *.config.{js,ts}",

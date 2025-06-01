@@ -8,10 +8,10 @@ import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { AsideMenu } from './common/AsideMenu';
 import type { FCWithDeps } from './container/utils';
 import { componentFactory, useDependencies } from './container/utils';
+import { UnstyledButton } from './utils/components/UnstyledButton';
 import { useFeature } from './utils/features';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
-import './Main.scss';
 
 export type MainProps = {
   createNotFound?: (nonPrefixedHomePath: string) => ReactNode;
@@ -64,18 +64,32 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
   // Hide sidebar every time the route changes
   useEffect(() => hideSidebar(), [location, hideSidebar]);
 
-  const burgerClasses = clsx('shlink-layout__burger-icon', { 'shlink-layout__burger-icon--active': sidebarVisible });
   const swipeableProps = useSwipeable(showSidebar, hideSidebar);
   const supportsRedirectRules = useFeature('shortUrlRedirectRules');
 
   return (
     <>
-      <FontAwesomeIcon icon={burgerIcon} className={burgerClasses} onClick={toggleSidebar} />
+      <UnstyledButton
+        aria-label="Toggle sidebar"
+        className={clsx(
+          'tw:inline-block tw:md:hidden tw:fixed tw:top-4 tw:z-1035 tw:transition-colors',
+          {
+            'tw:text-white/50': !sidebarVisible,
+            'tw:text-white': sidebarVisible,
+          },
+        )}
+        onClick={toggleSidebar}
+      >
+        <FontAwesomeIcon icon={burgerIcon} size="xl" />
+      </UnstyledButton>
 
-      <div {...swipeableProps} className="shlink-layout__swipeable">
-        <div className="shlink-layout__swipeable-inner">
+      <div {...swipeableProps} className="tw:h-full">
+        <div className="tw:h-full">
           <AsideMenu routePrefix={routesPrefix} showOnMobile={sidebarVisible} />
-          <div className="shlink-layout__container" onPointerDown={() => hideSidebar()}>
+          <div
+            className="tw:min-h-full tw:pt-[20px] tw:md:pt-[30px] tw:md:pl-(--aside-menu-width)"
+            onPointerDown={hideSidebar}
+          >
             <div className="container-xl">
               <Routes>
                 <Route index element={<Navigate replace to="overview" />} />

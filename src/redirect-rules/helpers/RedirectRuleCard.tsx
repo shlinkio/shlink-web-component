@@ -20,7 +20,7 @@ export type RedirectRuleCardProps = {
 export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
   { priority, isLast, redirectRule, onDelete, onMoveUp, onMoveDown, onUpdate },
 ) => {
-  const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle(true, true);
+  const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle(false, true);
 
   return (
     <SimpleCard>

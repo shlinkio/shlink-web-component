@@ -1,14 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ProblemDetailsError, ShlinkApiClient, ShlinkShortUrl } from '../../api-contract';
+import type { ProblemDetailsError, ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import { createAsyncThunk } from '../../utils/redux';
-import type { ShortUrlIdentifier } from '../data';
 import { shortUrlMatches } from '../helpers';
 
 const REDUCER_PREFIX = 'shlink/shortUrlsDetails';
 
 export type ShortUrlsDetails = {
-  shortUrls?: Map<ShortUrlIdentifier, ShlinkShortUrl>;
+  shortUrls?: Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>;
   loading: boolean;
   error: boolean;
   errorData?: ProblemDetailsError;
@@ -22,10 +21,13 @@ const initialState: ShortUrlsDetails = {
 export const shortUrlsDetailsReducerCreator = (apiClientFactory: () => ShlinkApiClient) => {
   const getShortUrlsDetails = createAsyncThunk(
     `${REDUCER_PREFIX}/getShortUrlsDetails`,
-    async (identifiers: ShortUrlIdentifier[], { getState }): Promise<Map<ShortUrlIdentifier, ShlinkShortUrl>> => {
+    async (
+      identifiers: ShlinkShortUrlIdentifier[],
+      { getState },
+    ): Promise<Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>> => {
       const { shortUrlsList } = getState();
       const pairs = await Promise.all(identifiers.map(
-        async (identifier): Promise<[ShortUrlIdentifier, ShlinkShortUrl]> => {
+        async (identifier): Promise<[ShlinkShortUrlIdentifier, ShlinkShortUrl]> => {
           const { shortCode, domain } = identifier;
           const alreadyLoaded = shortUrlsList?.shortUrls?.data.find((url) => shortUrlMatches(url, shortCode, domain));
 

@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo } from 'react';
+import type { ShlinkShortUrlIdentifier } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
-import type { ShortUrlIdentifier } from '../short-urls/data';
 import { urlDecodeShortCode } from '../short-urls/helpers';
 import { useShortUrlIdentifier } from '../short-urls/helpers/hooks';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
@@ -21,8 +21,8 @@ export type ShortUrlVisitsProps = {
   shortUrlVisits: ShortUrlVisitsState;
   shortUrlVisitsDeletion: ShortUrlVisitsDeletion;
   getShortUrlVisits: (params: LoadShortUrlVisits) => void;
-  deleteShortUrlVisits: (shortUrl: ShortUrlIdentifier) => void;
-  getShortUrlsDetails: (identifiers: ShortUrlIdentifier[]) => void;
+  deleteShortUrlVisits: (shortUrl: ShlinkShortUrlIdentifier) => void;
+  getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
   shortUrlsDetails: ShortUrlsDetails;
   cancelGetShortUrlVisits: () => void;
 };

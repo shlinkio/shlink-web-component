@@ -1,8 +1,7 @@
-import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
+import type { ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../src/api-contract';
 import { SettingsProvider } from '../../src/settings';
-import type { ShortUrlIdentifier } from '../../src/short-urls/data';
 import { EditShortUrlFactory } from '../../src/short-urls/EditShortUrl';
 import type { ShortUrlEdition } from '../../src/short-urls/reducers/shortUrlEdition';
 import type { ShortUrlsDetails } from '../../src/short-urls/reducers/shortUrlsDetails';
@@ -12,7 +11,7 @@ import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
 describe('<EditShortUrl />', () => {
   const shortUrlCreation = { validateUrls: true };
   const identifier = { shortCode: 'abc123' };
-  const shortUrlToMap = (shortUrl: ShlinkShortUrl) => fromPartial<Map<ShortUrlIdentifier, ShlinkShortUrl>>({
+  const shortUrlToMap = (shortUrl: ShlinkShortUrl) => fromPartial<Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>>({
     get: () => shortUrl,
   });
   const getShortUrlsDetails = vi.fn();

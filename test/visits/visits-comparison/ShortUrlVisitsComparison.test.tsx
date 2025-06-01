@@ -1,15 +1,15 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
+import type { ShlinkShortUrlIdentifier } from '../../../src/api-contract';
 import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import type { MercureInfo } from '../../../src/mercure/reducers/mercureInfo';
-import type { ShortUrlIdentifier } from '../../../src/short-urls/data';
 import { queryToShortUrl, shortUrlToQuery } from '../../../src/short-urls/helpers';
 import { ShortUrlVisitsComparison } from '../../../src/visits/visits-comparison/ShortUrlVisitsComparison';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 
 type SetUpOptions = {
-  shortUrls?: ShortUrlIdentifier[];
+  shortUrls?: ShlinkShortUrlIdentifier[];
   loadingVisits?: boolean;
   loadingDetails?: boolean;
 };

@@ -1,11 +1,11 @@
 import { orderToString, stringifyQueryParams, stringToOrder, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import type { TagsFilteringMode } from '../../api-contract';
+import type { ShlinkShortUrlIdentifier, TagsFilteringMode } from '../../api-contract';
 import type { BooleanString } from '../../utils/helpers';
 import { parseOptionalBooleanToString } from '../../utils/helpers';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
-import type { ShortUrlIdentifier, ShortUrlsOrder, ShortUrlsOrderableFields } from '../data';
+import type { ShortUrlsOrder, ShortUrlsOrderableFields } from '../data';
 import { urlDecodeShortCode } from './index';
 
 type ShortUrlsQueryCommon = {
@@ -80,7 +80,7 @@ export const useShortUrlsQuery = (): [ShortUrlsQuery, ToFirstPage] => {
  * Generates a ShortUrlIdentifier by reading the short code from route params and domain from query params.
  * The short code is also decoded.
  */
-export const useShortUrlIdentifier = (): ShortUrlIdentifier => {
+export const useShortUrlIdentifier = (): ShlinkShortUrlIdentifier => {
   const { domain } = useParsedQuery<{ domain?: string }>();
   const { shortCode = '' } = useParams<{ shortCode: string }>();
   return useMemo(() => ({ shortCode: urlDecodeShortCode(shortCode), domain }), [domain, shortCode]);

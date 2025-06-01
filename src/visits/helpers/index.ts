@@ -1,6 +1,5 @@
 import { countBy, groupBy } from '@shlinkio/data-manipulation';
-import type { ShlinkOrphanVisit, ShlinkVisit, ShlinkVisitsParams } from '../../api-contract';
-import type { ShortUrlIdentifier } from '../../short-urls/data';
+import type { ShlinkOrphanVisit, ShlinkShortUrlIdentifier, ShlinkVisit, ShlinkVisitsParams } from '../../api-contract';
 import { domainMatches, shortUrlMatches } from '../../short-urls/helpers';
 import { formatIsoDate, isBetween } from '../../utils/dates/helpers/date';
 import type { DateRange, MandatoryStartDateRange } from '../../utils/dates/helpers/dateIntervals';
@@ -38,7 +37,7 @@ export const groupNewVisitsByType = (createdVisits: CreateVisit[]): GroupedNewVi
  */
 export const filterCreatedVisitsByShortUrl = (
   createdVisits: CreateVisit[],
-  { shortCode, domain }: ShortUrlIdentifier,
+  { shortCode, domain }: ShlinkShortUrlIdentifier,
   { endDate, startDate }: DateRange = {},
 ): CreateVisit[] => createdVisits.filter(
   ({ shortUrl, visit }) =>

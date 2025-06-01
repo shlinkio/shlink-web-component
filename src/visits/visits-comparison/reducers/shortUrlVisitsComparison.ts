@@ -1,6 +1,4 @@
-import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { ShlinkApiClient } from '../../../api-contract';
-import type { ShortUrlIdentifier } from '../../../short-urls/data';
+import type { ShlinkApiClient, ShlinkShortUrlIdentifier,ShlinkVisitsParams } from '../../../api-contract';
 import { queryToShortUrl, shortUrlToQuery } from '../../../short-urls/helpers';
 import { filterCreatedVisitsByShortUrl } from '../../helpers';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
@@ -9,7 +7,7 @@ import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisitsComparison';
 
-export type LoadShortUrlVisitsForComparison = LoadVisitsForComparison & { shortUrls: ShortUrlIdentifier[]; };
+export type LoadShortUrlVisitsForComparison = LoadVisitsForComparison & { shortUrls: ShlinkShortUrlIdentifier[]; };
 
 const initialState: VisitsComparisonInfo = {
   visitsGroups: {},

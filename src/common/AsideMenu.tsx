@@ -10,23 +10,28 @@ import { clsx } from 'clsx';
 import type { FC } from 'react';
 import type { NavLinkProps } from 'react-router';
 import { NavLink, useLocation } from 'react-router';
-import './AsideMenu.scss';
 
-export interface AsideMenuProps {
+export type AsideMenuProps = {
   routePrefix: string;
   showOnMobile?: boolean;
-}
+};
 
-interface AsideMenuItemProps extends NavLinkProps {
-  to: string;
-  className?: string;
-}
+type AsideMenuItem = NavLinkProps & {
+  active?: boolean;
+};
 
-const AsideMenuItem: FC<AsideMenuItemProps> = ({ children, to, className, ...rest }) => (
+const AsideMenuItem: FC<AsideMenuItem> = ({ children, to, active, ...rest }) => (
   <NavLink
-    className={({ isActive }) => clsx('aside-menu__item', className, { 'aside-menu__item--selected': isActive })}
-    to={to}
     {...rest}
+    className={({ isActive }) => clsx(
+      'tw:flex tw:items-center tw:gap-2',
+      'tw:no-underline tw:rounded-none tw:px-5 tw:py-2.5',
+      {
+        'tw:text-white tw:bg-lm-main tw:dark:bg-dm-main': isActive || active,
+        'tw:highlight:bg-lm-secondary tw:highlight:dark:bg-dm-secondary': !isActive && !active,
+      },
+    )}
+    to={to}
   >
     {children}
   </NavLink>
@@ -34,36 +39,41 @@ const AsideMenuItem: FC<AsideMenuItemProps> = ({ children, to, className, ...res
 
 export const AsideMenu: FC<AsideMenuProps> = ({ routePrefix, showOnMobile = false }) => {
   const { pathname } = useLocation();
-  const asideClass = clsx('aside-menu', {
-    'aside-menu--hidden': !showOnMobile,
-  });
   const buildPath = (suffix: string) => `${routePrefix}${suffix}`;
 
   return (
-    <aside className={asideClass}>
-      <nav className="nav flex-column aside-menu__nav">
+    <aside
+      className={clsx(
+        'tw:w-(--aside-menu-width) tw:bg-lm-primary tw:dark:bg-dm-primary',
+        'tw:pt-[15px] tw:md:pt-[30px] tw:pb-[10px]',
+        'tw:fixed! tw:bottom-0 tw:top-(--header-height) tw:z-1010 tw:transition-[left] tw:duration-300',
+        'tw:shadow-aside-menu-mobile tw:md:shadow-aside-menu',
+        {
+          'tw:left-0': showOnMobile,
+          'tw:max-md:left-[calc(-1*(var(--aside-menu-width)+35px))]': !showOnMobile,
+        },
+      )}
+    >
+      <nav className="tw:flex tw:flex-col tw:h-full">
         <AsideMenuItem to={buildPath('/overview')}>
           <FontAwesomeIcon fixedWidth icon={overviewIcon} />
-          <span className="aside-menu__item-text">Overview</span>
+          Overview
         </AsideMenuItem>
-        <AsideMenuItem
-          to={buildPath('/list-short-urls/1')}
-          className={clsx({ 'aside-menu__item--selected': pathname.match('/list-short-urls') !== null })}
-        >
+        <AsideMenuItem to={buildPath('/list-short-urls/1')} active={pathname.match('/list-short-urls') !== null}>
           <FontAwesomeIcon fixedWidth icon={listIcon} />
-          <span className="aside-menu__item-text">List short URLs</span>
+          List short URLs
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/create-short-url')}>
           <FontAwesomeIcon fixedWidth icon={createIcon} flip="horizontal" />
-          <span className="aside-menu__item-text">Create short URL</span>
+          Create short URL
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/manage-tags')}>
           <FontAwesomeIcon fixedWidth icon={tagsIcon} />
-          <span className="aside-menu__item-text">Manage tags</span>
+          Manage tags
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/manage-domains')}>
           <FontAwesomeIcon fixedWidth icon={domainsIcon} />
-          <span className="aside-menu__item-text">Manage domains</span>
+          Manage domains
         </AsideMenuItem>
       </nav>
     </aside>

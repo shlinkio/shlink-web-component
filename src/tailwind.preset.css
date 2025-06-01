@@ -1,0 +1,11 @@
+@theme {
+    --shadow-aside-menu: rgb(0 0 0 / .05) 0 8px 15px;
+    --shadow-aside-menu-mobile: -10px 0 50px 11px rgb(0 0 0 / .55);
+}
+
+@layer base {
+    :root {
+        --header-height: 56px;
+        --aside-menu-width: 260px;
+    }
+}

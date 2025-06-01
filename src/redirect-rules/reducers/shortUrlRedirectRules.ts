@@ -18,7 +18,9 @@ const initialState: ShortUrlRedirectRules = {
 
 export const getShortUrlRedirectRules = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
   `${REDUCER_PREFIX}/getShortUrlRedirectRules`,
-  ({ shortCode, domain }: ShlinkShortUrlIdentifier) => apiClientFactory().getShortUrlRedirectRules({ shortCode, domain }),
+  ({ shortCode, domain }: ShlinkShortUrlIdentifier) => apiClientFactory().getShortUrlRedirectRules(
+    { shortCode, domain },
+  ),
 );
 
 export const shortUrlRedirectRulesReducerCreator = (

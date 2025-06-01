@@ -1,13 +1,12 @@
 import { sortBy, splitEvery, zipObj } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
+import { Paginator, roundTen } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
 import { PaginationDropdown } from '../../utils/components/PaginationDropdown';
-import { SimplePaginator } from '../../utils/components/SimplePaginator';
 import { rangeOf } from '../../utils/helpers';
-import { roundTen } from '../../utils/helpers/numbers';
 import type { Stats, StatsRow } from '../types';
 import { ChartCard } from './ChartCard';
 import type { HorizontalBarChartProps } from './HorizontalBarChart';
@@ -61,7 +60,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
   }, [currentPage]);
   const renderPagination = useCallback(
     (pagesCount: number): ReactNode =>
-      <SimplePaginator currentPage={currentPage} pagesCount={pagesCount} onPageChange={setCurrentPage} />,
+      <Paginator currentPage={currentPage} pagesCount={pagesCount} onPageChange={setCurrentPage} />,
     [currentPage],
   );
   const determineStats = useCallback(
@@ -144,7 +143,9 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
           </div>
         </SpaceBetweenContainer>
       )}
-      footer={pagination}
+      footer={pagination && (
+        <div className="tw:flex tw:justify-around tw:items-center" data-testid="chart-paginator">{pagination}</div>
+      )}
     >
       <HorizontalBarChart
         stats={currentPageStats}

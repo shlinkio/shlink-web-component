@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [0.14.1] - 2025-06-01
+### Added
+* *Nothing*
+
+### Changed
+* Tailwind migration progress:
+  * Migrated all bootstrap classes to tailwind
+  * Migrate all non-tailwind shlink-frontend-kit components to the corresponding tailwind replacement when available.
+  * Migrate all reactstrap components to the corresponding shlink-frontend-kit tailwind replacement when available.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [0.14.0] - 2025-05-09
 ### Added
 * *Nothing*

@@ -5,13 +5,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RowDropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { formatNumber, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { Link } from 'react-router';
 import { DropdownItem } from 'reactstrap';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import { prettify } from '../utils/helpers/numbers';
 import { useRoutesPrefix } from '../utils/routesPrefix';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
 import { useVisitsComparisonContext } from '../visits/visits-comparison/VisitsComparisonContext';
@@ -42,12 +41,12 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
       </Table.Cell>
       <Table.Cell className="tw:lg:text-right" columnName="Short URLs">
         <Link to={`${routesPrefix}/list-short-urls/1?tags=${encodeURIComponent(tag.tag)}`}>
-          {prettify(tag.shortUrls)}
+          {formatNumber(tag.shortUrls)}
         </Link>
       </Table.Cell>
       <Table.Cell className="tw:lg:text-right" columnName="Visits">
         <Link to={`${routesPrefix}/tag/${tag.tag}/visits`}>
-          {prettify(tag.visits)}
+          {formatNumber(tag.visits)}
         </Link>
       </Table.Cell>
       <Table.Cell className="tw:lg:text-right tw:max-lg:absolute tw:max-lg:top-[-19px] tw:max-lg:right-0 tw:max-lg:p-0">

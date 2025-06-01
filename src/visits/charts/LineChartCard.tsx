@@ -5,7 +5,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { countBy } from '@shlinkio/data-manipulation';
 import { HIGHLIGHTED_COLOR, isDarkThemeEnabled, MAIN_COLOR, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Card, LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Card, formatNumber, LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { Duration } from 'date-fns';
 import {
@@ -30,7 +30,6 @@ import { formatInternational } from '../../utils/dates/helpers/date';
 import type { StrictDateRange } from '../../utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../utils/helpers';
 import { useKeyDown, useMaxResolution } from '../../utils/helpers/hooks';
-import { prettify } from '../../utils/helpers/numbers';
 import type { MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
 import { useChartDimensions } from './ChartDimensionsContext';
@@ -338,8 +337,8 @@ export const LineChartCard: FC<LineChartCardProps> = (
             onMouseUp={updateDateRange}
           >
             <XAxis dataKey="formattedDate" />
-            <YAxis tickFormatter={prettify} yAxisId="1" />
-            <Tooltip formatter={prettify} {...CHART_TOOLTIP_COMMON_PROPS} />
+            <YAxis tickFormatter={formatNumber} yAxisId="1" />
+            <Tooltip formatter={formatNumber} {...CHART_TOOLTIP_COMMON_PROPS} />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
             {Object.entries(visitsGroups).map(([dataKey, v]) => v.length > 0 && (
               <Line

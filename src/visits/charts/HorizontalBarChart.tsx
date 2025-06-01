@@ -5,10 +5,10 @@ import {
   MAIN_COLOR,
   MAIN_COLOR_ALPHA,
 } from '@shlinkio/shlink-frontend-kit';
+import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Bar, CartesianGrid, Cell, ComposedChart, Tooltip, XAxis, YAxis } from 'recharts';
-import { prettify } from '../../utils/helpers/numbers';
 import type { Stats } from '../types';
 import { useChartDimensions } from './ChartDimensionsContext';
 import { CHART_TOOLTIP_COMMON_PROPS, prevColor, prevColorAlpha } from './constants';
@@ -66,7 +66,7 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
         <XAxis
           type="number"
           dataKey="amount"
-          tickFormatter={prettify}
+          tickFormatter={formatNumber}
           domain={max ? [0, max] : undefined}
         />
         <YAxis
@@ -82,7 +82,7 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
           filterNull // This will prevent "hidden" values to render a tooltip
           {...CHART_TOOLTIP_COMMON_PROPS}
           formatter={(value: number, name: keyof HorizontalBarChartEntry) => {
-            const prettifiedValue = prettify(value);
+            const prettifiedValue = formatNumber(value);
             const label = (() => {
               if (name === 'highlightedAmount') {
                 return highlightedLabel;

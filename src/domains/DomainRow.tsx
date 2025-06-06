@@ -1,9 +1,8 @@
 import { faDotCircle as defaultDomainIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Table, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
 import type { ShlinkDomainRedirects } from '../api-contract';
 import type { Domain } from './data';
 import { DomainDropdown } from './helpers/DomainDropdown';
@@ -23,17 +22,21 @@ const Nr: FC<{ fallback?: string | null }> = ({ fallback }) => (
     {fallback && <>{fallback} <small>(as fallback)</small></>}
   </span>
 );
-const DefaultDomain: FC = () => (
-  <>
-    <FontAwesomeIcon
-      fixedWidth
-      icon={defaultDomainIcon}
-      className="tw:text-lm-brand tw:dark:text-dm-brand"
-      id="defaultDomainIcon"
-    />
-    <UncontrolledTooltip target="defaultDomainIcon" placement="right">Default domain</UncontrolledTooltip>
-  </>
-);
+const DefaultDomain: FC = () => {
+  const { anchor, tooltip } = useTooltip();
+  return (
+    <>
+      <FontAwesomeIcon
+        {...anchor}
+        fixedWidth
+        icon={defaultDomainIcon}
+        className="tw:text-lm-brand tw:dark:text-dm-brand"
+        data-testid="default-domain-icon"
+      />
+      <Tooltip {...tooltip}>Default domain foo</Tooltip>
+    </>
+  );
+};
 
 export const DomainRow: FC<DomainRowProps> = (
   { domain, editDomainRedirects, checkDomainHealth, defaultRedirects },

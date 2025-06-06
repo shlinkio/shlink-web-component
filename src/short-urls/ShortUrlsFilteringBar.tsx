@@ -2,11 +2,10 @@ import { faTag, faTags } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
-import { Button, SearchInput } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, SearchInput, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
-import { InputGroup, UncontrolledTooltip } from 'reactstrap';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainsList } from '../domains/reducers/domainsList';
@@ -78,35 +77,39 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
     [tagsMode, toFirstPage],
   );
 
+  const { anchor, tooltip } = useTooltip({ placement: 'left' });
+
   return (
     <div className={clsx('tw:flex tw:flex-col tw:gap-y-4', className)}>
       <SearchInput defaultValue={search} onChange={setSearch} />
 
-      <InputGroup>
-        <TagsSelector
-          immutable
-          placeholder="With tags..."
-          tags={tagsList.tags}
-          selectedTags={tags}
-          onChange={changeTagSelection}
-        />
+      <div className="tw:flex tw:w-full">
+        <div className="tw:flex-grow">
+          <TagsSelector
+            immutable
+            placeholder="With tags..."
+            tags={tagsList.tags}
+            selectedTags={tags}
+            onChange={changeTagSelection}
+          />
+        </div>
         {tags.length > 1 && (
           <>
             <Button
               variant="secondary"
               onClick={toggleTagsMode}
-              id="tagsModeBtn"
               aria-label="Change tags mode"
               className="tw:[&]:border-l-none tw:[&]:rounded-l-none"
+              {...anchor}
             >
               <FontAwesomeIcon className="tw:text-2xl" icon={tagsMode === 'all' ? faTags : faTag} />
             </Button>
-            <UncontrolledTooltip target="tagsModeBtn" placement="left">
-              {tagsMode === 'all' ? 'With all the tags.' : 'With any of the tags.'}
-            </UncontrolledTooltip>
+            <Tooltip {...tooltip}>
+              {tagsMode === 'all' ? <>With <b>all</b> the tags</> : <>With <b>any</b> of the tags</>}
+            </Tooltip>
           </>
         )}
-      </InputGroup>
+      </div>
 
       <div className="tw:flex tw:flex-col tw:lg:flex-row-reverse tw:gap-y-4">
         <div className="tw:lg:w-2/3 tw:xl:w-1/2 tw:inline-flex tw:flex-col tw:md:flex-row tw:gap-4">

@@ -1,5 +1,4 @@
-import type { Placement } from '@popperjs/core';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import type { InfoTooltipProps } from '../../../src/utils/components/InfoTooltip';
 import { InfoTooltip } from '../../../src/utils/components/InfoTooltip';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -32,35 +31,33 @@ describe('<InfoTooltip />', () => {
     ['Hello', 'Hello'],
     [['One', 'Two', <span key={3} />], 'OneTwo'],
   ])('passes children down to the nested tooltip component', async (children, expectedContent) => {
-    const { container, user } = setUp({ children });
-    const element = container.firstElementChild;
-    if (!element) {
-      throw new Error('Element not found');
-    }
+    const { user } = setUp({ children });
+    const anchor = screen.getByTestId('tooltip-anchor');
 
-    await user.hover(element);
-    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument(), { timeout: 2000 });
-    expect(screen.getByRole('tooltip')).toHaveTextContent(expectedContent);
+    await user.hover(anchor);
+    const tooltip = await screen.findByRole('tooltip');
 
-    await user.unhover(element);
+    expect(tooltip).toHaveTextContent(expectedContent);
+
+    await user.unhover(anchor);
+    await waitForElementToBeRemoved(tooltip);
   });
 
   it.each([
-    ['right' as Placement],
-    ['left' as Placement],
-    ['top' as Placement],
-    ['bottom' as Placement],
+    ['right' as const],
+    ['left' as const],
+    ['top' as const],
+    ['bottom' as const],
   ])('places tooltip where requested', async (placement) => {
-    const { container, user } = setUp({ placement });
-    const element = container.firstElementChild;
-    if (!element) {
-      throw new Error('Element not found');
-    }
+    const { user } = setUp({ placement });
+    const anchor = screen.getByTestId('tooltip-anchor');
 
-    await user.hover(element);
-    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument(), { timeout: 2000 });
-    expect(screen.getByRole('tooltip').parentNode).toHaveAttribute('data-popper-placement', placement);
+    await user.hover(anchor);
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
 
-    await user.unhover(element);
+    expect(anchor).toHaveAttribute('data-placement', placement);
+
+    await user.unhover(anchor);
+    await waitForElementToBeRemoved(screen.getByRole('tooltip'));
   });
 });

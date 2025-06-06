@@ -81,12 +81,12 @@ describe('<DomainRow />', () => {
   });
 
   it.each([[true], [false]])('shows icon on default domain only', (isDefault) => {
-    const { container } = setUp(fromPartial({ domain: '', isDefault }));
+    setUp(fromPartial({ domain: '', isDefault }));
 
     if (isDefault) {
-      expect(container.querySelector('#defaultDomainIcon')).toBeInTheDocument();
+      expect(screen.getByTestId('default-domain-icon')).toBeInTheDocument();
     } else {
-      expect(container.querySelector('#defaultDomainIcon')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('default-domain-icon')).not.toBeInTheDocument();
     }
   });
 });

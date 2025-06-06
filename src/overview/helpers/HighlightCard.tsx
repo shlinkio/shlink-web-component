@@ -1,11 +1,9 @@
 import { faArrowAltCircleRight as linkIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { SimpleCard, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
-import type { FC, PropsWithChildren, ReactNode, RefObject } from 'react';
-import { useRef } from 'react';
+import type { FC, PropsWithChildren, ReactNode } from 'react';
 import { Link } from 'react-router';
-import { UncontrolledTooltip } from 'reactstrap';
 
 export type HighlightCardProps = PropsWithChildren<{
   title: string;
@@ -13,12 +11,12 @@ export type HighlightCardProps = PropsWithChildren<{
   tooltip?: ReactNode;
 }>;
 
-export const HighlightCard: FC<HighlightCardProps> = ({ children, title, link, tooltip }) => {
-  const ref = useRef<HTMLAnchorElement>(null);
+export const HighlightCard: FC<HighlightCardProps> = ({ children, title, link, tooltip: tooltipContent }) => {
+  const { anchor, tooltip } = useTooltip({ placement: 'bottom' });
 
   return (
     <>
-      <Link to={link} className="tw:no-underline tw:text-inherit" ref={ref}>
+      <Link to={link} className="tw:no-underline tw:text-inherit" {...anchor}>
         <SimpleCard
           className={clsx(
             'tw:text-center tw:border-t-3 tw:border-t-lm-main tw:dark:border-t-dm-main tw:relative',
@@ -39,8 +37,8 @@ export const HighlightCard: FC<HighlightCardProps> = ({ children, title, link, t
           <div className="tw:text-4xl tw:font-semibold">{children}</div>
         </SimpleCard>
       </Link>
-      {tooltip && (
-        <UncontrolledTooltip target={ref as RefObject<HTMLElement>} placement="bottom">{tooltip}</UncontrolledTooltip>
+      {tooltipContent && (
+        <Tooltip {...tooltip}>{tooltipContent}</Tooltip>
       )}
     </>
   );

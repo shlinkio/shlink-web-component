@@ -1,14 +1,12 @@
 import { screen } from '@testing-library/react';
-import { fromPartial } from '@total-typescript/shoehorn';
 import type { DomainStatus } from '../../../src/domains/data';
 import { DomainStatusIcon } from '../../../src/domains/helpers/DomainStatusIcon';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<DomainStatusIcon />', () => {
-  const matchMedia = vi.fn().mockReturnValue(fromPartial<MediaQueryList>({ matches: false }));
   const setUp = (status: DomainStatus) => renderWithEvents(
-    <DomainStatusIcon status={status} matchMedia={matchMedia} />,
+    <DomainStatusIcon status={status} />,
   );
 
   it.each([
@@ -36,11 +34,11 @@ describe('<DomainStatusIcon />', () => {
     await screen.findByRole('tooltip');
 
     if (status === 'valid') {
-      expect(screen.getByText(/Congratulations! This domain is properly configured/)).toBeInTheDocument();
+      expect(screen.getByText(/This domain is properly configured/)).toBeInTheDocument();
       expect(screen.queryByText(/Oops! There is some missing configuration/)).not.toBeInTheDocument();
     } else {
       expect(screen.getByText(/Oops! There is some missing configuration/)).toBeInTheDocument();
-      expect(screen.queryByText(/Congratulations! This domain is properly configured/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/This domain is properly configured/)).not.toBeInTheDocument();
     }
 
     await user.unhover(screen.getByRole('img', { hidden: true }));

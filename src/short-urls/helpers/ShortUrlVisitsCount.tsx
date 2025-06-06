@@ -1,10 +1,7 @@
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { formatNumber, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
-import type { RefObject } from 'react';
-import { useRef } from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
 import { formatHumanFriendly, parseISO } from '../../utils/dates/helpers/date';
 import { ShortUrlDetailLink } from './ShortUrlDetailLink';
@@ -19,7 +16,7 @@ interface ShortUrlVisitsCountProps {
 export const ShortUrlVisitsCount = (
   { visitsCount, shortUrl, active = false, asLink = false }: ShortUrlVisitsCountProps,
 ) => {
-  const tooltipRef = useRef<HTMLElement>(null);
+  const { anchor, tooltip } = useTooltip();
   const { maxVisits, validSince, validUntil } = shortUrl?.meta ?? {};
   const hasLimit = !!maxVisits || !!validSince || !!validUntil;
   const visitsLink = (
@@ -38,14 +35,14 @@ export const ShortUrlVisitsCount = (
     <>
       <span className="tw:whitespace-nowrap">
         {visitsLink}
-        <small className="tw:cursor-help" ref={tooltipRef}>
+        <small className="tw:cursor-help" {...anchor}>
           {maxVisits && <> / {formatNumber(maxVisits)}</>}
           <sup className="tw:ml-1">
             <FontAwesomeIcon icon={infoIcon} />
           </sup>
         </small>
       </span>
-      <UncontrolledTooltip target={tooltipRef as RefObject<HTMLElement>} placement="bottom">
+      <Tooltip {...tooltip}>
         <ul className="tw:p-0 tw:m-0 tw:flex tw:flex-col tw:gap-y-2">
           {maxVisits && (
             <li>
@@ -65,7 +62,7 @@ export const ShortUrlVisitsCount = (
             </li>
           )}
         </ul>
-      </UncontrolledTooltip>
+      </Tooltip>
     </>
   );
 };

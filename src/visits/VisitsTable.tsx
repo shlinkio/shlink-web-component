@@ -3,10 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { splitEvery } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, sortList, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { formatNumber, Paginator, SearchInput, SimpleCard, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import {
+  formatNumber,
+  Paginator,
+  SearchInput,
+  SimpleCard,
+  Table, Tooltip,
+  useTooltip,
+} from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import { useCallback, useMemo, useState } from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
 import { LabelledToggle } from '../settings/components/fe-kit/LabelledToggle';
 import { Time } from '../utils/dates/Time';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
@@ -55,6 +61,19 @@ const paginateVisits = ({ visits: allVisits, searchTerm, order, searchInRawUserA
 };
 
 const headerCellsClass = 'tw:cursor-pointer tw:md:sticky-cell-separated tw:md:top-[calc(var(--header-height)+41px)]';
+
+const BotIconWithTooltip = () => {
+  const { anchor, tooltip } = useTooltip({ placement: 'right' });
+
+  return (
+    <>
+      <FontAwesomeIcon icon={botIcon} {...anchor} />
+      <Tooltip {...tooltip}>
+        Potentially a visit from a bot or crawler
+      </Tooltip>
+    </>
+  );
+};
 
 export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: VisitsTableProps) => {
   const [searchTerm, setSearchTerm] = useState<string>();
@@ -222,14 +241,7 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
                 {isSelected && <FontAwesomeIcon icon={checkIcon} className="tw:text-lm-brand tw:dark:text-dm-brand" />}
               </Table.Cell>
               <Table.Cell className="tw:text-center">
-                {visit.potentialBot && (
-                  <>
-                    <FontAwesomeIcon icon={botIcon} id={`botIcon${index}`} />
-                    <UncontrolledTooltip placement="right" target={`botIcon${index}`}>
-                      Potentially a visit from a bot or crawler
-                    </UncontrolledTooltip>
-                  </>
-                )}
+                {visit.potentialBot && <BotIconWithTooltip />}
               </Table.Cell>
               <Table.Cell><Time date={visit.date} /></Table.Cell>
               <Table.Cell>{visit.country}</Table.Cell>

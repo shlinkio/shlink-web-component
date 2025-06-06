@@ -1,9 +1,10 @@
-import type { ChangeEvent, ComponentProps, FC } from 'react';
+import type { InputProps } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Input } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { ChangeEvent, FC } from 'react';
 import { useCallback, useMemo } from 'react';
-import { Input } from 'reactstrap';
 import { formatHumanFriendly, formatInternational, parseISO } from './helpers/date';
 
-type FilteredInputProps = Omit<ComponentProps<typeof Input>, 'onChange' | 'value' | 'type' | 'min' | 'max' | 'onFocus'>;
+type FilteredInputProps = Omit<InputProps, 'onChange' | 'value' | 'type' | 'min' | 'max' | 'onFocus'>;
 
 export type DateInputProps = FilteredInputProps & {
   minDate?: Date;

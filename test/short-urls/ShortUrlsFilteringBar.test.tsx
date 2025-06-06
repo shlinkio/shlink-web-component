@@ -109,9 +109,9 @@ describe('<ShortUrlsFilteringBar />', () => {
   );
 
   it.each([
-    ['', 'With any of the tags.'],
-    ['&tagsMode=all', 'With all the tags.'],
-    ['&tagsMode=any', 'With any of the tags.'],
+    ['', /With any of the tags/],
+    ['&tagsMode=all', /With all the tags/],
+    ['&tagsMode=any', /With any of the tags/],
   ])('expected tags mode tooltip title', async (initialTagsMode, expectedToggleText) => {
     const { user } = setUp({ search: `tags=foo,bar${initialTagsMode}` });
 

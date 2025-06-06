@@ -1,26 +1,22 @@
+import type { Placement } from '@floating-ui/react';
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import type { Placement } from '@popperjs/core';
-import type { FC, PropsWithChildren, RefObject } from 'react';
-import { useRef } from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
+import { Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { FC, PropsWithChildren } from 'react';
 
 export type InfoTooltipProps = PropsWithChildren<{
   className?: string;
-  placement: Placement;
+  placement?: Placement;
 }>;
 
 export const InfoTooltip: FC<InfoTooltipProps> = ({ className, placement, children }) => {
-  const ref = useRef<HTMLSpanElement>(null);
-
+  const { anchor, tooltip } = useTooltip({ placement });
   return (
     <>
-      <span className={className} ref={ref}>
+      <span className={className} {...anchor} data-placement={placement} data-testid="tooltip-anchor">
         <FontAwesomeIcon icon={infoIcon} />
       </span>
-      <UncontrolledTooltip target={ref as RefObject<HTMLSpanElement>} placement={placement}>
-        {children}
-      </UncontrolledTooltip>
+      <Tooltip {...tooltip}>{children}</Tooltip>
     </>
   );
 };

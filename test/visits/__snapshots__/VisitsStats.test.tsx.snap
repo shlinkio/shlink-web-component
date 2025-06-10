@@ -18,7 +18,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r3d:"
+          aria-controls=":r43:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -44,7 +44,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           class="tw:relative tw:inline-block"
         >
           <button
-            aria-controls=":r3f:"
+            aria-controls=":r45:"
             aria-expanded="false"
             aria-haspopup="true"
             class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
@@ -72,7 +72,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r3d:"
+      id=":r43:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -600,7 +600,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r3k:"
+          aria-controls=":r4a:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -626,7 +626,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           class="tw:relative tw:inline-block"
         >
           <button
-            aria-controls=":r3m:"
+            aria-controls=":r4c:"
             aria-expanded="false"
             aria-haspopup="true"
             class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
@@ -654,7 +654,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r3k:"
+      id=":r4a:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -1182,7 +1182,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r3r:"
+          aria-controls=":r4h:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -1208,7 +1208,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           class="tw:relative tw:inline-block"
         >
           <button
-            aria-controls=":r3t:"
+            aria-controls=":r4j:"
             aria-expanded="false"
             aria-haspopup="true"
             class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
@@ -1236,7 +1236,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r3r:"
+      id=":r4h:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -1764,7 +1764,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r42:"
+          aria-controls=":r4o:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -1790,7 +1790,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           class="tw:relative tw:inline-block"
         >
           <button
-            aria-controls=":r44:"
+            aria-controls=":r4q:"
             aria-expanded="false"
             aria-haspopup="true"
             class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
@@ -1818,7 +1818,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r42:"
+      id=":r4o:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -2405,7 +2405,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r49:"
+          aria-controls=":r4v:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -2431,7 +2431,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           class="tw:relative tw:inline-block"
         >
           <button
-            aria-controls=":r4b:"
+            aria-controls=":r51:"
             aria-expanded="false"
             aria-haspopup="true"
             class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
@@ -2459,7 +2459,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r49:"
+      id=":r4v:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -3046,7 +3046,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r4g:"
+          aria-controls=":r56:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -3072,7 +3072,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           class="tw:relative tw:inline-block"
         >
           <button
-            aria-controls=":r4i:"
+            aria-controls=":r58:"
             aria-expanded="false"
             aria-haspopup="true"
             class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
@@ -3100,7 +3100,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r4g:"
+      id=":r56:"
     >
       <div
         class="recharts-wrapper tw:select-none"

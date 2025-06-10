@@ -1,7 +1,6 @@
 import { sortBy, splitEvery, zipObj } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
-import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
-import { Paginator, roundTen } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { OrderingDropdown, Paginator, roundTen } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
@@ -130,12 +129,14 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
               />
             )}
             <OrderingDropdown
-              isButton={false}
-              right
+              buttonVariant="link"
+              menuAlignment="right"
+              buttonSize="sm"
+              buttonClassName="tw:[&]:p-0"
               items={sortingItems}
               order={order}
-              onChange={(field, dir) => {
-                setOrder({ field, dir });
+              onChange={(newOrder) => {
+                setOrder(newOrder);
                 setCurrentPage(1);
               }}
             />

@@ -39,8 +39,7 @@ describe('<VisitsComparison />', () => {
   it('disables filtering controls when loading', async () => {
     const { user } = setUp({ loading: true });
 
-    await user.click(screen.getByRole('button', { name: 'Last 30 days' }));
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Last 30 days' })).toBeDisabled();
 
     await user.click(screen.getByRole('button', { name: 'More' }));
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();

@@ -13,7 +13,7 @@ export const DateRangeRow: FC<DateRangeRowProps> = (
   { startDate, endDate, disabled = false, onStartDateChange, onEndDateChange },
 ) => (
   <div className="tw:grid tw:grid-cols-1 tw:md:grid-cols-2 tw:gap-y-3 tw:gap-x-4">
-    <div>
+    <div className="tw:flex tw:flex-col">
       <LabelledDateInput
         label="Since"
         value={startDate}
@@ -22,7 +22,7 @@ export const DateRangeRow: FC<DateRangeRowProps> = (
         onChange={onStartDateChange}
       />
     </div>
-    <div>
+    <div className="tw:flex tw:flex-col">
       <LabelledDateInput
         label="Until"
         value={endDate}

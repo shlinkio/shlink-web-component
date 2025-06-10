@@ -1,7 +1,5 @@
-import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
-import { Label, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown, Label, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, ReactNode } from 'react';
-import { DropdownItem } from 'reactstrap';
 import { Muted } from '../../utils/components/Muted';
 import type { ShortUrlCreationSettings as ShortUrlsSettings } from '..';
 import { useSetting } from '..';
@@ -56,23 +54,26 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ onChange }
       >
         Make all new short URLs forward their query params to the long URL.
       </LabelledToggle>
-      <div>
+      <div className="tw:flex tw:flex-col">
         <Label className="tw:mb-1.5">Tag suggestions search mode:</Label>
-        <DropdownBtn text={tagFilteringModeText(shortUrlCreation.tagFilteringMode)}>
-          <DropdownItem
-            active={!shortUrlCreation.tagFilteringMode || shortUrlCreation.tagFilteringMode === 'startsWith'}
+        <Dropdown
+          buttonContent={tagFilteringModeText(shortUrlCreation.tagFilteringMode)}
+          buttonClassName="tw:w-full"
+        >
+          <Dropdown.Item
+            selected={!shortUrlCreation.tagFilteringMode || shortUrlCreation.tagFilteringMode === 'startsWith'}
             onClick={changeTagsFilteringMode('startsWith')}
           >
             {tagFilteringModeText('startsWith')}
-          </DropdownItem>
-          <DropdownItem
-            active={shortUrlCreation.tagFilteringMode === 'includes'}
+          </Dropdown.Item>
+          <Dropdown.Item
+            selected={shortUrlCreation.tagFilteringMode === 'includes'}
             onClick={changeTagsFilteringMode('includes')}
           >
             {tagFilteringModeText('includes')}
-          </DropdownItem>
-        </DropdownBtn>
-        <Muted size="sm">{tagFilteringModeHint(shortUrlCreation.tagFilteringMode)}</Muted>
+          </Dropdown.Item>
+        </Dropdown>
+        <Muted size="sm" className="tw:mt-0.5">{tagFilteringModeHint(shortUrlCreation.tagFilteringMode)}</Muted>
       </div>
     </SimpleCard>
   );

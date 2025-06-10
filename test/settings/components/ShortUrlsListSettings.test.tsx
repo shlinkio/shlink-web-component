@@ -41,7 +41,7 @@ describe('<ShortUrlsListSettings />', () => {
     expect(setSettings).not.toHaveBeenCalled();
     await user.click(screen.getByRole('button'));
     await user.click(screen.getByRole('menuitem', { name }));
-    expect(setSettings).toHaveBeenCalledWith({ defaultOrdering: { field, dir } });
+    expect(setSettings).toHaveBeenCalledWith({ defaultOrdering: !field && !dir ? undefined : { field, dir } });
   });
 
   it.each([

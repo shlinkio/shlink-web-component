@@ -1,9 +1,8 @@
 import { faMapMarkedAlt as mapIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown, LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { useCallback, useState } from 'react';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import type { CityStats } from '../types';
 import { MapModal } from './MapModal';
 
@@ -15,7 +14,6 @@ interface OpenMapModalBtnProps {
 
 export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: OpenMapModalBtnProps) => {
   const { flag: mapIsOpened, setToTrue: openMap, setToFalse: closeMap } = useToggle(false, true);
-  const { flag: dropdownIsOpened, toggle: toggleDropdown } = useToggle(false, true);
   const [locationsToShow, setLocationsToShow] = useState<CityStats[]>([]);
 
   const openMapWithCities = useCallback((filterCallback?: (city: CityStats) => boolean) => {
@@ -30,25 +28,24 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
           onClick={() => openMapWithCities()}
           aria-label="Show in map"
           title="Show in map"
+          className="tw:[&]:p-0"
         >
           <FontAwesomeIcon icon={mapIcon} />
         </LinkButton>
       )}
       {activeCities && (
-        <Dropdown isOpen={dropdownIsOpened} toggle={toggleDropdown}>
-          <DropdownToggle color="link" title="Show in map">
-            <FontAwesomeIcon icon={mapIcon} />
-          </DropdownToggle>
-          <DropdownMenu end>
-            {dropdownIsOpened && (
-              <>
-                <DropdownItem onClick={() => openMapWithCities()}>Show all locations</DropdownItem>
-                <DropdownItem onClick={() => openMapWithCities(({ cityName }) => activeCities.includes(cityName))}>
-                  Show locations in current page
-                </DropdownItem>
-              </>
-            )}
-          </DropdownMenu>
+        <Dropdown
+          buttonContent={<FontAwesomeIcon icon={mapIcon} title="Show in map" />}
+          buttonLabel="Show in map"
+          buttonVariant="link"
+          buttonClassName="tw:[&]:p-0"
+          menuAlignment="right"
+          caretless
+        >
+          <Dropdown.Item onClick={() => openMapWithCities()}>Show all locations</Dropdown.Item>
+          <Dropdown.Item onClick={() => openMapWithCities(({ cityName }) => activeCities.includes(cityName))}>
+            Show locations in current page
+          </Dropdown.Item>
         </Dropdown>
       )}
       <MapModal toggle={closeMap} isOpen={mapIsOpened} title={modalTitle} locations={locationsToShow} />

@@ -117,7 +117,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
       title={(
         <SpaceBetweenContainer>
           {title}
-          <div className="tw:flex tw:items-center tw:gap-2">
+          <div className="tw:flex tw:items-center tw:gap-3">
             {extraHeaderContent?.(pagination ? activeCities : undefined)}
             {withPagination && Object.keys(stats).length > 50 && (
               <PaginationDropdown

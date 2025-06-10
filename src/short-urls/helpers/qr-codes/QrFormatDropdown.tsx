@@ -1,6 +1,5 @@
-import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
-import { DropdownItem } from 'reactstrap';
 import type { QrCodeFormat } from '../../../settings';
 
 export const qrFormats: QrCodeFormat[] = ['png', 'svg', 'webp', 'jpeg'];
@@ -11,9 +10,9 @@ export type QrFormatDropdownProps = {
 };
 
 export const QrFormatDropdown: FC<QrFormatDropdownProps> = ({ format, onChange }) => (
-  <DropdownBtn text={`Format (${format})`} dropdownClassName="tw:w-full">
+  <Dropdown buttonContent={`Format (${format})`} buttonClassName="tw:w-full">
     {qrFormats.map((f) => (
-      <DropdownItem key={f} active={format === f} onClick={() => onChange(f)}>{f}</DropdownItem>
+      <Dropdown.Item key={f} selected={format === f} onClick={() => onChange(f)}>{f}</Dropdown.Item>
     ))}
-  </DropdownBtn>
+  </Dropdown>
 );

@@ -52,7 +52,7 @@ export const VisitsSettings: FC<VisitsProps> = ({ onChange }) => {
         Compare visits with previous period.
       </LabelledToggle>
 
-      <div>
+      <div className="tw:flex tw:flex-col">
         <Label className="tw:mb-1.5">Default interval to load on visits sections:</Label>
         <DateIntervalSelector
           allText="All visits"

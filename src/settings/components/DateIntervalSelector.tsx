@@ -1,6 +1,5 @@
-import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
-import { DropdownItem } from 'reactstrap';
 import type { VisitsSettings } from '..';
 
 export type DateInterval = VisitsSettings['defaultInterval'];
@@ -30,17 +29,17 @@ const intervalToString = (interval: DateInterval | undefined, fallback: string):
 };
 
 export const DateIntervalSelector: FC<DateIntervalSelectorProps> = ({ onChange, active, allText }) => (
-  <DropdownBtn text={intervalToString(active, allText)}>
-    <DropdownItem active={active === 'all'} onClick={() => onChange('all')}>
+  <Dropdown buttonContent={intervalToString(active, allText)} buttonClassName="tw:w-full">
+    <Dropdown.Item selected={active === 'all'} onClick={() => onChange('all')}>
       {allText}
-    </DropdownItem>
-    <DropdownItem divider />
+    </Dropdown.Item>
+    <Dropdown.Separator />
     {Object.entries(INTERVAL_TO_STRING_MAP).map(
       ([interval, name]) => (
-        <DropdownItem key={interval} active={active === interval} onClick={() => onChange(interval as DateInterval)}>
+        <Dropdown.Item key={interval} selected={active === interval} onClick={() => onChange(interval as DateInterval)}>
           {name}
-        </DropdownItem>
+        </Dropdown.Item>
       ),
     )}
-  </DropdownBtn>
+  </Dropdown>
 );

@@ -29,7 +29,7 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
 
   return (
     <>
-      <RowDropdown menuAlignment="right" menuClassName="tw:whitespace-nowrap">
+      <RowDropdown menuAlignment="right">
         <RowDropdown.Item
           className="tw:gap-1.5"
           to={`${routesPrefix}/domain/${domain.domain}${domain.isDefault ? `_${DEFAULT_DOMAIN}` : ''}/visits`}

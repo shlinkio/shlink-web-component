@@ -7,22 +7,24 @@ import {
   faQrcode as qrIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { RowDropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
+import { useToggle } from '@shlinkio/shlink-frontend-kit';
+import { RowDropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { useCallback } from 'react';
-import { DropdownItem } from 'reactstrap';
 import type { ShlinkShortUrl } from '../../api-contract';
 import { isErrorAction } from '../../api-contract/utils';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
 import { useSetting } from '../../settings';
 import { useFeature } from '../../utils/features';
+import { useRoutesPrefix } from '../../utils/routesPrefix';
 import { useVisitsComparisonContext } from '../../visits/visits-comparison/VisitsComparisonContext';
 import type { DeleteShortUrlModalProps } from './DeleteShortUrlModal';
 import { shortUrlToQuery } from './index';
 import { QrCodeModal } from './QrCodeModal';
-import { ShortUrlDetailLink } from './ShortUrlDetailLink';
+import type { LinkSuffix } from './ShortUrlDetailLink';
+import { buildUrl } from './ShortUrlDetailLink';
 
 type ShortUrlsRowMenuProps = {
   shortUrl: ShlinkShortUrl;
@@ -41,8 +43,8 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
   { shortUrl, deleteShortUrl, shortUrlDeleted },
 ) => {
   const { DeleteShortUrlModal } = useDependencies(ShortUrlsRowMenu);
-  const [isQrModalOpen,, openQrCodeModal, closeQrCodeModal] = useToggle();
-  const [isDeleteModalOpen,, openDeleteModal, closeDeleteModal] = useToggle();
+  const { flag: isQrModalOpen, setToTrue: openQrCodeModal, setToFalse: closeQrCodeModal } = useToggle(false, true);
+  const { flag: isDeleteModalOpen, setToTrue: openDeleteModal, setToFalse: closeDeleteModal } = useToggle(false, true);
   const visitsComparison = useVisitsComparisonContext();
   const redirectRulesAreSupported = useFeature('shortUrlRedirectRules');
   const { confirmDeletions = true } = useSetting('shortUrlsList', {});
@@ -53,15 +55,22 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
     }
   }, [deleteShortUrl, shortUrl, shortUrlDeleted]);
 
+  const routePrefix = useRoutesPrefix();
+  const buildUrlDetailLink = useCallback(
+    (suffix: LinkSuffix) => buildUrl(routePrefix, shortUrl, suffix),
+    [routePrefix, shortUrl],
+  );
+
   return (
     <>
-      <RowDropdownBtn minWidth={redirectRulesAreSupported ? 220 : 190}>
-        <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="visits" asLink>
+      <RowDropdown menuAlignment="right">
+        <RowDropdown.Item to={buildUrlDetailLink('visits')} className="tw:gap-1.5">
           <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
-        </DropdownItem>
+        </RowDropdown.Item>
         {visitsComparison && (
           <>
-            <DropdownItem
+            <RowDropdown.Item
+              className="tw:gap-1.5"
               disabled={!visitsComparison.canAddItemWithName(shortUrl.shortUrl)}
               onClick={() => visitsComparison.addItemToCompare({
                 name: shortUrl.shortUrl,
@@ -69,32 +78,35 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
               })}
             >
               <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
-            </DropdownItem>
+            </RowDropdown.Item>
 
-            <DropdownItem divider tag="hr" />
+            <RowDropdown.Separator />
           </>
         )}
 
-        <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="edit" asLink>
+        <RowDropdown.Item to={buildUrlDetailLink('edit')} className="tw:gap-1.5">
           <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit short URL
-        </DropdownItem>
+        </RowDropdown.Item>
 
         {redirectRulesAreSupported && (
-          <DropdownItem tag={ShortUrlDetailLink} shortUrl={shortUrl} suffix="redirect-rules" asLink>
+          <RowDropdown.Item to={buildUrlDetailLink('redirect-rules')} className="tw:gap-1.5">
             <FontAwesomeIcon icon={rulesIcon} fixedWidth /> Manage redirect rules
-          </DropdownItem>
+          </RowDropdown.Item>
         )}
 
-        <DropdownItem onClick={openQrCodeModal}>
+        <RowDropdown.Item onClick={openQrCodeModal} className="tw:gap-1.5">
           <FontAwesomeIcon icon={qrIcon} fixedWidth /> QR code
-        </DropdownItem>
+        </RowDropdown.Item>
 
-        <DropdownItem divider tag="hr" />
+        <RowDropdown.Separator />
 
-        <DropdownItem className="tw:text-danger" onClick={confirmDeletions ? openDeleteModal : doDeleteShortUrl}>
+        <RowDropdown.Item
+          className="tw:[&]:text-danger tw:gap-1.5"
+          onClick={confirmDeletions ? openDeleteModal : doDeleteShortUrl}
+        >
           <FontAwesomeIcon icon={deleteIcon} fixedWidth /> Delete short URL
-        </DropdownItem>
-      </RowDropdownBtn>
+        </RowDropdown.Item>
+      </RowDropdown>
 
       <QrCodeModal shortUrl={shortUrl} isOpen={isQrModalOpen} onClose={closeQrCodeModal} />
       <DeleteShortUrlModal

@@ -12,7 +12,7 @@ export type ShortUrlDetailLinkProps = Record<string | number, unknown> & PropsWi
   asLink?: boolean;
 };
 
-const buildUrl = (routePrefix: string, { shortCode, domain }: ShlinkShortUrl, suffix: LinkSuffix) => {
+export const buildUrl = (routePrefix: string, { shortCode, domain }: ShlinkShortUrl, suffix: LinkSuffix) => {
   const query = domain ? `?domain=${domain}` : '';
   return `${routePrefix}/short-code/${urlEncodeShortCode(shortCode)}/${suffix}${query}`;
 };

@@ -5,7 +5,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { countBy } from '@shlinkio/data-manipulation';
 import { HIGHLIGHTED_COLOR, isDarkThemeEnabled, MAIN_COLOR, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Card, formatNumber, LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Card, Dropdown, formatNumber, LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { Duration } from 'date-fns';
 import {
@@ -23,7 +23,6 @@ import {
 } from 'date-fns';
 import type { FC } from 'react';
 import { useCallback, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import { CartesianGrid, Line, LineChart, ReferenceArea, Tooltip, XAxis, YAxis } from 'recharts';
 import type { CategoricalChartState } from 'recharts/types/chart/types';
 import { formatInternational } from '../../utils/dates/helpers/date';
@@ -293,8 +292,6 @@ export const LineChartCard: FC<LineChartCardProps> = (
     onDateRangeChange({ startDate, endDate });
   }, [onDateRangeChange, resetSelection, selectionEnd, selectionStart]);
 
-  const { flag: groupByMenuOpen, toggle: toggleGroupByMenu } = useToggle(false, true);
-
   return (
     <Card
       className={clsx({ 'tw:fixed tw:top-0 tw:bottom-0 tw:left-0 tw:right-0 tw:z-1030': isExpanded })}
@@ -312,17 +309,19 @@ export const LineChartCard: FC<LineChartCardProps> = (
           >
             <FontAwesomeIcon icon={isExpanded ? collapseIcon : expandIcon} />
           </LinkButton>
-          <Dropdown isOpen={groupByMenuOpen} toggle={toggleGroupByMenu} className="tw:flex tw:items-center">
-            <DropdownToggle caret color="link" className="tw:text-sm tw:p-0">
-              Group by
-            </DropdownToggle>
-            <DropdownMenu end>
-              {groupByMenuOpen && Object.entries(STEPS_MAP).map(([value, menuText]) => (
-                <DropdownItem key={value} active={step === value} onClick={() => setStep(value as Step)}>
-                  {menuText}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
+          <Dropdown
+            buttonContent="Group by"
+            buttonSize="sm"
+            buttonVariant="link"
+            buttonClassName="tw:[&]:p-0"
+            menuAlignment="right"
+            menuClassName="tw:w-40"
+          >
+            {Object.entries(STEPS_MAP).map(([value, menuText]) => (
+              <Dropdown.Item key={value} selected={step === value} onClick={() => setStep(value as Step)}>
+                {menuText}
+              </Dropdown.Item>
+            ))}
           </Dropdown>
         </div>
       </Card.Header>

@@ -18,7 +18,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r1l:"
+          aria-controls=":r1v:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -41,28 +41,38 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":r21:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r1l:"
+      id=":r1v:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -590,7 +600,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r1o:"
+          aria-controls=":r24:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -613,28 +623,38 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":r26:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r1o:"
+      id=":r24:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -1162,7 +1182,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r1r:"
+          aria-controls=":r29:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -1185,28 +1205,38 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":r2b:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r1r:"
+      id=":r29:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -1734,7 +1764,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r1u:"
+          aria-controls=":r2e:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -1757,28 +1787,38 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":r2g:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r1u:"
+      id=":r2e:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -2365,7 +2405,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r21:"
+          aria-controls=":r2j:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -2388,28 +2428,38 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":r2l:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r21:"
+      id=":r2j:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -2996,7 +3046,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r24:"
+          aria-controls=":r2o:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -3019,28 +3069,38 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":r2q:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r24:"
+      id=":r2o:"
     >
       <div
         class="recharts-wrapper tw:select-none"

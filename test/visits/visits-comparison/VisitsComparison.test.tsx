@@ -37,12 +37,10 @@ describe('<VisitsComparison />', () => {
   ])('passes a11y checks', (options) => checkAccessibility(setUp(options)));
 
   it('disables filtering controls when loading', async () => {
-    const { user } = setUp({ loading: true });
+    setUp({ loading: true });
 
     expect(screen.getByRole('button', { name: 'Last 30 days' })).toBeDisabled();
-
-    await user.click(screen.getByRole('button', { name: 'More' }));
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'More' })).toBeDisabled();
   });
 
   it.each([[true], [false]])('does not display chart when loading', (loading) => {

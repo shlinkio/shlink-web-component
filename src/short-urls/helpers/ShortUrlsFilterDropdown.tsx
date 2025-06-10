@@ -34,13 +34,13 @@ export const ShortUrlsFilterDropdown = (
 
   return (
     <Dropdown buttonContent="Filters" buttonClassName={className} menuAlignment="right">
-      <Dropdown.Title aria-hidden>Visits:</Dropdown.Title>
+      <Dropdown.Title>Visits:</Dropdown.Title>
       <Dropdown.Item selected={excludeBots} onClick={() => toggleFilter('excludeBots')}>
         Ignore visits from bots
       </Dropdown.Item>
 
       <Dropdown.Separator />
-      <Dropdown.Title aria-hidden>Short URLs:</Dropdown.Title>
+      <Dropdown.Title>Short URLs:</Dropdown.Title>
       <Dropdown.Item selected={excludeMaxVisitsReached} onClick={() => toggleFilter('excludeMaxVisitsReached')}>
         Exclude with visits reached
       </Dropdown.Item>
@@ -51,7 +51,7 @@ export const ShortUrlsFilterDropdown = (
       {supportsFilterByDomain && (
         <>
           <Dropdown.Separator />
-          <Dropdown.Title aria-hidden>Domain: {!domains && <i>loading...</i>}</Dropdown.Title>
+          <Dropdown.Title>Domain: {!domains && <i>loading...</i>}</Dropdown.Title>
           {domains?.map((d) => {
             const value = d.isDefault ? DEFAULT_DOMAIN : d.domain;
             const isSelected = domain === value;

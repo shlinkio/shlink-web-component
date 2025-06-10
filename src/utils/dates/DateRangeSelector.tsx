@@ -1,12 +1,10 @@
 import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useMemo } from 'react';
 import { DropdownItem } from 'reactstrap';
-import { DateIntervalDropdownItems } from './DateIntervalDropdownItems';
 import { DateRangeRow } from './DateRangeRow';
-import type {
-  DateInterval,
-  DateRange } from './helpers/dateIntervals';
+import type { DateInterval, DateRange } from './helpers/dateIntervals';
 import {
+  DATE_INTERVALS,
   intervalToDateRange,
   rangeIsInterval,
   rangeOrIntervalToString,
@@ -48,7 +46,21 @@ export const DateRangeSelector = (
 
   return (
     <DropdownBtn disabled={disabled} text={text}>
-      <DateIntervalDropdownItems allText={defaultText} active={activeInterval} onChange={updateDateRangeOrInterval} />
+      <DropdownItem active={activeInterval === 'all'} onClick={() => updateDateRangeOrInterval('all')}>
+        {defaultText}
+      </DropdownItem>
+      <DropdownItem divider tag="hr" />
+      {DATE_INTERVALS.map(
+        (interval) => (
+          <DropdownItem
+            key={interval}
+            active={activeInterval === interval}
+            onClick={() => updateDateRangeOrInterval(interval)}
+          >
+            {rangeOrIntervalToString(interval)}
+          </DropdownItem>
+        ),
+      )}
       <DropdownItem divider tag="hr" />
       <div className="tw:px-4 tw:py-1">
         <DateRangeRow

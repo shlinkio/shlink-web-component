@@ -24,7 +24,7 @@ export const ServerInfoForm: FC<ServerInfoFormProps> = ({ serverInfo, onChange }
   }, [serverInfo]);
 
   return (
-    <form className="py-2 ps-2 d-flex gap-2" onSubmit={handleSubmit}>
+    <form className="tw:py-2 tw:pl-2 tw:flex tw:gap-2" onSubmit={handleSubmit}>
       <Input
         name="baseUrl"
         placeholder="Server URL"

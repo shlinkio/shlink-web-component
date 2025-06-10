@@ -101,9 +101,6 @@ export default defineConfig({
       },
     },
 
-    // Silent warnings due to use of propTypes in reactstrap
-    onConsoleLog: (log) => !log.includes('Support for defaultProps will be removed'),
-
     // Workaround for bug in react-router (or vitest module resolution) which causes different react-router versions to
     // be resolved for the main package and dependencies which have a peer dependency in react-router.
     // This ensures always the same version is resolved.

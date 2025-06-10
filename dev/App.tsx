@@ -1,5 +1,6 @@
 import { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
 import { FetchHttpClient } from '@shlinkio/shlink-js-sdk/fetch';
+import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback , useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router';
@@ -39,21 +40,24 @@ export const App: FC = () => {
 
   return (
     <>
-      <header className="header fixed-top text-white d-flex justify-content-between">
+      <header className={clsx(
+        'tw:h-(--header-height) tw:fixed tw:top-0 tw:left-0 tw:right-0 tw:flex tw:justify-between',
+        'tw:bg-lm-main tw:dark:bg-dm-main tw:text-white',
+      )}>
         <ServerInfoForm serverInfo={serverInfo} onChange={onServerInfoChange} />
         <div className="tw:h-full tw:pr-4 tw:flex tw:items-center tw:gap-4">
-          <Link to="/" className="text-white">Home</Link>
-          <Link to="/settings" className="text-white">Settings</Link>
+          <Link to="/" className="tw:text-white">Home</Link>
+          <Link to="/settings" className="tw:text-white">Settings</Link>
           <ThemeToggle />
         </div>
       </header>
-      <div className="wrapper">
+      <div className="tw:py-(--header-height)">
         <Routes>
           <Route path="/settings">
             <Route
               path="*"
               element={(
-                <div className="container pt-4">
+                <div className="tw:container tw:mx-auto tw:pt-6">
                   <ShlinkWebSettings
                     settings={settings}
                     onUpdateSettings={setSettings}
@@ -73,9 +77,9 @@ export const App: FC = () => {
                 settings={settings}
                 routesPrefix={routesPrefix}
               />
-            ) : <div className="container pt-4">Not connected</div>}
+            ) : <div className="tw:container tw:mx-auto tw:pt-6">Not connected</div>}
           />
-          <Route path="*" element={<h3 className="mt-3 text-center">Not found</h3>} />
+          <Route path="*" element={<h3 className="tw:mt-4 tw:text-center">Not found</h3>} />
         </Routes>
       </div>
     </>

@@ -39,8 +39,7 @@ describe('<ShortUrlsFilterDropdown />', () => {
 
   it.each([
     [() => setUp({ filterShortUrlsByDomain: true })],
-    // TODO Enable back once https://github.com/reactstrap/reactstrap/issues/2759 is fixed
-    // [() => setUpOpened({ filterShortUrlsByDomain: true })],
+    [() => setUpOpened({ filterShortUrlsByDomain: true })],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it.each([

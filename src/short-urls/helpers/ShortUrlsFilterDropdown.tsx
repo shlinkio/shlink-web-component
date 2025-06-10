@@ -1,6 +1,5 @@
-import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { useCallback } from 'react';
-import { DropdownItem } from 'reactstrap';
 import type { Domain } from '../../domains/data';
 import { DEFAULT_DOMAIN } from '../../domains/data';
 import { useFeature } from '../../utils/features';
@@ -10,6 +9,7 @@ interface ShortUrlsFilterDropdownProps {
   onChange: (filters: ShortUrlsFilter) => void;
   selected?: ShortUrlsFilter;
   className?: string;
+
   /**
    * List of domains supported by the Shlink server.
    * It is `undefined` while the domains are being loaded.
@@ -33,44 +33,44 @@ export const ShortUrlsFilterDropdown = (
   );
 
   return (
-    <DropdownBtn text="Filters" dropdownClassName={className} end minWidth={250}>
-      <DropdownItem header aria-hidden>Visits:</DropdownItem>
-      <DropdownItem active={excludeBots} onClick={() => toggleFilter('excludeBots')}>
+    <Dropdown buttonContent="Filters" buttonClassName={className} menuAlignment="right">
+      <Dropdown.Title aria-hidden>Visits:</Dropdown.Title>
+      <Dropdown.Item selected={excludeBots} onClick={() => toggleFilter('excludeBots')}>
         Ignore visits from bots
-      </DropdownItem>
+      </Dropdown.Item>
 
-      <DropdownItem divider tag="hr" />
-      <DropdownItem header aria-hidden>Short URLs:</DropdownItem>
-      <DropdownItem active={excludeMaxVisitsReached} onClick={() => toggleFilter('excludeMaxVisitsReached')}>
+      <Dropdown.Separator />
+      <Dropdown.Title aria-hidden>Short URLs:</Dropdown.Title>
+      <Dropdown.Item selected={excludeMaxVisitsReached} onClick={() => toggleFilter('excludeMaxVisitsReached')}>
         Exclude with visits reached
-      </DropdownItem>
-      <DropdownItem active={excludePastValidUntil} onClick={() => toggleFilter('excludePastValidUntil')}>
+      </Dropdown.Item>
+      <Dropdown.Item selected={excludePastValidUntil} onClick={() => toggleFilter('excludePastValidUntil')}>
         Exclude enabled in the past
-      </DropdownItem>
+      </Dropdown.Item>
 
       {supportsFilterByDomain && (
         <>
-          <DropdownItem divider tag="hr" />
-          <DropdownItem header aria-hidden>Domain: {!domains && <i>loading...</i>}</DropdownItem>
+          <Dropdown.Separator />
+          <Dropdown.Title aria-hidden>Domain: {!domains && <i>loading...</i>}</Dropdown.Title>
           {domains?.map((d) => {
             const value = d.isDefault ? DEFAULT_DOMAIN : d.domain;
             const isSelected = domain === value;
 
             return (
-              <DropdownItem
+              <Dropdown.Item
                 key={d.domain}
-                active={isSelected}
+                selected={isSelected}
                 onClick={() => partialUpdate({ domain: isSelected ? undefined : value })}
               >
                 {d.domain}
-              </DropdownItem>
+              </Dropdown.Item>
             );
           })}
         </>
       )}
 
-      <DropdownItem divider tag="hr" />
-      <DropdownItem
+      <Dropdown.Separator />
+      <Dropdown.Item
         disabled={
           selected.excludeBots === undefined
           && selected.excludeMaxVisitsReached === undefined
@@ -86,7 +86,7 @@ export const ShortUrlsFilterDropdown = (
         className="tw:italic"
       >
         Reset to defaults
-      </DropdownItem>
-    </DropdownBtn>
+      </Dropdown.Item>
+    </Dropdown>
   );
 };

@@ -1,10 +1,9 @@
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { DropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Button, Input } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { useToggle } from '@shlinkio/shlink-frontend-kit';
+import { Button, Dropdown, Input } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import { useCallback } from 'react';
-import { DropdownItem } from 'reactstrap';
 import { Muted } from '../utils/components/Muted';
 import type { Domain } from './data';
 
@@ -46,25 +45,25 @@ export const DomainSelector = ({ domains, value, onChange }: DomainSelectorProps
       </Button>
     </div>
   ) : (
-    <DropdownBtn
-      text={valueIsEmpty ? 'Domain' : `Domain: ${value}`}
-      className={clsx({ 'tw:text-placeholder': valueIsEmpty })}
+    <Dropdown
+      buttonContent={valueIsEmpty ? 'Domain' : `Domain: ${value}`}
+      buttonClassName={clsx('tw:w-full', { 'tw:text-placeholder': valueIsEmpty })}
     >
       {domains.map(({ domain, isDefault }) => (
-        <DropdownItem
+        <Dropdown.Item
           key={domain}
-          active={(value === domain || isDefault) && valueIsEmpty}
+          selected={(value === domain || isDefault) && valueIsEmpty}
           onClick={() => onChange(domain)}
           className="tw:flex tw:justify-between tw:items-center"
         >
           {domain}
           {isDefault && <Muted>default</Muted>}
-        </DropdownItem>
+        </Dropdown.Item>
       ))}
-      <DropdownItem divider />
-      <DropdownItem onClick={unselectDomainAndShowInput}>
+      <Dropdown.Separator />
+      <Dropdown.Item onClick={unselectDomainAndShowInput}>
         <i>New domain</i>
-      </DropdownItem>
-    </DropdownBtn>
+      </Dropdown.Item>
+    </Dropdown>
   );
 };

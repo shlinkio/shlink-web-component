@@ -39,13 +39,12 @@ describe('<ShortUrlsFilterDropdown />', () => {
 
   it.each([
     [() => setUp({ filterShortUrlsByDomain: true })],
-    // TODO Enable back once https://github.com/reactstrap/reactstrap/issues/2759 is fixed
-    // [() => setUpOpened({ filterShortUrlsByDomain: true })],
+    [() => setUpOpened({ filterShortUrlsByDomain: true })],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it.each([
-    { filterShortUrlsByDomain: false, expectedItems: 3 },
-    { filterShortUrlsByDomain: true, expectedItems: 3 + domains.length },
+    { filterShortUrlsByDomain: false, expectedItems: 4 },
+    { filterShortUrlsByDomain: true, expectedItems: 4 + domains.length },
   ])('displays proper amount of menu items', async ({ filterShortUrlsByDomain, expectedItems }) => {
     await setUpOpened({ filterShortUrlsByDomain });
     expect(screen.getAllByRole('menuitem')).toHaveLength(expectedItems);
@@ -99,14 +98,12 @@ describe('<ShortUrlsFilterDropdown />', () => {
       selected: { domain },
     });
 
-    const menuItems = screen.getAllByRole('menuitem');
+    const menuItems = screen.getAllByRole('menuitem').filter((el) => el.textContent !== 'Reset to defaults');
+
+    // Add the four items that are rendered before the domains
+    const selectedIndex =  expectedSelectedIndex + 3;
     menuItems.forEach((menuItem, index) => {
-      // Add the three items that are rendered before the domains
-      if (index === expectedSelectedIndex + 3) {
-        expect(menuItem).toHaveClass('active');
-      } else {
-        expect(menuItem).not.toHaveClass('active');
-      }
+      expect(menuItem).toHaveAttribute('data-selected', index === selectedIndex ? 'true' : 'false');
     });
   });
 

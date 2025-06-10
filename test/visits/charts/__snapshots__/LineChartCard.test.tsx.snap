@@ -16,7 +16,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r8:"
+          aria-controls=":ro:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -39,28 +39,38 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":rq:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r8:"
+      id=":ro:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -189,7 +199,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":r9:"
+          aria-controls=":rr:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -212,28 +222,38 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":rt:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":r9:"
+      id=":rr:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -408,7 +428,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":ra:"
+          aria-controls=":ru:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -431,28 +451,38 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":r10:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":ra:"
+      id=":ru:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -962,7 +992,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":rb:"
+          aria-controls=":r11:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -985,28 +1015,38 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":r13:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":rb:"
+      id=":r11:"
     >
       <div
         class="recharts-wrapper tw:select-none"
@@ -1558,7 +1598,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         class="tw:flex tw:content-center tw:gap-1"
       >
         <button
-          aria-controls=":rc:"
+          aria-controls=":r14:"
           aria-expanded="false"
           aria-label="Expand"
           class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
@@ -1581,28 +1621,38 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           </svg>
         </button>
         <div
-          class="tw:flex tw:items-center dropdown"
+          class="tw:relative tw:inline-block"
         >
           <button
+            aria-controls=":r16:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:text-sm tw:p-0 dropdown-toggle btn btn-link"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-caret-down fa-xs "
+              data-icon="caret-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 320 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
-          <div
-            aria-hidden="true"
-            class="dropdown-menu dropdown-menu-end"
-            role="menu"
-            tabindex="-1"
-          />
         </div>
       </div>
     </div>
     <div
       class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
-      id=":rc:"
+      id=":r14:"
     >
       <div
         class="recharts-wrapper tw:select-none"

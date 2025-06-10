@@ -1,5 +1,4 @@
-import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
-import { Label, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Label, OrderingDropdown, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import type { ShortUrlsListSettings as ShortUrlsSettings } from '..';
 import { useSetting } from '..';
@@ -31,12 +30,15 @@ export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = ({ onChange
       >
         Request confirmation before deleting a short URL.
       </LabelledToggle>
-      <div>
-        <Label className="tw:mb-1.5">Default ordering for short URLs list:</Label>
+      <div className="tw:flex tw:flex-col tw:gap-1.5">
+        <Label>Default ordering for short URLs list:</Label>
         <OrderingDropdown
+          buttonClassName="tw:w-full"
           items={SHORT_URLS_ORDERABLE_FIELDS}
           order={shortUrlsList?.defaultOrdering ?? defaultOrdering}
-          onChange={(field, dir) => onChange({ defaultOrdering: { field, dir } })}
+          onChange={(newOrder) => onChange(
+            { defaultOrdering: !newOrder.dir && !newOrder.field ? undefined : newOrder },
+          )}
         />
       </div>
     </SimpleCard>

@@ -4,11 +4,10 @@ import {
   faTrash as deleteIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { RowDropdownBtn, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { formatNumber, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { useToggle } from '@shlinkio/shlink-frontend-kit';
+import { formatNumber, RowDropdown, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { Link } from 'react-router';
-import { DropdownItem } from 'reactstrap';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { useRoutesPrefix } from '../utils/routesPrefix';
@@ -50,11 +49,12 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
         </Link>
       </Table.Cell>
       <Table.Cell className="tw:lg:text-right tw:max-lg:absolute tw:max-lg:top-[-19px] tw:max-lg:right-0 tw:max-lg:p-0">
-        <RowDropdownBtn>
-          <DropdownItem onClick={openEdit}>
-            <FontAwesomeIcon icon={editIcon} fixedWidth className="tw:mr-1" /> Edit
-          </DropdownItem>
-          <DropdownItem
+        <RowDropdown menuAlignment="right">
+          <RowDropdown.Item onClick={openEdit} className="tw:gap-1.5">
+            <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit
+          </RowDropdown.Item>
+          <RowDropdown.Item
+            className="tw:gap-1.5"
             disabled={!visitsComparison || !visitsComparison.canAddItemWithName(tag.tag)}
             onClick={() => visitsComparison?.addItemToCompare({
               name: tag.tag,
@@ -62,15 +62,15 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
               style: colorGenerator.stylesForKey(tag.tag),
             })}
           >
-            <FontAwesomeIcon icon={lineChartIcon} fixedWidth className="tw:mr-1" /> Compare visits
-          </DropdownItem>
+            <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
+          </RowDropdown.Item>
 
-          <DropdownItem divider tag="hr" />
+          <RowDropdown.Separator />
 
-          <DropdownItem className="tw:text-danger" onClick={openDelete}>
-            <FontAwesomeIcon icon={deleteIcon} fixedWidth className="tw:mr-1" /> Delete tag
-          </DropdownItem>
-        </RowDropdownBtn>
+          <RowDropdown.Item className="tw:[&]:text-danger tw:gap-1.5" onClick={openDelete}>
+            <FontAwesomeIcon icon={deleteIcon} fixedWidth /> Delete tag
+          </RowDropdown.Item>
+        </RowDropdown>
       </Table.Cell>
 
       <EditTagModal tag={tag.tag} onClose={closeEdit} isOpen={isEditModalOpen} />

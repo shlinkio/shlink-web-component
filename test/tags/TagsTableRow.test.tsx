@@ -100,7 +100,7 @@ describe('<TagsTableRow />', () => {
       const { user } = setUp({ visitsComparison });
       await user.click(screen.getByRole('button'));
 
-      expect(screen.getByRole('button', { name: 'Compare visits' })).toHaveAttribute('disabled');
+      expect(screen.getByRole('menuitem', { name: 'Compare visits' })).toHaveAttribute('disabled');
     },
   );
 

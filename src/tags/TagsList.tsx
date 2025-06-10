@@ -1,5 +1,5 @@
-import { determineOrderDir, OrderingDropdown, sortList } from '@shlinkio/shlink-frontend-kit';
-import { Message, Result, SearchInput } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { determineOrder, sortList } from '@shlinkio/shlink-frontend-kit';
+import { Message, OrderingDropdown, Result, SearchInput } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import { ShlinkApiError } from '../common/ShlinkApiError';
@@ -61,10 +61,8 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
     );
   }
 
-  const orderByColumn = (field: TagsOrderableFields) => () => {
-    const dir = determineOrderDir(field, order.field, order.dir);
-    setOrder({ field: dir ? field : undefined, dir });
-  };
+  const orderByColumn = (field: TagsOrderableFields) => () =>
+    setOrder(determineOrder({ currentField: order.field, currentOrderDir: order.dir, newField: field }));
 
   return (
     <VisitsComparisonProvider value={visitsComparison}>
@@ -73,9 +71,11 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
         <div className="tw:flex tw:flex-col tw:lg:flex-row tw:lg:justify-end">
           <div className="tw:lg:w-1/2">
             <OrderingDropdown
+              containerClassName="tw:[&]:block"
+              buttonClassName="tw:w-full"
               items={TAGS_ORDERABLE_FIELDS}
               order={order}
-              onChange={(field, dir) => setOrder({ field, dir })}
+              onChange={setOrder}
             />
           </div>
         </div>

@@ -121,7 +121,7 @@ describe('<DomainDropdown />', () => {
     const { user } = setUp({ visitsComparison, domain: fromPartial({ domain: 's.test' }) });
     await openMenu(user);
 
-    expect(screen.getByRole('button', { name: 'Compare visits' })).toHaveAttribute('disabled');
+    expect(screen.getByRole('menuitem', { name: 'Compare visits' })).toBeDisabled();
   });
 
   it('can add items to compare visits', async () => {

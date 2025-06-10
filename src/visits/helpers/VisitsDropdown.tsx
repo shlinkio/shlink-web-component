@@ -1,7 +1,6 @@
-import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { ComponentProps } from 'react';
 import { useCallback } from 'react';
-import type { DropdownItemProps } from 'reactstrap';
-import { DropdownItem } from 'reactstrap';
 import type { ShlinkOrphanVisitType } from '../../api-contract';
 import type { VisitsFilter } from '../types';
 
@@ -10,7 +9,6 @@ export type DropdownOptions = VisitsFilter & { loadPrevInterval?: boolean };
 interface VisitsDropdownProps {
   onChange: (selected: DropdownOptions) => void;
   selected?: DropdownOptions;
-  className?: string;
   isOrphanVisits?: boolean;
   withPrevInterval?: boolean;
   disabled?: boolean;
@@ -19,14 +17,13 @@ interface VisitsDropdownProps {
 export const VisitsDropdown = ({
   onChange,
   selected = {},
-  className,
   isOrphanVisits = false,
   withPrevInterval = false,
   disabled,
 }: VisitsDropdownProps) => {
   const { orphanVisitsType, excludeBots = false, loadPrevInterval = false } = selected;
-  const propsForOrphanVisitsTypeItem = (type: ShlinkOrphanVisitType): DropdownItemProps => ({
-    active: orphanVisitsType === type,
+  const propsForOrphanVisitsTypeItem = (type: ShlinkOrphanVisitType): ComponentProps<typeof Dropdown.Item> => ({
+    selected: orphanVisitsType === type,
     onClick: () => onChange({ ...selected, orphanVisitsType: type === orphanVisitsType ? undefined : type }),
   });
   const onBotsClick = useCallback(
@@ -39,31 +36,31 @@ export const VisitsDropdown = ({
   );
 
   return (
-    <DropdownBtn disabled={disabled} text="More" dropdownClassName={className} end minWidth={250}>
+    <Dropdown buttonDisabled={disabled} buttonContent="More" buttonClassName="tw:w-full" menuAlignment="right">
       {withPrevInterval && (
         <>
-          <DropdownItem active={loadPrevInterval} onClick={onPrevIntervalClick}>
+          <Dropdown.Item selected={loadPrevInterval} onClick={onPrevIntervalClick}>
             Compare with previous period
-          </DropdownItem>
-          <DropdownItem divider tag="hr" />
+          </Dropdown.Item>
+          <Dropdown.Separator />
         </>
       )}
 
-      <DropdownItem header aria-hidden>Bots:</DropdownItem>
-      <DropdownItem active={excludeBots} onClick={onBotsClick}>Exclude potential bots</DropdownItem>
+      <Dropdown.Title>Bots:</Dropdown.Title>
+      <Dropdown.Item selected={excludeBots} onClick={onBotsClick}>Exclude potential bots</Dropdown.Item>
 
       {isOrphanVisits && (
         <>
-          <DropdownItem divider tag="hr" />
-          <DropdownItem header aria-hidden>Orphan visits type:</DropdownItem>
-          <DropdownItem {...propsForOrphanVisitsTypeItem('base_url')}>Base URL</DropdownItem>
-          <DropdownItem {...propsForOrphanVisitsTypeItem('invalid_short_url')}>Invalid short URL</DropdownItem>
-          <DropdownItem {...propsForOrphanVisitsTypeItem('regular_404')}>Regular 404</DropdownItem>
+          <Dropdown.Separator />
+          <Dropdown.Title>Orphan visits type:</Dropdown.Title>
+          <Dropdown.Item {...propsForOrphanVisitsTypeItem('base_url')}>Base URL</Dropdown.Item>
+          <Dropdown.Item {...propsForOrphanVisitsTypeItem('invalid_short_url')}>Invalid short URL</Dropdown.Item>
+          <Dropdown.Item {...propsForOrphanVisitsTypeItem('regular_404')}>Regular 404</Dropdown.Item>
         </>
       )}
 
-      <DropdownItem divider tag="hr" />
-      <DropdownItem
+      <Dropdown.Separator />
+      <Dropdown.Item
         disabled={
           selected.excludeBots === undefined
           && selected.loadPrevInterval === undefined
@@ -72,7 +69,7 @@ export const VisitsDropdown = ({
         onClick={() => onChange({ excludeBots: undefined, loadPrevInterval: undefined, orphanVisitsType: undefined })}
       >
         <i>Reset to defaults</i>
-      </DropdownItem>
-    </DropdownBtn>
+      </Dropdown.Item>
+    </Dropdown>
   );
 };

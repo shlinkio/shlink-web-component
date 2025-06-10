@@ -1,6 +1,5 @@
-import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
-import { DropdownItem } from 'reactstrap';
 import type { QrErrorCorrection } from '../../../settings';
 
 interface QrErrorCorrectionDropdownProps {
@@ -9,21 +8,21 @@ interface QrErrorCorrectionDropdownProps {
 }
 
 export const QrErrorCorrectionDropdown: FC<QrErrorCorrectionDropdownProps> = ({ errorCorrection, onChange }) => (
-  <DropdownBtn
-    text={errorCorrection ? `Error correction (${errorCorrection})` : <i>Default error correction</i>}
-    dropdownClassName="tw:w-full"
+  <Dropdown
+    buttonContent={errorCorrection ? `Error correction (${errorCorrection})` : <i>Default error correction</i>}
+    buttonClassName="tw:w-full"
   >
-    <DropdownItem active={errorCorrection === 'L'} onClick={() => onChange('L')}>
+    <Dropdown.Item selected={errorCorrection === 'L'} onClick={() => onChange('L')}>
       <b>L</b>ow
-    </DropdownItem>
-    <DropdownItem active={errorCorrection === 'M'} onClick={() => onChange('M')}>
+    </Dropdown.Item>
+    <Dropdown.Item selected={errorCorrection === 'M'} onClick={() => onChange('M')}>
       <b>M</b>edium
-    </DropdownItem>
-    <DropdownItem active={errorCorrection === 'Q'} onClick={() => onChange('Q')}>
+    </Dropdown.Item>
+    <Dropdown.Item selected={errorCorrection === 'Q'} onClick={() => onChange('Q')}>
       <b>Q</b>uartile
-    </DropdownItem>
-    <DropdownItem active={errorCorrection === 'H'} onClick={() => onChange('H')}>
+    </Dropdown.Item>
+    <Dropdown.Item selected={errorCorrection === 'H'} onClick={() => onChange('H')}>
       <b>H</b>igh
-    </DropdownItem>
-  </DropdownBtn>
+    </Dropdown.Item>
+  </Dropdown>
 );

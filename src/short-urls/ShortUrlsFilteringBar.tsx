@@ -1,8 +1,7 @@
 import { faTag, faTags } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
-import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
-import { Button, SearchInput, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, OrderingDropdown, SearchInput, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
@@ -134,10 +133,12 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
         <div className="tw:lg:w-1/3 tw:xl:w-1/2 tw:inline-flex tw:gap-3">
           <div className="tw:max-lg:w-1/2 tw:lg:hidden">
             <OrderingDropdown
+              containerClassName="tw:[&]:block"
+              buttonClassName="tw:w-full"
               prefixed={false}
               items={SHORT_URLS_ORDERABLE_FIELDS}
               order={order}
-              onChange={handleOrderBy}
+              onChange={({ field, dir }) => handleOrderBy(field, dir)}
             />
           </div>
           <div className="tw:max-lg:w-1/2">

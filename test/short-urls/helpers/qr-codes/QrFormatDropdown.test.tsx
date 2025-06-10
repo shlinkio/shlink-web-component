@@ -25,10 +25,10 @@ describe('<QrFormatDropdown />', () => {
     await user.click(btn);
     const items = screen.getAllByRole('menuitem');
 
-    expect(items[0]).not.toHaveClass('active');
-    expect(items[1]).toHaveClass('active');
-    expect(items[2]).not.toHaveClass('active');
-    expect(items[3]).not.toHaveClass('active');
+    expect(items[0]).toHaveAttribute('data-selected', 'false');
+    expect(items[1]).toHaveAttribute('data-selected', 'true');
+    expect(items[2]).toHaveAttribute('data-selected', 'false');
+    expect(items[3]).toHaveAttribute('data-selected', 'false');
   });
 
   it('invokes callback when items are clicked', async () => {

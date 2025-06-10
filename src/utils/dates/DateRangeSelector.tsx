@@ -1,12 +1,9 @@
-import { DropdownBtn } from '@shlinkio/shlink-frontend-kit';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { useCallback, useMemo } from 'react';
-import { DropdownItem } from 'reactstrap';
-import { DateIntervalDropdownItems } from './DateIntervalDropdownItems';
 import { DateRangeRow } from './DateRangeRow';
-import type {
-  DateInterval,
-  DateRange } from './helpers/dateIntervals';
+import type { DateInterval, DateRange } from './helpers/dateIntervals';
 import {
+  DATE_INTERVALS,
   intervalToDateRange,
   rangeIsInterval,
   rangeOrIntervalToString,
@@ -47,16 +44,35 @@ export const DateRangeSelector = (
   }, [onDatesChange]);
 
   return (
-    <DropdownBtn disabled={disabled} text={text}>
-      <DateIntervalDropdownItems allText={defaultText} active={activeInterval} onChange={updateDateRangeOrInterval} />
-      <DropdownItem divider tag="hr" />
-      <div className="tw:px-4 tw:py-1">
+    <Dropdown
+      buttonDisabled={disabled}
+      buttonContent={text}
+      containerClassName="tw:[&]:block"
+      buttonClassName="tw:w-full"
+    >
+      <Dropdown.Item selected={activeInterval === 'all'} onClick={() => updateDateRangeOrInterval('all')}>
+        {defaultText}
+      </Dropdown.Item>
+      <Dropdown.Separator />
+      {DATE_INTERVALS.map(
+        (interval) => (
+          <Dropdown.Item
+            key={interval}
+            selected={activeInterval === interval}
+            onClick={() => updateDateRangeOrInterval(interval)}
+          >
+            {rangeOrIntervalToString(interval)}
+          </Dropdown.Item>
+        ),
+      )}
+      <Dropdown.Separator />
+      <Dropdown.Misc>
         <DateRangeRow
           {...activeDateRange}
           onStartDateChange={(startDate) => updateDateRangeOrInterval({ ...activeDateRange, startDate })}
           onEndDateChange={(endDate) => updateDateRangeOrInterval({ ...activeDateRange, endDate })}
         />
-      </div>
-    </DropdownBtn>
+      </Dropdown.Misc>
+    </Dropdown>
   );
 };

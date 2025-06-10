@@ -23,10 +23,8 @@ describe('<DateRangeSelector />', () => {
   };
 
   it('renders proper amount of items', async () => {
-    const { container } = await setUp();
-
+    await setUp();
     expect(screen.getAllByRole('menuitem')).toHaveLength(8);
-    expect(container.querySelector('.dropdown-divider')).toBeInTheDocument();
   });
 
   it.each([
@@ -42,7 +40,7 @@ describe('<DateRangeSelector />', () => {
     [{ startDate: new Date() }, 0],
   ])('sets proper element as active based on provided date range', async (dateRangeOrInterval, expectedActiveItems) => {
     const { container } = await setUp({ dateRangeOrInterval });
-    expect(container.querySelectorAll('.active')).toHaveLength(expectedActiveItems);
+    expect(container.querySelectorAll('[data-selected="true"]')).toHaveLength(expectedActiveItems);
   });
 
   it('triggers onDatesChange callback when selecting an element', async () => {

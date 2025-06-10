@@ -1,7 +1,6 @@
 import { sortBy, splitEvery, zipObj } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
-import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
-import { Paginator, roundTen } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { OrderingDropdown, Paginator, roundTen } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
@@ -117,11 +116,10 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
       title={(
         <SpaceBetweenContainer>
           {title}
-          <div className="tw:flex tw:items-center tw:gap-2">
+          <div className="tw:flex tw:items-center tw:gap-3">
             {extraHeaderContent?.(pagination ? activeCities : undefined)}
             {withPagination && Object.keys(stats).length > 50 && (
               <PaginationDropdown
-                toggleClassName="tw:text-sm tw:p-0"
                 ranges={[50, 100, 200, 500]}
                 value={itemsPerPage}
                 setValue={(value) => {
@@ -131,12 +129,14 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
               />
             )}
             <OrderingDropdown
-              isButton={false}
-              right
+              buttonVariant="link"
+              menuAlignment="right"
+              buttonSize="sm"
+              buttonClassName="tw:[&]:p-0"
               items={sortingItems}
               order={order}
-              onChange={(field, dir) => {
-                setOrder({ field, dir });
+              onChange={(newOrder) => {
+                setOrder(newOrder);
                 setCurrentPage(1);
               }}
             />

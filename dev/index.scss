@@ -4,12 +4,3 @@
 );
 @use '../node_modules/@shlinkio/shlink-frontend-kit/dist/index';
 @use '../src/index.scss' as dev-index;
-
-.header {
-  height: base.$headerHeight;
-  background-color: var(--brand-color);
-}
-
-.wrapper {
-  padding: base.$headerHeight 0;
-}

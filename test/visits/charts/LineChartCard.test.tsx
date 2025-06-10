@@ -79,7 +79,7 @@ describe('<LineChartCard />', () => {
     expect(items[1]).toHaveTextContent('Week');
     expect(items[2]).toHaveTextContent('Day');
     expect(items[3]).toHaveTextContent('Hour');
-    expect(items[expectedActiveIndex]).toHaveClass('active');
+    expect(items[expectedActiveIndex]).toHaveAttribute('data-selected', 'true');
   });
 
   // FIXME Snapshots do not match when run in CI, because it generate some slightly off coordinates.

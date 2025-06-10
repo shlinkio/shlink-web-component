@@ -1,5 +1,4 @@
-import { OrderingDropdown } from '@shlinkio/shlink-frontend-kit';
-import { Label, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Label, OrderingDropdown, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import type { TagsSettings as TagsSettingsOptions } from '..';
 import { useSetting } from '..';
@@ -19,12 +18,15 @@ export const TagsSettings: FC<TagsProps> = ({ onChange }) => {
 
   return (
     <SimpleCard title="Tags" className="card">
-      <Label className="tw:mb-1.5">Default ordering for tags list:</Label>
-      <OrderingDropdown
-        items={TAGS_ORDERABLE_FIELDS}
-        order={tags.defaultOrdering ?? {}}
-        onChange={(field, dir) => onChange({ ...tags, defaultOrdering: { field, dir } })}
-      />
+      <div className="tw:flex tw:flex-col tw:gap-1.5">
+        <Label>Default ordering for tags list:</Label>
+        <OrderingDropdown
+          buttonClassName="tw:w-full"
+          items={TAGS_ORDERABLE_FIELDS}
+          order={tags.defaultOrdering ?? {}}
+          onChange={(order) => onChange({ ...tags, defaultOrdering: !order.field && !order.dir ? undefined : order })}
+        />
+      </div>
     </SimpleCard>
   );
 };

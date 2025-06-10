@@ -82,7 +82,7 @@ describe('<ShortUrlsRowMenu />', () => {
         canAddItemWithName: () => canAddItem,
       }),
     });
-    const button = screen.getByRole(!canAddItem ? 'button' : 'menuitem', { name: 'Compare visits' });
+    const button = screen.getByRole('menuitem', { name: 'Compare visits' });
 
     if (canAddItem) {
       expect(button).not.toHaveAttribute('disabled');

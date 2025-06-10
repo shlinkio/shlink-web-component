@@ -28,13 +28,12 @@ describe('<VisitsDropdown />', () => {
 
   it.each([
     [setUp],
-    // TODO Enable back once https://github.com/reactstrap/reactstrap/issues/2759 is fixed
-    // [async () => {
-    //   const { user, container } = setUp();
-    //   await openDropdown(user);
-    //
-    //   return { container };
-    // }],
+    [async () => {
+      const { user, container } = setUp();
+      await openDropdown(user);
+
+      return { container };
+    }],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('has expected text', () => {
@@ -43,10 +42,10 @@ describe('<VisitsDropdown />', () => {
   });
 
   it.each([
-    [false, false, 1, 1],
-    [true, false, 4, 2],
-    [false, true, 2, 1],
-    [true, true, 5, 2],
+    [false, false, 2, 1],
+    [true, false, 5, 2],
+    [false, true, 3, 1],
+    [true, true, 6, 2],
   ])(
     'renders expected amount of items',
     async (isOrphanVisits, withPrevInterval, expectedItemsAmount, expectedHeadersAmount) => {
@@ -70,12 +69,12 @@ describe('<VisitsDropdown />', () => {
     await openDropdown(user);
 
     const items = screen.getAllByRole('menuitem');
-    const activeItem = items.filter((item) => item.classList.contains('active'));
+    const activeItem = items.filter((item) => item.dataset.selected === 'true');
 
     expect.assertions(expectedActiveItems + 1);
     expect(activeItem).toHaveLength(expectedActiveItems);
     items.forEach((item, index) => {
-      if (item.classList.contains('active')) {
+      if (item.dataset.selected === 'true') {
         expect(index).toEqual(expectedSelectedIndex);
       }
     });

@@ -9,7 +9,6 @@ export type DropdownOptions = VisitsFilter & { loadPrevInterval?: boolean };
 interface VisitsDropdownProps {
   onChange: (selected: DropdownOptions) => void;
   selected?: DropdownOptions;
-  className?: string;
   isOrphanVisits?: boolean;
   withPrevInterval?: boolean;
   disabled?: boolean;
@@ -18,7 +17,6 @@ interface VisitsDropdownProps {
 export const VisitsDropdown = ({
   onChange,
   selected = {},
-  className,
   isOrphanVisits = false,
   withPrevInterval = false,
   disabled,
@@ -38,7 +36,7 @@ export const VisitsDropdown = ({
   );
 
   return (
-    <Dropdown buttonDisabled={disabled} buttonContent="More" buttonClassName={className} menuAlignment="right">
+    <Dropdown buttonDisabled={disabled} buttonContent="More" buttonClassName="tw:w-full" menuAlignment="right">
       {withPrevInterval && (
         <>
           <Dropdown.Item selected={loadPrevInterval} onClick={onPrevIntervalClick}>

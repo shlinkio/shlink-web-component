@@ -8,7 +8,6 @@ import type { ShortUrlsFilter } from '../data';
 interface ShortUrlsFilterDropdownProps {
   onChange: (filters: ShortUrlsFilter) => void;
   selected?: ShortUrlsFilter;
-  className?: string;
 
   /**
    * List of domains supported by the Shlink server.
@@ -17,9 +16,7 @@ interface ShortUrlsFilterDropdownProps {
   domains?: Domain[];
 }
 
-export const ShortUrlsFilterDropdown = (
-  { onChange, selected = {}, className, domains }: ShortUrlsFilterDropdownProps,
-) => {
+export const ShortUrlsFilterDropdown = ({ onChange, selected = {}, domains }: ShortUrlsFilterDropdownProps) => {
   const supportsFilterByDomain = useFeature('filterShortUrlsByDomain');
   const { excludeBots = false, excludeMaxVisitsReached = false, excludePastValidUntil = false, domain } = selected;
 
@@ -33,7 +30,7 @@ export const ShortUrlsFilterDropdown = (
   );
 
   return (
-    <Dropdown buttonContent="Filters" buttonClassName={className} menuAlignment="right">
+    <Dropdown buttonContent="Filters" buttonClassName="tw:w-full" menuAlignment="right">
       <Dropdown.Title>Visits:</Dropdown.Title>
       <Dropdown.Item selected={excludeBots} onClick={() => toggleFilter('excludeBots')}>
         Ignore visits from bots

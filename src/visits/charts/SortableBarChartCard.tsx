@@ -121,7 +121,6 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
             {extraHeaderContent?.(pagination ? activeCities : undefined)}
             {withPagination && Object.keys(stats).length > 50 && (
               <PaginationDropdown
-                toggleClassName="tw:text-sm tw:p-0"
                 ranges={[50, 100, 200, 500]}
                 value={itemsPerPage}
                 setValue={(value) => {

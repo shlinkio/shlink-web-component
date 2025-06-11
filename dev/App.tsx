@@ -40,10 +40,13 @@ export const App: FC = () => {
 
   return (
     <>
-      <header className={clsx(
-        'tw:h-(--header-height) tw:fixed tw:top-0 tw:left-0 tw:right-0 tw:flex tw:justify-between',
-        'tw:bg-lm-main tw:dark:bg-dm-main tw:text-white',
-      )}>
+      <header
+        className={clsx(
+          'tw:fixed tw:top-0 tw:left-0 tw:right-0 tw:z-1000',
+          'tw:h-(--header-height) tw:flex tw:justify-between',
+          'tw:bg-lm-main tw:dark:bg-dm-main tw:text-white',
+        )}
+      >
         <ServerInfoForm serverInfo={serverInfo} onChange={onServerInfoChange} />
         <div className="tw:h-full tw:pr-4 tw:flex tw:items-center tw:gap-4">
           <Link to="/" className="tw:text-white">Home</Link>

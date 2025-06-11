@@ -28,7 +28,7 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
   return (
     <div className={clsx('tw:sticky tw:top-(--header-height) tw:z-10', className)}>
       <SimpleCard bodyClassName="tw:flex tw:flex-col tw:lg:flex-row tw:gap-4 tw:items-center">
-        <ul className="tw:flex tw:flex-wrap tw:gap-1 tw:grow tw:items-center tw:p-0 tw:m-0">
+        <ul className="tw:flex tw:flex-wrap tw:gap-1 tw:grow tw:items-center">
           {itemsToCompare.map((item, index) => (
             <li
               key={`${item.name}_${index}`}

@@ -43,7 +43,7 @@ export const ShortUrlVisitsCount = (
         </small>
       </span>
       <Tooltip {...tooltip}>
-        <ul className="tw:p-0 tw:m-0 tw:flex tw:flex-col tw:gap-y-2">
+        <ul className="tw:flex tw:flex-col tw:gap-y-2">
           {maxVisits && (
             <li>
               This short URL will not accept more than <b>{formatNumber(maxVisits)}</b> visit{maxVisits === 1 ? '' : 's'}.

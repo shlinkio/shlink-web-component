@@ -21,7 +21,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           aria-controls=":r43:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -47,7 +47,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             aria-controls=":r45:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -560,7 +560,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         </div>
       </div>
       <ul
-        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
           class="tw:inline"
@@ -603,7 +603,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           aria-controls=":r4a:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -629,7 +629,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             aria-controls=":r4c:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -1142,7 +1142,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         </div>
       </div>
       <ul
-        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
           class="tw:inline"
@@ -1185,7 +1185,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           aria-controls=":r4h:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -1211,7 +1211,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             aria-controls=":r4j:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -1724,7 +1724,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         </div>
       </div>
       <ul
-        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
           class="tw:inline"
@@ -1767,7 +1767,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           aria-controls=":r4o:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -1793,7 +1793,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             aria-controls=":r4q:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -2351,7 +2351,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         </div>
       </div>
       <ul
-        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
           class="tw:inline"
@@ -2408,7 +2408,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           aria-controls=":r4v:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -2434,7 +2434,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             aria-controls=":r51:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -2992,7 +2992,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         </div>
       </div>
       <ul
-        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
           class="tw:inline"
@@ -3049,7 +3049,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           aria-controls=":r56:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -3075,7 +3075,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             aria-controls=":r58:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -3633,7 +3633,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         </div>
       </div>
       <ul
-        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
           class="tw:inline"

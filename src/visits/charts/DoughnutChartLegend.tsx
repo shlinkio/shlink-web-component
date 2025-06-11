@@ -9,7 +9,7 @@ export type DoughnutChartLegendProps = {
 };
 
 export const DoughnutChartLegend: FC<DoughnutChartLegendProps> = ({ chartData, showNumbers }) => (
-  <ul className="tw:p-0 tw:m-0 tw:space-y-1">
+  <ul className="tw:space-y-1">
     {chartData.map(({ name, color, value }, index) => (
       <li key={name} className="tw:flex tw:items-center">
         <ColorBullet color={color} testId={`color-bullet-${index}`} />

@@ -15,7 +15,7 @@ export const LineChartLegend = forwardRef<HTMLUListElement, LineChartLegendProps
   }
 
   return (
-    <ul className="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4" ref={ref}>
+    <ul className="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4" ref={ref}>
       {entries.map(([value, list], index) => (
         <li className="tw:inline" key={`${value}${index}`}>
           <ColorBullet color={visitsListColor(list)} />

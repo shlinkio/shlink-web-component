@@ -76,7 +76,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
       class="tw:md:flex-5"
     >
       <ul
-        class="tw:p-0 tw:m-0 tw:space-y-1"
+        class="tw:space-y-1"
       >
         <li
           class="tw:flex tw:items-center"
@@ -217,7 +217,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
       class="tw:md:flex-5"
     >
       <ul
-        class="tw:p-0 tw:m-0 tw:space-y-1"
+        class="tw:space-y-1"
       >
         <li
           class="tw:flex tw:items-center"
@@ -362,7 +362,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
       class="tw:md:flex-5"
     >
       <ul
-        class="tw:p-0 tw:m-0 tw:space-y-1"
+        class="tw:space-y-1"
       >
         <li
           class="tw:flex tw:items-center"

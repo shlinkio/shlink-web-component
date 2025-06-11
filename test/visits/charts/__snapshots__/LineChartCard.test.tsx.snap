@@ -19,7 +19,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           aria-controls=":ro:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -45,7 +45,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             aria-controls=":rq:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -202,7 +202,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           aria-controls=":rr:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -228,7 +228,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             aria-controls=":rt:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -362,7 +362,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         </div>
       </div>
       <ul
-        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
           class="tw:inline"
@@ -431,7 +431,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           aria-controls=":ru:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -457,7 +457,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             aria-controls=":r10:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -940,7 +940,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         </div>
       </div>
       <ul
-        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
           class="tw:inline"
@@ -995,7 +995,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           aria-controls=":r11:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -1021,7 +1021,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             aria-controls=":r13:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -1532,7 +1532,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         </div>
       </div>
       <ul
-        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
           class="tw:inline"
@@ -1601,7 +1601,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           aria-controls=":r14:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm"
+          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
           type="button"
         >
           <svg
@@ -1627,7 +1627,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             aria-controls=":r16:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
             type="button"
           >
             Group by
@@ -2369,7 +2369,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         </div>
       </div>
       <ul
-        class="tw:mb-0 tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
       >
         <li
           class="tw:inline"

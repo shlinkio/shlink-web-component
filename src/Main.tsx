@@ -90,7 +90,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
             className="tw:min-h-full tw:pt-[20px] tw:md:pt-[30px] tw:md:pl-(--aside-menu-width)"
             onPointerDown={hideSidebar}
           >
-            <div className="container-xl">
+            <div className="tw:container tw:mx-auto tw:px-3">
               <Routes>
                 <Route index element={<Navigate replace to="overview" />} />
                 <Route path="/overview" element={<Overview />} />

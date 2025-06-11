@@ -15,7 +15,7 @@ const InfoModal = (props: { open: boolean; onClose: () => void }) => (
       <p>
         These are the checks performed by Shlink in order to determine if an existing short URL should be returned:
       </p>
-      <ul className="tw:list-disc tw:mb-0">
+      <ul className="tw:list-disc tw:pl-5">
         <li>
           When only the long URL is provided: The most recent match will be returned, or a new short URL will be
           created

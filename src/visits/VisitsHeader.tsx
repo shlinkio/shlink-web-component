@@ -35,7 +35,7 @@ export const VisitsHeader: FC<VisitsHeaderProps> = ({ visits, shortUrl, children
         <small>{title}</small>
       </h3>
 
-      {children && <div className="tw:md:mt-2">{children}</div>}
+      {children && <div className="tw:md:mt-3">{children}</div>}
     </SimpleCard>
   </header>
 );

@@ -6,6 +6,7 @@ import { Button, CardModal } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { DrawType } from 'qr-code-styling';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback, useRef, useState } from 'react';
+import { ExternalLink } from 'react-external-link';
 import type { QrCodeSettings } from '../../settings';
 import { defaultQrCodeSettings, useSetting } from '../../settings';
 import { ColorInput } from '../../utils/components/ColorInput';
@@ -60,8 +61,13 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
   }, [initialQrSettings]);
 
   return (
-    // TODO Use a link for the header's shortURL as soon as title can be a ReactNode
-    <CardModal open={isOpen} onClose={onClose} title={`QR code for ${shortUrl}`} size="lg" onClosed={resetOptions}>
+    <CardModal
+      size="lg"
+      open={isOpen}
+      onClose={onClose}
+      title={<>QR code for <ExternalLink href={shortUrl} /></>}
+      onClosed={resetOptions}
+    >
       <div className="tw:flex tw:flex-col-reverse tw:lg:flex-row tw:gap-4">
         <div className="tw:grow tw:flex tw:items-center tw:justify-around">
           <div className="tw:flex tw:flex-col tw:gap-1 tw:items-center" data-testid="qr-code-container">

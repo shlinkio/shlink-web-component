@@ -72,7 +72,8 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
       <UnstyledButton
         aria-label="Toggle sidebar"
         className={clsx(
-          'tw:inline-block tw:md:hidden tw:fixed tw:top-4 tw:z-1035 tw:transition-colors',
+          'tw:fixed tw:top-4 tw:left-3 tw:z-1035',
+          'tw:md:hidden tw:transition-colors',
           {
             'tw:text-white/50': !sidebarVisible,
             'tw:text-white': sidebarVisible,

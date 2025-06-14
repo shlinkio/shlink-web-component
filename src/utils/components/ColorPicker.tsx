@@ -1,9 +1,9 @@
 import { faPalette as colorIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { isLightColor } from '@shlinkio/shlink-frontend-kit';
 import { Input } from '@shlinkio/shlink-frontend-kit/tailwind';
 import { clsx } from 'clsx';
 import { forwardRef } from 'react';
-import { isLightColor } from '../helpers/color';
 
 export type ColorPickerProps = {
   name: string;

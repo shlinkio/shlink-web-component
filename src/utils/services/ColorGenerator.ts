@@ -1,5 +1,6 @@
+import { isLightColor } from '@shlinkio/shlink-frontend-kit';
 import type { CSSProperties } from 'react';
-import { buildRandomColor, isLightColor } from '../helpers/color';
+import { buildRandomColor } from '../helpers/color';
 import type { TagColorsStorage } from './TagColorsStorage';
 
 const normalizeKey = (key: string) => key.toLowerCase().trim();

@@ -6,7 +6,7 @@ exports[`<IconInput /> > displays provided icon 1`] = `
     class="tw:relative"
   >
     <input
-      class="tw:w-full tw:focus-ring tw:px-3 tw:py-1.5 tw:rounded-md tw:border tw:border-lm-input-border tw:dark:border-dm-input-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:group-[&]/card:bg-lm-input tw:group-[&]/card:dark:bg-dm-input tw:pr-11"
+      class="tw:outline-none tw:w-full tw:focus-ring tw:px-3 tw:py-1.5 tw:rounded-md tw:border tw:border-lm-input-border tw:dark:border-dm-input-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:group-[&]/card:bg-lm-input tw:group-[&]/card:dark:bg-dm-input tw:pr-11"
     />
     <svg
       aria-hidden="true"
@@ -33,7 +33,7 @@ exports[`<IconInput /> > displays provided icon 2`] = `
     class="tw:relative"
   >
     <input
-      class="tw:w-full tw:focus-ring tw:px-3 tw:py-1.5 tw:rounded-md tw:border tw:border-lm-input-border tw:dark:border-dm-input-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:group-[&]/card:bg-lm-input tw:group-[&]/card:dark:bg-dm-input tw:pr-11"
+      class="tw:outline-none tw:w-full tw:focus-ring tw:px-3 tw:py-1.5 tw:rounded-md tw:border tw:border-lm-input-border tw:dark:border-dm-input-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:group-[&]/card:bg-lm-input tw:group-[&]/card:dark:bg-dm-input tw:pr-11"
     />
     <svg
       aria-hidden="true"
@@ -60,7 +60,7 @@ exports[`<IconInput /> > displays provided icon 3`] = `
     class="tw:relative"
   >
     <input
-      class="tw:w-full tw:focus-ring tw:px-3 tw:py-1.5 tw:rounded-md tw:border tw:border-lm-input-border tw:dark:border-dm-input-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:group-[&]/card:bg-lm-input tw:group-[&]/card:dark:bg-dm-input tw:pr-11"
+      class="tw:outline-none tw:w-full tw:focus-ring tw:px-3 tw:py-1.5 tw:rounded-md tw:border tw:border-lm-input-border tw:dark:border-dm-input-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:group-[&]/card:bg-lm-input tw:group-[&]/card:dark:bg-dm-input tw:pr-11"
     />
     <svg
       aria-hidden="true"

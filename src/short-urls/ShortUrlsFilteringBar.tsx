@@ -90,6 +90,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
             tags={tagsList.tags}
             selectedTags={tags}
             onChange={changeTagSelection}
+            containerClassName={clsx(tags.length > 1 && 'tw:[&]:rounded-r-none')}
           />
         </div>
         {tags.length > 1 && (

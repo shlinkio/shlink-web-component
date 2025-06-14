@@ -51,7 +51,11 @@ describe('<VisitsComparisonCollector />', () => {
     const compareButton = screen.getByText(/^Compare/);
 
     expect(screen.getAllByRole('listitem')).toHaveLength(itemsAmount);
-    expect(compareButton).toHaveAttribute('aria-disabled', isDisabled ? 'true' : 'false');
+    if (isDisabled) {
+      expect(compareButton).toBeDisabled();
+    } else {
+      expect(compareButton).not.toBeDisabled();
+    }
   });
 
   it('can clear selected items', async () => {

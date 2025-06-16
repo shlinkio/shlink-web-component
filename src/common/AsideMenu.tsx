@@ -46,7 +46,7 @@ export const AsideMenu: FC<AsideMenuProps> = ({ routePrefix, showOnMobile = fals
       className={clsx(
         'tw:w-(--aside-menu-width) tw:bg-lm-primary tw:dark:bg-dm-primary',
         'tw:pt-[15px] tw:md:pt-[30px] tw:pb-[10px]',
-        'tw:fixed! tw:bottom-0 tw:top-(--header-height) tw:z-1010 tw:transition-[left] tw:duration-300',
+        'tw:fixed! tw:bottom-0 tw:top-(--header-height) tw:z-890 tw:transition-[left] tw:duration-300',
         'tw:shadow-aside-menu-mobile tw:md:shadow-aside-menu',
         {
           'tw:left-0': showOnMobile,

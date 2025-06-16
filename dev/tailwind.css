@@ -2,3 +2,10 @@
 @source '../node_modules/@shlinkio/shlink-frontend-kit';
 @import '@shlinkio/shlink-frontend-kit/tailwind.preset.css';
 @import '../src/tailwind.preset.css';
+
+@layer base {
+    :root {
+        /* Temp alias fo header-height to tw-header-height, so that shlink-web-component uses the right value  */
+        --header-height: var(--tw-header-height);
+    }
+}

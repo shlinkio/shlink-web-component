@@ -7,8 +7,7 @@ import {
   faQrcode as qrIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { RowDropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { RowDropdown,useToggle  } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { useCallback } from 'react';
@@ -43,8 +42,8 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
   { shortUrl, deleteShortUrl, shortUrlDeleted },
 ) => {
   const { DeleteShortUrlModal } = useDependencies(ShortUrlsRowMenu);
-  const { flag: isQrModalOpen, setToTrue: openQrCodeModal, setToFalse: closeQrCodeModal } = useToggle(false, true);
-  const { flag: isDeleteModalOpen, setToTrue: openDeleteModal, setToFalse: closeDeleteModal } = useToggle(false, true);
+  const { flag: isQrModalOpen, setToTrue: openQrCodeModal, setToFalse: closeQrCodeModal } = useToggle();
+  const { flag: isDeleteModalOpen, setToTrue: openDeleteModal, setToFalse: closeDeleteModal } = useToggle();
   const visitsComparison = useVisitsComparisonContext();
   const redirectRulesAreSupported = useFeature('shortUrlRedirectRules');
   const { confirmDeletions = true } = useSetting('shortUrlsList', {});
@@ -64,13 +63,13 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
   return (
     <>
       <RowDropdown menuAlignment="right">
-        <RowDropdown.Item to={buildUrlDetailLink('visits')} className="tw:gap-1.5">
+        <RowDropdown.Item to={buildUrlDetailLink('visits')} className="gap-1.5">
           <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
         </RowDropdown.Item>
         {visitsComparison && (
           <>
             <RowDropdown.Item
-              className="tw:gap-1.5"
+              className="gap-1.5"
               disabled={!visitsComparison.canAddItemWithName(shortUrl.shortUrl)}
               onClick={() => visitsComparison.addItemToCompare({
                 name: shortUrl.shortUrl,
@@ -84,24 +83,24 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
           </>
         )}
 
-        <RowDropdown.Item to={buildUrlDetailLink('edit')} className="tw:gap-1.5">
+        <RowDropdown.Item to={buildUrlDetailLink('edit')} className="gap-1.5">
           <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit short URL
         </RowDropdown.Item>
 
         {redirectRulesAreSupported && (
-          <RowDropdown.Item to={buildUrlDetailLink('redirect-rules')} className="tw:gap-1.5">
+          <RowDropdown.Item to={buildUrlDetailLink('redirect-rules')} className="gap-1.5">
             <FontAwesomeIcon icon={rulesIcon} fixedWidth /> Manage redirect rules
           </RowDropdown.Item>
         )}
 
-        <RowDropdown.Item onClick={openQrCodeModal} className="tw:gap-1.5">
+        <RowDropdown.Item onClick={openQrCodeModal} className="gap-1.5">
           <FontAwesomeIcon icon={qrIcon} fixedWidth /> QR code
         </RowDropdown.Item>
 
         <RowDropdown.Separator />
 
         <RowDropdown.Item
-          className="tw:[&]:text-danger tw:gap-1.5"
+          className="[&]:text-danger gap-1.5"
           onClick={confirmDeletions ? openDeleteModal : doDeleteShortUrl}
         >
           <FontAwesomeIcon icon={deleteIcon} fixedWidth /> Delete short URL

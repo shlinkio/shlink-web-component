@@ -21,7 +21,7 @@ const itemsPerPage = 20;
 const ExportShortUrlsBtn: FCWithDeps<ExportShortUrlsBtnProps, ExportShortUrlsBtnDeps> = ({ amount = 0 }) => {
   const { apiClientFactory, ReportExporter: reportExporter } = useDependencies(ExportShortUrlsBtn);
   const [{ tags, search, startDate, endDate, orderBy, tagsMode }] = useShortUrlsQuery();
-  const [loading,, startLoading, stopLoading] = useToggle();
+  const { flag: loading, setToTrue: startLoading, setToFalse: stopLoading } = useToggle();
   const exportAllUrls = useCallback(async () => {
     const totalPages = amount / itemsPerPage;
     const loadAllUrls = async (page = 1): Promise<ShlinkShortUrl[]> => {
@@ -70,7 +70,7 @@ const ExportShortUrlsBtn: FCWithDeps<ExportShortUrlsBtnProps, ExportShortUrlsBtn
     tagsMode,
   ]);
 
-  return <ExportBtn loading={loading} className="tw:max-lg:w-full" amount={amount} onClick={exportAllUrls} />;
+  return <ExportBtn loading={loading} className="max-lg:w-full" amount={amount} onClick={exportAllUrls} />;
 };
 
 export const ExportShortUrlsBtnFactory = componentFactory(ExportShortUrlsBtn, ['apiClientFactory', 'ReportExporter']);

@@ -1,4 +1,4 @@
-import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import type { VisitsSettings } from '..';
 
@@ -29,7 +29,7 @@ const intervalToString = (interval: DateInterval | undefined, fallback: string):
 };
 
 export const DateIntervalSelector: FC<DateIntervalSelectorProps> = ({ onChange, active, allText }) => (
-  <Dropdown buttonContent={intervalToString(active, allText)} buttonClassName="tw:w-full">
+  <Dropdown buttonContent={intervalToString(active, allText)} buttonClassName="w-full">
     <Dropdown.Item selected={active === 'all'} onClick={() => onChange('all')}>
       {allText}
     </Dropdown.Item>

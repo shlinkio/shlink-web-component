@@ -4,8 +4,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { countBy } from '@shlinkio/data-manipulation';
-import { HIGHLIGHTED_COLOR, isDarkThemeEnabled, MAIN_COLOR, useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Card, Dropdown, formatNumber, LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Card, Dropdown, formatNumber, HIGHLIGHTED_COLOR, isDarkThemeEnabled, LinkButton,MAIN_COLOR, useToggle  } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { Duration } from 'date-fns';
 import {
@@ -230,7 +229,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
   }, [step, visitsGroups]);
   const activeDot = useActiveDot(visitsGroups, step, setSelectedVisits);
 
-  const { flag: isExpanded, toggle: toggleExpanded, setToFalse: setNotExpanded } = useToggle(false, true);
+  const { flag: isExpanded, toggle: toggleExpanded, setToFalse: setNotExpanded } = useToggle();
   const bodyId = useId();
   const legendRef = useRef<HTMLUListElement>(null);
   const [wrapperHeight, setWrapperHeight] = useState(isMobile ? 300 : 400);
@@ -294,12 +293,12 @@ export const LineChartCard: FC<LineChartCardProps> = (
 
   return (
     <Card
-      className={clsx({ 'tw:fixed tw:top-0 tw:bottom-0 tw:left-0 tw:right-0 tw:z-1030': isExpanded })}
+      className={clsx({ 'fixed top-0 bottom-0 left-0 right-0 z-1030': isExpanded })}
       data-testid="line-chart-card"
     >
-      <Card.Header role="heading" aria-level={4} className="tw:flex tw:justify-between tw:items-center">
+      <Card.Header role="heading" aria-level={4} className="flex justify-between items-center">
         Visits over time
-        <div className="tw:flex tw:content-center tw:gap-1">
+        <div className="flex content-center gap-1">
           <LinkButton
             aria-label={isExpanded ? 'Collapse' : 'Expand'}
             aria-expanded={isExpanded}
@@ -313,9 +312,9 @@ export const LineChartCard: FC<LineChartCardProps> = (
             buttonContent="Group by"
             buttonSize="sm"
             buttonVariant="link"
-            buttonClassName="tw:[&]:p-0"
+            buttonClassName="[&]:p-0"
             menuAlignment="right"
-            menuClassName="tw:w-40"
+            menuClassName="w-40"
           >
             {Object.entries(STEPS_MAP).map(([value, menuText]) => (
               <Dropdown.Item key={value} selected={step === value} onClick={() => setStep(value as Step)}>
@@ -328,7 +327,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
       <Card.Body id={bodyId}>
         <ChartWrapper {...wrapperDimensions}>
           <LineChart
-            className="tw:select-none"
+            className="select-none"
             data={chartData}
             {...dimensions}
             onMouseDown={resolveSelectionStart}

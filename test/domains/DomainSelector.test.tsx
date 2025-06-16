@@ -42,9 +42,9 @@ describe('<DomainSelector />', () => {
 
     expect(screen.queryByPlaceholderText('Domain')).not.toBeInTheDocument();
     if (hasPlaceholderClass) {
-      expect(btn).toHaveClass('tw:text-placeholder');
+      expect(btn).toHaveClass('text-placeholder');
     } else {
-      expect(btn).not.toHaveClass('tw:text-placeholder');
+      expect(btn).not.toHaveClass('text-placeholder');
     }
     await user.click(btn);
 

@@ -11,8 +11,8 @@ interface TagVisitsHeaderProps {
 export const TagVisitsHeader = ({ tagVisits, colorGenerator }: TagVisitsHeaderProps) => {
   const { visits, tag } = tagVisits;
   const visitsStatsTitle = (
-    <span className="tw:flex tw:items-center tw:justify-center">
-      <span className="tw:mr-2">Visits for</span>
+    <span className="flex items-center justify-center">
+      <span className="mr-2">Visits for</span>
       <Tag text={tag} colorGenerator={colorGenerator} />
     </span>
   );

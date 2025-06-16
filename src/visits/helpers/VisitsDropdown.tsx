@@ -1,4 +1,4 @@
-import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit';
 import type { ComponentProps } from 'react';
 import { useCallback } from 'react';
 import type { ShlinkOrphanVisitType } from '../../api-contract';
@@ -36,7 +36,7 @@ export const VisitsDropdown = ({
   );
 
   return (
-    <Dropdown buttonDisabled={disabled} buttonContent="More" buttonClassName="tw:w-full" menuAlignment="right">
+    <Dropdown buttonDisabled={disabled} buttonContent="More" buttonClassName="w-full" menuAlignment="right">
       {withPrevInterval && (
         <>
           <Dropdown.Item selected={loadPrevInterval} onClick={onPrevIntervalClick}>

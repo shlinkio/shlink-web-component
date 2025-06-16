@@ -4,8 +4,7 @@ import {
   faTrash as deleteIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { formatNumber, RowDropdown, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { formatNumber, RowDropdown, Table,useToggle  } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { Link } from 'react-router';
 import type { FCWithDeps } from '../container/utils';
@@ -28,33 +27,33 @@ type TagsTableRowDeps = {
 
 const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) => {
   const { DeleteTagConfirmModal, EditTagModal, ColorGenerator: colorGenerator } = useDependencies(TagsTableRow);
-  const { flag: isDeleteModalOpen, setToFalse: closeDelete, setToTrue: openDelete } = useToggle(false, true);
-  const { flag: isEditModalOpen, setToFalse: closeEdit, setToTrue: openEdit } = useToggle(false, true);
+  const { flag: isDeleteModalOpen, setToFalse: closeDelete, setToTrue: openDelete } = useToggle();
+  const { flag: isEditModalOpen, setToFalse: closeEdit, setToTrue: openEdit } = useToggle();
   const routesPrefix = useRoutesPrefix();
   const visitsComparison = useVisitsComparisonContext();
 
   return (
-    <Table.Row className="tw:max-lg:relative">
+    <Table.Row className="max-lg:relative">
       <Table.Cell columnName="Tag">
         <TagBullet tag={tag.tag} colorGenerator={colorGenerator} /> {tag.tag}
       </Table.Cell>
-      <Table.Cell className="tw:lg:text-right" columnName="Short URLs">
+      <Table.Cell className="lg:text-right" columnName="Short URLs">
         <Link to={`${routesPrefix}/list-short-urls/1?tags=${encodeURIComponent(tag.tag)}`}>
           {formatNumber(tag.shortUrls)}
         </Link>
       </Table.Cell>
-      <Table.Cell className="tw:lg:text-right" columnName="Visits">
+      <Table.Cell className="lg:text-right" columnName="Visits">
         <Link to={`${routesPrefix}/tag/${tag.tag}/visits`}>
           {formatNumber(tag.visits)}
         </Link>
       </Table.Cell>
-      <Table.Cell className="tw:lg:text-right tw:max-lg:absolute tw:max-lg:top-1.25 tw:max-lg:right-0 tw:max-lg:p-0">
+      <Table.Cell className="lg:text-right max-lg:absolute max-lg:top-1.25 max-lg:right-0 max-lg:p-0">
         <RowDropdown menuAlignment="right">
-          <RowDropdown.Item onClick={openEdit} className="tw:gap-1.5">
+          <RowDropdown.Item onClick={openEdit} className="gap-1.5">
             <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit
           </RowDropdown.Item>
           <RowDropdown.Item
-            className="tw:gap-1.5"
+            className="gap-1.5"
             disabled={!visitsComparison || !visitsComparison.canAddItemWithName(tag.tag)}
             onClick={() => visitsComparison?.addItemToCompare({
               name: tag.tag,
@@ -67,7 +66,7 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
 
           <RowDropdown.Separator />
 
-          <RowDropdown.Item className="tw:[&]:text-danger tw:gap-1.5" onClick={openDelete}>
+          <RowDropdown.Item className="[&]:text-danger gap-1.5" onClick={openDelete}>
             <FontAwesomeIcon icon={deleteIcon} fixedWidth /> Delete tag
           </RowDropdown.Item>
         </RowDropdown>

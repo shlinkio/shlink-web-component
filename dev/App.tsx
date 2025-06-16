@@ -42,25 +42,25 @@ export const App: FC = () => {
     <>
       <header
         className={clsx(
-          'tw:fixed tw:top-0 tw:left-0 tw:right-0 tw:z-1000',
-          'tw:h-(--header-height) tw:flex tw:justify-between',
-          'tw:bg-lm-main tw:dark:bg-dm-main tw:text-white',
+          'fixed top-0 left-0 right-0 z-1000',
+          'h-(--header-height) flex justify-between',
+          'bg-lm-main dark:bg-dm-main text-white',
         )}
       >
         <ServerInfoForm serverInfo={serverInfo} onChange={onServerInfoChange} />
-        <div className="tw:h-full tw:pr-4 tw:flex tw:items-center tw:gap-4">
-          <Link to="/" className="tw:text-white">Home</Link>
-          <Link to="/settings" className="tw:text-white">Settings</Link>
+        <div className="h-full pr-4 flex items-center gap-4">
+          <Link to="/" className="text-white">Home</Link>
+          <Link to="/settings" className="text-white">Settings</Link>
           <ThemeToggle />
         </div>
       </header>
-      <div className="tw:py-(--header-height)">
+      <div className="py-(--header-height)">
         <Routes>
           <Route path="/settings">
             <Route
               path="*"
               element={(
-                <div className="tw:container tw:mx-auto tw:pt-6">
+                <div className="container mx-auto pt-6">
                   <ShlinkWebSettings
                     settings={settings}
                     onUpdateSettings={setSettings}
@@ -80,9 +80,9 @@ export const App: FC = () => {
                 settings={settings}
                 routesPrefix={routesPrefix}
               />
-            ) : <div className="tw:container tw:mx-auto tw:pt-6">Not connected</div>}
+            ) : <div className="container mx-auto pt-6">Not connected</div>}
           />
-          <Route path="*" element={<h3 className="tw:mt-4 tw:text-center">Not found</h3>} />
+          <Route path="*" element={<h3 className="mt-4 text-center">Not found</h3>} />
         </Routes>
       </div>
     </>

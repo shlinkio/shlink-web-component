@@ -9,6 +9,6 @@ interface RenderModalArgs {
 export const TestModalWrapper: FC<{ renderModal: (args: RenderModalArgs) => ReactElement }> = (
   { renderModal },
 ) => {
-  const { flag: isOpen, setToFalse: onClose } = useToggle(true, true);
+  const { flag: isOpen, setToFalse: onClose } = useToggle(true);
   return renderModal({ isOpen, onClose });
 };

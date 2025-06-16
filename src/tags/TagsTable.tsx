@@ -1,6 +1,5 @@
 import { splitEvery } from '@shlinkio/data-manipulation';
-import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
-import { Paginator, SimpleCard, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Paginator, SimpleCard, Table,useParsedQuery  } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback , useEffect, useRef } from 'react';
@@ -42,31 +41,31 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
     isFirstLoad.current = false;
   }, [updatePage, sortedTags]);
 
-  const headerClasses = 'tw:cursor-pointer tw:top-(--header-height) tw:sticky-cell';
+  const headerClasses = 'cursor-pointer top-(--header-height) sticky-cell';
 
   return (
-    <SimpleCard key={page} bodyClassName={showPaginator ? 'tw:pb-1' : ''}>
+    <SimpleCard key={page} bodyClassName={showPaginator ? 'pb-1' : ''}>
       <Table
         header={
           <Table.Row>
             <Table.Cell onClick={orderByColumn('tag')} className={headerClasses}>
               Tag <TableOrderIcon currentOrder={currentOrder} field="tag" />
             </Table.Cell>
-            <Table.Cell onClick={orderByColumn('shortUrls')} className={`tw:lg:text-right ${headerClasses}`}>
+            <Table.Cell onClick={orderByColumn('shortUrls')} className={`lg:text-right ${headerClasses}`}>
               Short URLs <TableOrderIcon currentOrder={currentOrder} field="shortUrls" />
             </Table.Cell>
-            <Table.Cell onClick={orderByColumn('visits')} className={`tw:lg:text-right ${headerClasses}`}>
+            <Table.Cell onClick={orderByColumn('visits')} className={`lg:text-right ${headerClasses}`}>
               Visits <TableOrderIcon currentOrder={currentOrder} field="visits" />
             </Table.Cell>
             <Table.Cell className={headerClasses}>
-              <span className="tw:sr-only">Options</span>
+              <span className="sr-only">Options</span>
             </Table.Cell>
           </Table.Row>
         }
       >
         {currentPage.length === 0 && (
           <Table.Row>
-            <Table.Cell colSpan={4} className="tw:text-center">No tags found</Table.Cell>
+            <Table.Cell colSpan={4} className="text-center">No tags found</Table.Cell>
           </Table.Row>
         )}
         {currentPage.map((tag) => <TagsTableRow key={tag.tag} tag={tag} />)}
@@ -75,10 +74,10 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
       {showPaginator && (
         <div
           className={clsx(
-            'tw:sticky tw:bottom-0 tw:py-4 tw:-mx-0.5',
-            'tw:flex tw:justify-around',
-            'tw:bg-lm-primary tw:dark:bg-dm-primary',
-            'tw:border-t tw:border-lm-border tw:dark:border-dm-border',
+            'sticky bottom-0 py-4 -mx-0.5',
+            'flex justify-around',
+            'bg-lm-primary dark:bg-dm-primary',
+            'border-t border-lm-border dark:border-dm-border',
           )}
           data-testid="tags-paginator"
         >

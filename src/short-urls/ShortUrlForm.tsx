@@ -1,6 +1,6 @@
 import { faAndroid, faApple } from '@fortawesome/free-brands-svg-icons';
 import { faDesktop } from '@fortawesome/free-solid-svg-icons';
-import { Button, Checkbox, Input, Label, LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, Checkbox, Input, Label, LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { parseISO } from 'date-fns';
 import type { FC, FormEvent } from 'react';
@@ -82,7 +82,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   }, [isCreation, onSave, reset, shortUrlData]);
 
   const basicComponents = useMemo(() => (
-    <div className="tw:flex tw:flex-col tw:gap-4">
+    <div className="flex flex-col gap-4">
       <Input
         size="lg"
         type="url"
@@ -91,9 +91,9 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
         value={shortUrlData.longUrl}
         onChange={(e) => setShortUrlData((prev) => ({ ...prev, longUrl: e.target.value }))}
       />
-      <div className="tw:flex tw:flex-col tw:lg:flex-row tw:gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         {basicMode && isCreation && (
-          <div className="tw:w-full tw:lg:w-1/2">
+          <div className="w-full lg:w-1/2">
             <Input
               size="lg"
               placeholder="Custom slug"
@@ -102,7 +102,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
             />
           </div>
         )}
-        <div className={clsx('tw:w-full', { 'tw:lg:w-1/2': basicMode })}>
+        <div className={clsx('w-full', { 'lg:w-1/2': basicMode })}>
           <TagsSelector tags={tagsList.tags} selectedTags={shortUrlData.tags ?? []} onChange={changeTags} />
         </div>
       </div>
@@ -110,21 +110,21 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   ), [TagsSelector, basicMode, changeTags, isCreation, shortUrlData, tagsList.tags]);
 
   return (
-    <form name="shortUrlForm" onSubmit={submit} className="tw:flex tw:flex-col tw:gap-4">
+    <form name="shortUrlForm" onSubmit={submit} className="flex flex-col gap-4">
       {basicMode && basicComponents}
       {!basicMode && (
         <>
           <div>
-            <div className={clsx({ 'tw:sm:w-1/2': supportsDeviceLongUrls, 'tw:w-full': !supportsDeviceLongUrls })}>
+            <div className={clsx({ 'sm:w-1/2': supportsDeviceLongUrls, 'w-full': !supportsDeviceLongUrls })}>
               <SimpleCard title="Main options" className="card">
                 {basicComponents}
               </SimpleCard>
             </div>
             {supportsDeviceLongUrls && (
-              <div className="tw:w-full tw:sm:w-1/2">
+              <div className="w-full sm:w-1/2">
                 <SimpleCard
                   title="Device-specific long URLs"
-                  bodyClassName="tw:flex tw:flex-col tw:gap-y-4"
+                  bodyClassName="flex flex-col gap-y-4"
                   className="card"
                 >
                   <IconInput
@@ -153,12 +153,12 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
             )}
           </div>
 
-          <div className="tw:flex tw:flex-col tw:sm:flex-row tw:gap-4">
-            <div className="tw:w-full tw:sm:w-1/2">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="w-full sm:w-1/2">
               <SimpleCard
                 title="Customize the short URL"
-                bodyClassName="tw:flex tw:flex-col tw:gap-4"
-                className="card tw:h-full"
+                bodyClassName="flex flex-col gap-4"
+                className="card h-full"
               >
                 <Input
                   placeholder="Title"
@@ -170,8 +170,8 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                 />
                 {isCreation && (
                   <>
-                    <div className="tw:flex tw:flex-col tw:lg:flex-row tw:gap-4">
-                      <div className="tw:lg:w-1/2">
+                    <div className="flex flex-col lg:flex-row gap-4">
+                      <div className="lg:w-1/2">
                         <Input
                           placeholder="Custom slug"
                           value={shortUrlData.customSlug ?? ''}
@@ -179,7 +179,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                           disabled={hasValue(shortUrlData.shortCodeLength)}
                         />
                       </div>
-                      <div className="tw:lg:w-1/2">
+                      <div className="lg:w-1/2">
                         <Input
                           type="number"
                           placeholder="Short code length"
@@ -200,14 +200,14 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
               </SimpleCard>
             </div>
 
-            <div className="tw:w-full tw:sm:w-1/2">
+            <div className="w-full sm:w-1/2">
               <SimpleCard
                 title="Limit access to the short URL"
-                className="card tw:h-full"
-                bodyClassName="tw:flex tw:flex-col tw:gap-y-4"
+                className="card h-full"
+                bodyClassName="flex flex-col gap-y-4"
               >
-                <div className="tw:flex tw:flex-col tw:lg:flex-row tw:gap-4">
-                  <div className="tw:lg:w-1/2">
+                <div className="flex flex-col lg:flex-row gap-4">
+                  <div className="lg:w-1/2">
                     <LabelledDateInput
                       label="Enabled since"
                       withTime
@@ -216,7 +216,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                       onChange={(date) => setShortUrlData((prev) => ({ ...prev, validSince: formatIsoDate(date) }))}
                     />
                   </div>
-                  <div className="tw:lg:w-1/2">
+                  <div className="lg:w-1/2">
                     <LabelledDateInput
                       label="Enabled until"
                       withTime
@@ -242,10 +242,10 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
             </div>
           </div>
 
-          <div className="tw:flex tw:flex-col tw:sm:flex-row tw:gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             {showExtraChecks && (
-              <div className="tw:w-full tw:sm:w-1/2">
-                <SimpleCard title="Extra checks" className="tw:h-full">
+              <div className="w-full sm:w-1/2">
+                <SimpleCard title="Extra checks" className="h-full">
                   {supportsValidatingUrls && (
                     <ShortUrlFormCheckboxGroup
                       infoTooltip="If checked, Shlink will try to reach the long URL, failing in case it's not publicly accessible."
@@ -256,8 +256,8 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                     </ShortUrlFormCheckboxGroup>
                   )}
                   {isCreation && (
-                    <p className="tw:inline-flex tw:items-center tw:gap-x-2">
-                      <Label className="tw:inline-flex tw:items-center tw:gap-x-1.5">
+                    <p className="inline-flex items-center gap-x-2">
+                      <Label className="inline-flex items-center gap-x-1.5">
                         <Checkbox
                           checked={shortUrlData.findIfExists}
                           onChange={(findIfExists) => setShortUrlData((prev) => ({ ...prev, findIfExists }))}
@@ -270,7 +270,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
                 </SimpleCard>
               </div>
             )}
-            <div className={clsx('tw:w-full', { 'tw:sm:w-1/2': showExtraChecks })}>
+            <div className={clsx('w-full', { 'sm:w-1/2': showExtraChecks })}>
               <SimpleCard title="Configure behavior">
                 <ShortUrlFormCheckboxGroup
                   infoTooltip="This short URL will be included in the robots.txt for your Shlink instance, allowing web crawlers (like Google) to index it."
@@ -292,8 +292,8 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
         </>
       )}
 
-      <div className="tw:text-center">
-        <Button type="submit" inline disabled={saving || !shortUrlData.longUrl} className="tw:max-md:w-full">
+      <div className="text-center">
+        <Button type="submit" inline disabled={saving || !shortUrlData.longUrl} className="max-md:w-full">
           {saving ? 'Saving...' : 'Save'}
         </Button>
       </div>

@@ -3,7 +3,7 @@
 exports[`<ShortUrlsRow /> > displays expected status icon 1`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-calendar-xmark tw:text-danger"
+  class="svg-inline--fa fa-calendar-xmark text-danger"
   data-icon="calendar-xmark"
   data-prefix="fas"
   focusable="false"
@@ -21,7 +21,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 1`] = `
 exports[`<ShortUrlsRow /> > displays expected status icon 2`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-calendar-xmark tw:text-warning"
+  class="svg-inline--fa fa-calendar-xmark text-warning"
   data-icon="calendar-xmark"
   data-prefix="fas"
   focusable="false"
@@ -39,7 +39,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 2`] = `
 exports[`<ShortUrlsRow /> > displays expected status icon 3`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-link-slash tw:text-danger"
+  class="svg-inline--fa fa-link-slash text-danger"
   data-icon="link-slash"
   data-prefix="fas"
   focusable="false"
@@ -57,7 +57,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 3`] = `
 exports[`<ShortUrlsRow /> > displays expected status icon 4`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-link-slash tw:text-danger"
+  class="svg-inline--fa fa-link-slash text-danger"
   data-icon="link-slash"
   data-prefix="fas"
   focusable="false"
@@ -75,7 +75,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 4`] = `
 exports[`<ShortUrlsRow /> > displays expected status icon 5`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-calendar-xmark tw:text-danger"
+  class="svg-inline--fa fa-calendar-xmark text-danger"
   data-icon="calendar-xmark"
   data-prefix="fas"
   focusable="false"
@@ -93,7 +93,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 5`] = `
 exports[`<ShortUrlsRow /> > displays expected status icon 6`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-check tw:text-lm-brand tw:dark:text-dm-brand"
+  class="svg-inline--fa fa-check text-lm-brand dark:text-dm-brand"
   data-icon="check"
   data-prefix="fas"
   focusable="false"
@@ -111,7 +111,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 6`] = `
 exports[`<ShortUrlsRow /> > displays expected status icon 7`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-check tw:text-lm-brand tw:dark:text-dm-brand"
+  class="svg-inline--fa fa-check text-lm-brand dark:text-dm-brand"
   data-icon="check"
   data-prefix="fas"
   focusable="false"
@@ -129,7 +129,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 7`] = `
 exports[`<ShortUrlsRow /> > displays expected status icon 8`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-check tw:text-lm-brand tw:dark:text-dm-brand"
+  class="svg-inline--fa fa-check text-lm-brand dark:text-dm-brand"
   data-icon="check"
   data-prefix="fas"
   focusable="false"

@@ -11,7 +11,7 @@ type DoughnutChartCardProps = Omit<DoughnutChartProps, 'showNumbersInLegend'> & 
 };
 
 export const DoughnutChartCard: FC<DoughnutChartCardProps> = ({ title, ...rest }) => {
-  const { flag: showNumbersInLegend, toggle: toggleShowNumbersInLegend } = useToggle(false, true);
+  const { flag: showNumbersInLegend, toggle: toggleShowNumbersInLegend } = useToggle();
 
   return (
     <ChartCard

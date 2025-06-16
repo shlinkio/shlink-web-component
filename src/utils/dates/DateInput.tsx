@@ -1,5 +1,5 @@
-import type { InputProps } from '@shlinkio/shlink-frontend-kit/tailwind';
-import { Input } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { InputProps } from '@shlinkio/shlink-frontend-kit';
+import { Input } from '@shlinkio/shlink-frontend-kit';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback, useMemo } from 'react';
 import { formatHumanFriendly, formatInternational, parseISO } from './helpers/date';

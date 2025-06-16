@@ -5,8 +5,7 @@ import {
   faList as listIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { RowDropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { RowDropdown,useToggle  } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useFeature } from '../../utils/features';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
@@ -22,7 +21,7 @@ interface DomainDropdownProps {
 }
 
 export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedirects }) => {
-  const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle(false, true);
+  const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle();
   const routesPrefix = useRoutesPrefix();
   const visitsComparison = useVisitsComparisonContext();
   const canFilterShortUrlsByDomain = useFeature('filterShortUrlsByDomain');
@@ -31,13 +30,13 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
     <>
       <RowDropdown menuAlignment="right">
         <RowDropdown.Item
-          className="tw:gap-1.5"
+          className="gap-1.5"
           to={`${routesPrefix}/domain/${domain.domain}${domain.isDefault ? `_${DEFAULT_DOMAIN}` : ''}/visits`}
         >
           <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
         </RowDropdown.Item>
         <RowDropdown.Item
-          className="tw:gap-1.5"
+          className="gap-1.5"
           disabled={!visitsComparison || !visitsComparison.canAddItemWithName(domain.domain)}
           onClick={() => visitsComparison?.addItemToCompare({
             name: domain.domain,
@@ -49,7 +48,7 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
 
         {canFilterShortUrlsByDomain && (
           <RowDropdown.Item
-            className="tw:gap-1.5"
+            className="gap-1.5"
             to={`${routesPrefix}/list-short-urls/1?domain=${domain.isDefault ? DEFAULT_DOMAIN : domain.domain}`}
           >
             <FontAwesomeIcon icon={listIcon} fixedWidth /> Short URLs
@@ -57,7 +56,7 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
         )}
 
         <RowDropdown.Separator />
-        <RowDropdown.Item onClick={openModal} className="tw:gap-1.5">
+        <RowDropdown.Item onClick={openModal} className="gap-1.5">
           <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit redirects
         </RowDropdown.Item>
       </RowDropdown>

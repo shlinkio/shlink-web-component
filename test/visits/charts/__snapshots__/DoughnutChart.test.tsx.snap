@@ -3,10 +3,10 @@
 exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
 <div>
   <div
-    class="tw:flex tw:flex-col tw:md:flex-row tw:md:items-center tw:gap-y-4"
+    class="flex flex-col md:flex-row md:items-center gap-y-4"
   >
     <div
-      class="tw:md:flex-7"
+      class="md:flex-7"
     >
       <div>
         <div
@@ -73,21 +73,21 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
       </div>
     </div>
     <div
-      class="tw:md:flex-5"
+      class="md:flex-5"
     >
       <ul
-        class="tw:space-y-1"
+        class="space-y-1"
       >
         <li
-          class="tw:flex tw:items-center"
+          class="flex items-center"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             data-testid="color-bullet-0"
             style="background-color: rgb(151, 187, 205);"
           />
           <small
-            class="tw:truncate tw:grow"
+            class="truncate grow"
             data-testid="name-0"
           >
             foo
@@ -99,15 +99,15 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
           </small>
         </li>
         <li
-          class="tw:flex tw:items-center"
+          class="flex items-center"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             data-testid="color-bullet-1"
             style="background-color: rgb(247, 70, 74);"
           />
           <small
-            class="tw:truncate tw:grow"
+            class="truncate grow"
             data-testid="name-1"
           >
             bar
@@ -127,10 +127,10 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
 exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
 <div>
   <div
-    class="tw:flex tw:flex-col tw:md:flex-row tw:md:items-center tw:gap-y-4"
+    class="flex flex-col md:flex-row md:items-center gap-y-4"
   >
     <div
-      class="tw:md:flex-7"
+      class="md:flex-7"
     >
       <div>
         <div
@@ -214,21 +214,21 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
       </div>
     </div>
     <div
-      class="tw:md:flex-5"
+      class="md:flex-5"
     >
       <ul
-        class="tw:space-y-1"
+        class="space-y-1"
       >
         <li
-          class="tw:flex tw:items-center"
+          class="flex items-center"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             data-testid="color-bullet-0"
             style="background-color: rgb(151, 187, 205);"
           />
           <small
-            class="tw:truncate tw:grow"
+            class="truncate grow"
             data-testid="name-0"
           >
             foo
@@ -240,15 +240,15 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
           </small>
         </li>
         <li
-          class="tw:flex tw:items-center"
+          class="flex items-center"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             data-testid="color-bullet-1"
             style="background-color: rgb(247, 70, 74);"
           />
           <small
-            class="tw:truncate tw:grow"
+            class="truncate grow"
             data-testid="name-1"
           >
             bar
@@ -268,10 +268,10 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
 exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
 <div>
   <div
-    class="tw:flex tw:flex-col tw:md:flex-row tw:md:items-center tw:gap-y-4"
+    class="flex flex-col md:flex-row md:items-center gap-y-4"
   >
     <div
-      class="tw:md:flex-7"
+      class="md:flex-7"
     >
       <div>
         <div
@@ -359,21 +359,21 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
       </div>
     </div>
     <div
-      class="tw:md:flex-5"
+      class="md:flex-5"
     >
       <ul
-        class="tw:space-y-1"
+        class="space-y-1"
       >
         <li
-          class="tw:flex tw:items-center"
+          class="flex items-center"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             data-testid="color-bullet-0"
             style="background-color: rgb(151, 187, 205);"
           />
           <small
-            class="tw:truncate tw:grow"
+            class="truncate grow"
             data-testid="name-0"
           >
             foo
@@ -385,15 +385,15 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
           </small>
         </li>
         <li
-          class="tw:flex tw:items-center"
+          class="flex items-center"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             data-testid="color-bullet-1"
             style="background-color: rgb(247, 70, 74);"
           />
           <small
-            class="tw:truncate tw:grow"
+            class="truncate grow"
             data-testid="name-1"
           >
             bar

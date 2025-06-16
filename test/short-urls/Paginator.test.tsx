@@ -1,4 +1,4 @@
-import { ELLIPSIS } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { ELLIPSIS } from '@shlinkio/shlink-frontend-kit';
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';

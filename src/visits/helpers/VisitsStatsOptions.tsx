@@ -1,5 +1,4 @@
-import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Button, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, SimpleCard,useToggle  } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
 import type { VisitsDeletion } from '../reducers/types';
@@ -11,17 +10,17 @@ export type VisitsStatsOptionsProps = {
 
 export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion, deleteVisits }) => {
   const { deleting } = visitsDeletion;
-  const { flag: doubleConfirmed, setToTrue: setDoubleConfirmed } = useToggle(false, true);
+  const { flag: doubleConfirmed, setToTrue: setDoubleConfirmed } = useToggle();
 
   return (
-    <SimpleCard title={<span className="tw:text-danger tw:font-bold tw:text-base">Danger zone</span>}>
+    <SimpleCard title={<span className="text-danger font-bold text-base">Danger zone</span>}>
       <SpaceBetweenContainer>
-        <dl className="tw:m-0 tw:mr-3">
+        <dl className="m-0 mr-3">
           <dt>Delete visits.</dt>
-          <dd className="tw:m-0">This will delete <b>all</b> visits, not only the ones matching current filter.</dd>
+          <dd className="m-0">This will delete <b>all</b> visits, not only the ones matching current filter.</dd>
         </dl>
         {!doubleConfirmed && (
-          <Button variant="danger" solid className="tw:whitespace-nowrap" onClick={setDoubleConfirmed}>
+          <Button variant="danger" solid className="whitespace-nowrap" onClick={setDoubleConfirmed}>
             Delete visits
           </Button>
         )}
@@ -30,7 +29,7 @@ export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion
             solid
             variant="danger"
             disabled={deleting}
-            className="tw:whitespace-nowrap"
+            className="whitespace-nowrap"
             onClick={deleteVisits}
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus

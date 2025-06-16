@@ -1,5 +1,5 @@
-import type { NumberOrEllipsis } from '@shlinkio/shlink-frontend-kit/tailwind';
-import { Paginator as ShlinkPagination } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { NumberOrEllipsis } from '@shlinkio/shlink-frontend-kit';
+import { Paginator as ShlinkPagination } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { useCallback } from 'react';
 import type { ShlinkPaginator } from '../api-contract';
@@ -19,17 +19,17 @@ export const Paginator = ({ paginator, currentQueryString = '' }: PaginatorProps
   );
 
   if (pagesCount <= 1) {
-    return <div data-testid="empty-gap" className="tw:pb-4" />; // Return some space
+    return <div data-testid="empty-gap" className="pb-4" />; // Return some space
   }
 
   return (
     <div
       data-testid="short-urls-paginator"
       className={clsx(
-        'tw:sticky tw:bottom-0 tw:py-4 tw:-mx-0.5',
-        'tw:flex tw:justify-around',
-        'tw:bg-lm-primary tw:dark:bg-dm-primary',
-        'tw:border-t tw:border-lm-border tw:dark:border-dm-border',
+        'sticky bottom-0 py-4 -mx-0.5',
+        'flex justify-around',
+        'bg-lm-primary dark:bg-dm-primary',
+        'border-t border-lm-border dark:border-dm-border',
       )}
     >
       <ShlinkPagination urlForPage={urlForPage} currentPage={currentPage} pagesCount={pagesCount} />

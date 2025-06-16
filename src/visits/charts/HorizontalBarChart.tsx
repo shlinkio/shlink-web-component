@@ -1,11 +1,9 @@
 import {
-  HIGHLIGHTED_COLOR,
+  formatNumber,  HIGHLIGHTED_COLOR,
   HIGHLIGHTED_COLOR_ALPHA,
   isDarkThemeEnabled,
   MAIN_COLOR,
-  MAIN_COLOR_ALPHA,
-} from '@shlinkio/shlink-frontend-kit';
-import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
+  MAIN_COLOR_ALPHA } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Bar, CartesianGrid, Cell, ComposedChart, Tooltip, XAxis, YAxis } from 'recharts';

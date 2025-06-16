@@ -1,4 +1,4 @@
-import { Label, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Label, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import type { DateInterval, VisitsSettings as VisitsSettingsConfig } from '..';
@@ -23,7 +23,7 @@ export const VisitsSettings: FC<VisitsProps> = ({ onChange }) => {
   );
 
   return (
-    <SimpleCard title="Visits" className="card" bodyClassName="tw:flex tw:flex-col tw:gap-4">
+    <SimpleCard title="Visits" className="card" bodyClassName="flex flex-col gap-4">
       <LabelledToggle
         data-testid="exclude-bots"
         checked={!!visitsSettings?.excludeBots}
@@ -52,8 +52,8 @@ export const VisitsSettings: FC<VisitsProps> = ({ onChange }) => {
         Compare visits with previous period.
       </LabelledToggle>
 
-      <div className="tw:flex tw:flex-col">
-        <Label className="tw:mb-1.5">Default interval to load on visits sections:</Label>
+      <div className="flex flex-col">
+        <Label className="mb-1.5">Default interval to load on visits sections:</Label>
         <DateIntervalSelector
           allText="All visits"
           active={currentDefaultInterval(visitsSettings)}

@@ -1,4 +1,4 @@
-import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit';
 import { useCallback } from 'react';
 import type { Domain } from '../../domains/data';
 import { DEFAULT_DOMAIN } from '../../domains/data';
@@ -30,7 +30,7 @@ export const ShortUrlsFilterDropdown = ({ onChange, selected = {}, domains }: Sh
   );
 
   return (
-    <Dropdown buttonContent="Filters" buttonClassName="tw:w-full" menuAlignment="right">
+    <Dropdown buttonContent="Filters" buttonClassName="w-full" menuAlignment="right">
       <Dropdown.Title>Visits:</Dropdown.Title>
       <Dropdown.Item selected={excludeBots} onClick={() => toggleFilter('excludeBots')}>
         Ignore visits from bots
@@ -80,7 +80,7 @@ export const ShortUrlsFilterDropdown = ({ onChange, selected = {}, domains }: Sh
           excludePastValidUntil: undefined,
           domain: undefined,
         })}
-        className="tw:italic"
+        className="italic"
       >
         Reset to defaults
       </Dropdown.Item>

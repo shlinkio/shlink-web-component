@@ -1,4 +1,4 @@
-import { Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { ExternalLink } from 'react-external-link';
 import { Time } from '../utils/dates/Time';
@@ -20,7 +20,7 @@ const Date = ({ shortUrl }: { shortUrl?: ShlinkShortUrl }) => {
 
   return (
     <span>
-      <b className="tw:cursor-default" {...anchor}>
+      <b className="cursor-default" {...anchor}>
         <Time date={shortUrl.dateCreated} relative />
       </b>
       <Tooltip {...tooltip}>

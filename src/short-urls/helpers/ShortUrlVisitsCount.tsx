@@ -1,6 +1,6 @@
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatNumber, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { formatNumber, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { ShlinkShortUrl } from '../../api-contract';
 import { formatHumanFriendly, parseISO } from '../../utils/dates/helpers/date';
@@ -21,7 +21,7 @@ export const ShortUrlVisitsCount = (
   const hasLimit = !!maxVisits || !!validSince || !!validUntil;
   const visitsLink = (
     <ShortUrlDetailLink shortUrl={shortUrl} suffix="visits" asLink={asLink}>
-      <strong className={clsx('tw:inline-block tw:transition-all tw:duration-300', { 'tw:scale-150': active })}>
+      <strong className={clsx('inline-block transition-all duration-300', { 'scale-150': active })}>
         {formatNumber(visitsCount)}
       </strong>
     </ShortUrlDetailLink>
@@ -33,17 +33,17 @@ export const ShortUrlVisitsCount = (
 
   return (
     <>
-      <span className="tw:whitespace-nowrap">
+      <span className="whitespace-nowrap">
         {visitsLink}
-        <small className="tw:cursor-help" {...anchor}>
+        <small className="cursor-help" {...anchor}>
           {maxVisits && <> / {formatNumber(maxVisits)}</>}
-          <sup className="tw:ml-1">
+          <sup className="ml-1">
             <FontAwesomeIcon icon={infoIcon} />
           </sup>
         </small>
       </span>
       <Tooltip {...tooltip}>
-        <ul className="tw:flex tw:flex-col tw:gap-y-2">
+        <ul className="flex flex-col gap-y-2">
           {maxVisits && (
             <li>
               This short URL will not accept more than <b>{formatNumber(maxVisits)}</b> visit{maxVisits === 1 ? '' : 's'}.
@@ -52,13 +52,13 @@ export const ShortUrlVisitsCount = (
           {validSince && (
             <li>
               This short URL will not accept visits
-              before <b className="tw:whitespace-nowrap">{formatHumanFriendly(parseISO(validSince))}</b>.
+              before <b className="whitespace-nowrap">{formatHumanFriendly(parseISO(validSince))}</b>.
             </li>
           )}
           {validUntil && (
             <li>
               This short URL will not accept visits
-              after <b className="tw:whitespace-nowrap">{formatHumanFriendly(parseISO(validUntil))}</b>.
+              after <b className="whitespace-nowrap">{formatHumanFriendly(parseISO(validUntil))}</b>.
             </li>
           )}
         </ul>

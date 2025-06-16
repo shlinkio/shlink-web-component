@@ -1,4 +1,4 @@
-import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import type { QrCodeFormat } from '../../../settings';
 
@@ -10,7 +10,7 @@ export type QrFormatDropdownProps = {
 };
 
 export const QrFormatDropdown: FC<QrFormatDropdownProps> = ({ format, onChange }) => (
-  <Dropdown buttonContent={`Format (${format})`} buttonClassName="tw:w-full">
+  <Dropdown buttonContent={`Format (${format})`} buttonClassName="w-full">
     {qrFormats.map((f) => (
       <Dropdown.Item key={f} selected={format === f} onClick={() => onChange(f)}>{f}</Dropdown.Item>
     ))}

@@ -27,7 +27,7 @@ describe('<RealTimeUpdatesSettings />', () => {
     expect(screen.getByText(/^Real-time updates are currently being/)).toHaveTextContent('processed');
     expect(screen.getByText(/^Real-time updates are currently being/)).not.toHaveTextContent('ignored');
     expect(screen.getByText('Real-time updates frequency (in minutes):')).not.toHaveClass(
-      'tw:dark:text-gray-400',
+      'dark:text-gray-400',
     );
     expect(screen.getByLabelText('Real-time updates frequency (in minutes):')).not.toHaveAttribute('disabled');
     expect(screen.getByText('Updates will be reflected in the UI as soon as they happen.')).toBeInTheDocument();
@@ -40,7 +40,7 @@ describe('<RealTimeUpdatesSettings />', () => {
     expect(screen.getByText(/^Real-time updates are currently being/)).not.toHaveTextContent('processed');
     expect(screen.getByText(/^Real-time updates are currently being/)).toHaveTextContent('ignored');
     expect(screen.getByText('Real-time updates frequency (in minutes):')).toHaveClass(
-      'tw:dark:text-gray-400',
+      'dark:text-gray-400',
     );
     expect(screen.getByLabelText('Real-time updates frequency (in minutes):')).toHaveAttribute('disabled');
     expect(screen.queryByText('Updates will be reflected in the UI as soon as they happen.')).not.toBeInTheDocument();

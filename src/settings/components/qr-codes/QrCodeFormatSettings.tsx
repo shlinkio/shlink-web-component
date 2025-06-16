@@ -1,4 +1,4 @@
-import { SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { QrErrorCorrectionDropdown } from '../../../short-urls/helpers/qr-codes/QrErrorCorrectionDropdown';
 import { QrFormatDropdown } from '../../../short-urls/helpers/qr-codes/QrFormatDropdown';
@@ -15,8 +15,8 @@ export const QrCodeFormatSettings: FC<QrCodeFormatSettingsProps> = ({ onChange }
   const { format, errorCorrection } = qrCodesSettings;
 
   return (
-    <SimpleCard title="Format" className="card" bodyClassName="tw:flex tw:flex-col tw:gap-4">
-      <div className="tw:flex tw:flex-col tw:gap-1">
+    <SimpleCard title="Format" className="card" bodyClassName="flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
         <QrFormatDropdown
           format={format}
           onChange={(format) => onChange({ ...qrCodesSettings, format })}
@@ -25,7 +25,7 @@ export const QrCodeFormatSettings: FC<QrCodeFormatSettingsProps> = ({ onChange }
           When downloading a QR code, it will use <b data-testid="format">{format}</b> format by default.
         </Muted>
       </div>
-      <div className="tw:flex tw:flex-col tw:gap-1">
+      <div className="flex flex-col gap-1">
         <QrErrorCorrectionDropdown
           errorCorrection={errorCorrection}
           onChange={(errorCorrection) => onChange({ ...qrCodesSettings, errorCorrection })}

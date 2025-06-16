@@ -1,4 +1,4 @@
-import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { formatNumber } from '@shlinkio/shlink-frontend-kit';
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { DoughnutChartEntry } from '../../../src/visits/charts/DoughnutChart';

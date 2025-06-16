@@ -1,5 +1,5 @@
 import { mergeDeepRight } from '@shlinkio/data-manipulation';
-import { NavPills } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { NavPills } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback } from 'react';
@@ -29,7 +29,7 @@ export type ShlinkWebSettingsProps = {
 };
 
 const SettingsSections: FC<PropsWithChildren<{ className?: string }>> = ({ children, className }) => (
-  <div className={clsx('tw:flex tw:flex-col tw:gap-4', className)}>
+  <div className={clsx('flex flex-col gap-4', className)}>
     {children}
   </div>
 );
@@ -63,7 +63,7 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
 
   return (
     <SettingsProvider value={settings}>
-      <NavPills className="tw:mb-4 tw:sticky tw:top-(--header-height) tw:z-2">
+      <NavPills className="mb-4 sticky top-(--header-height) z-2">
         <NavPills.Pill to="../general">General</NavPills.Pill>
         <NavPills.Pill to="../short-urls">Short URLs</NavPills.Pill>
         <NavPills.Pill to="../qr-codes">QR codes</NavPills.Pill>
@@ -108,9 +108,9 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
           path="qr-codes"
           element={(
             <SettingsSections>
-              <div className="tw:flex tw:flex-col tw:lg:flex-row tw:gap-4">
-                <QrCodeSizeSettings onChange={updateQrCodeSettings} className="tw:w-full" />
-                <QrCodeColorSettings onChange={updateQrCodeSettings} className="tw:w-full" />
+              <div className="flex flex-col lg:flex-row gap-4">
+                <QrCodeSizeSettings onChange={updateQrCodeSettings} className="w-full" />
+                <QrCodeColorSettings onChange={updateQrCodeSettings} className="w-full" />
               </div>
               <QrCodeFormatSettings onChange={updateQrCodeSettings} />
             </SettingsSections>

@@ -1,6 +1,6 @@
 import { faArrowAltCircleRight as linkIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SimpleCard, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { SimpleCard, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 import { Link } from 'react-router';
@@ -16,25 +16,25 @@ export const HighlightCard: FC<HighlightCardProps> = ({ children, title, link, t
 
   return (
     <>
-      <Link to={link} className="tw:no-underline tw:text-inherit" {...anchor}>
+      <Link to={link} className="no-underline text-inherit" {...anchor}>
         <SimpleCard
           className={clsx(
-            'tw:text-center tw:border-t-3 tw:border-t-lm-main tw:dark:border-t-dm-main tw:relative',
+            'text-center border-t-3 border-t-lm-main dark:border-t-dm-main relative',
           )}
         >
           <FontAwesomeIcon
             icon={linkIcon}
             size="3x"
-            className="tw:absolute tw:right-[5px] tw:bottom-[5px] tw:opacity-10 tw:-rotate-45"
+            className="absolute right-[5px] bottom-[5px] opacity-10 -rotate-45"
           />
           <div
             role="heading"
             aria-level={5}
-            className="tw:text-xl tw:uppercase tw:text-placeholder tw:font-bold tw:mb-2"
+            className="text-xl uppercase text-placeholder font-bold mb-2"
           >
             {title}
           </div>
-          <div className="tw:text-4xl tw:font-semibold">{children}</div>
+          <div className="text-4xl font-semibold">{children}</div>
         </SimpleCard>
       </Link>
       {tooltipContent && (

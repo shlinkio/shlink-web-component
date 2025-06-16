@@ -1,4 +1,4 @@
-import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { formatNumber } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { ColorBullet } from '../../utils/components/ColorBullet';
 import type { DoughnutChartEntry } from './DoughnutChart';
@@ -9,11 +9,11 @@ export type DoughnutChartLegendProps = {
 };
 
 export const DoughnutChartLegend: FC<DoughnutChartLegendProps> = ({ chartData, showNumbers }) => (
-  <ul className="tw:space-y-1">
+  <ul className="space-y-1">
     {chartData.map(({ name, color, value }, index) => (
-      <li key={name} className="tw:flex tw:items-center">
+      <li key={name} className="flex items-center">
         <ColorBullet color={color} testId={`color-bullet-${index}`} />
-        <small className="tw:truncate tw:grow" data-testid={`name-${index}`}>
+        <small className="truncate grow" data-testid={`name-${index}`}>
           {name}
           {showNumbers && <b> ({formatNumber(value)})</b>}
         </small>

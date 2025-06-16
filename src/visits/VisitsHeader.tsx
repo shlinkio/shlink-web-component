@@ -1,4 +1,4 @@
-import { SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 import type { ShlinkShortUrl, ShlinkVisit } from '../api-contract';
@@ -14,16 +14,16 @@ type VisitsHeaderProps = PropsWithChildren<{
 export const VisitsHeader: FC<VisitsHeaderProps> = ({ visits, shortUrl, children, title }) => (
   <header>
     <SimpleCard>
-      <h2 className="tw:flex tw:justify-between tw:items-center">
+      <h2 className="flex justify-between items-center">
         <GoBackButton />
-        <span className="tw:text-center tw:hidden tw:sm:block">
+        <span className="text-center hidden sm:block">
           <small>{title}</small>
         </span>
         <span
           className={clsx(
-            'tw:px-3 tw:py-1.5 tw:rounded-md tw:ml-3',
-            'tw:font-bold tw:text-white tw:text-2xl',
-            'tw:bg-lm-main tw:dark:bg-dm-main',
+            'px-3 py-1.5 rounded-md ml-3',
+            'font-bold text-white text-2xl',
+            'bg-lm-main dark:bg-dm-main',
           )}
           data-testid="badge"
         >
@@ -31,11 +31,11 @@ export const VisitsHeader: FC<VisitsHeaderProps> = ({ visits, shortUrl, children
           <ShortUrlVisitsCount visitsCount={visits.length} shortUrl={shortUrl} />
         </span>
       </h2>
-      <h3 className="tw:text-center tw:block tw:sm:hidden tw:mt-3">
+      <h3 className="text-center block sm:hidden mt-3">
         <small>{title}</small>
       </h3>
 
-      {children && <div className="tw:md:mt-3">{children}</div>}
+      {children && <div className="md:mt-3">{children}</div>}
     </SimpleCard>
   </header>
 );

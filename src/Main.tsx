@@ -56,10 +56,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
 
-  const { flag: sidebarVisible, toggle: toggleSidebar, setToTrue: showSidebar, setToFalse: hideSidebar } = useToggle(
-    false,
-    true,
-  );
+  const { flag: sidebarVisible, toggle: toggleSidebar, setToTrue: showSidebar, setToFalse: hideSidebar } = useToggle();
 
   // Hide sidebar every time the route changes
   useEffect(() => hideSidebar(), [location, hideSidebar]);
@@ -72,11 +69,11 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
       <UnstyledButton
         aria-label="Toggle sidebar"
         className={clsx(
-          'tw:fixed tw:top-4 tw:left-3 tw:z-1035',
-          'tw:md:hidden tw:transition-colors',
+          'fixed top-4 left-3 z-1035',
+          'md:hidden transition-colors',
           {
-            'tw:text-white/50': !sidebarVisible,
-            'tw:text-white': sidebarVisible,
+            'text-white/50': !sidebarVisible,
+            'text-white': sidebarVisible,
           },
         )}
         onClick={toggleSidebar}
@@ -84,14 +81,14 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
         <FontAwesomeIcon icon={burgerIcon} size="xl" />
       </UnstyledButton>
 
-      <div {...swipeableProps} className="tw:h-full">
-        <div className="tw:h-full">
+      <div {...swipeableProps} className="h-full">
+        <div className="h-full">
           <AsideMenu routePrefix={routesPrefix} showOnMobile={sidebarVisible} />
           <div
-            className="tw:min-h-full tw:pt-[20px] tw:md:pt-[30px] tw:md:pl-(--aside-menu-width)"
+            className="min-h-full pt-[20px] md:pt-[30px] md:pl-(--aside-menu-width)"
             onPointerDown={hideSidebar}
           >
-            <div className="tw:container tw:mx-auto tw:px-3">
+            <div className="container mx-auto px-3">
               <Routes>
                 <Route index element={<Navigate replace to="overview" />} />
                 <Route path="/overview" element={<Overview />} />

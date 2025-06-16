@@ -2,26 +2,26 @@
 
 exports[`<MapModal /> > renders expected map 1`] = `
 <dialog
-  class="tw:bg-transparent tw:backdrop:bg-black/50 tw:flex tw:w-screen tw:h-screen tw:max-w-screen tw:max-h-screen tw:overflow-hidden"
+  class="bg-transparent backdrop:bg-black/50 flex w-screen h-screen max-w-screen max-h-screen overflow-hidden"
   open=""
 >
   <form
-    class="tw:w-full tw:m-auto tw:p-4 tw:sm:p-6 tw:-translate-y-4 tw:data-open:translate-y-0 tw:opacity-0 tw:data-open:opacity-100 tw:transition-[opacity_,_translate] tw:duration-300 tw:h-full"
+    class="w-full m-auto p-4 sm:p-6 -translate-y-4 data-open:translate-y-0 opacity-0 data-open:opacity-100 transition-[opacity_,_translate] duration-300 h-full"
     data-open=""
     data-testid="transition-container"
   >
     <div
-      class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary tw:w-full tw:h-full tw:relative tw:overflow-auto"
+      class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary w-full h-full relative overflow-auto"
     >
       <div
-        class="tw:px-4 tw:py-3 tw:absolute tw:top-0 tw:left-0 tw:right-0 tw:z-3000 tw:flex tw:items-center tw:justify-between tw:text-white tw:bg-linear-to-b tw:from-black/70 tw:to-black/10 tw:[text-shadow:_0_2px_4px_rgb(0_0_0/_0.8)]"
+        class="px-4 py-3 absolute top-0 left-0 right-0 z-3000 flex items-center justify-between text-white bg-linear-to-b from-black/70 to-black/10 [text-shadow:_0_2px_4px_rgb(0_0_0/_0.8)]"
       >
         <h5>
           Foobar
         </h5>
         <button
           aria-label="Close dialog"
-          class="tw:rounded-md tw:focus-ring tw:cursor-pointer tw:opacity-50 tw:highlight:opacity-80 tw:transition-opacity"
+          class="rounded-md focus-ring cursor-pointer opacity-50 highlight:opacity-80 transition-opacity"
           type="button"
         >
           <svg
@@ -42,7 +42,7 @@ exports[`<MapModal /> > renders expected map 1`] = `
         </button>
       </div>
       <div
-        class="tw:h-full tw:w-full leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        class="h-full w-full leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         style="position: relative;"
         tabindex="0"
       >

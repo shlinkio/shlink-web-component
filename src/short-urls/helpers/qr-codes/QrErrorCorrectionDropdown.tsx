@@ -1,4 +1,4 @@
-import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import type { QrErrorCorrection } from '../../../settings';
 
@@ -10,7 +10,7 @@ interface QrErrorCorrectionDropdownProps {
 export const QrErrorCorrectionDropdown: FC<QrErrorCorrectionDropdownProps> = ({ errorCorrection, onChange }) => (
   <Dropdown
     buttonContent={errorCorrection ? `Error correction (${errorCorrection})` : <i>Default error correction</i>}
-    buttonClassName="tw:w-full"
+    buttonClassName="w-full"
   >
     <Dropdown.Item selected={errorCorrection === 'L'} onClick={() => onChange('L')}>
       <b>L</b>ow

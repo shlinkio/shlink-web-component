@@ -31,12 +31,12 @@ export const Tag: FC<TagProps> = (props) => {
   return (
     <Wrapper
       className={clsx(
-        'tw:inline-flex tw:items-center tw:gap-1',
-        'tw:font-bold tw:[&]:rounded-md',
+        'inline-flex items-center gap-1',
+        'font-bold [&]:rounded-md',
         {
-          'tw:text-sm tw:px-1.5 tw:py-0.5': !clearable,
-          'tw:py-1 tw:px-2': clearable,
-          'tw:cursor-pointer': actionable,
+          'text-sm px-1.5 py-0.5': !clearable,
+          'py-1 px-2': clearable,
+          'cursor-pointer': actionable,
         },
         className,
       )}
@@ -48,7 +48,7 @@ export const Tag: FC<TagProps> = (props) => {
       {clearable && (
         <UnstyledButton
           aria-label={`Remove ${text}`}
-          className="tw:p-0 tw:text-lg tw:leading-5.5"
+          className="p-0 text-lg leading-5.5"
           onClick={props.onClose}
         >
           <FontAwesomeIcon icon={faClose} size="sm" />

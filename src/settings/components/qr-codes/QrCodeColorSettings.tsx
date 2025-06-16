@@ -1,4 +1,4 @@
-import { LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import type { QrCodeSettings } from '../../index';
 import { defaultQrCodeSettings, useSetting } from '../../index';
@@ -8,14 +8,14 @@ export type QrCodeColorSettingsProps = {
   className?: string;
 };
 
-const colorInputClasses = 'tw:[&]:p-0 tw:[&]:md:w-1/4 tw:[&]:rounded-none';
+const colorInputClasses = '[&]:p-0 [&]:md:w-1/4 [&]:rounded-none';
 
 export const QrCodeColorSettings: FC<QrCodeColorSettingsProps> = ({ onChange, className }) => {
   const qrCodesSettings = useSetting('qrCodes', defaultQrCodeSettings);
   const { color, bgColor } = qrCodesSettings;
 
   return (
-    <SimpleCard title="Colors" className={className} bodyClassName="tw:flex tw:flex-col tw:gap-4">
+    <SimpleCard title="Colors" className={className} bodyClassName="flex flex-col gap-4">
       <LabelledInput
         label="Default color:"
         helpText={<>QR codes will initially use <b data-testid="color">{color}</b> color.</>}

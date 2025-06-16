@@ -1,4 +1,4 @@
-import { Card, formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Card, formatNumber } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
@@ -28,9 +28,9 @@ type OverviewCardProps = {
 
 const OverviewCard: FC<OverviewCardProps> = ({ children, titleLinkText, titleLink, title }) => (
   <Card className="card">
-    <Card.Header className="tw:flex tw:justify-between tw:items-center">
-      <span className="tw:sm:hidden">{title}</span>
-      <h5 className="tw:hidden tw:sm:inline">{title}</h5>
+    <Card.Header className="flex justify-between items-center">
+      <span className="sm:hidden">{title}</span>
+      <h5 className="hidden sm:inline">{title}</h5>
       <Link to={titleLink}>{titleLinkText} &raquo;</Link>
     </Card.Header>
     <Card.Body>
@@ -76,8 +76,8 @@ const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub(({
   }, [listShortUrls, loadVisitsOverview]);
 
   return (
-    <div className="tw:flex tw:flex-col tw:gap-4">
-      <div className="tw:grid tw:grid-cols-1 tw:lg:grid-cols-2 tw:xl:grid-cols-4 tw:gap-4">
+    <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
         <VisitsHighlightCard
           title="Visits"
           link={`${routesPrefix}/non-orphan-visits`}

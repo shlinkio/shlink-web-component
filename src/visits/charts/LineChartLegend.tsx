@@ -1,4 +1,4 @@
-import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { formatNumber } from '@shlinkio/shlink-frontend-kit';
 import { forwardRef , useMemo } from 'react';
 import { ColorBullet } from '../../utils/components/ColorBullet';
 import type { VisitsList } from './LineChartCard';
@@ -15,9 +15,9 @@ export const LineChartLegend = forwardRef<HTMLUListElement, LineChartLegendProps
   }
 
   return (
-    <ul className="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4" ref={ref}>
+    <ul className="mt-2 flex flex-wrap justify-center gap-4" ref={ref}>
       {entries.map(([value, list], index) => (
-        <li className="tw:inline" key={`${value}${index}`}>
+        <li className="inline" key={`${value}${index}`}>
           <ColorBullet color={visitsListColor(list)} />
           <strong>{value} ({formatNumber(list.length)})</strong>
         </li>

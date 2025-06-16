@@ -1,4 +1,4 @@
-import { Dropdown, Label, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown, Label, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
 import { Muted } from '../../utils/components/Muted';
 import type { ShortUrlCreationSettings as ShortUrlsSettings } from '..';
@@ -26,7 +26,7 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ onChange }
   );
 
   return (
-    <SimpleCard title="Short URLs form" className="card" bodyClassName="tw:flex tw:flex-col tw:gap-4">
+    <SimpleCard title="Short URLs form" className="card" bodyClassName="flex flex-col gap-4">
       <LabelledToggle
         data-testid="validate-url"
         checked={shortUrlCreation.validateUrls ?? false}
@@ -54,11 +54,11 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ onChange }
       >
         Make all new short URLs forward their query params to the long URL.
       </LabelledToggle>
-      <div className="tw:flex tw:flex-col">
-        <Label className="tw:mb-1.5">Tag suggestions search mode:</Label>
+      <div className="flex flex-col">
+        <Label className="mb-1.5">Tag suggestions search mode:</Label>
         <Dropdown
           buttonContent={tagFilteringModeText(shortUrlCreation.tagFilteringMode)}
-          buttonClassName="tw:w-full"
+          buttonClassName="w-full"
         >
           <Dropdown.Item
             selected={!shortUrlCreation.tagFilteringMode || shortUrlCreation.tagFilteringMode === 'startsWith'}
@@ -73,7 +73,7 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ onChange }
             {tagFilteringModeText('includes')}
           </Dropdown.Item>
         </Dropdown>
-        <Muted size="sm" className="tw:mt-0.5">{tagFilteringModeHint(shortUrlCreation.tagFilteringMode)}</Muted>
+        <Muted size="sm" className="mt-0.5">{tagFilteringModeHint(shortUrlCreation.tagFilteringMode)}</Muted>
       </div>
     </SimpleCard>
   );

@@ -1,4 +1,4 @@
-import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit';
 
 interface PaginationDropdownProps {
   ranges: number[];
@@ -10,7 +10,7 @@ export const PaginationDropdown = ({ ranges, value, setValue }: PaginationDropdo
   <Dropdown
     buttonContent="Paginate"
     buttonVariant="link"
-    buttonClassName="tw:[&]:p-0"
+    buttonClassName="[&]:p-0"
     buttonSize="sm"
     menuAlignment="right"
   >

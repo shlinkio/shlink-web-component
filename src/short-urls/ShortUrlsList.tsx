@@ -1,6 +1,5 @@
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
-import { determineOrderDir } from '@shlinkio/shlink-frontend-kit';
-import { SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { determineOrderDir , SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -72,8 +71,10 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
     toFirstPage({ orderBy: { field, dir } });
     setActualOrderBy({ field, dir });
   }, [toFirstPage]);
-  const orderByColumn = (field: ShortUrlsOrderableFields) => () =>
-    handleOrderBy(field, determineOrderDir(field, actualOrderBy.field, actualOrderBy.dir));
+  const orderByColumn = (field: ShortUrlsOrderableFields) => () => handleOrderBy(
+    field,
+    determineOrderDir({ currentOrderDir: actualOrderBy.dir, currentField: actualOrderBy.field, newField: field }),
+  );
   const renderOrderIcon = (field: ShortUrlsOrderableFields) =>
     <TableOrderIcon currentOrder={actualOrderBy} field={field} />;
   const addTag = useCallback(
@@ -123,10 +124,10 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
         shortUrlsAmount={shortUrlsList.shortUrls?.pagination.totalItems}
         order={actualOrderBy}
         handleOrderBy={handleOrderBy}
-        className="tw:mb-4"
+        className="mb-4"
       />
-      <VisitsComparisonCollector type="short-urls" className="tw:mb-4" />
-      <SimpleCard bodyClassName={clsx({ 'tw:pb-0': !shortUrlsList.loading })}>
+      <VisitsComparisonCollector type="short-urls" className="mb-4" />
+      <SimpleCard bodyClassName={clsx({ 'pb-0': !shortUrlsList.loading })}>
         <ShortUrlsTable
           shortUrlsList={shortUrlsList}
           orderByColumn={orderByColumn}

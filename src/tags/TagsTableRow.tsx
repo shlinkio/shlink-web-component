@@ -48,7 +48,7 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
           {formatNumber(tag.visits)}
         </Link>
       </Table.Cell>
-      <Table.Cell className="tw:lg:text-right tw:max-lg:absolute tw:max-lg:top-[-19px] tw:max-lg:right-0 tw:max-lg:p-0">
+      <Table.Cell className="tw:lg:text-right tw:max-lg:absolute tw:max-lg:top-1.25 tw:max-lg:right-0 tw:max-lg:p-0">
         <RowDropdown menuAlignment="right">
           <RowDropdown.Item onClick={openEdit} className="tw:gap-1.5">
             <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit

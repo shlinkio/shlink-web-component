@@ -37,8 +37,6 @@ const InfoModal = (props: { open: boolean; onClose: () => void }) => (
 
 export const UseExistingIfFoundInfoIcon = () => {
   const { flag: isModalOpen, setToFalse: closeModal, setToTrue: openModal } = useToggle();
-
-  // TODO Replace native title with bootstrap tooltip + aria-label for accessibility
   return (
     <>
       <UnstyledButton title="What does this mean?" onClick={openModal}>

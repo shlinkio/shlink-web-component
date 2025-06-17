@@ -1,7 +1,7 @@
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import type { InputProps } from '@shlinkio/shlink-frontend-kit/tailwind';
-import { CardModal ,LabelledInput   } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { InputProps } from '@shlinkio/shlink-frontend-kit';
+import { CardModal ,LabelledInput   } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useCallback , useState } from 'react';
 import type { ShlinkDomain } from '../../api-contract';
@@ -19,7 +19,7 @@ const FormGroup: FC<FormGroupProps> = ({ children, onChange, infoTitle, ...rest 
     onChange={(e) => onChange(e.target.value)}
     label={(
       <>
-        <FontAwesomeIcon className="tw:mr-1.5" icon={infoIcon} title={infoTitle} />
+        <FontAwesomeIcon className="mr-1.5" icon={infoIcon} title={infoTitle} />
         {children}
       </>
     )}
@@ -74,7 +74,7 @@ export const EditDomainRedirectsModal: FC<EditDomainRedirectsModalProps> = (
       confirmText={saving ? 'Saving...' : 'Save'}
       confirmDisabled={saving}
     >
-      <div className="tw:flex tw:flex-col tw:gap-y-3">
+      <div className="flex flex-col gap-y-3">
         <FormGroup
           value={baseUrlRedirect}
           onChange={setBaseUrlRedirect}

@@ -1,4 +1,4 @@
-import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Table } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 import type { FCWithDeps } from '../container/utils';
@@ -23,7 +23,7 @@ type ShortUrlsTableBodyProps = ShortUrlsTableDeps & Pick<ShortUrlsTableProps, 's
 
 const FullRow: FC<PropsWithChildren<{ danger?: boolean }>> = ({ children, danger }) => (
   <Table.Row>
-    <Table.Cell colSpan={6} className={clsx('tw:text-center', { 'tw:text-danger tw:font-bold': danger })}>
+    <Table.Cell colSpan={6} className={clsx('text-center', { 'text-danger font-bold': danger })}>
       {children}
     </Table.Cell>
   </Table.Row>
@@ -60,11 +60,11 @@ const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
   onTagClick,
 }: ShortUrlsTableProps) => {
   const { ShortUrlsRow } = useDependencies(ShortUrlsTable);
-  const columnsClasses = clsx({ 'tw:cursor-pointer': !!orderByColumn });
+  const columnsClasses = clsx({ 'cursor-pointer': !!orderByColumn });
 
   return (
     <Table
-      className="tw:mb-[-1px] tw:w-full"
+      className="mb-[-1px] w-full"
       header={(
         <Table.Row>
           <Table.Cell className={columnsClasses} onClick={orderByColumn?.('dateCreated')}>
@@ -74,17 +74,17 @@ const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
             Short URL {renderOrderIcon?.('shortCode')}
           </Table.Cell>
           <Table.Cell>
-            <UnstyledButton className={clsx('tw:p-0', columnsClasses)} onClick={orderByColumn?.('title')}>
+            <UnstyledButton className={clsx('p-0', columnsClasses)} onClick={orderByColumn?.('title')}>
               Title {renderOrderIcon?.('title')}
             </UnstyledButton>
             &nbsp;&nbsp;/&nbsp;&nbsp;
-            <UnstyledButton className={clsx('tw:p-0', columnsClasses)} onClick={orderByColumn?.('longUrl')}>
-              <span className="tw:whitespace-nowrap">Long URL</span> {renderOrderIcon?.('longUrl')}
+            <UnstyledButton className={clsx('p-0', columnsClasses)} onClick={orderByColumn?.('longUrl')}>
+              <span className="whitespace-nowrap">Long URL</span> {renderOrderIcon?.('longUrl')}
             </UnstyledButton>
           </Table.Cell>
           <Table.Cell>Tags</Table.Cell>
           <Table.Cell className={columnsClasses} onClick={orderByColumn?.('visits')}>
-            <span className="tw:whitespace-nowrap">Visits {renderOrderIcon?.('visits')}</span>
+            <span className="whitespace-nowrap">Visits {renderOrderIcon?.('visits')}</span>
           </Table.Cell>
           <Table.Cell colSpan={2} aria-hidden />
         </Table.Row>

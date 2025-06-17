@@ -1,12 +1,11 @@
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { CardModal } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { CardModal,useToggle  } from '@shlinkio/shlink-frontend-kit';
 import { UnstyledButton } from '../utils/components/UnstyledButton';
 
 const InfoModal = (props: { open: boolean; onClose: () => void }) => (
   <CardModal {...props} title="Info" size="lg">
-    <div className="tw:flex tw:flex-col tw:gap-y-2">
+    <div className="flex flex-col gap-y-2">
       <p>
         When the&nbsp;
         <b><i>&quot;Use existing URL if found&quot;</i></b>
@@ -15,7 +14,7 @@ const InfoModal = (props: { open: boolean; onClose: () => void }) => (
       <p>
         These are the checks performed by Shlink in order to determine if an existing short URL should be returned:
       </p>
-      <ul className="tw:list-disc tw:pl-5">
+      <ul className="list-disc pl-5">
         <li>
           When only the long URL is provided: The most recent match will be returned, or a new short URL will be
           created
@@ -37,9 +36,7 @@ const InfoModal = (props: { open: boolean; onClose: () => void }) => (
 );
 
 export const UseExistingIfFoundInfoIcon = () => {
-  const { flag: isModalOpen, setToFalse: closeModal, setToTrue: openModal } = useToggle(false, true);
-
-  // TODO Replace native title with bootstrap tooltip + aria-label for accessibility
+  const { flag: isModalOpen, setToFalse: closeModal, setToTrue: openModal } = useToggle();
   return (
     <>
       <UnstyledButton title="What does this mean?" onClick={openModal}>

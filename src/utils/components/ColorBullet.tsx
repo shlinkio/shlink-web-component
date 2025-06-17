@@ -10,8 +10,8 @@ export const ColorBullet = ({ color, testId }: ColorBulletProps) => (
     data-testid={testId}
     style={{ backgroundColor: color }}
     className={clsx(
-      'tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full',
-      'tw:align-[-4px] tw:mr-1.5',
+      'inline-block w-[20px] h-[20px] rounded-full',
+      'align-[-4px] mr-1.5',
     )}
   />
 );

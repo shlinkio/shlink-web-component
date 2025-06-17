@@ -25,7 +25,7 @@ const resolveShortUrlStatus = (shortUrl: ShlinkShortUrl): StatusResult => {
   if (maxVisits && totalVisits >= maxVisits) {
     return {
       icon: faLinkSlash,
-      className: 'tw:text-danger',
+      className: 'text-danger',
       description: `This short URL cannot be currently visited because it has reached the maximum amount of ${maxVisits} visit${maxVisits > 1 ? 's' : ''}`,
     };
   }
@@ -33,7 +33,7 @@ const resolveShortUrlStatus = (shortUrl: ShlinkShortUrl): StatusResult => {
   if (validUntil && isBefore(parseISO(validUntil), now())) {
     return {
       icon: faCalendarXmark,
-      className: 'tw:text-danger',
+      className: 'text-danger',
       description: `This short URL cannot be visited since ${formatHumanFriendly(parseISO(validUntil))}`,
     };
   }
@@ -41,14 +41,14 @@ const resolveShortUrlStatus = (shortUrl: ShlinkShortUrl): StatusResult => {
   if (validSince && isBefore(now(), parseISO(validSince))) {
     return {
       icon: faCalendarXmark,
-      className: 'tw:text-warning',
+      className: 'text-warning',
       description: `This short URL will start working on ${formatHumanFriendly(parseISO(validSince))}`,
     };
   }
 
   return {
     icon: faCheck,
-    className: 'tw:text-lm-brand tw:dark:text-dm-brand',
+    className: 'text-lm-brand dark:text-dm-brand',
     description: 'This short URL can be visited normally',
   };
 };
@@ -57,7 +57,7 @@ export const ShortUrlStatus: FC<ShortUrlStatusProps> = ({ shortUrl }) => {
   const { icon, className, description } = useMemo(() => resolveShortUrlStatus(shortUrl), [shortUrl]);
 
   return (
-    <span className="tw:cursor-help" title={description}>
+    <span className="cursor-help" title={description}>
       <FontAwesomeIcon icon={icon} className={className} />
     </span>
   );

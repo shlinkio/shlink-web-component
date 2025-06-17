@@ -5,23 +5,23 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
   data-testid="line-chart-container"
 >
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":r43:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -41,13 +41,13 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":r45:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -71,11 +71,11 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":r43:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -506,7 +506,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -523,7 +523,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -534,7 +534,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -560,14 +560,14 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         </div>
       </div>
       <ul
-        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="mt-2 flex flex-wrap justify-center gap-4"
       >
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -587,23 +587,23 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
   data-testid="line-chart-container"
 >
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":r4a:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -623,13 +623,13 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":r4c:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -653,11 +653,11 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":r4a:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -1088,7 +1088,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -1105,7 +1105,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -1116,7 +1116,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -1142,14 +1142,14 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         </div>
       </div>
       <ul
-        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="mt-2 flex flex-wrap justify-center gap-4"
       >
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -1169,23 +1169,23 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
   data-testid="line-chart-container"
 >
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":r4h:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -1205,13 +1205,13 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":r4j:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -1235,11 +1235,11 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":r4h:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -1670,7 +1670,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -1687,7 +1687,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -1698,7 +1698,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -1724,14 +1724,14 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         </div>
       </div>
       <ul
-        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="mt-2 flex flex-wrap justify-center gap-4"
       >
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -1751,23 +1751,23 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
   data-testid="line-chart-container"
 >
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":r4o:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -1787,13 +1787,13 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":r4q:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -1817,11 +1817,11 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":r4o:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -2252,7 +2252,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -2269,7 +2269,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -2280,7 +2280,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -2351,14 +2351,14 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         </div>
       </div>
       <ul
-        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="mt-2 flex flex-wrap justify-center gap-4"
       >
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -2368,10 +2368,10 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           </strong>
         </li>
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             style="background-color: rgb(29, 170, 88);"
           />
           <strong>
@@ -2392,23 +2392,23 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
   data-testid="line-chart-container"
 >
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":r4v:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -2428,13 +2428,13 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":r51:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -2458,11 +2458,11 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":r4v:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -2893,7 +2893,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -2910,7 +2910,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -2921,7 +2921,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -2992,14 +2992,14 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         </div>
       </div>
       <ul
-        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="mt-2 flex flex-wrap justify-center gap-4"
       >
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -3009,10 +3009,10 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           </strong>
         </li>
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             style="background-color: rgb(29, 170, 88);"
           />
           <strong>
@@ -3033,23 +3033,23 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
   data-testid="line-chart-container"
 >
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":r56:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -3069,13 +3069,13 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":r58:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -3099,11 +3099,11 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":r56:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <svg
@@ -3534,7 +3534,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -3551,7 +3551,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -3562,7 +3562,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -3633,14 +3633,14 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         </div>
       </div>
       <ul
-        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="mt-2 flex flex-wrap justify-center gap-4"
       >
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -3650,10 +3650,10 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           </strong>
         </li>
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             style="background-color: rgb(29, 170, 88);"
           />
           <strong>

@@ -1,4 +1,4 @@
-import { CardModal, LabelledInput, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { CardModal, LabelledInput, Result } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import { useCallback, useEffect, useState } from 'react';
 import { isErrorAction, isInvalidDeletionError } from '../../api-contract/utils';
@@ -52,8 +52,8 @@ export const DeleteShortUrlModal = ({
       onClose={close}
       onClosed={() => deleted && shortUrlDeleted(shortUrl)}
     >
-      <div className="tw:flex tw:flex-col tw:gap-y-2">
-        <p><b className="tw:text-danger">Caution!</b> You are about to delete a short URL.</p>
+      <div className="flex flex-col gap-y-2">
+        <p><b className="text-danger">Caution!</b> You are about to delete a short URL.</p>
         <p>This action cannot be undone. Once you have deleted it, all the visits stats will be lost.</p>
 
         <LabelledInput
@@ -66,7 +66,7 @@ export const DeleteShortUrlModal = ({
         />
 
         {error && (
-          <Result variant={isInvalidDeletionError(errorData) ? 'warning' : 'error'} size="sm" className="tw:mt-2">
+          <Result variant={isInvalidDeletionError(errorData) ? 'warning' : 'error'} size="sm" className="mt-2">
             <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while deleting the URL :(" />
           </Result>
         )}

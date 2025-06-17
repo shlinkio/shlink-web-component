@@ -1,4 +1,4 @@
-import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { formatNumber } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import type { PartialVisitsSummary } from '../../visits/reducers/visitsOverview';
 import type { HighlightCardProps } from './HighlightCard';

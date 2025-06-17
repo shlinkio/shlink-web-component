@@ -1,8 +1,7 @@
 import { faClone, faImage } from '@fortawesome/free-regular-svg-icons';
 import { faCheck, faFileDownload as downloadIcon, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTimeoutToggle } from '@shlinkio/shlink-frontend-kit';
-import { Button, CardModal } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, CardModal,useTimeoutToggle  } from '@shlinkio/shlink-frontend-kit';
 import type { DrawType } from 'qr-code-styling';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback, useRef, useState } from 'react';
@@ -49,7 +48,7 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
     () => qrCodeRef.current?.download(`${shortCode}-qr-code`, format),
     [format, shortCode],
   );
-  const [copied, toggleCopied] = useTimeoutToggle();
+  const [copied, toggleCopied] = useTimeoutToggle({});
   const copy = useCallback(() => {
     const uri = qrCodeRef.current?.getDataUri(format) ?? '';
     return copyToClipboard({ text: uri, onCopy: toggleCopied });
@@ -68,9 +67,9 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
       title={<>QR code for <ExternalLink href={shortUrl} /></>}
       onClosed={resetOptions}
     >
-      <div className="tw:flex tw:flex-col-reverse tw:lg:flex-row tw:gap-4">
-        <div className="tw:grow tw:flex tw:items-center tw:justify-around">
-          <div className="tw:flex tw:flex-col tw:gap-1 tw:items-center" data-testid="qr-code-container">
+      <div className="flex flex-col-reverse lg:flex-row gap-4">
+        <div className="grow flex items-center justify-around">
+          <div className="flex flex-col gap-1 items-center" data-testid="qr-code-container">
             <QrCode
               ref={qrCodeRef}
               data={shortUrl}
@@ -82,10 +81,10 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
               logo={logo?.url}
               drawType={qrDrawType}
             />
-            <div className="tw:italic">Preview ({size + margin}x{size + margin})</div>
+            <div className="italic">Preview ({size + margin}x{size + margin})</div>
           </div>
         </div>
-        <div className="tw:flex tw:flex-col tw:gap-2 tw:lg:w-64">
+        <div className="flex flex-col gap-2 lg:w-64">
           <QrDimensionControl
             name="size"
             value={size}
@@ -121,7 +120,7 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
                 accept="image/*"
                 aria-hidden
                 tabIndex={-1}
-                className="tw:hidden"
+                className="hidden"
                 onChange={onSelectLogo}
                 data-testid="logo-input"
               />
@@ -130,21 +129,21 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
           {logo && (
             <Button variant="secondary" onClick={() => setLogo(undefined)}>
               <FontAwesomeIcon icon={faXmark} />
-              <div className="tw:truncate">Clear logo ({logo.name})</div>
+              <div className="truncate">Clear logo ({logo.name})</div>
             </Button>
           )}
 
-          <div className="tw:my-auto">
-            <hr className="tw:my-2" />
+          <div className="my-auto">
+            <hr className="my-2" />
           </div>
 
-          <div className="tw:flex tw:flex-col tw:gap-2">
+          <div className="flex flex-col gap-2">
             <QrFormatDropdown format={format} onChange={(format) => setQrOption({ format })} />
-            <div className="tw:flex tw:items-center tw:gap-2">
-              <Button onClick={copy} aria-label="Copy data URI" title="Copy data URI" className="tw:h-full">
+            <div className="flex items-center gap-2">
+              <Button onClick={copy} aria-label="Copy data URI" title="Copy data URI" className="h-full">
                 <FontAwesomeIcon icon={copied ? faCheck : faClone} fixedWidth />
               </Button>
-              <Button solid onClick={downloadQrCode} className="tw:grow">
+              <Button solid onClick={downloadQrCode} className="grow">
                 Download <FontAwesomeIcon icon={downloadIcon} />
               </Button>
             </div>

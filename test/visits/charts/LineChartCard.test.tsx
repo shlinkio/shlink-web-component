@@ -151,9 +151,9 @@ describe('<LineChartCard />', () => {
     const { user } = setUpChartWithData();
     const card = screen.getByTestId('line-chart-card');
 
-    expect(card).not.toHaveClass('tw:fixed');
+    expect(card).not.toHaveClass('fixed');
     await user.click(screen.getByLabelText('Expand'));
-    expect(card).toHaveClass('tw:fixed');
+    expect(card).toHaveClass('fixed');
   });
 
   it('collapses chart when pressing Escape while expanded', async () => {
@@ -161,8 +161,8 @@ describe('<LineChartCard />', () => {
     const card = screen.getByTestId('line-chart-card');
 
     await user.click(screen.getByLabelText('Expand'));
-    expect(card).toHaveClass('tw:fixed');
+    expect(card).toHaveClass('fixed');
     await user.keyboard('{Escape}');
-    expect(card).not.toHaveClass('tw:fixed');
+    expect(card).not.toHaveClass('fixed');
   });
 });

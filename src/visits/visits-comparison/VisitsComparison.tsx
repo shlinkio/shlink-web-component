@@ -1,4 +1,4 @@
-import { SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSetting } from '../../settings';
@@ -74,15 +74,15 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   }, [cancelGetVisitsComparison, dateRange, getVisitsForComparison, initialInterval, resolvedFilter]);
 
   return (
-    <div className="tw:flex tw:flex-col tw:gap-4">
-      <SimpleCard bodyClassName="tw:flex tw:items-center">
+    <div className="flex flex-col gap-4">
+      <SimpleCard bodyClassName="flex items-center">
         <GoBackButton />
-        <h3 className="tw:grow tw:text-center">{title}</h3>
+        <h3 className="grow text-center">{title}</h3>
       </SimpleCard>
 
-      <div className="tw:flex tw:flex-col tw:lg:flex-row-reverse tw:gap-4">
-        <div className="tw:lg:flex-3 tw:flex tw:flex-col tw:md:flex-row tw:gap-x-2 tw:gap-y-4">
-          <div className="tw:grow">
+      <div className="flex flex-col lg:flex-row-reverse gap-4">
+        <div className="lg:flex-3 flex flex-col md:flex-row gap-x-2 gap-y-4">
+          <div className="grow">
             <DateRangeSelector
               disabled={loading}
               defaultText="All visits"
@@ -98,7 +98,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
             })}
           />
         </div>
-        <div className="tw:hidden tw:lg:block tw:lg:flex-2 tw:xl:flex-3" />
+        <div className="hidden lg:block lg:flex-2 xl:flex-3" />
       </div>
 
       <VisitsLoadingFeedback info={visitsComparisonInfo} />

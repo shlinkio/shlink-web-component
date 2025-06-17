@@ -2,15 +2,18 @@ import { faCheck as checkIcon, faRobot as botIcon } from '@fortawesome/free-soli
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { splitEvery } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
-import { determineOrderDir, sortList, useToggle } from '@shlinkio/shlink-frontend-kit';
 import {
+  determineOrder,
   formatNumber,
   Paginator,
   SearchInput,
   SimpleCard,
-  Table, Tooltip,
+  sortList,
+  Table,
+  Tooltip,
+  useToggle,
   useTooltip,
-} from '@shlinkio/shlink-frontend-kit/tailwind';
+} from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { useCallback, useMemo, useState } from 'react';
 import { LabelledToggle } from '../settings/components/fe-kit/LabelledToggle';
@@ -60,7 +63,7 @@ const paginateVisits = ({ visits: allVisits, searchTerm, order, searchInRawUserA
   return { visitsGroups, total };
 };
 
-const headerCellsClass = 'tw:cursor-pointer tw:md:sticky-cell-separated tw:md:top-[calc(var(--header-height)+41px)]';
+const headerCellsClass = 'cursor-pointer md:sticky-cell-separated md:top-[calc(var(--header-height)+41px)]';
 
 const BotIconWithTooltip = () => {
   const { anchor, tooltip } = useTooltip({ placement: 'right' });
@@ -85,7 +88,7 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
     setSelectedVisits([]);
   }, [setSelectedVisits]);
   const [order, setOrder] = useState<VisitsOrder>({});
-  const { flag: showUserAgent, toggle: toggleShowUserAgent } = useToggle(false, true);
+  const { flag: showUserAgent, toggle: toggleShowUserAgent } = useToggle();
   const toggleUserAgentAndResetOrder = useCallback(() => {
     toggleShowUserAgent();
     setOrder({});
@@ -105,18 +108,18 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
   const hasVisits = paginator.total > 0;
 
   const orderByColumn = (field: OrderableFields) => setOrder(
-    { field, dir: determineOrderDir(field, order.field, order.dir) },
+    determineOrder({ currentField: order.field, currentOrderDir: order.dir, newField: field }),
   );
   const renderOrderIcon = (field: OrderableFields) =>
-    <TableOrderIcon currentOrder={order} field={field} className="tw:float-right tw:mt-[5px] tw:ml-[5px]" />;
+    <TableOrderIcon currentOrder={order} field={field} className="float-right mt-[5px] ml-[5px]" />;
 
   return (
     <SimpleCard
       // Adding a bottom padding to work around the fact that it's not possible to set border radius in internal table
       // elements, and we can also not hide the overflow of the table itself because then sticky elements get hidden
-      bodyClassName="tw:[&]:p-0 tw:[&]:pb-1"
+      bodyClassName="[&]:p-0 [&]:pb-1"
       title={
-        <span className="tw:flex tw:justify-between tw:items-center tw:text-base">
+        <span className="flex justify-between items-center text-base">
           Visits list
           <LabelledToggle checked={showUserAgent} onChange={toggleUserAgentAndResetOrder}>
             Show user agent
@@ -126,27 +129,27 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
       <Table
         responsive={false}
         size="sm"
-        className="tw:w-full tw:relative tw:overflow-y-hidden tw:bg-lm-primary tw:dark:bg-dm-primary"
+        className="w-full relative overflow-y-hidden bg-lm-primary dark:bg-dm-primary"
         header={(
           <>
             <Table.Row>
               <Table.Cell
-                className={clsx(headerCellsClass, 'tw:text-center')}
+                className={clsx(headerCellsClass, 'text-center')}
                 onClick={() => setSelectedVisits(
                   selectedVisits.length < paginator.total ? paginator.visitsGroups.flat() : [],
                 )}
               >
-                <span className="tw:sr-only">Is selected</span>
+                <span className="sr-only">Is selected</span>
                 <FontAwesomeIcon
                   icon={checkIcon}
-                  className={clsx({ 'tw:text-lm-brand tw:dark:text-dm-brand': selectedVisits.length > 0 })}
+                  className={clsx({ 'text-lm-brand dark:text-dm-brand': selectedVisits.length > 0 })}
                 />
               </Table.Cell>
               <Table.Cell
-                className={clsx(headerCellsClass, 'tw:text-center')}
+                className={clsx(headerCellsClass, 'text-center')}
                 onClick={() => orderByColumn('potentialBot')}
               >
-                <span className="tw:sr-only">Is bot</span>
+                <span className="sr-only">Is bot</span>
                 <FontAwesomeIcon icon={botIcon} />
                 {renderOrderIcon('potentialBot')}
               </Table.Cell>
@@ -191,7 +194,7 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
               )}
             </Table.Row>
             <Table.Row>
-              <Table.Cell colSpan={fullSizeColSpan} className="tw:[&]:p-0">
+              <Table.Cell colSpan={fullSizeColSpan} className="[&]:p-0">
                 <SearchInput size="md" borderless onChange={updateSearchTerm} />
               </Table.Cell>
             </Table.Row>
@@ -199,8 +202,8 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
         )}
         footer={paginator.total > PAGE_SIZE ? (
           <Table.Row>
-            <Table.Cell type="td" colSpan={fullSizeColSpan} className="tw:md:sticky-cell-separated tw:bottom-0">
-              <div className="tw:flex tw:flex-col tw:md:flex-row tw:justify-between tw:items-center tw:gap-4 tw:p-1">
+            <Table.Cell type="td" colSpan={fullSizeColSpan} className="md:sticky-cell-separated bottom-0">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4 p-1">
                 <Paginator
                   pagesCount={Math.ceil(paginator.total / PAGE_SIZE)}
                   currentPage={page}
@@ -218,7 +221,7 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
       >
         {!hasVisits && (
           <Table.Row>
-            <Table.Cell colSpan={fullSizeColSpan} className="tw:text-center">
+            <Table.Cell colSpan={fullSizeColSpan} className="text-center">
               There are no visits matching current filter
             </Table.Cell>
           </Table.Row>
@@ -229,18 +232,18 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
           return (
             <Table.Row
               key={index}
-              className={clsx('tw:cursor-pointer', isSelected && [
-                'tw:bg-lm-table-highlight tw:hover:[&]:bg-lm-table-highlight',
-                'tw:dark:bg-dm-table-highlight tw:dark:hover:[&]:bg-dm-table-highlight',
+              className={clsx('cursor-pointer', isSelected && [
+                'bg-lm-table-highlight hover:[&]:bg-lm-table-highlight',
+                'dark:bg-dm-table-highlight dark:hover:[&]:bg-dm-table-highlight',
               ])}
               onClick={() => setSelectedVisits(
                 isSelected ? selectedVisits.filter((v) => v !== visit) : [...selectedVisits, visit],
               )}
             >
-              <Table.Cell className="tw:text-center">
-                {isSelected && <FontAwesomeIcon icon={checkIcon} className="tw:text-lm-brand tw:dark:text-dm-brand" />}
+              <Table.Cell className="text-center">
+                {isSelected && <FontAwesomeIcon icon={checkIcon} className="text-lm-brand dark:text-dm-brand" />}
               </Table.Cell>
-              <Table.Cell className="tw:text-center">
+              <Table.Cell className="text-center">
                 {visit.potentialBot && <BotIconWithTooltip />}
               </Table.Cell>
               <Table.Cell><Time date={visit.date} /></Table.Cell>

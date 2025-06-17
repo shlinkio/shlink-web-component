@@ -93,9 +93,9 @@ describe('<VisitsComparisonCollector />', () => {
     const item = screen.getByRole('listitem');
 
     if (hasClass) {
-      expect(item).toHaveClass('tw:bg-gray-500');
+      expect(item).toHaveClass('bg-gray-500');
     } else {
-      expect(item).not.toHaveClass('tw:bg-gray-500');
+      expect(item).not.toHaveClass('bg-gray-500');
     }
   });
 

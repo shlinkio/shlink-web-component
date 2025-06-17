@@ -4,7 +4,7 @@ import {
   faTimes as invalidIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { ExternalLink } from 'react-external-link';
@@ -26,7 +26,7 @@ export const DomainStatusIcon: FC<DomainStatusIconProps> = ({ status }) => {
       <FontAwesomeIcon
         fixedWidth
         icon={status === 'valid' ? checkIcon : invalidIcon}
-        className={clsx({ 'tw:text-danger': status !== 'valid' })}
+        className={clsx({ 'text-danger': status !== 'valid' })}
       />
       <Tooltip {...tooltip}>
         {status === 'valid' ? (

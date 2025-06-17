@@ -1,5 +1,5 @@
-import type { RequiredReactNode, ToggleSwitchProps } from '@shlinkio/shlink-frontend-kit/tailwind';
-import { Label, ToggleSwitch } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { RequiredReactNode, ToggleSwitchProps } from '@shlinkio/shlink-frontend-kit';
+import { Label, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
 import type { FC, PropsWithChildren } from 'react';
 import { Muted } from '../../../utils/components/Muted';
 
@@ -11,12 +11,12 @@ export type LabelledToggleProps = ToggleSwitchProps & PropsWithChildren<{
 export const LabelledToggle: FC<LabelledToggleProps> = ({ children, helpText, 'data-testid': testId, ...rest }) => {
   return (
     <div data-testid={testId}>
-      <Label className="tw:flex tw:items-center tw:gap-x-2">
+      <Label className="flex items-center gap-x-2">
         <ToggleSwitch {...rest} />
         {children}
       </Label>
       {helpText && (
-        <Muted size="sm" data-testid={testId ? `${testId}-help-text` : 'help-text'} className="tw:pl-10">
+        <Muted size="sm" data-testid={testId ? `${testId}-help-text` : 'help-text'} className="pl-10">
           {helpText}
         </Muted>
       )}

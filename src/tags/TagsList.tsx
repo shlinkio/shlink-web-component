@@ -1,5 +1,4 @@
-import { determineOrder, sortList } from '@shlinkio/shlink-frontend-kit';
-import { Message, OrderingDropdown, Result, SearchInput } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { determineOrder, Message, OrderingDropdown, Result, SearchInput,sortList  } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import { ShlinkApiError } from '../common/ShlinkApiError';
@@ -66,13 +65,13 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
 
   return (
     <VisitsComparisonProvider value={visitsComparison}>
-      <div className="tw:flex tw:flex-col tw:gap-4">
+      <div className="flex flex-col gap-4">
         <SearchInput onChange={filterTags} />
-        <div className="tw:flex tw:flex-col tw:lg:flex-row tw:lg:justify-end">
-          <div className="tw:lg:w-1/2">
+        <div className="flex flex-col lg:flex-row lg:justify-end">
+          <div className="lg:w-1/2">
             <OrderingDropdown
-              containerClassName="tw:[&]:block"
-              buttonClassName="tw:w-full"
+              containerClassName="[&]:block"
+              buttonClassName="w-full"
               items={TAGS_ORDERABLE_FIELDS}
               order={order}
               onChange={setOrder}

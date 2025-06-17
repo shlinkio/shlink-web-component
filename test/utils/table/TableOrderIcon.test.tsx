@@ -30,7 +30,7 @@ describe('<TableOrderIcon />', () => {
   });
 
   it.each([
-    [undefined, 'tw:ml-1'],
+    [undefined, 'ml-1'],
     ['foo', 'foo'],
     ['bar', 'bar'],
   ])('renders expected classname', (className, expectedClassName) => {

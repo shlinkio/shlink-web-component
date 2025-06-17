@@ -1,4 +1,4 @@
-import { Card } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Card } from '@shlinkio/shlink-frontend-kit';
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 
 type ChartCardProps = PropsWithChildren<{
@@ -10,6 +10,6 @@ export const ChartCard: FC<ChartCardProps> = ({ title, footer, children }) => (
   <Card role="document">
     <Card.Header>{title}</Card.Header>
     <Card.Body>{children}</Card.Body>
-    {footer && <Card.Footer className="tw:sticky tw:bottom-0">{footer}</Card.Footer>}
+    {footer && <Card.Footer className="sticky bottom-0">{footer}</Card.Footer>}
   </Card>
 );

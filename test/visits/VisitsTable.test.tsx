@@ -58,7 +58,7 @@ describe('<VisitsTable />', () => {
     const { container, user } = setUp(visits, [visits[1], visits[2]]);
 
     // Initial situation
-    expect(container.querySelectorAll('.tw\\:bg-lm-table-highlight')).toHaveLength(2);
+    expect(container.querySelectorAll('.bg-lm-table-highlight')).toHaveLength(2);
 
     // Select one extra
     await user.click(screen.getAllByRole('row')[5]);

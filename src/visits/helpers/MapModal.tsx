@@ -1,4 +1,4 @@
-import { CardModal } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { CardModal } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import type { MapContainerProps } from 'react-leaflet';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
@@ -36,7 +36,7 @@ const calculateMapProps = (locations: CityStats[]): MapContainerProps => {
 
 export const MapModal = ({ toggle, isOpen, title, locations = [] }: MapModalProps) => (
   <CardModal open={isOpen} onClose={toggle} title={title} variant="cover">
-    <MapContainer {...calculateMapProps(locations)} className="tw:h-full tw:w-full">
+    <MapContainer {...calculateMapProps(locations)} className="h-full w-full">
       <OpenStreetMapTile />
       {locations.map(({ cityName, latLong, count }, index) => (
         <Marker key={index} position={latLong}>

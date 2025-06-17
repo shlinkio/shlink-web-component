@@ -1,7 +1,7 @@
 import type { Placement } from '@floating-ui/react';
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit';
 import type { FC, PropsWithChildren } from 'react';
 
 export type InfoTooltipProps = PropsWithChildren<{

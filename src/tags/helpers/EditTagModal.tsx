@@ -1,4 +1,4 @@
-import { CardModal, Input, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { CardModal, Input, Result } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useState } from 'react';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { FCWithDeps } from '../../container/utils';
@@ -44,10 +44,10 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
       confirmText={editing ? 'Saving...' : 'Save'}
       confirmDisabled={editing}
     >
-      <div className="tw:flex">
-        <ColorPicker color={color} onChange={setColor} className="tw:rounded-r-none" name="tag-color" />
+      <div className="flex">
+        <ColorPicker color={color} onChange={setColor} className="rounded-r-none" name="tag-color" />
         <Input
-          className="tw:grow tw:[&]:rounded-l-none"
+          className="grow [&]:rounded-l-none"
           value={newTagName}
           placeholder="Tag"
           required
@@ -56,7 +56,7 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
       </div>
 
       {error && (
-        <Result variant="error" size="sm" className="tw:mt-2">
+        <Result variant="error" size="sm" className="mt-2">
           <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while editing the tag :(" />
         </Result>
       )}

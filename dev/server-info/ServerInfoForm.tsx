@@ -1,4 +1,4 @@
-import { Button, Input } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, Input } from '@shlinkio/shlink-frontend-kit';
 import type { FC, FormEvent } from 'react';
 import { useCallback } from 'react';
 import type { ServerInfo } from './useServerInfo';
@@ -24,7 +24,7 @@ export const ServerInfoForm: FC<ServerInfoFormProps> = ({ serverInfo, onChange }
   }, [serverInfo]);
 
   return (
-    <form className="tw:py-2 tw:pl-2 tw:flex tw:gap-2" onSubmit={handleSubmit}>
+    <form className="py-2 pl-2 flex gap-2" onSubmit={handleSubmit}>
       <Input
         name="baseUrl"
         placeholder="Server URL"

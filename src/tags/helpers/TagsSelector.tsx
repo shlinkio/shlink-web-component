@@ -1,5 +1,5 @@
-import type { TagsAutocompleteProps } from '@shlinkio/shlink-frontend-kit/tailwind';
-import { TagsAutocomplete } from '@shlinkio/shlink-frontend-kit/tailwind';
+import type { TagsAutocompleteProps } from '@shlinkio/shlink-frontend-kit';
+import { TagsAutocomplete } from '@shlinkio/shlink-frontend-kit';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
 import { useSetting } from '../../settings';

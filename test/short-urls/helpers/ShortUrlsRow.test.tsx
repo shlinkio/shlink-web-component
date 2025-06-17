@@ -1,4 +1,4 @@
-import { Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Table } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
@@ -133,20 +133,20 @@ describe('<ShortUrlsRow />', () => {
   });
 
   it.each([
-    [{ validUntil: formatISO(subDays(now(), 1)) }, ['fa-calendar-xmark', 'tw:text-danger']],
-    [{ validSince: formatISO(addDays(now(), 1)) }, ['fa-calendar-xmark', 'tw:text-warning']],
-    [{ maxVisits: 45 }, ['fa-link-slash', 'tw:text-danger']],
-    [{ maxVisits: 45, validSince: formatISO(addDays(now(), 1)) }, ['fa-link-slash', 'tw:text-danger']],
+    [{ validUntil: formatISO(subDays(now(), 1)) }, ['fa-calendar-xmark', 'text-danger']],
+    [{ validSince: formatISO(addDays(now(), 1)) }, ['fa-calendar-xmark', 'text-warning']],
+    [{ maxVisits: 45 }, ['fa-link-slash', 'text-danger']],
+    [{ maxVisits: 45, validSince: formatISO(addDays(now(), 1)) }, ['fa-link-slash', 'text-danger']],
     [
       { validSince: formatISO(addDays(now(), 1)), validUntil: formatISO(subDays(now(), 1)) },
-      ['fa-calendar-xmark', 'tw:text-danger'],
+      ['fa-calendar-xmark', 'text-danger'],
     ],
     [
       { validSince: formatISO(subDays(now(), 1)), validUntil: formatISO(addDays(now(), 1)) },
-      ['fa-check', 'tw:text-lm-brand tw:dark:text-dm-brand'],
+      ['fa-check', 'text-lm-brand dark:text-dm-brand'],
     ],
-    [{ maxVisits: 500 }, ['fa-check', 'tw:text-lm-brand tw:dark:text-dm-brand']],
-    [{}, ['fa-check', 'tw:text-lm-brand tw:dark:text-dm-brand']],
+    [{ maxVisits: 500 }, ['fa-check', 'text-lm-brand dark:text-dm-brand']],
+    [{}, ['fa-check', 'text-lm-brand dark:text-dm-brand']],
   ])('displays expected status icon', (meta, expectedIconClasses) => {
     setUp({ meta });
     const icons = screen.getAllByRole('img', { hidden: true });

@@ -1,4 +1,4 @@
-import { Dropdown } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useMemo } from 'react';
 import { DateRangeRow } from './DateRangeRow';
 import type { DateInterval, DateRange } from './helpers/dateIntervals';
@@ -47,8 +47,8 @@ export const DateRangeSelector = (
     <Dropdown
       buttonDisabled={disabled}
       buttonContent={text}
-      containerClassName="tw:[&]:block"
-      buttonClassName="tw:w-full"
+      containerClassName="[&]:block"
+      buttonClassName="w-full"
     >
       <Dropdown.Item selected={activeInterval === 'all'} onClick={() => updateDateRangeOrInterval('all')}>
         {defaultText}

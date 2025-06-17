@@ -1,11 +1,10 @@
 import {
-  HIGHLIGHTED_COLOR,
+  brandColor,
+  brandColorAlpha,
+  formatNumber,  HIGHLIGHTED_COLOR,
   HIGHLIGHTED_COLOR_ALPHA,
   isDarkThemeEnabled,
-  MAIN_COLOR,
-  MAIN_COLOR_ALPHA,
 } from '@shlinkio/shlink-frontend-kit';
-import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Bar, CartesianGrid, Cell, ComposedChart, Tooltip, XAxis, YAxis } from 'recharts';
@@ -101,12 +100,12 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
           dataKey="nonHighlightedAmount"
           stackId="main"
           cursor="pointer"
-          fill={MAIN_COLOR /* This needs to be set as it is the color used in the tooltip */}
+          fill={brandColor() /* This needs to be set as it is the color used in the tooltip */}
           onClick={({ name }: HorizontalBarChartEntry) => onClick?.(name)}
         >
           {chartData.map((entry) => (
             // Using a Cell, to define a different fill color, without affecting the one used for the tooltip
-            <Cell key={entry.name} fill={MAIN_COLOR_ALPHA} stroke={MAIN_COLOR} strokeWidth={2} />
+            <Cell key={entry.name} fill={brandColorAlpha()} stroke={brandColor()} strokeWidth={2} />
           ))}
         </Bar>
         {highlightedStats && (

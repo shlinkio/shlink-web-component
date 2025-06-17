@@ -8,7 +8,7 @@ import {
   faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, formatNumber, NavPills, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, formatNumber, NavPills, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -63,10 +63,10 @@ const sections = {
 Object.freeze(sections);
 
 const PrevVisitsNotice: FC<{ display: boolean }> = ({ display }) => display && (
-  <div className="tw:mx-auto tw:w-3/4">
+  <div className="mx-auto w-3/4">
     <SimpleCard>
-      <div className="tw:flex tw:gap-2">
-        <FontAwesomeIcon icon={faWarning} className="tw:mt-1" />
+      <div className="flex gap-2">
+        <FontAwesomeIcon icon={faWarning} className="mt-1" />
         <i>Could not calculate previous period because selected one does not have a strictly defined start date.</i>
       </div>
     </SimpleCard>
@@ -175,12 +175,12 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   }, [currentFallbackInterval, fallbackInterval, visitsSettings?.defaultInterval]);
 
   return (
-    <div className="tw:flex tw:flex-col tw:gap-y-4">
+    <div className="flex flex-col gap-y-4">
       {children}
 
-      <section className="tw:flex tw:flex-col tw:lg:flex-row-reverse tw:gap-4">
-        <div className="tw:lg:flex-3 tw:flex tw:flex-col tw:md:flex-row tw:gap-x-2 tw:gap-y-4">
-          <div className="tw:grow">
+      <section className="flex flex-col lg:flex-row-reverse gap-4">
+        <div className="lg:flex-3 flex flex-col md:flex-row gap-x-2 gap-y-4">
+          <div className="grow">
             <DateRangeSelector
               disabled={loading}
               dateRangeOrInterval={activeInterval ?? dateRange ?? currentFallbackInterval}
@@ -199,18 +199,18 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
             })}
           />
         </div>
-        <div className="tw:lg:flex-2 tw:xl:flex-3 tw:flex tw:gap-2">
+        <div className="lg:flex-2 xl:flex-3 flex gap-2">
           {visits.length > 0 && (
             <>
               <ExportBtn
-                className="tw:max-lg:w-full"
+                className="max-lg:w-full"
                 amount={normalizedVisits.length}
                 onClick={() => exportCsv(normalizedVisits)}
               />
               <Button
                 variant="secondary"
                 disabled={highlightedVisits.length === 0}
-                className="tw:max-lg:w-full"
+                className="max-lg:w-full"
                 onClick={() => setSelectedVisits([])}
               >
                 Clear selection {highlightedVisits.length > 0 && <>({formatNumber(highlightedVisits.length)})</>}
@@ -220,17 +220,17 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
         </div>
       </section>
 
-      <section className="tw:flex tw:flex-col tw:gap-4">
+      <section className="flex flex-col gap-4">
         <VisitsLoadingFeedback info={visitsInfo} />
         {!loading && !errorData && (
           <>
-            <NavPills fill className="tw:sticky tw:top-(--header-height) tw:z-2">
+            <NavPills fill className="sticky top-(--header-height) z-2">
               {Object.values(sections).map(({ title, icon, subPath, shouldRender }: VisitsNavLinkOptions, index) => (
                 !shouldRender || shouldRender(props)
                   ? (
                     <NavPills.Pill key={index} to={buildSectionUrl(subPath)} replace>
                       <FontAwesomeIcon icon={icon} />
-                      <span className="tw:ml-2 tw:max-lg:sr-only">{title}</span>
+                      <span className="ml-2 max-lg:sr-only">{title}</span>
                     </NavPills.Pill>
                   )
                   : undefined
@@ -260,10 +260,10 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                   <VisitsSectionWithFallback showFallback={visits.length === 0}>
                     <div
                       className={clsx(
-                        'tw:grid tw:grid-cols-1 tw:gap-4',
+                        'grid grid-cols-1 gap-4',
                         {
-                          'tw:lg:grid-cols-2': isOrphanVisits,
-                          'tw:xl:grid-cols-3': !isOrphanVisits,
+                          'lg:grid-cols-2': isOrphanVisits,
+                          'xl:grid-cols-3': !isOrphanVisits,
                         },
                       )}
                     >
@@ -306,7 +306,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                 path={sections.byLocation.subPath}
                 element={(
                   <VisitsSectionWithFallback showFallback={visits.length === 0}>
-                    <div className="tw:grid tw:grid-cols-1 tw:lg:grid-cols-2 tw:gap-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                       <SortableBarChartCard
                         title="Countries"
                         stats={countries}

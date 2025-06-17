@@ -1,7 +1,6 @@
 import { faArrowDown, faArrowUp, faGripVertical, faPencilAlt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Button, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, SimpleCard,useToggle  } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { ExternalLink } from 'react-external-link';
@@ -20,21 +19,21 @@ export type RedirectRuleCardProps = {
 export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
   { priority, isLast, redirectRule, onDelete, onMoveUp, onMoveDown, onUpdate },
 ) => {
-  const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle(false, true);
+  const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle();
 
   return (
     <SimpleCard>
-      <div className="tw:flex tw:align-center tw:gap-4">
-        <div className="tw:flex tw:flex-col tw:my-auto tw:hidden tw:md:block tw:cursor-grab drag-n-drop-handler">
+      <div className="flex align-center gap-4">
+        <div className="flex flex-col my-auto hidden md:block cursor-grab drag-n-drop-handler">
           <FontAwesomeIcon icon={faGripVertical} />
         </div>
-        <div className="tw:flex tw:flex-col tw:my-auto">
+        <div className="flex flex-col my-auto">
           <Button
             variant="secondary"
             aria-label={`Move rule with priority ${priority} up`}
             disabled={priority === 1}
             onClick={onMoveUp}
-            className="tw:[&]:px-2 tw:rounded-b-none tw:mb-[-1px]"
+            className="[&]:px-2 rounded-b-none mb-[-1px]"
           >
             <FontAwesomeIcon icon={faArrowUp} />
           </Button>
@@ -43,20 +42,20 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
             aria-label={`Move rule with priority ${priority} down`}
             disabled={isLast}
             onClick={onMoveDown}
-            className="tw:[&]:px-2 tw:rounded-t-none"
+            className="[&]:px-2 rounded-t-none"
           >
             <FontAwesomeIcon icon={faArrowDown} />
           </Button>
         </div>
-        <div className="tw:grow">
-          <div className="tw:mb-2">
+        <div className="grow">
+          <div className="mb-2">
             <b>Long URL:</b> <ExternalLink href={redirectRule.longUrl} data-testid="rule-long-url" />
           </div>
-          <div className="tw:flex tw:flex-col tw:lg:flex-row tw:gap-2">
+          <div className="flex flex-col lg:flex-row gap-2">
             <b>Conditions:</b>
             {redirectRule.conditions.map((condition, condIndex) => (
               <div
-                className="tw:rounded-sm tw:bg-gray-600 tw:px-1 tw:text-white"
+                className="rounded-sm bg-gray-600 px-1 text-white"
                 key={`${condition.type}_${condIndex}`}
               >
                 {condition.type === 'device' && <>Device is {condition.matchValue}</>}
@@ -71,9 +70,9 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
             ))}
           </div>
         </div>
-        <div className="tw:flex tw:flex-col tw:sm:flex-row tw:gap-1 tw:my-auto">
+        <div className="flex flex-col sm:flex-row gap-1 my-auto">
           <Button
-            className="tw:[&]:px-1.5"
+            className="[&]:px-1.5"
             variant="secondary"
             aria-label={`Edit rule with priority ${priority}`}
             onClick={openModal}
@@ -81,7 +80,7 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
             <FontAwesomeIcon icon={faPencilAlt} />
           </Button>
           <Button
-            className="tw:[&]:px-2"
+            className="[&]:px-2"
             variant="danger"
             aria-label={`Delete rule with priority ${priority}`}
             onClick={onDelete}

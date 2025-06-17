@@ -1,7 +1,7 @@
 import { faTag, faTags } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
-import { Button, OrderingDropdown, SearchInput, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, OrderingDropdown, SearchInput, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
@@ -79,18 +79,18 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
   const { anchor, tooltip } = useTooltip({ placement: 'left' });
 
   return (
-    <div className={clsx('tw:flex tw:flex-col tw:gap-y-4', className)}>
+    <div className={clsx('flex flex-col gap-y-4', className)}>
       <SearchInput defaultValue={search} onChange={setSearch} />
 
-      <div className="tw:flex tw:w-full">
-        <div className="tw:flex-grow">
+      <div className="flex w-full">
+        <div className="flex-grow">
           <TagsSelector
             immutable
             placeholder="With tags..."
             tags={tagsList.tags}
             selectedTags={tags}
             onChange={changeTagSelection}
-            containerClassName={clsx(tags.length > 1 && 'tw:[&]:rounded-r-none')}
+            containerClassName={clsx(tags.length > 1 && '[&]:rounded-r-none')}
           />
         </div>
         {tags.length > 1 && (
@@ -99,10 +99,10 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
               variant="secondary"
               onClick={toggleTagsMode}
               aria-label="Change tags mode"
-              className="tw:[&]:border-l-none tw:[&]:rounded-l-none"
+              className="[&]:border-l-none [&]:rounded-l-none"
               {...anchor}
             >
-              <FontAwesomeIcon className="tw:text-2xl" icon={tagsMode === 'all' ? faTags : faTag} />
+              <FontAwesomeIcon className="text-2xl" icon={tagsMode === 'all' ? faTags : faTag} />
             </Button>
             <Tooltip {...tooltip}>
               {tagsMode === 'all' ? <>With <b>all</b> the tags</> : <>With <b>any</b> of the tags</>}
@@ -111,9 +111,9 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
         )}
       </div>
 
-      <div className="tw:flex tw:flex-col tw:lg:flex-row-reverse tw:gap-y-4">
-        <div className="tw:lg:w-2/3 tw:xl:w-1/2 tw:inline-flex tw:flex-col tw:md:flex-row tw:gap-4">
-          <div className="tw:grow">
+      <div className="flex flex-col lg:flex-row-reverse gap-y-4">
+        <div className="lg:w-2/3 xl:w-1/2 inline-flex flex-col md:flex-row gap-4">
+          <div className="grow">
             <DateRangeSelector
               defaultText="All short URLs"
               dateRangeOrInterval={activeInterval ?? datesToDateRange(startDate, endDate)}
@@ -131,18 +131,18 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
             domains={domainsList.loading ? undefined : domainsList.domains}
           />
         </div>
-        <div className="tw:lg:w-1/3 tw:xl:w-1/2 tw:inline-flex tw:gap-3">
-          <div className="tw:max-lg:w-1/2 tw:lg:hidden">
+        <div className="lg:w-1/3 xl:w-1/2 inline-flex gap-3">
+          <div className="max-lg:w-1/2 lg:hidden">
             <OrderingDropdown
-              containerClassName="tw:[&]:block"
-              buttonClassName="tw:w-full"
+              containerClassName="[&]:block"
+              buttonClassName="w-full"
               prefixed={false}
               items={SHORT_URLS_ORDERABLE_FIELDS}
               order={order}
               onChange={({ field, dir }) => handleOrderBy(field, dir)}
             />
           </div>
-          <div className="tw:max-lg:w-1/2">
+          <div className="max-lg:w-1/2">
             <ExportShortUrlsBtn amount={shortUrlsAmount} />
           </div>
         </div>

@@ -3,23 +3,23 @@
 exports[`<LineChartCard /> > renders chart with expected data 1`] = `
 <div>
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":ro:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -39,13 +39,13 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":rq:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -69,11 +69,11 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":ro:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
         <svg
@@ -186,23 +186,23 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
 exports[`<LineChartCard /> > renders chart with expected data 2`] = `
 <div>
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":rr:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -222,13 +222,13 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":rt:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -252,11 +252,11 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":rr:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
         <svg
@@ -362,14 +362,14 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         </div>
       </div>
       <ul
-        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="mt-2 flex flex-wrap justify-center gap-4"
       >
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             v
@@ -379,10 +379,10 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           </strong>
         </li>
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             style="background-color: rgb(247, 127, 40);"
           />
           <strong>
@@ -393,10 +393,10 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           </strong>
         </li>
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             style="background-color: rgb(29, 170, 88);"
           />
           <strong>
@@ -415,23 +415,23 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
 exports[`<LineChartCard /> > renders chart with expected data 3`] = `
 <div>
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":ru:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -451,13 +451,13 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":r10:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -481,11 +481,11 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":ru:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
         <svg
@@ -916,7 +916,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
               width="730"
@@ -940,14 +940,14 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         </div>
       </div>
       <ul
-        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="mt-2 flex flex-wrap justify-center gap-4"
       >
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             v
@@ -957,10 +957,10 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           </strong>
         </li>
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             style="background-color: rgb(247, 127, 40);"
           />
           <strong>
@@ -979,23 +979,23 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
 exports[`<LineChartCard /> > renders chart with expected data 4`] = `
 <div>
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":r11:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -1015,13 +1015,13 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":r13:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -1045,11 +1045,11 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":r11:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
         <svg
@@ -1480,7 +1480,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
               width="730"
@@ -1532,14 +1532,14 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         </div>
       </div>
       <ul
-        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="mt-2 flex flex-wrap justify-center gap-4"
       >
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             v
@@ -1549,10 +1549,10 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           </strong>
         </li>
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             style="background-color: rgb(247, 127, 40);"
           />
           <strong>
@@ -1563,10 +1563,10 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           </strong>
         </li>
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             style="background-color: rgb(29, 170, 88);"
           />
           <strong>
@@ -1585,23 +1585,23 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
 exports[`<LineChartCard /> > renders chart with expected data 5`] = `
 <div>
   <div
-    class="tw:group/card tw:rounded-md tw:shadow-md tw:border tw:border-lm-border tw:dark:border-dm-border tw:bg-lm-primary tw:dark:bg-dm-primary"
+    class="group/card rounded-md shadow-md border border-lm-border dark:border-dm-border bg-lm-primary dark:bg-dm-primary"
     data-testid="line-chart-card"
   >
     <div
       aria-level="4"
-      class="tw:px-4 tw:py-3 tw:rounded-t-md tw:bg-lm-primary tw:dark:bg-dm-primary tw:border-b tw:border-lm-border tw:dark:border-dm-border tw:flex tw:justify-between tw:items-center"
+      class="px-4 py-3 rounded-t-md bg-lm-primary dark:bg-dm-primary border-b border-lm-border dark:border-dm-border flex justify-between items-center"
       role="heading"
     >
       Visits over time
       <div
-        class="tw:flex tw:content-center tw:gap-1"
+        class="flex content-center gap-1"
       >
         <button
           aria-controls=":r14:"
           aria-expanded="false"
           aria-label="Expand"
-          class="tw:inline-flex tw:rounded-md tw:focus-ring tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:cursor-pointer"
+          class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
           type="button"
         >
           <svg
@@ -1621,13 +1621,13 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           </svg>
         </button>
         <div
-          class="tw:relative tw:inline-block"
+          class="relative inline-block"
         >
           <button
             aria-controls=":r16:"
             aria-expanded="false"
             aria-haspopup="true"
-            class="tw:flex tw:items-center tw:rounded-md tw:focus-ring tw:justify-between tw:cursor-pointer tw:text-lm-brand tw:dark:text-dm-brand tw:highlight:text-lm-brand-dark tw:dark:highlight:text-dm-brand-dark tw:highlight:underline tw:px-1.5 tw:py-1 tw:text-sm tw:gap-x-1.5 tw:[&]:p-0"
+            class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
             type="button"
           >
             Group by
@@ -1651,11 +1651,11 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
       </div>
     </div>
     <div
-      class="tw:p-4 tw:bg-lm-primary tw:dark:bg-dm-primary tw:first:rounded-t-md tw:first:rounded-t-md tw:last:rounded-b-md"
+      class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
       id=":r14:"
     >
       <div
-        class="recharts-wrapper tw:select-none"
+        class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
         <svg
@@ -2369,13 +2369,13 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         </div>
       </div>
       <ul
-        class="tw:mt-2 tw:flex tw:flex-wrap tw:justify-center tw:gap-4"
+        class="mt-2 flex flex-wrap justify-center gap-4"
       >
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             style="background-color: red;"
           />
           <strong>
@@ -2386,10 +2386,10 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           </strong>
         </li>
         <li
-          class="tw:inline"
+          class="inline"
         >
           <div
-            class="tw:inline-block tw:w-[20px] tw:h-[20px] tw:rounded-full tw:align-[-4px] tw:mr-1.5"
+            class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
             style="background-color: yellow;"
           />
           <strong>

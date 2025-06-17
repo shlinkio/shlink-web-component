@@ -1,4 +1,4 @@
-import { Input } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Input } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useRef } from 'react';
 import type { ColorPickerProps } from './ColorPicker';
@@ -8,12 +8,12 @@ export const ColorInput: FC<Omit<ColorPickerProps, 'className'>> = ({ color, onC
   const colorPickerRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="tw:flex">
+    <div className="flex">
       <ColorPicker
         name={`${name}-picker`}
         color={color}
         onChange={onChange}
-        className="tw:rounded-r-none"
+        className="rounded-r-none"
         ref={colorPickerRef}
       />
       <Input
@@ -22,7 +22,7 @@ export const ColorInput: FC<Omit<ColorPickerProps, 'className'>> = ({ color, onC
         onClick={() => colorPickerRef.current?.click()}
         aria-label={name}
         data-testid="text-input"
-        className="tw:grow tw:rounded-l-none"
+        className="grow rounded-l-none"
       />
     </div>
   );

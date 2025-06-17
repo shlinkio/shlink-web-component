@@ -1,7 +1,6 @@
 import { faMapMarkedAlt as mapIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Dropdown, LinkButton } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Dropdown, LinkButton,useToggle  } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useState } from 'react';
 import type { CityStats } from '../types';
 import { MapModal } from './MapModal';
@@ -13,7 +12,7 @@ interface OpenMapModalBtnProps {
 }
 
 export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: OpenMapModalBtnProps) => {
-  const { flag: mapIsOpened, setToTrue: openMap, setToFalse: closeMap } = useToggle(false, true);
+  const { flag: mapIsOpened, setToTrue: openMap, setToFalse: closeMap } = useToggle();
   const [locationsToShow, setLocationsToShow] = useState<CityStats[]>([]);
 
   const openMapWithCities = useCallback((filterCallback?: (city: CityStats) => boolean) => {
@@ -28,7 +27,7 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
           onClick={() => openMapWithCities()}
           aria-label="Show in map"
           title="Show in map"
-          className="tw:[&]:p-0"
+          className="[&]:p-0"
         >
           <FontAwesomeIcon icon={mapIcon} />
         </LinkButton>
@@ -38,7 +37,7 @@ export const OpenMapModalBtn = ({ modalTitle, activeCities, locations = [] }: Op
           buttonContent={<FontAwesomeIcon icon={mapIcon} title="Show in map" />}
           buttonLabel="Show in map"
           buttonVariant="link"
-          buttonClassName="tw:[&]:p-0"
+          buttonClassName="[&]:p-0"
           menuAlignment="right"
           caretless
         >

@@ -1,4 +1,4 @@
-import { formatNumber } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { formatNumber } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';

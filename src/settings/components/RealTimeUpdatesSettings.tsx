@@ -1,4 +1,4 @@
-import { LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { Muted } from '../../utils/components/Muted';
 import { useSetting } from '..';
@@ -15,7 +15,7 @@ export const RealTimeUpdatesSettings = (
   const { enabled, interval } = useSetting('realTimeUpdates', { enabled: true });
 
   return (
-    <SimpleCard title="Real-time updates" className="tw:h-full" bodyClassName="tw:flex tw:flex-col tw:gap-y-4">
+    <SimpleCard title="Real-time updates" className="h-full" bodyClassName="flex flex-col gap-y-4">
       <LabelledToggle
         checked={enabled}
         onChange={toggleRealTimeUpdates}
@@ -26,7 +26,7 @@ export const RealTimeUpdatesSettings = (
       <div>
         <LabelledInput
           label={(
-            <span className={clsx({ 'tw:dark:text-gray-400': !enabled })}>
+            <span className={clsx({ 'dark:text-gray-400': !enabled })}>
               Real-time updates frequency (in minutes):
             </span>
           )}

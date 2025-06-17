@@ -1,6 +1,6 @@
 import { faChartLine, faChevronRight, faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, CloseButton, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, CloseButton, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useMemo } from 'react';
@@ -26,30 +26,30 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
 
   const { itemsToCompare, clearItemsToCompare, removeItemToCompare } = context;
   return (
-    <div className={clsx('tw:sticky tw:top-(--header-height) tw:z-10', className)}>
-      <SimpleCard bodyClassName="tw:flex tw:flex-col tw:lg:flex-row tw:gap-4 tw:items-center">
-        <ul className="tw:flex tw:flex-wrap tw:gap-1 tw:grow tw:items-center">
+    <div className={clsx('sticky top-(--header-height) z-10', className)}>
+      <SimpleCard bodyClassName="flex flex-col lg:flex-row gap-4 items-center">
+        <ul className="flex flex-wrap gap-1 grow items-center">
           {itemsToCompare.map((item, index) => (
             <li
               key={`${item.name}_${index}`}
               className={clsx(
-                'tw:flex tw:items-center tw:gap-1 tw:text-sm tw:font-bold tw:text-white tw:py-0.5 tw:px-1.5 tw:rounded',
-                { 'tw:bg-gray-500': !item.style?.backgroundColor },
+                'flex items-center gap-1 text-sm font-bold text-white py-0.5 px-1.5 rounded',
+                { 'bg-gray-500': !item.style?.backgroundColor },
               )}
               style={item.style}
             >
               {item.name}
               <CloseButton
                 label={`Remove ${item.name}`}
-                className="tw:text-xs"
+                className="text-xs"
                 onClick={() => removeItemToCompare(item)}
               />
             </li>
           ))}
         </ul>
-        <div className="tw:flex tw:gap-2 tw:max-lg:w-full">
+        <div className="flex gap-2 max-lg:w-full">
           <Button
-            className="tw:grow tw:whitespace-nowrap"
+            className="grow whitespace-nowrap"
             disabled={itemsToCompare.length < 2}
             to={itemsToCompare.length > 1 ? `${routesPrefix}/${type}/compare-visits?${type}=${query}` : undefined}
           >

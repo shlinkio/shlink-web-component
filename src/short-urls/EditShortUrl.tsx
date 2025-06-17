@@ -1,4 +1,4 @@
-import { Message, Result, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Message, Result, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { useEffect, useMemo } from 'react';
@@ -60,12 +60,12 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
   }
 
   return (
-    <div className="tw:flex tw:flex-col tw:gap-y-4">
+    <div className="flex flex-col gap-y-4">
       <header>
         <SimpleCard>
-          <h2 className="tw:sm:flex tw:items-center">
+          <h2 className="sm:flex items-center">
             <GoBackButton />
-            <div className="tw:text-center tw:grow">
+            <div className="text-center grow">
               <small>Edit <ExternalLink href={shortUrl?.shortUrl ?? ''} /></small>
             </div>
           </h2>

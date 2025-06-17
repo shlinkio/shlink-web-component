@@ -2,7 +2,7 @@
 
 exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
 <div
-  class="tw:flex tw:flex-col tw:gap-1 tw:items-center"
+  class="flex flex-col gap-1 items-center"
   data-testid="qr-code-container"
 >
   <style>
@@ -2390,7 +2390,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
     </svg>
   </div>
   <div
-    class="tw:italic"
+    class="italic"
   >
     Preview (
     300
@@ -2403,7 +2403,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
 
 exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
 <div
-  class="tw:flex tw:flex-col tw:gap-1 tw:items-center"
+  class="flex flex-col gap-1 items-center"
   data-testid="qr-code-container"
 >
   <style>
@@ -4791,7 +4791,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
     </svg>
   </div>
   <div
-    class="tw:italic"
+    class="italic"
   >
     Preview (
     580
@@ -4804,7 +4804,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
 
 exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
 <div
-  class="tw:flex tw:flex-col tw:gap-1 tw:items-center"
+  class="flex flex-col gap-1 items-center"
   data-testid="qr-code-container"
 >
   <style>
@@ -7815,7 +7815,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
     </svg>
   </div>
   <div
-    class="tw:italic"
+    class="italic"
   >
     Preview (
     300
@@ -7828,7 +7828,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
 
 exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
 <div
-  class="tw:flex tw:flex-col tw:gap-1 tw:items-center"
+  class="flex flex-col gap-1 items-center"
   data-testid="qr-code-container"
 >
   <style>
@@ -10216,7 +10216,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
     </svg>
   </div>
   <div
-    class="tw:italic"
+    class="italic"
   >
     Preview (
     300
@@ -10229,7 +10229,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
 
 exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
 <div
-  class="tw:flex tw:flex-col tw:gap-1 tw:items-center"
+  class="flex flex-col gap-1 items-center"
   data-testid="qr-code-container"
 >
   <style>
@@ -12520,7 +12520,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
     </svg>
   </div>
   <div
-    class="tw:italic"
+    class="italic"
   >
     Preview (
     300

@@ -1,4 +1,4 @@
-import { Message, Result, SearchInput, SimpleCard, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Message, Result, SearchInput, SimpleCard, Table } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
@@ -58,7 +58,7 @@ export const ManageDomains: FC<ManageDomainsProps> = (
 
   return (
     <VisitsComparisonProvider value={visitsComparison}>
-      <div className="tw:flex tw:flex-col tw:gap-y-4">
+      <div className="flex flex-col gap-y-4">
         <SearchInput onChange={filterDomains} />
         <VisitsComparisonCollector type="domains" />
         {error && (
@@ -72,14 +72,14 @@ export const ManageDomains: FC<ManageDomainsProps> = (
               <Table.Row>
                 {headers.map((column, index) => (
                   <Table.Cell key={index}>
-                    <span className={column.isHidden ? 'tw:sr-only' : undefined}>{column.value}</span>
+                    <span className={column.isHidden ? 'sr-only' : undefined}>{column.value}</span>
                   </Table.Cell>
                 ))}
               </Table.Row>
             }>
               {domains.length < 1 && (
                 <Table.Row>
-                  <Table.Cell colSpan={headers.length} className="tw:text-center">No results found</Table.Cell>
+                  <Table.Cell colSpan={headers.length} className="text-center">No results found</Table.Cell>
                 </Table.Row>
               )}
               {domains.map((domain) => (

@@ -1,7 +1,7 @@
 import { faArrowsSplitUpAndLeft as rulesIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
-import { CopyToClipboardButton, Table } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { CopyToClipboardButton, Table } from '@shlinkio/shlink-frontend-kit';
 import { useEffect, useRef } from 'react';
 import { ExternalLink } from 'react-external-link';
 import type { ShlinkShortUrl } from '../../api-contract';
@@ -33,7 +33,7 @@ export type ShortUrlsRowType = typeof ShortUrlsRow;
 const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUrl, onTagClick }) => {
   const { ShortUrlsRowMenu, ColorGenerator: colorGenerator, useTimeoutToggle } = useDependencies(ShortUrlsRow);
   // eslint-disable-next-line react-compiler/react-compiler
-  const [active, setActive] = useTimeoutToggle(false, 500);
+  const [active, setActive] = useTimeoutToggle({ initialValue: false, delay: 500 });
   const isFirstRun = useRef(true);
   const [{ excludeBots }] = useShortUrlsQuery();
   const visits = useSetting('visits');
@@ -50,28 +50,28 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
   }, [shortUrl.visitsSummary?.total, shortUrl.visitsSummary?.nonBots, shortUrl.visitsCount, setActive]);
 
   return (
-    <Table.Row className="tw:relative">
-      <Table.Cell className="tw:whitespace-nowrap" columnName="Created at:">
+    <Table.Row className="relative">
+      <Table.Cell className="whitespace-nowrap" columnName="Created at:">
         <Time date={shortUrl.dateCreated} />
       </Table.Cell>
       <Table.Cell columnName="Short URL:">
-        <span className="tw:lg:whitespace-nowrap tw:inline-flex tw:items-center tw:gap-x-2">
-          <ExternalLink href={shortUrl.shortUrl} className="tw:max-md:break-all tw:lg:truncate tw:max-w-72" />
+        <span className="lg:whitespace-nowrap inline-flex items-center gap-x-2">
+          <ExternalLink href={shortUrl.shortUrl} className="max-md:break-all lg:truncate max-w-72" />
           <CopyToClipboardButton text={shortUrl.shortUrl} />
         </span>
       </Table.Cell>
-      <Table.Cell className="tw:break-all" columnName={`${shortUrl.title ? 'Title' : 'Long URL'}:`}>
+      <Table.Cell className="break-all" columnName={`${shortUrl.title ? 'Title' : 'Long URL'}:`}>
         <ExternalLink href={shortUrl.longUrl}>{shortUrl.title ?? shortUrl.longUrl}</ExternalLink>
       </Table.Cell>
       {shortUrl.title && (
-        <Table.Cell className="tw:break-all tw:[&]:lg:hidden" columnName="Long URL:">
+        <Table.Cell className="break-all [&]:lg:hidden" columnName="Long URL:">
           <ExternalLink href={shortUrl.longUrl} />
         </Table.Cell>
       )}
       <Table.Cell columnName="Tags:">
         <Tags tags={shortUrl.tags} colorGenerator={colorGenerator} onTagClick={onTagClick} />
       </Table.Cell>
-      <Table.Cell className="tw:lg:text-right" columnName="Visits:">
+      <Table.Cell className="lg:text-right" columnName="Visits:">
         <ShortUrlVisitsCount
           visitsCount={(
             doExcludeBots ? shortUrl.visitsSummary?.nonBots : shortUrl.visitsSummary?.total
@@ -81,8 +81,8 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
           asLink
         />
       </Table.Cell>
-      <Table.Cell columnName="Status:" className="tw:max-lg:border-none">
-        <div className="tw:inline-flex tw:gap-2">
+      <Table.Cell columnName="Status:" className="max-lg:border-none">
+        <div className="inline-flex gap-2">
           <ShortUrlStatus shortUrl={shortUrl} />
           {shortUrl.hasRedirectRules && (
             <ShortUrlDetailLink
@@ -96,7 +96,7 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
           )}
         </div>
       </Table.Cell>
-      <Table.Cell className="tw:text-right tw:max-lg:absolute tw:max-lg:top-1 tw:max-lg:right-1 tw:max-lg:p-0">
+      <Table.Cell className="text-right max-lg:absolute max-lg:top-1 max-lg:right-1 max-lg:p-0">
         <ShortUrlsRowMenu shortUrl={shortUrl} />
       </Table.Cell>
     </Table.Row>

@@ -1,8 +1,7 @@
 import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { Button, Message, Result, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, Message, Result, SimpleCard,useToggle  } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkRedirectRuleData, ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC, FormEvent } from 'react';
 import { useCallback, useEffect } from 'react';
@@ -43,12 +42,12 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
   const shortUrl = identifier && shortUrls?.get(identifier);
   const [rulesContainerRef, rules, setRules] = useDragAndDrop<HTMLDivElement, ShlinkRedirectRuleData>([], {
     dragHandle: '.drag-n-drop-handler',
-    dropZoneClass: 'tw:opacity-25',
+    dropZoneClass: 'opacity-25',
   });
 
   const { saving, saved, errorData } = shortUrlRedirectRulesSaving;
 
-  const { flag: isModalOpen, setToFalse: closeModal, setToTrue: openModal } = useToggle(false, true);
+  const { flag: isModalOpen, setToFalse: closeModal, setToTrue: openModal } = useToggle();
 
   const pushRule = useCallback((rule: ShlinkRedirectRuleData) => setRules((prev = []) => [...prev, rule]), [setRules]);
   const removeRule = useCallback((index: number) => setRules((prev = []) => {
@@ -102,12 +101,12 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
   }, [setRules, shortUrlRedirectRules.redirectRules]);
 
   return (
-    <div className="tw:flex tw:flex-col tw:gap-4">
+    <div className="flex flex-col gap-4">
       <header>
         <SimpleCard>
-          <h2 className="tw:sm:flex tw:justify-between tw:items-center">
+          <h2 className="sm:flex justify-between items-center">
             <GoBackButton />
-            <div className="tw:text-center tw:grow">
+            <div className="text-center grow">
               {shortUrlsDetails.loading && <>Loading...</>}
               {!shortUrlsDetails.loading && (
                 <small>Redirect rules for <ExternalLink href={shortUrl?.shortUrl ?? ''} /></small>
@@ -131,9 +130,9 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
       <form onSubmit={onSubmit}>
         {shortUrlRedirectRules.loading && <Message loading />}
         {rules.length === 0 && !shortUrlRedirectRules.loading && (
-          <SimpleCard className="tw:text-center"><i>This short URL has no dynamic redirect rules</i></SimpleCard>
+          <SimpleCard className="text-center"><i>This short URL has no dynamic redirect rules</i></SimpleCard>
         )}
-        <div className="tw:flex tw:flex-col tw:gap-2" ref={rulesContainerRef}>
+        <div className="flex flex-col gap-2" ref={rulesContainerRef}>
           {rules.map((rule, index) => (
             <RedirectRuleCard
               key={`${rule.longUrl}_${index}`}
@@ -147,8 +146,8 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
             />
           ))}
         </div>
-        <div className="tw:text-center tw:mt-4">
-          <Button type="submit" inline className="tw:max-md:w-full" disabled={saving} data-testid="save-button">
+        <div className="text-center mt-4">
+          <Button type="submit" inline className="max-md:w-full" disabled={saving} data-testid="save-button">
             {saving ? 'Saving...' : 'Save rules'}
           </Button>
         </div>

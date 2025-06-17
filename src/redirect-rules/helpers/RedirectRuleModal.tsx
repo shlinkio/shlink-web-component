@@ -1,6 +1,6 @@
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, CardModal, LabelledInput, LabelledSelect } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { Button, CardModal, LabelledInput, LabelledSelect } from '@shlinkio/shlink-frontend-kit';
 import type {
   ShlinkRedirectCondition,
   ShlinkRedirectConditionType,
@@ -159,9 +159,9 @@ const Condition: FC<{
 
   return (
     <div className={clsx(
-      'tw:flex tw:flex-col tw:gap-2',
-      'tw:border tw:border-lm-border tw:dark:border-dm-border',
-      'tw:rounded-md tw:relative tw:p-4 tw:h-full',
+      'flex flex-col gap-2',
+      'border border-lm-border dark:border-dm-border',
+      'rounded-md relative p-4 h-full',
     )}>
       <div>
         <Button
@@ -169,8 +169,8 @@ const Condition: FC<{
           aria-label="Remove condition"
           onClick={onDelete}
           className={clsx(
-            'tw:absolute tw:-top-3.5 tw:-right-3.5 tw:[&]:px-2',
-            'tw:[&]:rounded-full tw:bg-lm-primary tw:dark:bg-dm-primary',
+            'absolute -top-3.5 -right-3.5 [&]:px-2',
+            '[&]:rounded-full bg-lm-primary dark:bg-dm-primary',
           )}
         >
           <FontAwesomeIcon icon={faXmark} />
@@ -289,15 +289,15 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, onClose,
 
       <hr />
 
-      <div className="tw:flex tw:justify-between">
+      <div className="flex justify-between">
         <b>Conditions:</b>
-        <Button className="tw:[&]:px-1.5" variant="secondary" aria-label="Add condition" onClick={addDraftCondition}>
+        <Button className="[&]:px-1.5" variant="secondary" aria-label="Add condition" onClick={addDraftCondition}>
           <FontAwesomeIcon icon={faPlus} />
         </Button>
       </div>
-      {redirectRule.conditions.length === 0 && <div className="tw:text-center"><i>Add conditions...</i></div>}
+      {redirectRule.conditions.length === 0 && <div className="text-center"><i>Add conditions...</i></div>}
       {redirectRule.conditions.length > 0 && (
-        <div className="tw:pr-3 tw:mt-6 tw:grid tw:grid-cols-1 tw:md:grid-cols-2 tw:lg:grid-cols-3 tw:gap-6">
+        <div className="pr-3 mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {redirectRule.conditions.map((condition, index) => (
             <Condition
               key={`${index}_${condition.type}`}

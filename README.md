@@ -150,23 +150,13 @@ export function App() {
 
 ### Styles
 
-Currently, this component depends on `bootstrap`, `@shlinkio/shlink-frontend-kit` and its own stylesheets for proper styling, although bootstrap is being replaced by `tailwind`.
+Currently, this component depends on `tailwind` and `@shlinkio/shlink-frontend-kit` for proper styling.
 
-Make sure you import stylesheets in the order documented here for everything to work.
-
-```scss
-// src/index.scss
-@use 'node_modules/@shlinkio/shlink-frontend-kit/dist/base'; // Before bootstrap stylesheet
-@use 'node_modules/bootstrap/scss/bootstrap.scss' with (
-  $primary: base.$mainColor // Override bootstrap's primary color
-);
-@use 'node_modules/@shlinkio/shlink-frontend-kit/dist/index'; // After bootstrap. Includes CSS overrides
-@use 'node_modules/@shlinkio/shlink-web-component/dist/index' as c-index;
-```
+Make sure you import stylesheets as documented here for everything to work.
 
 ```css
 /* src/tailwind.css */
-@import 'tailwindcss' prefix(tw);
+@import 'tailwindcss';
 
 /* Add these three lines */
 @source '../node_modules/@shlinkio/shlink-frontend-kit';
@@ -180,8 +170,7 @@ import type { Theme } from '@shlinkio/shlink-frontend-kit';
 import { Checkbox, changeThemeInMarkup } from '@shlinkio/shlink-frontend-kit';
 import { ShlinkWebComponent } from '@shlinkio/shlink-web-component';
 import { useCallback, useState } from 'react';
-import './src/index.scss'; // The stylesheet above
-import './src/tailwind.css'; // The Tailwind stylesheet above
+import './src/tailwind.css'; // The stylesheet above
 
 export function App() {
   const [theme, setTheme] = useState<Theme>('light');

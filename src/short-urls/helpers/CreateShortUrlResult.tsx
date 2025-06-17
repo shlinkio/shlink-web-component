@@ -1,4 +1,4 @@
-import { CloseButton, CopyToClipboardButton, Result } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { CloseButton, CopyToClipboardButton, Result } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
@@ -21,9 +21,9 @@ export const CreateShortUrlResult: FC<CreateShortUrlResultProps> = (
 
   if (error) {
     return (
-      <Result variant="error" className="tw:mt-4 tw:relative">
+      <Result variant="error" className="mt-4 relative">
         {canBeClosed && (
-          <div className="tw:absolute tw:right-1.5 tw:top-1.5" data-testid="error-close-button">
+          <div className="absolute right-1.5 top-1.5" data-testid="error-close-button">
             <CloseButton onClick={resetCreateShortUrl} />
           </div>
         )}
@@ -39,13 +39,13 @@ export const CreateShortUrlResult: FC<CreateShortUrlResultProps> = (
   const { shortUrl } = creation.result;
 
   return (
-    <Result variant="success" className="tw:mt-4 tw:relative">
+    <Result variant="success" className="mt-4 relative">
       {canBeClosed && (
-        <div className="tw:absolute tw:right-1.5 tw:top-1.5" data-testid="success-close-button">
+        <div className="absolute right-1.5 top-1.5" data-testid="success-close-button">
           <CloseButton onClick={resetCreateShortUrl} />
         </div>
       )}
-      <div className="tw:flex tw:items-center tw:justify-center tw:gap-1">
+      <div className="flex items-center justify-center gap-1">
         <span><b>Great!</b> The short URL is <b>{shortUrl}</b></span>
         <CopyToClipboardButton text={shortUrl} />
       </div>

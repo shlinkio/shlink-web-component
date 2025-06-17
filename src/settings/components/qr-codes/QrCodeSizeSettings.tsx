@@ -1,4 +1,4 @@
-import { LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import type { QrCodeSettings } from '../../index';
 import { defaultQrCodeSettings, useSetting } from '../../index';
@@ -13,7 +13,7 @@ export const QrCodeSizeSettings: FC<QrCodeSizeSettingsProps> = ({ onChange, clas
   const { size, margin } = qrCodesSettings;
 
   return (
-    <SimpleCard title="Size" className={className} bodyClassName="tw:flex tw:flex-col tw:gap-4">
+    <SimpleCard title="Size" className={className} bodyClassName="flex flex-col gap-4">
       <LabelledInput
         label="Default dimensions:"
         helpText={<>QR codes will be initially generated with <b data-testid="size">{size}x{size}px</b>.</>}
@@ -23,7 +23,7 @@ export const QrCodeSizeSettings: FC<QrCodeSizeSettingsProps> = ({ onChange, clas
         min={50}
         max={1000}
         onChange={(e) => onChange({ ...qrCodesSettings, size: Number(e.target.value) })}
-        inputClassName="tw:[&]:p-0"
+        inputClassName="[&]:p-0"
       />
 
       <LabelledInput
@@ -35,7 +35,7 @@ export const QrCodeSizeSettings: FC<QrCodeSizeSettingsProps> = ({ onChange, clas
         min={0}
         max={100}
         onChange={(e) => onChange({ ...qrCodesSettings, margin: Number(e.target.value) })}
-        inputClassName="tw:[&]:p-0"
+        inputClassName="[&]:p-0"
       />
     </SimpleCard>
   );

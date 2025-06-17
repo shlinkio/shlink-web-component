@@ -1,6 +1,6 @@
 import { sortBy, splitEvery, zipObj } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
-import { OrderingDropdown, Paginator, roundTen } from '@shlinkio/shlink-frontend-kit/tailwind';
+import { OrderingDropdown, Paginator, roundTen } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
@@ -116,7 +116,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
       title={(
         <SpaceBetweenContainer>
           {title}
-          <div className="tw:flex tw:items-center tw:gap-3">
+          <div className="flex items-center gap-3">
             {extraHeaderContent?.(pagination ? activeCities : undefined)}
             {withPagination && Object.keys(stats).length > 50 && (
               <PaginationDropdown
@@ -132,7 +132,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
               buttonVariant="link"
               menuAlignment="right"
               buttonSize="sm"
-              buttonClassName="tw:[&]:p-0"
+              buttonClassName="[&]:p-0"
               items={sortingItems}
               order={order}
               onChange={(newOrder) => {
@@ -144,7 +144,7 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
         </SpaceBetweenContainer>
       )}
       footer={pagination && (
-        <div className="tw:flex tw:justify-around tw:items-center" data-testid="chart-paginator">{pagination}</div>
+        <div className="flex justify-around items-center" data-testid="chart-paginator">{pagination}</div>
       )}
     >
       <HorizontalBarChart

@@ -24,11 +24,11 @@ const AsideMenuItem: FC<AsideMenuItem> = ({ children, to, active, ...rest }) => 
   <NavLink
     {...rest}
     className={({ isActive }) => clsx(
-      'tw:flex tw:items-center tw:gap-2',
-      'tw:no-underline tw:rounded-none tw:px-5 tw:py-2.5',
+      'flex items-center gap-2',
+      'no-underline rounded-none px-5 py-2.5',
       {
-        'tw:text-white tw:bg-lm-main tw:dark:bg-dm-main': isActive || active,
-        'tw:highlight:bg-lm-secondary tw:highlight:dark:bg-dm-secondary': !isActive && !active,
+        'text-white bg-lm-main dark:bg-dm-main': isActive || active,
+        'highlight:bg-lm-secondary highlight:dark:bg-dm-secondary': !isActive && !active,
       },
     )}
     to={to}
@@ -44,17 +44,17 @@ export const AsideMenu: FC<AsideMenuProps> = ({ routePrefix, showOnMobile = fals
   return (
     <aside
       className={clsx(
-        'tw:w-(--aside-menu-width) tw:bg-lm-primary tw:dark:bg-dm-primary',
-        'tw:pt-[15px] tw:md:pt-[30px] tw:pb-[10px]',
-        'tw:fixed! tw:bottom-0 tw:top-(--header-height) tw:z-890 tw:transition-[left] tw:duration-300',
-        'tw:shadow-aside-menu-mobile tw:md:shadow-aside-menu',
+        'w-(--aside-menu-width) bg-lm-primary dark:bg-dm-primary',
+        'pt-[15px] md:pt-[30px] pb-[10px]',
+        'fixed! bottom-0 top-(--header-height) z-890 transition-[left] duration-300',
+        'shadow-aside-menu-mobile md:shadow-aside-menu',
         {
-          'tw:left-0': showOnMobile,
-          'tw:max-md:left-[calc(-1*(var(--aside-menu-width)+35px))]': !showOnMobile,
+          'left-0': showOnMobile,
+          'max-md:left-[calc(-1*(var(--aside-menu-width)+35px))]': !showOnMobile,
         },
       )}
     >
-      <nav className="tw:flex tw:flex-col tw:h-full">
+      <nav className="flex flex-col h-full">
         <AsideMenuItem to={buildPath('/overview')}>
           <FontAwesomeIcon fixedWidth icon={overviewIcon} />
           Overview

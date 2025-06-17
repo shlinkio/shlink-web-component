@@ -51,7 +51,7 @@ describe('<DeleteShortUrlModal />', () => {
   it('shows specific error when threshold error occurs', () => {
     const errorData = fromPartial<InvalidShortUrlDeletion>({ type: ErrorType.INVALID_SHORT_URL_DELETION });
     setUp({ loading: false, error: true, errorData });
-    expect(screen.getByText('Something went wrong while deleting the URL :(')).toHaveClass('tw:bg-warning');
+    expect(screen.getByText('Something went wrong while deleting the URL :(')).toHaveClass('bg-warning');
   });
 
   it('disables submit button when loading', () => {

@@ -1,4 +1,4 @@
-import { brandColor } from '@shlinkio/shlink-frontend-kit';
+import { BRAND_COLOR_DM, BRAND_COLOR_LM } from '@shlinkio/shlink-frontend-kit';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { ColorGenerator } from '../../../src/utils/services/ColorGenerator';
 import type { TagColorsStorage } from '../../../src/utils/services/TagColorsStorage';
@@ -47,7 +47,8 @@ describe('ColorGenerator', () => {
 
   describe('stylesForKey', () => {
     it.each([
-      [brandColor(), '#222'],
+      [BRAND_COLOR_LM, '#fff'],
+      [BRAND_COLOR_DM, '#222'],
       ['#8A661C', '#fff'],
       ['#F7BE05', '#222'],
       ['#5A02D8', '#fff'],

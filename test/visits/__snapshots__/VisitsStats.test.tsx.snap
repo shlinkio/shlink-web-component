@@ -506,7 +506,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -523,7 +523,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -534,7 +534,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -567,7 +567,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         >
           <div
             class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -1088,7 +1088,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -1105,7 +1105,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -1116,7 +1116,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -1149,7 +1149,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         >
           <div
             class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -1670,7 +1670,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -1687,7 +1687,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -1698,7 +1698,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -1731,7 +1731,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         >
           <div
             class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -2252,7 +2252,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -2269,7 +2269,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -2280,7 +2280,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -2358,7 +2358,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         >
           <div
             class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -2893,7 +2893,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -2910,7 +2910,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -2921,7 +2921,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -2999,7 +2999,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         >
           <div
             class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits
@@ -3534,7 +3534,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-width="2"
               width="730"
             />
@@ -3551,7 +3551,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -3562,7 +3562,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                 fill="#fff"
                 height="260"
                 r="3"
-                stroke="#4696e5"
+                stroke="#2078CF"
                 stroke-width="2"
                 width="730"
               />
@@ -3640,7 +3640,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         >
           <div
             class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             Visits

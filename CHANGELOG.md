@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Changed
-* Update to shlink-frontend-kit 1.0.0
+* [#661](https://github.com/shlinkio/shlink-web-component/issues/661) Update to shlink-frontend-kit 1.0.0
 * No longer use `!important` with tailwind styles
 
 ### Deprecated

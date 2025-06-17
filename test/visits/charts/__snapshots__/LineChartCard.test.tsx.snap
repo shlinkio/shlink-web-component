@@ -369,7 +369,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         >
           <div
             class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             v
@@ -916,7 +916,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
               width="730"
@@ -947,7 +947,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         >
           <div
             class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             v
@@ -1480,7 +1480,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
-              stroke="#4696e5"
+              stroke="#2078CF"
               stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
               width="730"
@@ -1539,7 +1539,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         >
           <div
             class="inline-block w-[20px] h-[20px] rounded-full align-[-4px] mr-1.5"
-            style="background-color: rgb(70, 150, 229);"
+            style="background-color: rgb(32, 120, 207);"
           />
           <strong>
             v

@@ -4,7 +4,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { countBy } from '@shlinkio/data-manipulation';
-import { Card, Dropdown, formatNumber, HIGHLIGHTED_COLOR, isDarkThemeEnabled, LinkButton,MAIN_COLOR, useToggle  } from '@shlinkio/shlink-frontend-kit';
+import {
+  brandColor,
+  Card,
+  Dropdown,
+  formatNumber,
+  HIGHLIGHTED_COLOR,
+  isDarkThemeEnabled,
+  LinkButton,
+  useToggle,
+} from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { Duration } from 'date-fns';
 import {
@@ -158,11 +167,11 @@ export const visitsListColor = (v: VisitsList) => {
   }
 
   const typeColorMap: Record<NonNullable<VisitsList['type']>, string> = {
-    main: MAIN_COLOR,
+    main: brandColor(),
     highlighted: HIGHLIGHTED_COLOR,
     previous: prevColor(),
   };
-  return v.type ? typeColorMap[v.type] : MAIN_COLOR;
+  return v.type ? typeColorMap[v.type] : brandColor();
 };
 
 const useVisitsWithType = (visitsGroups: Record<string, VisitsList>, type: VisitsList['type']) => useMemo(

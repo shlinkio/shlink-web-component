@@ -1,4 +1,4 @@
-import { MAIN_COLOR } from '@shlinkio/shlink-frontend-kit';
+import { brandColor } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ReactNode } from 'react';
@@ -11,7 +11,7 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<Tag />', () => {
   const onClick = vi.fn();
   const onClose = vi.fn();
-  const stylesForKey = vi.fn(() => ({ backgroundColor: MAIN_COLOR }));
+  const stylesForKey = vi.fn(() => ({ backgroundColor: brandColor() }));
   const colorGenerator = fromPartial<ColorGenerator>({ stylesForKey });
   const setUp = (text: string, clearable?: boolean, children?: ReactNode) => {
     const props = !clearable ? { onClick } : { onClose };
@@ -25,7 +25,7 @@ describe('<Tag />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp('the-tag')));
 
   it.each([
-    [MAIN_COLOR],
+    [brandColor()],
     ['#8A661C'],
     ['#F7BE05'],
     ['#5A02D8'],

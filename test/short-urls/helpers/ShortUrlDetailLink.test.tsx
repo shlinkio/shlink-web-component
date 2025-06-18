@@ -1,3 +1,4 @@
+import { Card } from '@shlinkio/shlink-frontend-kit';
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
@@ -11,9 +12,12 @@ describe('<ShortUrlDetailLink />', () => {
   const setUp = (props: Partial<ShortUrlDetailLinkProps>, routesPrefix = '') => render(
     <MemoryRouter>
       <RoutesPrefixProvider value={routesPrefix}>
-        <ShortUrlDetailLink asLink suffix="visits" {...props}>
-          Something
-        </ShortUrlDetailLink>
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <ShortUrlDetailLink asLink suffix="visits" {...props}>
+            Something
+          </ShortUrlDetailLink>
+        </Card>
       </RoutesPrefixProvider>
     </MemoryRouter>,
   );

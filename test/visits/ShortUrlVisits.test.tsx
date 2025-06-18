@@ -1,3 +1,4 @@
+import { Card } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
@@ -23,24 +24,27 @@ describe('<ShortUrlVisits />', () => {
     <MemoryRouter>
       <SettingsProvider value={fromPartial({})}>
         <FeaturesProvider value={fromPartial({ shortUrlVisitsDeletion })}>
-          <ShortUrlVisits
-            {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-            getShortUrlsDetails={vi.fn()}
-            getShortUrlVisits={getShortUrlVisitsMock}
-            shortUrlVisits={shortUrlVisits}
-            shortUrlsDetails={fromPartial({
-              shortUrls: {
-                get: () => fromPartial<ShlinkShortUrl>({
-                  shortUrl: 'https://s.test/123',
-                  longUrl: 'https://shlink.io',
-                  dateCreated: formatISO(now()),
-                }),
-              },
-            })}
-            shortUrlVisitsDeletion={fromPartial({})}
-            deleteShortUrlVisits={vi.fn()}
-            cancelGetShortUrlVisits={vi.fn()}
-          />
+          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+          <Card>
+            <ShortUrlVisits
+              {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
+              getShortUrlsDetails={vi.fn()}
+              getShortUrlVisits={getShortUrlVisitsMock}
+              shortUrlVisits={shortUrlVisits}
+              shortUrlsDetails={fromPartial({
+                shortUrls: {
+                  get: () => fromPartial<ShlinkShortUrl>({
+                    shortUrl: 'https://s.test/123',
+                    longUrl: 'https://shlink.io',
+                    dateCreated: formatISO(now()),
+                  }),
+                },
+              })}
+              shortUrlVisitsDeletion={fromPartial({})}
+              deleteShortUrlVisits={vi.fn()}
+              cancelGetShortUrlVisits={vi.fn()}
+            />
+          </Card>
         </FeaturesProvider>
       </SettingsProvider>
     </MemoryRouter>,

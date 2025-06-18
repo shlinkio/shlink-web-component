@@ -1,3 +1,4 @@
+import { Card } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { cleanup, screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
@@ -21,26 +22,29 @@ describe('<ShortUrlRedirectRules />', () => {
   const resetSetRules = vi.fn();
   const setUp = ({ loading = false, saving = false, saved = false, errorData }: SetUpOptions = {}) => renderWithEvents(
     <MemoryRouter>
-      <ShortUrlRedirectRules
-        shortUrlRedirectRules={fromPartial(loading ? { loading } : {
-          defaultLongUrl: 'https://shlink.io',
-          redirectRules: [
-            { longUrl: 'https://example.com/first', conditions: [{ type: 'device' }] },
-            { longUrl: 'https://example.com/second', conditions: [{ type: 'language' }] },
-            { longUrl: 'https://example.com/third', conditions: [{ type: 'query-param' }] },
-          ],
-        })}
-        getShortUrlRedirectRules={getShortUrlRedirectRules}
-        shortUrlsDetails={fromPartial(loading ? { loading } : {
-          shortUrls: {
-            get: () => fromPartial<ShlinkShortUrl>({ shortUrl: 'https://s.test/123' }),
-          },
-        })}
-        getShortUrlsDetails={getShortUrlsDetails}
-        shortUrlRedirectRulesSaving={fromPartial({ saving, saved, errorData })}
-        setShortUrlRedirectRules={setShortUrlRedirectRules}
-        resetSetRules={resetSetRules}
-      />
+      {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+      <Card>
+        <ShortUrlRedirectRules
+          shortUrlRedirectRules={fromPartial(loading ? { loading } : {
+            defaultLongUrl: 'https://shlink.io',
+            redirectRules: [
+              { longUrl: 'https://example.com/first', conditions: [{ type: 'device' }] },
+              { longUrl: 'https://example.com/second', conditions: [{ type: 'language' }] },
+              { longUrl: 'https://example.com/third', conditions: [{ type: 'query-param' }] },
+            ],
+          })}
+          getShortUrlRedirectRules={getShortUrlRedirectRules}
+          shortUrlsDetails={fromPartial(loading ? { loading } : {
+            shortUrls: {
+              get: () => fromPartial<ShlinkShortUrl>({ shortUrl: 'https://s.test/123' }),
+            },
+          })}
+          getShortUrlsDetails={getShortUrlsDetails}
+          shortUrlRedirectRulesSaving={fromPartial({ saving, saved, errorData })}
+          setShortUrlRedirectRules={setShortUrlRedirectRules}
+          resetSetRules={resetSetRules}
+        />
+      </Card>
     </MemoryRouter>,
   );
 

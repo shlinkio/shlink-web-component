@@ -1,4 +1,4 @@
-import { Table } from '@shlinkio/shlink-frontend-kit';
+import { Card, Table } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
@@ -54,12 +54,15 @@ describe('<ShortUrlsRow />', () => {
   ) => renderWithEvents(
     <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
       <SettingsProvider value={fromPartial(settings)}>
-        <Table header={<></>}>
-          <ShortUrlsRow
-            shortUrl={{ ...shortUrl, title, tags, hasRedirectRules, meta: { ...shortUrl.meta, ...meta } }}
-            onTagClick={() => null}
-          />
-        </Table>
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <Table header={<></>}>
+            <ShortUrlsRow
+              shortUrl={{ ...shortUrl, title, tags, hasRedirectRules, meta: { ...shortUrl.meta, ...meta } }}
+              onTagClick={() => null}
+            />
+          </Table>
+        </Card>
       </SettingsProvider>
     </MemoryRouter>,
   );

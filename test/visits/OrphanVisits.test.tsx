@@ -1,3 +1,4 @@
+import { Card } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
@@ -21,14 +22,17 @@ describe('<OrphanVisits />', () => {
     <MemoryRouter>
       <SettingsProvider value={fromPartial({})}>
         <FeaturesProvider value={fromPartial({ orphanVisitsDeletion })}>
-          <OrphanVisits
-            {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-            getOrphanVisits={getOrphanVisits}
-            orphanVisits={orphanVisits}
-            cancelGetOrphanVisits={vi.fn()}
-            deleteOrphanVisits={vi.fn()}
-            orphanVisitsDeletion={fromPartial({})}
-          />
+          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+          <Card>
+            <OrphanVisits
+              {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
+              getOrphanVisits={getOrphanVisits}
+              orphanVisits={orphanVisits}
+              cancelGetOrphanVisits={vi.fn()}
+              deleteOrphanVisits={vi.fn()}
+              orphanVisitsDeletion={fromPartial({})}
+            />
+          </Card>
         </FeaturesProvider>
       </SettingsProvider>
     </MemoryRouter>,

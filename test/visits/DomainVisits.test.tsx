@@ -1,3 +1,4 @@
+import { Card } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
@@ -20,12 +21,15 @@ describe('<DomainVisits />', () => {
   const setUp = () => renderWithEvents(
     <MemoryRouterWithParams params={{ domain: 'foo.com_DEFAULT' }} splat>
       <SettingsProvider value={fromPartial({})}>
-        <DomainVisits
-          {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-          getDomainVisits={getDomainVisits}
-          cancelGetDomainVisits={cancelGetDomainVisits}
-          domainVisits={domainVisits}
-        />
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <DomainVisits
+            {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
+            getDomainVisits={getDomainVisits}
+            cancelGetDomainVisits={cancelGetDomainVisits}
+            domainVisits={domainVisits}
+          />
+        </Card>
       </SettingsProvider>
     </MemoryRouterWithParams>,
   );

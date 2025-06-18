@@ -21,8 +21,7 @@ describe('<QrCodeModal />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  // TODO Re-enable once the CardModal header supports providing links
-  it.skip('shows an external link to the URL in the header', () => {
+  it('shows an external link to the URL in the header', () => {
     setUp();
     const externalLink = screen.getByRole('heading').querySelector('a');
 
@@ -104,7 +103,7 @@ describe('<QrCodeModal />', () => {
     expect(screen.queryByRole('button', { name: /^Clear logo/ })).not.toBeInTheDocument();
   });
 
-  // FIXME This test needs a real browser
+  // FIXME This test needs some investigation
   it.skip('saves the QR code image when clicking the Download button', async () => {
     const { user } = setUp();
     await user.click(screen.getByRole('button', { name: /^Download/ }));

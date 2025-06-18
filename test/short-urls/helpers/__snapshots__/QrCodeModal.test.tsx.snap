@@ -19,7 +19,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
     >
       <defs>
         <clippath
-          id="clip-path-background-color-1"
+          id="clip-path-background-color-2"
         >
           <rect
             height="300"
@@ -29,7 +29,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
           />
         </clippath>
         <clippath
-          id="clip-path-dot-color-1"
+          id="clip-path-dot-color-2"
         >
           <rect
             height="12"
@@ -2372,7 +2372,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
         </clippath>
       </defs>
       <rect
-        clip-path="url('#clip-path-background-color-1')"
+        clip-path="url('#clip-path-background-color-2')"
         fill="#ffffff"
         height="300"
         width="300"
@@ -2380,7 +2380,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 1`] = `
         y="0"
       />
       <rect
-        clip-path="url('#clip-path-dot-color-1')"
+        clip-path="url('#clip-path-dot-color-2')"
         fill="#000000"
         height="300"
         width="300"
@@ -2420,7 +2420,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
     >
       <defs>
         <clippath
-          id="clip-path-background-color-4"
+          id="clip-path-background-color-5"
         >
           <rect
             height="580"
@@ -2430,7 +2430,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
           />
         </clippath>
         <clippath
-          id="clip-path-dot-color-4"
+          id="clip-path-dot-color-5"
         >
           <rect
             height="21"
@@ -4773,7 +4773,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
         </clippath>
       </defs>
       <rect
-        clip-path="url('#clip-path-background-color-4')"
+        clip-path="url('#clip-path-background-color-5')"
         fill="#ffffff"
         height="580"
         width="580"
@@ -4781,7 +4781,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 2`] = `
         y="0"
       />
       <rect
-        clip-path="url('#clip-path-dot-color-4')"
+        clip-path="url('#clip-path-dot-color-5')"
         fill="#000000"
         height="580"
         width="580"
@@ -4821,7 +4821,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
     >
       <defs>
         <clippath
-          id="clip-path-background-color-6"
+          id="clip-path-background-color-7"
         >
           <rect
             height="300"
@@ -4831,7 +4831,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
           />
         </clippath>
         <clippath
-          id="clip-path-dot-color-6"
+          id="clip-path-dot-color-7"
         >
           <rect
             height="10"
@@ -7797,7 +7797,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
         </clippath>
       </defs>
       <rect
-        clip-path="url('#clip-path-background-color-6')"
+        clip-path="url('#clip-path-background-color-7')"
         fill="#ffffff"
         height="300"
         width="300"
@@ -7805,7 +7805,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 3`] = `
         y="0"
       />
       <rect
-        clip-path="url('#clip-path-dot-color-6')"
+        clip-path="url('#clip-path-dot-color-7')"
         fill="#000000"
         height="300"
         width="300"
@@ -7845,7 +7845,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
     >
       <defs>
         <clippath
-          id="clip-path-background-color-9"
+          id="clip-path-background-color-10"
         >
           <rect
             height="300"
@@ -7855,7 +7855,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
           />
         </clippath>
         <clippath
-          id="clip-path-dot-color-9"
+          id="clip-path-dot-color-10"
         >
           <rect
             height="12"
@@ -10198,7 +10198,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
         </clippath>
       </defs>
       <rect
-        clip-path="url('#clip-path-background-color-9')"
+        clip-path="url('#clip-path-background-color-10')"
         fill="#0000ff"
         height="300"
         width="300"
@@ -10206,7 +10206,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 4`] = `
         y="0"
       />
       <rect
-        clip-path="url('#clip-path-dot-color-9')"
+        clip-path="url('#clip-path-dot-color-10')"
         fill="#ff0000"
         height="300"
         width="300"
@@ -10246,7 +10246,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
     >
       <defs>
         <clippath
-          id="clip-path-background-color-11"
+          id="clip-path-background-color-12"
         >
           <rect
             height="300"
@@ -10256,7 +10256,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
           />
         </clippath>
         <clippath
-          id="clip-path-dot-color-11"
+          id="clip-path-dot-color-12"
         >
           <rect
             height="12"
@@ -12494,7 +12494,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
         </clippath>
       </defs>
       <rect
-        clip-path="url('#clip-path-background-color-11')"
+        clip-path="url('#clip-path-background-color-12')"
         fill="#ffffff"
         height="300"
         width="300"
@@ -12502,7 +12502,7 @@ exports[`<QrCodeModal /> > displays an image with expected configuration 5`] = `
         y="0"
       />
       <rect
-        clip-path="url('#clip-path-dot-color-11')"
+        clip-path="url('#clip-path-dot-color-12')"
         fill="#000000"
         height="300"
         width="300"

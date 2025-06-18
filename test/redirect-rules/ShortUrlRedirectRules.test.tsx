@@ -111,8 +111,7 @@ describe('<ShortUrlRedirectRules />', () => {
     expect(screen.getAllByText('Loading...')).toHaveLength(2);
   });
 
-  // TODO Fix test
-  it.skip('can open rule modal', async () => {
+  it('can open rule modal', async () => {
     const { user } = setUp();
 
     await user.click(screen.getByRole('button', { name: 'Add rule' }));

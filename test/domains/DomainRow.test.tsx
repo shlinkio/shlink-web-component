@@ -1,4 +1,4 @@
-import { Table } from '@shlinkio/shlink-frontend-kit';
+import { Card, Table } from '@shlinkio/shlink-frontend-kit';
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
@@ -20,14 +20,17 @@ describe('<DomainRow />', () => {
   ];
   const setUp = (domain: Domain, defaultRedirects?: ShlinkDomainRedirects) => render(
     <MemoryRouter>
-      <Table header={<></>}>
-        <DomainRow
-          domain={domain}
-          defaultRedirects={defaultRedirects}
-          editDomainRedirects={vi.fn()}
-          checkDomainHealth={vi.fn()}
-        />
-      </Table>
+      {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+      <Card>
+        <Table header={<></>}>
+          <DomainRow
+            domain={domain}
+            defaultRedirects={defaultRedirects}
+            editDomainRedirects={vi.fn()}
+            checkDomainHealth={vi.fn()}
+          />
+        </Table>
+      </Card>
     </MemoryRouter>,
   );
 

@@ -11,7 +11,7 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<Tag />', () => {
   const onClick = vi.fn();
   const onClose = vi.fn();
-  const stylesForKey = vi.fn(() => ({ backgroundColor: brandColor() as string }));
+  const stylesForKey = vi.fn().mockReturnValue({ backgroundColor: brandColor(), color: '#fff' });
   const colorGenerator = fromPartial<ColorGenerator>({ stylesForKey });
   const setUp = (text: string, clearable?: boolean, children?: ReactNode) => {
     const props = !clearable ? { onClick } : { onClose };

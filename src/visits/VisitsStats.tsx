@@ -8,7 +8,7 @@ import {
   faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, formatNumber, NavPills, SimpleCard } from '@shlinkio/shlink-frontend-kit';
+import { Button, formatNumber, isDarkThemeEnabled, NavPills, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -209,6 +209,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
               />
               <Button
                 variant="secondary"
+                solid={highlightedVisits.length > 0 && !isDarkThemeEnabled()}
                 disabled={highlightedVisits.length === 0}
                 className="max-lg:w-full"
                 onClick={() => setSelectedVisits([])}

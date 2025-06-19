@@ -1,3 +1,4 @@
+import { Card } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
@@ -22,13 +23,16 @@ describe('<TagVisits />', () => {
   const setUp = () => renderWithEvents(
     <MemoryRouterWithParams params={{ tag: 'foo' }} splat>
       <SettingsProvider value={fromPartial({})}>
-        <TagVisits
-          {...fromPartial<TagVisitsProps>({})}
-          {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-          getTagVisits={getTagVisitsMock}
-          tagVisits={tagVisits}
-          cancelGetTagVisits={() => {}}
-        />
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <TagVisits
+            {...fromPartial<TagVisitsProps>({})}
+            {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
+            getTagVisits={getTagVisitsMock}
+            tagVisits={tagVisits}
+            cancelGetTagVisits={() => {}}
+          />
+        </Card>
       </SettingsProvider>
     </MemoryRouterWithParams>,
   );

@@ -293,7 +293,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
       )}
 
       <div className="text-center">
-        <Button type="submit" inline disabled={saving || !shortUrlData.longUrl} className="max-md:w-full">
+        <Button type="submit" inline solid disabled={saving || !shortUrlData.longUrl} className="max-md:w-full">
           {saving ? 'Saving...' : 'Save'}
         </Button>
       </div>

@@ -1,3 +1,4 @@
+import { Card } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
@@ -20,12 +21,15 @@ describe('<NonOrphanVisits />', () => {
   const setUp = () => renderWithEvents(
     <MemoryRouter>
       <SettingsProvider value={fromPartial({})}>
-        <NonOrphanVisits
-          {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-          getNonOrphanVisits={getNonOrphanVisits}
-          cancelGetNonOrphanVisits={cancelGetNonOrphanVisits}
-          nonOrphanVisits={nonOrphanVisits}
-        />
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <NonOrphanVisits
+            {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
+            getNonOrphanVisits={getNonOrphanVisits}
+            cancelGetNonOrphanVisits={cancelGetNonOrphanVisits}
+            nonOrphanVisits={nonOrphanVisits}
+          />
+        </Card>
       </SettingsProvider>
     </MemoryRouter>,
   );

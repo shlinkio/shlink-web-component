@@ -5,7 +5,7 @@
 
 @layer base {
     :root {
-        --header-height: 56px;
+        --header-height: 52px;
         --aside-menu-width: 260px;
     }
 }

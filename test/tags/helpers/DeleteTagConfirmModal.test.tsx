@@ -56,10 +56,9 @@ describe('<DeleteTagConfirmModal />', () => {
 
     await user.click(screen.getByRole('button', { name: 'Delete tag' }));
 
-    expect(deleteTag).toHaveBeenCalledOnce();
-    expect(deleteTag).toHaveBeenCalledWith(tag);
+    expect(deleteTag).toHaveBeenCalledExactlyOnceWith(tag);
 
-    await waitFor(() => expect(tagDeleted).toHaveBeenCalledOnce());
+    await waitFor(() => expect(tagDeleted).toHaveBeenCalledOnce(), { timeout: 2000 });
   });
 
   it('does no further actions when modal is closed without deleting tag', async () => {

@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Removed
-* *Nothing*
+* Drop support for React 18
 
 ### Fixed
 * [#639](https://github.com/shlinkio/shlink-web-component/issues/639) Fix contrast issues and re-enable contrast checks during tests.

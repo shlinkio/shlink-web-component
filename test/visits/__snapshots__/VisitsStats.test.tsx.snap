@@ -18,7 +18,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls=":r43:"
+          aria-controls="«r43»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -44,7 +44,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls=":r45:"
+            aria-controls="«r45»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -72,7 +72,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id=":r43:"
+      id="«r43»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -600,7 +600,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls=":r4a:"
+          aria-controls="«r4a»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -626,7 +626,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls=":r4c:"
+            aria-controls="«r4c»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -654,7 +654,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id=":r4a:"
+      id="«r4a»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1182,7 +1182,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls=":r4h:"
+          aria-controls="«r4h»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1208,7 +1208,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls=":r4j:"
+            aria-controls="«r4j»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1236,7 +1236,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id=":r4h:"
+      id="«r4h»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1764,7 +1764,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls=":r4o:"
+          aria-controls="«r4o»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1790,7 +1790,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls=":r4q:"
+            aria-controls="«r4q»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1818,7 +1818,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id=":r4o:"
+      id="«r4o»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2405,7 +2405,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls=":r4v:"
+          aria-controls="«r4v»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -2431,7 +2431,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls=":r51:"
+            aria-controls="«r51»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -2459,7 +2459,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id=":r4v:"
+      id="«r4v»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -3046,7 +3046,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls=":r56:"
+          aria-controls="«r56»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -3072,7 +3072,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls=":r58:"
+            aria-controls="«r58»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -3100,7 +3100,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id=":r56:"
+      id="«r56»"
     >
       <div
         class="recharts-wrapper select-none"

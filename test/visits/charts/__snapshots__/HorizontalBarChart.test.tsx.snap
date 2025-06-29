@@ -4,12 +4,33 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
 <div>
   <div
     class="recharts-wrapper"
+    role="application"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
+    <div
+      class="recharts-tooltip-wrapper"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      tabindex="-1"
+      xmlns="http://www.w3.org/1999/xhtml"
+    >
+      <div
+        aria-live="assertive"
+        class="recharts-default-tooltip"
+        role="status"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+      >
+        <p
+          class="recharts-tooltip-label"
+          style="margin: 0px 0px 5px; font-weight: bold;"
+        />
+      </div>
+    </div>
     <svg
       class="recharts-surface"
       height="400"
+      role="application"
       style="width: 100%; height: 100%;"
+      tabindex="0"
       viewBox="0 0 800 400"
       width="800"
     >
@@ -17,7 +38,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts3-clip"
+          id="recharts4-clip"
         >
           <rect
             height="360"
@@ -476,21 +497,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         </g>
       </g>
     </svg>
-    <div
-      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(26px, 10px);"
-      tabindex="-1"
-    >
-      <div
-        class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-      >
-        <p
-          class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px; font-weight: bold;"
-        />
-      </div>
-    </div>
   </div>
 </div>
 `;
@@ -499,12 +505,33 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
 <div>
   <div
     class="recharts-wrapper"
+    role="application"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
+    <div
+      class="recharts-tooltip-wrapper"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      tabindex="-1"
+      xmlns="http://www.w3.org/1999/xhtml"
+    >
+      <div
+        aria-live="assertive"
+        class="recharts-default-tooltip"
+        role="status"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+      >
+        <p
+          class="recharts-tooltip-label"
+          style="margin: 0px 0px 5px; font-weight: bold;"
+        />
+      </div>
+    </div>
     <svg
       class="recharts-surface"
       height="400"
+      role="application"
       style="width: 100%; height: 100%;"
+      tabindex="0"
       viewBox="0 0 800 400"
       width="800"
     >
@@ -512,7 +539,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts5-clip"
+          id="recharts9-clip"
         >
           <rect
             height="360"
@@ -989,21 +1016,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         </g>
       </g>
     </svg>
-    <div
-      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(26px, 10px);"
-      tabindex="-1"
-    >
-      <div
-        class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-      >
-        <p
-          class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px; font-weight: bold;"
-        />
-      </div>
-    </div>
   </div>
 </div>
 `;
@@ -1012,12 +1024,33 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
 <div>
   <div
     class="recharts-wrapper"
+    role="application"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
+    <div
+      class="recharts-tooltip-wrapper"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      tabindex="-1"
+      xmlns="http://www.w3.org/1999/xhtml"
+    >
+      <div
+        aria-live="assertive"
+        class="recharts-default-tooltip"
+        role="status"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+      >
+        <p
+          class="recharts-tooltip-label"
+          style="margin: 0px 0px 5px; font-weight: bold;"
+        />
+      </div>
+    </div>
     <svg
       class="recharts-surface"
       height="400"
+      role="application"
       style="width: 100%; height: 100%;"
+      tabindex="0"
       viewBox="0 0 800 400"
       width="800"
     >
@@ -1025,7 +1058,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts8-clip"
+          id="recharts17-clip"
         >
           <rect
             height="360"
@@ -1559,21 +1592,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         </g>
       </g>
     </svg>
-    <div
-      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(26px, 10px);"
-      tabindex="-1"
-    >
-      <div
-        class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-      >
-        <p
-          class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px; font-weight: bold;"
-        />
-      </div>
-    </div>
   </div>
 </div>
 `;
@@ -1582,12 +1600,33 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
 <div>
   <div
     class="recharts-wrapper"
+    role="application"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
+    <div
+      class="recharts-tooltip-wrapper"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      tabindex="-1"
+      xmlns="http://www.w3.org/1999/xhtml"
+    >
+      <div
+        aria-live="assertive"
+        class="recharts-default-tooltip"
+        role="status"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+      >
+        <p
+          class="recharts-tooltip-label"
+          style="margin: 0px 0px 5px; font-weight: bold;"
+        />
+      </div>
+    </div>
     <svg
       class="recharts-surface"
       height="400"
+      role="application"
       style="width: 100%; height: 100%;"
+      tabindex="0"
       viewBox="0 0 800 400"
       width="800"
     >
@@ -1595,7 +1634,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts11-clip"
+          id="recharts25-clip"
         >
           <rect
             height="360"
@@ -2129,21 +2168,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         </g>
       </g>
     </svg>
-    <div
-      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(40px, 10px);"
-      tabindex="-1"
-    >
-      <div
-        class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-      >
-        <p
-          class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px; font-weight: bold;"
-        />
-      </div>
-    </div>
   </div>
 </div>
 `;
@@ -2152,12 +2176,33 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
 <div>
   <div
     class="recharts-wrapper"
+    role="application"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
+    <div
+      class="recharts-tooltip-wrapper"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      tabindex="-1"
+      xmlns="http://www.w3.org/1999/xhtml"
+    >
+      <div
+        aria-live="assertive"
+        class="recharts-default-tooltip"
+        role="status"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+      >
+        <p
+          class="recharts-tooltip-label"
+          style="margin: 0px 0px 5px; font-weight: bold;"
+        />
+      </div>
+    </div>
     <svg
       class="recharts-surface"
       height="400"
+      role="application"
       style="width: 100%; height: 100%;"
+      tabindex="0"
       viewBox="0 0 800 400"
       width="800"
     >
@@ -2165,7 +2210,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts14-clip"
+          id="recharts33-clip"
         >
           <rect
             height="360"
@@ -2720,21 +2765,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </g>
       </g>
     </svg>
-    <div
-      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(40px, 10px);"
-      tabindex="-1"
-    >
-      <div
-        class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-      >
-        <p
-          class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px; font-weight: bold;"
-        />
-      </div>
-    </div>
   </div>
 </div>
 `;
@@ -2743,12 +2773,33 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
 <div>
   <div
     class="recharts-wrapper"
+    role="application"
     style="position: relative; cursor: default; width: 800px; height: 400px;"
   >
+    <div
+      class="recharts-tooltip-wrapper"
+      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+      tabindex="-1"
+      xmlns="http://www.w3.org/1999/xhtml"
+    >
+      <div
+        aria-live="assertive"
+        class="recharts-default-tooltip"
+        role="status"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+      >
+        <p
+          class="recharts-tooltip-label"
+          style="margin: 0px 0px 5px; font-weight: bold;"
+        />
+      </div>
+    </div>
     <svg
       class="recharts-surface"
       height="400"
+      role="application"
       style="width: 100%; height: 100%;"
+      tabindex="0"
       viewBox="0 0 800 400"
       width="800"
     >
@@ -2756,7 +2807,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts19-clip"
+          id="recharts44-clip"
         >
           <rect
             height="360"
@@ -3290,21 +3341,6 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         </g>
       </g>
     </svg>
-    <div
-      class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-      style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(40px, 10px);"
-      tabindex="-1"
-    >
-      <div
-        class="recharts-default-tooltip"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-      >
-        <p
-          class="recharts-tooltip-label"
-          style="margin: 0px 0px 5px; font-weight: bold;"
-        />
-      </div>
-    </div>
   </div>
 </div>
 `;

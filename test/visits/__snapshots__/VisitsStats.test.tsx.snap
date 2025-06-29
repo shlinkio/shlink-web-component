@@ -72,12 +72,33 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
     >
       <div
         class="recharts-wrapper select-none"
+        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="300"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 300"
           width="800"
         >
@@ -85,7 +106,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts56-clip"
+              id="recharts121-clip"
             >
               <rect
                 height="260"
@@ -407,60 +428,21 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                 x1="65"
                 x2="795"
                 y="5"
-                y1="265"
-                y2="265"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="200"
-                y2="200"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="135"
-                y2="135"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="70"
-                y2="70"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
                 y1="5"
                 y2="5"
+              />
+              <line
+                fill="none"
+                height="260"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="265"
+                y2="265"
               />
             </g>
             <g
@@ -503,11 +485,9 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
               fill="none"
               height="260"
               stroke="#2078CF"
+              stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
               width="730"
-            />
-            <g
-              class="recharts-layer"
             />
             <g
               class="recharts-layer recharts-line-dots"
@@ -537,23 +517,6 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            >
-              2020-01
-            </p>
-          </div>
-        </div>
       </div>
       <ul
         class="mt-2 flex flex-wrap justify-center gap-4"
@@ -650,12 +613,33 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
     >
       <div
         class="recharts-wrapper select-none"
+        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="300"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 300"
           width="800"
         >
@@ -663,7 +647,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts60-clip"
+              id="recharts126-clip"
             >
               <rect
                 height="260"
@@ -985,60 +969,21 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                 x1="65"
                 x2="795"
                 y="5"
-                y1="265"
-                y2="265"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="200"
-                y2="200"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="135"
-                y2="135"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="70"
-                y2="70"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
                 y1="5"
                 y2="5"
+              />
+              <line
+                fill="none"
+                height="260"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="265"
+                y2="265"
               />
             </g>
             <g
@@ -1081,11 +1026,9 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
               fill="none"
               height="260"
               stroke="#2078CF"
+              stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
               width="730"
-            />
-            <g
-              class="recharts-layer"
             />
             <g
               class="recharts-layer recharts-line-dots"
@@ -1115,23 +1058,6 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            >
-              2020-01
-            </p>
-          </div>
-        </div>
       </div>
       <ul
         class="mt-2 flex flex-wrap justify-center gap-4"
@@ -1228,12 +1154,33 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
     >
       <div
         class="recharts-wrapper select-none"
+        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="300"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 300"
           width="800"
         >
@@ -1241,7 +1188,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts64-clip"
+              id="recharts131-clip"
             >
               <rect
                 height="260"
@@ -1563,60 +1510,21 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                 x1="65"
                 x2="795"
                 y="5"
-                y1="265"
-                y2="265"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="200"
-                y2="200"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="135"
-                y2="135"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="70"
-                y2="70"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
                 y1="5"
                 y2="5"
+              />
+              <line
+                fill="none"
+                height="260"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="265"
+                y2="265"
               />
             </g>
             <g
@@ -1659,11 +1567,9 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
               fill="none"
               height="260"
               stroke="#2078CF"
+              stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
               width="730"
-            />
-            <g
-              class="recharts-layer"
             />
             <g
               class="recharts-layer recharts-line-dots"
@@ -1693,23 +1599,6 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            >
-              2020-01
-            </p>
-          </div>
-        </div>
       </div>
       <ul
         class="mt-2 flex flex-wrap justify-center gap-4"
@@ -1806,12 +1695,33 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
     >
       <div
         class="recharts-wrapper select-none"
+        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="300"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 300"
           width="800"
         >
@@ -1819,7 +1729,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts68-clip"
+              id="recharts136-clip"
             >
               <rect
                 height="260"
@@ -2141,60 +2051,21 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                 x1="65"
                 x2="795"
                 y="5"
-                y1="265"
-                y2="265"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="200"
-                y2="200"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="135"
-                y2="135"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="70"
-                y2="70"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
                 y1="5"
                 y2="5"
+              />
+              <line
+                fill="none"
+                height="260"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="265"
+                y2="265"
               />
             </g>
             <g
@@ -2237,11 +2108,9 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
               fill="none"
               height="260"
               stroke="#2078CF"
+              stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
               width="730"
-            />
-            <g
-              class="recharts-layer"
             />
             <g
               class="recharts-layer recharts-line-dots"
@@ -2279,12 +2148,9 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
               fill="none"
               height="260"
               stroke="#1DAA58"
-              stroke-dasharray="8 3"
+              stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"
               width="730"
-            />
-            <g
-              class="recharts-layer"
             />
             <g
               class="recharts-layer recharts-line-dots"
@@ -2316,23 +2182,6 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            >
-              2020-01
-            </p>
-          </div>
-        </div>
       </div>
       <ul
         class="mt-2 flex flex-wrap justify-center gap-4"
@@ -2443,12 +2292,33 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
     >
       <div
         class="recharts-wrapper select-none"
+        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="300"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 300"
           width="800"
         >
@@ -2456,7 +2326,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts75-clip"
+              id="recharts144-clip"
             >
               <rect
                 height="260"
@@ -2778,60 +2648,21 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                 x1="65"
                 x2="795"
                 y="5"
-                y1="265"
-                y2="265"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="200"
-                y2="200"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="135"
-                y2="135"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="70"
-                y2="70"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
                 y1="5"
                 y2="5"
+              />
+              <line
+                fill="none"
+                height="260"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="265"
+                y2="265"
               />
             </g>
             <g
@@ -2874,11 +2705,9 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
               fill="none"
               height="260"
               stroke="#2078CF"
+              stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
               width="730"
-            />
-            <g
-              class="recharts-layer"
             />
             <g
               class="recharts-layer recharts-line-dots"
@@ -2916,12 +2745,9 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
               fill="none"
               height="260"
               stroke="#1DAA58"
-              stroke-dasharray="8 3"
+              stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"
               width="730"
-            />
-            <g
-              class="recharts-layer"
             />
             <g
               class="recharts-layer recharts-line-dots"
@@ -2953,23 +2779,6 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            >
-              2020-01
-            </p>
-          </div>
-        </div>
       </div>
       <ul
         class="mt-2 flex flex-wrap justify-center gap-4"
@@ -3080,12 +2889,33 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
     >
       <div
         class="recharts-wrapper select-none"
+        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="300"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 300"
           width="800"
         >
@@ -3093,7 +2923,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts82-clip"
+              id="recharts152-clip"
             >
               <rect
                 height="260"
@@ -3415,60 +3245,21 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                 x1="65"
                 x2="795"
                 y="5"
-                y1="265"
-                y2="265"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="200"
-                y2="200"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="135"
-                y2="135"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="70"
-                y2="70"
-              />
-              <line
-                fill="none"
-                height="260"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
                 y1="5"
                 y2="5"
+              />
+              <line
+                fill="none"
+                height="260"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="265"
+                y2="265"
               />
             </g>
             <g
@@ -3511,11 +3302,9 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
               fill="none"
               height="260"
               stroke="#2078CF"
+              stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
               width="730"
-            />
-            <g
-              class="recharts-layer"
             />
             <g
               class="recharts-layer recharts-line-dots"
@@ -3553,12 +3342,9 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
               fill="none"
               height="260"
               stroke="#1DAA58"
-              stroke-dasharray="8 3"
+              stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"
               width="730"
-            />
-            <g
-              class="recharts-layer"
             />
             <g
               class="recharts-layer recharts-line-dots"
@@ -3590,23 +3376,6 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(75px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            >
-              2020-01
-            </p>
-          </div>
-        </div>
       </div>
       <ul
         class="mt-2 flex flex-wrap justify-center gap-4"

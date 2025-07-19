@@ -32,7 +32,7 @@ import {
 import type { FC } from 'react';
 import { useCallback, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ReferenceArea, Tooltip, XAxis, YAxis } from 'recharts';
-import type { CategoricalChartState } from 'recharts/types/chart/types';
+import type { CategoricalChartFunc } from 'recharts/types/chart/types';
 import { formatInternational } from '../../utils/dates/helpers/date';
 import type { StrictDateRange } from '../../utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../utils/helpers';
@@ -203,9 +203,6 @@ const useActiveDot = (
   };
 };
 
-const payloadFromChartEvent = (e: CategoricalChartState) =>
-  e.activePayload?.[0]?.payload as ChartPayloadEntry | undefined;
-
 export type LineChartCardProps = {
   visitsGroups: Record<string, VisitsList>;
   setSelectedVisits?: (visits: NormalizedVisit[]) => void;
@@ -274,18 +271,18 @@ export const LineChartCard: FC<LineChartCardProps> = (
     setSelectionStart(undefined);
     setSelectionEnd(undefined);
   }, []);
-  const resolveSelectionStart = useCallback((e: CategoricalChartState, mouseEvent: MouseEvent) => {
-    const payload = payloadFromChartEvent(e);
-    if (mouseEvent.button === 0 && payload) {
+  const resolveSelectionStart: CategoricalChartFunc = useCallback((e, mouseEvent) => {
+    const payload = e.activeIndex && chartData[e.activeIndex as number];
+    if ((mouseEvent as unknown as MouseEvent).button === 0 && payload) {
       setSelectionStart(payload);
     }
-  }, []);
-  const resolveSelectionEnd = useCallback((e: CategoricalChartState) => {
-    const payload = payloadFromChartEvent(e);
+  }, [chartData]);
+  const resolveSelectionEnd: CategoricalChartFunc = useCallback((e) => {
+    const payload = e.activeIndex && chartData[e.activeIndex as number];
     if (selectionStart && payload) {
       setSelectionEnd(payload);
     }
-  }, [selectionStart]);
+  }, [chartData, selectionStart]);
   const updateDateRange = useCallback(() => {
     if (!selectionStart || !selectionEnd) {
       return;

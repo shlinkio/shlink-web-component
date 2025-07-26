@@ -29,7 +29,7 @@ type HorizontalBarChartEntry = {
   prevAmount: number | null;
 };
 
-const isHiddenLabel = (label: string) => label.startsWith('hidden_');
+const isHiddenLabel = (label: any) => typeof label !== 'string' || label.startsWith('hidden_');
 
 export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
   { stats, prevStats, highlightedStats, highlightedLabel, max, onClick },
@@ -101,7 +101,7 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
           stackId="main"
           cursor="pointer"
           fill={brandColor() /* This needs to be set as it is the color used in the tooltip */}
-          onClick={({ name }: HorizontalBarChartEntry) => onClick?.(name)}
+          onClick={({ name }) => name && onClick?.(name)}
         >
           {chartData.map((entry) => (
             // Using a Cell, to define a different fill color, without affecting the one used for the tooltip
@@ -114,7 +114,7 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
             stackId="main"
             cursor="pointer"
             fill={HIGHLIGHTED_COLOR /* This needs to be set as it is the color used in the tooltip */}
-            onClick={({ name }: HorizontalBarChartEntry) => onClick?.(name)}
+            onClick={({ name }) => name && onClick?.(name)}
           >
             {chartData.map((entry) => (
               <Cell key={entry.name} fill={HIGHLIGHTED_COLOR_ALPHA} stroke={HIGHLIGHTED_COLOR} strokeWidth={2} />

@@ -18,7 +18,6 @@ export const IconInput: FC<IconInputProps> = ({ icon, className, ...rest }) => {
       <Input className={clsx('pr-11', className)} ref={ref} {...rest} />
       <FontAwesomeIcon
         icon={icon}
-        fixedWidth
         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
         onClick={() => ref.current?.focus()}
       />

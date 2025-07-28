@@ -28,7 +28,7 @@ const DefaultDomain: FC = () => {
     <>
       <FontAwesomeIcon
         {...anchor}
-        fixedWidth
+
         icon={defaultDomainIcon}
         className="text-lm-brand dark:text-dm-brand"
         data-testid="default-domain-icon"

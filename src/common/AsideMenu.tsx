@@ -56,23 +56,23 @@ export const AsideMenu: FC<AsideMenuProps> = ({ routePrefix, showOnMobile = fals
     >
       <nav className="flex flex-col h-full">
         <AsideMenuItem to={buildPath('/overview')}>
-          <FontAwesomeIcon fixedWidth icon={overviewIcon} />
+          <FontAwesomeIcon icon={overviewIcon} />
           Overview
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/list-short-urls/1')} active={pathname.match('/list-short-urls') !== null}>
-          <FontAwesomeIcon fixedWidth icon={listIcon} />
+          <FontAwesomeIcon icon={listIcon} />
           List short URLs
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/create-short-url')}>
-          <FontAwesomeIcon fixedWidth icon={createIcon} flip="horizontal" />
+          <FontAwesomeIcon icon={createIcon} flip="horizontal" />
           Create short URL
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/manage-tags')}>
-          <FontAwesomeIcon fixedWidth icon={tagsIcon} />
+          <FontAwesomeIcon icon={tagsIcon} />
           Manage tags
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/manage-domains')}>
-          <FontAwesomeIcon fixedWidth icon={domainsIcon} />
+          <FontAwesomeIcon icon={domainsIcon} />
           Manage domains
         </AsideMenuItem>
       </nav>

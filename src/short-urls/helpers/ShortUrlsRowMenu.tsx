@@ -64,7 +64,7 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
     <>
       <RowDropdown menuAlignment="right">
         <RowDropdown.Item to={buildUrlDetailLink('visits')} className="gap-1.5">
-          <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
+          <FontAwesomeIcon icon={pieChartIcon} /> Visit stats
         </RowDropdown.Item>
         {visitsComparison && (
           <>
@@ -76,7 +76,7 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
                 query: shortUrlToQuery(shortUrl),
               })}
             >
-              <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
+              <FontAwesomeIcon icon={lineChartIcon} /> Compare visits
             </RowDropdown.Item>
 
             <RowDropdown.Separator />
@@ -84,17 +84,17 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
         )}
 
         <RowDropdown.Item to={buildUrlDetailLink('edit')} className="gap-1.5">
-          <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit short URL
+          <FontAwesomeIcon icon={editIcon} /> Edit short URL
         </RowDropdown.Item>
 
         {redirectRulesAreSupported && (
           <RowDropdown.Item to={buildUrlDetailLink('redirect-rules')} className="gap-1.5">
-            <FontAwesomeIcon icon={rulesIcon} fixedWidth /> Manage redirect rules
+            <FontAwesomeIcon icon={rulesIcon} /> Manage redirect rules
           </RowDropdown.Item>
         )}
 
         <RowDropdown.Item onClick={openQrCodeModal} className="gap-1.5">
-          <FontAwesomeIcon icon={qrIcon} fixedWidth /> QR code
+          <FontAwesomeIcon icon={qrIcon} /> QR code
         </RowDropdown.Item>
 
         <RowDropdown.Separator />
@@ -103,7 +103,7 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
           className="[&]:text-danger gap-1.5"
           onClick={confirmDeletions ? openDeleteModal : doDeleteShortUrl}
         >
-          <FontAwesomeIcon icon={deleteIcon} fixedWidth /> Delete short URL
+          <FontAwesomeIcon icon={deleteIcon} /> Delete short URL
         </RowDropdown.Item>
       </RowDropdown>
 

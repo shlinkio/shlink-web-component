@@ -141,7 +141,7 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
             <QrFormatDropdown format={format} onChange={(format) => setQrOption({ format })} />
             <div className="flex items-center gap-2">
               <Button onClick={copy} aria-label="Copy data URI" title="Copy data URI" className="h-full">
-                <FontAwesomeIcon icon={copied ? faCheck : faClone} fixedWidth />
+                <FontAwesomeIcon icon={copied ? faCheck : faClone} />
               </Button>
               <Button solid onClick={downloadQrCode} className="grow">
                 Download <FontAwesomeIcon icon={downloadIcon} />

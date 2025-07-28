@@ -18,13 +18,13 @@ export const DomainStatusIcon: FC<DomainStatusIconProps> = ({ status }) => {
   const { anchor, tooltip } = useTooltip();
 
   if (status === 'validating') {
-    return <FontAwesomeIcon fixedWidth icon={loadingStatusIcon} spin />;
+    return <FontAwesomeIcon icon={loadingStatusIcon} spin />;
   }
 
   return (
     <span {...anchor}>
       <FontAwesomeIcon
-        fixedWidth
+
         icon={status === 'valid' ? checkIcon : invalidIcon}
         className={clsx({ 'text-danger': status !== 'valid' })}
       />

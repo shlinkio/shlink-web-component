@@ -50,7 +50,7 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
       <Table.Cell className="lg:text-right max-lg:absolute max-lg:top-1.25 max-lg:right-0 max-lg:p-0">
         <RowDropdown menuAlignment="right">
           <RowDropdown.Item onClick={openEdit} className="gap-1.5">
-            <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit
+            <FontAwesomeIcon icon={editIcon} /> Edit
           </RowDropdown.Item>
           <RowDropdown.Item
             className="gap-1.5"
@@ -61,13 +61,13 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
               style: colorGenerator.stylesForKey(tag.tag),
             })}
           >
-            <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
+            <FontAwesomeIcon icon={lineChartIcon} /> Compare visits
           </RowDropdown.Item>
 
           <RowDropdown.Separator />
 
           <RowDropdown.Item className="[&]:text-danger gap-1.5" onClick={openDelete}>
-            <FontAwesomeIcon icon={deleteIcon} fixedWidth /> Delete tag
+            <FontAwesomeIcon icon={deleteIcon} /> Delete tag
           </RowDropdown.Item>
         </RowDropdown>
       </Table.Cell>

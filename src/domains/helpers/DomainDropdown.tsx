@@ -33,7 +33,7 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
           className="gap-1.5"
           to={`${routesPrefix}/domain/${domain.domain}${domain.isDefault ? `_${DEFAULT_DOMAIN}` : ''}/visits`}
         >
-          <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
+          <FontAwesomeIcon icon={pieChartIcon} /> Visit stats
         </RowDropdown.Item>
         <RowDropdown.Item
           className="gap-1.5"
@@ -43,7 +43,7 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
             query: domain.domain,
           })}
         >
-          <FontAwesomeIcon icon={lineChartIcon} fixedWidth /> Compare visits
+          <FontAwesomeIcon icon={lineChartIcon} /> Compare visits
         </RowDropdown.Item>
 
         {canFilterShortUrlsByDomain && (
@@ -51,13 +51,13 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
             className="gap-1.5"
             to={`${routesPrefix}/list-short-urls/1?domain=${domain.isDefault ? DEFAULT_DOMAIN : domain.domain}`}
           >
-            <FontAwesomeIcon icon={listIcon} fixedWidth /> Short URLs
+            <FontAwesomeIcon icon={listIcon} /> Short URLs
           </RowDropdown.Item>
         )}
 
         <RowDropdown.Separator />
         <RowDropdown.Item onClick={openModal} className="gap-1.5">
-          <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit redirects
+          <FontAwesomeIcon icon={editIcon} /> Edit redirects
         </RowDropdown.Item>
       </RowDropdown>
 

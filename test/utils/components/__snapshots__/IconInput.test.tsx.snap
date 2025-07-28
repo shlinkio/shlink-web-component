@@ -10,16 +10,14 @@ exports[`<IconInput /> > displays provided icon 1`] = `
     />
     <svg
       aria-hidden="true"
-      class="svg-inline--fa fa-calendar fa-fw absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+      class="svg-inline--fa fa-calendar absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
       data-icon="calendar"
       data-prefix="fas"
-      focusable="false"
       role="img"
       viewBox="0 0 448 512"
-      xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M96 32l0 32L48 64C21.5 64 0 85.5 0 112l0 48 448 0 0-48c0-26.5-21.5-48-48-48l-48 0 0-32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 32L160 64l0-32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192L0 192 0 464c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-272z"
+        d="M128 0C110.3 0 96 14.3 96 32l0 32-32 0C28.7 64 0 92.7 0 128l0 48 448 0 0-48c0-35.3-28.7-64-64-64l-32 0 0-32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 32-128 0 0-32c0-17.7-14.3-32-32-32zM0 224L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-192-448 0z"
         fill="currentColor"
       />
     </svg>
@@ -37,16 +35,14 @@ exports[`<IconInput /> > displays provided icon 2`] = `
     />
     <svg
       aria-hidden="true"
-      class="svg-inline--fa fa-apple-whole fa-fw absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+      class="svg-inline--fa fa-apple-whole absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
       data-icon="apple-whole"
       data-prefix="fas"
-      focusable="false"
       role="img"
       viewBox="0 0 448 512"
-      xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M224 112c-8.8 0-16-7.2-16-16l0-16c0-44.2 35.8-80 80-80l16 0c8.8 0 16 7.2 16 16l0 16c0 44.2-35.8 80-80 80l-16 0zM0 288c0-76.3 35.7-160 112-160c27.3 0 59.7 10.3 82.7 19.3c18.8 7.3 39.9 7.3 58.7 0c22.9-8.9 55.4-19.3 82.7-19.3c76.3 0 112 83.7 112 160c0 128-80 224-160 224c-16.5 0-38.1-6.6-51.5-11.3c-8.1-2.8-16.9-2.8-25 0c-13.4 4.7-35 11.3-51.5 11.3C80 512 0 416 0 288z"
+        d="M224 112c-8.8 0-16-7.2-16-16l0-16c0-44.2 35.8-80 80-80l16 0c8.8 0 16 7.2 16 16l0 16c0 44.2-35.8 80-80 80l-16 0zM0 288c0-76.3 35.7-160 112-160 27.3 0 59.7 10.3 82.7 19.3 18.8 7.3 39.9 7.3 58.7 0 22.9-8.9 55.4-19.3 82.7-19.3 76.3 0 112 83.7 112 160 0 128-80 224-160 224-16.5 0-38.1-6.6-51.5-11.3-8.1-2.8-16.9-2.8-25 0-13.4 4.7-35 11.3-51.5 11.3-80 0-160-96-160-224z"
         fill="currentColor"
       />
     </svg>
@@ -64,16 +60,14 @@ exports[`<IconInput /> > displays provided icon 3`] = `
     />
     <svg
       aria-hidden="true"
-      class="svg-inline--fa fa-table fa-fw absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+      class="svg-inline--fa fa-table absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
       data-icon="table"
       data-prefix="fas"
-      focusable="false"
       role="img"
-      viewBox="0 0 512 512"
-      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 448 512"
     >
       <path
-        d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z"
+        d="M256 160l0 96 128 0 0-96-128 0zm-64 0l-128 0 0 96 128 0 0-96zM0 320L0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64l0-96zm384 0l-128 0 0 96 128 0 0-96zM192 416l0-96-128 0 0 96 128 0z"
         fill="currentColor"
       />
     </svg>

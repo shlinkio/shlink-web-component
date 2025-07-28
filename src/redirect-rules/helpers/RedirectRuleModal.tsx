@@ -20,13 +20,13 @@ const deviceNames = {
 
 type DeviceType = keyof typeof deviceNames;
 
-const DeviceTypeControls: FC<{ deviceType?: string; onDeviceTypeChange: (deviceType: DeviceType) => void }> = ({
+const DeviceTypeControls: FC<{ deviceType: string | null; onDeviceTypeChange: (deviceType: DeviceType) => void }> = ({
   deviceType,
   onDeviceTypeChange,
 }) => (
   <LabelledSelect
     label="Device type:"
-    value={deviceType}
+    value={deviceType ?? undefined}
     onChange={(e) => onDeviceTypeChange((e.target as HTMLSelectElement).value as DeviceType)}
     hiddenRequired
   >
@@ -36,7 +36,7 @@ const DeviceTypeControls: FC<{ deviceType?: string; onDeviceTypeChange: (deviceT
 );
 
 const PlainValueControls: FC<{
-  value?: string;
+  value: string | null;
   onValueChange: (newValue: string) => void;
   label: string;
   placeholder: string;
@@ -55,7 +55,7 @@ const PlainValueControls: FC<{
   />
 );
 
-const LanguageControls: FC<{ language?: string; onLanguageChange: (lang: string) => void; }> = ({
+const LanguageControls: FC<{ language: string | null; onLanguageChange: (lang: string) => void; }> = ({
   language,
   onLanguageChange,
 }) => (
@@ -63,8 +63,8 @@ const LanguageControls: FC<{ language?: string; onLanguageChange: (lang: string)
 );
 
 const QueryParamControls: FC<{
-  name?: string;
-  value?: string;
+  name: string | null;
+  value?: string | null;
   onValueChange: (value: string) => void;
   onNameChange: (value: string) => void;
 }> = ({
@@ -81,29 +81,31 @@ const QueryParamControls: FC<{
       placeholder="hello"
       hiddenRequired
     />
-    <LabelledInput
-      label="Param value:"
-      value={value ?? ''}
-      onChange={(e) => onValueChange(e.target.value)}
-      placeholder="world"
-      hiddenRequired
-    />
+    {typeof value === 'string' && (
+      <LabelledInput
+        label="Param value:"
+        value={value}
+        onChange={(e) => onValueChange(e.target.value)}
+        placeholder="world"
+        hiddenRequired
+      />
+    )}
   </>
 );
 
-const IpAddressControls: FC<{ ipAddress?: string; onIpAddressChange: (ipAddress: string) => void; }> = (
+const IpAddressControls: FC<{ ipAddress: string | null; onIpAddressChange: (ipAddress: string) => void; }> = (
   { ipAddress, onIpAddressChange },
 ) => (
   <PlainValueControls value={ipAddress} onValueChange={onIpAddressChange} label="IP address" placeholder="192.168.1.10" />
 );
 
-const CountryCodeControls: FC<{ countryCode?: string; onCountryCodeChange: (countryCode: string) => void }> = ({
+const CountryCodeControls: FC<{ countryCode: string | null; onCountryCodeChange: (countryCode: string) => void }> = ({
   countryCode,
   onCountryCodeChange,
 }) => (
   <LabelledSelect
     label="Country:"
-    value={countryCode}
+    value={countryCode ?? undefined}
     onChange={(e) => onCountryCodeChange((e.target as HTMLSelectElement).value)}
     hiddenRequired
   >
@@ -112,7 +114,7 @@ const CountryCodeControls: FC<{ countryCode?: string; onCountryCodeChange: (coun
   </LabelledSelect>
 );
 
-const CityNameControls: FC<{ cityName?: string; onCityNameChange: (cityName: string) => void; }> = (
+const CityNameControls: FC<{ cityName: string | null; onCityNameChange: (cityName: string) => void; }> = (
   { cityName, onCityNameChange },
 ) => (
   <PlainValueControls value={cityName} onValueChange={onCityNameChange} label="City name" placeholder="New York" />
@@ -138,12 +140,18 @@ const Condition: FC<{
   );
   const supportsIpRedirectCondition = useFeature('ipRedirectCondition');
   const supportsGeolocationRedirectCondition = useFeature('geolocationRedirectCondition');
+  const supportsAdvancedQueryConditions = useFeature('advancedQueryRedirectConditions');
   const conditionNames = useMemo((): Partial<Record<ShlinkRedirectConditionType, string>> => {
     const conditionNames: Partial<Record<ShlinkRedirectConditionType, string>> = {
       device: 'Device type',
       language: 'Language',
       'query-param': 'Query param',
     };
+
+    if (supportsAdvancedQueryConditions) {
+      conditionNames['any-value-query-param'] = 'Any value query param';
+      conditionNames['valueless-query-param'] = 'Valueless query param';
+    }
 
     if (supportsIpRedirectCondition) {
       conditionNames['ip-address'] = 'IP address';
@@ -155,7 +163,7 @@ const Condition: FC<{
     }
 
     return conditionNames;
-  }, [supportsGeolocationRedirectCondition, supportsIpRedirectCondition]);
+  }, [supportsAdvancedQueryConditions, supportsGeolocationRedirectCondition, supportsIpRedirectCondition]);
 
   return (
     <div className={clsx(
@@ -196,6 +204,20 @@ const Condition: FC<{
         <QueryParamControls
           value={condition.matchValue}
           name={condition.matchKey ?? ''}
+          onNameChange={setConditionKey}
+          onValueChange={setConditionValue}
+        />
+      )}
+      {condition.type === 'any-value-query-param' && (
+        <QueryParamControls
+          name={condition.matchKey}
+          onNameChange={setConditionKey}
+          onValueChange={setConditionValue}
+        />
+      )}
+      {condition.type === 'valueless-query-param' && (
+        <QueryParamControls
+          name={condition.matchKey}
           onNameChange={setConditionKey}
           onValueChange={setConditionValue}
         />

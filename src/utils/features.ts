@@ -6,11 +6,12 @@ const supportedFeatures = {
   shortUrlVisitsDeletion: { minVersion: '3.6.0' },
   orphanVisitsDeletion: { minVersion: '3.7.0' },
   deviceLongUrls: { maxVersion: '3.*.*' },
-  shortUrlRedirectRules: { minVersion: '4.0.0' },
   urlValidation: { maxVersion: '3.*.*' },
+  shortUrlRedirectRules: { minVersion: '4.0.0' },
   ipRedirectCondition: { minVersion: '4.2.0' },
   geolocationRedirectCondition: { minVersion: '4.3.0' },
   filterShortUrlsByDomain: { minVersion: '4.3.0' },
+  advancedQueryRedirectConditions: { minVersion: '4.5.0' },
 } as const satisfies Record<string, Versions>;
 
 Object.freeze(supportedFeatures);
@@ -31,6 +32,7 @@ const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, b
   ipRedirectCondition: isFeatureEnabledForVersion('ipRedirectCondition', serverVersion),
   geolocationRedirectCondition: isFeatureEnabledForVersion('geolocationRedirectCondition', serverVersion),
   filterShortUrlsByDomain: isFeatureEnabledForVersion('filterShortUrlsByDomain', serverVersion),
+  advancedQueryRedirectConditions: isFeatureEnabledForVersion('advancedQueryRedirectConditions', serverVersion),
 });
 
 const FeaturesContext = createContext(getFeaturesForVersion('0.0.0'));

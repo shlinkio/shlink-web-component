@@ -12,6 +12,7 @@ const supportedFeatures = {
   geolocationRedirectCondition: { minVersion: '4.3.0' },
   filterShortUrlsByDomain: { minVersion: '4.3.0' },
   advancedQueryRedirectConditions: { minVersion: '4.5.0' },
+  desktopDeviceTypes: { minVersion: '4.5.0' },
 } as const satisfies Record<string, Versions>;
 
 Object.freeze(supportedFeatures);
@@ -33,6 +34,7 @@ const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, b
   geolocationRedirectCondition: isFeatureEnabledForVersion('geolocationRedirectCondition', serverVersion),
   filterShortUrlsByDomain: isFeatureEnabledForVersion('filterShortUrlsByDomain', serverVersion),
   advancedQueryRedirectConditions: isFeatureEnabledForVersion('advancedQueryRedirectConditions', serverVersion),
+  desktopDeviceTypes: isFeatureEnabledForVersion('advancedQueryRedirectConditions', serverVersion),
 });
 
 const FeaturesContext = createContext(getFeaturesForVersion('0.0.0'));

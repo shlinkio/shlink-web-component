@@ -127,7 +127,7 @@ const Condition: FC<{
 }> = ({ condition, onConditionChange, onDelete }) => {
   const switchToType = useCallback((newType: ShlinkRedirectConditionType) => onConditionChange({
     type: newType,
-    matchValue: '',
+    matchValue: null,
     matchKey: null,
   }), [onConditionChange]);
   const setConditionValue = useCallback(
@@ -202,8 +202,8 @@ const Condition: FC<{
       )}
       {condition.type === 'query-param' && (
         <QueryParamControls
-          value={condition.matchValue}
-          name={condition.matchKey ?? ''}
+          name={condition.matchKey}
+          value={condition.matchValue ?? ''}
           onNameChange={setConditionKey}
           onValueChange={setConditionValue}
         />
@@ -254,7 +254,7 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, onClose,
   const addDraftCondition = useCallback(() => setRedirectRule(
     ({ longUrl, conditions }) => ({
       longUrl,
-      conditions: [...conditions, { type: 'device', matchValue: '', matchKey: null }],
+      conditions: [...conditions, { type: 'device', matchValue: null, matchKey: null }],
     }),
   ), []);
   const updateCondition = useCallback((index: number, newCondition: ShlinkRedirectCondition) => setRedirectRule(

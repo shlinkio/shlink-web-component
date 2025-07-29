@@ -17,16 +17,22 @@ type SetUpOptions = {
   initialData?: ShlinkRedirectRuleData;
   ipRedirectCondition?: boolean;
   geolocationRedirectCondition?: boolean;
+  advancedQueryRedirectConditions?: boolean;
 };
 
 describe('<RedirectRuleModal />', () => {
   const onSave = vi.fn();
-  const setUp = (
-    { initialData, ipRedirectCondition = true, geolocationRedirectCondition = true }: SetUpOptions,
-  ) => renderWithEvents(
+  const setUp = ({
+    initialData,
+    ipRedirectCondition = true,
+    geolocationRedirectCondition = true,
+    advancedQueryRedirectConditions = true,
+  }: SetUpOptions) => renderWithEvents(
     <TestModalWrapper
       renderModal={(args) => (
-        <FeaturesProvider value={fromPartial({ ipRedirectCondition, geolocationRedirectCondition })}>
+        <FeaturesProvider
+          value={fromPartial({ ipRedirectCondition, geolocationRedirectCondition, advancedQueryRedirectConditions })}
+        >
           <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
         </FeaturesProvider>
       )}
@@ -114,6 +120,14 @@ describe('<RedirectRuleModal />', () => {
     await user.type(screen.getByLabelText('Param name:'), 'the_key');
     await user.type(screen.getByLabelText('Param value:'), 'the_value');
 
+    // Add a new condition of type any-value-query-param
+    await addConditionWithType(user, 'any-value-query-param');
+    await user.type(screen.getAllByLabelText('Param name:').reverse()[0], 'the_any_value_key');
+
+    // Add a new condition of type valueless-query-param
+    await addConditionWithType(user, 'valueless-query-param');
+    await user.type(screen.getAllByLabelText('Param name:').reverse()[0], 'the_valueless_key');
+
     // Remove the existing language condition
     await user.click(screen.getAllByLabelText('Remove condition')[1]);
 
@@ -140,6 +154,8 @@ describe('<RedirectRuleModal />', () => {
       conditions: [
         { type: 'device', matchValue: 'ios', matchKey: null },
         { type: 'query-param', matchValue: 'the_value', matchKey: 'the_key' },
+        { type: 'any-value-query-param', matchValue: null, matchKey: 'the_any_value_key' },
+        { type: 'valueless-query-param', matchValue: null, matchKey: 'the_valueless_key' },
         { type: 'language', matchValue: 'es-ES', matchKey: null },
         { type: 'ip-address', matchValue: '192.168.1.*', matchKey: null },
         { type: 'geolocation-country-code', matchValue: 'CL', matchKey: null },
@@ -155,16 +171,19 @@ describe('<RedirectRuleModal />', () => {
     {
       ipRedirectCondition: false,
       geolocationRedirectCondition: false,
+      advancedQueryRedirectConditions: false,
       expectedOptions: ['Device', 'Language', 'Query param'] as const,
     },
     {
       ipRedirectCondition: true,
       geolocationRedirectCondition: false,
+      advancedQueryRedirectConditions: false,
       expectedOptions: ['Device', 'Language', 'Query param', 'IP address'] as const,
     },
     {
       ipRedirectCondition: true,
       geolocationRedirectCondition: true,
+      advancedQueryRedirectConditions: false,
       expectedOptions: [
         'Device',
         'Language',
@@ -174,8 +193,25 @@ describe('<RedirectRuleModal />', () => {
         'City name (geolocation)',
       ] as const,
     },
-  ])('displays only supported options', async ({ ipRedirectCondition, geolocationRedirectCondition, expectedOptions }) => {
-    const { user } = setUp({ ipRedirectCondition, geolocationRedirectCondition });
+    {
+      ipRedirectCondition: true,
+      geolocationRedirectCondition: true,
+      advancedQueryRedirectConditions: true,
+      expectedOptions: [
+        'Device',
+        'Language',
+        'Query param',
+        'Any value query param',
+        'Valueless query param',
+        'IP address',
+        'Country (geolocation)',
+        'City name (geolocation)',
+      ] as const,
+    },
+  ])('displays only supported options', async (
+    { ipRedirectCondition, geolocationRedirectCondition, advancedQueryRedirectConditions, expectedOptions },
+  ) => {
+    const { user } = setUp({ ipRedirectCondition, geolocationRedirectCondition, advancedQueryRedirectConditions });
 
     // Add a condition box, with a type other than device-type (default one), so that device type options to not affect
     // assertions and cause false negatives

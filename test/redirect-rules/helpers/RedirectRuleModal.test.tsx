@@ -18,6 +18,7 @@ type SetUpOptions = {
   ipRedirectCondition?: boolean;
   geolocationRedirectCondition?: boolean;
   advancedQueryRedirectConditions?: boolean;
+  desktopDeviceTypes?: boolean;
 };
 
 describe('<RedirectRuleModal />', () => {
@@ -27,11 +28,17 @@ describe('<RedirectRuleModal />', () => {
     ipRedirectCondition = true,
     geolocationRedirectCondition = true,
     advancedQueryRedirectConditions = true,
+    desktopDeviceTypes = true,
   }: SetUpOptions) => renderWithEvents(
     <TestModalWrapper
       renderModal={(args) => (
         <FeaturesProvider
-          value={fromPartial({ ipRedirectCondition, geolocationRedirectCondition, advancedQueryRedirectConditions })}
+          value={fromPartial({
+            ipRedirectCondition,
+            geolocationRedirectCondition,
+            advancedQueryRedirectConditions,
+            desktopDeviceTypes,
+          })}
         >
           <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
         </FeaturesProvider>
@@ -213,10 +220,41 @@ describe('<RedirectRuleModal />', () => {
   ) => {
     const { user } = setUp({ ipRedirectCondition, geolocationRedirectCondition, advancedQueryRedirectConditions });
 
-    // Add a condition box, with a type other than device-type (default one), so that device type options to not affect
+    // Add a condition box, with a type other than device-type (default one), so that device type options do not affect
     // assertions and cause false negatives
     await addConditionWithType(user, 'language');
     const options = screen.getAllByRole('option');
+
+    expect(options).toHaveLength(expectedOptions.length);
+    options.forEach((option, index) => {
+      expect(option).toHaveTextContent(expectedOptions[index]);
+    });
+  });
+
+  it.each([
+    {
+      desktopDeviceTypes: false,
+      expectedOptions: ['- Select type -', 'Android', 'iOS', 'Any desktop device'],
+    },
+    {
+      desktopDeviceTypes: true,
+      expectedOptions: [
+        '- Select type -',
+        'Android',
+        'iOS',
+        'Any mobile device',
+        'Windows',
+        'MacOS',
+        'Linux',
+        'ChromeOS',
+        'Any desktop device',
+      ],
+    },
+  ])('displays only supported device types', async ({ desktopDeviceTypes, expectedOptions }) => {
+    const { user } = setUp({ desktopDeviceTypes });
+
+    await addConditionWithType(user, 'device');
+    const options = screen.getByLabelText('Device type:').querySelectorAll('option');
 
     expect(options).toHaveLength(expectedOptions.length);
     options.forEach((option, index) => {

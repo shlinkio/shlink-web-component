@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 * [#755](https://github.com/shlinkio/shlink-web-component/issues/755) Add support for `any-value-query-param` and `valueless-query-param` redirect conditions when using Shlink >=4.5.0.
+* [#756](https://github.com/shlinkio/shlink-web-component/issues/756) Add support for desktop device types on device redirect conditions, when using Shlink >=4.5.0.
 
 ### Changed
 * *Nothing*

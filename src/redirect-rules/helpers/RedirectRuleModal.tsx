@@ -2,6 +2,7 @@ import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, CardModal, LabelledInput, LabelledSelect } from '@shlinkio/shlink-frontend-kit';
 import type {
+  ShlinkDeviceType,
   ShlinkRedirectCondition,
   ShlinkRedirectConditionType,
   ShlinkRedirectRuleData,
@@ -12,28 +13,42 @@ import { useCallback, useEffect , useMemo, useRef, useState } from 'react';
 import { countryCodes } from '../../utils/country-codes';
 import { useFeature } from '../../utils/features';
 
-const deviceNames = {
-  android: 'Android',
-  ios: 'iOS',
-  desktop: 'Desktop',
-} as const satisfies Record<string, string>;
+const DeviceTypeControls: FC<{
+  deviceType: string | null;
+  onDeviceTypeChange: (deviceType: ShlinkDeviceType) => void;
+}> = ({ deviceType, onDeviceTypeChange }) => {
+  const supportsDesktopDevices = useFeature('desktopDeviceTypes');
+  const deviceNames = useMemo(() => {
+    const deviceNames: Partial<Record<ShlinkDeviceType, string>> = {
+      android: 'Android',
+      ios: 'iOS',
+    };
 
-type DeviceType = keyof typeof deviceNames;
+    if (supportsDesktopDevices) {
+      deviceNames.mobile = 'Any mobile device';
+      deviceNames.windows = 'Windows';
+      deviceNames.macos = 'MacOS';
+      deviceNames.linux = 'Linux';
+      deviceNames.chromeos = 'ChromeOS';
+    }
 
-const DeviceTypeControls: FC<{ deviceType: string | null; onDeviceTypeChange: (deviceType: DeviceType) => void }> = ({
-  deviceType,
-  onDeviceTypeChange,
-}) => (
-  <LabelledSelect
-    label="Device type:"
-    value={deviceType ?? undefined}
-    onChange={(e) => onDeviceTypeChange((e.target as HTMLSelectElement).value as DeviceType)}
-    hiddenRequired
-  >
-    {!deviceType && <option value="">- Select type -</option>}
-    {Object.entries(deviceNames).map(([key, value]) => <option key={key} value={key}>{value}</option>)}
-  </LabelledSelect>
-);
+    deviceNames.desktop = 'Any desktop device';
+
+    return deviceNames;
+  }, [supportsDesktopDevices]);
+
+  return (
+    <LabelledSelect
+      label="Device type:"
+      value={deviceType ?? undefined}
+      onChange={(e) => onDeviceTypeChange((e.target as HTMLSelectElement).value as ShlinkDeviceType)}
+      hiddenRequired
+    >
+      {!deviceType && <option value="">- Select type -</option>}
+      {Object.entries(deviceNames).map(([key, value]) => <option key={key} value={key}>{value}</option>)}
+    </LabelledSelect>
+  );
+};
 
 const PlainValueControls: FC<{
   value: string | null;
@@ -181,7 +196,7 @@ const Condition: FC<{
             '[&]:rounded-full bg-lm-primary dark:bg-dm-primary',
           )}
         >
-          <FontAwesomeIcon icon={faXmark} />
+          <FontAwesomeIcon icon={faXmark} widthAuto />
         </Button>
         <LabelledSelect
           label="Type:"

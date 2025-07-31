@@ -11,7 +11,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
       <div>
         <div
           class="recharts-wrapper"
-          role="application"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
         >
           <div
@@ -141,7 +140,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
       <div>
         <div
           class="recharts-wrapper"
-          role="application"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
         >
           <div
@@ -288,7 +286,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
       <div>
         <div
           class="recharts-wrapper"
-          role="application"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
         >
           <div

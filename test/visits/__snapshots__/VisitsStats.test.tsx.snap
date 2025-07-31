@@ -72,7 +72,6 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
     >
       <div
         class="recharts-wrapper select-none"
-        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <div
@@ -613,7 +612,6 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
     >
       <div
         class="recharts-wrapper select-none"
-        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <div
@@ -1154,7 +1152,6 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
     >
       <div
         class="recharts-wrapper select-none"
-        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <div
@@ -1695,7 +1692,6 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
     >
       <div
         class="recharts-wrapper select-none"
-        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <div
@@ -2292,7 +2288,6 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
     >
       <div
         class="recharts-wrapper select-none"
-        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <div
@@ -2889,7 +2884,6 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
     >
       <div
         class="recharts-wrapper select-none"
-        role="application"
         style="position: relative; cursor: default; width: 800px; height: 300px;"
       >
         <div

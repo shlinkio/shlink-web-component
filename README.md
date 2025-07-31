@@ -17,7 +17,7 @@ Minimal UI to interact with Shlink on React applications.
 
 ### Basic usage
 
-This package exports a `ShlinkWebComponent` react component, which renders a set of sections that can be used to provide a convenient UI to interact with every aspect of a Shlink server: short URLs, tags domains, etc.
+This package exports a `ShlinkWebComponent` react component, which renders a set of sections that can be used to provide a convenient UI to interact with every aspect of a Shlink server: short URLs, tags, domains, etc.
 
 The main prop is the `apiClient`, which is used by the component in order to know how to consume the server's API.
 
@@ -41,6 +41,35 @@ export function App() {
 > If you don't need to import from it to define your own implementation or to use the implementation provided there, feel free to skip it.
 >
 > Also, this component re-exports the SDK types for your convenience, so you can choose to import from `@shlinkio/shlink-js-sdk/api-contract` or `@shlinkio/shlink-web-component/api-contract`.
+
+### Responsive sidebar toggle
+
+The layout rendered by `ShlinkWebComponent` includes a sidebar that is hidden and designed to slide from the left in small screen resolutions.
+
+In touch devices, it can be shown by swiping right and hidden by swiping left, but this library provides a toggle button so that you can provide a piece of UI to toggle the sidebar.
+
+> **Note**
+> You need to make sure both `ShlinkSidebarToggleButton` and `ShlinkWebComponent` are wrapped in the same `ShlinkSidebarVisibilityProvider`.
+> Additionally, you need to pass `autoSidebarToggle={false}` to `ShlinkWebComponent`, or it will try to render its own toggle button too.
+
+```tsx
+import {
+  ShlinkSidebarToggleButton,
+  ShlinkSidebarVisibilityProvider,
+  ShlinkWebComponent,
+} from '@shlinkio/shlink-web-component';
+
+export function App() {
+  return (
+    <div>
+      <ShlinkSidebarVisibilityProvider>
+        <ShlinkSidebarToggleButton />
+        <ShlinkWebComponent autoSidebarToggle={false} {...} />
+      </ShlinkSidebarVisibilityProvider>
+    </div>
+  );
+};
+```
 
 ### Settings
 

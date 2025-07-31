@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
+import { ShlinkSidebarVisibilityProvider } from '../src';
 import type { MainProps } from '../src/Main';
 import { MainFactory } from '../src/Main';
 import { FeaturesProvider } from '../src/utils/features';
@@ -10,6 +11,7 @@ type SetUpOptions = {
   currentPath?: string
   createNotFound?: MainProps['createNotFound'];
   supportsRedirectRules?: boolean;
+  autoToggleButton?: boolean;
 };
 
 describe('<Main />', () => {
@@ -30,10 +32,14 @@ describe('<Main />', () => {
     ShortUrlVisitsComparison: () => <>ShortUrlVisitsComparison</>,
     ShortUrlRedirectRules: () => <>ShortUrlRedirectRules</>,
   }));
-  const setUp = ({ createNotFound, currentPath = '/', supportsRedirectRules = false }: SetUpOptions) => render(
+  const setUp = (
+    { createNotFound, currentPath = '/', supportsRedirectRules = false, autoToggleButton = true }: SetUpOptions,
+  ) => render(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
       <FeaturesProvider value={fromPartial({ shortUrlRedirectRules: supportsRedirectRules })}>
-        <Main createNotFound={createNotFound} />
+        <ShlinkSidebarVisibilityProvider>
+          <Main createNotFound={createNotFound} autoToggleButton={autoToggleButton} />
+        </ShlinkSidebarVisibilityProvider>
       </FeaturesProvider>
     </MemoryRouter>,
   );
@@ -74,5 +80,15 @@ describe('<Main />', () => {
     setUp({ currentPath, supportsRedirectRules, createNotFound });
 
     expect(screen.getByText('Oops! Route not found.')).toBeInTheDocument();
+  });
+
+  it.each([true, false])('can decide whether to render a toggle button or not', (autoToggleButton) => {
+    setUp({ autoToggleButton });
+
+    if (autoToggleButton) {
+      expect(screen.getByLabelText('Toggle sidebar')).toBeInTheDocument();
+    } else {
+      expect(screen.queryByLabelText('Toggle sidebar')).not.toBeInTheDocument();
+    }
   });
 });

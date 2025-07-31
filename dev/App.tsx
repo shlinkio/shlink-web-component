@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback , useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router';
-import { ShlinkWebComponent } from '../src';
+import { ShlinkSidebarToggleButton, ShlinkSidebarVisibilityProvider, ShlinkWebComponent } from '../src';
 import type { Settings } from '../src/settings';
 import { ShlinkWebSettings } from '../src/settings';
 import type { SemVer } from '../src/utils/helpers/version';
@@ -74,12 +74,16 @@ export const App: FC = () => {
           <Route
             path={routesPrefix ? `${routesPrefix}*` : '*'}
             element={apiClient && serverVersion ? (
-              <ShlinkWebComponent
-                serverVersion={serverVersion}
-                apiClient={apiClient}
-                settings={settings}
-                routesPrefix={routesPrefix}
-              />
+              <ShlinkSidebarVisibilityProvider>
+                <ShlinkSidebarToggleButton className="fixed z-3000 right-2 top-[calc(var(--header-height)+8px)]" />
+                <ShlinkWebComponent
+                  serverVersion={serverVersion}
+                  apiClient={apiClient}
+                  settings={settings}
+                  routesPrefix={routesPrefix}
+                  autoSidebarToggle={false}
+                />
+              </ShlinkSidebarVisibilityProvider>
             ) : <div className="container mx-auto pt-6">Not connected</div>}
           />
           <Route path="*" element={<h3 className="mt-4 text-center">Not found</h3>} />

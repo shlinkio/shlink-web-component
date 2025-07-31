@@ -23,9 +23,6 @@ export type ShlinkWebSettingsProps = {
   defaultShortUrlsListOrdering: NonNullable<ShortUrlsListSettings['defaultOrdering']>;
   /** Callback invoked every time the settings are updated */
   onUpdateSettings?: (settings: Settings) => void;
-
-  /** @deprecated Use onUpdateSettings instead */
-  updateSettings?: (settings: Settings) => void;
 };
 
 const SettingsSections: FC<PropsWithChildren<{ className?: string }>> = ({ children, className }) => (
@@ -36,8 +33,7 @@ const SettingsSections: FC<PropsWithChildren<{ className?: string }>> = ({ child
 
 export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
   settings,
-  updateSettings,
-  onUpdateSettings = updateSettings,
+  onUpdateSettings,
   defaultShortUrlsListOrdering,
 }) => {
   const updatePartialSettings = useCallback(

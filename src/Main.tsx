@@ -1,20 +1,18 @@
-import { faBars as burgerIcon } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useToggle } from '@shlinkio/shlink-frontend-kit';
-import { clsx } from 'clsx';
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { AsideMenu } from './common/AsideMenu';
 import type { FCWithDeps } from './container/utils';
 import { componentFactory, useDependencies } from './container/utils';
-import { UnstyledButton } from './utils/components/UnstyledButton';
+import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
+import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
 import { useFeature } from './utils/features';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
 
 export type MainProps = {
   createNotFound?: (nonPrefixedHomePath: string) => ReactNode;
+  autoToggleButton: boolean;
 };
 
 type MainDeps = {
@@ -35,7 +33,7 @@ type MainDeps = {
   ShortUrlRedirectRules: FC,
 };
 
-const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
+const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButton }) => {
   const {
     TagsList,
     ShortUrlsList,
@@ -56,7 +54,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
 
-  const { flag: sidebarVisible, toggle: toggleSidebar, setToTrue: showSidebar, setToFalse: hideSidebar } = useToggle();
+  const { sidebarVisible, showSidebar, hideSidebar } = useSidebarVisibility()!;
 
   // Hide sidebar every time the route changes
   useEffect(() => hideSidebar(), [location, hideSidebar]);
@@ -66,20 +64,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound }) => {
 
   return (
     <>
-      <UnstyledButton
-        aria-label="Toggle sidebar"
-        className={clsx(
-          'fixed top-4 left-3 z-1035',
-          'md:hidden transition-colors',
-          {
-            'text-white/50': !sidebarVisible,
-            'text-white': sidebarVisible,
-          },
-        )}
-        onClick={toggleSidebar}
-      >
-        <FontAwesomeIcon icon={burgerIcon} size="xl" />
-      </UnstyledButton>
+      {autoToggleButton && <ShlinkSidebarToggleButton className="fixed top-4 left-3 z-1035" />}
 
       <div {...swipeableProps} className="h-full">
         <div className="h-full">

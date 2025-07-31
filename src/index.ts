@@ -9,4 +9,10 @@ export const ShlinkWebComponent = createShlinkWebComponent(bottle);
 
 export type ShlinkWebComponentType = typeof ShlinkWebComponent;
 
+export type { ShlinkWebComponentProps } from './ShlinkWebComponent';
+
 export type { TagColorsStorage } from './utils/services/TagColorsStorage';
+
+export { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
+export type { ShlinkSidebarToggleButtonProps } from './sidebar/ShlinkSidebarToggleButton';
+export { ShlinkSidebarVisibilityProvider } from './sidebar/ShlinkSidebarVisibilityProvider';

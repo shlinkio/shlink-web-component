@@ -41,7 +41,7 @@ export type VisitsColumn =
   | 'visitedUrl';
 
 export type VisitsListSettings = {
-  columns: Partial<Record<VisitsColumn, { show: boolean; excludes?: VisitsColumn[] }>>;
+  columns: Partial<Record<VisitsColumn, boolean>>;
 };
 
 export type TagsSettings = {

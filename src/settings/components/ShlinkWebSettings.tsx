@@ -16,6 +16,7 @@ import { ShortUrlCreationSettings as ShortUrlCreation } from './ShortUrlCreation
 import { ShortUrlsListSettings as ShortUrlsList } from './ShortUrlsListSettings';
 import { TagsSettings as Tags } from './TagsSettings';
 import { UserInterfaceSettings } from './UserInterfaceSettings';
+import { VisitsListSettings } from './VisitsListSettings';
 import { VisitsSettings as Visits } from './VisitsSettings';
 
 export type ShlinkWebSettingsProps = {
@@ -97,6 +98,7 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
           element={(
             <SettingsSections>
               <Visits onChange={(v) => updateSettingsProp('visits', v)} />
+              <VisitsListSettings onChange={(vl) => updateSettingsProp('visitsList', vl)} />
             </SettingsSections>
           )}
         />

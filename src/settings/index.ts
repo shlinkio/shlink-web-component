@@ -13,16 +13,16 @@ export const defaultQrCodeSettings: QrCodeSettings = {
 Object.freeze(defaultQrCodeSettings);
 
 export const defaultVisitsListColumns: Required<VisitsListSettings['columns']> = {
-  potentialBot: { show: true },
-  date: { show: true },
-  country: { show: true },
-  region: { show: false },
-  city: { show: true },
-  browser: { show: true, excludes: ['userAgent'] },
-  os: { show: true, excludes: ['userAgent'] },
-  userAgent: { show: false, excludes: ['browser', 'os'] },
-  referer: { show: true },
-  visitedUrl: { show: true },
+  potentialBot: true,
+  date: true,
+  country: true,
+  region: false,
+  city: true,
+  browser: true,
+  os: true,
+  userAgent: false,
+  referer: true,
+  visitedUrl: true,
 } as const;
 
 Object.freeze(defaultVisitsListColumns);

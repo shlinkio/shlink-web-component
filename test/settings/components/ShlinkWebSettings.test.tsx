@@ -27,27 +27,27 @@ describe('<ShlinkWebSettings />', () => {
     {
       activeRoute: '/general',
       visibleComps: ['User interface', 'Real-time updates'],
-      hiddenComps: ['Short URLs form', 'Short URLs list', 'Tags', 'Visits', 'Size', 'Colors', 'Format'],
+      hiddenComps: ['Short URLs form', 'Short URLs list', 'Tags', 'Visits', 'Size', 'Colors', 'Format', 'Visits list'],
     },
     {
       activeRoute: '/short-urls',
       visibleComps: ['Short URLs form', 'Short URLs list'],
-      hiddenComps: ['User interface', 'Real-time updates', 'Tags', 'Visits', 'Size', 'Colors', 'Format'],
+      hiddenComps: ['User interface', 'Real-time updates', 'Tags', 'Visits', 'Size', 'Colors', 'Format', 'Visits list'],
     },
     {
       activeRoute: '/visits',
-      visibleComps: ['Visits'],
+      visibleComps: ['Visits', 'Visits list'],
       hiddenComps: ['Short URLs form', 'Short URLs list', 'User interface', 'Real-time updates', 'Tags', 'Size', 'Colors', 'Format'],
     },
     {
       activeRoute: '/tags',
       visibleComps: ['Tags'],
-      hiddenComps: ['User interface', 'Real-time updates', 'Short URLs form', 'Short URLs list', 'Size', 'Colors', 'Format', 'Visits'],
+      hiddenComps: ['User interface', 'Real-time updates', 'Short URLs form', 'Short URLs list', 'Size', 'Colors', 'Format', 'Visits', 'Visits list'],
     },
     {
       activeRoute: '/qr-codes',
       visibleComps: ['Size', 'Colors', 'Format'],
-      hiddenComps: ['Short URLs form', 'Short URLs list', 'User interface', 'Real-time updates', 'Tags', 'Visits'],
+      hiddenComps: ['Short URLs form', 'Short URLs list', 'User interface', 'Real-time updates', 'Tags', 'Visits', 'Visits list'],
     },
   ])('renders expected sections based on route', ({ activeRoute, visibleComps, hiddenComps }) => {
     setUp(activeRoute);

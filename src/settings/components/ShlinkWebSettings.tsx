@@ -62,8 +62,9 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
       <NavPills className="mb-4 sticky top-(--header-height) z-2">
         <NavPills.Pill to="../general">General</NavPills.Pill>
         <NavPills.Pill to="../short-urls">Short URLs</NavPills.Pill>
+        <NavPills.Pill to="../visits">Visits</NavPills.Pill>
+        <NavPills.Pill to="../tags">Tags</NavPills.Pill>
         <NavPills.Pill to="../qr-codes">QR codes</NavPills.Pill>
-        <NavPills.Pill to="../other-items">Other items</NavPills.Pill>
       </NavPills>
 
       <Routes>
@@ -92,11 +93,18 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
           )}
         />
         <Route
-          path="other-items"
+          path="visits"
+          element={(
+            <SettingsSections>
+              <Visits onChange={(v) => updateSettingsProp('visits', v)} />
+            </SettingsSections>
+          )}
+        />
+        <Route
+          path="tags"
           element={(
             <SettingsSections>
               <Tags onChange={(v) => updateSettingsProp('tags', v)} />
-              <Visits onChange={(v) => updateSettingsProp('visits', v)} />
             </SettingsSections>
           )}
         />

@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { QrCodeSettings, Settings } from './types';
+import type { QrCodeSettings, Settings, VisitsListSettings } from './types';
 
 export const defaultQrCodeSettings: QrCodeSettings = {
   size: 300,
@@ -12,6 +12,21 @@ export const defaultQrCodeSettings: QrCodeSettings = {
 
 Object.freeze(defaultQrCodeSettings);
 
+export const defaultVisitsListColumns: Required<VisitsListSettings['columns']> = {
+  potentialBot: { show: true },
+  date: { show: true },
+  country: { show: true },
+  region: { show: false },
+  city: { show: true },
+  browser: { show: true, excludes: ['userAgent'] },
+  os: { show: true, excludes: ['userAgent'] },
+  userAgent: { show: false, excludes: ['browser', 'os'] },
+  referer: { show: true },
+  visitedUrl: { show: true },
+} as const;
+
+Object.freeze(defaultVisitsListColumns);
+
 const defaultSettings: Settings = {
   realTimeUpdates: {
     enabled: true,
@@ -21,6 +36,9 @@ const defaultSettings: Settings = {
   },
   visits: {
     defaultInterval: 'last30Days',
+  },
+  visitsList: {
+    columns: defaultVisitsListColumns,
   },
   shortUrlsList: {
     defaultOrdering: {

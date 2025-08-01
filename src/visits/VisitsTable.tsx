@@ -1,6 +1,6 @@
 import { faCheck as checkIcon, faRobot as botIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { splitEvery } from '@shlinkio/data-manipulation';
+import { mergeDeepRight, splitEvery } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import {
   determineOrder,
@@ -16,6 +16,8 @@ import {
 } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { useCallback, useMemo, useState } from 'react';
+import type { VisitsColumn } from '../settings';
+import { defaultVisitsListColumns, useSetting } from '../settings';
 import { LabelledToggle } from '../settings/components/fe-kit/LabelledToggle';
 import { Time } from '../utils/dates/Time';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
@@ -29,7 +31,7 @@ export interface VisitsTableProps {
   matchMedia?: MediaMatcher;
 }
 
-type OrderableFields = 'date' | 'country' | 'city' | 'browser' | 'os' | 'referer' | 'userAgent' | 'visitedUrl' | 'potentialBot';
+type OrderableFields = VisitsColumn;
 type VisitsOrder = Order<OrderableFields>;
 
 const PAGE_SIZE = 20;
@@ -88,7 +90,15 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
     setSelectedVisits([]);
   }, [setSelectedVisits]);
   const [order, setOrder] = useState<VisitsOrder>({});
-  const { flag: showUserAgent, toggle: toggleShowUserAgent } = useToggle();
+  const visitsListSettings = useSetting('visitsList');
+  const columns = useMemo(
+    () => mergeDeepRight(
+      defaultVisitsListColumns,
+      visitsListSettings?.columns ?? {},
+    ) as typeof defaultVisitsListColumns,
+    [visitsListSettings?.columns],
+  );
+  const { flag: showUserAgent, toggle: toggleShowUserAgent } = useToggle(columns.userAgent.show);
   const toggleUserAgentAndResetOrder = useCallback(() => {
     toggleShowUserAgent();
     setOrder({});
@@ -101,8 +111,8 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
   const end = page * PAGE_SIZE;
   const start = end - PAGE_SIZE;
   const showVisitedUrl = useMemo(
-    () => !!paginator.visitsGroups[page - 1]?.[0]?.visitedUrl,
-    [page, paginator.visitsGroups],
+    () => columns.visitedUrl.show && !!paginator.visitsGroups[page - 1]?.[0]?.visitedUrl,
+    [columns.visitedUrl.show, page, paginator.visitsGroups],
   );
   const fullSizeColSpan = 6 + Number(showVisitedUrl) + (showUserAgent ? 1 : 2);
   const hasVisits = paginator.total > 0;
@@ -134,7 +144,7 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
           <>
             <Table.Row>
               <Table.Cell
-                className={clsx(headerCellsClass, 'text-center')}
+                className={clsx(headerCellsClass, '[&]:text-center')}
                 onClick={() => setSelectedVisits(
                   selectedVisits.length < paginator.total ? paginator.visitsGroups.flat() : [],
                 )}
@@ -145,26 +155,40 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
                   className={clsx({ 'text-lm-brand dark:text-dm-brand': selectedVisits.length > 0 })}
                 />
               </Table.Cell>
-              <Table.Cell
-                className={clsx(headerCellsClass, 'text-center')}
-                onClick={() => orderByColumn('potentialBot')}
-              >
-                <span className="sr-only">Is bot</span>
-                <FontAwesomeIcon icon={botIcon} />
-                {renderOrderIcon('potentialBot')}
-              </Table.Cell>
-              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('date')}>
-                Date
-                {renderOrderIcon('date')}
-              </Table.Cell>
-              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('country')}>
-                Country
-                {renderOrderIcon('country')}
-              </Table.Cell>
-              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('city')}>
-                City
-                {renderOrderIcon('city')}
-              </Table.Cell>
+              {columns.potentialBot.show && (
+                <Table.Cell
+                  className={clsx(headerCellsClass, '[&]:text-center')}
+                  onClick={() => orderByColumn('potentialBot')}
+                >
+                  <span className="sr-only">Is bot</span>
+                  <FontAwesomeIcon icon={botIcon} />
+                  {renderOrderIcon('potentialBot')}
+                </Table.Cell>
+              )}
+              {columns.date.show && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('date')}>
+                  Date
+                  {renderOrderIcon('date')}
+                </Table.Cell>
+              )}
+              {columns.country.show && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('country')}>
+                  Country
+                  {renderOrderIcon('country')}
+                </Table.Cell>
+              )}
+              {columns.region.show && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('region')}>
+                  Region
+                  {renderOrderIcon('region')}
+                </Table.Cell>
+              )}
+              {columns.city.show && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('city')}>
+                  City
+                  {renderOrderIcon('city')}
+                </Table.Cell>
+              )}
               {showUserAgent ? (
                 <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('userAgent')}>
                   User agent
@@ -182,10 +206,12 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
                   </Table.Cell>
                 </>
               )}
-              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('referer')}>
-                Referrer
-                {renderOrderIcon('referer')}
-              </Table.Cell>
+              {columns.referer.show && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('referer')}>
+                  Referrer
+                  {renderOrderIcon('referer')}
+                </Table.Cell>
+              )}
               {showVisitedUrl && (
                 <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('visitedUrl')}>
                   Visited URL
@@ -243,12 +269,15 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
               <Table.Cell className="text-center">
                 {isSelected && <FontAwesomeIcon icon={checkIcon} className="text-lm-brand dark:text-dm-brand" />}
               </Table.Cell>
-              <Table.Cell className="text-center">
-                {visit.potentialBot && <BotIconWithTooltip />}
-              </Table.Cell>
-              <Table.Cell><Time date={visit.date} /></Table.Cell>
-              <Table.Cell>{visit.country}</Table.Cell>
-              <Table.Cell>{visit.city}</Table.Cell>
+              {columns.potentialBot.show && (
+                <Table.Cell className="text-center">
+                  {visit.potentialBot && <BotIconWithTooltip />}
+                </Table.Cell>
+              )}
+              {columns.date.show && <Table.Cell><Time date={visit.date} /></Table.Cell>}
+              {columns.country.show && <Table.Cell>{visit.country}</Table.Cell>}
+              {columns.region.show && <Table.Cell>{visit.region}</Table.Cell>}
+              {columns.city.show && <Table.Cell>{visit.city}</Table.Cell>}
               {showUserAgent ? (
                 <Table.Cell>{visit.userAgent}</Table.Cell>
               ) : (
@@ -257,7 +286,7 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
                   <Table.Cell>{visit.os}</Table.Cell>
                 </>
               )}
-              <Table.Cell>{visit.referer}</Table.Cell>
+              {columns.referer.show && <Table.Cell>{visit.referer}</Table.Cell>}
               {showVisitedUrl && <Table.Cell>{visit.visitedUrl ?? ''}</Table.Cell>}
             </Table.Row>
           );

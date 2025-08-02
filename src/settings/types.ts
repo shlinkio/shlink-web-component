@@ -28,6 +28,22 @@ export type VisitsSettings = {
   loadPrevInterval?: boolean;
 };
 
+export type VisitsColumn =
+  | 'potentialBot'
+  | 'date'
+  | 'country'
+  | 'region'
+  | 'city'
+  | 'browser'
+  | 'os'
+  | 'userAgent'
+  | 'referer'
+  | 'visitedUrl';
+
+export type VisitsListSettings = {
+  columns: Partial<Record<VisitsColumn, boolean>>;
+};
+
 export type TagsSettings = {
   defaultOrdering?: Order<'tag' | 'shortUrls' | 'visits'>;
 };
@@ -60,6 +76,7 @@ export type Settings = {
   shortUrlCreation?: ShortUrlCreationSettings;
   shortUrlsList?: ShortUrlsListSettings;
   visits?: VisitsSettings;
+  visitsList?: VisitsListSettings;
   tags?: TagsSettings;
   ui?: UiSettings;
   qrCodes?: QrCodeSettings;

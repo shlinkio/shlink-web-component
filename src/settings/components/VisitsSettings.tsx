@@ -6,14 +6,14 @@ import { useSetting } from '..';
 import { DateIntervalSelector } from './DateIntervalSelector';
 import { LabelledToggle } from './fe-kit/LabelledToggle';
 
-export type VisitsProps = {
+export type VisitsSettingsProps = {
   onChange: (settings: VisitsSettingsConfig) => void;
 };
 
 const currentDefaultInterval = (visitsSettings?: VisitsSettingsConfig): DateInterval =>
   visitsSettings?.defaultInterval ?? 'last30Days';
 
-export const VisitsSettings: FC<VisitsProps> = ({ onChange }) => {
+export const VisitsSettings: FC<VisitsSettingsProps> = ({ onChange }) => {
   const visitsSettings = useSetting('visits');
   const updateSettings = useCallback(
     ({ defaultInterval, ...rest }: Partial<VisitsSettingsConfig>) => onChange(

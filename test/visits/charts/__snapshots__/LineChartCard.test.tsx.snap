@@ -72,10 +72,30 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
         class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="400"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 400"
           width="800"
         >
@@ -83,7 +103,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts21-clip"
+              id="recharts35-clip"
             >
               <rect
                 height="360"
@@ -93,6 +113,42 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
               />
             </clippath>
           </defs>
+          <g
+            class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
+          >
+            <line
+              class="recharts-cartesian-axis-line"
+              fill="none"
+              height="30"
+              orientation="bottom"
+              stroke="#666"
+              width="730"
+              x="65"
+              x1="65"
+              x2="795"
+              y="365"
+              y1="365"
+              y2="365"
+            />
+          </g>
+          <g
+            class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
+          >
+            <line
+              class="recharts-cartesian-axis-line"
+              fill="none"
+              height="360"
+              orientation="left"
+              stroke="#666"
+              width="60"
+              x="5"
+              x1="65"
+              x2="65"
+              y="5"
+              y1="5"
+              y2="365"
+            />
+          </g>
           <g
             class="recharts-cartesian-grid"
           >
@@ -158,21 +214,6 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            />
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -251,10 +292,30 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="400"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 400"
           width="800"
         >
@@ -262,7 +323,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts22-clip"
+              id="recharts37-clip"
             >
               <rect
                 height="360"
@@ -272,6 +333,42 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
               />
             </clippath>
           </defs>
+          <g
+            class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
+          >
+            <line
+              class="recharts-cartesian-axis-line"
+              fill="none"
+              height="30"
+              orientation="bottom"
+              stroke="#666"
+              width="730"
+              x="65"
+              x1="65"
+              x2="795"
+              y="365"
+              y1="365"
+              y2="365"
+            />
+          </g>
+          <g
+            class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
+          >
+            <line
+              class="recharts-cartesian-axis-line"
+              fill="none"
+              height="360"
+              orientation="left"
+              stroke="#666"
+              width="60"
+              x="5"
+              x1="65"
+              x2="65"
+              y="5"
+              y1="5"
+              y2="365"
+            />
+          </g>
           <g
             class="recharts-cartesian-grid"
           >
@@ -337,21 +434,6 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            />
-          </div>
-        </div>
       </div>
       <ul
         class="mt-2 flex flex-wrap justify-center gap-4"
@@ -476,10 +558,30 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="400"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 400"
           width="800"
         >
@@ -487,7 +589,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts23-clip"
+              id="recharts39-clip"
             >
               <rect
                 height="360"
@@ -809,60 +911,21 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                 x1="65"
                 x2="795"
                 y="5"
-                y1="365"
-                y2="365"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="275"
-                y2="275"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="185"
-                y2="185"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="95"
-                y2="95"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
                 y1="5"
                 y2="5"
+              />
+              <line
+                fill="none"
+                height="360"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="365"
+                y2="365"
               />
             </g>
             <g
@@ -909,23 +972,34 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
               stroke-width="2"
               width="730"
             />
+            <g
+              class="recharts-layer recharts-line-dots"
+            >
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="65"
+                cy="5"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="#2078CF"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="795"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="#2078CF"
+                stroke-width="2"
+                width="730"
+              />
+            </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            />
-          </div>
-        </div>
       </div>
       <ul
         class="mt-2 flex flex-wrap justify-center gap-4"
@@ -1036,10 +1110,30 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="400"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 400"
           width="800"
         >
@@ -1047,7 +1141,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts26-clip"
+              id="recharts44-clip"
             >
               <rect
                 height="360"
@@ -1369,60 +1463,21 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 x1="65"
                 x2="795"
                 y="5"
-                y1="365"
-                y2="365"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="275"
-                y2="275"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="185"
-                y2="185"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="95"
-                y2="95"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
                 y1="5"
                 y2="5"
+              />
+              <line
+                fill="none"
+                height="360"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="365"
+                y2="365"
               />
             </g>
             <g
@@ -1469,6 +1524,32 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               stroke-width="2"
               width="730"
             />
+            <g
+              class="recharts-layer recharts-line-dots"
+            >
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="65"
+                cy="5"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="#2078CF"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="795"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="#2078CF"
+                stroke-width="2"
+                width="730"
+              />
+            </g>
           </g>
           <g
             class="recharts-layer recharts-line"
@@ -1483,6 +1564,32 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               stroke-width="2"
               width="730"
             />
+            <g
+              class="recharts-layer recharts-line-dots"
+            >
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="65"
+                cy="5"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="#f77f28"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="795"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="#f77f28"
+                stroke-width="2"
+                width="730"
+              />
+            </g>
           </g>
           <g
             class="recharts-layer recharts-line"
@@ -1497,23 +1604,36 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               stroke-width="2"
               width="730"
             />
+            <g
+              class="recharts-layer recharts-line-dots"
+            >
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="65"
+                cy="5"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="#1DAA58"
+                stroke-dasharray="8 3"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="795"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="#1DAA58"
+                stroke-dasharray="8 3"
+                stroke-width="2"
+                width="730"
+              />
+            </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            />
-          </div>
-        </div>
       </div>
       <ul
         class="mt-2 flex flex-wrap justify-center gap-4"
@@ -1638,10 +1758,30 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         class="recharts-wrapper select-none"
         style="position: relative; cursor: default; width: 800px; height: 400px;"
       >
+        <div
+          class="recharts-tooltip-wrapper"
+          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+          tabindex="-1"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <div
+            aria-live="assertive"
+            class="recharts-default-tooltip"
+            role="status"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+          >
+            <p
+              class="recharts-tooltip-label"
+              style="margin: 0px 0px 5px; font-weight: bold;"
+            />
+          </div>
+        </div>
         <svg
           class="recharts-surface"
           height="400"
+          role="application"
           style="width: 100%; height: 100%;"
+          tabindex="0"
           viewBox="0 0 800 400"
           width="800"
         >
@@ -1649,7 +1789,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts33-clip"
+              id="recharts55-clip"
             >
               <rect
                 height="360"
@@ -2151,60 +2291,21 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 x1="65"
                 x2="795"
                 y="5"
-                y1="365"
-                y2="365"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="275"
-                y2="275"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="185"
-                y2="185"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
-                y1="95"
-                y2="95"
-              />
-              <line
-                fill="none"
-                height="360"
-                stroke="#ccc"
-                stroke-opacity="0.9"
-                width="730"
-                x="65"
-                x1="65"
-                x2="795"
-                y="5"
                 y1="5"
                 y2="5"
+              />
+              <line
+                fill="none"
+                height="360"
+                stroke="#ccc"
+                stroke-opacity="0.9"
+                width="730"
+                x="65"
+                x1="65"
+                x2="795"
+                y="5"
+                y1="365"
+                y2="365"
               />
             </g>
             <g
@@ -2316,6 +2417,153 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               stroke-width="2"
               width="730"
             />
+            <g
+              class="recharts-layer recharts-line-dots"
+            >
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="65"
+                cy="95"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="125.83333333333334"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="186.66666666666669"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="247.5"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="308.33333333333337"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="369.1666666666667"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="430"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="490.83333333333337"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="551.6666666666667"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="612.5"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="673.3333333333334"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="734.1666666666667"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="795"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="red"
+                stroke-width="2"
+                width="730"
+              />
+            </g>
           </g>
           <g
             class="recharts-layer recharts-line"
@@ -2330,23 +2578,155 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               stroke-width="2"
               width="730"
             />
+            <g
+              class="recharts-layer recharts-line-dots"
+            >
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="65"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="125.83333333333334"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="186.66666666666669"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="247.5"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="308.33333333333337"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="369.1666666666667"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="430"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="490.83333333333337"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="551.6666666666667"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="612.5"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="673.3333333333334"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="734.1666666666667"
+                cy="365"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+              <circle
+                class="recharts-dot recharts-line-dot"
+                cx="795"
+                cy="5"
+                fill="#fff"
+                height="360"
+                r="3"
+                stroke="yellow"
+                stroke-width="2"
+                width="730"
+              />
+            </g>
           </g>
         </svg>
-        <div
-          class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-          style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"
-          tabindex="-1"
-        >
-          <div
-            class="recharts-default-tooltip"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-          >
-            <p
-              class="recharts-tooltip-label"
-              style="margin: 0px 0px 5px; font-weight: bold;"
-            />
-          </div>
-        </div>
       </div>
       <ul
         class="mt-2 flex flex-wrap justify-center gap-4"

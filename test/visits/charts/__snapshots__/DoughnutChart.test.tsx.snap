@@ -13,12 +13,32 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
           class="recharts-wrapper"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
         >
+          <div
+            class="recharts-tooltip-wrapper"
+            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+            tabindex="-1"
+            xmlns="http://www.w3.org/1999/xhtml"
+          >
+            <div
+              aria-live="assertive"
+              class="recharts-default-tooltip"
+              role="status"
+              style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            >
+              <p
+                class="recharts-tooltip-label"
+                style="margin: 0px;"
+              />
+            </div>
+          </div>
           <svg
             class="recharts-surface"
             cx="50%"
             cy="50%"
             height="300"
+            role="application"
             style="width: 100%; height: 100%;"
+            tabindex="0"
             viewBox="0 0 800 300"
             width="800"
           >
@@ -26,7 +46,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
             <desc />
             <defs>
               <clippath
-                id="recharts3-clip"
+                id="recharts7-clip"
               >
                 <rect
                   height="290"
@@ -54,21 +74,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
               </g>
             </g>
           </svg>
-          <div
-            class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(10px, 10px);"
-            tabindex="-1"
-          >
-            <div
-              class="recharts-default-tooltip"
-              style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-            >
-              <p
-                class="recharts-tooltip-label"
-                style="margin: 0px;"
-              />
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -137,12 +142,32 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
           class="recharts-wrapper"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
         >
+          <div
+            class="recharts-tooltip-wrapper"
+            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+            tabindex="-1"
+            xmlns="http://www.w3.org/1999/xhtml"
+          >
+            <div
+              aria-live="assertive"
+              class="recharts-default-tooltip"
+              role="status"
+              style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            >
+              <p
+                class="recharts-tooltip-label"
+                style="margin: 0px;"
+              />
+            </div>
+          </div>
           <svg
             class="recharts-surface"
             cx="50%"
             cy="50%"
             height="300"
+            role="application"
             style="width: 100%; height: 100%;"
+            tabindex="0"
             viewBox="0 0 800 300"
             width="800"
           >
@@ -150,7 +175,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
             <desc />
             <defs>
               <clippath
-                id="recharts5-clip"
+                id="recharts13-clip"
               >
                 <rect
                   height="290"
@@ -195,21 +220,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
               </g>
             </g>
           </svg>
-          <div
-            class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(10px, 10px);"
-            tabindex="-1"
-          >
-            <div
-              class="recharts-default-tooltip"
-              style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-            >
-              <p
-                class="recharts-tooltip-label"
-                style="margin: 0px;"
-              />
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -278,12 +288,32 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
           class="recharts-wrapper"
           style="position: relative; cursor: default; width: 800px; height: 300px;"
         >
+          <div
+            class="recharts-tooltip-wrapper"
+            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;"
+            tabindex="-1"
+            xmlns="http://www.w3.org/1999/xhtml"
+          >
+            <div
+              aria-live="assertive"
+              class="recharts-default-tooltip"
+              role="status"
+              style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            >
+              <p
+                class="recharts-tooltip-label"
+                style="margin: 0px;"
+              />
+            </div>
+          </div>
           <svg
             class="recharts-surface"
             cx="50%"
             cy="50%"
             height="300"
+            role="application"
             style="width: 100%; height: 100%;"
+            tabindex="0"
             viewBox="0 0 800 300"
             width="800"
           >
@@ -291,7 +321,7 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
             <desc />
             <defs>
               <clippath
-                id="recharts8-clip"
+                id="recharts24-clip"
               >
                 <rect
                   height="290"
@@ -340,21 +370,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
               </g>
             </g>
           </svg>
-          <div
-            class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
-            style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(10px, 10px);"
-            tabindex="-1"
-          >
-            <div
-              class="recharts-default-tooltip"
-              style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
-            >
-              <p
-                class="recharts-tooltip-label"
-                style="margin: 0px;"
-              />
-            </div>
-          </div>
         </div>
       </div>
     </div>

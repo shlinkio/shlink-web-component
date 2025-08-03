@@ -13,7 +13,7 @@ export type VisitsListSettingsProps = {
   onChange: (settings: VisitsListSettingsConfig) => void;
 };
 
-const visitsListColumns = {
+export const visitsListColumns = {
   potentialBot: 'Potential bot',
   date: 'Date',
   country: 'Country',
@@ -69,9 +69,9 @@ export const VisitsListSettings: FC<VisitsListSettingsProps> = ({ onChange }) =>
             <LabelledToggle checked={columns[column]} onChange={(show) => toggleColumn(column, show)}>
               <span className="inline-flex gap-2">
                 {name}
-                {column in columnsExclusion && (
+                {columnsExclusion[column] && (
                   <Muted>
-                    (excludes {humanFriendlyJoin(columnsExclusion[column]!.map((col) => visitsListColumns[col]))})
+                    (excludes {humanFriendlyJoin(columnsExclusion[column].map((col) => visitsListColumns[col]))})
                   </Muted>
                 )}
               </span>

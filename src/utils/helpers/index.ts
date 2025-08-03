@@ -24,3 +24,20 @@ export const parseBooleanToString = (value: boolean): BooleanString => (value ? 
 export const parseOptionalBooleanToString = (value?: boolean): BooleanString | undefined => (
   value === undefined ? undefined : parseBooleanToString(value)
 );
+
+/**
+ * Joins a list of strings separated by comma, with the "and" separator between the last two elements
+ *
+ * - ['a', 'b', 'c', 'd'] -> 'a, b, c and d'
+ * - ['a', 'b'] -> 'a and b'
+ * - ['a'] -> 'a'
+ * - [] -> ''
+ */
+export const humanFriendlyJoin = (list: string[]): string => {
+  if (list.length < 2) {
+    return list[0] ?? '';
+  }
+
+  const [lastElement, ...rest] = list.reverse();
+  return `${rest.reverse().join(', ')} and ${lastElement}`;
+};

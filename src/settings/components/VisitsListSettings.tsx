@@ -3,6 +3,7 @@ import { SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useCallback, useMemo } from 'react';
 import { Muted } from '../../utils/components/Muted';
+import { humanFriendlyJoin } from '../../utils/helpers';
 import type { VisitsColumn } from '../index';
 import { defaultVisitsListColumns , useSetting } from '../index';
 import type { VisitsListSettings as VisitsListSettingsConfig } from '../types';
@@ -32,6 +33,8 @@ const columnsExclusion: Partial<Record<VisitsColumn, VisitsColumn[]>> = {
   userAgent: ['browser', 'os'],
 } as const;
 
+Object.freeze(columnsExclusion);
+
 export const VisitsListSettings: FC<VisitsListSettingsProps> = ({ onChange }) => {
   const visitsListSettings = useSetting('visitsList');
   const columns = useMemo(
@@ -47,6 +50,7 @@ export const VisitsListSettings: FC<VisitsListSettingsProps> = ({ onChange }) =>
       [column]: show,
     };
 
+    // If the column is being shown, hide all columns it excludes
     if (show) {
       columnsExclusion[column]?.forEach((excludedColumn) => {
         newColumns[excludedColumn] = false;
@@ -67,7 +71,7 @@ export const VisitsListSettings: FC<VisitsListSettingsProps> = ({ onChange }) =>
                 {name}
                 {column in columnsExclusion && (
                   <Muted>
-                    (excludes {columnsExclusion[column]?.map((col) => visitsListColumns[col]).join(', ')})
+                    (excludes {humanFriendlyJoin(columnsExclusion[column]!.map((col) => visitsListColumns[col]))})
                   </Muted>
                 )}
               </span>

@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * [#755](https://github.com/shlinkio/shlink-web-component/issues/755) Add support for `any-value-query-param` and `valueless-query-param` redirect conditions when using Shlink >=4.5.0.
 * [#756](https://github.com/shlinkio/shlink-web-component/issues/756) Add support for desktop device types on device redirect conditions, when using Shlink >=4.5.0.
 * [#713](https://github.com/shlinkio/shlink-web-component/issues/713) Expose a new `ShlinkSidebarToggleButton` component that can be used to customize the location of the sidebar toggle, rather than making it assume there's a header bar and position it there.
+* [#657](https://github.com/shlinkio/shlink-web-component/issues/657) Allow visits table columns to be customized via settings, and add a new optional "Region" column.
+
+    As a side effect, the "Show user agent" toggle has been removed from the list, as this can now be globally configured in the settings.
 
 ### Changed
 * *Nothing*

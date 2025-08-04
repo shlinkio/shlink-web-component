@@ -1,11 +1,12 @@
 import {
+  humanFriendlyJoin,
   nonEmptyStringOrNull,
   parseBooleanToString,
   parseOptionalBooleanToString,
   rangeOf,
 } from '../../../src/utils/helpers';
 
-describe('utils', () => {
+describe('helpers', () => {
   describe('rangeOf', () => {
     const func = (i: number) => `result_${i}`;
     const size = 5;
@@ -56,6 +57,17 @@ describe('utils', () => {
       [false, 'false'],
     ])('parses value as expected', (value, expectedResult) => {
       expect(parseOptionalBooleanToString(value)).toEqual(expectedResult);
+    });
+  });
+
+  describe('humanFriendlyJoin', () => {
+    it.each([
+      { list: ['a', 'b', 'c', 'd'], expectedResult: 'a, b, c and d' },
+      { list: ['a', 'b'], expectedResult: 'a and b' },
+      { list: ['a'], expectedResult: 'a' },
+      { list: [], expectedResult: '' },
+    ])('returns expected result', ({ list, expectedResult }) => {
+      expect(humanFriendlyJoin(list)).toEqual(expectedResult);
     });
   });
 });

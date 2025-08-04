@@ -88,6 +88,7 @@ export const normalizeVisits = (visits: ShlinkVisit[]) => visits.map((visit): No
     ...parseUserAgent(userAgent),
     referer: extractDomain(referer),
     country: visitLocation?.countryName || 'Unknown',
+    region: visitLocation?.regionName || 'Unknown',
     city: visitLocation?.cityName || 'Unknown',
     latitude: visitLocation?.latitude,
     longitude: visitLocation?.longitude,

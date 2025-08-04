@@ -1,6 +1,6 @@
 import { faCheck as checkIcon, faRobot as botIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { splitEvery } from '@shlinkio/data-manipulation';
+import { mergeDeepRight, splitEvery } from '@shlinkio/data-manipulation';
 import type { Order } from '@shlinkio/shlink-frontend-kit';
 import {
   determineOrder,
@@ -11,12 +11,12 @@ import {
   sortList,
   Table,
   Tooltip,
-  useToggle,
   useTooltip,
 } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { useCallback, useMemo, useState } from 'react';
-import { LabelledToggle } from '../settings/components/fe-kit/LabelledToggle';
+import type { VisitsColumn } from '../settings';
+import { defaultVisitsListColumns, useSetting } from '../settings';
 import { Time } from '../utils/dates/Time';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import type { MediaMatcher } from '../utils/types';
@@ -29,7 +29,7 @@ export interface VisitsTableProps {
   matchMedia?: MediaMatcher;
 }
 
-type OrderableFields = 'date' | 'country' | 'city' | 'browser' | 'os' | 'referer' | 'userAgent' | 'visitedUrl' | 'potentialBot';
+type OrderableFields = VisitsColumn;
 type VisitsOrder = Order<OrderableFields>;
 
 const PAGE_SIZE = 20;
@@ -88,23 +88,33 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
     setSelectedVisits([]);
   }, [setSelectedVisits]);
   const [order, setOrder] = useState<VisitsOrder>({});
-  const { flag: showUserAgent, toggle: toggleShowUserAgent } = useToggle();
-  const toggleUserAgentAndResetOrder = useCallback(() => {
-    toggleShowUserAgent();
-    setOrder({});
-  }, [toggleShowUserAgent]);
+  const visitsListSettings = useSetting('visitsList');
+  const columns = useMemo(
+    () => mergeDeepRight(
+      defaultVisitsListColumns,
+      visitsListSettings?.columns ?? {},
+    ) as typeof defaultVisitsListColumns,
+    [visitsListSettings?.columns],
+  );
   const paginator = useMemo(
-    () => paginateVisits({ visits, searchTerm, order, searchInRawUserAgent: showUserAgent }),
-    [visits, searchTerm, order, showUserAgent],
+    () => paginateVisits({ visits, searchTerm, order, searchInRawUserAgent: columns.userAgent }),
+    [visits, searchTerm, order, columns.userAgent],
   );
   const [page, setPage] = useState(1);
   const end = page * PAGE_SIZE;
   const start = end - PAGE_SIZE;
   const showVisitedUrl = useMemo(
-    () => !!paginator.visitsGroups[page - 1]?.[0]?.visitedUrl,
-    [page, paginator.visitsGroups],
+    () => {
+      if (!columns.visitedUrl) {
+        return false;
+      }
+
+      return paginator.visitsGroups.length === 0 || !!paginator.visitsGroups[page - 1]?.[0]?.visitedUrl;
+    },
+    [columns.visitedUrl, page, paginator.visitsGroups],
   );
-  const fullSizeColSpan = 6 + Number(showVisitedUrl) + (showUserAgent ? 1 : 2);
+  // TODO Fix this value now that columns can be customized
+  const fullSizeColSpan = 6 + Number(showVisitedUrl) + (columns.userAgent ? 1 : 2);
   const hasVisits = paginator.total > 0;
 
   const orderByColumn = (field: OrderableFields) => setOrder(
@@ -118,14 +128,7 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
       // Adding a bottom padding to work around the fact that it's not possible to set border radius in internal table
       // elements, and we can also not hide the overflow of the table itself because then sticky elements get hidden
       bodyClassName="[&]:p-0 [&]:pb-1"
-      title={
-        <span className="flex justify-between items-center text-base">
-          Visits list
-          <LabelledToggle checked={showUserAgent} onChange={toggleUserAgentAndResetOrder}>
-            Show user agent
-          </LabelledToggle>
-        </span>
-      }>
+      title="Visits list">
       <Table
         responsive={false}
         size="sm"
@@ -134,7 +137,7 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
           <>
             <Table.Row>
               <Table.Cell
-                className={clsx(headerCellsClass, 'text-center')}
+                className={clsx(headerCellsClass, '[&]:text-center')}
                 onClick={() => setSelectedVisits(
                   selectedVisits.length < paginator.total ? paginator.visitsGroups.flat() : [],
                 )}
@@ -145,47 +148,64 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
                   className={clsx({ 'text-lm-brand dark:text-dm-brand': selectedVisits.length > 0 })}
                 />
               </Table.Cell>
-              <Table.Cell
-                className={clsx(headerCellsClass, 'text-center')}
-                onClick={() => orderByColumn('potentialBot')}
-              >
-                <span className="sr-only">Is bot</span>
-                <FontAwesomeIcon icon={botIcon} />
-                {renderOrderIcon('potentialBot')}
-              </Table.Cell>
-              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('date')}>
-                Date
-                {renderOrderIcon('date')}
-              </Table.Cell>
-              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('country')}>
-                Country
-                {renderOrderIcon('country')}
-              </Table.Cell>
-              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('city')}>
-                City
-                {renderOrderIcon('city')}
-              </Table.Cell>
-              {showUserAgent ? (
+              {columns.potentialBot && (
+                <Table.Cell
+                  className={clsx(headerCellsClass, '[&]:text-center')}
+                  onClick={() => orderByColumn('potentialBot')}
+                >
+                  <span className="sr-only">Is bot</span>
+                  <FontAwesomeIcon icon={botIcon} />
+                  {renderOrderIcon('potentialBot')}
+                </Table.Cell>
+              )}
+              {columns.date && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('date')}>
+                  Date
+                  {renderOrderIcon('date')}
+                </Table.Cell>
+              )}
+              {columns.country && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('country')}>
+                  Country
+                  {renderOrderIcon('country')}
+                </Table.Cell>
+              )}
+              {columns.region && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('region')}>
+                  Region
+                  {renderOrderIcon('region')}
+                </Table.Cell>
+              )}
+              {columns.city && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('city')}>
+                  City
+                  {renderOrderIcon('city')}
+                </Table.Cell>
+              )}
+              {columns.userAgent && (
                 <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('userAgent')}>
                   User agent
                   {renderOrderIcon('userAgent')}
                 </Table.Cell>
-              ) : (
-                <>
-                  <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('browser')}>
-                    Browser
-                    {renderOrderIcon('browser')}
-                  </Table.Cell>
-                  <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('os')}>
-                    OS
-                    {renderOrderIcon('os')}
-                  </Table.Cell>
-                </>
               )}
-              <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('referer')}>
-                Referrer
-                {renderOrderIcon('referer')}
-              </Table.Cell>
+              {columns.browser && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('browser')}>
+                  Browser
+                  {renderOrderIcon('browser')}
+                </Table.Cell>
+              )}
+              {columns.browser && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('os')}>
+                  OS
+                  {renderOrderIcon('os')}
+                </Table.Cell>
+              )}
+              {columns.referer && (
+                <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('referer')}>
+                  Referrer
+                  {renderOrderIcon('referer')}
+                </Table.Cell>
+              )}
               {showVisitedUrl && (
                 <Table.Cell className={headerCellsClass} onClick={() => orderByColumn('visitedUrl')}>
                   Visited URL
@@ -243,21 +263,19 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
               <Table.Cell className="text-center">
                 {isSelected && <FontAwesomeIcon icon={checkIcon} className="text-lm-brand dark:text-dm-brand" />}
               </Table.Cell>
-              <Table.Cell className="text-center">
-                {visit.potentialBot && <BotIconWithTooltip />}
-              </Table.Cell>
-              <Table.Cell><Time date={visit.date} /></Table.Cell>
-              <Table.Cell>{visit.country}</Table.Cell>
-              <Table.Cell>{visit.city}</Table.Cell>
-              {showUserAgent ? (
-                <Table.Cell>{visit.userAgent}</Table.Cell>
-              ) : (
-                <>
-                  <Table.Cell>{visit.browser}</Table.Cell>
-                  <Table.Cell>{visit.os}</Table.Cell>
-                </>
+              {columns.potentialBot && (
+                <Table.Cell className="text-center">
+                  {visit.potentialBot && <BotIconWithTooltip />}
+                </Table.Cell>
               )}
-              <Table.Cell>{visit.referer}</Table.Cell>
+              {columns.date && <Table.Cell><Time date={visit.date} /></Table.Cell>}
+              {columns.country && <Table.Cell>{visit.country}</Table.Cell>}
+              {columns.region && <Table.Cell>{visit.region}</Table.Cell>}
+              {columns.city && <Table.Cell>{visit.city}</Table.Cell>}
+              {columns.userAgent && <Table.Cell>{visit.userAgent}</Table.Cell>}
+              {columns.browser && <Table.Cell>{visit.browser}</Table.Cell>}
+              {columns.os && <Table.Cell>{visit.os}</Table.Cell>}
+              {columns.referer && <Table.Cell>{visit.referer}</Table.Cell>}
               {showVisitedUrl && <Table.Cell>{visit.visitedUrl ?? ''}</Table.Cell>}
             </Table.Row>
           );

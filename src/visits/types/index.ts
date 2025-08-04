@@ -11,6 +11,7 @@ export interface NormalizedRegularVisit extends ParsedUserAgent {
   userAgent: string;
   referer: string;
   country: string;
+  region: string;
   city: string;
   latitude?: number | null;
   longitude?: number | null;

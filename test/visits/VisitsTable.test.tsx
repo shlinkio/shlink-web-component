@@ -1,6 +1,8 @@
 import { screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
+import type { VisitsListSettings } from '../../src/settings';
+import { defaultVisitsListColumns , SettingsProvider } from '../../src/settings';
 import { rangeOf } from '../../src/utils/helpers';
 import type { NormalizedRegularVisit, NormalizedVisit } from '../../src/visits/types';
 import type { VisitsTableProps } from '../../src/visits/VisitsTable';
@@ -8,14 +10,16 @@ import { VisitsTable } from '../../src/visits/VisitsTable';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
+type SetUpOptions = Partial<VisitsTableProps> & {
+  visitsList?: VisitsListSettings,
+};
+
 describe('<VisitsTable />', () => {
   const setSelectedVisits = vi.fn();
-  const setUpFactory = (props: Partial<VisitsTableProps> = {}) => renderWithEvents(
-    <VisitsTable
-      visits={[]}
-      {...props}
-      setSelectedVisits={setSelectedVisits}
-    />,
+  const setUpFactory = ({ visitsList, ...props }: SetUpOptions = {}) => renderWithEvents(
+    <SettingsProvider value={fromPartial({ visitsList })}>
+      <VisitsTable visits={[]} {...props} setSelectedVisits={setSelectedVisits} />
+    </SettingsProvider>,
   );
   const setUp = (visits: NormalizedVisit[] = [], selectedVisits: NormalizedVisit[] = []) => setUpFactory(
     { visits, selectedVisits },
@@ -26,6 +30,7 @@ describe('<VisitsTable />', () => {
       fromPartial({ potentialBot: true, date: '2022-05-05' }),
     ],
   });
+  const setUpWithSettings = (visitsList: VisitsListSettings) => setUpFactory({ visitsList });
 
   const getFirstColumnValue = () => screen.getAllByRole('row')[2]?.querySelectorAll('td')[3]?.textContent;
   const clickColumn = async (user: UserEvent, index: number) => user.click(screen.getAllByRole('columnheader')[index]);
@@ -34,7 +39,7 @@ describe('<VisitsTable />', () => {
 
   it('renders expected amount of columns', () => {
     setUp();
-    expect(screen.getAllByRole('columnheader')).toHaveLength(9);
+    expect(screen.getAllByRole('columnheader')).toHaveLength(10);
   });
 
   it('shows warning when no visits are found', () => {
@@ -89,24 +94,6 @@ describe('<VisitsTable />', () => {
     await clickColumn(user, 7); // Referer column - DESC
     expect(getFirstColumnValue()).toContain('Country_9');
     await clickColumn(user, 7); // Referer column - reset
-    expect(getFirstColumnValue()).toContain('Country_1');
-  });
-
-  it('resets table order when toggling user agent', async () => {
-    const { user } = setUp(rangeOf(9, (index) => fromPartial<NormalizedVisit>({
-      browser: '',
-      date: `2022-01-0${10 - index}`,
-      referer: `${index}`,
-      country: `Country_${index}`,
-    })));
-
-    // Check initial order, and verify it changes when clicking a column
-    expect(getFirstColumnValue()).toContain('Country_1');
-    await clickColumn(user, 2);
-    expect(getFirstColumnValue()).toContain('Country_9');
-
-    // Toggle user agent, and verify order is initial one again
-    await user.click(screen.getByLabelText('Show user agent'));
     expect(getFirstColumnValue()).toContain('Country_1');
   });
 
@@ -168,25 +155,59 @@ describe('<VisitsTable />', () => {
     }
   });
 
-  it.each([
-    { showUserAgent: true, expectedColumns: 8 },
-    { showUserAgent: false, expectedColumns: 9 },
-  ])('displays proper amount of columns based on user agent switch', async ({ showUserAgent, expectedColumns }) => {
-    const { user } = setUp();
-
-    if (showUserAgent) {
-      await user.click(screen.getByLabelText('Show user agent'));
-    }
-
-    const columns = screen.getAllByRole('columnheader');
-    expect(columns).toHaveLength(expectedColumns);
-  });
-
   it('displays bots icon when a visit is a potential bot', () => {
     setUpWithBots();
     const [,, nonBotVisitRow, botVisitRow] = screen.getAllByRole('row');
 
     expect(nonBotVisitRow.querySelectorAll('td')[1]).toBeEmptyDOMElement();
     expect(botVisitRow.querySelectorAll('td')[1]).not.toBeEmptyDOMElement();
+  });
+
+  it.each([
+    defaultVisitsListColumns,
+    {
+      potentialBot: false,
+      date: true,
+      country: true,
+      region: false,
+      city: true,
+      browser: true,
+      os: true,
+      userAgent: false,
+      referer: false,
+      visitedUrl: false,
+    } satisfies Required<VisitsListSettings['columns']>,
+    {
+      potentialBot: true,
+      date: true,
+      country: true,
+      region: true,
+      city: true,
+      browser: false,
+      os: false,
+      userAgent: true,
+      referer: false,
+      visitedUrl: true,
+    } satisfies Required<VisitsListSettings['columns']>,
+    {
+      potentialBot: false,
+      date: false,
+      country: false,
+      region: false,
+      city: false,
+      browser: false,
+      os: false,
+      userAgent: false,
+      referer: false,
+      visitedUrl: false,
+    } satisfies Required<VisitsListSettings['columns']>,
+  ])('only shows enabled columns', (columns) => {
+    setUpWithSettings({ columns });
+
+    const columnEntries = Object.entries(columns);
+    const enabledColumnEntries = columnEntries.filter(([, enabled]) => enabled);
+
+    // Add 2, for the search bar and the selected column, which are always displayed
+    expect(screen.getAllByRole('columnheader')).toHaveLength(enabledColumnEntries.length + 2);
   });
 });

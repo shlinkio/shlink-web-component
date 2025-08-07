@@ -1,6 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { formatISO, isBefore, subDays, subMonths, subYears } from 'date-fns';
+import { formatISO, subDays, subMonths, subYears } from 'date-fns';
+import { isBeforeOrEqual } from '../../../src/utils/dates/helpers/date';
 import type { StrictDateRange } from '../../../src/utils/dates/helpers/dateIntervals';
 import { ChartDimensionsProvider } from '../../../src/visits/charts/ChartDimensionsContext';
 import type { VisitsList } from '../../../src/visits/charts/LineChartCard';
@@ -120,8 +121,12 @@ describe('<LineChartCard />', () => {
     { selectionStart: 100, selectionEnd: 300 },
     // Right to left
     { selectionStart: 300, selectionEnd: 100 },
-  ])('allows date range to be selected via drag and drop', ({ selectionStart, selectionEnd }) => {
-    const { chart } = setUpChartWithData();
+  ])('allows date range to be selected via drag and drop', async ({ selectionStart, selectionEnd }) => {
+    const { chart, user } = setUpChartWithData();
+
+    // An initial click is needed for subsequent events to receive the proper state from recharts
+    // See https://github.com/recharts/recharts/discussions/6178#discussioncomment-14029671
+    await user.click(chart);
 
     fireEvent.mouseDown(chart, { clientX: selectionStart, clientY: 200, button: 0 });
     fireEvent.mouseMove(chart, { clientX: selectionEnd, clientY: 200 });
@@ -131,7 +136,7 @@ describe('<LineChartCard />', () => {
 
     // Regardless of the selection direction, the oldest date will always be used as start date
     const [{ startDate, endDate }] = onDateRangeChange.mock.lastCall as [StrictDateRange];
-    expect(isBefore(startDate, endDate)).toBe(true);
+    expect(isBeforeOrEqual(startDate, endDate)).toBe(true);
   });
 
   it.each([

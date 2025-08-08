@@ -285,6 +285,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
   }, [chartData, selectionStart]);
   const updateDateRange = useCallback(() => {
     if (!selectionStart || !selectionEnd) {
+      resetSelection();
       return;
     }
 

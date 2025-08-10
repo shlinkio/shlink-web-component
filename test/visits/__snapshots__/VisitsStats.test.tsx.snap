@@ -18,7 +18,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r43»"
+          aria-controls="«r4p»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -42,7 +42,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r45»"
+            aria-controls="«r4r»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -68,7 +68,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r43»"
+      id="«r4p»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -105,7 +105,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts121-clip"
+              id="recharts81-clip"
             >
               <rect
                 height="260"
@@ -483,6 +483,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
+              id="recharts-line-«r4s»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -558,7 +559,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r4a»"
+          aria-controls="«r51»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -582,7 +583,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r4c»"
+            aria-controls="«r53»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -608,7 +609,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r4a»"
+      id="«r51»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -645,7 +646,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts126-clip"
+              id="recharts85-clip"
             >
               <rect
                 height="260"
@@ -1023,6 +1024,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
+              id="recharts-line-«r54»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -1098,7 +1100,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r4h»"
+          aria-controls="«r59»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1122,7 +1124,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r4j»"
+            aria-controls="«r5b»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1148,7 +1150,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r4h»"
+      id="«r59»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1185,7 +1187,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts131-clip"
+              id="recharts89-clip"
             >
               <rect
                 height="260"
@@ -1563,6 +1565,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
+              id="recharts-line-«r5c»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -1638,7 +1641,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r4o»"
+          aria-controls="«r5h»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1662,7 +1665,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r4q»"
+            aria-controls="«r5j»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1688,7 +1691,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r4o»"
+      id="«r5h»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1725,7 +1728,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts136-clip"
+              id="recharts93-clip"
             >
               <rect
                 height="260"
@@ -2103,6 +2106,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
+              id="recharts-line-«r5k»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -2143,6 +2147,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
+              id="recharts-line-«r5l»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"
@@ -2234,7 +2239,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r4v»"
+          aria-controls="«r5q»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -2258,7 +2263,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r51»"
+            aria-controls="«r5s»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -2284,7 +2289,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r4v»"
+      id="«r5q»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2321,7 +2326,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts144-clip"
+              id="recharts99-clip"
             >
               <rect
                 height="260"
@@ -2699,6 +2704,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
+              id="recharts-line-«r5t»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -2739,6 +2745,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
+              id="recharts-line-«r5u»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"
@@ -2830,7 +2837,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r56»"
+          aria-controls="«r63»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -2854,7 +2861,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r58»"
+            aria-controls="«r65»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -2880,7 +2887,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r56»"
+      id="«r63»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2917,7 +2924,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts152-clip"
+              id="recharts105-clip"
             >
               <rect
                 height="260"
@@ -3295,6 +3302,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
+              id="recharts-line-«r66»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -3335,6 +3343,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
+              id="recharts-line-«r67»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"

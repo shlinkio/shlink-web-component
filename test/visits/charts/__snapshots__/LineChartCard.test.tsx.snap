@@ -16,7 +16,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«ro»"
+          aria-controls="«ru»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -40,7 +40,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«rq»"
+            aria-controls="«r10»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -66,7 +66,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«ro»"
+      id="«ru»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -103,7 +103,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts35-clip"
+              id="recharts29-clip"
             >
               <rect
                 height="360"
@@ -236,7 +236,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«rr»"
+          aria-controls="«r11»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -260,7 +260,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«rt»"
+            aria-controls="«r13»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -286,7 +286,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«rr»"
+      id="«r11»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -323,7 +323,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts37-clip"
+              id="recharts31-clip"
             >
               <rect
                 height="360"
@@ -502,7 +502,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«ru»"
+          aria-controls="«r14»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -526,7 +526,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r10»"
+            aria-controls="«r16»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -552,7 +552,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«ru»"
+      id="«r14»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -589,7 +589,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts39-clip"
+              id="recharts33-clip"
             >
               <rect
                 height="360"
@@ -967,6 +967,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
+              id="recharts-line-«r17»"
               stroke="#2078CF"
               stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
@@ -1054,7 +1055,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r11»"
+          aria-controls="«r18»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1078,7 +1079,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r13»"
+            aria-controls="«r1a»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1104,7 +1105,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r11»"
+      id="«r18»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1141,7 +1142,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts44-clip"
+              id="recharts37-clip"
             >
               <rect
                 height="360"
@@ -1519,6 +1520,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
+              id="recharts-line-«r1b»"
               stroke="#2078CF"
               stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
@@ -1559,6 +1561,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
+              id="recharts-line-«r1c»"
               stroke="#f77f28"
               stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
@@ -1599,6 +1602,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
+              id="recharts-line-«r1d»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 813.9410400390625px"
               stroke-width="2"
@@ -1702,7 +1706,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r14»"
+          aria-controls="«r1e»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1726,7 +1730,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r16»"
+            aria-controls="«r1g»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1752,7 +1756,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r14»"
+      id="«r1e»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1789,7 +1793,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts55-clip"
+              id="recharts45-clip"
             >
               <rect
                 height="360"
@@ -2412,6 +2416,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               d="M65,95C85.278,230,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,365,795,365"
               fill="none"
               height="360"
+              id="recharts-line-«r1h»"
               stroke="red"
               stroke-dasharray="0px 949.263916015625px"
               stroke-width="2"
@@ -2573,6 +2578,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               d="M65,365C85.278,365,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,185,795,5"
               fill="none"
               height="360"
+              id="recharts-line-«r1i»"
               stroke="yellow"
               stroke-dasharray="0px 1037.2572021484375px"
               stroke-width="2"

@@ -18,7 +18,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r4p»"
+          aria-controls="«rgb»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -26,7 +26,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -42,7 +42,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r4r»"
+            aria-controls="«rgf»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -51,7 +51,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -68,7 +68,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r4p»"
+      id="«rgb»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -483,7 +483,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«r4s»"
+              id="recharts-line-«rgi»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -559,7 +559,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r51»"
+          aria-controls="«rh5»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -567,7 +567,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -583,7 +583,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r53»"
+            aria-controls="«rh9»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -592,7 +592,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -609,7 +609,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r51»"
+      id="«rh5»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1024,7 +1024,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«r54»"
+              id="recharts-line-«rhe»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -1100,7 +1100,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r59»"
+          aria-controls="«ri1»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1108,7 +1108,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -1124,7 +1124,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r5b»"
+            aria-controls="«ri5»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1133,7 +1133,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -1150,7 +1150,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r59»"
+      id="«ri1»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1565,7 +1565,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«r5c»"
+              id="recharts-line-«ri8»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -1641,7 +1641,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r5h»"
+          aria-controls="«rir»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1649,7 +1649,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -1665,7 +1665,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r5j»"
+            aria-controls="«riv»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1674,7 +1674,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -1691,7 +1691,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r5h»"
+      id="«rir»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2106,7 +2106,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«r5k»"
+              id="recharts-line-«rj2»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -2147,7 +2147,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«r5l»"
+              id="recharts-line-«rj3»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"
@@ -2239,7 +2239,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r5q»"
+          aria-controls="«rjm»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -2247,7 +2247,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -2263,7 +2263,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r5s»"
+            aria-controls="«rjq»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -2272,7 +2272,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -2289,7 +2289,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r5q»"
+      id="«rjm»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2704,7 +2704,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«r5t»"
+              id="recharts-line-«rjt»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -2745,7 +2745,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«r5u»"
+              id="recharts-line-«rju»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"
@@ -2837,7 +2837,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r63»"
+          aria-controls="«rkh»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -2845,7 +2845,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -2861,7 +2861,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r65»"
+            aria-controls="«rkl»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -2870,7 +2870,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -2887,7 +2887,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r63»"
+      id="«rkh»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -3302,7 +3302,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«r66»"
+              id="recharts-line-«rko»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -3343,7 +3343,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«r67»"
+              id="recharts-line-«rkp»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"

@@ -1,6 +1,6 @@
-FROM mcr.microsoft.com/playwright:v1.54.1-noble
+FROM mcr.microsoft.com/playwright:v1.55.0-noble
 
-ENV NODE_VERSION 22.15
+ENV NODE_VERSION 22.18
 ENV TINI_VERSION v0.19.0
 
 # Install Node.js

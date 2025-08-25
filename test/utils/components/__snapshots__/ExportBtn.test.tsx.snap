@@ -3,7 +3,7 @@
 exports[`<ExportBtn /> > renders expected icon 1`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-file-csv "
+  class="svg-inline--fa fa-file-csv"
   data-icon="file-csv"
   data-prefix="fas"
   role="img"

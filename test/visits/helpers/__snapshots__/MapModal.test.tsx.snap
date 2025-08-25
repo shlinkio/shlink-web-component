@@ -26,7 +26,7 @@ exports[`<MapModal /> > renders expected map 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-xmark fa-xl "
+            class="svg-inline--fa fa-xmark fa-xl"
             data-icon="xmark"
             data-prefix="fas"
             role="img"

@@ -3,7 +3,7 @@
 exports[`<UserInterfaceSettings /> > shows different icons based on theme 1`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-moon "
+  class="svg-inline--fa fa-moon"
   data-icon="moon"
   data-prefix="fas"
   role="img"
@@ -19,7 +19,7 @@ exports[`<UserInterfaceSettings /> > shows different icons based on theme 1`] = 
 exports[`<UserInterfaceSettings /> > shows different icons based on theme 2`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-sun "
+  class="svg-inline--fa fa-sun"
   data-icon="sun"
   data-prefix="fas"
   role="img"
@@ -35,7 +35,7 @@ exports[`<UserInterfaceSettings /> > shows different icons based on theme 2`] = 
 exports[`<UserInterfaceSettings /> > shows different icons based on theme 3`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-sun "
+  class="svg-inline--fa fa-sun"
   data-icon="sun"
   data-prefix="fas"
   role="img"

@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [0.16.2] - 2025-08-25
+### Added
+* *Nothing*
+
+### Changed
+* Update to FontAwesome react component v3
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [0.16.1] - 2025-08-08
 ### Added
 * [#755](https://github.com/shlinkio/shlink-web-component/issues/755) Add support for `any-value-query-param` and `valueless-query-param` redirect conditions when using Shlink >=4.5.0.

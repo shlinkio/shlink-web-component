@@ -16,7 +16,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«ru»"
+          aria-controls="«r1u»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -24,7 +24,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -40,7 +40,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r10»"
+            aria-controls="«r22»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -49,7 +49,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -66,7 +66,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«ru»"
+      id="«r1u»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -236,7 +236,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r11»"
+          aria-controls="«r25»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -244,7 +244,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -260,7 +260,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r13»"
+            aria-controls="«r29»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -269,7 +269,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -286,7 +286,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r11»"
+      id="«r25»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -502,7 +502,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r14»"
+          aria-controls="«r2c»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -510,7 +510,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -526,7 +526,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r16»"
+            aria-controls="«r2g»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -535,7 +535,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -552,7 +552,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r14»"
+      id="«r2c»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -967,7 +967,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
-              id="recharts-line-«r17»"
+              id="recharts-line-«r2j»"
               stroke="#2078CF"
               stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
@@ -1055,7 +1055,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r18»"
+          aria-controls="«r2k»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1063,7 +1063,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -1079,7 +1079,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r1a»"
+            aria-controls="«r2o»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1088,7 +1088,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -1105,7 +1105,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r18»"
+      id="«r2k»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1520,7 +1520,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
-              id="recharts-line-«r1b»"
+              id="recharts-line-«r2r»"
               stroke="#2078CF"
               stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
@@ -1561,7 +1561,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
-              id="recharts-line-«r1c»"
+              id="recharts-line-«r2s»"
               stroke="#f77f28"
               stroke-dasharray="0px 813.9410400390625px"
               stroke-width="2"
@@ -1602,7 +1602,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               d="M65,5L795,365"
               fill="none"
               height="360"
-              id="recharts-line-«r1d»"
+              id="recharts-line-«r2t»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 813.9410400390625px"
               stroke-width="2"
@@ -1706,7 +1706,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r1e»"
+          aria-controls="«r2u»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1714,7 +1714,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         >
           <svg
             aria-hidden="true"
-            class="svg-inline--fa fa-up-right-and-down-left-from-center "
+            class="svg-inline--fa fa-up-right-and-down-left-from-center"
             data-icon="up-right-and-down-left-from-center"
             data-prefix="fas"
             role="img"
@@ -1730,7 +1730,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r1g»"
+            aria-controls="«r32»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1739,7 +1739,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             Group by
             <svg
               aria-hidden="true"
-              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto "
+              class="svg-inline--fa fa-caret-down fa-xs fa-width-auto"
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
@@ -1756,7 +1756,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r1e»"
+      id="«r2u»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2416,7 +2416,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               d="M65,95C85.278,230,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,365,795,365"
               fill="none"
               height="360"
-              id="recharts-line-«r1h»"
+              id="recharts-line-«r35»"
               stroke="red"
               stroke-dasharray="0px 949.263916015625px"
               stroke-width="2"
@@ -2578,7 +2578,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               d="M65,365C85.278,365,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,185,795,5"
               fill="none"
               height="360"
-              id="recharts-line-«r1i»"
+              id="recharts-line-«r36»"
               stroke="yellow"
               stroke-dasharray="0px 1037.2572021484375px"
               stroke-width="2"

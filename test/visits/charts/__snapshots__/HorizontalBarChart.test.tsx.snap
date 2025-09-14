@@ -51,6 +51,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="30"
@@ -71,6 +72,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -107,6 +109,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -143,6 +146,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -179,6 +183,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -215,6 +220,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -253,6 +259,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="360"
@@ -274,6 +281,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -312,6 +320,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -538,7 +547,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts7-clip"
+          id="recharts11-clip"
         >
           <rect
             height="360"
@@ -552,6 +561,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="30"
@@ -572,6 +582,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -608,6 +619,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -644,6 +656,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -680,6 +693,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -716,6 +730,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -754,6 +769,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="360"
@@ -775,6 +791,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -813,6 +830,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -1058,7 +1076,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts13-clip"
+          id="recharts25-clip"
         >
           <rect
             height="360"
@@ -1072,6 +1090,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="30"
@@ -1092,6 +1111,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -1128,6 +1148,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -1164,6 +1185,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -1200,6 +1222,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -1236,6 +1259,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -1274,6 +1298,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="360"
@@ -1295,6 +1320,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -1333,6 +1359,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -1371,6 +1398,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -1635,7 +1663,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts19-clip"
+          id="recharts43-clip"
         >
           <rect
             height="360"
@@ -1649,6 +1677,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="30"
@@ -1669,6 +1698,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -1705,6 +1735,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -1741,6 +1772,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -1777,6 +1809,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -1813,6 +1846,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -1851,6 +1885,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="360"
@@ -1872,6 +1907,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -1910,6 +1946,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -1948,6 +1985,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -2212,7 +2250,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts25-clip"
+          id="recharts61-clip"
         >
           <rect
             height="360"
@@ -2226,6 +2264,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="30"
@@ -2246,6 +2285,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -2282,6 +2322,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -2318,6 +2359,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -2354,6 +2396,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -2390,6 +2433,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -2428,6 +2472,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="360"
@@ -2449,6 +2494,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -2487,6 +2533,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -2525,6 +2572,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -2811,7 +2859,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
       <desc />
       <defs>
         <clippath
-          id="recharts33-clip"
+          id="recharts87-clip"
         >
           <rect
             height="360"
@@ -2825,6 +2873,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="30"
@@ -2845,6 +2894,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -2881,6 +2931,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -2917,6 +2968,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -2953,6 +3005,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -2989,6 +3042,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="30"
@@ -3027,6 +3081,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
       >
         <line
+          angle="0"
           class="recharts-cartesian-axis-line"
           fill="none"
           height="360"
@@ -3048,6 +3103,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -3086,6 +3142,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"
@@ -3124,6 +3181,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
             class="recharts-layer recharts-cartesian-axis-tick"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-tick-line"
               fill="none"
               height="360"

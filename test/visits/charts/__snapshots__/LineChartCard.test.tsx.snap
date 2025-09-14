@@ -117,6 +117,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-line"
               fill="none"
               height="30"
@@ -135,6 +136,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-line"
               fill="none"
               height="360"
@@ -337,6 +339,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-line"
               fill="none"
               height="30"
@@ -355,6 +358,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-line"
               fill="none"
               height="360"
@@ -603,6 +607,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-line"
               fill="none"
               height="30"
@@ -623,6 +628,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -659,6 +665,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -697,6 +704,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-line"
               fill="none"
               height="360"
@@ -717,6 +725,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -753,6 +762,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -789,6 +799,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -825,6 +836,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -861,6 +873,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -1156,6 +1169,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-line"
               fill="none"
               height="30"
@@ -1176,6 +1190,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -1212,6 +1227,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -1250,6 +1266,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-line"
               fill="none"
               height="360"
@@ -1270,6 +1287,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -1306,6 +1324,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -1342,6 +1361,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -1378,6 +1398,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -1414,6 +1435,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -1807,6 +1829,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-line"
               fill="none"
               height="30"
@@ -1827,6 +1850,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -1863,6 +1887,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -1899,6 +1924,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -1935,6 +1961,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -1971,6 +1998,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -2007,6 +2035,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -2043,6 +2072,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="30"
@@ -2081,6 +2111,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
           >
             <line
+              angle="0"
               class="recharts-cartesian-axis-line"
               fill="none"
               height="360"
@@ -2101,6 +2132,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -2137,6 +2169,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -2173,6 +2206,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -2209,6 +2243,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"
@@ -2245,6 +2280,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 class="recharts-layer recharts-cartesian-axis-tick"
               >
                 <line
+                  angle="0"
                   class="recharts-cartesian-axis-tick-line"
                   fill="none"
                   height="360"

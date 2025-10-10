@@ -2,7 +2,10 @@
   "name": "@shlinkio/shlink-web-component",
   "description": "Minimal UI to interact with Shlink on React applications",
   "private": false,
-  "repository": "https://github.com/shlinkio/shlink-web-component",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shlinkio/shlink-web-component.git"
+  },
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",

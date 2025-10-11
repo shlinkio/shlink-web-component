@@ -73,7 +73,7 @@
     "event-source-polyfill": "^1.0.31",
     "leaflet": "^1.9.4",
     "qr-code-styling": "^1.9.2",
-    "react-external-link": "^2.6.0",
+    "react-external-link": "^2.6.1",
     "react-leaflet": "^5.0",
     "react-swipeable": "^7.0.2",
     "recharts": "^3.2.1"

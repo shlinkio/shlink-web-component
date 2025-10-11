@@ -64,7 +64,7 @@
   "dependencies": {
     "@formkit/drag-and-drop": "^0.5.3",
     "@json2csv/plainjs": "^7.0.6",
-    "@shlinkio/data-manipulation": "^1.0.3",
+    "@shlinkio/data-manipulation": "^1.0.4",
     "bottlejs": "^2.0.1",
     "bowser": "^2.12.1",
     "clsx": "^2.1.1",
@@ -80,7 +80,7 @@
   },
   "devDependencies": {
     "@shlinkio/eslint-config-js-coding-standard": "~3.6.0",
-    "@shlinkio/shlink-js-sdk": "^2.2.0",
+    "@shlinkio/shlink-js-sdk": "^2.2.2",
     "@stylistic/eslint-plugin": "^5.4.0",
     "@tailwindcss/vite": "^4.1.14",
     "@testing-library/jest-dom": "^6.9.1",

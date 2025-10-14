@@ -79,7 +79,7 @@
     "recharts": "^3.2.1"
   },
   "devDependencies": {
-    "@shlinkio/eslint-config-js-coding-standard": "~3.6.1",
+    "@shlinkio/eslint-config-js-coding-standard": "~3.7.0",
     "@shlinkio/shlink-js-sdk": "^2.2.2",
     "@stylistic/eslint-plugin": "^5.4.0",
     "@tailwindcss/vite": "^4.1.14",

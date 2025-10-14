@@ -105,7 +105,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts112-clip"
+              id="recharts111-clip"
             >
               <rect
                 height="260"
@@ -655,7 +655,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts116-clip"
+              id="recharts115-clip"
             >
               <rect
                 height="260"
@@ -1205,7 +1205,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts120-clip"
+              id="recharts119-clip"
             >
               <rect
                 height="260"
@@ -1755,7 +1755,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts124-clip"
+              id="recharts123-clip"
             >
               <rect
                 height="260"
@@ -2362,7 +2362,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts130-clip"
+              id="recharts129-clip"
             >
               <rect
                 height="260"
@@ -2969,7 +2969,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           <desc />
           <defs>
             <clippath
-              id="recharts136-clip"
+              id="recharts135-clip"
             >
               <rect
                 height="260"

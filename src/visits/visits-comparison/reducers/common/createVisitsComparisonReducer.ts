@@ -11,7 +11,7 @@ type VisitsReducerOptions<AT extends ReturnType<typeof createVisitsComparisonAsy
   initialState: VisitsComparisonInfo;
   filterCreatedVisitsForGroup: (
     state: Omit<VisitsComparisonInfo, 'visitsGroups'> & { groupKey: string },
-    createdVisits: CreateVisit[]
+    createdVisits: CreateVisit[],
   ) => CreateVisit[];
 };
 

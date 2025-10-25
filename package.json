@@ -65,6 +65,7 @@
     "@formkit/drag-and-drop": "^0.5.3",
     "@json2csv/plainjs": "^7.0.6",
     "@shlinkio/data-manipulation": "^1.0.4",
+    "@vitest/browser-playwright": "^4.0.3",
     "bottlejs": "^2.0.1",
     "bowser": "^2.12.1",
     "clsx": "^2.1.1",

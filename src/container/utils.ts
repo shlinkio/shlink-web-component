@@ -15,6 +15,7 @@ export function componentFactory<Deps, CompType = Omit<Partial<Deps>, keyof FC>>
   return (container: IContainer, console = globalThis.console) => {
     deps.forEach((dep) => {
       const resolvedDependency = container[dep as string];
+      // @ts-expect-error process is actually available in vite
       if (!resolvedDependency && process.env.NODE_ENV !== 'production') {
         console.error(`[Debug] Could not find "${dep as string}" dependency in container`);
       }

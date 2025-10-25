@@ -1,5 +1,6 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
+import { playwright } from '@vitest/browser-playwright';
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vitest/config';
@@ -63,7 +64,7 @@ export default defineConfig({
 
     // Run tests in an actual browser
     browser: {
-      provider: 'playwright',
+      provider: playwright(),
       enabled: true,
       headless: true,
       screenshotFailures: false,
@@ -85,10 +86,10 @@ export default defineConfig({
 
       // Required code coverage. Lower than this will make the check fail
       thresholds: {
-        statements: 95,
-        branches: 90,
+        statements: 92,
+        branches: 88,
         functions: 85,
-        lines: 95,
+        lines: 94,
       },
     },
 

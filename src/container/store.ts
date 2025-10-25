@@ -21,6 +21,7 @@ import type { VisitsInfo } from '../visits/reducers/types';
 import type { VisitsOverview } from '../visits/reducers/visitsOverview';
 import type { VisitsComparisonInfo } from '../visits/visits-comparison/reducers/types';
 
+// @ts-expect-error process is actually available in vite
 const isProduction = process.env.NODE_ENV === 'production';
 
 export type RootState = {

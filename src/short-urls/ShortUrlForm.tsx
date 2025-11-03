@@ -1,11 +1,9 @@
-import { faAndroid, faApple } from '@fortawesome/free-brands-svg-icons';
-import { faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { Button, Checkbox, Input, Label, LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { parseISO } from 'date-fns';
 import type { FC, FormEvent } from 'react';
 import { useCallback, useMemo, useState } from 'react';
-import type { ShlinkCreateShortUrlData, ShlinkDeviceLongUrls, ShlinkEditShortUrlData } from '../api-contract';
+import type { ShlinkCreateShortUrlData, ShlinkEditShortUrlData } from '../api-contract';
 import { isErrorAction } from '../api-contract/utils';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
@@ -13,10 +11,8 @@ import { DomainSelector } from '../domains/DomainSelector';
 import type { DomainsList } from '../domains/reducers/domainsList';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
 import type { TagsList } from '../tags/reducers/tagsList';
-import { IconInput } from '../utils/components/IconInput';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import { LabelledDateInput } from '../utils/dates/LabelledDateInput';
-import { useFeature } from '../utils/features';
 import { hasValue } from '../utils/helpers';
 import { ShortUrlFormCheckboxGroup } from './helpers/ShortUrlFormCheckboxGroup';
 import { UseExistingIfFoundInfoIcon } from './UseExistingIfFoundInfoIcon';
@@ -48,9 +44,6 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
   const { TagsSelector } = useDependencies(ShortUrlForm as unknown as ShortUrlFormDeps);
   const [shortUrlData, setShortUrlData] = useState(initialState);
   const isCreation = isCreationData(shortUrlData);
-  const supportsDeviceLongUrls = useFeature('deviceLongUrls');
-  const supportsValidatingUrls = useFeature('urlValidation');
-  const showExtraChecks = supportsValidatingUrls || isCreation;
 
   const reset = useCallback(() => setShortUrlData(initialState), [initialState]);
   const setResettableValue = useCallback((value: string, initialValue?: any) => {
@@ -62,16 +55,6 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
     // value gets removed. Otherwise, set undefined so that it gets ignored.
     return hasValue(initialValue) ? null : undefined;
   }, []);
-  const changeDeviceLongUrl = useCallback(
-    (id: keyof ShlinkDeviceLongUrls, url: string) => setShortUrlData(({ deviceLongUrls = {}, ...prev }) => ({
-      ...prev,
-      deviceLongUrls: {
-        ...deviceLongUrls,
-        [id]: setResettableValue(url, initialState.deviceLongUrls?.[id]),
-      },
-    })),
-    [initialState.deviceLongUrls, setResettableValue],
-  );
   const changeTags = useCallback((tags: string[]) => setShortUrlData((prev) => ({ ...prev, tags })), []);
 
   const submit = useCallback(async (e: FormEvent) => {
@@ -115,42 +98,11 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
       {!basicMode && (
         <>
           <div>
-            <div className={clsx({ 'sm:w-1/2': supportsDeviceLongUrls, 'w-full': !supportsDeviceLongUrls })}>
+            <div className="w-full">
               <SimpleCard title="Main options" className="card">
                 {basicComponents}
               </SimpleCard>
             </div>
-            {supportsDeviceLongUrls && (
-              <div className="w-full sm:w-1/2">
-                <SimpleCard
-                  title="Device-specific long URLs"
-                  bodyClassName="flex flex-col gap-y-4"
-                  className="card"
-                >
-                  <IconInput
-                    type="url"
-                    icon={faAndroid}
-                    placeholder="Android-specific redirection"
-                    value={shortUrlData.deviceLongUrls?.android ?? ''}
-                    onChange={({ target }) => changeDeviceLongUrl('android', target.value)}
-                  />
-                  <IconInput
-                    type="url"
-                    icon={faApple}
-                    placeholder="iOS-specific redirection"
-                    value={shortUrlData.deviceLongUrls?.ios ?? ''}
-                    onChange={({ target }) => changeDeviceLongUrl('ios', target.value)}
-                  />
-                  <IconInput
-                    type="url"
-                    icon={faDesktop}
-                    placeholder="Desktop-specific redirection"
-                    value={shortUrlData.deviceLongUrls?.desktop ?? ''}
-                    onChange={({ target }) => changeDeviceLongUrl('desktop', target.value)}
-                  />
-                </SimpleCard>
-              </div>
-            )}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -243,34 +195,23 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            {showExtraChecks && (
+            {isCreation && (
               <div className="w-full sm:w-1/2">
                 <SimpleCard title="Extra checks" className="h-full">
-                  {supportsValidatingUrls && (
-                    <ShortUrlFormCheckboxGroup
-                      infoTooltip="If checked, Shlink will try to reach the long URL, failing in case it's not publicly accessible."
-                      checked={shortUrlData.validateUrl}
-                      onChange={(validateUrl) => setShortUrlData((prev) => ({ ...prev, validateUrl }))}
-                    >
-                      Validate URL
-                    </ShortUrlFormCheckboxGroup>
-                  )}
-                  {isCreation && (
-                    <p className="inline-flex items-center gap-x-2">
-                      <Label className="inline-flex items-center gap-x-1.5">
-                        <Checkbox
-                          checked={shortUrlData.findIfExists}
-                          onChange={(findIfExists) => setShortUrlData((prev) => ({ ...prev, findIfExists }))}
-                        />
-                        Use existing URL if found
-                      </Label>
-                      <UseExistingIfFoundInfoIcon />
-                    </p>
-                  )}
+                  <p className="inline-flex items-center gap-x-2">
+                    <Label className="inline-flex items-center gap-x-1.5">
+                      <Checkbox
+                        checked={shortUrlData.findIfExists}
+                        onChange={(findIfExists) => setShortUrlData((prev) => ({ ...prev, findIfExists }))}
+                      />
+                      Use existing URL if found
+                    </Label>
+                    <UseExistingIfFoundInfoIcon />
+                  </p>
                 </SimpleCard>
               </div>
             )}
-            <div className={clsx('w-full', { 'sm:w-1/2': showExtraChecks })}>
+            <div className={clsx('w-full', { 'sm:w-1/2': isCreation })}>
               <SimpleCard title="Configure behavior">
                 <ShortUrlFormCheckboxGroup
                   infoTooltip="This short URL will be included in the robots.txt for your Shlink instance, allowing web crawlers (like Google) to index it."

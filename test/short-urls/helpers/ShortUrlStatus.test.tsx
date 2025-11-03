@@ -8,7 +8,8 @@ describe('<ShortUrlStatus />', () => {
   const setUp = (shortUrl: ShlinkShortUrl) => render(<ShortUrlStatus shortUrl={shortUrl} />);
 
   it('passes a11y checks', () => checkAccessibility(setUp(fromPartial({
-    meta: fromPartial({ maxVisits: 10 }),
+    meta: { maxVisits: 10 },
+    visitsSummary: {},
   }))));
 
   it.each([

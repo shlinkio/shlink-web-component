@@ -7,12 +7,11 @@ import { checkAccessibility } from '../__helpers__/accessibility';
 
 describe('<CreateShortUrl />', () => {
   const ShortUrlForm = () => <span>ShortUrlForm</span>;
-  const shortUrlCreation = { validateUrls: true };
   const shortUrlCreationResult = fromPartial<ShortUrlCreation>({});
   const createShortUrl = vi.fn(async () => Promise.resolve());
   const CreateShortUrl = CreateShortUrlFactory(fromPartial({ ShortUrlForm }));
   const setUp = () => render(
-    <SettingsProvider value={fromPartial({ shortUrlCreation })}>
+    <SettingsProvider value={{}}>
       <CreateShortUrl
         shortUrlCreation={shortUrlCreationResult}
         createShortUrl={createShortUrl}

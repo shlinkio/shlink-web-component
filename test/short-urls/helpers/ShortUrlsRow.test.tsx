@@ -30,7 +30,6 @@ describe('<ShortUrlsRow />', () => {
     longUrl: 'https://foo.com/bar',
     dateCreated: formatISO(parseDate('2018-05-23 18:30:41', 'yyyy-MM-dd HH:mm:ss')),
     tags: [],
-    visitsCount: 45,
     visitsSummary: {
       total: 45,
       nonBots: 40,

@@ -7,7 +7,6 @@ import type { ShlinkEditShortUrlData } from '../api-contract';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import { useSetting } from '../settings';
 import { GoBackButton } from '../utils/components/GoBackButton';
 import { shortUrlDataFromShortUrl } from './helpers';
 import { useShortUrlIdentifier } from './helpers/hooks';
@@ -35,11 +34,7 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
   const shortUrl = identifier && shortUrls?.get(identifier);
 
   const { saving, saved, error: savingError, errorData: savingErrorData } = shortUrlEdition;
-  const shortUrlCreationSettings = useSetting('shortUrlCreation');
-  const initialState = useMemo(
-    () => shortUrlDataFromShortUrl(shortUrl, shortUrlCreationSettings),
-    [shortUrl, shortUrlCreationSettings],
-  );
+  const initialState = useMemo(() => shortUrlDataFromShortUrl(shortUrl), [shortUrl]);
 
   useEffect(() => {
     if (identifier) {

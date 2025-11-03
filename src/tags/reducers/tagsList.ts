@@ -52,12 +52,11 @@ const increaseVisitsForTags = (tags: TagIncrease[], stats: TagsStatsMap) => tags
     ...theStats,
     [tag]: {
       ...tagStats,
-      visitsSummary: tagStats.visitsSummary && {
+      visitsSummary: {
         total: tagStats.visitsSummary.total + bots + nonBots,
         bots: tagStats.visitsSummary.bots + bots,
         nonBots: tagStats.visitsSummary.nonBots + nonBots,
       },
-      visitsCount: (tagStats.visitsCount ?? 0) + bots + nonBots,
     },
   };
 }, { ...stats });

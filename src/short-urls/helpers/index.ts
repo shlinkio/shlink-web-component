@@ -1,6 +1,5 @@
 import type { ShlinkCreateShortUrlData, ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../api-contract';
 import { DEFAULT_DOMAIN } from '../../domains/data';
-import type { ShortUrlCreationSettings } from '../../settings';
 import type { OptionalString } from '../../utils/helpers';
 
 export const shortUrlMatches = (shortUrl: ShlinkShortUrl, shortCode: string, domain: OptionalString): boolean => {
@@ -20,14 +19,9 @@ export const domainMatches = (shortUrl: ShlinkShortUrl, domain: string): boolean
 };
 
 // FIXME This should return ShlinkEditShortUrlData
-export const shortUrlDataFromShortUrl = (
-  shortUrl?: ShlinkShortUrl,
-  settings?: ShortUrlCreationSettings,
-): ShlinkCreateShortUrlData => {
-  const validateUrl = settings?.validateUrls ?? false;
-
+export const shortUrlDataFromShortUrl = (shortUrl?: ShlinkShortUrl): ShlinkCreateShortUrlData => {
   if (!shortUrl) {
-    return { longUrl: '', validateUrl };
+    return { longUrl: '' };
   }
 
   return {
@@ -40,12 +34,6 @@ export const shortUrlDataFromShortUrl = (
     maxVisits: shortUrl.meta.maxVisits ?? undefined,
     crawlable: shortUrl.crawlable,
     forwardQuery: shortUrl.forwardQuery,
-    deviceLongUrls: shortUrl.deviceLongUrls && {
-      android: shortUrl.deviceLongUrls.android ?? undefined,
-      ios: shortUrl.deviceLongUrls.ios ?? undefined,
-      desktop: shortUrl.deviceLongUrls.desktop ?? undefined,
-    },
-    validateUrl,
   };
 };
 

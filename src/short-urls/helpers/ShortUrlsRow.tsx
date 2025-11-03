@@ -47,7 +47,7 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
     }
 
     isFirstRun.current = false;
-  }, [shortUrl.visitsSummary?.total, shortUrl.visitsSummary?.nonBots, shortUrl.visitsCount, setActive]);
+  }, [shortUrl.visitsSummary.total, shortUrl.visitsSummary.nonBots, setActive]);
 
   return (
     <Table.Row className="relative">
@@ -73,9 +73,7 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
       </Table.Cell>
       <Table.Cell className="lg:text-right" columnName="Visits:">
         <ShortUrlVisitsCount
-          visitsCount={(
-            doExcludeBots ? shortUrl.visitsSummary?.nonBots : shortUrl.visitsSummary?.total
-          ) ?? shortUrl.visitsCount ?? 0}
+          visitsCount={doExcludeBots ? shortUrl.visitsSummary.nonBots : shortUrl.visitsSummary.total}
           shortUrl={shortUrl}
           active={active}
           asLink

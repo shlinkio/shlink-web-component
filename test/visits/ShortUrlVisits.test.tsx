@@ -7,7 +7,6 @@ import { MemoryRouter } from 'react-router';
 import { now } from 'tinybench';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
-import { FeaturesProvider } from '../../src/utils/features';
 import type { ShortUrlVisits as ShortUrlVisitsState } from '../../src/visits/reducers/shortUrlVisits';
 import { ShortUrlVisitsFactory } from '../../src/visits/ShortUrlVisits';
 import { checkAccessibility } from '../__helpers__/accessibility';
@@ -20,32 +19,30 @@ describe('<ShortUrlVisits />', () => {
   const ShortUrlVisits = ShortUrlVisitsFactory(fromPartial({
     ReportExporter: fromPartial({ exportVisits }),
   }));
-  const setUp = (shortUrlVisitsDeletion = false) => renderWithEvents(
+  const setUp = () => renderWithEvents(
     <MemoryRouter>
       <SettingsProvider value={fromPartial({})}>
-        <FeaturesProvider value={fromPartial({ shortUrlVisitsDeletion })}>
-          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-          <Card>
-            <ShortUrlVisits
-              {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-              getShortUrlsDetails={vi.fn()}
-              getShortUrlVisits={getShortUrlVisitsMock}
-              shortUrlVisits={shortUrlVisits}
-              shortUrlsDetails={fromPartial({
-                shortUrls: {
-                  get: () => fromPartial<ShlinkShortUrl>({
-                    shortUrl: 'https://s.test/123',
-                    longUrl: 'https://shlink.io',
-                    dateCreated: formatISO(now()),
-                  }),
-                },
-              })}
-              shortUrlVisitsDeletion={fromPartial({})}
-              deleteShortUrlVisits={vi.fn()}
-              cancelGetShortUrlVisits={vi.fn()}
-            />
-          </Card>
-        </FeaturesProvider>
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <ShortUrlVisits
+            {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
+            getShortUrlsDetails={vi.fn()}
+            getShortUrlVisits={getShortUrlVisitsMock}
+            shortUrlVisits={shortUrlVisits}
+            shortUrlsDetails={fromPartial({
+              shortUrls: {
+                get: () => fromPartial<ShlinkShortUrl>({
+                  shortUrl: 'https://s.test/123',
+                  longUrl: 'https://shlink.io',
+                  dateCreated: formatISO(now()),
+                }),
+              },
+            })}
+            shortUrlVisitsDeletion={fromPartial({})}
+            deleteShortUrlVisits={vi.fn()}
+            cancelGetShortUrlVisits={vi.fn()}
+          />
+        </Card>
       </SettingsProvider>
     </MemoryRouter>,
   );
@@ -72,15 +69,5 @@ describe('<ShortUrlVisits />', () => {
 
     await user.click(btn);
     expect(exportVisits).toHaveBeenCalledWith('short-url_s.test/123_visits.csv', expect.anything());
-  });
-
-  it.each([[false], [true]])('renders options menu when the feature is supported', (shortUrlVisitsDeletion) => {
-    setUp(shortUrlVisitsDeletion);
-
-    if (shortUrlVisitsDeletion) {
-      expect(screen.getByRole('menuitem', { name: 'Options' })).toBeInTheDocument();
-    } else {
-      expect(screen.queryByRole('menuitem', { name: 'Options' })).not.toBeInTheDocument();
-    }
   });
 });

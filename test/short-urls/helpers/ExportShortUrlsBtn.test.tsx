@@ -54,6 +54,7 @@ describe('<ExportShortUrlsBtn />', () => {
       data: [fromPartial<ShlinkShortUrl>({
         shortUrl: 'https://s.test/short-code',
         tags: [],
+        visitsSummary: {},
       })],
     });
     const { user } = setUp();

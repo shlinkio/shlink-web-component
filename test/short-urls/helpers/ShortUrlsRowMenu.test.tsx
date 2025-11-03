@@ -5,7 +5,6 @@ import type { ShlinkShortUrl } from '../../../src/api-contract';
 import type { ShortUrlsListSettings } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';
 import { ShortUrlsRowMenuFactory } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
-import { FeaturesProvider } from '../../../src/utils/features';
 import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -13,7 +12,6 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
   visitsComparison?: Partial<VisitsComparison>;
-  redirectRulesSupported?: boolean;
   shortUrlsListSettings?: ShortUrlsListSettings;
 };
 
@@ -28,18 +26,16 @@ describe('<ShortUrlsRowMenu />', () => {
   const deleteShortUrl = vi.fn().mockResolvedValue({});
   const shortUrlDeleted = vi.fn();
   const setUp = (
-    { visitsComparison, redirectRulesSupported = false, shortUrlsListSettings }: SetUpOptions = {},
+    { visitsComparison, shortUrlsListSettings }: SetUpOptions = {},
   ) => renderWithEvents(
     <MemoryRouter>
-      <FeaturesProvider value={fromPartial({ shortUrlRedirectRules: redirectRulesSupported })}>
-        <VisitsComparisonProvider
-          value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
-        >
-          <SettingsProvider value={fromPartial({ shortUrlsList: shortUrlsListSettings })}>
-            <ShortUrlsRowMenu shortUrl={shortUrl} deleteShortUrl={deleteShortUrl} shortUrlDeleted={shortUrlDeleted} />
-          </SettingsProvider>
-        </VisitsComparisonProvider>
-      </FeaturesProvider>
+      <VisitsComparisonProvider
+        value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
+      >
+        <SettingsProvider value={fromPartial({ shortUrlsList: shortUrlsListSettings })}>
+          <ShortUrlsRowMenu shortUrl={shortUrl} deleteShortUrl={deleteShortUrl} shortUrlDeleted={shortUrlDeleted} />
+        </SettingsProvider>
+      </VisitsComparisonProvider>
     </MemoryRouter>,
   );
   const setUpAndOpen = async (options: SetUpOptions = {}) => {
@@ -63,12 +59,10 @@ describe('<ShortUrlsRowMenu />', () => {
   });
 
   it.each([
-    [undefined, false, 4],
-    [{ itemsToCompare: [] }, false, 5],
-    [undefined, true, 5],
-    [{ itemsToCompare: [] }, true, 6],
-  ])('renders correct amount of menu items', async (visitsComparison, redirectRulesSupported, expectedMenuItems) => {
-    await setUpAndOpen({ visitsComparison, redirectRulesSupported });
+    [undefined, 5],
+    [{ itemsToCompare: [] }, 6],
+  ])('renders correct amount of menu items', async (visitsComparison, expectedMenuItems) => {
+    await setUpAndOpen({ visitsComparison });
     expect(screen.getAllByRole('menuitem')).toHaveLength(expectedMenuItems);
   });
 

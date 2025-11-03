@@ -3,11 +3,6 @@ import type { SemVerOrLatest, Versions } from './helpers/version';
 import { versionMatch } from './helpers/version';
 
 const supportedFeatures = {
-  shortUrlVisitsDeletion: { minVersion: '3.6.0' },
-  orphanVisitsDeletion: { minVersion: '3.7.0' },
-  deviceLongUrls: { maxVersion: '3.*.*' },
-  urlValidation: { maxVersion: '3.*.*' },
-  shortUrlRedirectRules: { minVersion: '4.0.0' },
   ipRedirectCondition: { minVersion: '4.2.0' },
   geolocationRedirectCondition: { minVersion: '4.3.0' },
   filterShortUrlsByDomain: { minVersion: '4.3.0' },
@@ -25,11 +20,6 @@ const isFeatureEnabledForVersion = (feature: Feature, serverVersion: SemVerOrLat
   versionMatch(serverVersion === 'latest' ? '999.99.99' : serverVersion, supportedFeatures[feature]);
 
 const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, boolean> => ({
-  deviceLongUrls: isFeatureEnabledForVersion('deviceLongUrls', serverVersion),
-  shortUrlVisitsDeletion: isFeatureEnabledForVersion('shortUrlVisitsDeletion', serverVersion),
-  orphanVisitsDeletion: isFeatureEnabledForVersion('orphanVisitsDeletion', serverVersion),
-  shortUrlRedirectRules: isFeatureEnabledForVersion('shortUrlRedirectRules', serverVersion),
-  urlValidation: isFeatureEnabledForVersion('urlValidation', serverVersion),
   ipRedirectCondition: isFeatureEnabledForVersion('ipRedirectCondition', serverVersion),
   geolocationRedirectCondition: isFeatureEnabledForVersion('geolocationRedirectCondition', serverVersion),
   filterShortUrlsByDomain: isFeatureEnabledForVersion('filterShortUrlsByDomain', serverVersion),

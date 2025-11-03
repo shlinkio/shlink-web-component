@@ -20,35 +20,21 @@ const tagFilteringModeHint = (tagFilteringMode: TagFilteringMode | undefined): R
 );
 
 export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ onChange }) => {
-  const shortUrlCreation = useSetting('shortUrlCreation', { validateUrls: false });
+  const shortUrlCreation = useSetting('shortUrlCreation');
   const changeTagsFilteringMode = (tagFilteringMode: TagFilteringMode) => () => onChange(
-    { ...shortUrlCreation ?? { validateUrls: false }, tagFilteringMode },
+    { ...shortUrlCreation, tagFilteringMode },
   );
 
   return (
     <SimpleCard title="Short URLs form" className="card" bodyClassName="flex flex-col gap-4">
       <LabelledToggle
-        data-testid="validate-url"
-        checked={shortUrlCreation.validateUrls ?? false}
-        onChange={(validateUrls) => onChange({ ...shortUrlCreation, validateUrls })}
-        helpText={(
-          <>
-            The initial state of the <b>Validate URL</b> checkbox will
-            be <b>{shortUrlCreation.validateUrls ? 'checked' : 'unchecked'}</b>.
-          </>
-        )}
-      >
-        Request validation on long URLs when creating new short URLs.{' '}
-        <b>This option is ignored by Shlink {'>='}4.0.0</b>
-      </LabelledToggle>
-      <LabelledToggle
         data-testid="forward-query"
-        checked={shortUrlCreation.forwardQuery ?? true}
+        checked={shortUrlCreation?.forwardQuery ?? true}
         onChange={(forwardQuery) => onChange({ ...shortUrlCreation, forwardQuery })}
         helpText={(
           <>
             The initial state of the <b>Forward query params on redirect</b> checkbox will
-            be <b>{shortUrlCreation.forwardQuery ?? true ? 'checked' : 'unchecked'}</b>.
+            be <b>{shortUrlCreation?.forwardQuery ?? true ? 'checked' : 'unchecked'}</b>.
           </>
         )}
       >
@@ -57,23 +43,23 @@ export const ShortUrlCreationSettings: FC<ShortUrlCreationProps> = ({ onChange }
       <div className="flex flex-col">
         <Label className="mb-1.5">Tag suggestions search mode:</Label>
         <Dropdown
-          buttonContent={tagFilteringModeText(shortUrlCreation.tagFilteringMode)}
+          buttonContent={tagFilteringModeText(shortUrlCreation?.tagFilteringMode)}
           buttonClassName="w-full"
         >
           <Dropdown.Item
-            selected={!shortUrlCreation.tagFilteringMode || shortUrlCreation.tagFilteringMode === 'startsWith'}
+            selected={!shortUrlCreation?.tagFilteringMode || shortUrlCreation.tagFilteringMode === 'startsWith'}
             onClick={changeTagsFilteringMode('startsWith')}
           >
             {tagFilteringModeText('startsWith')}
           </Dropdown.Item>
           <Dropdown.Item
-            selected={shortUrlCreation.tagFilteringMode === 'includes'}
+            selected={shortUrlCreation?.tagFilteringMode === 'includes'}
             onClick={changeTagsFilteringMode('includes')}
           >
             {tagFilteringModeText('includes')}
           </Dropdown.Item>
         </Dropdown>
-        <Muted size="sm" className="mt-0.5">{tagFilteringModeHint(shortUrlCreation.tagFilteringMode)}</Muted>
+        <Muted size="sm" className="mt-0.5">{tagFilteringModeHint(shortUrlCreation?.tagFilteringMode)}</Muted>
       </div>
     </SimpleCard>
   );

@@ -31,9 +31,7 @@ const defaultSettings: Settings = {
   realTimeUpdates: {
     enabled: true,
   },
-  shortUrlCreation: {
-    validateUrls: false,
-  },
+  shortUrlCreation: {},
   visits: {
     defaultInterval: 'last30Days',
   },

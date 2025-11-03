@@ -17,9 +17,6 @@ export type TagFilteringMode = 'startsWith' | 'includes';
 export type ShortUrlCreationSettings = {
   tagFilteringMode?: TagFilteringMode;
   forwardQuery?: boolean;
-
-  /** @deprecated Shlink 4.0.0 no longer validates URLs */
-  validateUrls: boolean;
 };
 
 export type VisitsSettings = {

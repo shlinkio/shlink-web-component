@@ -16,7 +16,6 @@ import { isErrorAction } from '../../api-contract/utils';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
 import { useSetting } from '../../settings';
-import { useFeature } from '../../utils/features';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
 import { useVisitsComparisonContext } from '../../visits/visits-comparison/VisitsComparisonContext';
 import type { DeleteShortUrlModalProps } from './DeleteShortUrlModal';
@@ -45,7 +44,6 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
   const { flag: isQrModalOpen, setToTrue: openQrCodeModal, setToFalse: closeQrCodeModal } = useToggle();
   const { flag: isDeleteModalOpen, setToTrue: openDeleteModal, setToFalse: closeDeleteModal } = useToggle();
   const visitsComparison = useVisitsComparisonContext();
-  const redirectRulesAreSupported = useFeature('shortUrlRedirectRules');
   const { confirmDeletions = true } = useSetting('shortUrlsList', {});
   const doDeleteShortUrl = useCallback(async () => {
     const result = await deleteShortUrl(shortUrl);
@@ -87,11 +85,9 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
           <FontAwesomeIcon icon={editIcon} /> Edit short URL
         </RowDropdown.Item>
 
-        {redirectRulesAreSupported && (
-          <RowDropdown.Item to={buildUrlDetailLink('redirect-rules')} className="gap-1.5">
-            <FontAwesomeIcon icon={rulesIcon} /> Manage redirect rules
-          </RowDropdown.Item>
-        )}
+        <RowDropdown.Item to={buildUrlDetailLink('redirect-rules')} className="gap-1.5">
+          <FontAwesomeIcon icon={rulesIcon} /> Manage redirect rules
+        </RowDropdown.Item>
 
         <RowDropdown.Item onClick={openQrCodeModal} className="gap-1.5">
           <FontAwesomeIcon icon={qrIcon} /> QR code

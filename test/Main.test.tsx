@@ -4,13 +4,11 @@ import { MemoryRouter } from 'react-router';
 import { ShlinkSidebarVisibilityProvider } from '../src';
 import type { MainProps } from '../src/Main';
 import { MainFactory } from '../src/Main';
-import { FeaturesProvider } from '../src/utils/features';
 import { checkAccessibility } from './__helpers__/accessibility';
 
 type SetUpOptions = {
   currentPath?: string
   createNotFound?: MainProps['createNotFound'];
-  supportsRedirectRules?: boolean;
   autoToggleButton?: boolean;
 };
 
@@ -33,14 +31,12 @@ describe('<Main />', () => {
     ShortUrlRedirectRules: () => <>ShortUrlRedirectRules</>,
   }));
   const setUp = (
-    { createNotFound, currentPath = '/', supportsRedirectRules = false, autoToggleButton = true }: SetUpOptions,
+    { createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions,
   ) => render(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
-      <FeaturesProvider value={fromPartial({ shortUrlRedirectRules: supportsRedirectRules })}>
-        <ShlinkSidebarVisibilityProvider>
-          <Main createNotFound={createNotFound} autoToggleButton={autoToggleButton} />
-        </ShlinkSidebarVisibilityProvider>
-      </FeaturesProvider>
+      <ShlinkSidebarVisibilityProvider>
+        <Main createNotFound={createNotFound} autoToggleButton={autoToggleButton} />
+      </ShlinkSidebarVisibilityProvider>
     </MemoryRouter>,
   );
 
@@ -65,19 +61,14 @@ describe('<Main />', () => {
   ])(
     'renders expected component based on location and server version',
     (currentPath, expectedContent) => {
-      setUp({ currentPath, supportsRedirectRules: true });
+      setUp({ currentPath });
       expect(screen.getByText(expectedContent)).toBeInTheDocument();
     },
   );
 
-  it.each([
-    ['/foo/bar/baz', true],
-    ['/foo/bar/baz', false],
-    ['/short-code/abc123/redirect-rules', false],
-  ])('renders not-found when trying to navigate to invalid route', (currentPath, supportsRedirectRules) => {
+  it('renders not-found when trying to navigate to invalid route', () => {
     const createNotFound = () => <>Oops! Route not found.</>;
-
-    setUp({ currentPath, supportsRedirectRules, createNotFound });
+    setUp({ currentPath: '/foo/bar/baz', createNotFound });
 
     expect(screen.getByText('Oops! Route not found.')).toBeInTheDocument();
   });

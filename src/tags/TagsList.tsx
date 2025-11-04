@@ -34,9 +34,7 @@ const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHu
   const sortedTags = useMemo(() => {
     const simplifiedTags = tagsList.filteredTags.map((tag): SimplifiedTag => {
       const theTag = tagsList.stats[tag];
-      const visits = (
-        settings.visits?.excludeBots ? theTag?.visitsSummary?.nonBots : theTag?.visitsSummary?.total
-      ) ?? theTag?.visitsCount ?? 0;
+      const visits = settings.visits?.excludeBots ? theTag.visitsSummary.nonBots : theTag.visitsSummary.total;
 
       return {
         tag,

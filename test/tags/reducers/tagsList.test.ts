@@ -139,7 +139,6 @@ describe('tagsListReducer', () => {
       ];
       const tagStats = (total: number) => ({
         shortUrlsCount: 1,
-        visitsCount: total,
         visitsSummary: {
           total,
           nonBots: total - 10,
@@ -158,7 +157,6 @@ describe('tagsListReducer', () => {
         stats: {
           foo: {
             shortUrlsCount: 1,
-            visitsCount: 100 + 2,
             visitsSummary: {
               total: 100 + 2,
               nonBots: 90 + 1,
@@ -167,7 +165,6 @@ describe('tagsListReducer', () => {
           },
           bar: {
             shortUrlsCount: 1,
-            visitsCount: 200 + 3,
             visitsSummary: {
               total: 200 + 3,
               nonBots: 190 + 2,
@@ -176,7 +173,6 @@ describe('tagsListReducer', () => {
           },
           baz: {
             shortUrlsCount: 1,
-            visitsCount: 150 + 1,
             visitsSummary: {
               total: 150 + 1,
               nonBots: 140,

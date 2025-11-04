@@ -38,20 +38,7 @@ const countBots = (visits: CreateVisit[]) => visits.filter(({ visit }) => visit.
 
 export const loadVisitsOverview = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
   `${REDUCER_PREFIX}/loadVisitsOverview`,
-  (): Promise<ParsedVisitsOverview> => apiClientFactory().getVisitsOverview().then(
-    ({ nonOrphanVisits, visitsCount = 0, orphanVisits, orphanVisitsCount = 0 }) => ({
-      nonOrphanVisits: {
-        total: nonOrphanVisits?.total ?? visitsCount,
-        nonBots: nonOrphanVisits?.nonBots,
-        bots: nonOrphanVisits?.bots,
-      },
-      orphanVisits: {
-        total: orphanVisits?.total ?? orphanVisitsCount,
-        nonBots: orphanVisits?.nonBots,
-        bots: orphanVisits?.bots,
-      },
-    }),
-  ),
+  (): Promise<ParsedVisitsOverview> => apiClientFactory().getVisitsOverview(),
 );
 
 export const visitsOverviewReducerCreator = (

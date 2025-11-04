@@ -64,7 +64,7 @@ describe('shortUrlsListReducer', () => {
     });
 
     const createNewShortUrlVisit = (visitsCount: number) => fromPartial<CreateVisit>({
-      shortUrl: { shortCode: 'abc123', visitsCount },
+      shortUrl: { shortCode: 'abc123', visitsSummary: { total: visitsCount } },
     });
 
     it.each([
@@ -76,9 +76,9 @@ describe('shortUrlsListReducer', () => {
       const state = {
         shortUrls: fromPartial<ShlinkShortUrlsList>({
           data: [
-            { shortCode, domain: 'example.com', visitsCount: 5 },
-            { shortCode, visitsCount: 10 },
-            { shortCode: 'foo', visitsCount: 8 },
+            { shortCode, domain: 'example.com', visitsSummary: { total: 5 } },
+            { shortCode, visitsSummary: { total: 10 } },
+            { shortCode: 'foo', visitsSummary: { total: 8 } },
           ],
         }),
         loading: false,
@@ -88,9 +88,9 @@ describe('shortUrlsListReducer', () => {
       expect(reducer(state, createNewVisits(createdVisits))).toEqual({
         shortUrls: {
           data: [
-            { shortCode, domain: 'example.com', visitsCount: 5 },
-            { shortCode, visitsCount: expectedCount },
-            { shortCode: 'foo', visitsCount: 8 },
+            { shortCode, domain: 'example.com', visitsSummary: { total: 5 } },
+            { shortCode, visitsSummary: { total: expectedCount } },
+            { shortCode: 'foo', visitsSummary: { total: 8 } },
           ],
         },
         loading: false,

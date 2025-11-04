@@ -12,11 +12,9 @@ import {
 describe('helpers', () => {
   describe('shortUrlDataFromShortUrl', () => {
     it.each([
-      [undefined, { validateUrls: true }, { longUrl: '', validateUrl: true }],
-      [undefined, undefined, { longUrl: '', validateUrl: false }],
+      [undefined, { longUrl: '' }],
       [
         fromPartial<ShlinkShortUrl>({ meta: {} }),
-        { validateUrls: false },
         {
           longUrl: undefined,
           tags: undefined,
@@ -25,11 +23,10 @@ describe('helpers', () => {
           validSince: undefined,
           validUntil: undefined,
           maxVisits: undefined,
-          validateUrl: false,
         },
       ],
-    ])('returns expected data', (shortUrl, settings, expectedInitialState) => {
-      expect(shortUrlDataFromShortUrl(shortUrl, settings)).toEqual(expectedInitialState);
+    ])('returns expected data', (shortUrl, expectedInitialState) => {
+      expect(shortUrlDataFromShortUrl(shortUrl)).toEqual(expectedInitialState);
     });
   });
 

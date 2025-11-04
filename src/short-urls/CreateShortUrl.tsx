@@ -34,7 +34,6 @@ const getInitialState = (settings?: ShortUrlCreationSettings): ShlinkCreateShort
   validUntil: undefined,
   maxVisits: undefined,
   findIfExists: false,
-  validateUrl: settings?.validateUrls ?? false,
   forwardQuery: settings?.forwardQuery ?? true,
 });
 

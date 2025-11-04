@@ -9,7 +9,6 @@ import { checkAccessibility } from '../__helpers__/accessibility';
 import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
 
 describe('<EditShortUrl />', () => {
-  const shortUrlCreation = { validateUrls: true };
   const identifier = { shortCode: 'abc123' };
   const shortUrlToMap = (shortUrl: ShlinkShortUrl) => fromPartial<Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>>({
     get: () => shortUrl,
@@ -18,7 +17,7 @@ describe('<EditShortUrl />', () => {
   const EditShortUrl = EditShortUrlFactory(fromPartial({ ShortUrlForm: () => <span>ShortUrlForm</span> }));
   const setUp = (detail: Partial<ShortUrlsDetails> = {}, edition: Partial<ShortUrlEdition> = {}) => render(
     <MemoryRouterWithParams params={identifier}>
-      <SettingsProvider value={fromPartial({ shortUrlCreation })}>
+      <SettingsProvider value={{}}>
         <EditShortUrl
           shortUrlsDetails={fromPartial(detail)}
           shortUrlEdition={fromPartial(edition)}

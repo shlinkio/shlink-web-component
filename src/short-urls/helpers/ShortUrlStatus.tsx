@@ -18,9 +18,9 @@ type StatusResult = {
 };
 
 const resolveShortUrlStatus = (shortUrl: ShlinkShortUrl): StatusResult => {
-  const { meta, visitsCount, visitsSummary } = shortUrl;
+  const { meta, visitsSummary } = shortUrl;
   const { maxVisits, validSince, validUntil } = meta;
-  const totalVisits = visitsSummary?.total ?? visitsCount ?? 0;
+  const totalVisits = visitsSummary.total;
 
   if (maxVisits && totalVisits >= maxVisits) {
     return {

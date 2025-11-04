@@ -8,7 +8,6 @@ import { Topics } from '../mercure/helpers/Topics';
 import { urlDecodeShortCode } from '../short-urls/helpers';
 import { useShortUrlIdentifier } from '../short-urls/helpers/hooks';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
-import { useFeature } from '../utils/features';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadShortUrlVisits, ShortUrlVisits as ShortUrlVisitsState } from './reducers/shortUrlVisits';
 import type { ShortUrlVisitsDeletion } from './reducers/shortUrlVisitsDeletion';
@@ -40,7 +39,6 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
   deleteShortUrlVisits,
   cancelGetShortUrlVisits,
 }: ShortUrlVisitsProps) => {
-  const supportsShortUrlVisitsDeletion = useFeature('shortUrlVisitsDeletion');
   const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
   const identifier = useShortUrlIdentifier();
   const shortUrl = useMemo(() => shortUrlsDetails.shortUrls?.get(identifier), [identifier, shortUrlsDetails.shortUrls]);
@@ -58,13 +56,9 @@ const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortU
     visits,
   ), [reportExporter, shortUrl?.shortUrl]);
   const deletion = useMemo(() => {
-    if (!supportsShortUrlVisitsDeletion) {
-      return undefined;
-    }
-
     const deleteVisits = () => deleteShortUrlVisits(identifier);
     return { deleteVisits, visitsDeletion: shortUrlVisitsDeletion };
-  }, [deleteShortUrlVisits, identifier, shortUrlVisitsDeletion, supportsShortUrlVisitsDeletion]);
+  }, [deleteShortUrlVisits, identifier, shortUrlVisitsDeletion]);
 
   useEffect(() => {
     getShortUrlsDetails([identifier]);

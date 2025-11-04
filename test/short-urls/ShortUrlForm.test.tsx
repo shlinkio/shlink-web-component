@@ -4,13 +4,10 @@ import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { ShortUrlFormFactory } from '../../src/short-urls/ShortUrlForm';
-import { FeaturesProvider } from '../../src/utils/features';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 type SetUpOptions = {
-  withDeviceLongUrls?: boolean;
-  withUrlValidation?: boolean;
   basicMode?: boolean;
   isCreation?: boolean;
   title?: string | null;
@@ -21,9 +18,7 @@ describe('<ShortUrlForm />', () => {
   const ShortUrlForm = ShortUrlFormFactory(fromPartial({
     TagsSelector: () => <span>TagsSelector</span>,
   }));
-  const setUp = (
-    { withDeviceLongUrls = false, withUrlValidation = true, basicMode, title, isCreation = true }: SetUpOptions = {},
-  ) => {
+  const setUp = ({ basicMode, title, isCreation = true }: SetUpOptions = {}) => {
     const initialState: ShlinkCreateShortUrlData = {
       findIfExists: false,
       title,
@@ -38,16 +33,14 @@ describe('<ShortUrlForm />', () => {
     }
 
     return renderWithEvents(
-      <FeaturesProvider value={fromPartial({ deviceLongUrls: withDeviceLongUrls, urlValidation: withUrlValidation })}>
-        <ShortUrlForm
-          basicMode={basicMode}
-          saving={false}
-          initialState={initialState}
-          onSave={createShortUrl}
-          tagsList={fromPartial({ tags: [] })}
-          domainsList={fromPartial({ domains: [] })}
-        />
-      </FeaturesProvider>,
+      <ShortUrlForm
+        basicMode={basicMode}
+        saving={false}
+        initialState={initialState}
+        onSave={createShortUrl}
+        tagsList={fromPartial({ tags: [] })}
+        domainsList={fromPartial({ domains: [] })}
+      />,
     );
   };
 
@@ -59,32 +52,17 @@ describe('<ShortUrlForm />', () => {
         await user.type(screen.getByPlaceholderText('Custom slug'), 'my-slug');
       },
       { customSlug: 'my-slug' },
-      false,
     ],
     [
       async (user: UserEvent) => {
         await user.type(screen.getByPlaceholderText('Short code length'), '15');
       },
       { shortCodeLength: '15' },
-      false,
-    ],
-    [
-      async (user: UserEvent) => {
-        await user.type(screen.getByPlaceholderText('Android-specific redirection'), 'https://android.com');
-        await user.type(screen.getByPlaceholderText('iOS-specific redirection'), 'https://ios.com');
-      },
-      {
-        deviceLongUrls: {
-          android: 'https://android.com',
-          ios: 'https://ios.com',
-        },
-      },
-      true,
     ],
   ])(
     'saves short URL with data set in form controls',
-    async (extraFields, extraExpectedValues, withDeviceLongUrls) => {
-      const { user } = setUp({ withDeviceLongUrls });
+    async (extraFields, extraExpectedValues) => {
+      const { user } = setUp();
 
       await user.type(screen.getByPlaceholderText('URL to be shortened'), 'https://long-domain.com/foo/bar');
       await user.type(screen.getByPlaceholderText('Title'), 'the title');
@@ -115,12 +93,11 @@ describe('<ShortUrlForm />', () => {
   it.each([
     { basicMode: true, expectedAmountOfCards: 0 },
     { basicMode: false, expectedAmountOfCards: 5 },
-    { basicMode: false, withUrlValidation: false, expectedAmountOfCards: 5 },
-    { basicMode: false, withUrlValidation: false, isCreation: false, expectedAmountOfCards: 4 },
+    { basicMode: false, isCreation: false, expectedAmountOfCards: 4 },
   ])(
     'renders expected amount of cards based on server capabilities and mode',
-    ({ basicMode, withUrlValidation, isCreation, expectedAmountOfCards }) => {
-      setUp({ basicMode, withUrlValidation, isCreation });
+    ({ basicMode, isCreation, expectedAmountOfCards }) => {
+      setUp({ basicMode, isCreation });
       const cards = screen.queryAllByRole('heading');
 
       expect(cards).toHaveLength(expectedAmountOfCards);
@@ -149,13 +126,6 @@ describe('<ShortUrlForm />', () => {
     expect(createShortUrl).toHaveBeenCalledWith(expect.objectContaining({
       title: expectedSentTitle,
     }));
-  });
-
-  it('shows device-specific long URLs only when supported', () => {
-    setUp({ withDeviceLongUrls: true });
-
-    const placeholders = ['Android-specific redirection', 'iOS-specific redirection', 'Desktop-specific redirection'];
-    placeholders.forEach((placeholder) => expect(screen.getByPlaceholderText(placeholder)).toBeInTheDocument());
   });
 
   it.each([

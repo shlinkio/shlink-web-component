@@ -6,7 +6,6 @@ import type { FCWithDeps } from './container/utils';
 import { componentFactory, useDependencies } from './container/utils';
 import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
 import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
-import { useFeature } from './utils/features';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
 
@@ -60,7 +59,6 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
   useEffect(() => hideSidebar(), [location, hideSidebar]);
 
   const swipeableProps = useSwipeable(showSidebar, hideSidebar);
-  const supportsRedirectRules = useFeature('shortUrlRedirectRules');
 
   return (
     <>
@@ -83,9 +81,7 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
                   {['', '*'].map((path) => <Route key={path} path={path} element={<ShortUrlVisits />} />)}
                 </Route>
                 <Route path="/short-code/:shortCode/edit" element={<EditShortUrl />} />
-                {supportsRedirectRules && (
-                  <Route path="/short-code/:shortCode/redirect-rules" element={<ShortUrlRedirectRules />} />
-                )}
+                <Route path="/short-code/:shortCode/redirect-rules" element={<ShortUrlRedirectRules />} />
                 <Route path="/short-urls/compare-visits" element={<ShortUrlVisitsComparison />} />
                 <Route path="/tag/:tag/visits">
                   {['', '*'].map((path) => <Route key={path} path={path} element={<TagVisits />} />)}

@@ -112,7 +112,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
       </div>
 
       <div className="flex flex-col lg:flex-row-reverse gap-y-4">
-        <div className="lg:w-2/3 xl:w-1/2 inline-flex flex-col md:flex-row gap-4">
+        <div className="lg:w-2/3 xl:w-1/2 inline-flex flex-col md:flex-row gap-x-2 gap-y-4">
           <div className="grow">
             <DateRangeSelector
               defaultText="All short URLs"

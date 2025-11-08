@@ -8,7 +8,6 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
 type SetUpOptions = {
-  allowNew?: boolean;
   allTags?: string[];
   tagFilteringMode?: TagFilteringMode;
 };
@@ -17,13 +16,13 @@ describe('<TagsSelector />', () => {
   const onChange = vi.fn();
   const TagsSelector = TagsSelectorFactory(fromPartial({ ColorGenerator: colorGeneratorMock }));
   const tags = ['foo', 'bar'];
-  const setUp = ({ allowNew = true, allTags, tagFilteringMode }: SetUpOptions = {}) => renderWithEvents(
+  const setUp = ({ allTags, tagFilteringMode }: SetUpOptions = {}) => renderWithEvents(
     <SettingsProvider
       value={fromPartial({
         shortUrlCreation: { tagFilteringMode },
       })}
     >
-      <TagsSelector immutable={!allowNew} tags={allTags ?? [...tags, 'baz']} selectedTags={tags} onChange={onChange} />
+      <TagsSelector tags={allTags ?? [...tags, 'baz']} selectedTags={tags} onChange={onChange} />
     </SettingsProvider>,
   );
 

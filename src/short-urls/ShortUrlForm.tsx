@@ -86,7 +86,12 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
           </div>
         )}
         <div className={clsx('w-full', { 'lg:w-1/2': basicMode })}>
-          <TagsSelector tags={tagsList.tags} selectedTags={shortUrlData.tags ?? []} onChange={changeTags} />
+          <TagsSelector
+            tags={tagsList.tags}
+            selectedTags={shortUrlData.tags ?? []}
+            onChange={changeTags}
+            placeholder="Add tags to the URL"
+          />
         </div>
       </div>
     </div>

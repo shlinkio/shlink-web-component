@@ -30,7 +30,7 @@ export const ShortUrlsFilterDropdown = ({ onChange, selected = {}, domains }: Sh
   );
 
   return (
-    <Dropdown buttonContent="Filters" buttonClassName="w-full" menuAlignment="right">
+    <Dropdown buttonContent="More" buttonClassName="w-full" menuAlignment="right">
       <Dropdown.Title>Visits:</Dropdown.Title>
       <Dropdown.Item selected={excludeBots} onClick={() => toggleFilter('excludeBots')}>
         Ignore visits from bots

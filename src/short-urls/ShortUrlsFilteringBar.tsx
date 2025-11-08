@@ -1,7 +1,6 @@
-import { faTag, faTags } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
-import { Button, OrderingDropdown, SearchInput, Tooltip, useTooltip } from '@shlinkio/shlink-frontend-kit';
+import { OrderingDropdown, SearchInput } from '@shlinkio/shlink-frontend-kit';
+import type { TagsFilteringMode } from '@shlinkio/shlink-js-sdk/api-contract';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
@@ -9,7 +8,7 @@ import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainsList } from '../domains/reducers/domainsList';
 import { useSetting } from '../settings';
-import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
+import type { TagsSearchDropdownProps } from '../tags/helpers/TagsSearchDropdown';
 import type { TagsList } from '../tags/reducers/tagsList';
 import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import { formatIsoDate } from '../utils/dates/helpers/date';
@@ -35,13 +34,13 @@ type ShortUrlsFilteringConnectProps = ShortUrlsFilteringBarProps & {
 
 type ShortUrlsFilteringBarDeps = {
   ExportShortUrlsBtn: FC<ExportShortUrlsBtnProps>;
-  TagsSelector: FC<TagsSelectorProps>;
+  TagsSearchDropdown: FC<TagsSearchDropdownProps>;
 };
 
 const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrlsFilteringBarDeps> = (
   { className, shortUrlsAmount, order, handleOrderBy, tagsList, domainsList },
 ) => {
-  const { ExportShortUrlsBtn, TagsSelector } = useDependencies(ShortUrlsFilteringBar);
+  const { ExportShortUrlsBtn, TagsSearchDropdown } = useDependencies(ShortUrlsFilteringBar);
   const [{
     search,
     tags,
@@ -71,48 +70,14 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
     [toFirstPage],
   );
   const changeTagSelection = useCallback((newTags: string[]) => toFirstPage({ tags: newTags }), [toFirstPage]);
-  const toggleTagsMode = useCallback(
-    () => toFirstPage({ tagsMode: tagsMode === 'any' ? 'all' : 'any' }),
-    [tagsMode, toFirstPage],
-  );
-
-  const { anchor, tooltip } = useTooltip({ placement: 'left' });
+  const changeTagsMode = useCallback((tagsMode: TagsFilteringMode) => toFirstPage({ tagsMode }), [toFirstPage]);
 
   return (
     <div className={clsx('flex flex-col gap-y-4', className)}>
       <SearchInput defaultValue={search} onChange={setSearch} />
 
-      <div className="flex w-full">
-        <div className="flex-grow">
-          <TagsSelector
-            immutable
-            placeholder="With tags..."
-            tags={tagsList.tags}
-            selectedTags={tags}
-            onChange={changeTagSelection}
-            containerClassName={clsx(tags.length > 1 && '[&]:rounded-r-none')}
-          />
-        </div>
-        {tags.length > 1 && (
-          <>
-            <Button
-              variant="secondary"
-              onClick={toggleTagsMode}
-              aria-label="Change tags mode"
-              className="[&]:border-l-none [&]:rounded-l-none"
-              {...anchor}
-            >
-              <FontAwesomeIcon className="text-2xl" icon={tagsMode === 'all' ? faTags : faTag} />
-            </Button>
-            <Tooltip {...tooltip}>
-              {tagsMode === 'all' ? <>With <b>all</b> the tags</> : <>With <b>any</b> of the tags</>}
-            </Tooltip>
-          </>
-        )}
-      </div>
-
       <div className="flex flex-col lg:flex-row-reverse gap-y-4">
-        <div className="lg:w-2/3 xl:w-1/2 inline-flex flex-col md:flex-row gap-x-2 gap-y-4">
+        <div className="lg:w-2/3 inline-flex flex-col md:flex-row gap-x-2 gap-y-4">
           <div className="grow">
             <DateRangeSelector
               defaultText="All short URLs"
@@ -120,6 +85,16 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
               onDatesChange={setDates}
             />
           </div>
+          <TagsSearchDropdown
+            title="Filter by tag"
+            prefix="With"
+            tags={tagsList.tags}
+            selectedTags={tags}
+            onTagsChange={changeTagSelection}
+            mode={tagsMode}
+            onModeChange={changeTagsMode}
+            buttonClassName="w-full"
+          />
           <ShortUrlsFilterDropdown
             selected={{
               excludeBots: excludeBots ?? visitsSettings?.excludeBots,
@@ -131,7 +106,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
             domains={domainsList.loading ? undefined : domainsList.domains}
           />
         </div>
-        <div className="lg:w-1/3 xl:w-1/2 inline-flex gap-3">
+        <div className="lg:w-1/3 inline-flex gap-3">
           <div className="max-lg:w-1/2 lg:hidden">
             <OrderingDropdown
               containerClassName="[&]:block"
@@ -153,5 +128,5 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
 
 export const ShortUrlsFilteringBarFactory = componentFactory(
   ShortUrlsFilteringBar,
-  ['ExportShortUrlsBtn', 'TagsSelector'],
+  ['ExportShortUrlsBtn', 'TagsSearchDropdown'],
 );

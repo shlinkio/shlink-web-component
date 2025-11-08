@@ -50,7 +50,7 @@
     "@fortawesome/react-fontawesome": "^3.0.0",
     "@reduxjs/toolkit": "^2.5.0",
     "@shlinkio/shlink-frontend-kit": "^1.2.0",
-    "@shlinkio/shlink-js-sdk": "^3.0.0",
+    "@shlinkio/shlink-js-sdk": "^3.0.1",
     "react": "^19.1",
     "react-dom": "^19.1",
     "react-redux": "^9.2.0",
@@ -81,7 +81,7 @@
   },
   "devDependencies": {
     "@shlinkio/eslint-config-js-coding-standard": "~3.7.0",
-    "@shlinkio/shlink-js-sdk": "^3.0.0",
+    "@shlinkio/shlink-js-sdk": "^3.0.1",
     "@stylistic/eslint-plugin": "^5.5.0",
     "@tailwindcss/vite": "^4.1.16",
     "@testing-library/jest-dom": "^6.9.1",

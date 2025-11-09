@@ -80,39 +80,43 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
     <div className={clsx('flex flex-col gap-y-4', className)}>
       <SearchInput defaultValue={search} onChange={setSearch} />
 
-      <div className="flex flex-col lg:flex-row-reverse gap-y-4">
-        <div className="lg:w-2/3 inline-flex flex-col md:flex-row gap-x-2 gap-y-4">
-          <div className="grow">
-            <DateRangeSelector
-              defaultText="All short URLs"
-              dateRangeOrInterval={activeInterval ?? datesToDateRange(startDate, endDate)}
-              onDatesChange={setDates}
+      <div className="flex flex-col xl:flex-row-reverse justify-between gap-y-4">
+        <div className="min-w-2/3 inline-flex flex-col lg:flex-row gap-x-2 gap-y-4">
+          <div className="flex flex-col md:flex-row gap-x-2 gap-y-4 grow">
+            <div className="grow">
+              <DateRangeSelector
+                defaultText="All short URLs"
+                dateRangeOrInterval={activeInterval ?? datesToDateRange(startDate, endDate)}
+                onDatesChange={setDates}
+              />
+            </div>
+            <TagsSearchDropdown
+              title="Filter by tag"
+              prefix="With"
+              tags={tagsList.tags}
+              selectedTags={tags}
+              onTagsChange={changeTagSelection}
+              mode={tagsMode}
+              onModeChange={changeTagsMode}
+              buttonClassName="w-full"
             />
           </div>
-          <TagsSearchDropdown
-            title="Filter by tag"
-            prefix="With"
-            tags={tagsList.tags}
-            selectedTags={tags}
-            onTagsChange={changeTagSelection}
-            mode={tagsMode}
-            onModeChange={changeTagsMode}
-            buttonClassName="w-full"
-          />
-          {supportsFilterByDomain && (
-            <DomainFilterDropdown domains={domainsList.domains} onChange={setDomain} value={domain} />
-          )}
-          <ShortUrlsFilterDropdown
-            selected={{
-              excludeBots: excludeBots ?? visitsSettings?.excludeBots,
-              excludeMaxVisitsReached,
-              excludePastValidUntil,
-            }}
-            onChange={toFirstPage}
-          />
+          <div className={clsx('grid lg:flex gap-x-2 gap-y-4', { 'grid-cols-2': supportsFilterByDomain })}>
+            {supportsFilterByDomain && (
+              <DomainFilterDropdown domains={domainsList.domains} onChange={setDomain} value={domain} />
+            )}
+            <ShortUrlsFilterDropdown
+              selected={{
+                excludeBots: excludeBots ?? visitsSettings?.excludeBots,
+                excludeMaxVisitsReached,
+                excludePastValidUntil,
+              }}
+              onChange={toFirstPage}
+            />
+          </div>
         </div>
-        <div className="lg:w-1/3 inline-flex gap-3">
-          <div className="max-lg:w-1/2 lg:hidden">
+        <div className="flex gap-2">
+          <div className="max-xl:w-1/2 xl:hidden">
             <OrderingDropdown
               containerClassName="[&]:block"
               buttonClassName="w-full"
@@ -122,7 +126,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
               onChange={({ field, dir }) => handleOrderBy(field, dir)}
             />
           </div>
-          <div className="max-lg:w-1/2">
+          <div className="max-xl:w-1/2">
             <ExportShortUrlsBtn amount={shortUrlsAmount} />
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { Dropdown } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
+import { useCallback } from 'react';
 import { Muted } from '../../utils/components/Muted';
 import type { Domain } from '../data';
 import { DEFAULT_DOMAIN } from '../data';
@@ -18,6 +19,12 @@ export type DomainFilterDropdownProps = {
 export const DomainFilterDropdown: FC<DomainFilterDropdownProps> = ({ domains, value, onChange }) => {
   const valueIsEmpty= !value;
   const prettyValue = value === DEFAULT_DOMAIN ? domains.find(({ isDefault }) => isDefault)?.domain : value;
+  const doChange = useCallback((newDomain?: string) => {
+    // Avoid re-triggering a change when the same value that's already selected is clicked again
+    if (newDomain !== value) {
+      onChange(newDomain);
+    }
+  }, [onChange, value]);
 
   return (
     <Dropdown
@@ -26,7 +33,7 @@ export const DomainFilterDropdown: FC<DomainFilterDropdownProps> = ({ domains, v
       menuAlignment="right"
       buttonDisabled={!domains.length}
     >
-      <Dropdown.Item onClick={() => onChange()} selected={valueIsEmpty}>
+      <Dropdown.Item onClick={() => doChange()} selected={valueIsEmpty}>
         All domains
       </Dropdown.Item>
       <Dropdown.Separator />
@@ -34,7 +41,7 @@ export const DomainFilterDropdown: FC<DomainFilterDropdownProps> = ({ domains, v
         <Dropdown.Item
           key={domain}
           selected={isDefault ? value === DEFAULT_DOMAIN : value === domain}
-          onClick={() => onChange(isDefault ? DEFAULT_DOMAIN : domain)}
+          onClick={() => doChange(isDefault ? DEFAULT_DOMAIN : domain)}
           className="flex justify-between items-center"
         >
           {domain}

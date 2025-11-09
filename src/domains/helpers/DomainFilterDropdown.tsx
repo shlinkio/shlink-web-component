@@ -26,6 +26,10 @@ export const DomainFilterDropdown: FC<DomainFilterDropdownProps> = ({ domains, v
       menuAlignment="right"
       buttonDisabled={!domains.length}
     >
+      <Dropdown.Item onClick={() => onChange()} selected={valueIsEmpty}>
+        All domains
+      </Dropdown.Item>
+      <Dropdown.Separator />
       {domains.map(({ domain, isDefault }) => (
         <Dropdown.Item
           key={domain}
@@ -37,10 +41,6 @@ export const DomainFilterDropdown: FC<DomainFilterDropdownProps> = ({ domains, v
           {isDefault && <Muted>default</Muted>}
         </Dropdown.Item>
       ))}
-      <Dropdown.Separator />
-      <Dropdown.Item onClick={() => onChange()} selected={valueIsEmpty}>
-        All domains
-      </Dropdown.Item>
     </Dropdown>
   );
 };

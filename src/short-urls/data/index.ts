@@ -29,9 +29,3 @@ export type ExportableShortUrl = {
   tags: string;
   visits: number;
 };
-
-export type ShortUrlsFilter = {
-  excludeBots?: boolean;
-  excludeMaxVisitsReached?: boolean;
-  excludePastValidUntil?: boolean;
-};

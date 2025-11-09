@@ -10,7 +10,7 @@ describe('<ShortUrlsFilterDropdown />', () => {
   const setUp = (selected: ShortUrlsFilter = {}) => renderWithEvents(
     <ShortUrlsFilterDropdown onChange={onChange} selected={selected} />,
   );
-  const openMenu = (user: UserEvent) => user.click(screen.getByRole('button', { name: 'Filters' }));
+  const openMenu = (user: UserEvent) => user.click(screen.getByRole('button', { name: /^More/ }));
 
   const setUpOpened = async (selected?: ShortUrlsFilter) => {
     const { user, ...rest } = setUp(selected);

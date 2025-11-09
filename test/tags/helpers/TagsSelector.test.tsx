@@ -22,7 +22,12 @@ describe('<TagsSelector />', () => {
         shortUrlCreation: { tagFilteringMode },
       })}
     >
-      <TagsSelector tags={allTags ?? [...tags, 'baz']} selectedTags={tags} onChange={onChange} />
+      <TagsSelector
+        tags={allTags ?? [...tags, 'baz']}
+        selectedTags={tags}
+        onChange={onChange}
+        placeholder="Add tags to the URL"
+      />
     </SettingsProvider>,
   );
 

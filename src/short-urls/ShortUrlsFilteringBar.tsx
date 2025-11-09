@@ -6,6 +6,7 @@ import type { FC } from 'react';
 import { useCallback, useState } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
+import { DomainSelector } from '../domains/DomainSelector';
 import type { DomainsList } from '../domains/reducers/domainsList';
 import { useSetting } from '../settings';
 import type { TagsSearchDropdownProps } from '../tags/helpers/TagsSearchDropdown';
@@ -14,6 +15,7 @@ import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import type { DateInterval, DateRange } from '../utils/dates/helpers/dateIntervals';
 import { datesToDateRange } from '../utils/dates/helpers/dateIntervals';
+import { useFeature } from '../utils/features';
 import type { ShortUrlsOrder, ShortUrlsOrderableFields } from './data';
 import { SHORT_URLS_ORDERABLE_FIELDS } from './data';
 import type { ExportShortUrlsBtnProps } from './helpers/ExportShortUrlsBtn';
@@ -53,6 +55,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
     tagsMode = 'any',
   }, toFirstPage] = useShortUrlsQuery();
   const visitsSettings = useSetting('visits');
+  const supportsFilterByDomain = useFeature('filterShortUrlsByDomain');
 
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
   const setDates = useCallback(
@@ -69,6 +72,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
     (searchTerm: string) => toFirstPage({ search: !searchTerm ? undefined : searchTerm }),
     [toFirstPage],
   );
+  const setDomain = useCallback((domain?: string) => toFirstPage({ domain }), [toFirstPage]);
   const changeTagSelection = useCallback((newTags: string[]) => toFirstPage({ tags: newTags }), [toFirstPage]);
   const changeTagsMode = useCallback((tagsMode: TagsFilteringMode) => toFirstPage({ tagsMode }), [toFirstPage]);
 
@@ -95,15 +99,22 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
             onModeChange={changeTagsMode}
             buttonClassName="w-full"
           />
+          {supportsFilterByDomain && (
+            <DomainSelector
+              domains={domainsList.domains}
+              onChange={setDomain}
+              value={domain}
+              mode="selection"
+              menuAlignment="right"
+            />
+          )}
           <ShortUrlsFilterDropdown
             selected={{
               excludeBots: excludeBots ?? visitsSettings?.excludeBots,
               excludeMaxVisitsReached,
               excludePastValidUntil,
-              domain,
             }}
             onChange={toFirstPage}
-            domains={domainsList.loading ? undefined : domainsList.domains}
           />
         </div>
         <div className="lg:w-1/3 inline-flex gap-3">

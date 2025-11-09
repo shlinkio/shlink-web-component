@@ -1,45 +1,30 @@
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import type { DropdownProps } from '@shlinkio/shlink-frontend-kit';
-import { Button, Dropdown, Input, useToggle } from '@shlinkio/shlink-frontend-kit';
+import { Button, Dropdown, Input,useToggle  } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { useCallback } from 'react';
 import { Muted } from '../utils/components/Muted';
 import type { Domain } from './data';
 
-export type DomainSelectorProps = {
+export interface DomainSelectorProps {
   value?: string;
-  onChange: (domain?: string) => void;
-
-  /**
-   * List of domains for select mode.
-   * The dropdown will be disabled if the list is empty.
-   */
+  onChange: (domain: string) => void;
   domains: Domain[];
+}
 
-  /**
-   * Whether creating new domains should be possible.
-   * `creation`: Can select existing domains or create new ones.
-   * `selection` can only select existing domains.
-   *
-   * Defaults to `creation`
-   */
-  mode?: 'creation' | 'selection';
-} & Pick<DropdownProps, 'menuAlignment'>;
-
-export const DomainSelector = ({ domains, value, onChange, mode = 'creation', menuAlignment }: DomainSelectorProps) => {
+export const DomainSelector = ({ domains, value, onChange }: DomainSelectorProps) => {
   const { flag: inputDisplayed, setToTrue: showInput, setToFalse: hideInput } = useToggle();
   const valueIsEmpty = !value;
   const unselectDomainAndHideInput = useCallback(() => {
-    onChange();
+    onChange('');
     hideInput();
   }, [onChange, hideInput]);
   const unselectDomainAndShowInput = useCallback(() => {
-    onChange();
+    onChange('');
     showInput();
   }, [onChange, showInput]);
 
-  return inputDisplayed && mode === 'creation' ? (
+  return inputDisplayed ? (
     <div className="flex">
       <Input
         value={value ?? ''}
@@ -61,17 +46,12 @@ export const DomainSelector = ({ domains, value, onChange, mode = 'creation', me
   ) : (
     <Dropdown
       buttonContent={valueIsEmpty ? 'Domain' : `Domain: ${value}`}
-      buttonClassName={clsx('w-full', { 'text-placeholder': valueIsEmpty && mode === 'creation' })}
-      menuAlignment={menuAlignment}
-      buttonDisabled={!domains.length}
+      buttonClassName={clsx('w-full', { 'text-placeholder': valueIsEmpty })}
     >
       {domains.map(({ domain, isDefault }) => (
         <Dropdown.Item
           key={domain}
-          selected={
-            mode === 'selection'
-              ? value === domain
-              : value === domain || (isDefault && valueIsEmpty)}
+          selected={(value === domain || isDefault) && valueIsEmpty}
           onClick={() => onChange(domain)}
           className="flex justify-between items-center"
         >
@@ -80,15 +60,9 @@ export const DomainSelector = ({ domains, value, onChange, mode = 'creation', me
         </Dropdown.Item>
       ))}
       <Dropdown.Separator />
-      {mode === 'creation' ? (
-        <Dropdown.Item onClick={unselectDomainAndShowInput}>
-          <i>New domain</i>
-        </Dropdown.Item>
-      ) : (
-        <Dropdown.Item onClick={() => onChange()} selected={valueIsEmpty}>
-          All domains
-        </Dropdown.Item>
-      )}
+      <Dropdown.Item onClick={unselectDomainAndShowInput}>
+        <i>New domain</i>
+      </Dropdown.Item>
     </Dropdown>
   );
 };

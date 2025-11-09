@@ -6,7 +6,7 @@ import type { FC } from 'react';
 import { useCallback, useState } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import { DomainSelector } from '../domains/DomainSelector';
+import { DomainFilterDropdown } from '../domains/helpers/DomainFilterDropdown';
 import type { DomainsList } from '../domains/reducers/domainsList';
 import { useSetting } from '../settings';
 import type { TagsSearchDropdownProps } from '../tags/helpers/TagsSearchDropdown';
@@ -100,13 +100,7 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
             buttonClassName="w-full"
           />
           {supportsFilterByDomain && (
-            <DomainSelector
-              domains={domainsList.domains}
-              onChange={setDomain}
-              value={domain}
-              mode="selection"
-              menuAlignment="right"
-            />
+            <DomainFilterDropdown domains={domainsList.domains} onChange={setDomain} value={domain} />
           )}
           <ShortUrlsFilterDropdown
             selected={{

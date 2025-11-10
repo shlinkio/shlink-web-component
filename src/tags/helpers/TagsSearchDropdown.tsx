@@ -9,6 +9,7 @@ import {
   useTagsSearch,
 } from '@shlinkio/shlink-frontend-kit';
 import type { TagsFilteringMode } from '@shlinkio/shlink-js-sdk/api-contract';
+import type { MouseEvent } from 'react';
 import { useCallback } from 'react';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
@@ -57,6 +58,12 @@ const TagsSearchDropdown: FCWithDeps<TagsSearchDropdownProps, TagsSearchDropdown
     [onTagsChange, selectedTags],
   );
 
+  const onClearTagsClick = useCallback((e: MouseEvent) => {
+    onTagsChange?.([]);
+    // Trigger `Esc` keydown so that the dropdown is closed
+    e.target.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  }, [onTagsChange]);
+
   return (
     <Dropdown
       buttonContent={
@@ -81,6 +88,13 @@ const TagsSearchDropdown: FCWithDeps<TagsSearchDropdownProps, TagsSearchDropdown
               {tag}
             </div>
           )}
+          onKeyDownCapture={(e) => {
+            // Stop event propagation when `Esc` is pressed while search results are displayed, to make sure the
+            // dropdown does not close.
+            if (e.key === 'Escape' && searchResults) {
+              e.stopPropagation();
+            }
+          }}
         />
         {selectedTags.length > 0 && (
           <>
@@ -91,7 +105,7 @@ const TagsSearchDropdown: FCWithDeps<TagsSearchDropdownProps, TagsSearchDropdown
                 </li>
               ))}
             </ul>
-            <Button variant="secondary" size="sm" onClick={() => onTagsChange?.([])} className="gap-1!">
+            <Button variant="secondary" size="sm" onClick={onClearTagsClick} className="gap-1!">
               <FontAwesomeIcon icon={faClose} /> Clear tags
             </Button>
           </>

@@ -49,6 +49,7 @@ export const DateRangeSelector = (
       buttonContent={text}
       containerClassName="[&]:block"
       buttonClassName="w-full"
+      menuClassName="md:min-w-90!"
     >
       <Dropdown.Item selected={activeInterval === 'all'} onClick={() => updateDateRangeOrInterval('all')}>
         {defaultText}

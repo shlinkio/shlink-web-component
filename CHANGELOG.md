@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Changed
-* *Nothing*
+* [#519](https://github.com/shlinkio/shlink-web-component/issues/519) Redesign short URLs filtering bar for more clarity and consistency
 
 ### Deprecated
 * *Nothing*

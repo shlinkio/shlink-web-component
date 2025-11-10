@@ -5,8 +5,10 @@ import { formatISO, parseISO } from 'date-fns';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
+import { DEFAULT_DOMAIN } from '../../src/domains/data';
 import { SettingsProvider } from '../../src/settings';
 import { ShortUrlsFilteringBarFactory } from '../../src/short-urls/ShortUrlsFilteringBar';
+import { FeaturesProvider } from '../../src/utils/features';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
@@ -14,28 +16,36 @@ import { renderWithEvents } from '../__helpers__/setUpTest';
 type SetUpOptions = {
   search?: string;
   routesPrefix?: string;
+  filterByDomainSupported?: boolean;
 };
 
 describe('<ShortUrlsFilteringBar />', () => {
   const ShortUrlsFilteringBar = ShortUrlsFilteringBarFactory(fromPartial({
     ExportShortUrlsBtn: () => <>ExportShortUrlsBtn</>,
-    TagsSelector: () => <>TagsSelector</>,
+    TagsSearchDropdown: () => <>TagsSearchDropdown</>,
   }));
   const handleOrderBy = vi.fn();
   let history: MemoryHistory;
 
-  const setUp = ({ search, routesPrefix = '' }: SetUpOptions = {}) => {
+  const setUp = ({ search, routesPrefix = '', filterByDomainSupported = false }: SetUpOptions = {}) => {
     history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
     return renderWithEvents(
       <Router location={history.location} navigator={history}>
         <SettingsProvider value={fromPartial({ visits: {} })}>
           <RoutesPrefixProvider value={routesPrefix}>
-            <ShortUrlsFilteringBar
-              order={{}}
-              handleOrderBy={handleOrderBy}
-              tagsList={fromPartial({ tags: [] })}
-              domainsList={fromPartial({})}
-            />
+            <FeaturesProvider value={fromPartial({ filterShortUrlsByDomain: filterByDomainSupported })}>
+              <ShortUrlsFilteringBar
+                order={{}}
+                handleOrderBy={handleOrderBy}
+                tagsList={fromPartial({ tags: [] })}
+                domainsList={fromPartial({
+                  domains: [
+                    { isDefault: true, domain: 'example.com' },
+                    { isDefault: false, domain: 's.test' },
+                  ],
+                })}
+              />
+            </FeaturesProvider>
           </RoutesPrefixProvider>
         </SettingsProvider>
       </Router>,
@@ -52,7 +62,7 @@ describe('<ShortUrlsFilteringBar />', () => {
     setUp();
 
     expect(screen.getByText('ExportShortUrlsBtn')).toBeInTheDocument();
-    expect(screen.getByText('TagsSelector')).toBeInTheDocument();
+    expect(screen.getByText('TagsSearchDropdown')).toBeInTheDocument();
   });
 
   it('redirects to first page when search field changes', async () => {
@@ -91,46 +101,6 @@ describe('<ShortUrlsFilteringBar />', () => {
   });
 
   it.each([
-    { search: 'tags=foo,bar,baz', shouldHaveComponent: true },
-    { search: 'tags=foo,bar', shouldHaveComponent: true },
-    { search: 'tags=foo', shouldHaveComponent: false },
-    { search: '', shouldHaveComponent: false },
-  ])(
-    'renders tags mode toggle if there is more than one tag selected',
-    ({ search, shouldHaveComponent }) => {
-      setUp({ search });
-
-      if (shouldHaveComponent) {
-        expect(screen.getByLabelText('Change tags mode')).toBeInTheDocument();
-      } else {
-        expect(screen.queryByLabelText('Change tags mode')).not.toBeInTheDocument();
-      }
-    },
-  );
-
-  it.each([
-    ['', /With any of the tags/],
-    ['&tagsMode=all', /With all the tags/],
-    ['&tagsMode=any', /With any of the tags/],
-  ])('expected tags mode tooltip title', async (initialTagsMode, expectedToggleText) => {
-    const { user } = setUp({ search: `tags=foo,bar${initialTagsMode}` });
-
-    await user.hover(screen.getByLabelText('Change tags mode'));
-    expect(await screen.findByRole('tooltip')).toHaveTextContent(expectedToggleText);
-  });
-
-  it.each([
-    ['', 'all'],
-    ['&tagsMode=all', 'any'],
-    ['&tagsMode=any', 'all'],
-  ])('redirects to first page when tags mode changes', async (initialTagsMode, expectedRedirectTagsMode) => {
-    const { user } = setUp({ search: `tags=foo,bar${initialTagsMode}` });
-
-    await user.click(screen.getByLabelText('Change tags mode'));
-    expect(paramFromCurrentQuery('tagsMode')).toEqual(expectedRedirectTagsMode);
-  });
-
-  it.each([
     ['', /Ignore visits from bots/, 'excludeBots=true'],
     ['excludeBots=false', /Ignore visits from bots/, 'excludeBots=true'],
     ['excludeBots=true', /Ignore visits from bots/, 'excludeBots=false'],
@@ -140,10 +110,10 @@ describe('<ShortUrlsFilteringBar />', () => {
     ['', /Exclude enabled in the past/, 'excludePastValidUntil=true'],
     ['excludePastValidUntil=false', /Exclude enabled in the past/, 'excludePastValidUntil=true'],
     ['excludePastValidUntil=true', /Exclude enabled in the past/, 'excludePastValidUntil=false'],
-  ])('allows to toggle filters through filtering dropdown', async (search, menuItemName, expectedQuery) => {
+  ])('allows to toggle filters through "More" dropdown', async (search, menuItemName, expectedQuery) => {
     const { user } = setUp({ search });
     const toggleFilter = async (name: RegExp) => {
-      await user.click(screen.getByRole('button', { name: 'Filters' }));
+      await user.click(screen.getByRole('button', { name: /^More/ }));
       await waitFor(() => screen.findByRole('menu'));
       await user.click(screen.getByRole('menuitem', { name }));
     };
@@ -167,5 +137,28 @@ describe('<ShortUrlsFilteringBar />', () => {
 
     await clickMenuItem(/^Long URL/);
     expect(handleOrderBy).toHaveBeenCalledWith('longUrl', 'ASC');
+  });
+
+  it.each([true, false])('shows domain dropdown if filtering by domain is supported', (filterByDomainSupported) => {
+    setUp({ filterByDomainSupported });
+
+    if (filterByDomainSupported) {
+      expect(screen.getByRole('button', { name: 'All domains' })).toBeInTheDocument();
+    } else {
+      expect(screen.queryByRole('button', { name: 'All domains' })).not.toBeInTheDocument();
+    }
+  });
+
+  it.each([
+    { domain: /^example.com/, expectedQueryDomain: DEFAULT_DOMAIN },
+    { domain: 's.test', expectedQueryDomain: 's.test' },
+  ])('redirects to first page when selected domain changes', async ({ domain, expectedQueryDomain }) => {
+    const { user } = setUp({ filterByDomainSupported: true });
+
+    await user.click(screen.getByRole('button', { name: 'All domains' }));
+    expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('menuitem', { name: domain }));
+    await waitFor(() => expect(paramFromCurrentQuery('domain')).toEqual(expectedQueryDomain));
   });
 });

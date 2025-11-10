@@ -2,6 +2,7 @@ import type Bottle from 'bottlejs';
 import type { ConnectDecorator } from '../../container';
 import { DeleteTagConfirmModal } from '../helpers/DeleteTagConfirmModal';
 import { EditTagModalFactory } from '../helpers/EditTagModal';
+import { TagsSearchDropdownFactory } from '../helpers/TagsSearchDropdown';
 import { TagsSelectorFactory } from '../helpers/TagsSelector';
 import { tagDeleted, tagDeleteReducerCreator } from '../reducers/tagDelete';
 import { editTag, tagEdited, tagEditReducerCreator } from '../reducers/tagEdit';
@@ -13,6 +14,7 @@ import { TagsTableRowFactory } from '../TagsTableRow';
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   // Components
   bottle.factory('TagsSelector', TagsSelectorFactory);
+  bottle.factory('TagsSearchDropdown', TagsSearchDropdownFactory);
 
   bottle.serviceFactory('DeleteTagConfirmModal', () => DeleteTagConfirmModal);
   bottle.decorator('DeleteTagConfirmModal', connect(['tagDelete'], ['deleteTag', 'tagDeleted']));

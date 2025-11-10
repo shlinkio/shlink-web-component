@@ -8,6 +8,7 @@ const supportedFeatures = {
   filterShortUrlsByDomain: { minVersion: '4.3.0' },
   advancedQueryRedirectConditions: { minVersion: '4.5.0' },
   desktopDeviceTypes: { minVersion: '4.5.0' },
+  filterShortUrlsByExcludedTags: { minVersion: '4.6.0' },
 } as const satisfies Record<string, Versions>;
 
 Object.freeze(supportedFeatures);
@@ -25,6 +26,7 @@ const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, b
   filterShortUrlsByDomain: isFeatureEnabledForVersion('filterShortUrlsByDomain', serverVersion),
   advancedQueryRedirectConditions: isFeatureEnabledForVersion('advancedQueryRedirectConditions', serverVersion),
   desktopDeviceTypes: isFeatureEnabledForVersion('advancedQueryRedirectConditions', serverVersion),
+  filterShortUrlsByExcludedTags: isFeatureEnabledForVersion('filterShortUrlsByExcludedTags', serverVersion),
 });
 
 const FeaturesContext = createContext(getFeaturesForVersion('0.0.0'));

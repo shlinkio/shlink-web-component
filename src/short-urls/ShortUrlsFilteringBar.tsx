@@ -46,16 +46,19 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
   const [{
     search,
     tags,
+    tagsMode = 'any',
+    excludeTags,
+    excludeTagsMode = 'any',
     startDate,
     endDate,
     excludeBots,
     excludeMaxVisitsReached,
     excludePastValidUntil,
     domain,
-    tagsMode = 'any',
   }, toFirstPage] = useShortUrlsQuery();
   const visitsSettings = useSetting('visits');
   const supportsFilterByDomain = useFeature('filterShortUrlsByDomain');
+  const supportsFilterByExcludedTags = useFeature('filterShortUrlsByExcludedTags');
 
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
   const setDates = useCallback(
@@ -75,13 +78,26 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
   const setDomain = useCallback((domain?: string) => toFirstPage({ domain }), [toFirstPage]);
   const changeTagSelection = useCallback((newTags: string[]) => toFirstPage({ tags: newTags }), [toFirstPage]);
   const changeTagsMode = useCallback((tagsMode: TagsFilteringMode) => toFirstPage({ tagsMode }), [toFirstPage]);
+  const changeExcludeTagSelection = useCallback(
+    (newTags: string[]) => toFirstPage({ excludeTags: newTags }),
+    [toFirstPage],
+  );
+  const changeExcludeTagsMode = useCallback(
+    (excludeTagsMode: TagsFilteringMode) => toFirstPage({ excludeTagsMode }),
+    [toFirstPage],
+  );
 
   return (
     <div className={clsx('flex flex-col gap-y-4', className)}>
       <SearchInput defaultValue={search} onChange={setSearch} />
 
       <div className="flex flex-col xl:flex-row-reverse justify-between gap-y-4">
-        <div className="min-w-2/3 inline-flex flex-col lg:flex-row gap-x-2 gap-y-4">
+        <div
+          className={clsx(
+            'flex flex-col lg:flex-row gap-x-2 gap-y-4',
+            { 'min-w-3/4': supportsFilterByExcludedTags, 'min-w-2/3': !supportsFilterByExcludedTags },
+          )}
+        >
           <div className="flex flex-col md:flex-row gap-x-2 gap-y-4 grow">
             <div className="grow">
               <DateRangeSelector
@@ -90,16 +106,30 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
                 onDatesChange={setDates}
               />
             </div>
-            <TagsSearchDropdown
-              title="Filter by tag"
-              prefix="With"
-              tags={tagsList.tags}
-              selectedTags={tags}
-              onTagsChange={changeTagSelection}
-              mode={tagsMode}
-              onModeChange={changeTagsMode}
-              buttonClassName="w-full"
-            />
+            <div className={clsx('grid lg:flex gap-x-2 gap-y-4', { 'grid-cols-2': supportsFilterByExcludedTags })}>
+              <TagsSearchDropdown
+                title="Filter by tag"
+                prefix="With"
+                tags={tagsList.tags}
+                selectedTags={tags}
+                onTagsChange={changeTagSelection}
+                mode={tagsMode}
+                onModeChange={changeTagsMode}
+                buttonClassName="w-full"
+              />
+              {supportsFilterByExcludedTags && (
+                <TagsSearchDropdown
+                  title="Filter by excluded tag"
+                  prefix="Without"
+                  tags={tagsList.tags}
+                  selectedTags={excludeTags}
+                  onTagsChange={changeExcludeTagSelection}
+                  mode={excludeTagsMode}
+                  onModeChange={changeExcludeTagsMode}
+                  buttonClassName="w-full"
+                />
+              )}
+            </div>
           </div>
           <div className={clsx('grid lg:flex gap-x-2 gap-y-4', { 'grid-cols-2': supportsFilterByDomain })}>
             {supportsFilterByDomain && (

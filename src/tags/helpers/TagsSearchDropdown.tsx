@@ -1,8 +1,15 @@
 import { faClose, faTag, faTags } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Dropdown, formatNumber, SearchCombobox } from '@shlinkio/shlink-frontend-kit';
+import {
+  Button,
+  Dropdown,
+  formatNumber,
+  normalizeTag,
+  SearchCombobox,
+  useTagsSearch,
+} from '@shlinkio/shlink-frontend-kit';
 import type { TagsFilteringMode } from '@shlinkio/shlink-js-sdk/api-contract';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
 import { useSetting } from '../../settings';
@@ -10,12 +17,6 @@ import { ColorBullet } from '../../utils/components/ColorBullet';
 import { Muted } from '../../utils/components/Muted';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import { Tag } from './Tag';
-
-const ONE_OR_MORE_SPACES_REGEX = /\s+/g;
-/**
- * Normalizes a tag, making it lowercase, trimmed and replacing space characters with dashes
- */
-const normalizeTag = (tag: string) => tag.trim().toLowerCase().replace(ONE_OR_MORE_SPACES_REGEX, '-');
 
 export type TagsSearchDropdownProps = {
   /** The full list of tags to filter from */
@@ -45,29 +46,7 @@ const TagsSearchDropdown: FCWithDeps<TagsSearchDropdownProps, TagsSearchDropdown
   const shortUrlCreation = useSetting('shortUrlCreation');
   const searchMode = shortUrlCreation?.tagFilteringMode ?? 'startsWith';
 
-  const [searchResults, setSearchResults] = useState<Map<string, string>>();
-  const onSearch = useCallback((searchTerm: string) => {
-    const normalizedSearchTerm = searchTerm.toLowerCase().trim();
-    if (!normalizedSearchTerm) {
-      setSearchResults(undefined);
-      return;
-    }
-
-    const matches: string[] = tags
-      .filter((t) => {
-        // Exclude any tag which is already selected
-        if (selectedTags.includes(t)) {
-          return false;
-        }
-
-        const lowerTag = t.toLowerCase();
-        return lowerTag[searchMode](normalizedSearchTerm);
-      })
-      // Do not show more than 5 matches
-      .slice(0, 5);
-
-    setSearchResults(new Map(matches.map((tag) => [tag, tag])));
-  }, [searchMode, selectedTags, tags]);
+  const { searchResults, onSearch } = useTagsSearch({ tags, selectedTags, searchMode });
 
   const addTag = useCallback(
     (tag: string) => onTagsChange?.([...new Set([...selectedTags, normalizeTag(tag)])]),

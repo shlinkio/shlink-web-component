@@ -8,36 +8,49 @@ import { Router } from 'react-router';
 import { DEFAULT_DOMAIN } from '../../src/domains/data';
 import { SettingsProvider } from '../../src/settings';
 import { ShortUrlsFilteringBarFactory } from '../../src/short-urls/ShortUrlsFilteringBar';
+import { TagsSearchDropdownFactory } from '../../src/tags/helpers/TagsSearchDropdown';
 import { FeaturesProvider } from '../../src/utils/features';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
+import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
 type SetUpOptions = {
   search?: string;
   routesPrefix?: string;
   filterByDomainSupported?: boolean;
+  filterByExcludedTagSupported?: boolean;
 };
 
 describe('<ShortUrlsFilteringBar />', () => {
   const ShortUrlsFilteringBar = ShortUrlsFilteringBarFactory(fromPartial({
     ExportShortUrlsBtn: () => <>ExportShortUrlsBtn</>,
-    TagsSearchDropdown: () => <>TagsSearchDropdown</>,
+    TagsSearchDropdown: TagsSearchDropdownFactory(fromPartial({ ColorGenerator: colorGeneratorMock })),
   }));
   const handleOrderBy = vi.fn();
   let history: MemoryHistory;
 
-  const setUp = ({ search, routesPrefix = '', filterByDomainSupported = false }: SetUpOptions = {}) => {
+  const setUp = ({
+    search,
+    routesPrefix = '',
+    filterByDomainSupported = false,
+    filterByExcludedTagSupported = false,
+  }: SetUpOptions = {}) => {
     history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
     return renderWithEvents(
       <Router location={history.location} navigator={history}>
         <SettingsProvider value={fromPartial({ visits: {} })}>
           <RoutesPrefixProvider value={routesPrefix}>
-            <FeaturesProvider value={fromPartial({ filterShortUrlsByDomain: filterByDomainSupported })}>
+            <FeaturesProvider
+              value={fromPartial({
+                filterShortUrlsByDomain: filterByDomainSupported,
+                filterShortUrlsByExcludedTags: filterByExcludedTagSupported,
+              })}
+            >
               <ShortUrlsFilteringBar
                 order={{}}
                 handleOrderBy={handleOrderBy}
-                tagsList={fromPartial({ tags: [] })}
+                tagsList={fromPartial({ tags: ['foo', 'bar', 'baz'] })}
                 domainsList={fromPartial({
                   domains: [
                     { isDefault: true, domain: 'example.com' },
@@ -60,9 +73,7 @@ describe('<ShortUrlsFilteringBar />', () => {
 
   it('renders expected children components', () => {
     setUp();
-
     expect(screen.getByText('ExportShortUrlsBtn')).toBeInTheDocument();
-    expect(screen.getByText('TagsSearchDropdown')).toBeInTheDocument();
   });
 
   it('redirects to first page when search field changes', async () => {
@@ -152,7 +163,7 @@ describe('<ShortUrlsFilteringBar />', () => {
   it.each([
     { domain: /^example.com/, expectedQueryDomain: DEFAULT_DOMAIN },
     { domain: 's.test', expectedQueryDomain: 's.test' },
-  ])('redirects to first page when selected domain changes', async ({ domain, expectedQueryDomain }) => {
+  ])('updates query params when selected domain changes', async ({ domain, expectedQueryDomain }) => {
     const { user } = setUp({ filterByDomainSupported: true });
 
     await user.click(screen.getByRole('button', { name: 'All domains' }));
@@ -160,5 +171,39 @@ describe('<ShortUrlsFilteringBar />', () => {
 
     await user.click(screen.getByRole('menuitem', { name: domain }));
     await waitFor(() => expect(paramFromCurrentQuery('domain')).toEqual(expectedQueryDomain));
+  });
+
+  it('updates query params when tags change', async () => {
+    const { user } = setUp();
+
+    await user.click(screen.getByRole('button', { name: 'With tags...' }));
+    const menu = await screen.findByRole('menu');
+
+    await user.type(menu.querySelector('[placeholder="Search..."]')!, 'f');
+    await user.click(await screen.findByRole('option', { name: 'foo' }));
+
+    await waitFor(() => expect(paramFromCurrentQuery('tags')).toEqual('foo'));
+  });
+
+  it.each([true, false])('shows exclude tags dropdown if supported', (filterByExcludedTagSupported) => {
+    setUp({ filterByExcludedTagSupported });
+
+    if (filterByExcludedTagSupported) {
+      expect(screen.getByRole('button', { name: 'Without tags...' })).toBeInTheDocument();
+    } else {
+      expect(screen.queryByRole('button', { name: 'Without tags...' })).not.toBeInTheDocument();
+    }
+  });
+
+  it('updates query params when excluded tags change', async () => {
+    const { user } = setUp({ filterByExcludedTagSupported: true });
+
+    await user.click(screen.getByRole('button', { name: 'Without tags...' }));
+    const menu = await screen.findByRole('menu');
+
+    await user.type(menu.querySelector('[placeholder="Search..."]')!, 'ba');
+    await user.click(await screen.findByRole('option', { name: 'bar' }));
+
+    await waitFor(() => expect(paramFromCurrentQuery('excludeTags')).toEqual('bar'));
   });
 });

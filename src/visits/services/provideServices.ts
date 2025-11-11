@@ -57,7 +57,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   ]));
 
   bottle.factory('TagVisits', TagVisitsFactory);
-  bottle.decorator('TagVisits', connectWithMercure(['tagVisits'], ['getTagVisits', 'cancelGetTagVisits']));
+  bottle.decorator('TagVisits', connectWithMercure(['tagVisits', 'domainsList'], ['getTagVisits', 'cancelGetTagVisits']));
 
   bottle.factory('TagVisitsComparison', TagVisitsComparisonFactory);
   bottle.decorator('TagVisitsComparison', connectWithMercure(
@@ -86,13 +86,13 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
 
   bottle.factory('OrphanVisits', OrphanVisitsFactory);
   bottle.decorator('OrphanVisits', connectWithMercure(
-    ['orphanVisits', 'orphanVisitsDeletion'],
+    ['orphanVisits', 'orphanVisitsDeletion', 'domainsList'],
     ['getOrphanVisits', 'cancelGetOrphanVisits', 'deleteOrphanVisits'],
   ));
 
   bottle.factory('NonOrphanVisits', NonOrphanVisitsFactory);
   bottle.decorator('NonOrphanVisits', connectWithMercure(
-    ['nonOrphanVisits'],
+    ['nonOrphanVisits', 'domainsList'],
     ['getNonOrphanVisits', 'cancelGetNonOrphanVisits'],
   ));
 

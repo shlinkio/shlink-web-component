@@ -13,11 +13,14 @@ import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
+import type { Domain } from '../domains/data';
+import { DomainFilterDropdown } from '../domains/helpers/DomainFilterDropdown';
 import { useSetting } from '../settings';
 import { ExportBtn } from '../utils/components/ExportBtn';
 import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import type { DateInterval, DateRange } from '../utils/dates/helpers/dateIntervals';
 import { toDateRange } from '../utils/dates/helpers/dateIntervals';
+import { useFeature } from '../utils/features';
 import { DoughnutChartCard } from './charts/DoughnutChartCard';
 import { LineChartCard } from './charts/LineChartCard';
 import { SortableBarChartCard } from './charts/SortableBarChartCard';
@@ -43,6 +46,8 @@ export type VisitsStatsProps = PropsWithChildren<{
   };
   exportCsv: (visits: NormalizedVisit[]) => void;
   isOrphanVisits?: boolean;
+  /** A domain filter dropdown will be displayed if provided */
+  domains?: Domain[];
 }>;
 
 type VisitsNavLinkOptions = {
@@ -82,9 +87,10 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     deletion,
     exportCsv,
     isOrphanVisits = false,
+    domains,
   } = props;
   const { visits, prevVisits, loading, errorData, fallbackInterval } = visitsInfo;
-  const [{ dateRange, visitsFilter, loadPrevInterval }, updateQuery] = useVisitsQuery();
+  const [{ dateRange, visitsFilter, loadPrevInterval, domain }, updateQuery] = useVisitsQuery();
   const visitsSettings = useSetting('visits');
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
   const setDates = useCallback(
@@ -131,7 +137,8 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     ...visitsFilter,
     excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
     loadPrevInterval: loadPrevInterval ?? visitsSettings?.loadPrevInterval,
-  }), [loadPrevInterval, visitsFilter, visitsSettings?.excludeBots, visitsSettings?.loadPrevInterval]);
+    domain,
+  }), [loadPrevInterval, visitsFilter, visitsSettings?.excludeBots, visitsSettings?.loadPrevInterval, domain]);
   const mapLocations = useMemo(() => Object.values(citiesForMap), [citiesForMap]);
 
   const selectedBarRef = useRef<string>(undefined);
@@ -152,6 +159,8 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
       selectedBarRef.current = newSelectedBar;
     }
   }, [normalizedVisits]);
+
+  const filterByDomainIsSupported = useFeature('filterVisitsByDomain');
 
   useEffect(() => cancelGetVisits, [cancelGetVisits]);
   useEffect(() => {
@@ -179,7 +188,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
       {children}
 
       <section className="flex flex-col lg:flex-row-reverse gap-4">
-        <div className="lg:flex-3 flex flex-col md:flex-row gap-x-2 gap-y-4">
+        <div className="lg:w-1/2 flex flex-col md:flex-row gap-x-2 gap-y-4">
           <div className="grow">
             <DateRangeSelector
               disabled={loading}
@@ -188,6 +197,13 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
               onDatesChange={setDates}
             />
           </div>
+          {filterByDomainIsSupported && domains && (
+            <DomainFilterDropdown
+              domains={loading ? [] : domains}
+              value={domain}
+              onChange={(domain) => updateQuery({ domain })}
+            />
+          )}
           <VisitsDropdown
             disabled={loading}
             isOrphanVisits={isOrphanVisits}
@@ -199,7 +215,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
             })}
           />
         </div>
-        <div className="lg:flex-2 xl:flex-3 flex gap-2">
+        <div className="lg:w-1/2 xl:flex-3 flex gap-2">
           {visits.length > 0 && (
             <>
               <ExportBtn

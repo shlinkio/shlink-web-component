@@ -13,11 +13,13 @@ type ShortUrlsQueryCommon = {
   startDate?: string;
   endDate?: string;
   tagsMode?: TagsFilteringMode;
+  excludeTagsMode?: TagsFilteringMode;
 };
 
 type ShortUrlsRawQuery = Record<string, unknown> & ShortUrlsQueryCommon & {
   orderBy?: string;
   tags?: string;
+  excludeTags?: string;
   excludeBots?: BooleanString;
   excludeMaxVisitsReached?: BooleanString;
   excludePastValidUntil?: BooleanString;
@@ -27,6 +29,7 @@ type ShortUrlsRawQuery = Record<string, unknown> & ShortUrlsQueryCommon & {
 type ShortUrlsQuery = ShortUrlsQueryCommon & {
   orderBy?: ShortUrlsOrder;
   tags: string[];
+  excludeTags: string[];
   excludeBots?: boolean;
   excludeMaxVisitsReached?: boolean;
   excludePastValidUntil?: boolean;
@@ -42,13 +45,22 @@ export const useShortUrlsQuery = (): [ShortUrlsQuery, ToFirstPage] => {
 
   const filtering = useMemo(
     (): ShortUrlsQuery => {
-      const { orderBy, tags, excludeBots, excludeMaxVisitsReached, excludePastValidUntil, ...rest } = query;
+      const {
+        orderBy,
+        tags,
+        excludeTags,
+        excludeBots,
+        excludeMaxVisitsReached,
+        excludePastValidUntil,
+        ...rest
+      } = query;
       const parsedOrderBy = orderBy ? stringToOrder<ShortUrlsOrderableFields>(orderBy) : undefined;
       const parsedTags = tags?.split(',') ?? [];
       return {
         ...rest,
         orderBy: parsedOrderBy,
         tags: parsedTags,
+        excludeTags: excludeTags?.split(',') ?? [],
         excludeBots: excludeBots !== undefined ? excludeBots === 'true' : undefined,
         excludeMaxVisitsReached: excludeMaxVisitsReached !== undefined ? excludeMaxVisitsReached === 'true' : undefined,
         excludePastValidUntil: excludePastValidUntil !== undefined ? excludePastValidUntil === 'true' : undefined,
@@ -58,11 +70,20 @@ export const useShortUrlsQuery = (): [ShortUrlsQuery, ToFirstPage] => {
   );
   const toFirstPageWithExtra = useCallback((extra: Partial<ShortUrlsQuery>) => {
     const merged = { ...filtering, ...extra };
-    const { orderBy, tags, excludeBots, excludeMaxVisitsReached, excludePastValidUntil, ...mergedFiltering } = merged;
+    const {
+      orderBy,
+      tags,
+      excludeTags,
+      excludeBots,
+      excludeMaxVisitsReached,
+      excludePastValidUntil,
+      ...mergedFiltering
+    } = merged;
     const newQuery: ShortUrlsRawQuery = {
       ...mergedFiltering,
       orderBy: orderBy && orderToString(orderBy),
       tags: tags.length > 0 ? tags.join(',') : undefined,
+      excludeTags: excludeTags.length > 0 ? excludeTags.join(',') : undefined,
       excludeBots: parseOptionalBooleanToString(excludeBots),
       excludeMaxVisitsReached: parseOptionalBooleanToString(excludeMaxVisitsReached),
       excludePastValidUntil: parseOptionalBooleanToString(excludePastValidUntil),

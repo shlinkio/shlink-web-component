@@ -47,11 +47,13 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
   const location = useLocation();
   const [{
     tags,
+    tagsMode,
+    excludeTags,
+    excludeTagsMode,
     search,
     startDate,
     endDate,
     orderBy,
-    tagsMode,
     excludeBots,
     excludePastValidUntil,
     excludeMaxVisitsReached,
@@ -95,10 +97,12 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
       page,
       searchTerm: search,
       tags,
+      tagsMode,
+      excludeTags,
+      excludeTagsMode,
       startDate,
       endDate,
       orderBy: parseOrderByForShlink(actualOrderBy),
-      tagsMode,
       excludePastValidUntil,
       excludeMaxVisitsReached,
       domain,
@@ -116,6 +120,8 @@ const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundTo
     excludePastValidUntil,
     excludeMaxVisitsReached,
     domain,
+    excludeTags,
+    excludeTagsMode,
   ]);
 
   return (

@@ -185,6 +185,18 @@ describe('<ShortUrlsFilteringBar />', () => {
     await waitFor(() => expect(paramFromCurrentQuery('tags')).toEqual('foo'));
   });
 
+  it('updates query params when tags mode changes', async () => {
+    const { user } = setUp();
+
+    await user.click(screen.getByRole('button', { name: 'With tags...' }));
+
+    await user.click(await screen.findByRole('button', { name: 'Any' }));
+    await waitFor(() => expect(paramFromCurrentQuery('tagsMode')).toEqual('any'));
+
+    await user.click(await screen.findByRole('button', { name: 'All' }));
+    await waitFor(() => expect(paramFromCurrentQuery('tagsMode')).toEqual('all'));
+  });
+
   it.each([true, false])('shows exclude tags dropdown if supported', (filterByExcludedTagSupported) => {
     setUp({ filterByExcludedTagSupported });
 
@@ -205,5 +217,17 @@ describe('<ShortUrlsFilteringBar />', () => {
     await user.click(await screen.findByRole('option', { name: 'bar' }));
 
     await waitFor(() => expect(paramFromCurrentQuery('excludeTags')).toEqual('bar'));
+  });
+
+  it('updates query params when excluded tags mode changes', async () => {
+    const { user } = setUp({ filterByExcludedTagSupported: true });
+
+    await user.click(screen.getByRole('button', { name: 'Without tags...' }));
+
+    await user.click(await screen.findByRole('button', { name: 'Any' }));
+    await waitFor(() => expect(paramFromCurrentQuery('excludeTagsMode')).toEqual('any'));
+
+    await user.click(await screen.findByRole('button', { name: 'All' }));
+    await waitFor(() => expect(paramFromCurrentQuery('excludeTagsMode')).toEqual('all'));
   });
 });

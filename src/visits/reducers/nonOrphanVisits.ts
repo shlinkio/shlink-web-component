@@ -2,7 +2,7 @@ import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient } from '../../api-contract';
 import { isBetween } from '../../utils/dates/helpers/date';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
-import type { VisitsInfo } from './types';
+import type { LoadWithDomainVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/orphanVisits';
 
@@ -16,11 +16,11 @@ const initialState: VisitsInfo = {
 
 export const getNonOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getNonOrphanVisits`,
-  createLoaders: ({ options }) => {
+  createLoaders: ({ options, domain }: LoadWithDomainVisits) => {
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false } = options;
 
-    const visitsLoader = async (query: ShlinkVisitsParams) => apiClient.getNonOrphanVisits(query);
+    const visitsLoader = async (query: ShlinkVisitsParams) => apiClient.getNonOrphanVisits({ ...query, domain });
     const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) => apiClient.getNonOrphanVisits(q));
 
     return { visitsLoader, lastVisitLoader };

@@ -12,6 +12,10 @@ export type LoadVisits = {
   options: GetVisitsOptions;
 };
 
+export type LoadWithDomainVisits = LoadVisits & {
+  domain?: string;
+};
+
 export type VisitsLoaded = {
   visits: ShlinkVisit[];
   prevVisits?: ShlinkVisit[];

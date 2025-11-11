@@ -37,6 +37,7 @@ const OrphanVisits: FCWithDeps<MercureBoundProps & OrphanVisitsProps, OrphanVisi
       options,
       params,
       orphanVisitsType: params.filter?.orphanVisitsType,
+      domain: params.filter?.domain,
     }),
     [getOrphanVisits],
   );

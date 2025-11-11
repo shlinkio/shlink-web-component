@@ -30,7 +30,12 @@ const TagVisits: FCWithDeps<MercureBoundProps & TagVisitsProps, TagVisitsDeps> =
   const { ColorGenerator: colorGenerator, ReportExporter: reportExporter } = useDependencies(TagVisits);
   const { tag = '' } = useParams();
   const loadVisits = useCallback(
-    (params: VisitsParams, options: GetVisitsOptions) => getTagVisits({ tag, params, options }),
+    (params: VisitsParams, options: GetVisitsOptions) => getTagVisits({
+      tag,
+      params,
+      options,
+      domain: params.filter?.domain,
+    }),
     [getTagVisits, tag],
   );
   const exportCsv = useCallback(

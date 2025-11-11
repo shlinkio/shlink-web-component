@@ -4,11 +4,11 @@ import { isBetween } from '../../utils/dates/helpers/date';
 import { isOrphanVisit } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { deleteOrphanVisits } from './orphanVisitsDeletion';
-import type { LoadVisits, VisitsInfo } from './types';
+import type { LoadWithDomainVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/orphanVisits';
 
-export interface LoadOrphanVisits extends LoadVisits {
+export interface LoadOrphanVisits extends LoadWithDomainVisits {
   orphanVisitsType?: ShlinkOrphanVisitType;
 }
 
@@ -30,13 +30,14 @@ const filterOrphanVisitsByType = ({ data, ...rest }: ShlinkVisitsList, type?: Sh
 
 export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getOrphanVisits`,
-  createLoaders: ({ orphanVisitsType, options }: LoadOrphanVisits) => {
+  createLoaders: ({ orphanVisitsType, domain, options }: LoadOrphanVisits) => {
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false } = options;
 
     const visitsLoader = async (query: ShlinkVisitsParams) => apiClient.getOrphanVisits({
       ...query,
-      type: orphanVisitsType, // Send type to the server, in case it supports filtering by type
+      type: orphanVisitsType,
+      domain,
     }).then(
       // We still try to filter locally, for Shlink older than 4.0.0
       (resp) => filterOrphanVisitsByType(resp, orphanVisitsType),

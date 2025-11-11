@@ -2,7 +2,7 @@ import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { ShlinkApiClient } from '../../api-contract';
 import { filterCreatedVisitsByTag } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
-import type { LoadVisits, VisitsInfo } from './types';
+import type { LoadWithDomainVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/tagVisits';
 
@@ -21,15 +21,15 @@ const initialState: TagVisits = {
   progress: null,
 };
 
-export type LoadTagVisits = LoadVisits & WithTag;
+export type LoadTagVisits = LoadWithDomainVisits & WithTag;
 
 export const getTagVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getTagVisits`,
-  createLoaders: ({ tag, options }: LoadTagVisits) => {
+  createLoaders: ({ tag, options, domain }: LoadTagVisits) => {
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false } = options;
 
-    const visitsLoader = (query: ShlinkVisitsParams) => apiClient.getTagVisits(tag, query);
+    const visitsLoader = (query: ShlinkVisitsParams) => apiClient.getTagVisits(tag, { ...query, domain });
     const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, async (q) => apiClient.getTagVisits(tag, q));
 
     return { visitsLoader, lastVisitLoader };

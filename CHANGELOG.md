@@ -4,10 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [0.17.0] - 2025-11-12
 ### Added
 * [#839](https://github.com/shlinkio/shlink-web-component/issues/839) Allow filtering short URLs by excluded tags when using Shlink >=4.6.0
 * [#838](https://github.com/shlinkio/shlink-web-component/issues/838) Allow filtering tag, orphan and non-orphan visits by domain, when using Shlink >=4.6.0
+* [#784](https://github.com/shlinkio/shlink-web-component/issues/784) Add optional `long-url` query parameter to short URL creation to prefill the long URL programmatically.
 
 ### Changed
 * [#519](https://github.com/shlinkio/shlink-web-component/issues/519) Redesign short URLs filtering bar for more clarity and consistency

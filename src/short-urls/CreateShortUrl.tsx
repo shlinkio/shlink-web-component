@@ -1,9 +1,9 @@
+import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import type { ShlinkCreateShortUrlData } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import type { ShortUrlCreationSettings } from '../settings';
 import { useSetting } from '../settings';
 import { CreateShortUrlResult } from './helpers/CreateShortUrlResult';
 import type { ShortUrlCreation } from './reducers/shortUrlCreation';
@@ -23,20 +23,6 @@ type CreateShortUrlDeps = {
   ShortUrlForm: FC<ShortUrlFormProps<ShlinkCreateShortUrlData>>;
 };
 
-const getInitialState = (settings?: ShortUrlCreationSettings): ShlinkCreateShortUrlData => ({
-  longUrl: '',
-  tags: [],
-  customSlug: '',
-  title: undefined,
-  shortCodeLength: undefined,
-  domain: '',
-  validSince: undefined,
-  validUntil: undefined,
-  maxVisits: undefined,
-  findIfExists: false,
-  forwardQuery: settings?.forwardQuery ?? true,
-});
-
 const CreateShortUrl: FCWithDeps<CreateShortUrlConnectProps, CreateShortUrlDeps> = ({
   createShortUrl,
   shortUrlCreation,
@@ -45,7 +31,23 @@ const CreateShortUrl: FCWithDeps<CreateShortUrlConnectProps, CreateShortUrlDeps>
 }: CreateShortUrlConnectProps) => {
   const { ShortUrlForm } = useDependencies(CreateShortUrl);
   const shortUrlCreationSettings = useSetting('shortUrlCreation');
-  const initialState = useMemo(() => getInitialState(shortUrlCreationSettings), [shortUrlCreationSettings]);
+  const { 'long-url': longUrlFromQuery = '' } = useParsedQuery<{ 'long-url'?: string }>();
+  const initialState = useMemo(
+    (): ShlinkCreateShortUrlData => ({
+      longUrl: longUrlFromQuery,
+      tags: [],
+      customSlug: '',
+      title: undefined,
+      shortCodeLength: undefined,
+      domain: '',
+      validSince: undefined,
+      validUntil: undefined,
+      maxVisits: undefined,
+      findIfExists: false,
+      forwardQuery: shortUrlCreationSettings?.forwardQuery ?? true,
+    }),
+    [longUrlFromQuery, shortUrlCreationSettings?.forwardQuery],
+  );
 
   return (
     <>

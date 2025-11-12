@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
+import type { DomainsList } from '../domains/reducers/domainsList';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
@@ -18,6 +19,7 @@ export type OrphanVisitsProps = {
   orphanVisits: VisitsInfo;
   orphanVisitsDeletion: OrphanVisitsDeletion;
   cancelGetOrphanVisits: () => void;
+  domainsList: DomainsList;
 };
 
 type OrphanVisitsDeps = {
@@ -25,7 +27,7 @@ type OrphanVisitsDeps = {
 };
 
 const OrphanVisits: FCWithDeps<MercureBoundProps & OrphanVisitsProps, OrphanVisitsDeps> = boundToMercureHub((
-  { getOrphanVisits, orphanVisits, cancelGetOrphanVisits, deleteOrphanVisits, orphanVisitsDeletion },
+  { getOrphanVisits, orphanVisits, cancelGetOrphanVisits, deleteOrphanVisits, orphanVisitsDeletion, domainsList },
 ) => {
   const { ReportExporter: reportExporter } = useDependencies(OrphanVisits);
   const exportCsv = useCallback(
@@ -37,6 +39,7 @@ const OrphanVisits: FCWithDeps<MercureBoundProps & OrphanVisitsProps, OrphanVisi
       options,
       params,
       orphanVisitsType: params.filter?.orphanVisitsType,
+      domain: params.filter?.domain,
     }),
     [getOrphanVisits],
   );
@@ -53,6 +56,7 @@ const OrphanVisits: FCWithDeps<MercureBoundProps & OrphanVisitsProps, OrphanVisi
       exportCsv={exportCsv}
       deletion={deletion}
       isOrphanVisits
+      domains={domainsList.domains}
     >
       <VisitsHeader title="Orphan visits" visits={orphanVisits.visits} />
     </VisitsStats>

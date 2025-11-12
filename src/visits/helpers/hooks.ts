@@ -17,12 +17,14 @@ type VisitsRawQuery = Record<string, unknown> & {
   orphanVisitsType?: ShlinkOrphanVisitType;
   excludeBots?: BooleanString;
   loadPrevInterval?: BooleanString;
+  domain?: string;
 };
 
 export type VisitsQuery = {
   dateRange?: DateRange;
   visitsFilter: VisitsFilter;
   loadPrevInterval?: boolean;
+  domain?: string;
 };
 
 type UpdateQuery = (extra: DeepPartial<VisitsQuery>) => void;
@@ -44,7 +46,7 @@ const dateFromRangeToQuery = (dateName: keyof DateRange, dateRange?: DateRange):
 export const useVisitsQuery = (): [VisitsQuery, UpdateQuery] => {
   const navigate = useNavigate();
   const rawQuery = useParsedQuery<VisitsRawQuery>();
-  const { startDate, endDate, orphanVisitsType, excludeBots, loadPrevInterval, ...rest } = rawQuery;
+  const { startDate, endDate, orphanVisitsType, excludeBots, loadPrevInterval, domain, ...rest } = rawQuery;
 
   const query = useMemo(
     (): VisitsQuery => ({
@@ -54,11 +56,15 @@ export const useVisitsQuery = (): [VisitsQuery, UpdateQuery] => {
         excludeBots: excludeBots !== undefined ? excludeBots === 'true' : undefined,
       },
       loadPrevInterval: loadPrevInterval !== undefined ? loadPrevInterval === 'true' : undefined,
+      domain,
     }),
-    [endDate, excludeBots, loadPrevInterval, orphanVisitsType, startDate],
+    [endDate, excludeBots, loadPrevInterval, orphanVisitsType, startDate, domain],
   );
   const updateQuery = useCallback((extra: DeepPartial<VisitsQuery>) => {
-    const { dateRange, visitsFilter = {}, loadPrevInterval: newLoadPrevInterval } = mergeDeepRight(query, extra);
+    const { dateRange, visitsFilter = {}, loadPrevInterval: newLoadPrevInterval, domain } = mergeDeepRight(
+      query,
+      extra,
+    );
     const { excludeBots: newExcludeBots, orphanVisitsType: newOrphanVisitsType } = visitsFilter;
     const newQuery: VisitsRawQuery = {
       ...rest, // Merge with rest of existing query so that unknown params are preserved
@@ -67,6 +73,7 @@ export const useVisitsQuery = (): [VisitsQuery, UpdateQuery] => {
       excludeBots: newExcludeBots === undefined ? undefined : parseBooleanToString(newExcludeBots),
       orphanVisitsType: newOrphanVisitsType,
       loadPrevInterval: newLoadPrevInterval === undefined ? undefined : parseBooleanToString(newLoadPrevInterval),
+      domain,
     };
     const stringifiedQuery = stringifyQueryParams(newQuery);
     const queryString = !stringifiedQuery ? '' : `?${stringifiedQuery}`;

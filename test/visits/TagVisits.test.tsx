@@ -5,7 +5,6 @@ import { formatISO } from 'date-fns';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import type { TagVisits as TagVisitsStats } from '../../src/visits/reducers/tagVisits';
-import type { TagVisitsProps } from '../../src/visits/TagVisits';
 import { TagVisitsFactory } from '../../src/visits/TagVisits';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
@@ -26,11 +25,11 @@ describe('<TagVisits />', () => {
         {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
         <Card>
           <TagVisits
-            {...fromPartial<TagVisitsProps>({})}
             {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
             getTagVisits={getTagVisitsMock}
             tagVisits={tagVisits}
             cancelGetTagVisits={() => {}}
+            domainsList={fromPartial({ domains: [] })}
           />
         </Card>
       </SettingsProvider>

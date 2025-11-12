@@ -54,6 +54,7 @@ export interface VisitsStats {
 export interface VisitsFilter {
   orphanVisitsType?: ShlinkOrphanVisitType | undefined;
   excludeBots?: boolean;
+  domain?: string;
 }
 
 export type VisitsParams = {

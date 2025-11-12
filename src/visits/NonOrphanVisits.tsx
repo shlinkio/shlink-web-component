@@ -1,19 +1,21 @@
 import { useCallback } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
+import type { DomainsList } from '../domains/reducers/domainsList';
 import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
-import type { GetVisitsOptions, LoadVisits, VisitsInfo } from './reducers/types';
+import type { GetVisitsOptions, LoadWithDomainVisits, VisitsInfo } from './reducers/types';
 import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsHeader } from './VisitsHeader';
 import { VisitsStats } from './VisitsStats';
 
 export type NonOrphanVisitsProps = {
-  getNonOrphanVisits: (params: LoadVisits) => void;
+  getNonOrphanVisits: (params: LoadWithDomainVisits) => void;
   nonOrphanVisits: VisitsInfo;
   cancelGetNonOrphanVisits: () => void;
+  domainsList: DomainsList;
 };
 
 type NonOrphanVisitsDeps = {
@@ -21,7 +23,7 @@ type NonOrphanVisitsDeps = {
 };
 
 const NonOrphanVisits: FCWithDeps<MercureBoundProps & NonOrphanVisitsProps, NonOrphanVisitsDeps> = boundToMercureHub((
-  { getNonOrphanVisits, nonOrphanVisits, cancelGetNonOrphanVisits },
+  { getNonOrphanVisits, nonOrphanVisits, cancelGetNonOrphanVisits, domainsList },
 ) => {
   const { ReportExporter: reportExporter } = useDependencies(NonOrphanVisits);
   const exportCsv = useCallback(
@@ -29,7 +31,11 @@ const NonOrphanVisits: FCWithDeps<MercureBoundProps & NonOrphanVisitsProps, NonO
     [reportExporter],
   );
   const loadVisits = useCallback(
-    (params: VisitsParams, options: GetVisitsOptions) => getNonOrphanVisits({ options, params }),
+    (params: VisitsParams, options: GetVisitsOptions) => getNonOrphanVisits({
+      options,
+      params,
+      domain: params.filter?.domain,
+    }),
     [getNonOrphanVisits],
   );
 
@@ -39,6 +45,7 @@ const NonOrphanVisits: FCWithDeps<MercureBoundProps & NonOrphanVisitsProps, NonO
       cancelGetVisits={cancelGetNonOrphanVisits}
       visitsInfo={nonOrphanVisits}
       exportCsv={exportCsv}
+      domains={domainsList.domains}
     >
       <VisitsHeader title="Non-orphan visits" visits={nonOrphanVisits.visits} />
     </VisitsStats>

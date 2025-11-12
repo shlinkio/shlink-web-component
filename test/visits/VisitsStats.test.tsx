@@ -3,8 +3,11 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
 import type { ShlinkVisit } from '../../src/api-contract';
+import type { Domain } from '../../src/domains/data';
+import { DEFAULT_DOMAIN } from '../../src/domains/data';
 import type { Settings } from '../../src/settings';
 import { SettingsProvider } from '../../src/settings';
+import { FeaturesProvider } from '../../src/utils/features';
 import { rangeOf } from '../../src/utils/helpers';
 import { ChartDimensionsProvider } from '../../src/visits/charts/ChartDimensionsContext';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
@@ -17,13 +20,22 @@ type SetUpOptions = {
   withDeletion?: boolean;
   activeRoute?: string;
   settings?: Partial<Settings>;
+  domains?: Domain[];
+  filterByDomainSupported?: boolean;
 };
 
 describe('<VisitsStats />', () => {
   const visits = rangeOf(3, () => fromPartial<ShlinkVisit>({ date: '2020-01-01' }));
   const getVisitsMock = vi.fn();
   const exportCsv = vi.fn();
-  const setUp = ({ visitsInfo = {}, activeRoute = '/by-time', withDeletion, settings = {} }: SetUpOptions = {}) => {
+  const setUp = ({
+    visitsInfo = {},
+    activeRoute = '/by-time',
+    withDeletion,
+    settings = {},
+    domains,
+    filterByDomainSupported = false,
+  }: SetUpOptions = {}) => {
     const history = createMemoryHistory();
     history.push(activeRoute);
 
@@ -32,15 +44,24 @@ describe('<VisitsStats />', () => {
       ...renderWithEvents(
         <Router location={history.location} navigator={history}>
           <SettingsProvider value={fromPartial(settings)}>
-            <ChartDimensionsProvider value={{ width: 800, height: 300 }}>
-              <VisitsStats
-                getVisits={getVisitsMock}
-                visitsInfo={fromPartial({ loading: false, errorData: null, progress: null, visits: [], ...visitsInfo })}
-                cancelGetVisits={() => {}}
-                exportCsv={exportCsv}
-                deletion={withDeletion ? fromPartial({ visitsDeletion: {} }) : undefined}
-              />
-            </ChartDimensionsProvider>
+            <FeaturesProvider value={fromPartial({ filterVisitsByDomain: filterByDomainSupported })}>
+              <ChartDimensionsProvider value={{ width: 800, height: 300 }}>
+                <VisitsStats
+                  getVisits={getVisitsMock}
+                  visitsInfo={fromPartial({
+                    loading: false,
+                    errorData: null,
+                    progress: null,
+                    visits: [],
+                    ...visitsInfo,
+                  })}
+                  cancelGetVisits={() => {}}
+                  exportCsv={exportCsv}
+                  deletion={withDeletion ? fromPartial({ visitsDeletion: {} }) : undefined}
+                  domains={domains}
+                />
+              </ChartDimensionsProvider>
+            </FeaturesProvider>
           </SettingsProvider>
         </Router>,
       ),
@@ -158,6 +179,36 @@ describe('<VisitsStats />', () => {
     await waitFor(() => screen.getByRole('menu'));
     await user.click(screen.getByRole('menuitem', { name: /Last 180 days/ }));
     expectSearchContains(['startDate', 'endDate']);
+  });
+
+  it.each([
+    { domains: undefined, filterByDomainSupported: false },
+    { domains: [], filterByDomainSupported: false },
+    { domains: undefined, filterByDomainSupported: true },
+    { domains: [], filterByDomainSupported: true },
+  ])('shows domains filtering control when domains are provided and the feature is supported', ({ domains, filterByDomainSupported }) => {
+    setUp({ domains, filterByDomainSupported });
+
+    if (domains && filterByDomainSupported) {
+      expect(screen.getByRole('button', { name: 'All domains' })).toBeInTheDocument();
+    } else {
+      expect(screen.queryByRole('button', { name: 'All domains' })).not.toBeInTheDocument();
+    }
+  });
+
+  it.each([
+    { selectedDomain: /^foo/, expectedFilter: DEFAULT_DOMAIN },
+    { selectedDomain: 'bar', expectedFilter: 'bar' },
+  ])('can change domain to filter by', async ({ selectedDomain, expectedFilter }) => {
+    const { history, user } = setUp({
+      domains: [fromPartial({ isDefault: true, domain: 'foo' }), fromPartial({ domain: 'bar' })],
+      filterByDomainSupported: true,
+    });
+
+    await user.click(screen.getByRole('button', { name: 'All domains' }));
+    await user.click(await screen.findByRole('menuitem', { name: selectedDomain }));
+
+    expect(history.location.search).toContain(`domain=${expectedFilter}`);
   });
 
   // FIXME Snapshots do not match when run in CI, because it generate some slightly off coordinates.

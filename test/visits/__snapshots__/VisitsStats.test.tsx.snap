@@ -18,7 +18,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«rgb»"
+          aria-controls="«rjn»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -42,7 +42,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«rgf»"
+            aria-controls="«rjr»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -68,7 +68,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«rgb»"
+      id="«rjn»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -494,7 +494,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«rgi»"
+              id="recharts-line-«rju»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -570,7 +570,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«rh5»"
+          aria-controls="«rkh»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -594,7 +594,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«rh9»"
+            aria-controls="«rkl»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -620,7 +620,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«rh5»"
+      id="«rkh»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1046,7 +1046,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«rhe»"
+              id="recharts-line-«rkq»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -1122,7 +1122,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«ri1»"
+          aria-controls="«rld»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1146,7 +1146,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«ri5»"
+            aria-controls="«rlh»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1172,7 +1172,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«ri1»"
+      id="«rld»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1598,7 +1598,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«ri8»"
+              id="recharts-line-«rlk»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -1674,7 +1674,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«rir»"
+          aria-controls="«rm7»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1698,7 +1698,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«riv»"
+            aria-controls="«rmb»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1724,7 +1724,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«rir»"
+      id="«rm7»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2150,7 +2150,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«rj2»"
+              id="recharts-line-«rme»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -2191,7 +2191,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«rj3»"
+              id="recharts-line-«rmf»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"
@@ -2283,7 +2283,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«rjm»"
+          aria-controls="«rn2»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -2307,7 +2307,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«rjq»"
+            aria-controls="«rn6»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -2333,7 +2333,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«rjm»"
+      id="«rn2»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2759,7 +2759,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«rjt»"
+              id="recharts-line-«rn9»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -2800,7 +2800,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«rju»"
+              id="recharts-line-«rna»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"
@@ -2892,7 +2892,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«rkh»"
+          aria-controls="«rnt»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -2916,7 +2916,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«rkl»"
+            aria-controls="«ro1»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -2942,7 +2942,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«rkh»"
+      id="«rnt»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -3368,7 +3368,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«rko»"
+              id="recharts-line-«ro4»"
               stroke="#2078CF"
               stroke-dasharray="0px 774.9193725585938px"
               stroke-width="2"
@@ -3409,7 +3409,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
               d="M65,5L795,265"
               fill="none"
               height="260"
-              id="recharts-line-«rkp»"
+              id="recharts-line-«ro5»"
               stroke="#1DAA58"
               stroke-dasharray="0px, 774.9193725585938px"
               stroke-width="2"

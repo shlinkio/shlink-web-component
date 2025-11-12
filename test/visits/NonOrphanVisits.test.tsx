@@ -28,6 +28,7 @@ describe('<NonOrphanVisits />', () => {
             getNonOrphanVisits={getNonOrphanVisits}
             cancelGetNonOrphanVisits={cancelGetNonOrphanVisits}
             nonOrphanVisits={nonOrphanVisits}
+            domainsList={fromPartial({ domains: [] })}
           />
         </Card>
       </SettingsProvider>

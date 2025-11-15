@@ -46,6 +46,12 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
           >
             <title />
             <desc />
+            <g
+              id="recharts-zindex--100-«rd»"
+            />
+            <g
+              id="recharts-zindex--50-«re»"
+            />
             <defs>
               <clippath
                 id="recharts4-clip"
@@ -59,22 +65,53 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
               </clippath>
             </defs>
             <g
-              class="recharts-layer recharts-pie"
-              tabindex="0"
+              id="recharts-zindex-100-«rg»"
             >
               <g
-                class="recharts-layer"
+                class="recharts-layer recharts-pie"
+                tabindex="0"
               >
                 <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
+                  class="recharts-layer"
+                >
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                </g>
               </g>
             </g>
+            <g
+              id="recharts-zindex-200-«rh»"
+            />
+            <g
+              id="recharts-zindex-300-«ri»"
+            />
+            <g
+              id="recharts-zindex-400-«rj»"
+            />
+            <g
+              id="recharts-zindex-500-«rk»"
+            />
+            <g
+              id="recharts-zindex-600-«rl»"
+            />
+            <g
+              id="recharts-zindex-1000-«rm»"
+            />
+            <g
+              id="recharts-zindex-1100-«rn»"
+            />
+            <g
+              id="recharts-zindex-1200-«ro»"
+            />
+            <g
+              id="recharts-zindex-2000-«rp»"
+            />
           </svg>
         </div>
       </div>
@@ -177,6 +214,12 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
           >
             <title />
             <desc />
+            <g
+              id="recharts-zindex--100-«rq»"
+            />
+            <g
+              id="recharts-zindex--50-«rr»"
+            />
             <defs>
               <clippath
                 id="recharts7-clip"
@@ -190,39 +233,70 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
               </clippath>
             </defs>
             <g
-              class="recharts-layer recharts-pie"
-              tabindex="0"
+              id="recharts-zindex-100-«ru»"
             >
               <g
-                class="recharts-layer"
+                class="recharts-layer recharts-pie"
+                tabindex="0"
               >
                 <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
+                  class="recharts-layer"
+                >
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                </g>
+              </g>
+              <g
+                class="recharts-layer recharts-pie"
+                tabindex="0"
+              >
                 <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
+                  class="recharts-layer"
+                >
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                </g>
               </g>
             </g>
             <g
-              class="recharts-layer recharts-pie"
-              tabindex="0"
-            >
-              <g
-                class="recharts-layer"
-              >
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-              </g>
-            </g>
+              id="recharts-zindex-200-«rv»"
+            />
+            <g
+              id="recharts-zindex-300-«r10»"
+            />
+            <g
+              id="recharts-zindex-400-«r11»"
+            />
+            <g
+              id="recharts-zindex-500-«r12»"
+            />
+            <g
+              id="recharts-zindex-600-«r13»"
+            />
+            <g
+              id="recharts-zindex-1000-«r14»"
+            />
+            <g
+              id="recharts-zindex-1100-«r15»"
+            />
+            <g
+              id="recharts-zindex-1200-«r16»"
+            />
+            <g
+              id="recharts-zindex-2000-«r17»"
+            />
           </svg>
         </div>
       </div>
@@ -325,6 +399,12 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
           >
             <title />
             <desc />
+            <g
+              id="recharts-zindex--100-«r18»"
+            />
+            <g
+              id="recharts-zindex--50-«r19»"
+            />
             <defs>
               <clippath
                 id="recharts12-clip"
@@ -338,43 +418,74 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
               </clippath>
             </defs>
             <g
-              class="recharts-layer recharts-pie"
-              tabindex="0"
+              id="recharts-zindex-100-«r1c»"
             >
               <g
-                class="recharts-layer"
+                class="recharts-layer recharts-pie"
+                tabindex="0"
               >
                 <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
+                  class="recharts-layer"
+                >
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                </g>
+              </g>
+              <g
+                class="recharts-layer recharts-pie"
+                tabindex="0"
+              >
                 <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
+                  class="recharts-layer"
+                >
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                  <g
+                    class="recharts-layer recharts-pie-sector"
+                    tabindex="-1"
+                  />
+                </g>
               </g>
             </g>
             <g
-              class="recharts-layer recharts-pie"
-              tabindex="0"
-            >
-              <g
-                class="recharts-layer"
-              >
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-              </g>
-            </g>
+              id="recharts-zindex-200-«r1d»"
+            />
+            <g
+              id="recharts-zindex-300-«r1e»"
+            />
+            <g
+              id="recharts-zindex-400-«r1f»"
+            />
+            <g
+              id="recharts-zindex-500-«r1g»"
+            />
+            <g
+              id="recharts-zindex-600-«r1h»"
+            />
+            <g
+              id="recharts-zindex-1000-«r1i»"
+            />
+            <g
+              id="recharts-zindex-1100-«r1j»"
+            />
+            <g
+              id="recharts-zindex-1200-«r1k»"
+            />
+            <g
+              id="recharts-zindex-2000-«r1l»"
+            />
           </svg>
         </div>
       </div>

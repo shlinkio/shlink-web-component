@@ -1,6 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlsList } from '../../../src/api-contract';
-import { createShortUrl as createShortUrlCreator } from '../../../src/short-urls/reducers/shortUrlCreation';
+import { createShortUrlThunk as createShortUrl } from '../../../src/short-urls/reducers/shortUrlCreation';
 import { shortUrlDeleted } from '../../../src/short-urls/reducers/shortUrlDeletion';
 import { editShortUrl as editShortUrlCreator } from '../../../src/short-urls/reducers/shortUrlEdition';
 import {
@@ -16,8 +16,7 @@ describe('shortUrlsListReducer', () => {
   const buildShlinkApiClient = () => fromPartial<ShlinkApiClient>({ listShortUrls: listShortUrlsMock });
   const listShortUrls = listShortUrlsCreator(buildShlinkApiClient);
   const editShortUrl = editShortUrlCreator(buildShlinkApiClient);
-  const createShortUrl = createShortUrlCreator(buildShlinkApiClient);
-  const { reducer } = shortUrlsListReducerCreator(listShortUrls, editShortUrl, createShortUrl);
+  const { reducer } = shortUrlsListReducerCreator(listShortUrls, editShortUrl);
 
   describe('reducer', () => {
     it('returns loading on LIST_SHORT_URLS_START', () =>

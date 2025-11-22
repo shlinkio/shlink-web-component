@@ -1,7 +1,7 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import type { ProblemDetailsError, ShlinkApiClient, ShlinkDomainRedirects } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
-import type { CreateShortUrlThunk } from '../../short-urls/reducers/shortUrlCreation';
+import { createShortUrlThunk } from '../../short-urls/reducers/shortUrlCreation';
 import { createAsyncThunk } from '../../store/helpers';
 import type { Domain, DomainStatus } from '../data';
 import type { EditDomainRedirects } from './domainRedirects';
@@ -41,10 +41,7 @@ export const replaceRedirectsOnDomain = ({ domain, redirects }: EditDomainRedire
 export const replaceStatusOnDomain = (domain: string, status: DomainStatus) =>
   (d: Domain): Domain => (d.domain !== domain ? d : { ...d, status });
 
-export const domainsListReducerCreator = (
-  apiClientFactory: () => ShlinkApiClient,
-  createShortUrl: CreateShortUrlThunk,
-) => {
+export const domainsListReducerCreator = (apiClientFactory: () => ShlinkApiClient) => {
   const listDomains = createAsyncThunk(`${REDUCER_PREFIX}/listDomains`, async (): Promise<ListDomains> => {
     const { data, defaultRedirects } = await apiClientFactory().listDomains();
 
@@ -100,7 +97,7 @@ export const domainsListReducerCreator = (
       }));
 
       // When a short URL is created with a new domain, add it to the list
-      builder.addCase(createShortUrl.fulfilled, (state, { payload }) => {
+      builder.addCase(createShortUrlThunk.fulfilled, (state, { payload }) => {
         // Domain already exists
         if (payload.domain === null || state.domains.some((d) => d.domain === payload.domain)) {
           return;

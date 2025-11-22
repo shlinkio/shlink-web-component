@@ -1,7 +1,7 @@
 import type { ShlinkTagsStats } from '@shlinkio/shlink-js-sdk/api-contract';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
-import { createShortUrl as createShortUrlCreator } from '../../../src/short-urls/reducers/shortUrlCreation';
+import { createShortUrlThunk as createShortUrl } from '../../../src/short-urls/reducers/shortUrlCreation';
 import type { TagStats } from '../../../src/tags/data';
 import { tagDeleted } from '../../../src/tags/reducers/tagDelete';
 import { tagEdited } from '../../../src/tags/reducers/tagEdit';
@@ -18,8 +18,7 @@ describe('tagsListReducer', () => {
   const state = (props: Partial<TagsList>) => fromPartial<TagsList>(props);
   const buildShlinkApiClient = vi.fn();
   const listTags = listTagsCreator(buildShlinkApiClient);
-  const createShortUrl = createShortUrlCreator(buildShlinkApiClient);
-  const { reducer } = tagsListReducerCreator(listTags, createShortUrl);
+  const { reducer } = tagsListReducerCreator(listTags);
 
   describe('reducer', () => {
     it('returns loading on LIST_TAGS_START', () => {

@@ -12,7 +12,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'domainsListReducerCreator',
     domainsListReducerCreator,
     'apiClientFactory',
-    'createShortUrl',
   );
   bottle.serviceFactory('domainsListReducer', (obj) => obj.reducer, 'domainsListReducerCreator');
 

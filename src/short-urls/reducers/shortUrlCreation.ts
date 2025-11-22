@@ -1,10 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { useCallback } from 'react';
 import type { ProblemDetailsError, ShlinkApiClient, ShlinkCreateShortUrlData, ShlinkShortUrl } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
+import { useDependencies } from '../../container/context';
+import { useAppDispatch, useAppSelector } from '../../store';
 import { createAsyncThunk } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/shortUrlCreation';
 
+// TODO Migrate this to `status: 'idle' | 'saving' | 'saved' | 'error'`
 export type ShortUrlCreation = {
   saving: false;
   saved: false;
@@ -31,37 +35,45 @@ const initialState: ShortUrlCreation = {
   error: false,
 };
 
-export const createShortUrl = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
+export const createShortUrlThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/createShortUrl`,
-  (data: ShlinkCreateShortUrlData): Promise<ShlinkShortUrl> => apiClientFactory().createShortUrl(data),
+  (
+    { apiClientFactory, ...data }: ShlinkCreateShortUrlData & { apiClientFactory: () => ShlinkApiClient },
+  ): Promise<ShlinkShortUrl> => apiClientFactory().createShortUrl(data),
 );
 
-export type CreateShortUrlThunk = ReturnType<typeof createShortUrl>;
+const { reducer, actions } = createSlice({
+  name: REDUCER_PREFIX,
+  initialState: initialState as ShortUrlCreation, // Without this casting it infers type ShortUrlCreationWaiting
+  reducers: {
+    resetCreateShortUrl: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createShortUrlThunk.pending, () => ({ saving: true, saved: false, error: false }));
+    builder.addCase(
+      createShortUrlThunk.rejected,
+      (_, { error }) => ({ saving: false, saved: false, error: true, errorData: parseApiError(error) }),
+    );
+    builder.addCase(
+      createShortUrlThunk.fulfilled,
+      (_, { payload: result }) => ({ result, saving: false, saved: true, error: false }),
+    );
+  },
+});
 
-export const shortUrlCreationReducerCreator = (createShortUrlThunk: CreateShortUrlThunk) => {
-  const { reducer, actions } = createSlice({
-    name: REDUCER_PREFIX,
-    initialState: initialState as ShortUrlCreation, // Without this casting it infers type ShortUrlCreationWaiting
-    reducers: {
-      resetCreateShortUrl: () => initialState,
-    },
-    extraReducers: (builder) => {
-      builder.addCase(createShortUrlThunk.pending, () => ({ saving: true, saved: false, error: false }));
-      builder.addCase(
-        createShortUrlThunk.rejected,
-        (_, { error }) => ({ saving: false, saved: false, error: true, errorData: parseApiError(error) }),
-      );
-      builder.addCase(
-        createShortUrlThunk.fulfilled,
-        (_, { payload: result }) => ({ result, saving: false, saved: true, error: false }),
-      );
-    },
-  });
+export const { resetCreateShortUrl } = actions;
 
-  const { resetCreateShortUrl } = actions;
+export const shortUrlCreationReducer = reducer;
 
-  return {
-    reducer,
-    resetCreateShortUrl,
-  };
+export const useUrlCreation = () => {
+  const dispatch = useAppDispatch();
+  const [apiClientFactory] = useDependencies<[() => ShlinkApiClient]>('apiClientFactory');
+  const resetCreateShortUrl = useCallback(() => dispatch(actions.resetCreateShortUrl()), [dispatch]);
+  const createShortUrl = useCallback(
+    (data: ShlinkCreateShortUrlData) => dispatch(createShortUrlThunk({ ...data, apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const shortUrlCreation = useAppSelector((state) => state.shortUrlCreation);
+
+  return { shortUrlCreation, resetCreateShortUrl, createShortUrl };
 };

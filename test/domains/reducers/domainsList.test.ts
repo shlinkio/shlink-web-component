@@ -9,7 +9,7 @@ import {
   replaceRedirectsOnDomain,
   replaceStatusOnDomain,
 } from '../../../src/domains/reducers/domainsList';
-import { createShortUrl } from '../../../src/short-urls/reducers/shortUrlCreation';
+import { createShortUrlThunk } from '../../../src/short-urls/reducers/shortUrlCreation';
 
 describe('domainsListReducer', () => {
   const dispatch = vi.fn();
@@ -23,10 +23,8 @@ describe('domainsListReducer', () => {
   ];
   const domains: Domain[] = [...filteredDomains, fromPartial({ domain: 'bar', status: 'validating' })];
   const error = { type: 'NOT_FOUND', status: 404 } as unknown as Error;
-  const createShortUrlThunk = createShortUrl(apiClientFactory);
   const { reducer, listDomains: listDomainsAction, checkDomainHealth, filterDomains } = domainsListReducerCreator(
     apiClientFactory,
-    createShortUrlThunk,
   );
 
   describe('reducer', () => {

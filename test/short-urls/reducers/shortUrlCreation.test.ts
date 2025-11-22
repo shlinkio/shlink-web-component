@@ -1,16 +1,15 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient, ShlinkShortUrl } from '../../../src/api-contract';
 import {
-  createShortUrl as createShortUrlCreator,
-  shortUrlCreationReducerCreator,
+  createShortUrlThunk as createShortUrl,
+  resetCreateShortUrl,
+  shortUrlCreationReducer as reducer,
 } from '../../../src/short-urls/reducers/shortUrlCreation';
 
 describe('shortUrlCreationReducer', () => {
   const shortUrl = fromPartial<ShlinkShortUrl>({});
   const createShortUrlCall = vi.fn();
-  const buildShlinkApiClient = () => fromPartial<ShlinkApiClient>({ createShortUrl: createShortUrlCall });
-  const createShortUrl = createShortUrlCreator(buildShlinkApiClient);
-  const { reducer, resetCreateShortUrl } = shortUrlCreationReducerCreator(createShortUrl);
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ createShortUrl: createShortUrlCall });
 
   describe('reducer', () => {
     it('returns loading on CREATE_SHORT_URL_START', () => {
@@ -52,7 +51,7 @@ describe('shortUrlCreationReducer', () => {
 
     it('calls API on success', async () => {
       createShortUrlCall.mockResolvedValue(shortUrl);
-      await createShortUrl({ longUrl: 'foo' })(dispatch, vi.fn(), {});
+      await createShortUrl({ longUrl: 'foo', apiClientFactory })(dispatch, vi.fn(), {});
 
       expect(createShortUrlCall).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);

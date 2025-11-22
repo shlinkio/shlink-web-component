@@ -4,8 +4,6 @@ import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
-import { bottle } from '../../container';
-import { ContainerProvider } from '../../container/context';
 import type { DeepPartial } from '../../utils/types';
 import type { QrCodeSettings } from '..';
 import { SettingsProvider } from '..';
@@ -61,73 +59,71 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
   );
 
   return (
-    <ContainerProvider value={bottle.container}>
-      <SettingsProvider value={settings}>
-        <NavPills className="mb-4 sticky top-(--header-height) z-2">
-          <NavPills.Pill to="../general">General</NavPills.Pill>
-          <NavPills.Pill to="../short-urls">Short URLs</NavPills.Pill>
-          <NavPills.Pill to="../visits">Visits</NavPills.Pill>
-          <NavPills.Pill to="../tags">Tags</NavPills.Pill>
-          <NavPills.Pill to="../qr-codes">QR codes</NavPills.Pill>
-        </NavPills>
+    <SettingsProvider value={settings}>
+      <NavPills className="mb-4 sticky top-(--header-height) z-2">
+        <NavPills.Pill to="../general">General</NavPills.Pill>
+        <NavPills.Pill to="../short-urls">Short URLs</NavPills.Pill>
+        <NavPills.Pill to="../visits">Visits</NavPills.Pill>
+        <NavPills.Pill to="../tags">Tags</NavPills.Pill>
+        <NavPills.Pill to="../qr-codes">QR codes</NavPills.Pill>
+      </NavPills>
 
-        <Routes>
-          <Route
-            path="general"
-            element={(
-              <SettingsSections>
-                <UserInterfaceSettings onChange={(v) => updateSettingsProp('ui', v)} />
-                <RealTimeUpdates
-                  toggleRealTimeUpdates={toggleRealTimeUpdates}
-                  onIntervalChange={setRealTimeUpdatesInterval}
-                />
-              </SettingsSections>
-            )}
-          />
-          <Route
-            path="short-urls"
-            element={(
-              <SettingsSections>
-                <ShortUrlCreation onChange={(v) => updateSettingsProp('shortUrlCreation', v)} />
-                <ShortUrlsList
-                  defaultOrdering={defaultShortUrlsListOrdering}
-                  onChange={(v) => updateSettingsProp('shortUrlsList', v)}
-                />
-              </SettingsSections>
-            )}
-          />
-          <Route
-            path="visits"
-            element={(
-              <SettingsSections>
-                <Visits onChange={(v) => updateSettingsProp('visits', v)} />
-                <VisitsListSettings onChange={(vl) => updateSettingsProp('visitsList', vl)} />
-              </SettingsSections>
-            )}
-          />
-          <Route
-            path="tags"
-            element={(
-              <SettingsSections>
-                <Tags onChange={(v) => updateSettingsProp('tags', v)} />
-              </SettingsSections>
-            )}
-          />
-          <Route
-            path="qr-codes"
-            element={(
-              <SettingsSections>
-                <div className="flex flex-col lg:flex-row gap-4">
-                  <QrCodeSizeSettings onChange={updateQrCodeSettings} className="w-full" />
-                  <QrCodeColorSettings onChange={updateQrCodeSettings} className="w-full" />
-                </div>
-                <QrCodeFormatSettings onChange={updateQrCodeSettings} />
-              </SettingsSections>
-            )}
-          />
-          <Route path="*" element={<Navigate replace to="../general" />} />
-        </Routes>
-      </SettingsProvider>
-    </ContainerProvider>
+      <Routes>
+        <Route
+          path="general"
+          element={(
+            <SettingsSections>
+              <UserInterfaceSettings onChange={(v) => updateSettingsProp('ui', v)} />
+              <RealTimeUpdates
+                toggleRealTimeUpdates={toggleRealTimeUpdates}
+                onIntervalChange={setRealTimeUpdatesInterval}
+              />
+            </SettingsSections>
+          )}
+        />
+        <Route
+          path="short-urls"
+          element={(
+            <SettingsSections>
+              <ShortUrlCreation onChange={(v) => updateSettingsProp('shortUrlCreation', v)} />
+              <ShortUrlsList
+                defaultOrdering={defaultShortUrlsListOrdering}
+                onChange={(v) => updateSettingsProp('shortUrlsList', v)}
+              />
+            </SettingsSections>
+          )}
+        />
+        <Route
+          path="visits"
+          element={(
+            <SettingsSections>
+              <Visits onChange={(v) => updateSettingsProp('visits', v)} />
+              <VisitsListSettings onChange={(vl) => updateSettingsProp('visitsList', vl)} />
+            </SettingsSections>
+          )}
+        />
+        <Route
+          path="tags"
+          element={(
+            <SettingsSections>
+              <Tags onChange={(v) => updateSettingsProp('tags', v)} />
+            </SettingsSections>
+          )}
+        />
+        <Route
+          path="qr-codes"
+          element={(
+            <SettingsSections>
+              <div className="flex flex-col lg:flex-row gap-4">
+                <QrCodeSizeSettings onChange={updateQrCodeSettings} className="w-full" />
+                <QrCodeColorSettings onChange={updateQrCodeSettings} className="w-full" />
+              </div>
+              <QrCodeFormatSettings onChange={updateQrCodeSettings} />
+            </SettingsSections>
+          )}
+        />
+        <Route path="*" element={<Navigate replace to="../general" />} />
+      </Routes>
+    </SettingsProvider>
   );
 };

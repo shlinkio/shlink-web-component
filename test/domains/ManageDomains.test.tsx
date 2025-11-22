@@ -2,21 +2,19 @@ import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { ProblemDetailsError, ShlinkDomain } from '../../src/api-contract';
+import { ContainerProvider } from '../../src/container/context';
 import { ManageDomains } from '../../src/domains/ManageDomains';
 import type { DomainsList } from '../../src/domains/reducers/domainsList';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<ManageDomains />', () => {
   const filterDomains = vi.fn();
-  const setUp = (domainsList: DomainsList) => renderWithEvents(
+  const setUp = (domainsList: DomainsList) => renderWithStore(
     <MemoryRouter>
-      <ManageDomains
-        filterDomains={filterDomains}
-        editDomainRedirects={vi.fn()}
-        checkDomainHealth={vi.fn()}
-        domainsList={domainsList}
-      />
+      <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
+        <ManageDomains filterDomains={filterDomains} checkDomainHealth={vi.fn()} domainsList={domainsList} />
+      </ContainerProvider>
     </MemoryRouter>,
   );
 

@@ -2,8 +2,8 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient, ShlinkDomainRedirects } from '../../../src/api-contract';
 import { parseApiError } from '../../../src/api-contract/utils';
 import type { Domain } from '../../../src/domains/data';
-import type { EditDomainRedirects } from '../../../src/domains/reducers/domainRedirects';
-import { editDomainRedirects } from '../../../src/domains/reducers/domainRedirects';
+import type { EditDomainRedirectsOptions } from '../../../src/domains/reducers/domainRedirects';
+import { editDomainRedirects as editDomainRedirectsThunk } from '../../../src/domains/reducers/domainRedirects';
 import {
   domainsListReducerCreator,
   replaceRedirectsOnDomain,
@@ -23,11 +23,9 @@ describe('domainsListReducer', () => {
   ];
   const domains: Domain[] = [...filteredDomains, fromPartial({ domain: 'bar', status: 'validating' })];
   const error = { type: 'NOT_FOUND', status: 404 } as unknown as Error;
-  const editDomainRedirectsThunk = editDomainRedirects(apiClientFactory);
   const createShortUrlThunk = createShortUrl(apiClientFactory);
   const { reducer, listDomains: listDomainsAction, checkDomainHealth, filterDomains } = domainsListReducerCreator(
     apiClientFactory,
-    editDomainRedirectsThunk,
     createShortUrlThunk,
   );
 
@@ -64,7 +62,7 @@ describe('domainsListReducer', () => {
         regular404Redirect: 'foo',
         invalidShortUrlRedirect: null,
       };
-      const editDomainRedirects: EditDomainRedirects = { domain, redirects };
+      const editDomainRedirects: EditDomainRedirectsOptions = { domain, redirects, apiClientFactory };
 
       expect(reducer(
         fromPartial({ domains, filteredDomains }),

@@ -1,12 +1,12 @@
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { InputProps } from '@shlinkio/shlink-frontend-kit';
-import { CardModal ,LabelledInput   } from '@shlinkio/shlink-frontend-kit';
+import { CardModal, LabelledInput } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import { useCallback , useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { ShlinkDomain } from '../../api-contract';
 import { nonEmptyStringOrNull } from '../../utils/helpers';
-import type { EditDomainRedirects } from '../reducers/domainRedirects';
+import { useDomainRedirects } from '../reducers/domainRedirects';
 
 type FormGroupProps = Omit<InputProps, 'type' | 'placeholder' | 'onChange' | 'onKeyDown'> & {
   onChange: (newValue: string) => void;
@@ -32,17 +32,15 @@ export type EditDomainRedirectsModalProps = {
   domain: ShlinkDomain;
   isOpen: boolean;
   onClose: () => void;
-  editDomainRedirects: (redirects: EditDomainRedirects) => Promise<void>;
 };
 
-export const EditDomainRedirectsModal: FC<EditDomainRedirectsModalProps> = (
-  { isOpen, onClose, domain, editDomainRedirects },
-) => {
+export const EditDomainRedirectsModal: FC<EditDomainRedirectsModalProps> = ({ isOpen, onClose, domain }) => {
   const [baseUrlRedirect, setBaseUrlRedirect] = useState(domain.redirects?.baseUrlRedirect ?? '');
   const [regular404Redirect, setRegular404Redirect] = useState(domain.redirects?.regular404Redirect ?? '');
   const [invalidShortUrlRedirect, setInvalidShortUrlRedirect] = useState(
     domain.redirects?.invalidShortUrlRedirect ?? '',
   );
+  const { editDomainRedirects } = useDomainRedirects();
 
   const [saving, setSaving] = useState(false);
   const onConfirm = useCallback(

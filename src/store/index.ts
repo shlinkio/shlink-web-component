@@ -25,7 +25,7 @@ import type { VisitsComparisonInfo } from '../visits/visits-comparison/reducers/
 // @ts-expect-error process is actually available in vite
 const isProduction = process.env.NODE_ENV === 'production';
 
-export const setUpStore = (container: IContainer) => configureStore({
+export const setUpStore = (container: IContainer, preloadedState?: any) => configureStore<RootState>({
   devTools: !isProduction,
   reducer: combineReducers({
     mercureInfo: container.mercureInfoReducer as MercureInfo,
@@ -52,6 +52,7 @@ export const setUpStore = (container: IContainer) => configureStore({
     shortUrlRedirectRules: container.shortUrlRedirectRulesReducer as ShortUrlRedirectRules,
     shortUrlRedirectRulesSaving: container.setShortUrlRedirectRulesReducer as SetShortUrlRedirectRules,
   } as const),
+  preloadedState,
   middleware: (defaultMiddlewaresIncludingReduxThunk) => defaultMiddlewaresIncludingReduxThunk({
     // State is too big for these
     immutableCheck: false,

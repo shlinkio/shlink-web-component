@@ -7,12 +7,10 @@ import type { ShlinkDomainRedirects } from '../api-contract';
 import type { Domain } from './data';
 import { DomainDropdown } from './helpers/DomainDropdown';
 import { DomainStatusIcon } from './helpers/DomainStatusIcon';
-import type { EditDomainRedirects } from './reducers/domainRedirects';
 
 interface DomainRowProps {
   domain: Domain;
   defaultRedirects?: ShlinkDomainRedirects;
-  editDomainRedirects: (redirects: EditDomainRedirects) => Promise<void>;
   checkDomainHealth: (domain: string) => void;
 }
 
@@ -38,9 +36,7 @@ const DefaultDomain: FC = () => {
   );
 };
 
-export const DomainRow: FC<DomainRowProps> = (
-  { domain, editDomainRedirects, checkDomainHealth, defaultRedirects },
-) => {
+export const DomainRow: FC<DomainRowProps> = ({ domain, checkDomainHealth, defaultRedirects }) => {
   const { domain: authority, isDefault, redirects, status } = domain;
 
   useEffect(() => {
@@ -64,7 +60,7 @@ export const DomainRow: FC<DomainRowProps> = (
         <DomainStatusIcon status={status} />
       </Table.Cell>
       <Table.Cell className="text-right max-lg:absolute max-lg:top-1 max-lg:right-1 max-lg:p-0">
-        <DomainDropdown domain={domain} editDomainRedirects={editDomainRedirects} />
+        <DomainDropdown domain={domain} />
       </Table.Cell>
     </Table.Row>
   );

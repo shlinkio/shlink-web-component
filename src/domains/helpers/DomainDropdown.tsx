@@ -5,22 +5,20 @@ import {
   faList as listIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { RowDropdown,useToggle  } from '@shlinkio/shlink-frontend-kit';
+import { RowDropdown, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useFeature } from '../../utils/features';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
 import { useVisitsComparisonContext } from '../../visits/visits-comparison/VisitsComparisonContext';
 import type { Domain } from '../data';
 import { DEFAULT_DOMAIN } from '../data';
-import type { EditDomainRedirects } from '../reducers/domainRedirects';
 import { EditDomainRedirectsModal } from './EditDomainRedirectsModal';
 
 interface DomainDropdownProps {
   domain: Domain;
-  editDomainRedirects: (redirects: EditDomainRedirects) => Promise<void>;
 }
 
-export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedirects }) => {
+export const DomainDropdown: FC<DomainDropdownProps> = ({ domain }) => {
   const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle();
   const routesPrefix = useRoutesPrefix();
   const visitsComparison = useVisitsComparisonContext();
@@ -61,12 +59,7 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain, editDomainRedi
         </RowDropdown.Item>
       </RowDropdown>
 
-      <EditDomainRedirectsModal
-        domain={domain}
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        editDomainRedirects={editDomainRedirects}
-      />
+      <EditDomainRedirectsModal domain={domain} isOpen={isModalOpen} onClose={closeModal} />
     </>
   );
 };

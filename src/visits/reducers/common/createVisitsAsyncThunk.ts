@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { addDays } from 'date-fns';
-import type { RootState } from '../../../container/store';
+import type { RootState } from '../../../store';
 import { formatIsoDate, parseISO } from '../../../utils/dates/helpers/date';
 import type { DateInterval } from '../../../utils/dates/helpers/dateIntervals';
 import { dateRangeDaysDiff, dateToMatchingInterval } from '../../../utils/dates/helpers/dateIntervals';

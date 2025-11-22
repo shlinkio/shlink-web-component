@@ -1,10 +1,10 @@
 import { createAction } from '@reduxjs/toolkit';
 import { addDays } from 'date-fns';
 import type { RootState } from '../../../store';
+import { createAsyncThunk } from '../../../store/helpers';
 import { formatIsoDate, parseISO } from '../../../utils/dates/helpers/date';
 import type { DateInterval } from '../../../utils/dates/helpers/dateIntervals';
 import { dateRangeDaysDiff, dateToMatchingInterval } from '../../../utils/dates/helpers/dateIntervals';
-import { createAsyncThunk } from '../../../utils/redux';
 import { isMandatoryStartDateRangeParams, paramsForPrevDateRange, toApiParams } from '../../helpers';
 import type { LoadVisits, VisitsLoaded } from '../types';
 import type { Loaders } from './createLoadVisits';

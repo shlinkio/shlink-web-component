@@ -1,5 +1,5 @@
 import type { ShlinkApiClient, ShlinkDomainRedirects } from '../../api-contract';
-import { createAsyncThunk } from '../../utils/redux';
+import { createAsyncThunk } from '../../store/helpers';
 
 const EDIT_DOMAIN_REDIRECTS = 'shlink/domainRedirects/EDIT_DOMAIN_REDIRECTS';
 

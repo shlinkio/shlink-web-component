@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../../../store';
-import { createAsyncThunk } from '../../../../utils/redux';
+import { createAsyncThunk } from '../../../../store/helpers';
 import { toApiParams } from '../../../helpers';
 import type { VisitsLoader } from '../../../reducers/common';
 import type { LoadVisitsForComparison, VisitsForComparisonLoaded } from '../types';

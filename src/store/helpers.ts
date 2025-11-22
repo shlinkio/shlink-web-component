@@ -1,6 +1,6 @@
 import type { AsyncThunkPayloadCreator } from '@reduxjs/toolkit';
 import { createAsyncThunk as baseCreateAsyncThunk } from '@reduxjs/toolkit';
-import type { RootState } from '../container/store';
+import type { RootState } from './index';
 
 type ShlinkAsyncThunkConfig = {
   state: RootState;

@@ -1,6 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkVisitsOverview } from '../../../src/api-contract';
-import type { RootState } from '../../../src/container/store';
+import type { RootState } from '../../../src/store';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
 import type {
   PartialVisitsSummary,

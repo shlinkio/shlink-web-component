@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { ShlinkApiClient, ShlinkDeleteVisitsResult, ShlinkShortUrlIdentifier } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
-import { createAsyncThunk } from '../../utils/redux';
+import { createAsyncThunk } from '../../store/helpers';
 import type { VisitsDeletion } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisitsDeletion';

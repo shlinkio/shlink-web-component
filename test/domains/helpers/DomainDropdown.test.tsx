@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
+import { ContainerProvider } from '../../../src/container/context';
 import type { Domain } from '../../../src/domains/data';
 import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import { DomainDropdown } from '../../../src/domains/helpers/DomainDropdown';
@@ -10,7 +11,7 @@ import { RoutesPrefixProvider } from '../../../src/utils/routesPrefix';
 import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { checkAccessibility } from '../../__helpers__/accessibility';
-import { renderWithEvents } from '../../__helpers__/setUpTest';
+import { renderWithStore } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
   domain?: Domain;
@@ -19,21 +20,19 @@ type SetUpOptions = {
 };
 
 describe('<DomainDropdown />', () => {
-  const editDomainRedirects = vi.fn().mockResolvedValue(undefined);
-  const setUp = ({ domain, visitsComparison, filterShortUrlsByDomain = true }: SetUpOptions = {}) => renderWithEvents(
+  const setUp = ({ domain, visitsComparison, filterShortUrlsByDomain = true }: SetUpOptions = {}) => renderWithStore(
     <MemoryRouter>
-      <VisitsComparisonProvider
-        value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
-      >
-        <RoutesPrefixProvider value="/server/123">
-          <FeaturesProvider value={fromPartial({ filterShortUrlsByDomain })}>
-            <DomainDropdown
-              domain={domain ?? fromPartial({})}
-              editDomainRedirects={editDomainRedirects}
-            />
-          </FeaturesProvider>
-        </RoutesPrefixProvider>
-      </VisitsComparisonProvider>
+      <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
+        <VisitsComparisonProvider
+          value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
+        >
+          <RoutesPrefixProvider value="/server/123">
+            <FeaturesProvider value={fromPartial({ filterShortUrlsByDomain })}>
+              <DomainDropdown domain={domain ?? fromPartial({})} />
+            </FeaturesProvider>
+          </RoutesPrefixProvider>
+        </VisitsComparisonProvider>
+      </ContainerProvider>
     </MemoryRouter>,
   );
 
@@ -100,10 +99,6 @@ describe('<DomainDropdown />', () => {
 
     await user.click(screen.getByText('Edit redirects'));
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
-
-    expect(editDomainRedirects).not.toHaveBeenCalled();
-    await user.click(screen.getByText('Save'));
-    expect(editDomainRedirects).toHaveBeenCalledWith(expect.objectContaining({ domain }));
   });
 
   it('displays dropdown when clicked', async () => {

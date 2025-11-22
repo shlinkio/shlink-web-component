@@ -2,9 +2,10 @@ import { createAction, createSlice } from '@reduxjs/toolkit';
 import type { ProblemDetailsError, ShlinkApiClient, ShlinkDomainRedirects } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import type { CreateShortUrlThunk } from '../../short-urls/reducers/shortUrlCreation';
-import { createAsyncThunk } from '../../utils/redux';
+import { createAsyncThunk } from '../../store/helpers';
 import type { Domain, DomainStatus } from '../data';
-import type { EditDomainRedirects, EditDomainRedirectsThunk } from './domainRedirects';
+import type { EditDomainRedirects } from './domainRedirects';
+import { editDomainRedirects } from './domainRedirects';
 
 const REDUCER_PREFIX = 'shlink/domainsList';
 
@@ -42,7 +43,6 @@ export const replaceStatusOnDomain = (domain: string, status: DomainStatus) =>
 
 export const domainsListReducerCreator = (
   apiClientFactory: () => ShlinkApiClient,
-  editDomainRedirects: EditDomainRedirectsThunk,
   createShortUrl: CreateShortUrlThunk,
 ) => {
   const listDomains = createAsyncThunk(`${REDUCER_PREFIX}/listDomains`, async (): Promise<ListDomains> => {

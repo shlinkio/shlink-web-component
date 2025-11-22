@@ -2,7 +2,7 @@ import { createAction, createSlice } from '@reduxjs/toolkit';
 import type { ProblemDetailsError, ShlinkApiClient } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import type { createShortUrl } from '../../short-urls/reducers/shortUrlCreation';
-import { createAsyncThunk } from '../../utils/redux';
+import { createAsyncThunk } from '../../store/helpers';
 import { createNewVisits } from '../../visits/reducers/visitCreation';
 import type { CreateVisit } from '../../visits/types';
 import type { TagStats } from '../data';

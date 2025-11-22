@@ -1,21 +1,24 @@
+import type { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
 import { fireEvent, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkDomain } from '../../../src/api-contract';
+import { ContainerProvider } from '../../../src/container/context';
 import { EditDomainRedirectsModal } from '../../../src/domains/helpers/EditDomainRedirectsModal';
 import { checkAccessibility } from '../../__helpers__/accessibility';
-import { renderWithEvents } from '../../__helpers__/setUpTest';
+import { renderWithStore } from '../../__helpers__/setUpTest';
 
 describe('<EditDomainRedirectsModal />', () => {
   const editDomainRedirects = vi.fn().mockResolvedValue(undefined);
+  const apiClientFactory = vi.fn(() => fromPartial<ShlinkApiClient>({ editDomainRedirects }));
   const onClose = vi.fn();
   const domain = fromPartial<ShlinkDomain>({
     domain: 'foo.com',
-    redirects: {
-      baseUrlRedirect: 'baz',
-    },
+    redirects: { baseUrlRedirect: 'baz' },
   });
-  const setUp = () => renderWithEvents(
-    <EditDomainRedirectsModal domain={domain} isOpen onClose={onClose} editDomainRedirects={editDomainRedirects} />,
+  const setUp = () => renderWithStore(
+    <ContainerProvider value={fromPartial({ apiClientFactory })}>
+      <EditDomainRedirectsModal domain={domain} isOpen onClose={onClose} />
+    </ContainerProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -40,49 +43,41 @@ describe('<EditDomainRedirectsModal />', () => {
 
     expect(editDomainRedirects).not.toHaveBeenCalled();
     submitForm();
-    expect(editDomainRedirects).toHaveBeenCalledWith({
+    expect(editDomainRedirects).toHaveBeenLastCalledWith({
       domain: 'foo.com',
-      redirects: {
-        baseUrlRedirect: 'baz',
-        regular404Redirect: null,
-        invalidShortUrlRedirect: null,
-      },
+      baseUrlRedirect: 'baz',
+      regular404Redirect: null,
+      invalidShortUrlRedirect: null,
     });
 
     await user.clear(screen.getByDisplayValue('baz'));
     await user.type(screen.getAllByPlaceholderText('No redirect')[0], 'new_base_url');
     await user.type(screen.getAllByPlaceholderText('No redirect')[2], 'new_invalid_short_url');
     submitForm();
-    expect(editDomainRedirects).toHaveBeenCalledWith({
+    expect(editDomainRedirects).toHaveBeenLastCalledWith({
       domain: 'foo.com',
-      redirects: {
-        baseUrlRedirect: 'new_base_url',
-        regular404Redirect: null,
-        invalidShortUrlRedirect: 'new_invalid_short_url',
-      },
+      baseUrlRedirect: 'new_base_url',
+      regular404Redirect: null,
+      invalidShortUrlRedirect: 'new_invalid_short_url',
     });
 
     await user.type(screen.getAllByPlaceholderText('No redirect')[1], 'new_regular_404');
     await user.clear(screen.getByDisplayValue('new_invalid_short_url'));
     submitForm();
-    expect(editDomainRedirects).toHaveBeenCalledWith({
+    expect(editDomainRedirects).toHaveBeenLastCalledWith({
       domain: 'foo.com',
-      redirects: {
-        baseUrlRedirect: 'new_base_url',
-        regular404Redirect: 'new_regular_404',
-        invalidShortUrlRedirect: null,
-      },
+      baseUrlRedirect: 'new_base_url',
+      regular404Redirect: 'new_regular_404',
+      invalidShortUrlRedirect: null,
     });
 
     await Promise.all(screen.getAllByPlaceholderText('No redirect').map((element) => user.clear(element)));
     submitForm();
-    expect(editDomainRedirects).toHaveBeenCalledWith({
+    expect(editDomainRedirects).toHaveBeenLastCalledWith({
       domain: 'foo.com',
-      redirects: {
-        baseUrlRedirect: null,
-        regular404Redirect: null,
-        invalidShortUrlRedirect: null,
-      },
+      baseUrlRedirect: null,
+      regular404Redirect: null,
+      invalidShortUrlRedirect: null,
     });
   });
 });

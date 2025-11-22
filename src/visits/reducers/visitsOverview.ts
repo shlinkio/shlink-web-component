@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { ShlinkApiClient } from '../../api-contract';
-import { createAsyncThunk } from '../../utils/redux';
+import { createAsyncThunk } from '../../store/helpers';
 import { groupNewVisitsByType } from '../helpers';
 import type { CreateVisit } from '../types';
 import { createNewVisits } from './visitCreation';

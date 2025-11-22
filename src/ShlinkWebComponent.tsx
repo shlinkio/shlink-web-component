@@ -5,6 +5,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 import { BrowserRouter, useInRouterContext } from 'react-router';
 import type { ShlinkApiClient } from './api-contract';
+import { ContainerProvider } from './container/context';
 import type { Settings } from './settings';
 import { SettingsProvider } from './settings';
 import { ShlinkSidebarVisibilityProvider } from './sidebar/ShlinkSidebarVisibilityProvider';
@@ -34,9 +35,7 @@ export type ShlinkWebComponentProps = {
 //       Works for now, but should be addressed.
 let apiClientRef: ShlinkApiClient;
 
-export const createShlinkWebComponent = (
-  bottle: Bottle,
-): FC<ShlinkWebComponentProps> => (
+export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentProps> => (
   { serverVersion, apiClient, settings, routesPrefix = '', createNotFound, tagColorsStorage, autoSidebarToggle = true },
 ) => {
   const features = useFeatures(serverVersion);
@@ -70,17 +69,19 @@ export const createShlinkWebComponent = (
 
   return !theStore ? <></> : (
     <ReduxStoreProvider store={theStore}>
-      <SettingsProvider value={settings ?? {}}>
-        <FeaturesProvider value={features}>
-          <ShlinkSidebarVisibilityProvider>
-            <RoutesPrefixProvider value={routesPrefix}>
-              <RouterOrFragment>
-                {mainContent.current}
-              </RouterOrFragment>
-            </RoutesPrefixProvider>
-          </ShlinkSidebarVisibilityProvider>
-        </FeaturesProvider>
-      </SettingsProvider>
+      <ContainerProvider value={bottle.container}>
+        <SettingsProvider value={settings ?? {}}>
+          <FeaturesProvider value={features}>
+            <ShlinkSidebarVisibilityProvider>
+              <RoutesPrefixProvider value={routesPrefix}>
+                <RouterOrFragment>
+                  {mainContent.current}
+                </RouterOrFragment>
+              </RoutesPrefixProvider>
+            </ShlinkSidebarVisibilityProvider>
+          </FeaturesProvider>
+        </SettingsProvider>
+      </ContainerProvider>
     </ReduxStoreProvider>
   );
 };

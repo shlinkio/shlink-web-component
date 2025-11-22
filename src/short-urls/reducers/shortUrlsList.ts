@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { ShlinkApiClient, ShlinkShortUrlsList, ShlinkShortUrlsListParams } from '../../api-contract';
-import { createAsyncThunk } from '../../utils/redux';
+import { createAsyncThunk } from '../../store/helpers';
 import { createNewVisits } from '../../visits/reducers/visitCreation';
 import { shortUrlMatches } from '../helpers';
 import type { createShortUrl } from './shortUrlCreation';

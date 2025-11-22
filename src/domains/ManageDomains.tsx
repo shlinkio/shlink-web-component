@@ -4,12 +4,10 @@ import { ShlinkApiError } from '../common/ShlinkApiError';
 import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
 import { useVisitsComparison, VisitsComparisonProvider } from '../visits/visits-comparison/VisitsComparisonContext';
 import { DomainRow } from './DomainRow';
-import type { EditDomainRedirects } from './reducers/domainRedirects';
 import type { DomainsList } from './reducers/domainsList';
 
 interface ManageDomainsProps {
   filterDomains: (searchTerm: string) => void;
-  editDomainRedirects: (redirects: EditDomainRedirects) => Promise<void>;
   checkDomainHealth: (domain: string) => void;
   domainsList: DomainsList;
 }
@@ -45,9 +43,7 @@ const headers: Array<{ value: string; isHidden: boolean }> = [
   },
 ];
 
-export const ManageDomains: FC<ManageDomainsProps> = (
-  { domainsList, filterDomains, editDomainRedirects, checkDomainHealth },
-) => {
+export const ManageDomains: FC<ManageDomainsProps> = ({ domainsList, filterDomains, checkDomainHealth }) => {
   const { filteredDomains: domains, defaultRedirects, loading, error, errorData } = domainsList;
   const resolvedDefaultRedirects = defaultRedirects ?? domains.find(({ isDefault }) => isDefault)?.redirects;
   const visitsComparison = useVisitsComparison();
@@ -86,7 +82,6 @@ export const ManageDomains: FC<ManageDomainsProps> = (
                 <DomainRow
                   key={domain.domain}
                   domain={domain}
-                  editDomainRedirects={editDomainRedirects}
                   checkDomainHealth={checkDomainHealth}
                   defaultRedirects={resolvedDefaultRedirects}
                 />

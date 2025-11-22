@@ -1,8 +1,8 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../../src/api-contract';
-import type { RootState } from '../../../src/container/store';
 import { shortUrlsDetailsReducerCreator } from '../../../src/short-urls/reducers/shortUrlsDetails';
 import type { ShortUrlsList } from '../../../src/short-urls/reducers/shortUrlsList';
+import type { RootState } from '../../../src/store';
 
 describe('shortUrlsDetailsReducer', () => {
   const getShortUrlCall = vi.fn();

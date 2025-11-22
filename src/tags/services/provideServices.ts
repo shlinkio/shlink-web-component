@@ -38,7 +38,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('tagDeleteReducerCreator', tagDeleteReducerCreator, 'apiClientFactory');
   bottle.serviceFactory('tagDeleteReducer', (obj) => obj.reducer, 'tagDeleteReducerCreator');
 
-  bottle.serviceFactory('tagsListReducerCreator', tagsListReducerCreator, 'listTags', 'createShortUrl');
+  bottle.serviceFactory('tagsListReducerCreator', tagsListReducerCreator, 'listTags');
   bottle.serviceFactory('tagsListReducer', (obj) => obj.reducer, 'tagsListReducerCreator');
 
   // Actions

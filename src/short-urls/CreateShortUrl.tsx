@@ -6,29 +6,21 @@ import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { useSetting } from '../settings';
 import { CreateShortUrlResult } from './helpers/CreateShortUrlResult';
-import type { ShortUrlCreation } from './reducers/shortUrlCreation';
+import { useUrlCreation } from './reducers/shortUrlCreation';
 import type { ShortUrlFormProps } from './ShortUrlForm';
 
-export interface CreateShortUrlProps {
+export type CreateShortUrlProps = {
   basicMode?: boolean;
-}
-
-interface CreateShortUrlConnectProps extends CreateShortUrlProps {
-  shortUrlCreation: ShortUrlCreation;
-  createShortUrl: (data: ShlinkCreateShortUrlData) => Promise<void>;
-  resetCreateShortUrl: () => void;
-}
+};
 
 type CreateShortUrlDeps = {
   ShortUrlForm: FC<ShortUrlFormProps<ShlinkCreateShortUrlData>>;
 };
 
-const CreateShortUrl: FCWithDeps<CreateShortUrlConnectProps, CreateShortUrlDeps> = ({
-  createShortUrl,
-  shortUrlCreation,
-  resetCreateShortUrl,
+const CreateShortUrl: FCWithDeps<CreateShortUrlProps, CreateShortUrlDeps> = ({
   basicMode = false,
-}: CreateShortUrlConnectProps) => {
+}) => {
+  const { createShortUrl, shortUrlCreation, resetCreateShortUrl } = useUrlCreation();
   const { ShortUrlForm } = useDependencies(CreateShortUrl);
   const shortUrlCreationSettings = useSetting('shortUrlCreation');
   const { 'long-url': longUrlFromQuery = '' } = useParsedQuery<{ 'long-url'?: string }>();

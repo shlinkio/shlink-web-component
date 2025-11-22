@@ -1,7 +1,7 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import type { ProblemDetailsError, ShlinkApiClient } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
-import type { createShortUrl } from '../../short-urls/reducers/shortUrlCreation';
+import { createShortUrlThunk } from '../../short-urls/reducers/shortUrlCreation';
 import { createAsyncThunk } from '../../store/helpers';
 import { createNewVisits } from '../../visits/reducers/visitCreation';
 import type { CreateVisit } from '../../visits/types';
@@ -94,10 +94,7 @@ export const listTags = (apiClientFactory: () => ShlinkApiClient) => createAsync
 
 export const filterTags = createAction<string>(`${REDUCER_PREFIX}/filterTags`);
 
-export const tagsListReducerCreator = (
-  listTagsThunk: ReturnType<typeof listTags>,
-  createShortUrlThunk: ReturnType<typeof createShortUrl>,
-) => createSlice({
+export const tagsListReducerCreator = (listTagsThunk: ReturnType<typeof listTags>) => createSlice({
   name: REDUCER_PREFIX,
   initialState,
   reducers: {},

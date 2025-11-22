@@ -3,7 +3,7 @@ import type { ShlinkApiClient, ShlinkShortUrlsList, ShlinkShortUrlsListParams } 
 import { createAsyncThunk } from '../../store/helpers';
 import { createNewVisits } from '../../visits/reducers/visitCreation';
 import { shortUrlMatches } from '../helpers';
-import type { createShortUrl } from './shortUrlCreation';
+import { createShortUrlThunk } from './shortUrlCreation';
 import { shortUrlDeleted } from './shortUrlDeletion';
 import type { editShortUrl } from './shortUrlEdition';
 
@@ -31,7 +31,6 @@ export const listShortUrls = (apiClientFactory: () => ShlinkApiClient) => create
 export const shortUrlsListReducerCreator = (
   listShortUrlsThunk: ReturnType<typeof listShortUrls>,
   editShortUrlThunk: ReturnType<typeof editShortUrl>,
-  createShortUrlThunk: ReturnType<typeof createShortUrl>,
 ) => createSlice({
   name: REDUCER_PREFIX,
   initialState,

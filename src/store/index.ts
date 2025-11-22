@@ -6,6 +6,7 @@ import type { MercureInfo } from '../mercure/reducers/mercureInfo';
 import type { SetShortUrlRedirectRules } from '../redirect-rules/reducers/setShortUrlRedirectRules';
 import type { ShortUrlRedirectRules } from '../redirect-rules/reducers/shortUrlRedirectRules';
 import type { ShortUrlCreation } from '../short-urls/reducers/shortUrlCreation';
+import { shortUrlCreationReducer } from '../short-urls/reducers/shortUrlCreation';
 import type { ShortUrlDeletion } from '../short-urls/reducers/shortUrlDeletion';
 import type { ShortUrlEdition } from '../short-urls/reducers/shortUrlEdition';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
@@ -30,7 +31,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
   reducer: combineReducers({
     mercureInfo: container.mercureInfoReducer as MercureInfo,
     shortUrlsList: container.shortUrlsListReducer as ShortUrlsList,
-    shortUrlCreation: container.shortUrlCreationReducer as ShortUrlCreation,
+    shortUrlCreation: shortUrlCreationReducer,
     shortUrlDeletion: container.shortUrlDeletionReducer as ShortUrlDeletion,
     shortUrlEdition: container.shortUrlEditionReducer as ShortUrlEdition,
     shortUrlsDetails: container.shortUrlsDetailsReducer as ShortUrlsDetails,

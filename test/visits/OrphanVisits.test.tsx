@@ -4,7 +4,6 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router';
 import { ContainerProvider } from '../../src/container/context';
-import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import { OrphanVisitsFactory } from '../../src/visits/OrphanVisits';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
@@ -25,7 +24,6 @@ describe('<OrphanVisits />', () => {
           {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
           <Card>
             <OrphanVisits
-              {...fromPartial<MercureBoundProps>({})}
               getOrphanVisits={getOrphanVisits}
               orphanVisits={orphanVisits}
               cancelGetOrphanVisits={vi.fn()}

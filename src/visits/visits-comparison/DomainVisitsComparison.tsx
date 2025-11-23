@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
-import { boundToMercureHub, type MercureBoundProps } from '../../mercure/helpers/boundToMercureHub';
+import { boundToMercureHub } from '../../mercure/helpers/boundToMercureHub';
 import { Topics } from '../../mercure/helpers/Topics';
 import { useArrayQueryParam } from '../../utils/helpers/hooks';
 import type { LoadDomainVisitsForComparison } from './reducers/domainVisitsComparison';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
 
-type DomainVisitsComparisonProps = MercureBoundProps & {
+type DomainVisitsComparisonProps = {
   getDomainVisitsForComparison: (params: LoadDomainVisitsForComparison) => void;
   domainVisitsComparison: VisitsComparisonInfo;
   cancelGetDomainVisitsComparison: () => void;

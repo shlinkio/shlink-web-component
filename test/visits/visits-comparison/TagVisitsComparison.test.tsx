@@ -22,7 +22,6 @@ describe('<TagVisitsComparison />', () => {
           tagVisitsComparison={fromPartial({
             visitsGroups: Object.fromEntries(tags.map((tag) => [tag, []])),
           })}
-          createNewVisits={vi.fn()}
         />
       </MemoryRouter>
     </ContainerProvider>,

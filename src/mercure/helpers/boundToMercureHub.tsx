@@ -1,22 +1,19 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { useVisitCreation } from '../../visits/reducers/visitCreation';
 import type { CreateVisit } from '../../visits/types';
 import { useMercureInfo } from '../reducers/mercureInfo';
 import { bindToMercureTopic } from './index';
 
-export interface MercureBoundProps {
-  createNewVisits: (createdVisits: CreateVisit[]) => void;
-}
-
 export function boundToMercureHub<T extends object>(
-  WrappedComponent: FC<MercureBoundProps & T>,
+  WrappedComponent: FC<T>,
   getTopicsForParams: (routeParams: any) => string[],
 ) {
   const pendingUpdates = new Set<CreateVisit>();
 
-  return (props: MercureBoundProps & T) => {
-    const { createNewVisits } = props;
+  return (props: T) => {
+    const { createNewVisits } = useVisitCreation();
     const { loadMercureInfo, mercureInfo } = useMercureInfo();
     const params = useParams();
 

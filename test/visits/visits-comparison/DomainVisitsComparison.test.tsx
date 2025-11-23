@@ -18,7 +18,6 @@ describe('<DomainVisitsComparison />', () => {
           domainVisitsComparison={fromPartial({
             visitsGroups: Object.fromEntries(domains.map((domain) => [domain, []])),
           })}
-          createNewVisits={vi.fn()}
         />
       </MemoryRouter>
     </ContainerProvider>,

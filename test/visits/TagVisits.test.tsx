@@ -3,7 +3,6 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { ContainerProvider } from '../../src/container/context';
-import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import type { TagVisits as TagVisitsStats } from '../../src/visits/reducers/tagVisits';
 import { TagVisitsFactory } from '../../src/visits/TagVisits';
@@ -27,7 +26,6 @@ describe('<TagVisits />', () => {
           {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
           <Card>
             <TagVisits
-              {...fromPartial<MercureBoundProps>({})}
               getTagVisits={getTagVisitsMock}
               tagVisits={tagVisits}
               cancelGetTagVisits={() => {}}

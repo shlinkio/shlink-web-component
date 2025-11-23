@@ -7,7 +7,6 @@ import { useLocation, useParams } from 'react-router';
 import type { ShlinkShortUrlsListParams, ShlinkShortUrlsOrder } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useSettings } from '../settings';
@@ -24,7 +23,7 @@ import type { ShortUrlsList as ShortUrlsListState } from './reducers/shortUrlsLi
 import type { ShortUrlsFilteringBarProps } from './ShortUrlsFilteringBar';
 import type { ShortUrlsTableType } from './ShortUrlsTable';
 
-type ShortUrlsListProps = MercureBoundProps & {
+type ShortUrlsListProps = {
   shortUrlsList: ShortUrlsListState;
   listShortUrls: (params: ShlinkShortUrlsListParams) => void;
 };

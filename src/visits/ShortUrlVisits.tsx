@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo } from 'react';
 import type { ShlinkShortUrlIdentifier } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { urlDecodeShortCode } from '../short-urls/helpers';
@@ -30,7 +29,7 @@ type ShortUrlVisitsDeps = {
   ReportExporter: ReportExporter
 };
 
-const ShortUrlVisits: FCWithDeps<MercureBoundProps & ShortUrlVisitsProps, ShortUrlVisitsDeps> = boundToMercureHub(({
+const ShortUrlVisits: FCWithDeps<ShortUrlVisitsProps, ShortUrlVisitsDeps> = boundToMercureHub(({
   shortUrlVisits,
   shortUrlVisitsDeletion,
   shortUrlsDetails,

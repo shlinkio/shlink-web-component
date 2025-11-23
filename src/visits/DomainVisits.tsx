@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { useParams } from 'react-router';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
@@ -22,7 +21,7 @@ type DomainVisitsDeps = {
   ReportExporter: ReportExporter
 };
 
-const DomainVisits: FCWithDeps<MercureBoundProps & DomainVisitsProps, DomainVisitsDeps> = boundToMercureHub((
+const DomainVisits: FCWithDeps<DomainVisitsProps, DomainVisitsDeps> = boundToMercureHub((
   { getDomainVisits, domainVisits, cancelGetDomainVisits },
 ) => {
   const { ReportExporter: exporter } = useDependencies(DomainVisits);

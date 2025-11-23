@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import type { FCWithDeps } from '../../container/utils';
 import { componentFactory, useDependencies } from '../../container/utils';
-import type { MercureBoundProps } from '../../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../../mercure/helpers/boundToMercureHub';
 import { Topics } from '../../mercure/helpers/Topics';
 import { Tag } from '../../tags/helpers/Tag';
@@ -11,7 +10,7 @@ import type { LoadTagVisitsForComparison } from './reducers/tagVisitsComparison'
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
 
-type TagVisitsComparisonProps = MercureBoundProps & {
+type TagVisitsComparisonProps = {
   getTagVisitsForComparison: (params: LoadTagVisitsForComparison) => void;
   tagVisitsComparison: VisitsComparisonInfo;
   cancelGetTagVisitsComparison: () => void;

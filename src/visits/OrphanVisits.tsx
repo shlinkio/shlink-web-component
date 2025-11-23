@@ -2,7 +2,6 @@ import { useCallback, useMemo } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainsList } from '../domains/reducers/domainsList';
-import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
@@ -26,7 +25,7 @@ type OrphanVisitsDeps = {
   ReportExporter: ReportExporter
 };
 
-const OrphanVisits: FCWithDeps<MercureBoundProps & OrphanVisitsProps, OrphanVisitsDeps> = boundToMercureHub((
+const OrphanVisits: FCWithDeps<OrphanVisitsProps, OrphanVisitsDeps> = boundToMercureHub((
   { getOrphanVisits, orphanVisits, cancelGetOrphanVisits, deleteOrphanVisits, orphanVisitsDeletion, domainsList },
 ) => {
   const { ReportExporter: reportExporter } = useDependencies(OrphanVisits);

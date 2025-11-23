@@ -1,7 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { ContainerProvider } from '../../src/container/context';
-import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import type { TagsList } from '../../src/tags/reducers/tagsList';
 import type { TagsListProps } from '../../src/tags/TagsList';
@@ -20,7 +19,6 @@ describe('<TagsList />', () => {
       <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
         <TagsListComp
           {...fromPartial<TagsListProps>({})}
-          {...fromPartial<MercureBoundProps>({})}
           filterTags={filterTags}
           tagsList={fromPartial({ filteredTags: [], ...tagsList })}
         />

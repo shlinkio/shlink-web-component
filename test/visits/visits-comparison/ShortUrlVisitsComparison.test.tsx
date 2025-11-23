@@ -39,7 +39,6 @@ describe('<ShortUrlVisitsComparison />', () => {
             )),
             loading: loadingDetails,
           })}
-          createNewVisits={vi.fn()}
         />
       </MemoryRouter>
     </ContainerProvider>,

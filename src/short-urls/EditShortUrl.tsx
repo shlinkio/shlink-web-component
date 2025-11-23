@@ -10,29 +10,26 @@ import { componentFactory, useDependencies } from '../container/utils';
 import { GoBackButton } from '../utils/components/GoBackButton';
 import { shortUrlDataFromShortUrl } from './helpers';
 import { useShortUrlIdentifier } from './helpers/hooks';
-import type { EditShortUrl as EditShortUrlInfo, ShortUrlEdition } from './reducers/shortUrlEdition';
+import { useUrlEdition } from './reducers/shortUrlEdition';
 import type { ShortUrlsDetails } from './reducers/shortUrlsDetails';
 import type { ShortUrlFormProps } from './ShortUrlForm';
 
 type EditShortUrlProps = {
   shortUrlsDetails: ShortUrlsDetails;
-  shortUrlEdition: ShortUrlEdition;
   getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
-  editShortUrl: (editShortUrl: EditShortUrlInfo) => void;
 };
 
 type EditShortUrlDeps = {
   ShortUrlForm: FC<ShortUrlFormProps<ShlinkEditShortUrlData>>;
 };
 
-const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = (
-  { shortUrlsDetails, getShortUrlsDetails, shortUrlEdition, editShortUrl },
-) => {
+const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = ({ shortUrlsDetails, getShortUrlsDetails }) => {
   const { ShortUrlForm } = useDependencies(EditShortUrl);
   const identifier = useShortUrlIdentifier();
   const { loading, error, errorData, shortUrls } = shortUrlsDetails;
   const shortUrl = identifier && shortUrls?.get(identifier);
 
+  const { shortUrlEdition, editShortUrl } = useUrlEdition();
   const { saving, saved, error: savingError, errorData: savingErrorData } = shortUrlEdition;
   const initialState = useMemo(() => shortUrlDataFromShortUrl(shortUrl), [shortUrl]);
 

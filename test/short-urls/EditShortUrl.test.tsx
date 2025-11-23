@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../src/api-contract';
 import { SettingsProvider } from '../../src/settings';
@@ -7,6 +7,7 @@ import type { ShortUrlEdition } from '../../src/short-urls/reducers/shortUrlEdit
 import type { ShortUrlsDetails } from '../../src/short-urls/reducers/shortUrlsDetails';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
+import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<EditShortUrl />', () => {
   const identifier = { shortCode: 'abc123' };
@@ -15,17 +16,15 @@ describe('<EditShortUrl />', () => {
   });
   const getShortUrlsDetails = vi.fn();
   const EditShortUrl = EditShortUrlFactory(fromPartial({ ShortUrlForm: () => <span>ShortUrlForm</span> }));
-  const setUp = (detail: Partial<ShortUrlsDetails> = {}, edition: Partial<ShortUrlEdition> = {}) => render(
+  const setUp = (detail: Partial<ShortUrlsDetails> = {}, edition: Partial<ShortUrlEdition> = {}) => renderWithStore(
     <MemoryRouterWithParams params={identifier}>
       <SettingsProvider value={{}}>
-        <EditShortUrl
-          shortUrlsDetails={fromPartial(detail)}
-          shortUrlEdition={fromPartial(edition)}
-          getShortUrlsDetails={getShortUrlsDetails}
-          editShortUrl={vi.fn(async () => Promise.resolve())}
-        />
+        <EditShortUrl shortUrlsDetails={fromPartial(detail)} getShortUrlsDetails={getShortUrlsDetails} />
       </SettingsProvider>
     </MemoryRouterWithParams>,
+    {
+      initialState: { shortUrlEdition: fromPartial(edition) },
+    },
   );
 
   it.each([

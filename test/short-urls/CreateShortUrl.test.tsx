@@ -3,7 +3,6 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
 import type { ShlinkCreateShortUrlData } from '../../src/api-contract';
-import { ContainerProvider } from '../../src/container/context';
 import { SettingsProvider } from '../../src/settings';
 import { CreateShortUrlFactory } from '../../src/short-urls/CreateShortUrl';
 import type { ShortUrlFormProps } from '../../src/short-urls/ShortUrlForm';
@@ -22,13 +21,11 @@ describe('<CreateShortUrl />', () => {
     }
 
     return renderWithStore(
-      <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-        <Router location={history.location} navigator={history}>
-          <SettingsProvider value={{}}>
-            <CreateShortUrl />
-          </SettingsProvider>
-        </Router>
-      </ContainerProvider>,
+      <Router location={history.location} navigator={history}>
+        <SettingsProvider value={{}}>
+          <CreateShortUrl />
+        </SettingsProvider>
+      </Router>,
     );
   };
 

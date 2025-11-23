@@ -3,7 +3,6 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { ShlinkDomainRedirects } from '../../src/api-contract';
-import { ContainerProvider } from '../../src/container/context';
 import type { Domain } from '../../src/domains/data';
 import { DomainRow } from '../../src/domains/DomainRow';
 import { checkAccessibility } from '../__helpers__/accessibility';
@@ -22,14 +21,12 @@ describe('<DomainRow />', () => {
   ];
   const setUp = (domain: Domain, defaultRedirects?: ShlinkDomainRedirects) => renderWithStore(
     <MemoryRouter>
-      <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-        <Card>
-          <Table header={<></>}>
-            <DomainRow domain={domain} defaultRedirects={defaultRedirects} checkDomainHealth={vi.fn()} />
-          </Table>
-        </Card>
-      </ContainerProvider>
+      {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+      <Card>
+        <Table header={<></>}>
+          <DomainRow domain={domain} defaultRedirects={defaultRedirects} checkDomainHealth={vi.fn()} />
+        </Table>
+      </Card>
     </MemoryRouter>,
   );
 

@@ -1,6 +1,5 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import { ContainerProvider } from '../../src/container/context';
 import { SettingsProvider } from '../../src/settings';
 import type { TagsList } from '../../src/tags/reducers/tagsList';
 import type { TagsListProps } from '../../src/tags/TagsList';
@@ -15,15 +14,13 @@ describe('<TagsList />', () => {
     TagsTable: ({ sortedTags }: TagsTableProps) => <>TagsTable ({sortedTags.map((t) => t.visits).join(',')})</>,
   }));
   const setUp = (tagsList: Partial<TagsList> = {}, excludeBots = false) => renderWithStore(
-    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-      <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
-        <TagsListComp
-          {...fromPartial<TagsListProps>({})}
-          filterTags={filterTags}
-          tagsList={fromPartial({ filteredTags: [], ...tagsList })}
-        />
-      </SettingsProvider>
-    </ContainerProvider>,
+    <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
+      <TagsListComp
+        {...fromPartial<TagsListProps>({})}
+        filterTags={filterTags}
+        tagsList={fromPartial({ filteredTags: [], ...tagsList })}
+      />
+    </SettingsProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

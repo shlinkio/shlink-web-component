@@ -5,7 +5,6 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router';
 import { now } from 'tinybench';
-import { ContainerProvider } from '../../src/container/context';
 import { SettingsProvider } from '../../src/settings';
 import type { ShortUrlVisits as ShortUrlVisitsState } from '../../src/visits/reducers/shortUrlVisits';
 import { ShortUrlVisitsFactory } from '../../src/visits/ShortUrlVisits';
@@ -20,32 +19,30 @@ describe('<ShortUrlVisits />', () => {
     ReportExporter: fromPartial({ exportVisits }),
   }));
   const setUp = () => renderWithStore(
-    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-      <MemoryRouter>
-        <SettingsProvider value={fromPartial({})}>
-          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-          <Card>
-            <ShortUrlVisits
-              getShortUrlsDetails={vi.fn()}
-              getShortUrlVisits={getShortUrlVisitsMock}
-              shortUrlVisits={shortUrlVisits}
-              shortUrlsDetails={fromPartial({
-                shortUrls: {
-                  get: () => fromPartial<ShlinkShortUrl>({
-                    shortUrl: 'https://s.test/123',
-                    longUrl: 'https://shlink.io',
-                    dateCreated: formatISO(now()),
-                  }),
-                },
-              })}
-              shortUrlVisitsDeletion={fromPartial({})}
-              deleteShortUrlVisits={vi.fn()}
-              cancelGetShortUrlVisits={vi.fn()}
-            />
-          </Card>
-        </SettingsProvider>
-      </MemoryRouter>
-    </ContainerProvider>,
+    <MemoryRouter>
+      <SettingsProvider value={fromPartial({})}>
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <ShortUrlVisits
+            getShortUrlsDetails={vi.fn()}
+            getShortUrlVisits={getShortUrlVisitsMock}
+            shortUrlVisits={shortUrlVisits}
+            shortUrlsDetails={fromPartial({
+              shortUrls: {
+                get: () => fromPartial<ShlinkShortUrl>({
+                  shortUrl: 'https://s.test/123',
+                  longUrl: 'https://shlink.io',
+                  dateCreated: formatISO(now()),
+                }),
+              },
+            })}
+            shortUrlVisitsDeletion={fromPartial({})}
+            deleteShortUrlVisits={vi.fn()}
+            cancelGetShortUrlVisits={vi.fn()}
+          />
+        </Card>
+      </SettingsProvider>
+    </MemoryRouter>,
   );
 
   it(

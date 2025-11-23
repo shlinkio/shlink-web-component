@@ -1,7 +1,6 @@
 import { cleanup, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
-import { ContainerProvider } from '../../../src/container/context';
 import { TagVisitsComparisonFactory } from '../../../src/visits/visits-comparison/TagVisitsComparison';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithStore } from '../../__helpers__/setUpTest';
@@ -14,17 +13,15 @@ describe('<TagVisitsComparison />', () => {
   const getTagVisitsForComparison = vi.fn();
   const cancelGetTagVisitsComparison = vi.fn();
   const setUp = (tags = ['foo', 'bar', 'baz']) => renderWithStore(
-    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-      <MemoryRouter initialEntries={[{ search: `?tags=${tags.join(',')}` }]}>
-        <TagVisitsComparison
-          getTagVisitsForComparison={getTagVisitsForComparison}
-          cancelGetTagVisitsComparison={cancelGetTagVisitsComparison}
-          tagVisitsComparison={fromPartial({
-            visitsGroups: Object.fromEntries(tags.map((tag) => [tag, []])),
-          })}
-        />
-      </MemoryRouter>
-    </ContainerProvider>,
+    <MemoryRouter initialEntries={[{ search: `?tags=${tags.join(',')}` }]}>
+      <TagVisitsComparison
+        getTagVisitsForComparison={getTagVisitsForComparison}
+        cancelGetTagVisitsComparison={cancelGetTagVisitsComparison}
+        tagVisitsComparison={fromPartial({
+          visitsGroups: Object.fromEntries(tags.map((tag) => [tag, []])),
+        })}
+      />
+    </MemoryRouter>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

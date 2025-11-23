@@ -1,34 +1,34 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient } from '../../../src/api-contract';
-import { mercureInfoReducerCreator } from '../../../src/mercure/reducers/mercureInfo';
+import { loadMercureInfo, mercureInfoReducer as reducer } from '../../../src/mercure/reducers/mercureInfo';
 import type { Settings } from '../../../src/settings';
+import type { WithApiClient } from '../../../src/store/helpers';
 
 describe('mercureInfoReducer', () => {
   const mercureInfo = {
-    mercureHubUrl: 'http://example.com/.well-known/mercure',
+    mercureHubUrl: 'https://example.com/.well-known/mercure',
     token: 'abc.123.def',
   };
   const getMercureInfo = vi.fn();
-  const buildShlinkApiClient = () => fromPartial<ShlinkApiClient>({ mercureInfo: getMercureInfo });
-  const { loadMercureInfo, reducer } = mercureInfoReducerCreator(buildShlinkApiClient);
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ mercureInfo: getMercureInfo });
 
   describe('reducer', () => {
     it('returns loading on GET_MERCURE_INFO_START', () => {
-      expect(reducer(undefined, loadMercureInfo.pending('', {}))).toEqual({
+      expect(reducer(undefined, loadMercureInfo.pending('', { apiClientFactory }))).toEqual({
         loading: true,
         error: false,
       });
     });
 
     it('returns error on GET_MERCURE_INFO_ERROR', () => {
-      expect(reducer(undefined, loadMercureInfo.rejected(null, '', {}))).toEqual({
+      expect(reducer(undefined, loadMercureInfo.rejected(null, '', { apiClientFactory }))).toEqual({
         loading: false,
         error: true,
       });
     });
 
     it('returns mercure info on GET_MERCURE_INFO', () => {
-      expect(reducer(undefined, loadMercureInfo.fulfilled(mercureInfo, '', {}))).toEqual(
+      expect(reducer(undefined, loadMercureInfo.fulfilled(mercureInfo, '', { apiClientFactory }))).toEqual(
         expect.objectContaining({ ...mercureInfo, loading: false, error: false }),
       );
     });
@@ -36,7 +36,8 @@ describe('mercureInfoReducer', () => {
 
   describe('loadMercureInfo', () => {
     const dispatch = vi.fn();
-    const createSettings = (enabled: boolean): Settings => fromPartial({
+    const createSettings = (enabled: boolean): WithApiClient<Settings> => fromPartial({
+      apiClientFactory,
       realTimeUpdates: { enabled },
     });
 

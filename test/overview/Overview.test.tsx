@@ -2,12 +2,12 @@ import { formatNumber } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
-import type { MercureInfo } from '../../src/mercure/reducers/mercureInfo';
+import { ContainerProvider } from '../../src/container/context';
 import { OverviewFactory } from '../../src/overview/Overview';
 import { SettingsProvider } from '../../src/settings';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<Overview />', () => {
   const ShortUrlsTable = () => <>ShortUrlsTable</>;
@@ -19,27 +19,27 @@ describe('<Overview />', () => {
     pagination: { totalItems: 83710 },
   };
   const routesPrefix = '/server/123';
-  const setUp = (loading = false, visits: { excludeBots?: boolean } = {}) => renderWithEvents(
-    <MemoryRouter>
-      <SettingsProvider value={fromPartial({ visits })}>
-        <RoutesPrefixProvider value={routesPrefix}>
-          <Overview
-            listShortUrls={listShortUrls}
-            loadVisitsOverview={loadVisitsOverview}
-            shortUrlsList={fromPartial({ loading, shortUrls })}
-            tagsList={fromPartial({ loading, tags: ['foo', 'bar', 'baz'] })}
-            visitsOverview={fromPartial({
-              loading,
-              nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },
-              orphanVisits: { total: 28, bots: 15, nonBots: 13 },
-            })}
-            createNewVisits={vi.fn()}
-            loadMercureInfo={vi.fn()}
-            mercureInfo={fromPartial<MercureInfo>({})}
-          />
-        </RoutesPrefixProvider>
-      </SettingsProvider>
-    </MemoryRouter>,
+  const setUp = (loading = false, visits: { excludeBots?: boolean } = {}) => renderWithStore(
+    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
+      <MemoryRouter>
+        <SettingsProvider value={fromPartial({ visits })}>
+          <RoutesPrefixProvider value={routesPrefix}>
+            <Overview
+              listShortUrls={listShortUrls}
+              loadVisitsOverview={loadVisitsOverview}
+              shortUrlsList={fromPartial({ loading, shortUrls })}
+              tagsList={fromPartial({ loading, tags: ['foo', 'bar', 'baz'] })}
+              visitsOverview={fromPartial({
+                loading,
+                nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },
+                orphanVisits: { total: 28, bots: 15, nonBots: 13 },
+              })}
+              createNewVisits={vi.fn()}
+            />
+          </RoutesPrefixProvider>
+        </SettingsProvider>
+      </MemoryRouter>
+    </ContainerProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

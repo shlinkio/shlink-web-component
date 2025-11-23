@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { useCallback } from 'react';
-import type { ProblemDetailsError, ShlinkApiClient, ShlinkCreateShortUrlData, ShlinkShortUrl } from '../../api-contract';
+import type { ProblemDetailsError, ShlinkCreateShortUrlData, ShlinkShortUrl } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
-import { useDependencies } from '../../container/context';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { createAsyncThunk } from '../../store/helpers';
+import type { WithApiClient } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/shortUrlCreation';
 
@@ -38,7 +38,7 @@ const initialState: ShortUrlCreation = {
 export const createShortUrlThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/createShortUrl`,
   (
-    { apiClientFactory, ...data }: ShlinkCreateShortUrlData & { apiClientFactory: () => ShlinkApiClient },
+    { apiClientFactory, ...data }: WithApiClient<ShlinkCreateShortUrlData>,
   ): Promise<ShlinkShortUrl> => apiClientFactory().createShortUrl(data),
 );
 
@@ -67,7 +67,7 @@ export const shortUrlCreationReducer = reducer;
 
 export const useUrlCreation = () => {
   const dispatch = useAppDispatch();
-  const [apiClientFactory] = useDependencies<[() => ShlinkApiClient]>('apiClientFactory');
+  const apiClientFactory = useApiClientFactory();
   const resetCreateShortUrl = useCallback(() => dispatch(actions.resetCreateShortUrl()), [dispatch]);
   const createShortUrl = useCallback(
     (data: ShlinkCreateShortUrlData) => dispatch(createShortUrlThunk({ ...data, apiClientFactory })),

@@ -9,7 +9,6 @@ import { checkAccessibility } from './__helpers__/accessibility';
 describe('<ShlinkWebComponent />', () => {
   let bottle: Bottle;
   const dispatch = vi.fn();
-  const loadMercureInfo = vi.fn();
   const listTags = vi.fn();
   const listDomains = vi.fn();
   const apiClient = fromPartial<ShlinkApiClient>({});
@@ -30,7 +29,6 @@ describe('<ShlinkWebComponent />', () => {
       getState: vi.fn().mockReturnValue({}),
       subscribe: vi.fn(),
     });
-    bottle.value('loadMercureInfo', loadMercureInfo);
     bottle.value('listTags', listTags);
     bottle.value('listDomains', listDomains);
   });
@@ -56,7 +54,6 @@ describe('<ShlinkWebComponent />', () => {
     setUp();
 
     await waitFor(() => expect(dispatch).toHaveBeenCalledTimes(3));
-    expect(loadMercureInfo).toHaveBeenCalledOnce();
     expect(listTags).toHaveBeenCalledOnce();
     expect(listDomains).toHaveBeenCalledOnce();
   });

@@ -3,12 +3,13 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router';
+import { ContainerProvider } from '../../src/container/context';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import { NonOrphanVisitsFactory } from '../../src/visits/NonOrphanVisits';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<NonOrphanVisits />', () => {
   const exportVisits = vi.fn();
@@ -18,21 +19,23 @@ describe('<NonOrphanVisits />', () => {
   const NonOrphanVisits = NonOrphanVisitsFactory(fromPartial({
     ReportExporter: fromPartial({ exportVisits }),
   }));
-  const setUp = () => renderWithEvents(
-    <MemoryRouter>
-      <SettingsProvider value={fromPartial({})}>
-        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-        <Card>
-          <NonOrphanVisits
-            {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-            getNonOrphanVisits={getNonOrphanVisits}
-            cancelGetNonOrphanVisits={cancelGetNonOrphanVisits}
-            nonOrphanVisits={nonOrphanVisits}
-            domainsList={fromPartial({ domains: [] })}
-          />
-        </Card>
-      </SettingsProvider>
-    </MemoryRouter>,
+  const setUp = () => renderWithStore(
+    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
+      <MemoryRouter>
+        <SettingsProvider value={fromPartial({})}>
+          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+          <Card>
+            <NonOrphanVisits
+              {...fromPartial<MercureBoundProps>({})}
+              getNonOrphanVisits={getNonOrphanVisits}
+              cancelGetNonOrphanVisits={cancelGetNonOrphanVisits}
+              nonOrphanVisits={nonOrphanVisits}
+              domainsList={fromPartial({ domains: [] })}
+            />
+          </Card>
+        </SettingsProvider>
+      </MemoryRouter>
+    </ContainerProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

@@ -2,13 +2,14 @@ import { Card } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
+import { ContainerProvider } from '../../src/container/context';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import { DomainVisitsFactory } from '../../src/visits/DomainVisits';
 import type { DomainVisits } from '../../src/visits/reducers/domainVisits';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<DomainVisits />', () => {
   const exportVisits = vi.fn();
@@ -18,20 +19,22 @@ describe('<DomainVisits />', () => {
   const DomainVisits = DomainVisitsFactory(fromPartial({
     ReportExporter: fromPartial({ exportVisits }),
   }));
-  const setUp = () => renderWithEvents(
-    <MemoryRouterWithParams params={{ domain: 'foo.com_DEFAULT' }} splat>
-      <SettingsProvider value={fromPartial({})}>
-        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-        <Card>
-          <DomainVisits
-            {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-            getDomainVisits={getDomainVisits}
-            cancelGetDomainVisits={cancelGetDomainVisits}
-            domainVisits={domainVisits}
-          />
-        </Card>
-      </SettingsProvider>
-    </MemoryRouterWithParams>,
+  const setUp = () => renderWithStore(
+    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
+      <MemoryRouterWithParams params={{ domain: 'foo.com_DEFAULT' }} splat>
+        <SettingsProvider value={fromPartial({})}>
+          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+          <Card>
+            <DomainVisits
+              {...fromPartial<MercureBoundProps>({})}
+              getDomainVisits={getDomainVisits}
+              cancelGetDomainVisits={cancelGetDomainVisits}
+              domainVisits={domainVisits}
+            />
+          </Card>
+        </SettingsProvider>
+      </MemoryRouterWithParams>
+    </ContainerProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

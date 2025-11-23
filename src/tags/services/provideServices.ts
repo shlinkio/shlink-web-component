@@ -26,10 +26,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.factory('TagsTable', TagsTableFactory);
 
   bottle.factory('TagsList', TagsListFactory);
-  bottle.decorator('TagsList', connect(
-    ['tagsList', 'mercureInfo'],
-    ['filterTags', 'createNewVisits', 'loadMercureInfo'],
-  ));
+  bottle.decorator('TagsList', connect(['tagsList'], ['filterTags', 'createNewVisits']));
 
   // Reducers
   bottle.serviceFactory('tagEditReducerCreator', tagEditReducerCreator, 'editTag');

@@ -1,5 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
+import { ContainerProvider } from '../../src/container/context';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import type { TagsList } from '../../src/tags/reducers/tagsList';
@@ -7,22 +8,24 @@ import type { TagsListProps } from '../../src/tags/TagsList';
 import { TagsListFactory } from '../../src/tags/TagsList';
 import type { TagsTableProps } from '../../src/tags/TagsTable';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<TagsList />', () => {
   const filterTags = vi.fn();
   const TagsListComp = TagsListFactory(fromPartial({
     TagsTable: ({ sortedTags }: TagsTableProps) => <>TagsTable ({sortedTags.map((t) => t.visits).join(',')})</>,
   }));
-  const setUp = (tagsList: Partial<TagsList> = {}, excludeBots = false) => renderWithEvents(
-    <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
-      <TagsListComp
-        {...fromPartial<TagsListProps>({})}
-        {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-        filterTags={filterTags}
-        tagsList={fromPartial({ filteredTags: [], ...tagsList })}
-      />
-    </SettingsProvider>,
+  const setUp = (tagsList: Partial<TagsList> = {}, excludeBots = false) => renderWithStore(
+    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
+      <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
+        <TagsListComp
+          {...fromPartial<TagsListProps>({})}
+          {...fromPartial<MercureBoundProps>({})}
+          filterTags={filterTags}
+          tagsList={fromPartial({ filteredTags: [], ...tagsList })}
+        />
+      </SettingsProvider>
+    </ContainerProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

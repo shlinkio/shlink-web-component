@@ -6,6 +6,7 @@ import { Provider as ReduxStoreProvider } from 'react-redux';
 import { BrowserRouter, useInRouterContext } from 'react-router';
 import type { ShlinkApiClient } from './api-contract';
 import { ContainerProvider } from './container/context';
+import { loadMercureInfo } from './mercure/reducers/mercureInfo';
 import type { Settings } from './settings';
 import { SettingsProvider } from './settings';
 import { ShlinkSidebarVisibilityProvider } from './sidebar/ShlinkSidebarVisibilityProvider';
@@ -55,12 +56,12 @@ export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentP
 
     // It's important to not try to resolve services before the API client has been registered, as many other services
     // depend on it
-    const { Main, store, loadMercureInfo, listTags, listDomains } = bottle.container;
+    const { Main, store, listTags, listDomains } = bottle.container;
     mainContent.current = <Main createNotFound={createNotFound} autoToggleButton={autoSidebarToggle} />;
     setStore(store);
 
     // Load mercure info
-    store.dispatch(loadMercureInfo(settings));
+    store.dispatch(loadMercureInfo({ ...settings, apiClientFactory: () => apiClientRef }));
     // Load tags, as they are used by multiple components
     store.dispatch(listTags());
     // Load domains, as they are used by multiple components

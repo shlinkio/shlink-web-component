@@ -1,9 +1,10 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
-import type { MercureInfo } from '../../../src/mercure/reducers/mercureInfo';
+import { ContainerProvider } from '../../../src/container/context';
 import { TagVisitsComparisonFactory } from '../../../src/visits/visits-comparison/TagVisitsComparison';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import { renderWithStore } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock, getColorForKey } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<TagVisitsComparison />', () => {
@@ -12,19 +13,19 @@ describe('<TagVisitsComparison />', () => {
   }));
   const getTagVisitsForComparison = vi.fn();
   const cancelGetTagVisitsComparison = vi.fn();
-  const setUp = (tags = ['foo', 'bar', 'baz']) => render(
-    <MemoryRouter initialEntries={[{ search: `?tags=${tags.join(',')}` }]}>
-      <TagVisitsComparison
-        getTagVisitsForComparison={getTagVisitsForComparison}
-        cancelGetTagVisitsComparison={cancelGetTagVisitsComparison}
-        tagVisitsComparison={fromPartial({
-          visitsGroups: Object.fromEntries(tags.map((tag) => [tag, []])),
-        })}
-        createNewVisits={vi.fn()}
-        loadMercureInfo={vi.fn()}
-        mercureInfo={fromPartial<MercureInfo>({})}
-      />
-    </MemoryRouter>,
+  const setUp = (tags = ['foo', 'bar', 'baz']) => renderWithStore(
+    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
+      <MemoryRouter initialEntries={[{ search: `?tags=${tags.join(',')}` }]}>
+        <TagVisitsComparison
+          getTagVisitsForComparison={getTagVisitsForComparison}
+          cancelGetTagVisitsComparison={cancelGetTagVisitsComparison}
+          tagVisitsComparison={fromPartial({
+            visitsGroups: Object.fromEntries(tags.map((tag) => [tag, []])),
+          })}
+          createNewVisits={vi.fn()}
+        />
+      </MemoryRouter>
+    </ContainerProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

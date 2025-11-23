@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 import type { ShlinkApiClient, ShlinkDomainRedirects } from '../../api-contract';
-import { useDependencies } from '../../container/context';
 import { useAppDispatch } from '../../store';
-import { createAsyncThunk } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 
 const EDIT_DOMAIN_REDIRECTS = 'shlink/domainRedirects/EDIT_DOMAIN_REDIRECTS';
 
@@ -28,7 +27,7 @@ export const editDomainRedirects = createAsyncThunk(
 
 export const useDomainRedirects = () => {
   const dispatch = useAppDispatch();
-  const [apiClientFactory] = useDependencies<[() => ShlinkApiClient]>('apiClientFactory');
+  const apiClientFactory = useApiClientFactory();
   const dispatchEditDomainRedirects = useCallback((edit: EditDomainRedirects) => dispatch(editDomainRedirects({
     ...edit,
     apiClientFactory,

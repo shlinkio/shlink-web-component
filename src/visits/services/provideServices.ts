@@ -34,8 +34,8 @@ import * as visitsParser from './VisitsParser';
 
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   const connectWithMercure = (props: string[], actions: string[]) => connect(
-    [...props, 'mercureInfo'],
-    [...actions, 'createNewVisits', 'loadMercureInfo'],
+    [...props],
+    [...actions, 'createNewVisits'],
   );
 
   // Components
@@ -53,7 +53,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'getShortUrlsDetails',
     'cancelGetShortUrlVisits',
     'createNewVisits',
-    'loadMercureInfo',
   ]));
 
   bottle.factory('TagVisits', TagVisitsFactory);

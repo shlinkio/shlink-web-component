@@ -3,12 +3,13 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router';
+import { ContainerProvider } from '../../src/container/context';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import { OrphanVisitsFactory } from '../../src/visits/OrphanVisits';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<OrphanVisits />', () => {
   const getOrphanVisits = vi.fn();
@@ -17,23 +18,25 @@ describe('<OrphanVisits />', () => {
   const OrphanVisits = OrphanVisitsFactory(fromPartial({
     ReportExporter: fromPartial({ exportVisits }),
   }));
-  const setUp = () => renderWithEvents(
-    <MemoryRouter>
-      <SettingsProvider value={fromPartial({})}>
-        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-        <Card>
-          <OrphanVisits
-            {...fromPartial<MercureBoundProps>({ mercureInfo: {} })}
-            getOrphanVisits={getOrphanVisits}
-            orphanVisits={orphanVisits}
-            cancelGetOrphanVisits={vi.fn()}
-            deleteOrphanVisits={vi.fn()}
-            orphanVisitsDeletion={fromPartial({})}
-            domainsList={fromPartial({ domains: [] })}
-          />
-        </Card>
-      </SettingsProvider>
-    </MemoryRouter>,
+  const setUp = () => renderWithStore(
+    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
+      <MemoryRouter>
+        <SettingsProvider value={fromPartial({})}>
+          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+          <Card>
+            <OrphanVisits
+              {...fromPartial<MercureBoundProps>({})}
+              getOrphanVisits={getOrphanVisits}
+              orphanVisits={orphanVisits}
+              cancelGetOrphanVisits={vi.fn()}
+              deleteOrphanVisits={vi.fn()}
+              orphanVisitsDeletion={fromPartial({})}
+              domainsList={fromPartial({ domains: [] })}
+            />
+          </Card>
+        </SettingsProvider>
+      </MemoryRouter>
+    </ContainerProvider>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

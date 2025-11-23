@@ -3,6 +3,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
+import { ContainerProvider } from '../../src/container/context';
 import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import type { Settings } from '../../src/settings';
 import { SettingsProvider } from '../../src/settings';
@@ -11,7 +12,7 @@ import type { ShortUrlsList as ShortUrlsListModel } from '../../src/short-urls/r
 import { ShortUrlsListFactory } from '../../src/short-urls/ShortUrlsList';
 import type { ShortUrlsTableType } from '../../src/short-urls/ShortUrlsTable';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 
 type SetUpOptions = {
   settings?: Partial<Settings>;
@@ -45,16 +46,23 @@ describe('<ShortUrlsList />', () => {
     history = createMemoryHistory();
     history.push({ search: '?tags=test%20tag&search=example.com' });
 
-    return renderWithEvents(
-      <Router location={history.location} navigator={history}>
-        <SettingsProvider value={fromPartial(settings)}>
-          <ShortUrlsList
-            {...fromPartial<MercureBoundProps>({ mercureInfo: { loading: true } })}
-            listShortUrls={listShortUrlsMock}
-            shortUrlsList={{ ...shortUrlsList, loading }}
-          />
-        </SettingsProvider>
-      </Router>,
+    return renderWithStore(
+      <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
+        <Router location={history.location} navigator={history}>
+          <SettingsProvider value={fromPartial(settings)}>
+            <ShortUrlsList
+              {...fromPartial<MercureBoundProps>({})}
+              listShortUrls={listShortUrlsMock}
+              shortUrlsList={{ ...shortUrlsList, loading }}
+            />
+          </SettingsProvider>
+        </Router>
+      </ContainerProvider>,
+      {
+        initialState: {
+          mercureInfo: fromPartial({ loading: true }),
+        },
+      },
     );
   };
 

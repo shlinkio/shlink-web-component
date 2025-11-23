@@ -2,13 +2,11 @@ import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import type { CreateVisit } from '../../visits/types';
-import type { MercureInfo } from '../reducers/mercureInfo';
+import { useMercureInfo } from '../reducers/mercureInfo';
 import { bindToMercureTopic } from './index';
 
 export interface MercureBoundProps {
   createNewVisits: (createdVisits: CreateVisit[]) => void;
-  loadMercureInfo: () => void;
-  mercureInfo: MercureInfo;
 }
 
 export function boundToMercureHub<T extends object>(
@@ -18,7 +16,8 @@ export function boundToMercureHub<T extends object>(
   const pendingUpdates = new Set<CreateVisit>();
 
   return (props: MercureBoundProps & T) => {
-    const { createNewVisits, loadMercureInfo, mercureInfo } = props;
+    const { createNewVisits } = props;
+    const { loadMercureInfo, mercureInfo } = useMercureInfo();
     const params = useParams();
 
     // Every time mercure info changes, re-bind

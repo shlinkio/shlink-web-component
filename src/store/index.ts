@@ -3,6 +3,7 @@ import type { IContainer } from 'bottlejs';
 import { useDispatch, useSelector } from 'react-redux';
 import type { DomainsList } from '../domains/reducers/domainsList';
 import type { MercureInfo } from '../mercure/reducers/mercureInfo';
+import { mercureInfoReducer } from '../mercure/reducers/mercureInfo';
 import type { SetShortUrlRedirectRules } from '../redirect-rules/reducers/setShortUrlRedirectRules';
 import type { ShortUrlRedirectRules } from '../redirect-rules/reducers/shortUrlRedirectRules';
 import type { ShortUrlCreation } from '../short-urls/reducers/shortUrlCreation';
@@ -29,7 +30,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 export const setUpStore = (container: IContainer, preloadedState?: any) => configureStore<RootState>({
   devTools: !isProduction,
   reducer: combineReducers({
-    mercureInfo: container.mercureInfoReducer as MercureInfo,
+    mercureInfo: mercureInfoReducer,
     shortUrlsList: container.shortUrlsListReducer as ShortUrlsList,
     shortUrlCreation: shortUrlCreationReducer,
     shortUrlDeletion: container.shortUrlDeletionReducer as ShortUrlDeletion,

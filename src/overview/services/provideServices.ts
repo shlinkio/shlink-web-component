@@ -6,6 +6,6 @@ export function provideServices(bottle: Bottle, connect: ConnectDecorator) {
   bottle.factory('Overview', OverviewFactory);
   bottle.decorator('Overview', connect(
     ['shortUrlsList', 'tagsList', 'visitsOverview'],
-    ['listShortUrls', 'createNewVisits', 'loadVisitsOverview'],
+    ['listShortUrls', 'loadVisitsOverview'],
   ));
 }

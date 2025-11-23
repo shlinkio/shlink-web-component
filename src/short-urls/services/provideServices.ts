@@ -18,7 +18,7 @@ import { ShortUrlsTableFactory } from '../ShortUrlsTable';
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   // Components
   bottle.factory('ShortUrlsList', ShortUrlsListFactory);
-  bottle.decorator('ShortUrlsList', connect(['shortUrlsList'], ['listShortUrls', 'createNewVisits']));
+  bottle.decorator('ShortUrlsList', connect(['shortUrlsList'], ['listShortUrls']));
 
   bottle.factory('ShortUrlsTable', ShortUrlsTableFactory);
   bottle.factory('ShortUrlsRow', ShortUrlsRowFactory);

@@ -6,7 +6,6 @@ import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router';
 import { now } from 'tinybench';
 import { ContainerProvider } from '../../src/container/context';
-import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import type { ShortUrlVisits as ShortUrlVisitsState } from '../../src/visits/reducers/shortUrlVisits';
 import { ShortUrlVisitsFactory } from '../../src/visits/ShortUrlVisits';
@@ -27,7 +26,6 @@ describe('<ShortUrlVisits />', () => {
           {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
           <Card>
             <ShortUrlVisits
-              {...fromPartial<MercureBoundProps>({})}
               getShortUrlsDetails={vi.fn()}
               getShortUrlVisits={getShortUrlVisitsMock}
               shortUrlVisits={shortUrlVisits}

@@ -4,7 +4,6 @@ import { useMemo, useState } from 'react';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useSettings } from '../settings';
@@ -21,13 +20,11 @@ export type TagsListProps = {
   tagsList: TagsListState;
 };
 
-type TagsListActualProps = MercureBoundProps & TagsListProps;
-
 type TagsListDeps = {
   TagsTable: FC<TagsTableProps>;
 };
 
-const TagsList: FCWithDeps<TagsListActualProps, TagsListDeps> = boundToMercureHub(({ filterTags, tagsList }) => {
+const TagsList: FCWithDeps<TagsListProps, TagsListDeps> = boundToMercureHub(({ filterTags, tagsList }) => {
   const { TagsTable } = useDependencies(TagsList);
   const settings = useSettings();
   const [order, setOrder] = useState<TagsOrder>(settings.tags?.defaultOrdering ?? {});

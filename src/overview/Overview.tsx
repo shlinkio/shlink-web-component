@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router';
 import type { ShlinkShortUrlsListParams } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useSetting } from '../settings';
@@ -39,7 +38,7 @@ const OverviewCard: FC<OverviewCardProps> = ({ children, titleLinkText, titleLin
   </Card>
 );
 
-type OverviewProps = MercureBoundProps & {
+type OverviewProps = {
   shortUrlsList: ShortUrlsListState;
   listShortUrls: (params: ShlinkShortUrlsListParams) => void;
   tagsList: TagsList;

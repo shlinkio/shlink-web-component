@@ -34,7 +34,6 @@ describe('<Overview />', () => {
                 nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },
                 orphanVisits: { total: 28, bots: 15, nonBots: 13 },
               })}
-              createNewVisits={vi.fn()}
             />
           </RoutesPrefixProvider>
         </SettingsProvider>

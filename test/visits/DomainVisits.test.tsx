@@ -3,7 +3,6 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { ContainerProvider } from '../../src/container/context';
-import type { MercureBoundProps } from '../../src/mercure/helpers/boundToMercureHub';
 import { SettingsProvider } from '../../src/settings';
 import { DomainVisitsFactory } from '../../src/visits/DomainVisits';
 import type { DomainVisits } from '../../src/visits/reducers/domainVisits';
@@ -26,7 +25,6 @@ describe('<DomainVisits />', () => {
           {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
           <Card>
             <DomainVisits
-              {...fromPartial<MercureBoundProps>({})}
               getDomainVisits={getDomainVisits}
               cancelGetDomainVisits={cancelGetDomainVisits}
               domainVisits={domainVisits}

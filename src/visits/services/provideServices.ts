@@ -11,7 +11,6 @@ import { deleteOrphanVisits, orphanVisitsDeletionReducerCreator } from '../reduc
 import { getShortUrlVisits, shortUrlVisitsReducerCreator } from '../reducers/shortUrlVisits';
 import { deleteShortUrlVisits, shortUrlVisitsDeletionReducerCreator } from '../reducers/shortUrlVisitsDeletion';
 import { getTagVisits, tagVisitsReducerCreator } from '../reducers/tagVisits';
-import { createNewVisits } from '../reducers/visitCreation';
 import { loadVisitsOverview, visitsOverviewReducerCreator } from '../reducers/visitsOverview';
 import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import { TagVisitsFactory } from '../TagVisits';
@@ -33,11 +32,6 @@ import { TagVisitsComparisonFactory } from '../visits-comparison/TagVisitsCompar
 import * as visitsParser from './VisitsParser';
 
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
-  const connectWithMercure = (props: string[], actions: string[]) => connect(
-    [...props],
-    [...actions, 'createNewVisits'],
-  );
-
   // Components
   bottle.serviceFactory('MapModal', () => MapModal);
 
@@ -46,32 +40,30 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'shortUrlVisits',
     'shortUrlVisitsDeletion',
     'shortUrlsDetails',
-    'mercureInfo',
   ], [
     'getShortUrlVisits',
     'deleteShortUrlVisits',
     'getShortUrlsDetails',
     'cancelGetShortUrlVisits',
-    'createNewVisits',
   ]));
 
   bottle.factory('TagVisits', TagVisitsFactory);
-  bottle.decorator('TagVisits', connectWithMercure(['tagVisits', 'domainsList'], ['getTagVisits', 'cancelGetTagVisits']));
+  bottle.decorator('TagVisits', connect(['tagVisits', 'domainsList'], ['getTagVisits', 'cancelGetTagVisits']));
 
   bottle.factory('TagVisitsComparison', TagVisitsComparisonFactory);
-  bottle.decorator('TagVisitsComparison', connectWithMercure(
+  bottle.decorator('TagVisitsComparison', connect(
     ['tagVisitsComparison'],
     ['getTagVisitsForComparison', 'cancelGetTagVisitsForComparison'],
   ));
 
   bottle.serviceFactory('DomainVisitsComparison', () => DomainVisitsComparison);
-  bottle.decorator('DomainVisitsComparison', connectWithMercure(
+  bottle.decorator('DomainVisitsComparison', connect(
     ['domainVisitsComparison'],
     ['getDomainVisitsForComparison', 'cancelGetDomainVisitsForComparison'],
   ));
 
   bottle.serviceFactory('ShortUrlVisitsComparison', () => ShortUrlVisitsComparison);
-  bottle.decorator('ShortUrlVisitsComparison', connectWithMercure(
+  bottle.decorator('ShortUrlVisitsComparison', connect(
     ['shortUrlVisitsComparison', 'shortUrlsDetails'],
     [
       'getShortUrlVisitsForComparison',
@@ -81,16 +73,16 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   ));
 
   bottle.factory('DomainVisits', DomainVisitsFactory);
-  bottle.decorator('DomainVisits', connectWithMercure(['domainVisits'], ['getDomainVisits', 'cancelGetDomainVisits']));
+  bottle.decorator('DomainVisits', connect(['domainVisits'], ['getDomainVisits', 'cancelGetDomainVisits']));
 
   bottle.factory('OrphanVisits', OrphanVisitsFactory);
-  bottle.decorator('OrphanVisits', connectWithMercure(
+  bottle.decorator('OrphanVisits', connect(
     ['orphanVisits', 'orphanVisitsDeletion', 'domainsList'],
     ['getOrphanVisits', 'cancelGetOrphanVisits', 'deleteOrphanVisits'],
   ));
 
   bottle.factory('NonOrphanVisits', NonOrphanVisitsFactory);
-  bottle.decorator('NonOrphanVisits', connectWithMercure(
+  bottle.decorator('NonOrphanVisits', connect(
     ['nonOrphanVisits', 'domainsList'],
     ['getNonOrphanVisits', 'cancelGetNonOrphanVisits'],
   ));
@@ -139,7 +131,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('getNonOrphanVisits', getNonOrphanVisits, 'apiClientFactory');
   bottle.serviceFactory('cancelGetNonOrphanVisits', (obj) => obj.cancelGetVisits, 'nonOrphanVisitsReducerCreator');
 
-  bottle.serviceFactory('createNewVisits', () => createNewVisits);
   bottle.serviceFactory('loadVisitsOverview', loadVisitsOverview, 'apiClientFactory');
 
   // Reducers

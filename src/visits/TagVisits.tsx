@@ -3,7 +3,6 @@ import { useParams } from 'react-router';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainsList } from '../domains/reducers/domainsList';
-import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
@@ -26,7 +25,7 @@ type TagVisitsDeps = {
   ReportExporter: ReportExporter;
 };
 
-const TagVisits: FCWithDeps<MercureBoundProps & TagVisitsProps, TagVisitsDeps> = boundToMercureHub((
+const TagVisits: FCWithDeps<TagVisitsProps, TagVisitsDeps> = boundToMercureHub((
   { getTagVisits, tagVisits, cancelGetTagVisits, domainsList },
 ) => {
   const { ColorGenerator: colorGenerator, ReportExporter: reportExporter } = useDependencies(TagVisits);

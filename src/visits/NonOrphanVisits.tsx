@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import type { DomainsList } from '../domains/reducers/domainsList';
-import type { MercureBoundProps } from '../mercure/helpers/boundToMercureHub';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
@@ -22,7 +21,7 @@ type NonOrphanVisitsDeps = {
   ReportExporter: ReportExporter;
 };
 
-const NonOrphanVisits: FCWithDeps<MercureBoundProps & NonOrphanVisitsProps, NonOrphanVisitsDeps> = boundToMercureHub((
+const NonOrphanVisits: FCWithDeps<NonOrphanVisitsProps, NonOrphanVisitsDeps> = boundToMercureHub((
   { getNonOrphanVisits, nonOrphanVisits, cancelGetNonOrphanVisits, domainsList },
 ) => {
   const { ReportExporter: reportExporter } = useDependencies(NonOrphanVisits);

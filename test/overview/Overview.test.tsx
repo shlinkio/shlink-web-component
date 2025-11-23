@@ -2,7 +2,6 @@ import { formatNumber } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
-import { ContainerProvider } from '../../src/container/context';
 import { OverviewFactory } from '../../src/overview/Overview';
 import { SettingsProvider } from '../../src/settings';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
@@ -20,25 +19,23 @@ describe('<Overview />', () => {
   };
   const routesPrefix = '/server/123';
   const setUp = (loading = false, visits: { excludeBots?: boolean } = {}) => renderWithStore(
-    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-      <MemoryRouter>
-        <SettingsProvider value={fromPartial({ visits })}>
-          <RoutesPrefixProvider value={routesPrefix}>
-            <Overview
-              listShortUrls={listShortUrls}
-              loadVisitsOverview={loadVisitsOverview}
-              shortUrlsList={fromPartial({ loading, shortUrls })}
-              tagsList={fromPartial({ loading, tags: ['foo', 'bar', 'baz'] })}
-              visitsOverview={fromPartial({
-                loading,
-                nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },
-                orphanVisits: { total: 28, bots: 15, nonBots: 13 },
-              })}
-            />
-          </RoutesPrefixProvider>
-        </SettingsProvider>
-      </MemoryRouter>
-    </ContainerProvider>,
+    <MemoryRouter>
+      <SettingsProvider value={fromPartial({ visits })}>
+        <RoutesPrefixProvider value={routesPrefix}>
+          <Overview
+            listShortUrls={listShortUrls}
+            loadVisitsOverview={loadVisitsOverview}
+            shortUrlsList={fromPartial({ loading, shortUrls })}
+            tagsList={fromPartial({ loading, tags: ['foo', 'bar', 'baz'] })}
+            visitsOverview={fromPartial({
+              loading,
+              nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },
+              orphanVisits: { total: 28, bots: 15, nonBots: 13 },
+            })}
+          />
+        </RoutesPrefixProvider>
+      </SettingsProvider>
+    </MemoryRouter>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

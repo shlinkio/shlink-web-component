@@ -3,7 +3,6 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
-import { ContainerProvider } from '../../src/container/context';
 import type { Settings } from '../../src/settings';
 import { SettingsProvider } from '../../src/settings';
 import type { ShortUrlsOrder } from '../../src/short-urls/data';
@@ -46,13 +45,11 @@ describe('<ShortUrlsList />', () => {
     history.push({ search: '?tags=test%20tag&search=example.com' });
 
     return renderWithStore(
-      <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-        <Router location={history.location} navigator={history}>
-          <SettingsProvider value={fromPartial(settings)}>
-            <ShortUrlsList listShortUrls={listShortUrlsMock} shortUrlsList={{ ...shortUrlsList, loading }} />
-          </SettingsProvider>
-        </Router>
-      </ContainerProvider>,
+      <Router location={history.location} navigator={history}>
+        <SettingsProvider value={fromPartial(settings)}>
+          <ShortUrlsList listShortUrls={listShortUrlsMock} shortUrlsList={{ ...shortUrlsList, loading }} />
+        </SettingsProvider>
+      </Router>,
       {
         initialState: {
           mercureInfo: fromPartial({ loading: true }),

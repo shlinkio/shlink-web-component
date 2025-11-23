@@ -2,7 +2,6 @@ import { screen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
-import { ContainerProvider } from '../../../src/container/context';
 import type { Domain } from '../../../src/domains/data';
 import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import { DomainDropdown } from '../../../src/domains/helpers/DomainDropdown';
@@ -22,17 +21,15 @@ type SetUpOptions = {
 describe('<DomainDropdown />', () => {
   const setUp = ({ domain, visitsComparison, filterShortUrlsByDomain = true }: SetUpOptions = {}) => renderWithStore(
     <MemoryRouter>
-      <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-        <VisitsComparisonProvider
-          value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
-        >
-          <RoutesPrefixProvider value="/server/123">
-            <FeaturesProvider value={fromPartial({ filterShortUrlsByDomain })}>
-              <DomainDropdown domain={domain ?? fromPartial({})} />
-            </FeaturesProvider>
-          </RoutesPrefixProvider>
-        </VisitsComparisonProvider>
-      </ContainerProvider>
+      <VisitsComparisonProvider
+        value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
+      >
+        <RoutesPrefixProvider value="/server/123">
+          <FeaturesProvider value={fromPartial({ filterShortUrlsByDomain })}>
+            <DomainDropdown domain={domain ?? fromPartial({})} />
+          </FeaturesProvider>
+        </RoutesPrefixProvider>
+      </VisitsComparisonProvider>
     </MemoryRouter>,
   );
 

@@ -10,6 +10,7 @@ import type { ShortUrlCreation } from '../short-urls/reducers/shortUrlCreation';
 import { shortUrlCreationReducer } from '../short-urls/reducers/shortUrlCreation';
 import type { ShortUrlDeletion } from '../short-urls/reducers/shortUrlDeletion';
 import type { ShortUrlEdition } from '../short-urls/reducers/shortUrlEdition';
+import { shortUrlEditionReducer } from '../short-urls/reducers/shortUrlEdition';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import type { ShortUrlsList } from '../short-urls/reducers/shortUrlsList';
 import type { TagDeletion } from '../tags/reducers/tagDelete';
@@ -34,7 +35,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     shortUrlsList: container.shortUrlsListReducer as ShortUrlsList,
     shortUrlCreation: shortUrlCreationReducer,
     shortUrlDeletion: container.shortUrlDeletionReducer as ShortUrlDeletion,
-    shortUrlEdition: container.shortUrlEditionReducer as ShortUrlEdition,
+    shortUrlEdition: shortUrlEditionReducer,
     shortUrlsDetails: container.shortUrlsDetailsReducer as ShortUrlsDetails,
     shortUrlVisits: container.shortUrlVisitsReducer as ShortUrlVisits,
     shortUrlVisitsDeletion: container.shortUrlVisitsDeletionReducer as ShortUrlVisitsDeletion,

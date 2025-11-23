@@ -2,7 +2,6 @@ import { cleanup, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { ShlinkShortUrlIdentifier } from '../../../src/api-contract';
-import { ContainerProvider } from '../../../src/container/context';
 import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import { queryToShortUrl, shortUrlToQuery } from '../../../src/short-urls/helpers';
 import { ShortUrlVisitsComparison } from '../../../src/visits/visits-comparison/ShortUrlVisitsComparison';
@@ -22,26 +21,24 @@ describe('<ShortUrlVisitsComparison />', () => {
   const setUp = (
     { shortUrls = [], loadingVisits = false, loadingDetails = false }: SetUpOptions = {},
   ) => renderWithStore(
-    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-      <MemoryRouter initialEntries={[{ search: `?short-urls=${shortUrls.map(shortUrlToQuery).join(',')}` }]}>
-        <ShortUrlVisitsComparison
-          getShortUrlVisitsForComparison={getShortUrlVisitsForComparison}
-          cancelGetShortUrlVisitsComparison={cancelGetShortUrlVisitsComparison}
-          shortUrlVisitsComparison={fromPartial({
-            visitsGroups: Object.fromEntries(shortUrls.map((shortUrl) => [shortUrlToQuery(shortUrl), []])),
-            loading: loadingVisits,
-            progress: null,
-          })}
-          getShortUrlsDetails={getShortUrlsDetails}
-          shortUrlsDetails={fromPartial({
-            shortUrls: new Map(shortUrls.map(
-              (shortUrl) => [shortUrl, { ...shortUrl, shortUrl: `https://${shortUrlToQuery(shortUrl)}` }],
-            )),
-            loading: loadingDetails,
-          })}
-        />
-      </MemoryRouter>
-    </ContainerProvider>,
+    <MemoryRouter initialEntries={[{ search: `?short-urls=${shortUrls.map(shortUrlToQuery).join(',')}` }]}>
+      <ShortUrlVisitsComparison
+        getShortUrlVisitsForComparison={getShortUrlVisitsForComparison}
+        cancelGetShortUrlVisitsComparison={cancelGetShortUrlVisitsComparison}
+        shortUrlVisitsComparison={fromPartial({
+          visitsGroups: Object.fromEntries(shortUrls.map((shortUrl) => [shortUrlToQuery(shortUrl), []])),
+          loading: loadingVisits,
+          progress: null,
+        })}
+        getShortUrlsDetails={getShortUrlsDetails}
+        shortUrlsDetails={fromPartial({
+          shortUrls: new Map(shortUrls.map(
+            (shortUrl) => [shortUrl, { ...shortUrl, shortUrl: `https://${shortUrlToQuery(shortUrl)}` }],
+          )),
+          loading: loadingDetails,
+        })}
+      />
+    </MemoryRouter>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

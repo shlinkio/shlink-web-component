@@ -5,7 +5,7 @@ import { createNewVisits } from '../../visits/reducers/visitCreation';
 import { shortUrlMatches } from '../helpers';
 import { createShortUrlThunk } from './shortUrlCreation';
 import { shortUrlDeleted } from './shortUrlDeletion';
-import type { editShortUrl } from './shortUrlEdition';
+import { editShortUrlThunk } from './shortUrlEdition';
 
 const REDUCER_PREFIX = 'shlink/shortUrlsList';
 export const ITEMS_IN_OVERVIEW_PAGE = 5;
@@ -28,10 +28,7 @@ export const listShortUrls = (apiClientFactory: () => ShlinkApiClient) => create
   ),
 );
 
-export const shortUrlsListReducerCreator = (
-  listShortUrlsThunk: ReturnType<typeof listShortUrls>,
-  editShortUrlThunk: ReturnType<typeof editShortUrl>,
-) => createSlice({
+export const shortUrlsListReducerCreator = (listShortUrlsThunk: ReturnType<typeof listShortUrls>) => createSlice({
   name: REDUCER_PREFIX,
   initialState,
   reducers: {},

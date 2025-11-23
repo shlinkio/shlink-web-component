@@ -1,7 +1,6 @@
 import { cleanup, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
-import { ContainerProvider } from '../../../src/container/context';
 import { DomainVisitsComparison } from '../../../src/visits/visits-comparison/DomainVisitsComparison';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithStore } from '../../__helpers__/setUpTest';
@@ -10,17 +9,15 @@ describe('<DomainVisitsComparison />', () => {
   const getDomainVisitsForComparison = vi.fn();
   const cancelGetDomainVisitsComparison = vi.fn();
   const setUp = (domains = ['foo', 'bar', 'baz']) => renderWithStore(
-    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-      <MemoryRouter initialEntries={[{ search: `?domains=${domains.join(',')}` }]}>
-        <DomainVisitsComparison
-          getDomainVisitsForComparison={getDomainVisitsForComparison}
-          cancelGetDomainVisitsComparison={cancelGetDomainVisitsComparison}
-          domainVisitsComparison={fromPartial({
-            visitsGroups: Object.fromEntries(domains.map((domain) => [domain, []])),
-          })}
-        />
-      </MemoryRouter>
-    </ContainerProvider>,
+    <MemoryRouter initialEntries={[{ search: `?domains=${domains.join(',')}` }]}>
+      <DomainVisitsComparison
+        getDomainVisitsForComparison={getDomainVisitsForComparison}
+        cancelGetDomainVisitsComparison={cancelGetDomainVisitsComparison}
+        domainVisitsComparison={fromPartial({
+          visitsGroups: Object.fromEntries(domains.map((domain) => [domain, []])),
+        })}
+      />
+    </MemoryRouter>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

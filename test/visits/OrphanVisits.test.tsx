@@ -3,7 +3,6 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router';
-import { ContainerProvider } from '../../src/container/context';
 import { SettingsProvider } from '../../src/settings';
 import { OrphanVisitsFactory } from '../../src/visits/OrphanVisits';
 import type { VisitsInfo } from '../../src/visits/reducers/types';
@@ -18,23 +17,21 @@ describe('<OrphanVisits />', () => {
     ReportExporter: fromPartial({ exportVisits }),
   }));
   const setUp = () => renderWithStore(
-    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-      <MemoryRouter>
-        <SettingsProvider value={fromPartial({})}>
-          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-          <Card>
-            <OrphanVisits
-              getOrphanVisits={getOrphanVisits}
-              orphanVisits={orphanVisits}
-              cancelGetOrphanVisits={vi.fn()}
-              deleteOrphanVisits={vi.fn()}
-              orphanVisitsDeletion={fromPartial({})}
-              domainsList={fromPartial({ domains: [] })}
-            />
-          </Card>
-        </SettingsProvider>
-      </MemoryRouter>
-    </ContainerProvider>,
+    <MemoryRouter>
+      <SettingsProvider value={fromPartial({})}>
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <OrphanVisits
+            getOrphanVisits={getOrphanVisits}
+            orphanVisits={orphanVisits}
+            cancelGetOrphanVisits={vi.fn()}
+            deleteOrphanVisits={vi.fn()}
+            orphanVisitsDeletion={fromPartial({})}
+            domainsList={fromPartial({ domains: [] })}
+          />
+        </Card>
+      </SettingsProvider>
+    </MemoryRouter>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

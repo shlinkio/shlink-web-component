@@ -2,7 +2,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlsList } from '../../../src/api-contract';
 import { createShortUrlThunk as createShortUrl } from '../../../src/short-urls/reducers/shortUrlCreation';
 import { shortUrlDeleted } from '../../../src/short-urls/reducers/shortUrlDeletion';
-import { editShortUrl as editShortUrlCreator } from '../../../src/short-urls/reducers/shortUrlEdition';
+import { editShortUrlThunk } from '../../../src/short-urls/reducers/shortUrlEdition';
 import {
   listShortUrls as listShortUrlsCreator,
   shortUrlsListReducerCreator,
@@ -15,8 +15,7 @@ describe('shortUrlsListReducer', () => {
   const listShortUrlsMock = vi.fn();
   const buildShlinkApiClient = () => fromPartial<ShlinkApiClient>({ listShortUrls: listShortUrlsMock });
   const listShortUrls = listShortUrlsCreator(buildShlinkApiClient);
-  const editShortUrl = editShortUrlCreator(buildShlinkApiClient);
-  const { reducer } = shortUrlsListReducerCreator(listShortUrls, editShortUrl);
+  const { reducer } = shortUrlsListReducerCreator(listShortUrls);
 
   describe('reducer', () => {
     it('returns loading on LIST_SHORT_URLS_START', () =>
@@ -176,7 +175,7 @@ describe('shortUrlsListReducer', () => {
         error: false,
       };
 
-      const result = reducer(state, editShortUrl.fulfilled(editedShortUrl, '', fromPartial({})));
+      const result = reducer(state, editShortUrlThunk.fulfilled(editedShortUrl, '', fromPartial({})));
 
       expect(result.shortUrls?.data).toEqual(expectedList);
     });

@@ -1,8 +1,8 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import {
-  editShortUrl as editShortUrlCreator,
-  shortUrlEditionReducerCreator,
+  editShortUrlThunk as editShortUrl,
+  shortUrlEditionReducer as reducer,
 } from '../../../src/short-urls/reducers/shortUrlEdition';
 
 describe('shortUrlEditionReducer', () => {
@@ -10,9 +10,7 @@ describe('shortUrlEditionReducer', () => {
   const shortCode = 'abc123';
   const shortUrl = fromPartial<ShlinkShortUrl>({ longUrl, shortCode });
   const updateShortUrl = vi.fn().mockResolvedValue(shortUrl);
-  const buildShlinkApiClient = vi.fn().mockReturnValue({ updateShortUrl });
-  const editShortUrl = editShortUrlCreator(buildShlinkApiClient);
-  const { reducer } = shortUrlEditionReducerCreator(editShortUrl);
+  const apiClientFactory = vi.fn().mockReturnValue({ updateShortUrl });
 
   describe('reducer', () => {
     it('returns loading on EDIT_SHORT_URL_START', () => {
@@ -45,9 +43,9 @@ describe('shortUrlEditionReducer', () => {
     const dispatch = vi.fn();
 
     it.each([[undefined], [null], ['example.com']])('dispatches short URL on success', async (domain) => {
-      await editShortUrl({ shortCode, domain, data: { longUrl } })(dispatch, vi.fn(), {});
+      await editShortUrl({ shortCode, domain, data: { longUrl }, apiClientFactory })(dispatch, vi.fn(), {});
 
-      expect(buildShlinkApiClient).toHaveBeenCalledOnce();
+      expect(apiClientFactory).toHaveBeenCalledOnce();
       expect(updateShortUrl).toHaveBeenCalledOnce();
       expect(updateShortUrl).toHaveBeenCalledWith({ shortCode, domain }, { longUrl });
       expect(dispatch).toHaveBeenCalledTimes(2);

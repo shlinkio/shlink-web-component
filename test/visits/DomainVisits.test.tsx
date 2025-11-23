@@ -2,7 +2,6 @@ import { Card } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
-import { ContainerProvider } from '../../src/container/context';
 import { SettingsProvider } from '../../src/settings';
 import { DomainVisitsFactory } from '../../src/visits/DomainVisits';
 import type { DomainVisits } from '../../src/visits/reducers/domainVisits';
@@ -19,20 +18,18 @@ describe('<DomainVisits />', () => {
     ReportExporter: fromPartial({ exportVisits }),
   }));
   const setUp = () => renderWithStore(
-    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-      <MemoryRouterWithParams params={{ domain: 'foo.com_DEFAULT' }} splat>
-        <SettingsProvider value={fromPartial({})}>
-          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-          <Card>
-            <DomainVisits
-              getDomainVisits={getDomainVisits}
-              cancelGetDomainVisits={cancelGetDomainVisits}
-              domainVisits={domainVisits}
-            />
-          </Card>
-        </SettingsProvider>
-      </MemoryRouterWithParams>
-    </ContainerProvider>,
+    <MemoryRouterWithParams params={{ domain: 'foo.com_DEFAULT' }} splat>
+      <SettingsProvider value={fromPartial({})}>
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <DomainVisits
+            getDomainVisits={getDomainVisits}
+            cancelGetDomainVisits={cancelGetDomainVisits}
+            domainVisits={domainVisits}
+          />
+        </Card>
+      </SettingsProvider>
+    </MemoryRouterWithParams>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

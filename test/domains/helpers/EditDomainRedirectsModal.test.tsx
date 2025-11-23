@@ -2,7 +2,6 @@ import type { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
 import { fireEvent, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkDomain } from '../../../src/api-contract';
-import { ContainerProvider } from '../../../src/container/context';
 import { EditDomainRedirectsModal } from '../../../src/domains/helpers/EditDomainRedirectsModal';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithStore } from '../../__helpers__/setUpTest';
@@ -16,9 +15,8 @@ describe('<EditDomainRedirectsModal />', () => {
     redirects: { baseUrlRedirect: 'baz' },
   });
   const setUp = () => renderWithStore(
-    <ContainerProvider value={fromPartial({ apiClientFactory })}>
-      <EditDomainRedirectsModal domain={domain} isOpen onClose={onClose} />
-    </ContainerProvider>,
+    <EditDomainRedirectsModal domain={domain} isOpen onClose={onClose} />,
+    { apiClientFactory },
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

@@ -1,27 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { useCallback } from 'react';
 import type {
   ProblemDetailsError,
-  ShlinkApiClient,
   ShlinkEditShortUrlData,
   ShlinkShortUrl,
   ShlinkShortUrlIdentifier,
 } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
-import { createAsyncThunk } from '../../store/helpers';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/shortUrlEdition';
 
-export interface ShortUrlEdition {
+export type ShortUrlEdition = {
   shortUrl?: ShlinkShortUrl;
   saving: boolean;
   saved: boolean;
   error: boolean;
   errorData?: ProblemDetailsError;
-}
+};
 
-export interface EditShortUrl extends ShlinkShortUrlIdentifier {
+export type EditShortUrl = ShlinkShortUrlIdentifier & {
   data: ShlinkEditShortUrlData;
-}
+};
 
 const initialState: ShortUrlEdition = {
   saving: false,
@@ -29,14 +31,14 @@ const initialState: ShortUrlEdition = {
   error: false,
 };
 
-export const editShortUrl = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
+export const editShortUrlThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/editShortUrl`,
-  ({ shortCode, domain, data }: EditShortUrl): Promise<ShlinkShortUrl> =>
+  ({ shortCode, domain, data, apiClientFactory }: WithApiClient<EditShortUrl>): Promise<ShlinkShortUrl> =>
     apiClientFactory().updateShortUrl({ shortCode, domain }, data as any) // TODO parse dates
   ,
 );
 
-export const shortUrlEditionReducerCreator = (editShortUrlThunk: ReturnType<typeof editShortUrl>) => createSlice({
+export const { reducer: shortUrlEditionReducer } = createSlice({
   name: REDUCER_PREFIX,
   initialState,
   reducers: {},
@@ -52,3 +54,15 @@ export const shortUrlEditionReducerCreator = (editShortUrlThunk: ReturnType<type
     );
   },
 });
+
+export const useUrlEdition = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const editShortUrl = useCallback(
+    (edit: EditShortUrl) => dispatch(editShortUrlThunk({ ...edit, apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const shortUrlEdition = useAppSelector((state) => state.shortUrlEdition);
+
+  return { shortUrlEdition, editShortUrl };
+};

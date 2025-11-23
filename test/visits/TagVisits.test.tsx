@@ -2,7 +2,6 @@ import { Card } from '@shlinkio/shlink-frontend-kit';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
-import { ContainerProvider } from '../../src/container/context';
 import { SettingsProvider } from '../../src/settings';
 import type { TagVisits as TagVisitsStats } from '../../src/visits/reducers/tagVisits';
 import { TagVisitsFactory } from '../../src/visits/TagVisits';
@@ -20,21 +19,19 @@ describe('<TagVisits />', () => {
     ReportExporter: fromPartial({ exportVisits }),
   }));
   const setUp = () => renderWithStore(
-    <ContainerProvider value={fromPartial({ apiClientFactory: vi.fn() })}>
-      <MemoryRouterWithParams params={{ tag: 'foo' }} splat>
-        <SettingsProvider value={fromPartial({})}>
-          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-          <Card>
-            <TagVisits
-              getTagVisits={getTagVisitsMock}
-              tagVisits={tagVisits}
-              cancelGetTagVisits={() => {}}
-              domainsList={fromPartial({ domains: [] })}
-            />
-          </Card>
-        </SettingsProvider>
-      </MemoryRouterWithParams>
-    </ContainerProvider>,
+    <MemoryRouterWithParams params={{ tag: 'foo' }} splat>
+      <SettingsProvider value={fromPartial({})}>
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <TagVisits
+            getTagVisits={getTagVisitsMock}
+            tagVisits={tagVisits}
+            cancelGetTagVisits={() => {}}
+            domainsList={fromPartial({ domains: [] })}
+          />
+        </Card>
+      </SettingsProvider>
+    </MemoryRouterWithParams>,
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));

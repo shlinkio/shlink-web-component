@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient, ShlinkShortUrlsList, ShlinkShortUrlsListParams } from '../../api-contract';
-import { createAsyncThunk } from '../../store/helpers';
+import { useCallback } from 'react';
+import type { ShlinkShortUrlsList, ShlinkShortUrlsListParams } from '../../api-contract';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { createAsyncThunk,useApiClientFactory  } from '../../store/helpers';
 import { createNewVisits } from '../../visits/reducers/visitCreation';
 import { shortUrlMatches } from '../helpers';
 import { createShortUrlThunk } from './shortUrlCreation';
@@ -21,14 +24,14 @@ const initialState: ShortUrlsList = {
   error: false,
 };
 
-export const listShortUrls = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
+export const listShortUrlsThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/listShortUrls`,
-  (params: ShlinkShortUrlsListParams | void): Promise<ShlinkShortUrlsList> => apiClientFactory().listShortUrls(
-    params ?? {},
-  ),
+  (
+    { apiClientFactory, ...params }: WithApiClient<ShlinkShortUrlsListParams>,
+  ): Promise<ShlinkShortUrlsList> => apiClientFactory().listShortUrls(params ?? {}),
 );
 
-export const shortUrlsListReducerCreator = (listShortUrlsThunk: ReturnType<typeof listShortUrls>) => createSlice({
+export const { reducer: shortUrlsListReducer } = createSlice({
   name: REDUCER_PREFIX,
   initialState,
   reducers: {},
@@ -101,3 +104,15 @@ export const shortUrlsListReducerCreator = (listShortUrlsThunk: ReturnType<typeo
     );
   },
 });
+
+export const useUrlsList = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const listShortUrls = useCallback(
+    (params?: ShlinkShortUrlsListParams) => dispatch(listShortUrlsThunk({ ...params, apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const shortUrlsList = useAppSelector((state) => state.shortUrlsList);
+
+  return { shortUrlsList, listShortUrls };
+};

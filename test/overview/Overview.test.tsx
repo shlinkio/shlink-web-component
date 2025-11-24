@@ -1,5 +1,6 @@
 import { formatNumber } from '@shlinkio/shlink-frontend-kit';
-import { screen } from '@testing-library/react';
+import type { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
+import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import { OverviewFactory } from '../../src/overview/Overview';
@@ -11,7 +12,6 @@ import { renderWithStore } from '../__helpers__/setUpTest';
 describe('<Overview />', () => {
   const ShortUrlsTable = () => <>ShortUrlsTable</>;
   const CreateShortUrl = () => <>CreateShortUrl</>;
-  const listShortUrls = vi.fn();
   const loadVisitsOverview = vi.fn();
   const Overview = OverviewFactory(fromPartial({ ShortUrlsTable, CreateShortUrl }));
   const shortUrls = {
@@ -23,9 +23,7 @@ describe('<Overview />', () => {
       <SettingsProvider value={fromPartial({ visits })}>
         <RoutesPrefixProvider value={routesPrefix}>
           <Overview
-            listShortUrls={listShortUrls}
             loadVisitsOverview={loadVisitsOverview}
-            shortUrlsList={fromPartial({ loading, shortUrls })}
             tagsList={fromPartial({ loading, tags: ['foo', 'bar', 'baz'] })}
             visitsOverview={fromPartial({
               loading,
@@ -36,6 +34,11 @@ describe('<Overview />', () => {
         </RoutesPrefixProvider>
       </SettingsProvider>
     </MemoryRouter>,
+    {
+      apiClientFactory: vi.fn().mockReturnValue(fromPartial<ShlinkApiClient>({
+        listShortUrls: vi.fn().mockResolvedValue(shortUrls),
+      })),
+    },
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -48,12 +51,14 @@ describe('<Overview />', () => {
   it.each([
     [false, 3456, 28],
     [true, 2456, 13],
-  ])('displays amounts in cards after finishing loading', (excludeBots, expectedVisits, expectedOrphanVisits) => {
+  ])('displays amounts in cards after finishing loading', async (excludeBots, expectedVisits, expectedOrphanVisits) => {
     setUp(false, { excludeBots });
 
     const headingElements = screen.getAllByRole('link');
 
-    expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+    // Wait until loading finishes
+    await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument());
+
     expect(headingElements[0]).toHaveTextContent(`Visits${formatNumber(expectedVisits)}`);
     expect(headingElements[1]).toHaveTextContent(`Orphan visits${formatNumber(expectedOrphanVisits)}`);
     expect(headingElements[2]).toHaveTextContent(`Short URLs${formatNumber(83710)}`);

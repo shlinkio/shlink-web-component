@@ -1,10 +1,10 @@
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
-import { determineOrderDir , SimpleCard } from '@shlinkio/shlink-frontend-kit';
+import { determineOrderDir, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useParams } from 'react-router';
-import type { ShlinkShortUrlsListParams, ShlinkShortUrlsOrder } from '../api-contract';
+import type { ShlinkShortUrlsOrder } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
@@ -12,21 +12,13 @@ import { Topics } from '../mercure/helpers/Topics';
 import { useSettings } from '../settings';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
-import {
-  useVisitsComparison,
-  VisitsComparisonProvider,
-} from '../visits/visits-comparison/VisitsComparisonContext';
+import { useVisitsComparison, VisitsComparisonProvider } from '../visits/visits-comparison/VisitsComparisonContext';
 import type { ShortUrlsOrder, ShortUrlsOrderableFields } from './data';
 import { useShortUrlsQuery } from './helpers/hooks';
 import { Paginator } from './Paginator';
-import type { ShortUrlsList as ShortUrlsListState } from './reducers/shortUrlsList';
+import { useUrlsList } from './reducers/shortUrlsList';
 import type { ShortUrlsFilteringBarProps } from './ShortUrlsFilteringBar';
 import type { ShortUrlsTableType } from './ShortUrlsTable';
-
-type ShortUrlsListProps = {
-  shortUrlsList: ShortUrlsListState;
-  listShortUrls: (params: ShlinkShortUrlsListParams) => void;
-};
 
 type ShortUrlsListDeps = {
   ShortUrlsTable: ShortUrlsTableType,
@@ -38,9 +30,8 @@ const DEFAULT_SHORT_URLS_ORDERING: ShortUrlsOrder = {
   dir: 'DESC',
 };
 
-const ShortUrlsList: FCWithDeps<ShortUrlsListProps, ShortUrlsListDeps> = boundToMercureHub((
-  { listShortUrls, shortUrlsList },
-) => {
+const ShortUrlsList: FCWithDeps<any, ShortUrlsListDeps> = boundToMercureHub(() => {
+  const { listShortUrls, shortUrlsList } = useUrlsList();
   const { ShortUrlsTable, ShortUrlsFilteringBar } = useDependencies(ShortUrlsList);
   const { page } = useParams();
   const location = useLocation();

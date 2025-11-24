@@ -13,6 +13,7 @@ import type { ShortUrlEdition } from '../short-urls/reducers/shortUrlEdition';
 import { shortUrlEditionReducer } from '../short-urls/reducers/shortUrlEdition';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import type { ShortUrlsList } from '../short-urls/reducers/shortUrlsList';
+import { shortUrlsListReducer } from '../short-urls/reducers/shortUrlsList';
 import type { TagDeletion } from '../tags/reducers/tagDelete';
 import type { TagEdition } from '../tags/reducers/tagEdit';
 import type { TagsList } from '../tags/reducers/tagsList';
@@ -32,7 +33,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
   devTools: !isProduction,
   reducer: combineReducers({
     mercureInfo: mercureInfoReducer,
-    shortUrlsList: container.shortUrlsListReducer as ShortUrlsList,
+    shortUrlsList: shortUrlsListReducer,
     shortUrlCreation: shortUrlCreationReducer,
     shortUrlDeletion: container.shortUrlDeletionReducer as ShortUrlDeletion,
     shortUrlEdition: shortUrlEditionReducer,

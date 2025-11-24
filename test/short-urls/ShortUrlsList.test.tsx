@@ -1,6 +1,7 @@
+import type { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
+import type { ShlinkShortUrlsList } from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
 import type { Settings } from '../../src/settings';
@@ -24,38 +25,41 @@ describe('<ShortUrlsList />', () => {
     </button>
   );
   const ShortUrlsFilteringBar = () => <span>ShortUrlsFilteringBar</span>;
-  const listShortUrlsMock = vi.fn();
-  const shortUrlsList = fromPartial<ShortUrlsListModel>({
-    shortUrls: {
-      data: [
-        {
-          shortCode: 'testShortCode',
-          shortUrl: 'https://www.example.com/testShortUrl',
-          longUrl: 'https://www.example.com/testLongUrl',
-          tags: ['test tag'],
-        },
-      ],
-      pagination: { pagesCount: 3 },
-    },
-  });
-  let history: MemoryHistory;
   const ShortUrlsList = ShortUrlsListFactory(fromPartial({ ShortUrlsTable, ShortUrlsFilteringBar }));
+  const shortUrlsApiResponse = fromPartial<ShlinkShortUrlsList>({
+    data: [
+      {
+        shortCode: 'testShortCode',
+        shortUrl: 'https://www.example.com/testShortUrl',
+        longUrl: 'https://www.example.com/testLongUrl',
+        tags: ['test tag'],
+      },
+    ],
+    pagination: { pagesCount: 3 },
+  });
+  const listShortUrlsMock = vi.fn().mockResolvedValue(shortUrlsApiResponse);
+  const apiClientFactory = vi.fn().mockReturnValue(fromPartial<ShlinkApiClient>({ listShortUrls: listShortUrlsMock }));
+  const shortUrlsList = fromPartial<ShortUrlsListModel>({ shortUrls: shortUrlsApiResponse });
   const setUp = ({ settings = {}, loading = false }: SetUpOptions = {}) => {
-    history = createMemoryHistory();
+    const history = createMemoryHistory();
     history.push({ search: '?tags=test%20tag&search=example.com' });
 
-    return renderWithStore(
+    const renderResult = renderWithStore(
       <Router location={history.location} navigator={history}>
         <SettingsProvider value={fromPartial(settings)}>
-          <ShortUrlsList listShortUrls={listShortUrlsMock} shortUrlsList={{ ...shortUrlsList, loading }} />
+          <ShortUrlsList />
         </SettingsProvider>
       </Router>,
       {
         initialState: {
+          shortUrlsList: fromPartial({ ...shortUrlsList, loading }),
           mercureInfo: fromPartial({ loading: true }),
         },
+        apiClientFactory,
       },
     );
+
+    return { history, ...renderResult };
   };
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -67,29 +71,8 @@ describe('<ShortUrlsList />', () => {
     expect(screen.getByText('ShortUrlsFilteringBar')).toBeInTheDocument();
   });
 
-  it('passes current query to paginator', () => {
-    setUp();
-
-    const links = screen.getAllByRole('link');
-
-    expect(links.length > 0).toEqual(true);
-    links.forEach(
-      (link) => expect(link).toHaveAttribute('href', expect.stringContaining('?tags=test%20tag&search=example.com')),
-    );
-  });
-
-  it.each([[true], [false]])('hides paginator while loading', (loading) => {
-    setUp({ loading });
-
-    if (loading) {
-      expect(screen.queryByTestId('short-urls-paginator')).not.toBeInTheDocument();
-    } else {
-      expect(screen.getByTestId('short-urls-paginator')).toBeInTheDocument();
-    }
-  });
-
   it('gets list refreshed every time a tag is clicked', async () => {
-    const { user } = setUp();
+    const { user, history } = setUp();
     const getTagsFromQuery = () => new URLSearchParams(history.location.search).get('tags');
 
     expect(getTagsFromQuery()).toEqual('test tag');

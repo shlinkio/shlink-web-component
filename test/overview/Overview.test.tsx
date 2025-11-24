@@ -17,47 +17,55 @@ describe('<Overview />', () => {
   const shortUrls = {
     pagination: { totalItems: 83710 },
   };
+
   const routesPrefix = '/server/123';
-  const setUp = (loading = false, visits: { excludeBots?: boolean } = {}) => renderWithStore(
-    <MemoryRouter>
-      <SettingsProvider value={fromPartial({ visits })}>
-        <RoutesPrefixProvider value={routesPrefix}>
-          <Overview
-            loadVisitsOverview={loadVisitsOverview}
-            tagsList={fromPartial({ loading, tags: ['foo', 'bar', 'baz'] })}
-            visitsOverview={fromPartial({
-              loading,
-              nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },
-              orphanVisits: { total: 28, bots: 15, nonBots: 13 },
-            })}
-          />
-        </RoutesPrefixProvider>
-      </SettingsProvider>
-    </MemoryRouter>,
-    {
-      apiClientFactory: vi.fn().mockReturnValue(fromPartial<ShlinkApiClient>({
-        listShortUrls: vi.fn().mockResolvedValue(shortUrls),
-      })),
-    },
-  );
+  const setUp = async (visits: { excludeBots?: boolean } = {}) => {
+    const renderResult = renderWithStore(
+      <MemoryRouter>
+        <SettingsProvider value={fromPartial({ visits })}>
+          <RoutesPrefixProvider value={routesPrefix}>
+            <Overview
+              loadVisitsOverview={loadVisitsOverview}
+              tagsList={fromPartial({ loading: false, tags: ['foo', 'bar', 'baz'] })}
+              visitsOverview={fromPartial({
+                loading: false,
+                nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },
+                orphanVisits: { total: 28, bots: 15, nonBots: 13 },
+              })}
+            />
+          </RoutesPrefixProvider>
+        </SettingsProvider>
+      </MemoryRouter>,
+      {
+        apiClientFactory: vi.fn().mockReturnValue(fromPartial<ShlinkApiClient>({
+          listShortUrls: vi.fn().mockResolvedValue(shortUrls),
+        })),
+      },
+    );
+
+    // Wait until loading finishes
+    await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument());
+
+    return renderResult;
+  };
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('displays loading messages when still loading', () => {
-    setUp(true);
-    expect(screen.getAllByText('Loading...')).toHaveLength(4);
+  it('displays loading messages when still loading', async () => {
+    const setUpPromise = setUp();
+    expect(screen.getAllByText('Loading...')).toBeInTheDocument();
+
+    await setUpPromise;
+    expect(screen.queryAllByText('Loading...')).not.toBeInTheDocument();
   });
 
   it.each([
     [false, 3456, 28],
     [true, 2456, 13],
   ])('displays amounts in cards after finishing loading', async (excludeBots, expectedVisits, expectedOrphanVisits) => {
-    setUp(false, { excludeBots });
+    await setUp({ excludeBots });
 
     const headingElements = screen.getAllByRole('link');
-
-    // Wait until loading finishes
-    await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument());
 
     expect(headingElements[0]).toHaveTextContent(`Visits${formatNumber(expectedVisits)}`);
     expect(headingElements[1]).toHaveTextContent(`Orphan visits${formatNumber(expectedOrphanVisits)}`);
@@ -65,15 +73,15 @@ describe('<Overview />', () => {
     expect(headingElements[3]).toHaveTextContent(`Tags${formatNumber(3)}`);
   });
 
-  it('nests injected components', () => {
-    setUp();
+  it('nests injected components', async () => {
+    await setUp();
 
     expect(screen.queryByText('ShortUrlsTable')).toBeInTheDocument();
     expect(screen.queryByText('CreateShortUrl')).toBeInTheDocument();
   });
 
-  it('displays links to other sections', () => {
-    setUp();
+  it('displays links to other sections', async () => {
+    await setUp();
 
     const links = screen.getAllByRole('link');
 

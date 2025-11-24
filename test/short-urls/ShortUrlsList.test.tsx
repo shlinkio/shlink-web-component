@@ -1,6 +1,6 @@
 import type { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
 import type { ShlinkShortUrlsList } from '@shlinkio/shlink-js-sdk/api-contract';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
@@ -15,7 +15,6 @@ import { renderWithStore } from '../__helpers__/setUpTest';
 
 type SetUpOptions = {
   settings?: Partial<Settings>;
-  loading?: boolean;
 };
 
 describe('<ShortUrlsList />', () => {
@@ -39,8 +38,7 @@ describe('<ShortUrlsList />', () => {
   });
   const listShortUrlsMock = vi.fn().mockResolvedValue(shortUrlsApiResponse);
   const apiClientFactory = vi.fn().mockReturnValue(fromPartial<ShlinkApiClient>({ listShortUrls: listShortUrlsMock }));
-  const shortUrlsList = fromPartial<ShortUrlsListModel>({ shortUrls: shortUrlsApiResponse });
-  const setUp = ({ settings = {}, loading = false }: SetUpOptions = {}) => {
+  const setUp = async ({ settings = {} }: SetUpOptions = {}) => {
     const history = createMemoryHistory();
     history.push({ search: '?tags=test%20tag&search=example.com' });
 
@@ -52,27 +50,30 @@ describe('<ShortUrlsList />', () => {
       </Router>,
       {
         initialState: {
-          shortUrlsList: fromPartial({ ...shortUrlsList, loading }),
+          shortUrlsList: fromPartial<ShortUrlsListModel>({ shortUrls: shortUrlsApiResponse }),
           mercureInfo: fromPartial({ loading: true }),
         },
         apiClientFactory,
       },
     );
 
+    // Wait for loading to finish, when the paginator will show
+    await waitFor(() => expect(screen.getByTestId('short-urls-paginator')).toBeInTheDocument());
+
     return { history, ...renderResult };
   };
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('wraps expected components', () => {
-    setUp();
+  it('wraps expected components', async () => {
+    await setUp();
 
     expect(screen.getByText('ShortUrlsTable')).toBeInTheDocument();
     expect(screen.getByText('ShortUrlsFilteringBar')).toBeInTheDocument();
   });
 
   it('gets list refreshed every time a tag is clicked', async () => {
-    const { user, history } = setUp();
+    const { user, history } = await setUp();
     const getTagsFromQuery = () => new URLSearchParams(history.location.search).get('tags');
 
     expect(getTagsFromQuery()).toEqual('test tag');
@@ -84,8 +85,8 @@ describe('<ShortUrlsList />', () => {
     [fromPartial<ShortUrlsOrder>({ field: 'visits', dir: 'ASC' }), 'visits', 'ASC'],
     [fromPartial<ShortUrlsOrder>({ field: 'title', dir: 'DESC' }), 'title', 'DESC'],
     [fromPartial<ShortUrlsOrder>({}), undefined, undefined],
-  ])('has expected initial ordering based on settings', (defaultOrdering, field, dir) => {
-    setUp({
+  ])('has expected initial ordering based on settings', async (defaultOrdering, field, dir) => {
+    await setUp({
       settings: { shortUrlsList: { defaultOrdering } },
     });
     expect(listShortUrlsMock).toHaveBeenCalledWith(expect.objectContaining({
@@ -105,8 +106,8 @@ describe('<ShortUrlsList />', () => {
       },
       visits: { excludeBots: true },
     }), { field: 'nonBotVisits', dir: 'ASC' }],
-  ])('parses order by based on supported features version and config', (settings, expectedOrderBy) => {
-    setUp({ settings });
+  ])('parses order by based on supported features version and config', async (settings, expectedOrderBy) => {
+    await setUp({ settings });
     expect(listShortUrlsMock).toHaveBeenCalledWith(expect.objectContaining({ orderBy: expectedOrderBy }));
   });
 });

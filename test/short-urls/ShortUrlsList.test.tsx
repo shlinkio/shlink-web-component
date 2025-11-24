@@ -72,6 +72,25 @@ describe('<ShortUrlsList />', () => {
     expect(screen.getByText('ShortUrlsFilteringBar')).toBeInTheDocument();
   });
 
+  it('passes current query to paginator', async () => {
+    await setUp();
+
+    const links = screen.getAllByRole('link');
+
+    expect(links.length > 0).toEqual(true);
+    links.forEach(
+      (link) => expect(link).toHaveAttribute('href', expect.stringContaining('?tags=test%20tag&search=example.com')),
+    );
+  });
+
+  it('hides paginator while loading', async () => {
+    const setUpPromise = setUp();
+
+    expect(screen.queryByTestId('short-urls-paginator')).not.toBeInTheDocument();
+    await setUpPromise;
+    expect(screen.getByTestId('short-urls-paginator')).toBeInTheDocument();
+  });
+
   it('gets list refreshed every time a tag is clicked', async () => {
     const { user, history } = await setUp();
     const getTagsFromQuery = () => new URLSearchParams(history.location.search).get('tags');

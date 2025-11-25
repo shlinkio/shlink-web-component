@@ -4,8 +4,8 @@ import { createShortUrlThunk as createShortUrl } from '../../../src/short-urls/r
 import { shortUrlDeleted } from '../../../src/short-urls/reducers/shortUrlDeletion';
 import { editShortUrlThunk } from '../../../src/short-urls/reducers/shortUrlEdition';
 import {
-  listShortUrls as listShortUrlsCreator,
-  shortUrlsListReducerCreator,
+  listShortUrlsThunk as listShortUrls,
+  shortUrlsListReducer as reducer,
 } from '../../../src/short-urls/reducers/shortUrlsList';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
 import type { CreateVisit } from '../../../src/visits/types';
@@ -13,26 +13,24 @@ import type { CreateVisit } from '../../../src/visits/types';
 describe('shortUrlsListReducer', () => {
   const shortCode = 'abc123';
   const listShortUrlsMock = vi.fn();
-  const buildShlinkApiClient = () => fromPartial<ShlinkApiClient>({ listShortUrls: listShortUrlsMock });
-  const listShortUrls = listShortUrlsCreator(buildShlinkApiClient);
-  const { reducer } = shortUrlsListReducerCreator(listShortUrls);
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ listShortUrls: listShortUrlsMock });
 
   describe('reducer', () => {
     it('returns loading on LIST_SHORT_URLS_START', () =>
-      expect(reducer(undefined, listShortUrls.pending(''))).toEqual({
+      expect(reducer(undefined, listShortUrls.pending('', { apiClientFactory }))).toEqual({
         loading: true,
         error: false,
       }));
 
     it('returns short URLs on LIST_SHORT_URLS', () =>
-      expect(reducer(undefined, listShortUrls.fulfilled(fromPartial({ data: [] }), ''))).toEqual({
+      expect(reducer(undefined, listShortUrls.fulfilled(fromPartial({ data: [] }), '', { apiClientFactory }))).toEqual({
         shortUrls: { data: [] },
         loading: false,
         error: false,
       }));
 
     it('returns error on LIST_SHORT_URLS_ERROR', () =>
-      expect(reducer(undefined, listShortUrls.rejected(null, ''))).toEqual({
+      expect(reducer(undefined, listShortUrls.rejected(null, '', { apiClientFactory }))).toEqual({
         loading: false,
         error: true,
       }));
@@ -188,7 +186,7 @@ describe('shortUrlsListReducer', () => {
     it('dispatches proper actions if API client request succeeds', async () => {
       listShortUrlsMock.mockResolvedValue({});
 
-      await listShortUrls()(dispatch, getState, {});
+      await listShortUrls({ apiClientFactory })(dispatch, getState, {});
 
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({ payload: {} }));

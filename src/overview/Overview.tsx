@@ -2,15 +2,13 @@ import { Card, formatNumber } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
-import type { ShlinkShortUrlsListParams } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useSetting } from '../settings';
 import type { CreateShortUrlProps } from '../short-urls/CreateShortUrl';
-import type { ShortUrlsList as ShortUrlsListState } from '../short-urls/reducers/shortUrlsList';
-import { ITEMS_IN_OVERVIEW_PAGE } from '../short-urls/reducers/shortUrlsList';
+import { ITEMS_IN_OVERVIEW_PAGE, useUrlsList } from '../short-urls/reducers/shortUrlsList';
 import type { ShortUrlsTableType } from '../short-urls/ShortUrlsTable';
 import type { TagsList } from '../tags/reducers/tagsList';
 import { useRoutesPrefix } from '../utils/routesPrefix';
@@ -39,8 +37,6 @@ const OverviewCard: FC<OverviewCardProps> = ({ children, titleLinkText, titleLin
 );
 
 type OverviewProps = {
-  shortUrlsList: ShortUrlsListState;
-  listShortUrls: (params: ShlinkShortUrlsListParams) => void;
   tagsList: TagsList;
   visitsOverview: VisitsOverview;
   loadVisitsOverview: () => void;
@@ -51,14 +47,11 @@ type OverviewDeps = {
   CreateShortUrl: FC<CreateShortUrlProps>;
 };
 
-const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub(({
-  shortUrlsList,
-  listShortUrls,
-  tagsList,
-  loadVisitsOverview,
-  visitsOverview,
-}) => {
+const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub((
+  { tagsList, loadVisitsOverview, visitsOverview },
+) => {
   const { ShortUrlsTable, CreateShortUrl } = useDependencies(Overview);
+  const { shortUrlsList, listShortUrls } = useUrlsList();
   const { loading, shortUrls } = shortUrlsList;
   const { loading: loadingTags } = tagsList;
   const { loading: loadingVisits, nonOrphanVisits, orphanVisits } = visitsOverview;

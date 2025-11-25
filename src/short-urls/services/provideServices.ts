@@ -8,7 +8,6 @@ import { ShortUrlsRowFactory } from '../helpers/ShortUrlsRow';
 import { ShortUrlsRowMenuFactory } from '../helpers/ShortUrlsRowMenu';
 import { deleteShortUrl, shortUrlDeleted, shortUrlDeletionReducerCreator } from '../reducers/shortUrlDeletion';
 import { shortUrlsDetailsReducerCreator } from '../reducers/shortUrlsDetails';
-import { listShortUrls, shortUrlsListReducerCreator } from '../reducers/shortUrlsList';
 import { ShortUrlFormFactory } from '../ShortUrlForm';
 import { ShortUrlsFilteringBarFactory } from '../ShortUrlsFilteringBar';
 import { ShortUrlsListFactory } from '../ShortUrlsList';
@@ -17,7 +16,6 @@ import { ShortUrlsTableFactory } from '../ShortUrlsTable';
 export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   // Components
   bottle.factory('ShortUrlsList', ShortUrlsListFactory);
-  bottle.decorator('ShortUrlsList', connect(['shortUrlsList'], ['listShortUrls']));
 
   bottle.factory('ShortUrlsTable', ShortUrlsTableFactory);
   bottle.factory('ShortUrlsRow', ShortUrlsRowFactory);
@@ -45,14 +43,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.factory('ShortUrlsFilteringBar', ShortUrlsFilteringBarFactory);
   bottle.decorator('ShortUrlsFilteringBar', connect(['tagsList', 'domainsList']));
 
-  // Reducers
-  bottle.serviceFactory(
-    'shortUrlsListReducerCreator',
-    shortUrlsListReducerCreator,
-    'listShortUrls',
-  );
-  bottle.serviceFactory('shortUrlsListReducer', (obj) => obj.reducer, 'shortUrlsListReducerCreator');
-
   bottle.serviceFactory('shortUrlDeletionReducerCreator', shortUrlDeletionReducerCreator, 'deleteShortUrl');
   bottle.serviceFactory('shortUrlDeletionReducer', (obj) => obj.reducer, 'shortUrlDeletionReducerCreator');
 
@@ -60,8 +50,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('shortUrlsDetailsReducer', (obj) => obj.reducer, 'shortUrlsDetailsReducerCreator');
 
   // Actions
-  bottle.serviceFactory('listShortUrls', listShortUrls, 'apiClientFactory');
-
   bottle.serviceFactory('deleteShortUrl', deleteShortUrl, 'apiClientFactory');
   bottle.serviceFactory('resetDeleteShortUrl', (obj) => obj.resetDeleteShortUrl, 'shortUrlDeletionReducerCreator');
   bottle.serviceFactory('shortUrlDeleted', () => shortUrlDeleted);

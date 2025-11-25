@@ -1,3 +1,4 @@
+import type { AsyncThunkPayloadCreator } from '@reduxjs/toolkit';
 import { createAsyncThunk as baseCreateAsyncThunk } from '@reduxjs/toolkit';
 import type { ShlinkApiClient } from '../api-contract';
 import { useDependencies } from '../container/context';
@@ -8,9 +9,12 @@ type ShlinkAsyncThunkConfig = {
   serializedErrorType: any;
 };
 
-export const createAsyncThunk = baseCreateAsyncThunk.withTypes<ShlinkAsyncThunkConfig>();
+type ShlinkPayloadCreator<Returned, ThunkArg> = AsyncThunkPayloadCreator<Returned, ThunkArg, ShlinkAsyncThunkConfig>;
 
-baseCreateAsyncThunk.withTypes<ShlinkAsyncThunkConfig>();
+export const createAsyncThunk = <Returned, ThunkArg = void>(
+  typePrefix: string,
+  payloadCreator: ShlinkPayloadCreator<Returned, ThunkArg>,
+) => baseCreateAsyncThunk(typePrefix, payloadCreator, { serializeError: (e) => e });
 
 export type WithApiClient<T> = T & { apiClientFactory: () => ShlinkApiClient };
 

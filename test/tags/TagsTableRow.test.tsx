@@ -7,7 +7,7 @@ import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import type { VisitsComparison } from '../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../src/visits/visits-comparison/VisitsComparisonContext';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
 type SetUpOptions = {
@@ -22,12 +22,11 @@ type ModalProps = {
 
 describe('<TagsTableRow />', () => {
   const TagsTableRow = TagsTableRowFactory(fromPartial({
-    DeleteTagConfirmModal: ({ isOpen }: ModalProps) => <td>DeleteTagConfirmModal {isOpen ? 'OPEN' : 'CLOSED'}</td>,
     EditTagModal: ({ isOpen }: ModalProps) => <td>EditTagModal {isOpen ? 'OPEN' : 'CLOSED'}</td>,
     ColorGenerator: colorGeneratorMock,
   }));
   const tag = 'foo&bar';
-  const setUp = ({ visits = 0, shortUrls = 0, visitsComparison }: SetUpOptions = {}) => renderWithEvents(
+  const setUp = ({ visits = 0, shortUrls = 0, visitsComparison }: SetUpOptions = {}) => renderWithStore(
     <MemoryRouter>
       <RoutesPrefixProvider value="/server/abc123">
         <VisitsComparisonProvider
@@ -84,11 +83,9 @@ describe('<TagsTableRow />', () => {
     expect(screen.getByText(/^EditTagModal/)).toHaveTextContent('OPEN');
     expect(screen.getByText(/^EditTagModal/)).not.toHaveTextContent('CLOSED');
 
-    expect(screen.getByText(/^DeleteTagConfirmModal/)).toHaveTextContent('CLOSED');
-    expect(screen.getByText(/^DeleteTagConfirmModal/)).not.toHaveTextContent('OPEN');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     await clickMenuItem(user, 'Delete tag');
-    expect(screen.getByText(/^DeleteTagConfirmModal/)).toHaveTextContent('OPEN');
-    expect(screen.getByText(/^DeleteTagConfirmModal/)).not.toHaveTextContent('CLOSED');
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   it.each([

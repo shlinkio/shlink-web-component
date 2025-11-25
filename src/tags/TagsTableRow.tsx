@@ -4,7 +4,7 @@ import {
   faTrash as deleteIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatNumber, RowDropdown, Table,useToggle  } from '@shlinkio/shlink-frontend-kit';
+import { formatNumber, RowDropdown, Table, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { Link } from 'react-router';
 import type { FCWithDeps } from '../container/utils';
@@ -13,6 +13,7 @@ import { useRoutesPrefix } from '../utils/routesPrefix';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
 import { useVisitsComparisonContext } from '../visits/visits-comparison/VisitsComparisonContext';
 import type { SimplifiedTag, TagModalProps } from './data';
+import { DeleteTagConfirmModal } from './helpers/DeleteTagConfirmModal';
 import { TagBullet } from './helpers/TagBullet';
 
 export type TagsTableRowProps = {
@@ -20,13 +21,12 @@ export type TagsTableRowProps = {
 };
 
 type TagsTableRowDeps = {
-  DeleteTagConfirmModal: FC<TagModalProps>;
   EditTagModal: FC<TagModalProps>;
   ColorGenerator: ColorGenerator;
 };
 
 const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) => {
-  const { DeleteTagConfirmModal, EditTagModal, ColorGenerator: colorGenerator } = useDependencies(TagsTableRow);
+  const { EditTagModal, ColorGenerator: colorGenerator } = useDependencies(TagsTableRow);
   const { flag: isDeleteModalOpen, setToFalse: closeDelete, setToTrue: openDelete } = useToggle();
   const { flag: isEditModalOpen, setToFalse: closeEdit, setToTrue: openEdit } = useToggle();
   const routesPrefix = useRoutesPrefix();
@@ -80,5 +80,5 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
 
 export const TagsTableRowFactory = componentFactory(
   TagsTableRow,
-  ['DeleteTagConfirmModal', 'EditTagModal', 'ColorGenerator'],
+  ['EditTagModal', 'ColorGenerator'],
 );

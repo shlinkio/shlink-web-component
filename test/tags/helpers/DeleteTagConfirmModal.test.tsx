@@ -13,7 +13,7 @@ describe('<DeleteTagConfirmModal />', () => {
   const setUp = (tagDelete: Partial<TagDeletion> = {}) => renderWithStore(
     <TestModalWrapper
       renderModal={(args) => (
-        <DeleteTagConfirmModal{...args} tag={tag} />
+        <DeleteTagConfirmModal {...args} tag={tag} />
       )}
     />,
     {

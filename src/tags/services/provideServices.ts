@@ -1,6 +1,5 @@
 import type Bottle from 'bottlejs';
 import type { ConnectDecorator } from '../../container';
-import { DeleteTagConfirmModal } from '../helpers/DeleteTagConfirmModal';
 import { EditTagModalFactory } from '../helpers/EditTagModal';
 import { TagsSearchDropdownFactory } from '../helpers/TagsSearchDropdown';
 import { TagsSelectorFactory } from '../helpers/TagsSelector';
@@ -14,8 +13,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   // Components
   bottle.factory('TagsSelector', TagsSelectorFactory);
   bottle.factory('TagsSearchDropdown', TagsSearchDropdownFactory);
-
-  bottle.serviceFactory('DeleteTagConfirmModal', () => DeleteTagConfirmModal);
 
   bottle.factory('EditTagModal', EditTagModalFactory);
   bottle.decorator('EditTagModal', connect(['tagEdit'], ['editTag', 'tagEdited']));

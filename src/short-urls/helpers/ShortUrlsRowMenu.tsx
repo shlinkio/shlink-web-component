@@ -7,8 +7,7 @@ import {
   faQrcode as qrIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { RowDropdown,useToggle  } from '@shlinkio/shlink-frontend-kit';
-import type { ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
+import { RowDropdown, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import type { ShlinkShortUrl } from '../../api-contract';
@@ -18,33 +17,29 @@ import { componentFactory, useDependencies } from '../../container/utils';
 import { useSetting } from '../../settings';
 import { useRoutesPrefix } from '../../utils/routesPrefix';
 import { useVisitsComparisonContext } from '../../visits/visits-comparison/VisitsComparisonContext';
+import { useUrlDeletion } from '../reducers/shortUrlDeletion';
 import type { DeleteShortUrlModalProps } from './DeleteShortUrlModal';
 import { shortUrlToQuery } from './index';
 import { QrCodeModal } from './QrCodeModal';
 import type { LinkSuffix } from './ShortUrlDetailLink';
 import { buildUrl } from './ShortUrlDetailLink';
 
-type ShortUrlsRowMenuProps = {
+export type ShortUrlsRowMenuProps = {
   shortUrl: ShlinkShortUrl;
-};
-
-type ShortUrlsRowMenuConnectProps = ShortUrlsRowMenuProps & {
-  deleteShortUrl: (shortUrl: ShlinkShortUrlIdentifier) => Promise<void>;
-  shortUrlDeleted: (shortUrl: ShlinkShortUrlIdentifier) => void;
 };
 
 type ShortUrlsRowMenuDeps = {
   DeleteShortUrlModal: FC<DeleteShortUrlModalProps>;
 };
 
-const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMenuDeps> = (
-  { shortUrl, deleteShortUrl, shortUrlDeleted },
-) => {
+const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuProps, ShortUrlsRowMenuDeps> = ({ shortUrl }) => {
   const { DeleteShortUrlModal } = useDependencies(ShortUrlsRowMenu);
   const { flag: isQrModalOpen, setToTrue: openQrCodeModal, setToFalse: closeQrCodeModal } = useToggle();
   const { flag: isDeleteModalOpen, setToTrue: openDeleteModal, setToFalse: closeDeleteModal } = useToggle();
   const visitsComparison = useVisitsComparisonContext();
   const { confirmDeletions = true } = useSetting('shortUrlsList', {});
+
+  const { deleteShortUrl, shortUrlDeleted } = useUrlDeletion();
   const doDeleteShortUrl = useCallback(async () => {
     const result = await deleteShortUrl(shortUrl);
     if (!isErrorAction(result)) {
@@ -104,13 +99,7 @@ const ShortUrlsRowMenu: FCWithDeps<ShortUrlsRowMenuConnectProps, ShortUrlsRowMen
       </RowDropdown>
 
       <QrCodeModal shortUrl={shortUrl} isOpen={isQrModalOpen} onClose={closeQrCodeModal} />
-      <DeleteShortUrlModal
-        shortUrl={shortUrl}
-        deleteShortUrl={deleteShortUrl}
-        shortUrlDeleted={shortUrlDeleted}
-        isOpen={isDeleteModalOpen}
-        onClose={closeDeleteModal}
-      />
+      <DeleteShortUrlModal shortUrl={shortUrl} isOpen={isDeleteModalOpen} onClose={closeDeleteModal} />
     </>
   );
 };

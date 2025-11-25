@@ -6,7 +6,8 @@ ENV TINI_VERSION v0.19.0
 # Install Node.js
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash && \
     \. "$HOME/.nvm/nvm.sh" && \
-    nvm install ${NODE_VERSION}
+    nvm install ${NODE_VERSION} && \
+    nvm alias default ${NODE_VERSION}
 
 # Install tini
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /sbin/tini

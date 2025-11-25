@@ -27,9 +27,7 @@ export const createVisitsComparisonReducer = <AT extends ReturnType<typeof creat
     },
     extraReducers: (builder) => {
       builder.addCase(pending, () => ({ ...initialState, loading: true }));
-      builder.addCase(rejected, (_, { error }) => (
-        { ...initialState, errorData: parseApiError(error) ?? null }
-      ));
+      builder.addCase(rejected, (_, { error }) => ({ ...initialState, errorData: parseApiError(error) ?? null }));
       builder.addCase(fulfilled, (state, { payload }) => (
         { ...state, ...payload, loading: false, progress: null, errorData: null }
       ));

@@ -53,10 +53,10 @@ describe('<Overview />', () => {
 
   it('displays loading messages when still loading', async () => {
     const setUpPromise = setUp();
-    expect(screen.getAllByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
 
     await setUpPromise;
-    expect(screen.queryAllByText('Loading...')).not.toBeInTheDocument();
+    expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
   });
 
   it.each([

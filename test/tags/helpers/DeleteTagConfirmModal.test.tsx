@@ -1,26 +1,27 @@
-import { screen, waitFor } from '@testing-library/react';
+import type { ShlinkApiClient } from '@shlinkio/shlink-js-sdk';
+import { screen } from '@testing-library/react';
+import { fromPartial } from '@total-typescript/shoehorn';
 import { DeleteTagConfirmModal } from '../../../src/tags/helpers/DeleteTagConfirmModal';
 import type { TagDeletion } from '../../../src/tags/reducers/tagDelete';
 import { checkAccessibility } from '../../__helpers__/accessibility';
-import { renderWithEvents } from '../../__helpers__/setUpTest';
+import { renderWithStore } from '../../__helpers__/setUpTest';
 import { TestModalWrapper } from '../../__helpers__/TestModalWrapper';
 
 describe('<DeleteTagConfirmModal />', () => {
   const tag = 'nodejs';
-  const deleteTag = vi.fn();
-  const tagDeleted = vi.fn();
-  const setUp = (tagDelete: Partial<TagDeletion> = {}) => renderWithEvents(
+  const deleteTags = vi.fn();
+  const setUp = (tagDelete: Partial<TagDeletion> = {}) => renderWithStore(
     <TestModalWrapper
       renderModal={(args) => (
-        <DeleteTagConfirmModal
-          {...args}
-          tag={tag}
-          deleteTag={deleteTag}
-          tagDeleted={tagDeleted}
-          tagDelete={{ error: false, deleted: false, deleting: false, ...tagDelete }}
-        />
+        <DeleteTagConfirmModal{...args} tag={tag} />
       )}
     />,
+    {
+      initialState: {
+        tagDelete: { error: false, deleted: false, deleting: false, ...tagDelete },
+      },
+      apiClientFactory: () => fromPartial<ShlinkApiClient>({ deleteTags }),
+    },
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -56,9 +57,7 @@ describe('<DeleteTagConfirmModal />', () => {
 
     await user.click(screen.getByRole('button', { name: 'Delete tag' }));
 
-    expect(deleteTag).toHaveBeenCalledExactlyOnceWith(tag);
-
-    await waitFor(() => expect(tagDeleted).toHaveBeenCalledOnce(), { timeout: 2000 });
+    expect(deleteTags).toHaveBeenCalledExactlyOnceWith([tag]);
   });
 
   it('does no further actions when modal is closed without deleting tag', async () => {
@@ -66,7 +65,6 @@ describe('<DeleteTagConfirmModal />', () => {
 
     await user.click(screen.getByLabelText('Close dialog'));
 
-    expect(deleteTag).not.toHaveBeenCalled();
-    expect(tagDeleted).not.toHaveBeenCalled();
+    expect(deleteTags).not.toHaveBeenCalled();
   });
 });

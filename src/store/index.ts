@@ -15,6 +15,7 @@ import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import type { ShortUrlsList } from '../short-urls/reducers/shortUrlsList';
 import { shortUrlsListReducer } from '../short-urls/reducers/shortUrlsList';
 import type { TagDeletion } from '../tags/reducers/tagDelete';
+import { tagDeleteReducer } from '../tags/reducers/tagDelete';
 import type { TagEdition } from '../tags/reducers/tagEdit';
 import type { TagsList } from '../tags/reducers/tagsList';
 import type { DomainVisits } from '../visits/reducers/domainVisits';
@@ -49,7 +50,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     orphanVisitsDeletion: container.orphanVisitsDeletionReducer as OrphanVisitsDeletion,
     nonOrphanVisits: container.nonOrphanVisitsReducer as VisitsInfo,
     tagsList: container.tagsListReducer as TagsList,
-    tagDelete: container.tagDeleteReducer as TagDeletion,
+    tagDelete: tagDeleteReducer,
     tagEdit: container.tagEditReducer as TagEdition,
     domainsList: container.domainsListReducer as DomainsList,
     visitsOverview: container.visitsOverviewReducer as VisitsOverview,

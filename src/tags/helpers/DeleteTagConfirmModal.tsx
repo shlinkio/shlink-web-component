@@ -1,17 +1,12 @@
 import { CardModal, Result } from '@shlinkio/shlink-frontend-kit';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { TagModalProps } from '../data';
-import type { TagDeletion } from '../reducers/tagDelete';
+import { useTagDelete } from '../reducers/tagDelete';
 
-interface DeleteTagConfirmModalProps extends TagModalProps {
-  deleteTag: (tag: string) => Promise<void>;
-  tagDeleted: (tag: string) => void;
-  tagDelete: TagDeletion;
-}
+export type DeleteTagConfirmModalProps = TagModalProps;
 
-export const DeleteTagConfirmModal = (
-  { tag, onClose, isOpen, deleteTag, tagDelete, tagDeleted }: DeleteTagConfirmModalProps,
-) => {
+export const DeleteTagConfirmModal = ({ tag, onClose, isOpen }: DeleteTagConfirmModalProps) => {
+  const { deleteTag, tagDelete, tagDeleted } = useTagDelete();
   const { deleting, error, deleted, errorData } = tagDelete;
   const doDelete = async () => {
     await deleteTag(tag);

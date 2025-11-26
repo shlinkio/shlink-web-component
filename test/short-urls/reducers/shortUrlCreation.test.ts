@@ -13,36 +13,22 @@ describe('shortUrlCreationReducer', () => {
 
   describe('reducer', () => {
     it('returns loading on CREATE_SHORT_URL_START', () => {
-      expect(reducer(undefined, createShortUrl.pending('', fromPartial({})))).toEqual({
-        saving: true,
-        saved: false,
-        error: false,
-      });
+      expect(reducer(undefined, createShortUrl.pending('', fromPartial({})))).toEqual({ status: 'saving' });
     });
 
     it('returns error on CREATE_SHORT_URL_ERROR', () => {
-      expect(reducer(undefined, createShortUrl.rejected(null, '', fromPartial({})))).toEqual({
-        saving: false,
-        saved: false,
-        error: true,
-      });
+      expect(reducer(undefined, createShortUrl.rejected(null, '', fromPartial({})))).toEqual({ status: 'error' });
     });
 
     it('returns result on CREATE_SHORT_URL', () => {
       expect(reducer(undefined, createShortUrl.fulfilled(shortUrl, '', fromPartial({})))).toEqual({
         result: shortUrl,
-        saving: false,
-        saved: true,
-        error: false,
+        status: 'saved',
       });
     });
 
     it('returns default state on RESET_CREATE_SHORT_URL', () => {
-      expect(reducer(undefined, resetCreateShortUrl())).toEqual({
-        saving: false,
-        saved: false,
-        error: false,
-      });
+      expect(reducer(undefined, resetCreateShortUrl())).toEqual({ status: 'idle' });
     });
   });
 

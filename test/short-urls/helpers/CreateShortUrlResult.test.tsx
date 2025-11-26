@@ -11,34 +11,32 @@ describe('<CreateShortUrlResult />', () => {
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp(
-    { result: fromPartial({ shortUrl: 'https://s.test/abc123' }), saving: false, saved: true, error: false },
+    { result: fromPartial({ shortUrl: 'https://s.test/abc123' }), status: 'saved' },
     true,
   )));
 
   it('renders an error when error is true', () => {
-    setUp({ error: true, saved: false, saving: false });
+    setUp({ status: 'error' });
     expect(screen.getByText('An error occurred while creating the URL :(')).toBeInTheDocument();
   });
 
-  it.each([[true], [false]])('renders nothing when not saved yet', (saving) => {
-    const { container } = setUp({ error: false, saved: false, saving });
+  it.each(['saving' as const, 'idle' as const])('renders nothing when not saved yet', (status) => {
+    const { container } = setUp({ status });
     expect(container.firstChild).toBeNull();
   });
 
   it('renders a result message when result is provided', () => {
-    setUp(
-      { result: fromPartial({ shortUrl: 'https://s.test/abc123' }), saving: false, saved: true, error: false },
-    );
+    setUp({ result: fromPartial({ shortUrl: 'https://s.test/abc123' }), status: 'saved' });
     expect(screen.getByText(/The short URL is/)).toHaveTextContent('Great! The short URL is https://s.test/abc123');
   });
 
   it.each([
     [
-      { result: fromPartial({ shortUrl: 'https://s.test/abc123' }), saving: false, saved: true, error: false },
+      { result: fromPartial({ shortUrl: 'https://s.test/abc123' }), status: 'saved' },
       'success-close-button',
       'error-close-button',
     ],
-    [{ error: true, saved: false, saving: false }, 'error-close-button', 'success-close-button'],
+    [{ status: 'error' }, 'error-close-button', 'success-close-button'],
   ])('displays close button if the result can be closed', (data, foundElement, notFoundElement) => {
     setUp(data as any, true);
 

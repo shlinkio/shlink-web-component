@@ -12,7 +12,7 @@ import { Time } from '../../utils/dates/Time';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import { useShortUrlsQuery } from './hooks';
 import { ShortUrlDetailLink } from './ShortUrlDetailLink';
-import type { ShortUrlsRowMenuType } from './ShortUrlsRowMenu';
+import { ShortUrlsRowMenu } from './ShortUrlsRowMenu';
 import { ShortUrlStatus } from './ShortUrlStatus';
 import { ShortUrlVisitsCount } from './ShortUrlVisitsCount';
 import { Tags } from './Tags';
@@ -23,15 +23,14 @@ type ShortUrlsRowProps = {
 };
 
 type ShortUrlsRowDeps = {
-  ShortUrlsRowMenu: ShortUrlsRowMenuType,
-  ColorGenerator: ColorGenerator,
-  useTimeoutToggle: TimeoutToggle,
+  ColorGenerator: ColorGenerator;
+  useTimeoutToggle: TimeoutToggle;
 };
 
 export type ShortUrlsRowType = typeof ShortUrlsRow;
 
 const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUrl, onTagClick }) => {
-  const { ShortUrlsRowMenu, ColorGenerator: colorGenerator, useTimeoutToggle } = useDependencies(ShortUrlsRow);
+  const { ColorGenerator: colorGenerator, useTimeoutToggle } = useDependencies(ShortUrlsRow);
   // eslint-disable-next-line react-compiler/react-compiler
   const [active, setActive] = useTimeoutToggle({ initialValue: false, delay: 500 });
   const isFirstRun = useRef(true);
@@ -101,7 +100,4 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
   );
 };
 
-export const ShortUrlsRowFactory = componentFactory(
-  ShortUrlsRow,
-  ['ShortUrlsRowMenu', 'ColorGenerator', 'useTimeoutToggle'],
-);
+export const ShortUrlsRowFactory = componentFactory(ShortUrlsRow, ['ColorGenerator', 'useTimeoutToggle']);

@@ -58,6 +58,8 @@ export default defineConfig({
       'compare-versions',
       'date-fns',
       'event-source-polyfill',
+      'history',
+      'leaflet',
       'qr-code-styling',
       'react-dom/client',
       'react-external-link',

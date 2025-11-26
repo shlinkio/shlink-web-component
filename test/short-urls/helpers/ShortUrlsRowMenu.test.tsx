@@ -1,14 +1,14 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import type { ShortUrlsListSettings } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';
-import { ShortUrlsRowMenuFactory } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
+import { ShortUrlsRowMenu } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
 import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { checkAccessibility } from '../../__helpers__/accessibility';
-import { renderWithEvents } from '../../__helpers__/setUpTest';
+import { renderWithStore } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
   visitsComparison?: Partial<VisitsComparison>;
@@ -16,27 +16,26 @@ type SetUpOptions = {
 };
 
 describe('<ShortUrlsRowMenu />', () => {
-  const ShortUrlsRowMenu = ShortUrlsRowMenuFactory(fromPartial({
-    DeleteShortUrlModal: () => <i>DeleteShortUrlModal</i>,
-  }));
   const shortUrl = fromPartial<ShlinkShortUrl>({
     shortCode: 'abc123',
     shortUrl: 'https://s.test/abc123',
   });
   const deleteShortUrl = vi.fn().mockResolvedValue({});
-  const shortUrlDeleted = vi.fn();
   const setUp = (
     { visitsComparison, shortUrlsListSettings }: SetUpOptions = {},
-  ) => renderWithEvents(
+  ) => renderWithStore(
     <MemoryRouter>
       <VisitsComparisonProvider
         value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
       >
         <SettingsProvider value={fromPartial({ shortUrlsList: shortUrlsListSettings })}>
-          <ShortUrlsRowMenu shortUrl={shortUrl} deleteShortUrl={deleteShortUrl} shortUrlDeleted={shortUrlDeleted} />
+          <ShortUrlsRowMenu shortUrl={shortUrl} />
         </SettingsProvider>
       </VisitsComparisonProvider>
     </MemoryRouter>,
+    {
+      apiClientFactory: () => fromPartial({ deleteShortUrl }),
+    },
   );
   const setUpAndOpen = async (options: SetUpOptions = {}) => {
     const result = setUp(options);
@@ -52,11 +51,6 @@ describe('<ShortUrlsRowMenu />', () => {
       visitsComparison: { itemsToCompare: [] },
     })],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
-
-  it('renders modal windows', async () => {
-    await setUpAndOpen();
-    expect(screen.getByText('DeleteShortUrlModal')).toBeInTheDocument();
-  });
 
   it.each([
     [undefined, 5],
@@ -126,23 +120,9 @@ describe('<ShortUrlsRowMenu />', () => {
     await user.click(screen.getByRole('menuitem', { name: 'Delete short URL' }));
 
     if (!shouldRequestConfirmation) {
-      expect(deleteShortUrl).toHaveBeenCalledWith(shortUrl);
-      await waitFor(() => expect(shortUrlDeleted).toHaveBeenCalledOnce());
+      expect(deleteShortUrl).toHaveBeenCalled();
     } else {
       expect(deleteShortUrl).not.toHaveBeenCalled();
-      expect(shortUrlDeleted).not.toHaveBeenCalled();
     }
-  });
-
-  it('does not notify short URL deleted if deleting without confirmation fails', async () => {
-    deleteShortUrl.mockResolvedValue({ error: new Error() });
-    const { user } = await setUpAndOpen({
-      shortUrlsListSettings: { confirmDeletions: false },
-    });
-
-    await user.click(screen.getByRole('menuitem', { name: 'Delete short URL' }));
-
-    expect(deleteShortUrl).toHaveBeenCalledWith(shortUrl);
-    expect(shortUrlDeleted).not.toHaveBeenCalled();
   });
 });

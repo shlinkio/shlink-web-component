@@ -1,35 +1,23 @@
 import { CardModal, LabelledInput, Result } from '@shlinkio/shlink-frontend-kit';
-import type { ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import { useCallback, useEffect, useState } from 'react';
 import { isErrorAction, isInvalidDeletionError } from '../../api-contract/utils';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
 import type { ShortUrlModalProps } from '../data';
-import type { ShortUrlDeletion } from '../reducers/shortUrlDeletion';
+import { useUrlDeletion } from '../reducers/shortUrlDeletion';
 
-export type DeleteShortUrlModalProps = ShortUrlModalProps & {
-  deleteShortUrl: (shortUrl: ShlinkShortUrlIdentifier) => Promise<void>;
-  shortUrlDeleted: (shortUrl: ShlinkShortUrlIdentifier) => void;
-};
-
-type DeleteShortUrlModalConnectProps = DeleteShortUrlModalProps & {
-  shortUrlDeletion: ShortUrlDeletion;
-  resetDeleteShortUrl: () => void;
-};
+export type DeleteShortUrlModalProps = ShortUrlModalProps;
 
 const DELETION_PATTERN = 'delete';
 
-export const DeleteShortUrlModal = ({
-  shortUrl,
-  onClose,
-  isOpen,
-  shortUrlDeletion,
-  resetDeleteShortUrl,
-  deleteShortUrl,
-  shortUrlDeleted,
-}: DeleteShortUrlModalConnectProps) => {
+export const DeleteShortUrlModal = ({ shortUrl, onClose, isOpen }: DeleteShortUrlModalProps) => {
   const [inputValue, setInputValue] = useState('');
+  const { shortUrlDeletion, resetDeleteShortUrl, deleteShortUrl, shortUrlDeleted } = useUrlDeletion();
 
-  useEffect(() => resetDeleteShortUrl, [resetDeleteShortUrl]);
+  useEffect(() => {
+    return () => {
+      resetDeleteShortUrl();
+    };
+  }, [resetDeleteShortUrl]);
 
   const { loading, error, deleted, errorData } = shortUrlDeletion;
   const close = useCallback(() => {

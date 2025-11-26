@@ -58,7 +58,7 @@ export const ShortUrlStatus: FC<ShortUrlStatusProps> = ({ shortUrl }) => {
 
   return (
     <span className="cursor-help" title={description}>
-      <FontAwesomeIcon icon={icon} className={className} />
+      <FontAwesomeIcon icon={icon} className={className} data-testid="status-icon" />
     </span>
   );
 };

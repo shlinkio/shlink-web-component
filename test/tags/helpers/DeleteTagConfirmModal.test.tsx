@@ -10,16 +10,14 @@ import { TestModalWrapper } from '../../__helpers__/TestModalWrapper';
 describe('<DeleteTagConfirmModal />', () => {
   const tag = 'nodejs';
   const deleteTags = vi.fn();
-  const setUp = (tagDelete: Partial<TagDeletion> = {}) => renderWithStore(
+  const setUp = (tagDelete: TagDeletion = { status: 'idle' }) => renderWithStore(
     <TestModalWrapper
       renderModal={(args) => (
         <DeleteTagConfirmModal {...args} tag={tag} />
       )}
     />,
     {
-      initialState: {
-        tagDelete: { error: false, deleted: false, deleting: false, ...tagDelete },
-      },
+      initialState: { tagDelete },
       apiClientFactory: () => fromPartial<ShlinkApiClient>({ deleteTags }),
     },
   );
@@ -39,12 +37,12 @@ describe('<DeleteTagConfirmModal />', () => {
   });
 
   it('shows error message when deletion failed', () => {
-    setUp({ error: true });
+    setUp({ status: 'error' });
     expect(screen.getByText('Something went wrong while deleting the tag :(')).toBeInTheDocument();
   });
 
   it('shows loading status while deleting', () => {
-    setUp({ deleting: true });
+    setUp({ status: 'deleting' });
 
     const delBtn = screen.getByRole('button', { name: 'Deleting tag...' });
 
@@ -53,7 +51,7 @@ describe('<DeleteTagConfirmModal />', () => {
   });
 
   it('hides tag modal when btn is clicked', async () => {
-    const { user } = setUp({ deleted: true });
+    const { user } = setUp({ status: 'deleted' });
 
     await user.click(screen.getByRole('button', { name: 'Delete tag' }));
 

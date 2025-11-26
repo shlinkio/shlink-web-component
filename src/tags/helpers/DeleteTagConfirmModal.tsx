@@ -7,7 +7,8 @@ export type DeleteTagConfirmModalProps = TagModalProps;
 
 export const DeleteTagConfirmModal = ({ tag, onClose, isOpen }: DeleteTagConfirmModalProps) => {
   const { deleteTag, tagDelete, tagDeleted } = useTagDelete();
-  const { deleting, error, deleted, errorData } = tagDelete;
+  const { status } = tagDelete;
+  const deleting = status === 'deleting';
   const doDelete = async () => {
     await deleteTag(tag);
     onClose();
@@ -19,15 +20,15 @@ export const DeleteTagConfirmModal = ({ tag, onClose, isOpen }: DeleteTagConfirm
       variant="danger"
       open={isOpen}
       onClose={onClose}
-      onClosed={() => deleted && tagDeleted(tag)}
+      onClosed={() => status === 'deleted' && tagDeleted(tag)}
       onConfirm={doDelete}
       confirmText={deleting ? 'Deleting tag...' : 'Delete tag'}
       confirmDisabled={deleting}
     >
       Are you sure you want to delete tag <b>{tag}</b>?
-      {error && (
+      {status === 'error' && (
         <Result variant="error" size="sm" className="mt-2">
-          <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while deleting the tag :(" />
+          <ShlinkApiError errorData={tagDelete.error} fallbackMessage="Something went wrong while deleting the tag :(" />
         </Result>
       )}
     </CardModal>

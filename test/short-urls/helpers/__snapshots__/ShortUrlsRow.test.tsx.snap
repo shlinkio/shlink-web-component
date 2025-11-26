@@ -6,6 +6,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 1`] = `
   class="svg-inline--fa fa-calendar-xmark text-danger"
   data-icon="calendar-xmark"
   data-prefix="fas"
+  data-testid="status-icon"
   role="img"
   viewBox="0 0 448 512"
 >
@@ -22,6 +23,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 2`] = `
   class="svg-inline--fa fa-calendar-xmark text-warning"
   data-icon="calendar-xmark"
   data-prefix="fas"
+  data-testid="status-icon"
   role="img"
   viewBox="0 0 448 512"
 >
@@ -38,6 +40,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 3`] = `
   class="svg-inline--fa fa-link-slash text-danger"
   data-icon="link-slash"
   data-prefix="fas"
+  data-testid="status-icon"
   role="img"
   viewBox="0 0 576 512"
 >
@@ -54,6 +57,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 4`] = `
   class="svg-inline--fa fa-link-slash text-danger"
   data-icon="link-slash"
   data-prefix="fas"
+  data-testid="status-icon"
   role="img"
   viewBox="0 0 576 512"
 >
@@ -70,6 +74,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 5`] = `
   class="svg-inline--fa fa-calendar-xmark text-danger"
   data-icon="calendar-xmark"
   data-prefix="fas"
+  data-testid="status-icon"
   role="img"
   viewBox="0 0 448 512"
 >
@@ -86,6 +91,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 6`] = `
   class="svg-inline--fa fa-check text-lm-brand dark:text-dm-brand"
   data-icon="check"
   data-prefix="fas"
+  data-testid="status-icon"
   role="img"
   viewBox="0 0 448 512"
 >
@@ -102,6 +108,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 7`] = `
   class="svg-inline--fa fa-check text-lm-brand dark:text-dm-brand"
   data-icon="check"
   data-prefix="fas"
+  data-testid="status-icon"
   role="img"
   viewBox="0 0 448 512"
 >
@@ -118,6 +125,7 @@ exports[`<ShortUrlsRow /> > displays expected status icon 8`] = `
   class="svg-inline--fa fa-check text-lm-brand dark:text-dm-brand"
   data-icon="check"
   data-prefix="fas"
+  data-testid="status-icon"
   role="img"
   viewBox="0 0 448 512"
 >

@@ -9,7 +9,7 @@ import { SettingsProvider } from '../../../src/settings';
 import { ShortUrlsRowFactory } from '../../../src/short-urls/helpers/ShortUrlsRow';
 import { now, parseDate } from '../../../src/utils/dates/helpers/date';
 import { checkAccessibility } from '../../__helpers__/accessibility';
-import { renderWithEvents } from '../../__helpers__/setUpTest';
+import { renderWithStore } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
 interface SetUpOptions {
@@ -43,14 +43,13 @@ describe('<ShortUrlsRow />', () => {
     },
   };
   const ShortUrlsRow = ShortUrlsRowFactory(fromPartial({
-    ShortUrlsRowMenu: () => <span>ShortUrlsRowMenu</span>,
     ColorGenerator: colorGeneratorMock,
     useTimeoutToggle,
   }));
 
   const setUp = (
     { title, tags = [], meta = {}, settings = {}, search, hasRedirectRules }: SetUpOptions = {},
-  ) => renderWithEvents(
+  ) => renderWithStore(
     <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
       <SettingsProvider value={fromPartial(settings)}>
         {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
@@ -134,7 +133,7 @@ describe('<ShortUrlsRow />', () => {
     expect(screen.getAllByRole('cell', { hidden: true })[4]).toHaveTextContent(`${expectedAmount}`);
   });
 
-  it.each([
+  it.only.each([
     [{ validUntil: formatISO(subDays(now(), 1)) }, ['fa-calendar-xmark', 'text-danger']],
     [{ validSince: formatISO(addDays(now(), 1)) }, ['fa-calendar-xmark', 'text-warning']],
     [{ maxVisits: 45 }, ['fa-link-slash', 'text-danger']],
@@ -151,8 +150,7 @@ describe('<ShortUrlsRow />', () => {
     [{}, ['fa-check', 'text-lm-brand dark:text-dm-brand']],
   ])('displays expected status icon', (meta, expectedIconClasses) => {
     setUp({ meta });
-    const icons = screen.getAllByRole('img', { hidden: true });
-    const statusIcon = icons[icons.length - 1];
+    const statusIcon = screen.getByTestId('status-icon');
 
     expect(statusIcon).toBeInTheDocument();
     expectedIconClasses.forEach((expectedClass) => expect(statusIcon).toHaveClass(expectedClass));

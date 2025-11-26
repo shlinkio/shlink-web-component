@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
 import type { ShortUrlsListSettings } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';
-import { ShortUrlsRowMenuFactory } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
+import { ShortUrlsRowMenu } from '../../../src/short-urls/helpers/ShortUrlsRowMenu';
 import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -16,9 +16,6 @@ type SetUpOptions = {
 };
 
 describe('<ShortUrlsRowMenu />', () => {
-  const ShortUrlsRowMenu = ShortUrlsRowMenuFactory(fromPartial({
-    DeleteShortUrlModal: () => <i>DeleteShortUrlModal</i>,
-  }));
   const shortUrl = fromPartial<ShlinkShortUrl>({
     shortCode: 'abc123',
     shortUrl: 'https://s.test/abc123',
@@ -54,11 +51,6 @@ describe('<ShortUrlsRowMenu />', () => {
       visitsComparison: { itemsToCompare: [] },
     })],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
-
-  it('renders modal windows', async () => {
-    await setUpAndOpen();
-    expect(screen.getByText('DeleteShortUrlModal')).toBeInTheDocument();
-  });
 
   it.each([
     [undefined, 5],

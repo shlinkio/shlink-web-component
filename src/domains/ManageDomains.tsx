@@ -44,11 +44,11 @@ const headers: Array<{ value: string; isHidden: boolean }> = [
 ];
 
 export const ManageDomains: FC<ManageDomainsProps> = ({ domainsList, filterDomains, checkDomainHealth }) => {
-  const { filteredDomains: domains, defaultRedirects, loading, error, errorData } = domainsList;
+  const { filteredDomains: domains, defaultRedirects, status } = domainsList;
   const resolvedDefaultRedirects = defaultRedirects ?? domains.find(({ isDefault }) => isDefault)?.redirects;
   const visitsComparison = useVisitsComparison();
 
-  if (loading) {
+  if (status === 'loading') {
     return <Message loading />;
   }
 
@@ -57,12 +57,11 @@ export const ManageDomains: FC<ManageDomainsProps> = ({ domainsList, filterDomai
       <div className="flex flex-col gap-y-4">
         <SearchInput onChange={filterDomains} />
         <VisitsComparisonCollector type="domains" />
-        {error && (
+        {status === 'error' ? (
           <Result variant="error">
-            <ShlinkApiError errorData={errorData} fallbackMessage="Error loading domains :(" />
+            <ShlinkApiError errorData={domainsList.error} fallbackMessage="Error loading domains :(" />
           </Result>
-        )}
-        {!error && (
+        ) : (
           <SimpleCard className="card">
             <Table header={
               <Table.Row>

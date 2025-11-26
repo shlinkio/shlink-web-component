@@ -9,14 +9,18 @@ import { editDomainRedirects } from './domainRedirects';
 
 const REDUCER_PREFIX = 'shlink/domainsList';
 
-export interface DomainsList {
+type DomainsListCommon = {
   domains: Domain[];
   filteredDomains: Domain[];
   defaultRedirects?: ShlinkDomainRedirects;
-  loading: boolean;
-  error: boolean;
-  errorData?: ProblemDetailsError;
-}
+};
+
+export type DomainsList = DomainsListCommon & ({
+  status: 'idle' | 'loading';
+} | {
+  status: 'error';
+  error?: ProblemDetailsError;
+});
 
 interface ListDomains {
   domains: Domain[];
@@ -29,10 +33,9 @@ interface ValidateDomain {
 }
 
 const initialState: DomainsList = {
+  status: 'idle',
   domains: [],
   filteredDomains: [],
-  loading: false,
-  error: false,
 };
 
 export const replaceRedirectsOnDomain = ({ domain, redirects }: EditDomainRedirects) =>
@@ -67,12 +70,12 @@ export const domainsListReducerCreator = (apiClientFactory: () => ShlinkApiClien
 
   const { reducer } = createSlice({
     name: REDUCER_PREFIX,
-    initialState,
+    initialState: initialState as DomainsList,
     reducers: {},
     extraReducers: (builder) => {
-      builder.addCase(listDomains.pending, () => ({ ...initialState, loading: true }));
+      builder.addCase(listDomains.pending, () => ({ ...initialState, status: 'loading' }));
       builder.addCase(listDomains.rejected, (_, { error }) => (
-        { ...initialState, error: true, errorData: parseApiError(error) }
+        { ...initialState, status: 'error', error: parseApiError(error) }
       ));
       builder.addCase(listDomains.fulfilled, (_, { payload }) => (
         { ...initialState, ...payload, filteredDomains: payload.domains }

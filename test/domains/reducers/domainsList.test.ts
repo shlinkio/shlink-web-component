@@ -30,20 +30,20 @@ describe('domainsListReducer', () => {
   describe('reducer', () => {
     it('returns loading on LIST_DOMAINS_START', () => {
       expect(reducer(undefined, listDomainsAction.pending(''))).toEqual(
-        { domains: [], filteredDomains: [], loading: true, error: false },
+        { domains: [], filteredDomains: [], status: 'loading' },
       );
     });
 
     it('returns error on LIST_DOMAINS_ERROR', () => {
       expect(reducer(undefined, listDomainsAction.rejected(error, ''))).toEqual(
-        { domains: [], filteredDomains: [], loading: false, error: true, errorData: parseApiError(error) },
+        { domains: [], filteredDomains: [], status: 'error', error: parseApiError(error) },
       );
     });
 
     it('returns domains on LIST_DOMAINS', () => {
       expect(
         reducer(undefined, listDomainsAction.fulfilled({ domains }, '')),
-      ).toEqual({ domains, filteredDomains: domains, loading: false, error: false });
+      ).toEqual({ domains, filteredDomains: domains, status: 'idle' });
     });
 
     it('filters domains on FILTER_DOMAINS', () => {

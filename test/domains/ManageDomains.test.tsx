@@ -16,11 +16,11 @@ describe('<ManageDomains />', () => {
   );
 
   it('passes a11y checks', () => checkAccessibility(
-    setUp(fromPartial({ loading: false, error: false, filteredDomains: [] })),
+    setUp(fromPartial({ status: 'idle', filteredDomains: [] })),
   ));
 
   it('shows loading message while domains are loading', () => {
-    setUp(fromPartial({ loading: true, filteredDomains: [] }));
+    setUp(fromPartial({ status: 'loading', filteredDomains: [] }));
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
     expect(screen.queryByText('Error loading domains :(')).not.toBeInTheDocument();
@@ -30,15 +30,15 @@ describe('<ManageDomains />', () => {
     [undefined, 'Error loading domains :('],
     [fromPartial<ProblemDetailsError>({}), 'Error loading domains :('],
     [fromPartial<ProblemDetailsError>({ detail: 'Foo error!!' }), 'Foo error!!'],
-  ])('shows error result when domains loading fails', (errorData, expectedErrorMessage) => {
-    setUp(fromPartial({ loading: false, error: true, errorData, filteredDomains: [] }));
+  ])('shows error result when domains loading fails', (error, expectedErrorMessage) => {
+    setUp(fromPartial({ status: 'error', error, filteredDomains: [] }));
 
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
     expect(screen.getByText(expectedErrorMessage)).toBeInTheDocument();
   });
 
   it('filters domains when SearchField changes', async () => {
-    const { user } = setUp(fromPartial({ loading: false, error: false, filteredDomains: [] }));
+    const { user } = setUp(fromPartial({ status: 'idle', filteredDomains: [] }));
 
     expect(filterDomains).not.toHaveBeenCalled();
     await user.type(screen.getByPlaceholderText('Search...'), 'Foo');
@@ -46,7 +46,7 @@ describe('<ManageDomains />', () => {
   });
 
   it('shows expected headers and one row when list of domains is empty', () => {
-    setUp(fromPartial({ loading: false, error: false, filteredDomains: [] }));
+    setUp(fromPartial({ status: 'idle', filteredDomains: [] }));
 
     expect(screen.getAllByRole('columnheader', {
       // Tests are run in a mobile resolution, where table headers are hidden
@@ -61,7 +61,7 @@ describe('<ManageDomains />', () => {
       fromPartial({ domain: 'bar' }),
       fromPartial({ domain: 'baz' }),
     ];
-    setUp(fromPartial({ loading: false, error: false, filteredDomains }));
+    setUp(fromPartial({ status: 'idle', filteredDomains }));
 
     expect(screen.getAllByRole('row')).toHaveLength(filteredDomains.length);
     expect(screen.getByText('foo')).toBeInTheDocument();

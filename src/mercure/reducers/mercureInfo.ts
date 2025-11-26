@@ -9,7 +9,6 @@ import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 const REDUCER_PREFIX = 'shlink/mercure';
 
 export type MercureInfo = Partial<ShlinkMercureInfo> & {
-  interval?: number;
   loading: boolean;
   error: boolean;
 };

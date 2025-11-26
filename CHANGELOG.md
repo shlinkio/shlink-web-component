@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* [#878](https://github.com/shlinkio/shlink-web-component/issues/878) Fix real-time updates interval setting being ignored.
+
+
 ## [0.17.0] - 2025-11-12
 ### Added
 * [#839](https://github.com/shlinkio/shlink-web-component/issues/839) Allow filtering short URLs by excluded tags when using Shlink >=4.6.0

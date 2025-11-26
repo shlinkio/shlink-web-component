@@ -51,7 +51,7 @@ describe('<ShortUrlsList />', () => {
       {
         initialState: {
           shortUrlsList: fromPartial<ShortUrlsListModel>({ shortUrls: shortUrlsApiResponse }),
-          mercureInfo: fromPartial({ loading: true }),
+          mercureInfo: fromPartial({ status: 'loading' }),
         },
         apiClientFactory,
       },

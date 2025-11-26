@@ -7,9 +7,9 @@ export const bindToMercureTopic = <T>(
   onMessage: (message: T) => void,
   onTokenExpired: () => void,
 ) => {
-  const { mercureHubUrl, token, loading, error } = mercureInfo;
+  const { status } = mercureInfo;
 
-  if (loading || error || !mercureHubUrl) {
+  if (status !== 'loaded' || !mercureInfo.mercureHubUrl) {
     return undefined;
   }
 
@@ -17,12 +17,12 @@ export const bindToMercureTopic = <T>(
   const onEventSourceError = ({ status }: { status: number }) => status === 401 && onTokenExpired();
 
   const subscriptions = topics.map((topic) => {
-    const hubUrl = new URL(mercureHubUrl);
+    const hubUrl = new URL(mercureInfo.mercureHubUrl);
 
     hubUrl.searchParams.append('topic', topic);
     const es = new EventSource(hubUrl, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${mercureInfo.token}`,
       },
     });
 

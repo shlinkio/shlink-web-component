@@ -14,22 +14,16 @@ describe('mercureInfoReducer', () => {
 
   describe('reducer', () => {
     it('returns loading on GET_MERCURE_INFO_START', () => {
-      expect(reducer(undefined, loadMercureInfo.pending('', { apiClientFactory }))).toEqual({
-        loading: true,
-        error: false,
-      });
+      expect(reducer(undefined, loadMercureInfo.pending('', { apiClientFactory }))).toEqual({ status: 'loading' });
     });
 
     it('returns error on GET_MERCURE_INFO_ERROR', () => {
-      expect(reducer(undefined, loadMercureInfo.rejected(null, '', { apiClientFactory }))).toEqual({
-        loading: false,
-        error: true,
-      });
+      expect(reducer(undefined, loadMercureInfo.rejected(null, '', { apiClientFactory }))).toEqual({ status: 'error' });
     });
 
     it('returns mercure info on GET_MERCURE_INFO', () => {
       expect(reducer(undefined, loadMercureInfo.fulfilled(mercureInfo, '', { apiClientFactory }))).toEqual(
-        expect.objectContaining({ ...mercureInfo, loading: false, error: false }),
+        expect.objectContaining({ ...mercureInfo, status: 'loaded' }),
       );
     });
   });

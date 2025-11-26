@@ -13,13 +13,13 @@ export type CreateShortUrlResultProps = {
 export const CreateShortUrlResult: FC<CreateShortUrlResultProps> = (
   { creation, resetCreateShortUrl, canBeClosed = false }: CreateShortUrlResultProps,
 ) => {
-  const { error, saved } = creation;
+  const { status } = creation;
 
   useEffect(() => {
     resetCreateShortUrl();
   }, [resetCreateShortUrl]);
 
-  if (error) {
+  if (status === 'error') {
     return (
       <Result variant="error" className="mt-4 relative">
         {canBeClosed && (
@@ -27,12 +27,12 @@ export const CreateShortUrlResult: FC<CreateShortUrlResultProps> = (
             <CloseButton onClick={resetCreateShortUrl} />
           </div>
         )}
-        <ShlinkApiError errorData={creation.errorData} fallbackMessage="An error occurred while creating the URL :(" />
+        <ShlinkApiError errorData={creation.error} fallbackMessage="An error occurred while creating the URL :(" />
       </Result>
     );
   }
 
-  if (!saved) {
+  if (status !== 'saved') {
     return null;
   }
 

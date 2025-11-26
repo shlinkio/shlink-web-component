@@ -8,31 +8,18 @@ import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/shortUrlCreation';
 
-// TODO Migrate this to `status: 'idle' | 'saving' | 'saved' | 'error'`
 export type ShortUrlCreation = {
-  saving: false;
-  saved: false;
-  error: false;
+  status: 'idle' | 'saving';
 } | {
-  saving: true;
-  saved: false;
-  error: false;
-} | {
-  saving: false;
-  saved: false;
-  error: true;
-  errorData?: ProblemDetailsError;
-} | {
+  status: 'saved';
   result: ShlinkShortUrl;
-  saving: false;
-  saved: true;
-  error: false;
+} | {
+  status: 'error';
+  error?: ProblemDetailsError;
 };
 
 const initialState: ShortUrlCreation = {
-  saving: false,
-  saved: false,
-  error: false,
+  status: 'idle',
 };
 
 export const createShortUrlThunk = createAsyncThunk(
@@ -49,15 +36,12 @@ const { reducer, actions } = createSlice({
     resetCreateShortUrl: () => initialState,
   },
   extraReducers: (builder) => {
-    builder.addCase(createShortUrlThunk.pending, () => ({ saving: true, saved: false, error: false }));
+    builder.addCase(createShortUrlThunk.pending, () => ({ status: 'saving' }));
     builder.addCase(
       createShortUrlThunk.rejected,
-      (_, { error }) => ({ saving: false, saved: false, error: true, errorData: parseApiError(error) }),
+      (_, { error }) => ({ status: 'error', error: parseApiError(error) }),
     );
-    builder.addCase(
-      createShortUrlThunk.fulfilled,
-      (_, { payload: result }) => ({ result, saving: false, saved: true, error: false }),
-    );
+    builder.addCase(createShortUrlThunk.fulfilled, (_, { payload: result }) => ({ result, status: 'saved' }));
   },
 });
 

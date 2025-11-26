@@ -45,7 +45,7 @@ const CreateShortUrl: FCWithDeps<CreateShortUrlProps, CreateShortUrlDeps> = ({
     <>
       <ShortUrlForm
         initialState={initialState}
-        saving={shortUrlCreation.saving}
+        saving={shortUrlCreation.status === 'saving'}
         basicMode={basicMode}
         onSave={async (data) => {
           resetCreateShortUrl();

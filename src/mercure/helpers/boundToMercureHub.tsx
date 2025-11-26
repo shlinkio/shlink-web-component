@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { useSetting } from '../../settings';
 import { useVisitCreation } from '../../visits/reducers/visitCreation';
 import type { CreateVisit } from '../../visits/types';
 import { useMercureInfo } from '../reducers/mercureInfo';
@@ -16,10 +17,10 @@ export function boundToMercureHub<T extends object>(
     const { createNewVisits } = useVisitCreation();
     const { loadMercureInfo, mercureInfo } = useMercureInfo();
     const params = useParams();
+    const { interval } = useSetting('realTimeUpdates', { enabled: true });
 
     // Every time mercure info changes, re-bind
     useEffect(() => {
-      const { interval } = mercureInfo;
       const onMessage = (visit: CreateVisit) => (interval ? pendingUpdates.add(visit) : createNewVisits([visit]));
       const topics = getTopicsForParams(params);
       const closeEventSource = bindToMercureTopic(mercureInfo, topics, onMessage, loadMercureInfo);
@@ -37,7 +38,7 @@ export function boundToMercureHub<T extends object>(
         clearInterval(timer);
         closeEventSource?.();
       };
-    }, [createNewVisits, loadMercureInfo, mercureInfo, params]);
+    }, [createNewVisits, interval, loadMercureInfo, mercureInfo, params]);
 
     return <WrappedComponent {...props} />;
   };

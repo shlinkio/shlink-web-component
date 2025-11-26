@@ -15,29 +15,26 @@ describe('<DeleteShortUrlModal />', () => {
     longUrl: 'https://long-domain.com/foo/bar',
   });
   const deleteShortUrl = vi.fn().mockResolvedValue({});
-  const setUp = (shortUrlDeletion: Partial<ShortUrlDeletion>) => renderWithStore(
+  const setUp = (shortUrlDeletion: ShortUrlDeletion) => renderWithStore(
     <TestModalWrapper
       renderModal={(args) => <DeleteShortUrlModal {...args} shortUrl={shortUrl} />}
     />,
     {
-      initialState: {
-        shortUrlDeletion: fromPartial(shortUrlDeletion),
-      },
+      initialState: { shortUrlDeletion },
       apiClientFactory: () => fromPartial({ deleteShortUrl }),
     },
   );
 
   it.each([
-    [{ loading: false, error: false }],
-    [{ loading: true, error: false }],
-    [{ loading: false, error: true }],
+    [{ status: 'idle' as const }],
+    [{ status: 'deleting' as const }],
+    [{ status: 'error' as const, shortCode: '' }],
   ])('passes a11y checks', (props) => checkAccessibility(setUp(props)));
 
   it('shows generic error when non-threshold error occurs', () => {
     setUp({
-      loading: false,
-      error: true,
-      errorData: fromPartial({ type: 'OTHER_ERROR' }),
+      status: 'error',
+      error: fromPartial({ type: 'OTHER_ERROR' }),
     });
     expect(screen.getByText('Something went wrong while deleting the URL :(').parentElement).not.toHaveClass(
       'bg-warning',
@@ -45,18 +42,18 @@ describe('<DeleteShortUrlModal />', () => {
   });
 
   it('shows specific error when threshold error occurs', () => {
-    const errorData = fromPartial<InvalidShortUrlDeletion>({ type: ErrorType.INVALID_SHORT_URL_DELETION });
-    setUp({ loading: false, error: true, errorData });
+    const error = fromPartial<InvalidShortUrlDeletion>({ type: ErrorType.INVALID_SHORT_URL_DELETION });
+    setUp({ status: 'error', error });
     expect(screen.getByText('Something went wrong while deleting the URL :(')).toHaveClass('bg-warning');
   });
 
   it('disables submit button when loading', () => {
-    setUp({ loading: true, error: false });
+    setUp({ status: 'deleting' });
     expect(screen.getByRole('button', { name: 'Deleting...' })).toHaveAttribute('disabled');
   });
 
   it('enables submit button when proper short code is provided', async () => {
-    const { user } = setUp({ loading: false, error: false });
+    const { user } = setUp({ status: 'idle' });
     const getDeleteBtn = () => screen.getByRole('button', { name: 'Delete' });
 
     expect(getDeleteBtn()).toHaveAttribute('disabled');
@@ -65,11 +62,7 @@ describe('<DeleteShortUrlModal />', () => {
   });
 
   it('tries to delete short URL when the dialog is closed', async () => {
-    const { user } = setUp({
-      loading: false,
-      error: false,
-      deleted: true,
-    });
+    const { user } = setUp({ status: 'deleted', shortCode: '' });
 
     expect(deleteShortUrl).not.toHaveBeenCalled();
     await user.type(screen.getByLabelText(/to confirm deletion.$/), 'delete');
@@ -79,11 +72,7 @@ describe('<DeleteShortUrlModal />', () => {
 
   it('does not close modal if deleting the short URL failed', async () => {
     deleteShortUrl.mockResolvedValue({ error: new Error('') });
-    const { user } = setUp({
-      loading: false,
-      error: false,
-      deleted: true,
-    });
+    const { user } = setUp({ status: 'error' });
 
     expect(deleteShortUrl).not.toHaveBeenCalled();
     await user.type(screen.getByLabelText(/to confirm deletion.$/), 'delete');

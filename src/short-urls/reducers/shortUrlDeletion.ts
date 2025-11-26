@@ -8,19 +8,18 @@ import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/shortUrlDeletion';
 
-export interface ShortUrlDeletion {
+export type ShortUrlDeletion = {
+  status: 'idle' | 'deleting';
+} | {
+  status: 'deleted';
   shortCode: string;
-  loading: boolean;
-  deleted: boolean;
-  error: boolean;
-  errorData?: ProblemDetailsError;
-}
+} | {
+  status: 'error';
+  error?: ProblemDetailsError;
+};
 
 const initialState: ShortUrlDeletion = {
-  shortCode: '',
-  loading: false,
-  deleted: false,
-  error: false,
+  status: 'idle',
 };
 
 export const deleteShortUrlThunk = createAsyncThunk(`${REDUCER_PREFIX}/deleteShortUrl`, async (
@@ -34,20 +33,15 @@ export const shortUrlDeleted = createAction<ShlinkShortUrl>(`${REDUCER_PREFIX}/s
 
 const { actions, reducer } = createSlice({
   name: REDUCER_PREFIX,
-  initialState,
+  initialState: initialState as ShortUrlDeletion,
   reducers: {
     resetDeleteShortUrl: () => initialState,
   },
   extraReducers: (builder) => {
-    builder.addCase(
-      deleteShortUrlThunk.pending,
-      (state) => ({ ...state, loading: true, error: false, deleted: false }),
-    );
-    builder.addCase(deleteShortUrlThunk.rejected, (state, { error }) => (
-      { ...state, errorData: parseApiError(error), loading: false, error: true, deleted: false }
-    ));
-    builder.addCase(deleteShortUrlThunk.fulfilled, (state, { payload }) => (
-      { ...state, shortCode: payload.shortCode, loading: false, error: false, deleted: true }
+    builder.addCase(deleteShortUrlThunk.pending, () => ({ status: 'deleting' }));
+    builder.addCase(deleteShortUrlThunk.rejected, (_, { error }) => ({ status: 'error', error: parseApiError(error) }));
+    builder.addCase(deleteShortUrlThunk.fulfilled, (_, { payload }) => (
+      { status: 'deleted', shortCode: payload.shortCode }
     ));
   },
 });

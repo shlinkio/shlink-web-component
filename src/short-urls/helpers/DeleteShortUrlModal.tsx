@@ -19,7 +19,8 @@ export const DeleteShortUrlModal = ({ shortUrl, onClose, isOpen }: DeleteShortUr
     };
   }, [resetDeleteShortUrl]);
 
-  const { loading, error, deleted, errorData } = shortUrlDeletion;
+  const { status } = shortUrlDeletion;
+  const deleting = status === 'deleting';
   const close = useCallback(() => {
     resetDeleteShortUrl();
     onClose();
@@ -34,11 +35,11 @@ export const DeleteShortUrlModal = ({ shortUrl, onClose, isOpen }: DeleteShortUr
       open={isOpen}
       title="Delete short URL"
       variant="danger"
-      confirmText={loading ? 'Deleting...' : 'Delete'}
-      confirmDisabled={inputValue !== DELETION_PATTERN || loading}
+      confirmText={deleting ? 'Deleting...' : 'Delete'}
+      confirmDisabled={inputValue !== DELETION_PATTERN || deleting}
       onConfirm={handleDeleteUrl}
       onClose={close}
-      onClosed={() => deleted && shortUrlDeleted(shortUrl)}
+      onClosed={() => status === 'deleted' && shortUrlDeleted(shortUrl)}
     >
       <div className="flex flex-col gap-y-2">
         <p><b className="text-danger">Caution!</b> You are about to delete a short URL.</p>
@@ -53,9 +54,9 @@ export const DeleteShortUrlModal = ({ shortUrl, onClose, isOpen }: DeleteShortUr
           onKeyDown={(e) => e.key === 'Enter' && handleDeleteUrl()}
         />
 
-        {error && (
-          <Result variant={isInvalidDeletionError(errorData) ? 'warning' : 'error'} size="sm" className="mt-2">
-            <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while deleting the URL :(" />
+        {status === 'error' && (
+          <Result variant={isInvalidDeletionError(shortUrlDeletion.error) ? 'warning' : 'error'} size="sm" className="mt-2">
+            <ShlinkApiError errorData={shortUrlDeletion.error} fallbackMessage="Something went wrong while deleting the URL :(" />
           </Result>
         )}
       </div>

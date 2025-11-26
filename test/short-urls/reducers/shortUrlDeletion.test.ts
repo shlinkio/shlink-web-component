@@ -14,40 +14,25 @@ describe('shortUrlDeletionReducer', () => {
   describe('reducer', () => {
     it('returns loading on DELETE_SHORT_URL_START', () =>
       expect(reducer(undefined, deleteShortUrl.pending('', { shortCode: '', apiClientFactory }))).toEqual({
-        shortCode: '',
-        loading: true,
-        error: false,
-        deleted: false,
+        status: 'deleting',
       }));
 
-    it('returns default on RESET_DELETE_SHORT_URL', () =>
-      expect(reducer(undefined, resetDeleteShortUrl())).toEqual({
-        shortCode: '',
-        loading: false,
-        error: false,
-        deleted: false,
-      }));
+    it('returns default on RESET_DELETE_SHORT_URL', () => {
+      expect(reducer(undefined, resetDeleteShortUrl())).toEqual({ status: 'idle' });
+    });
 
     it('returns shortCode on SHORT_URL_DELETED', () =>
       expect(reducer(undefined, deleteShortUrl.fulfilled({ shortCode: 'foo' }, '', {
         shortCode: 'foo',
         apiClientFactory,
-      }))).toEqual({
-        shortCode: 'foo',
-        loading: false,
-        error: false,
-        deleted: true,
-      }));
+      }))).toEqual({ shortCode: 'foo', status: 'deleted' }));
 
     it('returns errorData on DELETE_SHORT_URL_ERROR', () => {
-      const errorData = problemDetailsError;
+      const error = problemDetailsError;
 
-      expect(reducer(undefined, deleteShortUrl.rejected(errorData, '', { shortCode: '', apiClientFactory }))).toEqual({
-        shortCode: '',
-        loading: false,
-        error: true,
-        deleted: false,
-        errorData,
+      expect(reducer(undefined, deleteShortUrl.rejected(error, '', { shortCode: '', apiClientFactory }))).toEqual({
+        status: 'error',
+        error,
       });
     });
   });

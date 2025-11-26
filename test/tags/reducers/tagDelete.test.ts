@@ -12,26 +12,18 @@ describe('tagDeleteReducer', () => {
 
   describe('reducer', () => {
     it('returns loading on DELETE_TAG_START', () => {
-      expect(reducer(undefined, deleteTag.pending('', { tag: '', apiClientFactory }))).toEqual({
-        deleting: true,
-        deleted: false,
-        error: false,
-      });
+      expect(reducer(undefined, deleteTag.pending('', { tag: '', apiClientFactory }))).toEqual({ status: 'deleting' });
     });
 
     it('returns error on DELETE_TAG_ERROR', () => {
       expect(reducer(undefined, deleteTag.rejected(null, '', { tag: '', apiClientFactory }))).toEqual({
-        deleting: false,
-        deleted: false,
-        error: true,
+        status: 'error',
       });
     });
 
     it('returns tag names on DELETE_TAG', () => {
       expect(reducer(undefined, deleteTag.fulfilled(undefined, '', { tag: '', apiClientFactory }))).toEqual({
-        deleting: false,
-        deleted: true,
-        error: false,
+        status: 'deleted',
       });
     });
   });

@@ -8,39 +8,36 @@ import { createAsyncThunk,useApiClientFactory  } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/tagDelete';
 
-export interface TagDeletion {
-  // TODO Replace all flags with `status: 'idle' | 'deleting' | 'deleted' | 'error'`
-  deleting: boolean;
-  deleted: boolean;
-  error: boolean;
-  errorData?: ProblemDetailsError;
-}
+export type TagDeletion = {
+  status: 'idle' | 'deleting' | 'deleted';
+} | {
+  status: 'error';
+  error?: ProblemDetailsError;
+};
 
 const initialState: TagDeletion = {
-  deleting: false,
-  deleted: false,
-  error: false,
+  status: 'idle',
 };
 
 export const tagDeleted = createAction<string>(`${REDUCER_PREFIX}/tagDeleted`);
 
 export const deleteTagThunk = createAsyncThunk(`${REDUCER_PREFIX}/deleteTag`, async (
-  { apiClientFactory, tag}: WithApiClient<{ tag: string }>,
+  { apiClientFactory, tag }: WithApiClient<{ tag: string }>,
 ): Promise<void> => {
   await apiClientFactory().deleteTags([tag]);
 });
 
 export const { reducer: tagDeleteReducer } = createSlice({
   name: REDUCER_PREFIX,
-  initialState,
+  initialState: initialState as TagDeletion,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(deleteTagThunk.pending, () => ({ deleting: true, deleted: false, error: false }));
+    builder.addCase(deleteTagThunk.pending, () => ({ status: 'deleting' }));
     builder.addCase(
       deleteTagThunk.rejected,
-      (_, { error }) => ({ deleting: false, deleted: false, error: true, errorData: parseApiError(error) }),
+      (_, { error }) => ({ status: 'error', error: parseApiError(error) }),
     );
-    builder.addCase(deleteTagThunk.fulfilled, () => ({ deleting: false, deleted: true, error: false }));
+    builder.addCase(deleteTagThunk.fulfilled, () => ({ status: 'deleted' }));
   },
 });
 

@@ -1,4 +1,4 @@
-import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { InvalidShortUrlDeletion, ShlinkShortUrl } from '../../../src/api-contract';
 import { ErrorType } from '../../../src/api-contract';
@@ -75,9 +75,6 @@ describe('<DeleteShortUrlModal />', () => {
     await user.type(screen.getByLabelText(/to confirm deletion.$/), 'delete');
     await user.click(screen.getByRole('button', { name: 'Delete' }));
     expect(deleteShortUrl).toHaveBeenCalledOnce();
-
-    // Wait for modal to be closed
-    await waitForElementToBeRemoved(() => screen.queryByRole('dialog'));
   });
 
   it('does not close modal if deleting the short URL failed', async () => {

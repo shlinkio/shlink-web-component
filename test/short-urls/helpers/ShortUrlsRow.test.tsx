@@ -133,7 +133,7 @@ describe('<ShortUrlsRow />', () => {
     expect(screen.getAllByRole('cell', { hidden: true })[4]).toHaveTextContent(`${expectedAmount}`);
   });
 
-  it.only.each([
+  it.each([
     [{ validUntil: formatISO(subDays(now(), 1)) }, ['fa-calendar-xmark', 'text-danger']],
     [{ validSince: formatISO(addDays(now(), 1)) }, ['fa-calendar-xmark', 'text-warning']],
     [{ maxVisits: 45 }, ['fa-link-slash', 'text-danger']],

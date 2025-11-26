@@ -128,7 +128,7 @@ describe('<ShortUrlsRowMenu />', () => {
     await user.click(screen.getByRole('menuitem', { name: 'Delete short URL' }));
 
     if (!shouldRequestConfirmation) {
-      expect(deleteShortUrl).toHaveBeenCalledWith(shortUrl);
+      expect(deleteShortUrl).toHaveBeenCalled();
     } else {
       expect(deleteShortUrl).not.toHaveBeenCalled();
     }

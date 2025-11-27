@@ -19,7 +19,10 @@ describe('<EditShortUrl />', () => {
   const setUp = (detail: Partial<ShortUrlsDetails> = {}, edition: Partial<ShortUrlEdition> = {}) => renderWithStore(
     <MemoryRouterWithParams params={identifier}>
       <SettingsProvider value={{}}>
-        <EditShortUrl shortUrlsDetails={fromPartial(detail)} getShortUrlsDetails={getShortUrlsDetails} />
+        <EditShortUrl
+          shortUrlsDetails={fromPartial({ status: 'loaded', shortUrls: new Map(), ...detail })}
+          getShortUrlsDetails={getShortUrlsDetails}
+        />
       </SettingsProvider>
     </MemoryRouterWithParams>,
     {
@@ -45,14 +48,14 @@ describe('<EditShortUrl />', () => {
   )));
 
   it('renders loading message while loading detail', () => {
-    setUp({ loading: true });
+    setUp({ status: 'loading' });
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
     expect(screen.queryByText('ShortUrlForm')).not.toBeInTheDocument();
   });
 
   it('renders error when loading detail fails', () => {
-    setUp({ error: true });
+    setUp({ status: 'error' });
 
     expect(screen.getByText('An error occurred while loading short URL detail :(')).toBeInTheDocument();
     expect(screen.queryByText('ShortUrlForm')).not.toBeInTheDocument();

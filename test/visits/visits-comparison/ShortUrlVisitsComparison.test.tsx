@@ -35,7 +35,7 @@ describe('<ShortUrlVisitsComparison />', () => {
           shortUrls: new Map(shortUrls.map(
             (shortUrl) => [shortUrl, { ...shortUrl, shortUrl: `https://${shortUrlToQuery(shortUrl)}` }],
           )),
-          loading: loadingDetails,
+          status: loadingDetails ? 'loading' : 'loaded',
         })}
       />
     </MemoryRouter>,

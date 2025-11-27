@@ -35,8 +35,8 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
   const { shortUrlRedirectRules, getShortUrlRedirectRules } = useUrlRedirectRules();
   const loading = shortUrlRedirectRules.status === 'loading';
   const identifier = useShortUrlIdentifier();
-  const { shortUrls } = shortUrlsDetails;
-  const shortUrl = identifier && shortUrls?.get(identifier);
+  const { status } = shortUrlsDetails;
+  const shortUrl = identifier && status === 'loaded' ? shortUrlsDetails.shortUrls.get(identifier) : undefined;
   const [rulesContainerRef, rules, setRules] = useDragAndDrop<HTMLDivElement, ShlinkRedirectRuleData>([], {
     dragHandle: '.drag-n-drop-handler',
     dropZoneClass: 'opacity-25',
@@ -107,8 +107,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
           <h2 className="sm:flex justify-between items-center">
             <GoBackButton />
             <div className="text-center grow">
-              {shortUrlsDetails.loading && <>Loading...</>}
-              {!shortUrlsDetails.loading && (
+              {status === 'loading' ? <>Loading...</> : (
                 <small>Redirect rules for <ExternalLink href={shortUrl?.shortUrl ?? ''} /></small>
               )}
             </div>

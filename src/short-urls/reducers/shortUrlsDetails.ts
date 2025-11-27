@@ -7,15 +7,17 @@ import { shortUrlMatches } from '../helpers';
 const REDUCER_PREFIX = 'shlink/shortUrlsDetails';
 
 export type ShortUrlsDetails = {
-  shortUrls?: Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>;
-  loading: boolean;
-  error: boolean;
-  errorData?: ProblemDetailsError;
+  status: 'idle' | 'loading';
+} | {
+  status: 'error';
+  error?: ProblemDetailsError;
+} | {
+  status: 'loaded';
+  shortUrls: Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>;
 };
 
 const initialState: ShortUrlsDetails = {
-  loading: false,
-  error: false,
+  status: 'idle',
 };
 
 export const shortUrlsDetailsReducerCreator = (apiClientFactory: () => ShlinkApiClient) => {
@@ -41,14 +43,14 @@ export const shortUrlsDetailsReducerCreator = (apiClientFactory: () => ShlinkApi
 
   const { reducer } = createSlice({
     name: REDUCER_PREFIX,
-    initialState,
+    initialState: initialState as ShortUrlsDetails,
     reducers: {},
     extraReducers: (builder) => {
-      builder.addCase(getShortUrlsDetails.pending, () => ({ loading: true, error: false }));
+      builder.addCase(getShortUrlsDetails.pending, () => ({ status: 'loading' }));
       builder.addCase(getShortUrlsDetails.rejected, (_, { error }) => (
-        { loading: false, error: true, errorData: parseApiError(error) }
+        { status: 'error', error: parseApiError(error) }
       ));
-      builder.addCase(getShortUrlsDetails.fulfilled, (_, { payload: shortUrls }) => ({ ...initialState, shortUrls }));
+      builder.addCase(getShortUrlsDetails.fulfilled, (_, { payload: shortUrls }) => ({ status: 'loaded', shortUrls }));
     },
   });
 

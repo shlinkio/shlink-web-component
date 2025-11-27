@@ -11,18 +11,17 @@ describe('shortUrlsDetailsReducer', () => {
 
   describe('reducer', () => {
     it('returns loading on pending', () => {
-      const { loading } = reducer({ loading: false, error: false }, getShortUrlsDetails.pending('', [], undefined));
-      expect(loading).toEqual(true);
+      const { status } = reducer({ status: 'idle' }, getShortUrlsDetails.pending('', [], undefined));
+      expect(status).toEqual('loading');
     });
 
     it('stops loading and returns error on rejected', () => {
-      const { loading, error } = reducer(
-        { loading: true, error: false },
+      const { status } = reducer(
+        { status: 'loading' },
         getShortUrlsDetails.rejected(null, '', [], undefined, undefined),
       );
 
-      expect(loading).toEqual(false);
-      expect(error).toEqual(true);
+      expect(status).toEqual('error');
     });
 
     it('return short URLs on fulfilled', () => {
@@ -31,14 +30,16 @@ describe('shortUrlsDetailsReducer', () => {
         [identifier, fromPartial<ShlinkShortUrl>({ longUrl: 'foo', shortCode: 'bar' })],
       ]);
       const state = reducer(
-        { loading: true, error: false },
+        { status: 'loading' },
         getShortUrlsDetails.fulfilled(actionShortUrls, '', [identifier], undefined),
       );
-      const { loading, error, shortUrls } = state;
+      const { status } = state;
 
-      expect(loading).toEqual(false);
-      expect(error).toEqual(false);
-      expect(shortUrls).toEqual(actionShortUrls);
+      expect(status).toEqual('loaded');
+      // Just making TS happy here
+      if (status === 'loaded') {
+        expect(state.shortUrls).toEqual(actionShortUrls);
+      }
     });
   });
 

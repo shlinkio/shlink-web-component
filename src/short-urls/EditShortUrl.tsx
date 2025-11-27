@@ -26,8 +26,8 @@ type EditShortUrlDeps = {
 const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = ({ shortUrlsDetails, getShortUrlsDetails }) => {
   const { ShortUrlForm } = useDependencies(EditShortUrl);
   const identifier = useShortUrlIdentifier();
-  const { loading, error, errorData, shortUrls } = shortUrlsDetails;
-  const shortUrl = identifier && shortUrls?.get(identifier);
+  const { status } = shortUrlsDetails;
+  const shortUrl = identifier && status === 'loaded' ? shortUrlsDetails.shortUrls.get(identifier) : undefined;
 
   const { shortUrlEdition, editShortUrl } = useUrlEdition();
   const { saving, saved, error: savingError, errorData: savingErrorData } = shortUrlEdition;
@@ -39,14 +39,14 @@ const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = ({ shortUr
     }
   }, [getShortUrlsDetails, identifier]);
 
-  if (loading) {
+  if (status === 'loading') {
     return <Message loading />;
   }
 
-  if (error) {
+  if (status === 'error') {
     return (
       <Result variant="error">
-        <ShlinkApiError errorData={errorData} fallbackMessage="An error occurred while loading short URL detail :(" />
+        <ShlinkApiError errorData={shortUrlsDetails.error} fallbackMessage="An error occurred while loading short URL detail :(" />
       </Result>
     );
   }

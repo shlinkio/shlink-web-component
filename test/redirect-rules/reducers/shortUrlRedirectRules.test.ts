@@ -18,7 +18,7 @@ describe('shortUrlRedirectRulesReducer', () => {
   describe('reducer', () => {
     it('returns loading on pending', () => {
       const result = reducer(undefined, getShortUrlRedirectRules.pending('', fromPartial({}), undefined));
-      expect(result).toEqual({ loading: true, error: false });
+      expect(result).toEqual({ status: 'loading' });
     });
 
     it('returns error data on rejected', () => {
@@ -27,7 +27,7 @@ describe('shortUrlRedirectRulesReducer', () => {
         undefined,
         getShortUrlRedirectRules.rejected(error, '', fromPartial({}), undefined, undefined),
       );
-      expect(result).toEqual({ loading: false, error: true, errorData: parseApiError(error) });
+      expect(result).toEqual({ status: 'error', error: parseApiError(error) });
     });
 
     it('returns result on fulfilled', () => {
@@ -35,7 +35,7 @@ describe('shortUrlRedirectRulesReducer', () => {
         undefined,
         getShortUrlRedirectRules.fulfilled(fromPartial({}), '', fromPartial({}), undefined),
       );
-      expect(result).toEqual(expect.objectContaining({ loading: false, error: false }));
+      expect(result).toEqual(expect.objectContaining({ status: 'loaded' }));
     });
   });
 

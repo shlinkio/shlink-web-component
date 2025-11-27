@@ -25,7 +25,8 @@ describe('<ShortUrlRedirectRules />', () => {
       {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
       <Card>
         <ShortUrlRedirectRules
-          shortUrlRedirectRules={fromPartial(loading ? { loading } : {
+          shortUrlRedirectRules={fromPartial(loading ? { status: 'loading' } : {
+            status: 'loaded',
             defaultLongUrl: 'https://shlink.io',
             redirectRules: [
               { longUrl: 'https://example.com/first', conditions: [{ type: 'device' }] },

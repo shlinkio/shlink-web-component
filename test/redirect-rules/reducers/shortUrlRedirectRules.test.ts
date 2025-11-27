@@ -3,17 +3,15 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient } from '../../../src/api-contract';
 import { parseApiError } from '../../../src/api-contract/utils';
 import {
-  getShortUrlRedirectRules as getShortUrlRedirectRulesCreator,
-  shortUrlRedirectRulesReducerCreator,
+  getShortUrlRedirectRulesThunk as getShortUrlRedirectRules,
+  shortUrlRedirectRulesReducer as reducer,
 } from '../../../src/redirect-rules/reducers/shortUrlRedirectRules';
 
 describe('shortUrlRedirectRulesReducer', () => {
   const getShortUrlRedirectRulesCall = vi.fn();
-  const buildShlinkApiClient = () => fromPartial<ShlinkApiClient>({
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({
     getShortUrlRedirectRules: getShortUrlRedirectRulesCall,
   });
-  const getShortUrlRedirectRules = getShortUrlRedirectRulesCreator(buildShlinkApiClient);
-  const { reducer } = shortUrlRedirectRulesReducerCreator(getShortUrlRedirectRules);
 
   describe('reducer', () => {
     it('returns loading on pending', () => {
@@ -52,7 +50,7 @@ describe('shortUrlRedirectRulesReducer', () => {
       ];
 
       getShortUrlRedirectRulesCall.mockResolvedValue(shortUrlRules);
-      await getShortUrlRedirectRules({ shortCode: '' })(dispatch, vi.fn(), {});
+      await getShortUrlRedirectRules({ shortCode: '', apiClientFactory })(dispatch, vi.fn(), {});
 
       expect(getShortUrlRedirectRulesCall).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);

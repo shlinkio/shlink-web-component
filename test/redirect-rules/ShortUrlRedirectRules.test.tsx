@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router';
 import type { ProblemDetailsError } from '../../src/api-contract';
 import { ShortUrlRedirectRules } from '../../src/redirect-rules/ShortUrlRedirectRules';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 
 type SetUpOptions = {
   loading?: boolean;
@@ -16,16 +16,31 @@ type SetUpOptions = {
 };
 
 describe('<ShortUrlRedirectRules />', () => {
-  const getShortUrlRedirectRules = vi.fn();
+  const getShortUrlRedirectRules = vi.fn().mockResolvedValue({});
   const getShortUrlsDetails = vi.fn();
   const setShortUrlRedirectRules = vi.fn();
   const resetSetRules = vi.fn();
-  const setUp = ({ loading = false, saving = false, saved = false, errorData }: SetUpOptions = {}) => renderWithEvents(
-    <MemoryRouter>
-      {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-      <Card>
-        <ShortUrlRedirectRules
-          shortUrlRedirectRules={fromPartial(loading ? { status: 'loading' } : {
+  const setUp = async ({ loading = false, saving = false, saved = false, errorData }: SetUpOptions = {}) => {
+    const renderResult = renderWithStore(
+      <MemoryRouter>
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <ShortUrlRedirectRules
+            shortUrlsDetails={fromPartial(loading ? { loading } : {
+              shortUrls: {
+                get: () => fromPartial<ShlinkShortUrl>({ shortUrl: 'https://s.test/123' }),
+              },
+            })}
+            getShortUrlsDetails={getShortUrlsDetails}
+            shortUrlRedirectRulesSaving={fromPartial({ saving, saved, errorData })}
+            setShortUrlRedirectRules={setShortUrlRedirectRules}
+            resetSetRules={resetSetRules}
+          />
+        </Card>
+      </MemoryRouter>,
+      {
+        initialState: {
+          shortUrlRedirectRules: fromPartial(loading ? { status: 'loading' } : {
             status: 'loaded',
             defaultLongUrl: 'https://shlink.io',
             redirectRules: [
@@ -33,33 +48,30 @@ describe('<ShortUrlRedirectRules />', () => {
               { longUrl: 'https://example.com/second', conditions: [{ type: 'language' }] },
               { longUrl: 'https://example.com/third', conditions: [{ type: 'query-param' }] },
             ],
-          })}
-          getShortUrlRedirectRules={getShortUrlRedirectRules}
-          shortUrlsDetails={fromPartial(loading ? { loading } : {
-            shortUrls: {
-              get: () => fromPartial<ShlinkShortUrl>({ shortUrl: 'https://s.test/123' }),
-            },
-          })}
-          getShortUrlsDetails={getShortUrlsDetails}
-          shortUrlRedirectRulesSaving={fromPartial({ saving, saved, errorData })}
-          setShortUrlRedirectRules={setShortUrlRedirectRules}
-          resetSetRules={resetSetRules}
-        />
-      </Card>
-    </MemoryRouter>,
-  );
+          }),
+        },
+        apiClientFactory: () => fromPartial({ getShortUrlRedirectRules }),
+      },
+    );
+
+    if (!loading) {
+      await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument());
+    }
+
+    return renderResult;
+  };
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('loads rules and details when loaded', () => {
-    setUp();
+  it('loads rules and details when loaded', async () => {
+    await setUp();
 
     expect(getShortUrlRedirectRules).toHaveBeenCalledOnce();
     expect(getShortUrlsDetails).toHaveBeenCalledOnce();
   });
 
   it('resets rules state when unmounted', async () => {
-    setUp();
+    await setUp();
 
     expect(resetSetRules).not.toHaveBeenCalled();
     cleanup();
@@ -67,7 +79,7 @@ describe('<ShortUrlRedirectRules />', () => {
   });
 
   it('can change rules order', async () => {
-    const { user } = setUp();
+    const { user } = await setUp();
     const moveRule = (priority: number, direction: 'up' | 'down') => user.click(
       screen.getByLabelText(`Move rule with priority ${priority} ${direction}`),
     );
@@ -91,13 +103,13 @@ describe('<ShortUrlRedirectRules />', () => {
   it.each([
     [undefined, 'An error occurred while saving short URL redirect rules :('],
     ['There was an error', 'There was an error'],
-  ])('shows error when saving failed', (detail, expectedMessage) => {
-    setUp({ errorData: fromPartial({ detail }) });
+  ])('shows error when saving failed', async (detail, expectedMessage) => {
+    await setUp({ errorData: fromPartial({ detail }) });
     expect(screen.getByText(expectedMessage)).toBeInTheDocument();
   });
 
-  it.each([[true], [false]])('shows message when saving succeeded', (saved) => {
-    setUp({ saved });
+  it.each([[true], [false]])('shows message when saving succeeded', async (saved) => {
+    await setUp({ saved });
     const text = 'Redirect rules properly saved.';
 
     if (saved) {
@@ -107,13 +119,16 @@ describe('<ShortUrlRedirectRules />', () => {
     }
   });
 
-  it('shows loading message while loading rules', () => {
-    setUp({ loading: true });
+  it('shows loading message while loading rules', async () => {
+    const setUpPromise = setUp({ loading: true });
+
     expect(screen.getAllByText('Loading...')).toHaveLength(2);
+    await setUpPromise;
+    await waitFor(() => expect(screen.getAllByText('Loading...')).toHaveLength(1));
   });
 
   it('can open rule modal', async () => {
-    const { user } = setUp();
+    const { user } = await setUp();
 
     await user.click(screen.getByRole('button', { name: 'Add rule' }));
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
@@ -122,8 +137,8 @@ describe('<ShortUrlRedirectRules />', () => {
   it.each([
     [true, 'Saving...'],
     [false, 'Save rules'],
-  ])('shows in progress saving state', (saving, expectedText) => {
-    setUp({ saving });
+  ])('shows in progress saving state', async (saving, expectedText) => {
+    await setUp({ saving });
     const btn = screen.getByTestId('save-button');
 
     expect(btn).toHaveTextContent(expectedText);
@@ -135,7 +150,7 @@ describe('<ShortUrlRedirectRules />', () => {
   });
 
   it('can remove existing rules', async () => {
-    const { user } = setUp();
+    const { user } = await setUp();
 
     expect(screen.getAllByTestId('rule-long-url')).toHaveLength(3);
     await user.click(screen.getByLabelText('Delete rule with priority 1'));
@@ -145,7 +160,7 @@ describe('<ShortUrlRedirectRules />', () => {
   });
 
   it('saves rules on form submit', async () => {
-    const { user } = setUp();
+    const { user } = await setUp();
 
     await user.click(screen.getByRole('button', { name: 'Save rules' }));
     expect(setShortUrlRedirectRules).toHaveBeenCalledWith(expect.objectContaining({

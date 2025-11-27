@@ -1,7 +1,7 @@
 import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Message, Result, SimpleCard,useToggle  } from '@shlinkio/shlink-frontend-kit';
+import { Button, Message, Result, SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkRedirectRuleData, ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC, FormEvent } from 'react';
 import { useCallback, useEffect } from 'react';
@@ -13,12 +13,9 @@ import { GoBackButton } from '../utils/components/GoBackButton';
 import { RedirectRuleCard } from './helpers/RedirectRuleCard';
 import { RedirectRuleModal } from './helpers/RedirectRuleModal';
 import type { SetShortUrlRedirectRules, SetShortUrlRedirectRulesInfo } from './reducers/setShortUrlRedirectRules';
-import type { ShortUrlRedirectRules as RedirectRules } from './reducers/shortUrlRedirectRules';
+import { useUrlRedirectRules } from './reducers/shortUrlRedirectRules';
 
-type ShortUrlRedirectRulesProps = {
-  shortUrlRedirectRules: RedirectRules;
-  getShortUrlRedirectRules: (shortUrl: ShlinkShortUrlIdentifier) => void;
-
+export type ShortUrlRedirectRulesProps = {
   shortUrlsDetails: ShortUrlsDetails;
   getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
 
@@ -29,14 +26,13 @@ type ShortUrlRedirectRulesProps = {
 };
 
 export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
-  shortUrlRedirectRules,
-  getShortUrlRedirectRules,
   getShortUrlsDetails,
   shortUrlsDetails,
   setShortUrlRedirectRules,
   shortUrlRedirectRulesSaving,
   resetSetRules,
 }) => {
+  const { shortUrlRedirectRules, getShortUrlRedirectRules } = useUrlRedirectRules();
   const loading = shortUrlRedirectRules.status === 'loading';
   const identifier = useShortUrlIdentifier();
   const { shortUrls } = shortUrlsDetails;
@@ -96,7 +92,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
 
   const { redirectRules, defaultLongUrl } = shortUrlRedirectRules.status === 'loaded'
     ? shortUrlRedirectRules
-    : { defaultLongUrl: '' };
+    : {};
   useEffect(() => {
     // Initialize rules once loaded
     if (redirectRules) {
@@ -120,9 +116,11 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
           <hr />
           <div>
             <p>Configure dynamic conditions that will be checked at runtime.</p>
-            <p>
-              If no conditions match, visitors will be redirected to: <ExternalLink href={defaultLongUrl} />
-            </p>
+            {defaultLongUrl && (
+              <p>
+                If no conditions match, visitors will be redirected to: <ExternalLink href={defaultLongUrl} />
+              </p>
+            )}
           </div>
         </SimpleCard>
       </header>

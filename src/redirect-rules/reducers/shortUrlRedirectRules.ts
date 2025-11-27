@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient, ShlinkRedirectRulesList, ShlinkShortUrlIdentifier } from '../../api-contract';
-import { createAsyncThunk } from '../../store/helpers';
+import { useCallback } from 'react';
+import type { ShlinkRedirectRulesList, ShlinkShortUrlIdentifier } from '../../api-contract';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { createAsyncThunk,useApiClientFactory  } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/getShortUrlRedirectRules';
 
@@ -14,16 +17,14 @@ const initialState: ShortUrlRedirectRules = {
   status: 'idle',
 };
 
-export const getShortUrlRedirectRules = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
+export const getShortUrlRedirectRulesThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/getShortUrlRedirectRules`,
-  ({ shortCode, domain }: ShlinkShortUrlIdentifier) => apiClientFactory().getShortUrlRedirectRules(
-    { shortCode, domain },
-  ),
+  (
+    { apiClientFactory, ...rest }: WithApiClient<ShlinkShortUrlIdentifier>,
+  ) => apiClientFactory().getShortUrlRedirectRules(rest),
 );
 
-export const shortUrlRedirectRulesReducerCreator = (
-  getShortUrlRedirectRulesThunk: ReturnType<typeof getShortUrlRedirectRules>,
-) => createSlice({
+export const { reducer: shortUrlRedirectRulesReducer } = createSlice({
   name: REDUCER_PREFIX,
   initialState: initialState as ShortUrlRedirectRules,
   reducers: {},
@@ -36,3 +37,15 @@ export const shortUrlRedirectRulesReducerCreator = (
     );
   },
 });
+
+export const useUrlRedirectRules = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const getShortUrlRedirectRules = useCallback(
+    (shortUrl: ShlinkShortUrlIdentifier) => dispatch(getShortUrlRedirectRulesThunk({ ...shortUrl, apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const shortUrlRedirectRules = useAppSelector((state) => state.shortUrlRedirectRules);
+
+  return { shortUrlRedirectRules, getShortUrlRedirectRules };
+};

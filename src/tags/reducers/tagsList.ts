@@ -13,26 +13,29 @@ const REDUCER_PREFIX = 'shlink/tagsList';
 
 type TagsStatsMap = Record<string, TagStats>;
 
-export interface TagsList {
+type TagsListCommon = {
   tags: string[];
   filteredTags: string[];
   stats: TagsStatsMap;
-  loading: boolean;
-  error: boolean;
-  errorData?: ProblemDetailsError;
-}
+};
 
-interface ListTags {
+export type TagsList = TagsListCommon & ({
+  status: 'idle' | 'loading';
+} | {
+  status: 'error';
+  error?: ProblemDetailsError;
+});
+
+type ListTags = {
   tags: string[];
   stats: TagsStatsMap;
-}
+};
 
 const initialState: TagsList = {
+  status: 'idle',
   tags: [],
   filteredTags: [],
   stats: {},
-  loading: false,
-  error: false,
 };
 
 type TagIncreaseRecord = Record<string, { bots: number; nonBots: number }>;
@@ -96,7 +99,7 @@ export const filterTags = createAction<string>(`${REDUCER_PREFIX}/filterTags`);
 
 export const tagsListReducerCreator = (listTagsThunk: ReturnType<typeof listTags>) => createSlice({
   name: REDUCER_PREFIX,
-  initialState,
+  initialState: initialState as TagsList,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(filterTags, (state, { payload: searchTerm }) => ({
@@ -104,12 +107,12 @@ export const tagsListReducerCreator = (listTagsThunk: ReturnType<typeof listTags
       filteredTags: state.tags.filter((tag) => tag.toLowerCase().match(searchTerm.toLowerCase())),
     }));
 
-    builder.addCase(listTagsThunk.pending, (state) => ({ ...state, loading: true, error: false }));
+    builder.addCase(listTagsThunk.pending, () => ({ ...initialState, status: 'loading' }));
     builder.addCase(listTagsThunk.rejected, (_, { error }) => (
-      { ...initialState, error: true, errorData: parseApiError(error) }
+      { ...initialState, status: 'error', error: parseApiError(error) }
     ));
     builder.addCase(listTagsThunk.fulfilled, (_, { payload }) => (
-      { ...initialState, stats: payload.stats, tags: payload.tags, filteredTags: payload.tags }
+      { stats: payload.stats, tags: payload.tags, filteredTags: payload.tags, status: 'idle' }
     ));
 
     builder.addCase(tagDeleted, ({ tags, filteredTags, ...rest }, { payload: tag }) => ({

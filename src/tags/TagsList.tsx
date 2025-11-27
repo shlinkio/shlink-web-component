@@ -43,14 +43,14 @@ const TagsList: FCWithDeps<TagsListProps, TagsListDeps> = boundToMercureHub(({ f
   }, [order, settings.visits?.excludeBots, tagsList.filteredTags, tagsList.stats]);
   const visitsComparison = useVisitsComparison();
 
-  if (tagsList.loading) {
+  if (tagsList.status === 'loading') {
     return <Message loading />;
   }
 
-  if (tagsList.error) {
+  if (tagsList.status === 'error') {
     return (
       <Result variant="error">
-        <ShlinkApiError errorData={tagsList.errorData} fallbackMessage="Error loading tags :(" />
+        <ShlinkApiError errorData={tagsList.error} fallbackMessage="Error loading tags :(" />
       </Result>
     );
   }

@@ -53,7 +53,7 @@ const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub((
   const { ShortUrlsTable, CreateShortUrl } = useDependencies(Overview);
   const { shortUrlsList, listShortUrls } = useUrlsList();
   const { loading, shortUrls } = shortUrlsList;
-  const { loading: loadingTags } = tagsList;
+  const loadingTags = tagsList.status === 'loading';
   const { loading: loadingVisits, nonOrphanVisits, orphanVisits } = visitsOverview;
   const routesPrefix = useRoutesPrefix();
   const navigate = useNavigate();

@@ -26,7 +26,7 @@ describe('<Overview />', () => {
           <RoutesPrefixProvider value={routesPrefix}>
             <Overview
               loadVisitsOverview={loadVisitsOverview}
-              tagsList={fromPartial({ loading: false, tags: ['foo', 'bar', 'baz'] })}
+              tagsList={fromPartial({ status: 'idle', tags: ['foo', 'bar', 'baz'] })}
               visitsOverview={fromPartial({
                 loading: false,
                 nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },

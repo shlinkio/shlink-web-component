@@ -22,17 +22,11 @@ describe('tagsListReducer', () => {
 
   describe('reducer', () => {
     it('returns loading on LIST_TAGS_START', () => {
-      expect(reducer(undefined, listTags.pending(''))).toEqual(expect.objectContaining({
-        loading: true,
-        error: false,
-      }));
+      expect(reducer(undefined, listTags.pending(''))).toEqual(expect.objectContaining({ status: 'loading' }));
     });
 
     it('returns error on LIST_TAGS_ERROR', () => {
-      expect(reducer(undefined, listTags.rejected(null, ''))).toEqual(expect.objectContaining({
-        loading: false,
-        error: true,
-      }));
+      expect(reducer(undefined, listTags.rejected(null, ''))).toEqual(expect.objectContaining({ status: 'error' }));
     });
 
     it('returns provided tags as filtered and regular tags on LIST_TAGS', () => {
@@ -41,8 +35,7 @@ describe('tagsListReducer', () => {
       expect(reducer(undefined, listTags.fulfilled(fromPartial({ tags }), ''))).toEqual({
         tags,
         filteredTags: tags,
-        loading: false,
-        error: false,
+        status: 'idle',
       });
     });
 

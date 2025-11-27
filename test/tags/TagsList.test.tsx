@@ -26,14 +26,14 @@ describe('<TagsList />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('shows a loading message when tags are being loaded', () => {
-    setUp({ loading: true });
+    setUp({ status: 'loading' });
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
     expect(screen.queryByText('Error loading tags :(')).not.toBeInTheDocument();
   });
 
   it('shows an error when tags failed to be loaded', () => {
-    setUp({ error: true });
+    setUp({ status: 'error' });
 
     expect(screen.getByText('Error loading tags :(')).toBeInTheDocument();
     expect(screen.queryByText('Loading')).not.toBeInTheDocument();

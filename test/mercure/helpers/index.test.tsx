@@ -13,11 +13,9 @@ describe('helpers', () => {
     const onTokenExpired = vi.fn();
 
     it.each([
-      [fromPartial<MercureInfo>({ loading: true, error: false, mercureHubUrl: 'foo' })],
-      [fromPartial<MercureInfo>({ loading: false, error: true, mercureHubUrl: 'foo' })],
-      [fromPartial<MercureInfo>({ loading: true, error: true, mercureHubUrl: 'foo' })],
-      [fromPartial<MercureInfo>({ loading: false, error: false, mercureHubUrl: undefined })],
-      [fromPartial<MercureInfo>({ loading: true, error: true, mercureHubUrl: undefined })],
+      [fromPartial<MercureInfo>({ status: 'error' })],
+      [fromPartial<MercureInfo>({ status: 'loading' })],
+      [fromPartial<MercureInfo>({ status: 'loaded', mercureHubUrl: undefined })],
     ])('does not bind an EventSource when loading, error or no hub URL', (mercureInfo) => {
       bindToMercureTopic(mercureInfo, [''], noop, noop);
 
@@ -35,8 +33,7 @@ describe('helpers', () => {
       hubUrl.searchParams.append('topic', topic);
 
       const callback = bindToMercureTopic({
-        loading: false,
-        error: false,
+        status: 'loaded',
         mercureHubUrl,
         token,
       }, [topic], onMessage, onTokenExpired);

@@ -8,14 +8,14 @@ import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/mercure';
 
-export type MercureInfo = Partial<ShlinkMercureInfo> & {
-  loading: boolean;
-  error: boolean;
-};
+export type MercureInfo = {
+  status: 'loading' | 'error';
+} | (ShlinkMercureInfo & {
+  status: 'loaded';
+});
 
 const initialState: MercureInfo = {
-  loading: true,
-  error: false,
+  status: 'loading',
 };
 
 export const loadMercureInfo = createAsyncThunk(
@@ -31,12 +31,12 @@ export const loadMercureInfo = createAsyncThunk(
 
 const { reducer } = createSlice({
   name: REDUCER_PREFIX,
-  initialState,
+  initialState: initialState as MercureInfo,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(loadMercureInfo.pending, (state) => ({ ...state, loading: true, error: false }));
-    builder.addCase(loadMercureInfo.rejected, (state) => ({ ...state, loading: false, error: true }));
-    builder.addCase(loadMercureInfo.fulfilled, (_, { payload }) => ({ ...payload, loading: false, error: false }));
+    builder.addCase(loadMercureInfo.pending, () => initialState);
+    builder.addCase(loadMercureInfo.rejected, () => ({ status: 'error' }));
+    builder.addCase(loadMercureInfo.fulfilled, (_, { payload }) => ({ ...payload, status: 'loaded' }));
   },
 });
 

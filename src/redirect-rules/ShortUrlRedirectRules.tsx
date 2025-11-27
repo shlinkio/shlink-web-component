@@ -37,6 +37,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
   shortUrlRedirectRulesSaving,
   resetSetRules,
 }) => {
+  const loading = shortUrlRedirectRules.status === 'loading';
   const identifier = useShortUrlIdentifier();
   const { shortUrls } = shortUrlsDetails;
   const shortUrl = identifier && shortUrls?.get(identifier);
@@ -93,12 +94,15 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
     return resetSetRules;
   }, [getShortUrlRedirectRules, getShortUrlsDetails, identifier, resetSetRules]);
 
+  const { redirectRules, defaultLongUrl } = shortUrlRedirectRules.status === 'loaded'
+    ? shortUrlRedirectRules
+    : { defaultLongUrl: '' };
   useEffect(() => {
     // Initialize rules once loaded
-    if (shortUrlRedirectRules.redirectRules) {
-      setRules(shortUrlRedirectRules.redirectRules);
+    if (redirectRules) {
+      setRules(redirectRules);
     }
-  }, [setRules, shortUrlRedirectRules.redirectRules]);
+  }, [setRules, redirectRules]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -117,7 +121,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
           <div>
             <p>Configure dynamic conditions that will be checked at runtime.</p>
             <p>
-              If no conditions match, visitors will be redirected to: <ExternalLink href={shortUrlRedirectRules.defaultLongUrl ?? ''} />
+              If no conditions match, visitors will be redirected to: <ExternalLink href={defaultLongUrl} />
             </p>
           </div>
         </SimpleCard>
@@ -128,8 +132,8 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
         </Button>
       </div>
       <form onSubmit={onSubmit}>
-        {shortUrlRedirectRules.loading && <Message loading />}
-        {rules.length === 0 && !shortUrlRedirectRules.loading && (
+        {loading && <Message loading />}
+        {rules.length === 0 && !loading && (
           <SimpleCard className="text-center"><i>This short URL has no dynamic redirect rules</i></SimpleCard>
         )}
         <div className="flex flex-col gap-2" ref={rulesContainerRef}>

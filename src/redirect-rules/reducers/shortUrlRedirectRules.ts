@@ -1,19 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient, ShlinkRedirectRuleData, ShlinkShortUrlIdentifier } from '../../api-contract';
+import type { ShlinkApiClient, ShlinkRedirectRulesList, ShlinkShortUrlIdentifier } from '../../api-contract';
 import { createAsyncThunk } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/getShortUrlRedirectRules';
 
 export type ShortUrlRedirectRules = {
-  redirectRules?: ShlinkRedirectRuleData[];
-  defaultLongUrl?: string;
-  loading: boolean;
-  error: boolean;
-};
+  status: 'idle' | 'loading' | 'error';
+} | (ShlinkRedirectRulesList & {
+  status: 'loaded';
+});
 
 const initialState: ShortUrlRedirectRules = {
-  loading: true,
-  error: false,
+  status: 'idle',
 };
 
 export const getShortUrlRedirectRules = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
@@ -27,14 +25,14 @@ export const shortUrlRedirectRulesReducerCreator = (
   getShortUrlRedirectRulesThunk: ReturnType<typeof getShortUrlRedirectRules>,
 ) => createSlice({
   name: REDUCER_PREFIX,
-  initialState,
+  initialState: initialState as ShortUrlRedirectRules,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getShortUrlRedirectRulesThunk.pending, () => ({ loading: true, error: false }));
-    builder.addCase(getShortUrlRedirectRulesThunk.rejected, () => ({ loading: false, error: true }));
+    builder.addCase(getShortUrlRedirectRulesThunk.pending, () => ({ status: 'loading' }));
+    builder.addCase(getShortUrlRedirectRulesThunk.rejected, () => ({ status: 'error' }));
     builder.addCase(
       getShortUrlRedirectRulesThunk.fulfilled,
-      (_, { payload }) => ({ loading: false, error: false, ...payload }),
+      (_, { payload }) => ({ status: 'loaded', ...payload }),
     );
   },
 });

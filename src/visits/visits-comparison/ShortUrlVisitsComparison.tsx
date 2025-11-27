@@ -32,7 +32,8 @@ export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = bound
     [getShortUrlVisitsForComparison, identifiers],
   );
 
-  const loadedShortUrls = useMemo(() => [...shortUrlsDetails.shortUrls?.values() ?? []], [shortUrlsDetails.shortUrls]);
+  const shortUrls = shortUrlsDetails.status === 'loaded' ? shortUrlsDetails.shortUrls : undefined;
+  const loadedShortUrls = useMemo(() => [...shortUrls?.values() ?? []], [shortUrls]);
   const visitsComparisonInfo = useMemo((): VisitsComparisonInfo => {
     const { visitsGroups: baseVisitsGroups, loading, ...rest } = shortUrlVisitsComparison;
     const visitsGroups = loadedShortUrls.reduce<Record<string, ShlinkVisit[]>>(
@@ -43,8 +44,8 @@ export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = bound
       {},
     );
 
-    return { ...rest, visitsGroups, loading: loading || shortUrlsDetails.loading };
-  }, [shortUrlVisitsComparison, shortUrlsDetails.loading, loadedShortUrls]);
+    return { ...rest, visitsGroups, loading: loading || shortUrlsDetails.status === 'loading' };
+  }, [shortUrlVisitsComparison, shortUrlsDetails.status, loadedShortUrls]);
 
   useEffect(() => {
     if (identifiers.length > 0) {
@@ -56,7 +57,7 @@ export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = bound
     <VisitsComparison
       title={(
         <span data-testid="title">
-          {shortUrlsDetails.loading
+          {shortUrlsDetails.status === 'loading'
             ? 'Loading...'
             : `Comparing ${loadedShortUrls.length} short URLs`}
         </span>

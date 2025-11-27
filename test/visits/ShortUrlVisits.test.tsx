@@ -28,6 +28,7 @@ describe('<ShortUrlVisits />', () => {
             getShortUrlVisits={getShortUrlVisitsMock}
             shortUrlVisits={shortUrlVisits}
             shortUrlsDetails={fromPartial({
+              status: 'loaded',
               shortUrls: {
                 get: () => fromPartial<ShlinkShortUrl>({
                   shortUrl: 'https://s.test/123',

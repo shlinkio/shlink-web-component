@@ -40,7 +40,8 @@ const ShortUrlVisits: FCWithDeps<ShortUrlVisitsProps, ShortUrlVisitsDeps> = boun
 }: ShortUrlVisitsProps) => {
   const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
   const identifier = useShortUrlIdentifier();
-  const shortUrl = useMemo(() => shortUrlsDetails.shortUrls?.get(identifier), [identifier, shortUrlsDetails.shortUrls]);
+  const shortUrls = shortUrlsDetails.status === 'loaded' ? shortUrlsDetails.shortUrls : undefined;
+  const shortUrl = useMemo(() => shortUrls?.get(identifier), [identifier, shortUrls]);
 
   const loadVisits = useCallback(
     (params: VisitsParams, options: GetVisitsOptions) => getShortUrlVisits({
@@ -71,7 +72,11 @@ const ShortUrlVisits: FCWithDeps<ShortUrlVisitsProps, ShortUrlVisitsDeps> = boun
       exportCsv={exportCsv}
       deletion={deletion}
     >
-      <ShortUrlVisitsHeader shortUrl={shortUrl} loading={shortUrlsDetails.loading} shortUrlVisits={shortUrlVisits} />
+      <ShortUrlVisitsHeader
+        shortUrl={shortUrl}
+        loading={shortUrlsDetails.status === 'loading'}
+        shortUrlVisits={shortUrlVisits}
+      />
     </VisitsStats>
   );
 }, (params) => (params.shortCode ? [Topics.shortUrlVisits(urlDecodeShortCode(params.shortCode))] : []));

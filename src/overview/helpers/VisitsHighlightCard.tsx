@@ -1,13 +1,13 @@
 import { formatNumber } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
-import type { PartialVisitsSummary } from '../../visits/reducers/visitsOverview';
+import type { ShlinkVisitsSummary } from '../../api-contract';
 import type { HighlightCardProps } from './HighlightCard';
 import { HighlightCard } from './HighlightCard';
 
 export type VisitsHighlightCardProps = Omit<HighlightCardProps, 'tooltip' | 'children'> & {
   loading: boolean;
   excludeBots: boolean;
-  visitsSummary: PartialVisitsSummary;
+  visitsSummary: ShlinkVisitsSummary;
 };
 
 export const VisitsHighlightCard: FC<VisitsHighlightCardProps> = ({ loading, excludeBots, visitsSummary, ...rest }) => (

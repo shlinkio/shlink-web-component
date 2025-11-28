@@ -2,6 +2,7 @@ import { Card, formatNumber } from '@shlinkio/shlink-frontend-kit';
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
+import type { ShlinkVisitsSummary } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
@@ -47,13 +48,19 @@ type OverviewDeps = {
   CreateShortUrl: FC<CreateShortUrlProps>;
 };
 
+const visitsSummaryFallback: ShlinkVisitsSummary = { total: 0, bots: 0, nonBots: 0 };
+
 const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub((
   { tagsList, loadVisitsOverview, visitsOverview },
 ) => {
   const { ShortUrlsTable, CreateShortUrl } = useDependencies(Overview);
   const { shortUrlsList, listShortUrls } = useUrlsList();
   const loadingTags = tagsList.status === 'loading';
-  const { loading: loadingVisits, nonOrphanVisits, orphanVisits } = visitsOverview;
+  const loadingVisits = visitsOverview.status === 'loading';
+  const { orphanVisits, nonOrphanVisits } = visitsOverview.status === 'loaded' ? visitsOverview : {
+    orphanVisits: visitsSummaryFallback,
+    nonOrphanVisits: visitsSummaryFallback,
+  };
   const routesPrefix = useRoutesPrefix();
   const navigate = useNavigate();
   const visits = useSetting('visits');

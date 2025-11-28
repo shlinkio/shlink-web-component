@@ -41,8 +41,7 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
     dragHandle: '.drag-n-drop-handler',
     dropZoneClass: 'opacity-25',
   });
-
-  const { saving, saved, errorData } = shortUrlRedirectRulesSaving;
+  const saving = shortUrlRedirectRulesSaving.status === 'saving';
 
   const { flag: isModalOpen, setToFalse: closeModal, setToTrue: openModal } = useToggle();
 
@@ -153,15 +152,17 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
           </Button>
         </div>
       </form>
-      {errorData && (
+      {shortUrlRedirectRulesSaving.status === 'error' && (
         <Result variant="error">
           <ShlinkApiError
-            errorData={errorData}
+            errorData={shortUrlRedirectRulesSaving.error}
             fallbackMessage="An error occurred while saving short URL redirect rules :("
           />
         </Result>
       )}
-      {saved && <Result variant="success">Redirect rules properly saved.</Result>}
+      {shortUrlRedirectRulesSaving.status === 'saved' && (
+        <Result variant="success">Redirect rules properly saved.</Result>
+      )}
       <RedirectRuleModal isOpen={isModalOpen} onClose={closeModal} onSave={pushRule} />
     </div>
   );

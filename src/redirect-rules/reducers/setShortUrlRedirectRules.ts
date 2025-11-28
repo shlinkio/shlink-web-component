@@ -11,16 +11,14 @@ import { createAsyncThunk } from '../../store/helpers';
 const REDUCER_PREFIX = 'shlink/setShortUrlRedirectRules';
 
 export type SetShortUrlRedirectRules = {
-  saving: boolean;
-  saved: boolean;
-  error: boolean;
-  errorData?: ProblemDetailsError;
+  status: 'idle' | 'saving' | 'saved';
+} | {
+  status: 'error';
+  error?: ProblemDetailsError;
 };
 
 const initialState: SetShortUrlRedirectRules = {
-  saving: false,
-  saved: false,
-  error: false,
+  status: 'idle',
 };
 
 export type SetShortUrlRedirectRulesInfo = {
@@ -41,16 +39,16 @@ export const setShortUrlRedirectRulesReducerCreator = (
 ) => {
   const { reducer, actions } = createSlice({
     name: REDUCER_PREFIX,
-    initialState,
+    initialState: initialState as SetShortUrlRedirectRules,
     reducers: {
       resetSetRules: () => initialState,
     },
     extraReducers: (builder) => {
-      builder.addCase(setShortUrlRedirectRulesThunk.pending, () => ({ saving: true, saved: false, error: false }));
+      builder.addCase(setShortUrlRedirectRulesThunk.pending, () => ({ status: 'saving' }));
       builder.addCase(setShortUrlRedirectRulesThunk.rejected, (_, { error }) => (
-        { saving: false, saved: false, error: true, errorData: parseApiError(error) }
+        { status: 'error', error: parseApiError(error) }
       ));
-      builder.addCase(setShortUrlRedirectRulesThunk.fulfilled, () => ({ saving: false, error: false, saved: true }));
+      builder.addCase(setShortUrlRedirectRulesThunk.fulfilled, () => ({ status: 'saved' }));
     },
   });
 

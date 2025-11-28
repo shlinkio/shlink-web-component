@@ -19,7 +19,7 @@ describe('setShortUrlRedirectRulesReducer', () => {
   describe('reducer', () => {
     it('returns saving on pending', () => {
       const result = reducer(undefined, setShortUrlRedirectRules.pending('', fromPartial({}), undefined));
-      expect(result).toEqual({ saving: true, saved: false, error: false });
+      expect(result).toEqual({ status: 'saving' });
     });
 
     it('returns error data on rejected', () => {
@@ -28,7 +28,7 @@ describe('setShortUrlRedirectRulesReducer', () => {
         undefined,
         setShortUrlRedirectRules.rejected(error, '', fromPartial({}), undefined, undefined),
       );
-      expect(result).toEqual({ saving: false, saved: false, error: true, errorData: parseApiError(error) });
+      expect(result).toEqual({ status: 'error', error: parseApiError(error) });
     });
 
     it('returns saved on fulfilled', () => {
@@ -36,12 +36,12 @@ describe('setShortUrlRedirectRulesReducer', () => {
         undefined,
         setShortUrlRedirectRules.fulfilled(fromPartial({}), '', fromPartial({}), undefined),
       );
-      expect(result).toEqual({ saving: false, saved: true, error: false });
+      expect(result).toEqual({ status: 'saved' });
     });
 
     it('resets to initial state on resetSetRules', () => {
       const result = reducer(undefined, resetSetRules());
-      expect(result).toEqual({ saving: false, saved: false, error: false });
+      expect(result).toEqual({ status: 'idle' });
     });
   });
 

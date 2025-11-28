@@ -1,4 +1,3 @@
-import { EventSourcePolyfill as EventSource } from 'event-source-polyfill';
 import type { MercureInfo } from '../reducers/mercureInfo';
 
 export const bindToMercureTopic = <T>(
@@ -13,21 +12,19 @@ export const bindToMercureTopic = <T>(
     return undefined;
   }
 
-  const onEventSourceMessage = ({ data }: { data: string }) => onMessage(JSON.parse(data) as T);
-  const onEventSourceError = ({ status }: { status: number }) => status === 401 && onTokenExpired();
+  const onEventSourceMessage = ({ data }: MessageEvent) => onMessage(JSON.parse(data) as T);
 
   const subscriptions = topics.map((topic) => {
     const hubUrl = new URL(mercureInfo.mercureHubUrl);
-
     hubUrl.searchParams.append('topic', topic);
-    const es = new EventSource(hubUrl, {
-      headers: {
-        Authorization: `Bearer ${mercureInfo.token}`,
-      },
-    });
+    hubUrl.searchParams.append('authorization', mercureInfo.token);
+
+    const es = new EventSource(hubUrl);
 
     es.onmessage = onEventSourceMessage;
-    es.onerror = onEventSourceError;
+    // When an error occurs, invoke onTokenExpired just in case that was the issue
+    // TODO Limit the amount of attempts
+    es.onerror = onTokenExpired;
 
     return es;
   });

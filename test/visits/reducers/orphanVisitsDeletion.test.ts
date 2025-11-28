@@ -1,34 +1,30 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient } from '../../../src/api-contract';
 import {
-  deleteOrphanVisits as deleteOrphanVisitsCreator,
-  orphanVisitsDeletionReducerCreator,
+  deleteOrphanVisitsThunk as deleteOrphanVisits,
+  orphanVisitsDeletionReducer as reducer,
 } from '../../../src/visits/reducers/orphanVisitsDeletion';
 
 describe('orphanVisitsDeletionReducer', () => {
   const deleteOrphanVisitsCall = vi.fn();
-  const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({
-    deleteOrphanVisits: deleteOrphanVisitsCall,
-  });
-  const deleteOrphanVisits = deleteOrphanVisitsCreator(buildShlinkApiClientMock);
-  const { reducer } = orphanVisitsDeletionReducerCreator(deleteOrphanVisits);
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ deleteOrphanVisits: deleteOrphanVisitsCall });
 
   describe('reducer', () => {
     it('returns deleting for pending action', () => {
-      const result = reducer(fromPartial({}), deleteOrphanVisits.pending(''));
+      const result = reducer(fromPartial({}), deleteOrphanVisits.pending('', { apiClientFactory }));
       expect(result).toEqual(expect.objectContaining({ status: 'deleting' }));
     });
 
     it('returns error for rejected action', () => {
       const error = { type: 'INTERNAL_SERVER_ERROR', status: 500 } as unknown as Error;
-      const result = reducer(fromPartial({}), deleteOrphanVisits.rejected(error, ''));
+      const result = reducer(fromPartial({}), deleteOrphanVisits.rejected(error, '', { apiClientFactory }));
 
       expect(result).toEqual(expect.objectContaining({ status: 'error' }));
     });
 
     it('returns success on fulfilled rejected', () => {
       const deletionResult = { deletedVisits: 10 };
-      const result = reducer(fromPartial({}), deleteOrphanVisits.fulfilled(deletionResult, ''));
+      const result = reducer(fromPartial({}), deleteOrphanVisits.fulfilled(deletionResult, '', { apiClientFactory }));
 
       expect(result).toEqual(expect.objectContaining({ status: 'deleted', ...deletionResult }));
     });
@@ -39,7 +35,7 @@ describe('orphanVisitsDeletionReducer', () => {
     it('dispatches payload containing deleted visits', async () => {
       deleteOrphanVisitsCall.mockResolvedValue({ deletedVisits: 50 });
 
-      await deleteOrphanVisits()(dispatch, vi.fn(), {});
+      await deleteOrphanVisits({ apiClientFactory })(dispatch, vi.fn(), {});
 
       expect(deleteOrphanVisitsCall).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);

@@ -16,7 +16,7 @@ export const createAsyncThunk = <Returned, ThunkArg = void>(
   payloadCreator: ShlinkPayloadCreator<Returned, ThunkArg>,
 ) => baseCreateAsyncThunk(typePrefix, payloadCreator, { serializeError: (e) => e });
 
-export type WithApiClient<T> = T & { apiClientFactory: () => ShlinkApiClient };
+export type WithApiClient<T = unknown> = T & { apiClientFactory: () => ShlinkApiClient };
 
 /**
  * Alias for useDependencies<[() => ShlinkApiClient]>('apiClientFactory')[0], to avoid duplicating this logic in every

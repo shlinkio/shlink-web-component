@@ -3,7 +3,7 @@ import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkOrphanVisitType } from '
 import { isBetween } from '../../utils/dates/helpers/date';
 import { isOrphanVisit } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
-import type { deleteOrphanVisits } from './orphanVisitsDeletion';
+import { deleteOrphanVisitsThunk } from './orphanVisitsDeletion';
 import type { LoadWithDomainVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/orphanVisits';
@@ -51,7 +51,6 @@ export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => crea
 
 export const orphanVisitsReducerCreator = (
   asyncThunkCreator: ReturnType<typeof getOrphanVisits>,
-  deleteOrphanVisitsThunk: ReturnType<typeof deleteOrphanVisits>,
 ) => createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,

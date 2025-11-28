@@ -25,8 +25,6 @@ describe('<OrphanVisits />', () => {
             getOrphanVisits={getOrphanVisits}
             orphanVisits={orphanVisits}
             cancelGetOrphanVisits={vi.fn()}
-            deleteOrphanVisits={vi.fn()}
-            orphanVisitsDeletion={fromPartial({})}
             domainsList={fromPartial({ domains: [] })}
           />
         </Card>

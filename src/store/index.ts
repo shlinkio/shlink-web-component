@@ -23,6 +23,7 @@ import { tagEditReducer } from '../tags/reducers/tagEdit';
 import type { TagsList } from '../tags/reducers/tagsList';
 import type { DomainVisits } from '../visits/reducers/domainVisits';
 import type { OrphanVisitsDeletion } from '../visits/reducers/orphanVisitsDeletion';
+import { orphanVisitsDeletionReducer } from '../visits/reducers/orphanVisitsDeletion';
 import type { ShortUrlVisits } from '../visits/reducers/shortUrlVisits';
 import type { ShortUrlVisitsDeletion } from '../visits/reducers/shortUrlVisitsDeletion';
 import type { TagVisits } from '../visits/reducers/tagVisits';
@@ -50,7 +51,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     domainVisits: container.domainVisitsReducer as DomainVisits,
     domainVisitsComparison: container.domainVisitsComparisonReducer as VisitsComparisonInfo,
     orphanVisits: container.orphanVisitsReducer as VisitsInfo,
-    orphanVisitsDeletion: container.orphanVisitsDeletionReducer as OrphanVisitsDeletion,
+    orphanVisitsDeletion: orphanVisitsDeletionReducer,
     nonOrphanVisits: container.nonOrphanVisitsReducer as VisitsInfo,
     tagsList: container.tagsListReducer as TagsList,
     tagDelete: tagDeleteReducer,

@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient, ShlinkDeleteVisitsResult } from '../../api-contract';
+import { useCallback } from 'react';
+import type { ShlinkDeleteVisitsResult } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
-import { createAsyncThunk } from '../../store/helpers';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { createAsyncThunk,useApiClientFactory  } from '../../store/helpers';
 import type { VisitsDeletion } from './types';
 
 const REDUCER_PREFIX = 'shlink/orphanVisitsDeletion';
@@ -12,14 +15,12 @@ const initialState: OrphanVisitsDeletion = {
   status: 'idle',
 };
 
-export const deleteOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
+export const deleteOrphanVisitsThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/deleteOrphanVisits`,
-  (): Promise<ShlinkDeleteVisitsResult> => apiClientFactory().deleteOrphanVisits(),
+  ({ apiClientFactory }: WithApiClient): Promise<ShlinkDeleteVisitsResult> => apiClientFactory().deleteOrphanVisits(),
 );
 
-export const orphanVisitsDeletionReducerCreator = (
-  deleteOrphanVisitsThunk: ReturnType<typeof deleteOrphanVisits>,
-) => createSlice({
+export const { reducer: orphanVisitsDeletionReducer } = createSlice({
   name: REDUCER_PREFIX,
   initialState: initialState as OrphanVisitsDeletion,
   reducers: {},
@@ -34,3 +35,15 @@ export const orphanVisitsDeletionReducerCreator = (
     });
   },
 });
+
+export const useOrphanVisitsDeletion = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const deleteOrphanVisits = useCallback(
+    () => dispatch(deleteOrphanVisitsThunk({ apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const orphanVisitsDeletion = useAppSelector((state) => state.orphanVisitsDeletion);
+
+  return { orphanVisitsDeletion, deleteOrphanVisits };
+};

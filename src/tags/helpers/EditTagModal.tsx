@@ -6,21 +6,14 @@ import { componentFactory, useDependencies } from '../../container/utils';
 import { ColorPicker } from '../../utils/components/ColorPicker';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import type { TagModalProps } from '../data';
-import type { EditTag, TagEdition } from '../reducers/tagEdit';
-
-interface EditTagModalProps extends TagModalProps {
-  tagEdit: TagEdition;
-  editTag: (editTag: EditTag) => Promise<void>;
-  tagEdited: (tagEdited: EditTag) => void;
-}
+import { useTagEdit } from '../reducers/tagEdit';
 
 type EditTagModalDeps = {
   ColorGenerator: ColorGenerator;
 };
 
-const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
-  { tag, editTag, onClose, tagEdited, isOpen, tagEdit },
-) => {
+const EditTagModal: FCWithDeps<TagModalProps, EditTagModalDeps> = ({ tag, onClose, isOpen }) => {
+  const { editTag, tagEdited, tagEdit } = useTagEdit();
   const { ColorGenerator: colorGenerator } = useDependencies(EditTagModal);
   const [newTagName, setNewTagName] = useState(tag);
   const [color, setColor] = useState(colorGenerator.getColorForKey(tag));

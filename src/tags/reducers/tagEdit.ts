@@ -6,14 +6,16 @@ import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 
 const REDUCER_PREFIX = 'shlink/tagEdit';
 
-export interface TagEdition {
-  oldName?: string;
-  newName?: string;
-  editing: boolean;
-  edited: boolean;
-  error: boolean;
-  errorData?: ProblemDetailsError;
-}
+export type TagEdition = {
+  status: 'idle' | 'editing';
+} | {
+  status: 'error';
+  error?: ProblemDetailsError;
+} | {
+  status: 'edited';
+  oldName: string;
+  newName: string;
+};
 
 export interface EditTag {
   oldName: string;
@@ -22,9 +24,7 @@ export interface EditTag {
 }
 
 const initialState: TagEdition = {
-  editing: false,
-  edited: false,
-  error: false,
+  status: 'idle',
 };
 
 export const tagEdited = createAction<EditTag>(`${REDUCER_PREFIX}/tagEdited`);
@@ -44,23 +44,14 @@ export const editTag = (
 
 export const tagEditReducerCreator = (editTagThunk: ReturnType<typeof editTag>) => createSlice({
   name: REDUCER_PREFIX,
-  initialState,
+  initialState: initialState as TagEdition,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(editTagThunk.pending, () => ({ editing: true, edited: false, error: false }));
-    builder.addCase(
-      editTagThunk.rejected,
-      (_, { error }) => ({ editing: false, edited: false, error: true, errorData: parseApiError(error) }),
-    );
+    builder.addCase(editTagThunk.pending, () => ({ status: 'editing' }));
+    builder.addCase(editTagThunk.rejected, (_, { error }) => ({ status: 'error', error: parseApiError(error) }));
     builder.addCase(editTagThunk.fulfilled, (_, { payload }) => {
       const { oldName, newName } = payload;
-      return {
-        oldName,
-        newName,
-        editing: false,
-        edited: true,
-        error: false,
-      };
+      return { status: 'edited', oldName, newName };
     });
   },
 });

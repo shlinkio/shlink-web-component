@@ -13,15 +13,15 @@ import { editShortUrlThunk } from './shortUrlEdition';
 const REDUCER_PREFIX = 'shlink/shortUrlsList';
 export const ITEMS_IN_OVERVIEW_PAGE = 5;
 
-export interface ShortUrlsList {
-  shortUrls?: ShlinkShortUrlsList;
-  loading: boolean;
-  error: boolean;
-}
+export type ShortUrlsList = {
+  status: 'idle' | 'loading' | 'error';
+} | {
+  status: 'loaded';
+  shortUrls: ShlinkShortUrlsList;
+};
 
 const initialState: ShortUrlsList = {
-  loading: true,
-  error: false,
+  status: 'idle',
 };
 
 export const listShortUrlsThunk = createAsyncThunk(
@@ -33,20 +33,20 @@ export const listShortUrlsThunk = createAsyncThunk(
 
 export const { reducer: shortUrlsListReducer } = createSlice({
   name: REDUCER_PREFIX,
-  initialState,
+  initialState: initialState as ShortUrlsList,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(listShortUrlsThunk.pending, (state) => ({ ...state, loading: true, error: false }));
-    builder.addCase(listShortUrlsThunk.rejected, () => ({ loading: false, error: true }));
+    builder.addCase(listShortUrlsThunk.pending, () => ({ status: 'loading' }));
+    builder.addCase(listShortUrlsThunk.rejected, () => ({ status: 'error' }));
     builder.addCase(
       listShortUrlsThunk.fulfilled,
-      (_, { payload: shortUrls }) => ({ loading: false, error: false, shortUrls }),
+      (_, { payload: shortUrls }) => ({ status: 'loaded', shortUrls }),
     );
 
     builder.addCase(
       createShortUrlThunk.fulfilled,
       (state, { payload }) => {
-        if (!state.shortUrls) {
+        if (state.status !== 'loaded') {
           return;
         }
 
@@ -61,7 +61,7 @@ export const { reducer: shortUrlsListReducer } = createSlice({
     builder.addCase(
       editShortUrlThunk.fulfilled,
       (state, { payload: editedShortUrl }) => {
-        if (!state.shortUrls) {
+        if (state.status !== 'loaded') {
           return;
         }
 
@@ -75,7 +75,7 @@ export const { reducer: shortUrlsListReducer } = createSlice({
     builder.addCase(
       shortUrlDeleted,
       (state, { payload }) => {
-        if (!state.shortUrls) {
+        if (state.status !== 'loaded') {
           return;
         }
 
@@ -89,7 +89,7 @@ export const { reducer: shortUrlsListReducer } = createSlice({
     builder.addCase(
       createNewVisits,
       (state, { payload }) => {
-        if (!state.shortUrls) {
+        if (state.status !== 'loaded') {
           return;
         }
 

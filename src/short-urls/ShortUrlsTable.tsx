@@ -30,21 +30,21 @@ const FullRow: FC<PropsWithChildren<{ danger?: boolean }>> = ({ children, danger
 );
 
 const ShortUrlsTableBody: FC<ShortUrlsTableBodyProps> = ({ shortUrlsList, onTagClick, ShortUrlsRow }) => {
-  const { error, loading, shortUrls } = shortUrlsList;
+  const { status } = shortUrlsList;
 
-  if (error) {
+  if (status === 'error') {
     return <FullRow danger>Something went wrong while loading short URLs :(</FullRow>;
   }
 
-  if (loading) {
+  if (status === 'loading') {
     return <FullRow>Loading...</FullRow>;
   }
 
-  if (!shortUrls || shortUrls.data.length === 0) {
+  if (status !== 'loaded' || shortUrlsList.shortUrls.data.length === 0) {
     return <FullRow>No results found</FullRow>;
   }
 
-  return shortUrls?.data.map((shortUrl) => (
+  return shortUrlsList.shortUrls.data.map((shortUrl) => (
     <ShortUrlsRow
       key={shortUrl.shortUrl}
       shortUrl={shortUrl}

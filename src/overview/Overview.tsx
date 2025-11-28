@@ -52,7 +52,6 @@ const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub((
 ) => {
   const { ShortUrlsTable, CreateShortUrl } = useDependencies(Overview);
   const { shortUrlsList, listShortUrls } = useUrlsList();
-  const { loading, shortUrls } = shortUrlsList;
   const loadingTags = tagsList.status === 'loading';
   const { loading: loadingVisits, nonOrphanVisits, orphanVisits } = visitsOverview;
   const routesPrefix = useRoutesPrefix();
@@ -85,7 +84,8 @@ const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub((
           visitsSummary={orphanVisits}
         />
         <HighlightCard title="Short URLs" link={`${routesPrefix}/list-short-urls/1`}>
-          {loading ? 'Loading...' : formatNumber(shortUrls?.pagination.totalItems ?? 0)}
+          {shortUrlsList.status === 'loading' && 'Loading...'}
+          {shortUrlsList.status === 'loaded' && formatNumber(shortUrlsList.shortUrls.pagination.totalItems)}
         </HighlightCard>
         <HighlightCard title="Tags" link={`${routesPrefix}/manage-tags`}>
           {loadingTags ? 'Loading...' : formatNumber(tagsList.tags.length)}

@@ -6,7 +6,7 @@ import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadOrphanVisits } from './reducers/orphanVisits';
-import type { OrphanVisitsDeletion } from './reducers/orphanVisitsDeletion';
+import { useOrphanVisitsDeletion } from './reducers/orphanVisitsDeletion';
 import type { GetVisitsOptions, VisitsInfo } from './reducers/types';
 import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsHeader } from './VisitsHeader';
@@ -14,9 +14,7 @@ import { VisitsStats } from './VisitsStats';
 
 export type OrphanVisitsProps = {
   getOrphanVisits: (params: LoadOrphanVisits) => void;
-  deleteOrphanVisits: () => void;
   orphanVisits: VisitsInfo;
-  orphanVisitsDeletion: OrphanVisitsDeletion;
   cancelGetOrphanVisits: () => void;
   domainsList: DomainsList;
 };
@@ -26,7 +24,7 @@ type OrphanVisitsDeps = {
 };
 
 const OrphanVisits: FCWithDeps<OrphanVisitsProps, OrphanVisitsDeps> = boundToMercureHub((
-  { getOrphanVisits, orphanVisits, cancelGetOrphanVisits, deleteOrphanVisits, orphanVisitsDeletion, domainsList },
+  { getOrphanVisits, orphanVisits, cancelGetOrphanVisits, domainsList },
 ) => {
   const { ReportExporter: reportExporter } = useDependencies(OrphanVisits);
   const exportCsv = useCallback(
@@ -42,6 +40,7 @@ const OrphanVisits: FCWithDeps<OrphanVisitsProps, OrphanVisitsDeps> = boundToMer
     }),
     [getOrphanVisits],
   );
+  const { deleteOrphanVisits, orphanVisitsDeletion } = useOrphanVisitsDeletion();
   const deletion = useMemo(
     () => ({ deleteVisits: deleteOrphanVisits, visitsDeletion: orphanVisitsDeletion }),
     [deleteOrphanVisits, orphanVisitsDeletion],

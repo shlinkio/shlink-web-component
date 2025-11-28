@@ -10,6 +10,7 @@ import {
   getOrphanVisits as getOrphanVisitsCreator,
   orphanVisitsReducerCreator,
 } from '../../../src/visits/reducers/orphanVisits';
+import { deleteOrphanVisitsThunk } from '../../../src/visits/reducers/orphanVisitsDeletion';
 import type { VisitsInfo } from '../../../src/visits/reducers/types';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
 import { problemDetailsError } from '../../__mocks__/ProblemDetailsError.mock';
@@ -21,10 +22,7 @@ describe('orphanVisitsReducer', () => {
   const getOrphanVisitsCall = vi.fn();
   const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getOrphanVisits: getOrphanVisitsCall });
   const getOrphanVisits = getOrphanVisitsCreator(buildShlinkApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetOrphanVisits } = orphanVisitsReducerCreator(
-    getOrphanVisits,
-    fromPartial({ fulfilled: { type: 'deleteOrphanVisits' } }),
-  );
+  const { reducer, cancelGetVisits: cancelGetOrphanVisits } = orphanVisitsReducerCreator(getOrphanVisits);
 
   describe('reducer', () => {
     const buildState = (data: Partial<VisitsInfo>) => fromPartial<VisitsInfo>(data);
@@ -129,7 +127,7 @@ describe('orphanVisitsReducer', () => {
       const prevState = buildState({
         visits: [fromPartial({}), fromPartial({})],
       });
-      const result = reducer(prevState, { type: 'deleteOrphanVisits', payload: {} });
+      const result = reducer(prevState, deleteOrphanVisitsThunk.fulfilled(fromPartial({}), '', fromPartial({})));
 
       expect(result.visits).toHaveLength(0);
     });

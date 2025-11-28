@@ -1,5 +1,5 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import type { ProblemDetailsError, ShlinkApiClient } from '../../api-contract';
+import type { ProblemDetailsError, ShlinkApiClient, ShlinkRenaming } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import { createAsyncThunk } from '../../store/helpers';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
@@ -11,17 +11,13 @@ export type TagEdition = {
 } | {
   status: 'error';
   error?: ProblemDetailsError;
-} | {
+} | (ShlinkRenaming & {
   status: 'edited';
-  oldName: string;
-  newName: string;
-};
+});
 
-export interface EditTag {
-  oldName: string;
-  newName: string;
+export type EditTag = ShlinkRenaming & {
   color: string;
-}
+};
 
 const initialState: TagEdition = {
   status: 'idle',

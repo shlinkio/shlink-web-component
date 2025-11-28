@@ -3,16 +3,13 @@ import type { ShlinkShortUrl } from '@shlinkio/shlink-js-sdk/api-contract';
 import { cleanup, screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
-import type { ProblemDetailsError } from '../../src/api-contract';
+import type { SetShortUrlRedirectRules } from '../../src/redirect-rules/reducers/setShortUrlRedirectRules';
 import { ShortUrlRedirectRules } from '../../src/redirect-rules/ShortUrlRedirectRules';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
-type SetUpOptions = {
+type SetUpOptions = Partial<SetShortUrlRedirectRules> & {
   loading?: boolean;
-  saving?: boolean;
-  saved?: boolean;
-  errorData?: ProblemDetailsError;
 };
 
 describe('<ShortUrlRedirectRules />', () => {
@@ -20,7 +17,7 @@ describe('<ShortUrlRedirectRules />', () => {
   const getShortUrlsDetails = vi.fn();
   const setShortUrlRedirectRules = vi.fn();
   const resetSetRules = vi.fn();
-  const setUp = async ({ loading = false, saving = false, saved = false, errorData }: SetUpOptions = {}) => {
+  const setUp = async ({ loading, ...data }: SetUpOptions = {}) => {
     const renderResult = renderWithStore(
       <MemoryRouter>
         {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
@@ -33,7 +30,7 @@ describe('<ShortUrlRedirectRules />', () => {
               },
             })}
             getShortUrlsDetails={getShortUrlsDetails}
-            shortUrlRedirectRulesSaving={fromPartial({ saving, saved, errorData })}
+            shortUrlRedirectRulesSaving={fromPartial({ status: 'idle', ...data })}
             setShortUrlRedirectRules={setShortUrlRedirectRules}
             resetSetRules={resetSetRules}
           />
@@ -105,12 +102,12 @@ describe('<ShortUrlRedirectRules />', () => {
     [undefined, 'An error occurred while saving short URL redirect rules :('],
     ['There was an error', 'There was an error'],
   ])('shows error when saving failed', async (detail, expectedMessage) => {
-    await setUp({ errorData: fromPartial({ detail }) });
+    await setUp({ status: 'error', error: fromPartial({ detail }) });
     expect(screen.getByText(expectedMessage)).toBeInTheDocument();
   });
 
   it.each([[true], [false]])('shows message when saving succeeded', async (saved) => {
-    await setUp({ saved });
+    await setUp({ status: saved ? 'saved' : 'idle' });
     const text = 'Redirect rules properly saved.';
 
     if (saved) {
@@ -139,7 +136,7 @@ describe('<ShortUrlRedirectRules />', () => {
     [true, 'Saving...'],
     [false, 'Save rules'],
   ])('shows in progress saving state', async (saving, expectedText) => {
-    await setUp({ saving });
+    await setUp({ status: saving ? 'saving' : 'idle' });
     const btn = screen.getByTestId('save-button');
 
     expect(btn).toHaveTextContent(expectedText);

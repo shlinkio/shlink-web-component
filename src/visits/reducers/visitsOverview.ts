@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient } from '../../api-contract';
+import type { ShlinkApiClient, ShlinkVisitsSummary } from '../../api-contract';
 import { createAsyncThunk } from '../../store/helpers';
 import { groupNewVisitsByType } from '../helpers';
 import type { CreateVisit } from '../types';
@@ -7,31 +7,19 @@ import { createNewVisits } from './visitCreation';
 
 const REDUCER_PREFIX = 'shlink/visitsOverview';
 
-export type PartialVisitsSummary = {
-  total: number;
-  nonBots?: number;
-  bots?: number;
-};
-
 export type ParsedVisitsOverview = {
-  nonOrphanVisits: PartialVisitsSummary;
-  orphanVisits: PartialVisitsSummary;
+  nonOrphanVisits: ShlinkVisitsSummary;
+  orphanVisits: ShlinkVisitsSummary;
 };
 
-export interface VisitsOverview extends ParsedVisitsOverview {
-  loading: boolean;
-  error: boolean;
-}
+export type VisitsOverview = {
+  status: 'idle' | 'loading' | 'error';
+} | (ParsedVisitsOverview & {
+  status: 'loaded';
+});
 
 const initialState: VisitsOverview = {
-  nonOrphanVisits: {
-    total: 0,
-  },
-  orphanVisits: {
-    total: 0,
-  },
-  loading: false,
-  error: false,
+  status: 'idle',
 };
 
 const countBots = (visits: CreateVisit[]) => visits.filter(({ visit }) => visit.potentialBot).length;
@@ -45,14 +33,19 @@ export const visitsOverviewReducerCreator = (
   loadVisitsOverviewThunk: ReturnType<typeof loadVisitsOverview>,
 ) => createSlice({
   name: REDUCER_PREFIX,
-  initialState,
+  initialState: initialState as VisitsOverview,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(loadVisitsOverviewThunk.pending, () => ({ ...initialState, loading: true }));
-    builder.addCase(loadVisitsOverviewThunk.rejected, () => ({ ...initialState, error: true }));
-    builder.addCase(loadVisitsOverviewThunk.fulfilled, (_, { payload }) => ({ ...initialState, ...payload }));
+    builder.addCase(loadVisitsOverviewThunk.pending, () => ({ status: 'loading' }));
+    builder.addCase(loadVisitsOverviewThunk.rejected, () => ({ status: 'error' }));
+    builder.addCase(loadVisitsOverviewThunk.fulfilled, (_, { payload }) => ({ ...payload, status: 'loaded' }));
 
-    builder.addCase(createNewVisits, ({ nonOrphanVisits, orphanVisits, ...rest }, { payload }) => {
+    builder.addCase(createNewVisits, (state, { payload }) => {
+      if (state.status !== 'loaded') {
+        return state;
+      }
+
+      const { nonOrphanVisits, orphanVisits, ...rest } = state;
       const { nonOrphanVisits: newNonOrphanVisits, orphanVisits: newOrphanVisits } = groupNewVisitsByType(
         payload.createdVisits,
       );
@@ -69,13 +62,13 @@ export const visitsOverviewReducerCreator = (
         ...rest,
         nonOrphanVisits: {
           total: nonOrphanVisits.total + newNonOrphanTotalVisits,
-          bots: nonOrphanVisits.bots && nonOrphanVisits.bots + newNonOrphanBotVisits,
-          nonBots: nonOrphanVisits.nonBots && nonOrphanVisits.nonBots + newNonOrphanNonBotVisits,
+          bots: nonOrphanVisits.bots + newNonOrphanBotVisits,
+          nonBots: nonOrphanVisits.nonBots + newNonOrphanNonBotVisits,
         },
         orphanVisits: {
           total: orphanVisits.total + newOrphanTotalVisits,
-          bots: orphanVisits.bots && orphanVisits.bots + newOrphanBotVisits,
-          nonBots: orphanVisits.nonBots && orphanVisits.nonBots + newOrphanNonBotVisits,
+          bots: orphanVisits.bots + newOrphanBotVisits,
+          nonBots: orphanVisits.nonBots + newOrphanNonBotVisits,
         },
       };
     });

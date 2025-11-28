@@ -10,7 +10,7 @@ describe('<VisitsHighlightCard />', () => {
     <MemoryRouter>
       <VisitsHighlightCard
         loading={false}
-        visitsSummary={{ total: 0 }}
+        visitsSummary={{ total: 0, bots: 0, nonBots: 0 }}
         excludeBots={false}
         title="title"
         link=""
@@ -39,7 +39,7 @@ describe('<VisitsHighlightCard />', () => {
   it('renders tooltip when summary has bots', async () => {
     const { user } = setUp({
       title: 'Foo',
-      visitsSummary: { total: 50, bots: 1000 },
+      visitsSummary: { total: 50, bots: 1000, nonBots: 0 },
     });
 
     await user.hover(screen.getByText('Foo'));
@@ -56,22 +56,14 @@ describe('<VisitsHighlightCard />', () => {
       expect(screen.getByText('0')).toBeInTheDocument();
       expect(screen.queryByText('50')).not.toBeInTheDocument();
     }],
-    [true, undefined, () => {
-      expect(screen.getByText('50')).toBeInTheDocument();
-      expect(screen.queryByText('20')).not.toBeInTheDocument();
-    }],
     [false, 20, () => {
-      expect(screen.getByText('50')).toBeInTheDocument();
-      expect(screen.queryByText('20')).not.toBeInTheDocument();
-    }],
-    [false, undefined, () => {
       expect(screen.getByText('50')).toBeInTheDocument();
       expect(screen.queryByText('20')).not.toBeInTheDocument();
     }],
   ])('displays non-bots when present and bots are excluded', (excludeBots, nonBots, assert) => {
     setUp({
       excludeBots,
-      visitsSummary: { total: 50, nonBots },
+      visitsSummary: { total: 50, bots: 0, nonBots },
     });
     assert();
   });

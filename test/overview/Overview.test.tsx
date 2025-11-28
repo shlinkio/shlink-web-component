@@ -28,7 +28,7 @@ describe('<Overview />', () => {
               loadVisitsOverview={loadVisitsOverview}
               tagsList={fromPartial({ status: 'idle', tags: ['foo', 'bar', 'baz'] })}
               visitsOverview={fromPartial({
-                loading: false,
+                status: 'loaded',
                 nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },
                 orphanVisits: { total: 28, bots: 15, nonBots: 13 },
               })}

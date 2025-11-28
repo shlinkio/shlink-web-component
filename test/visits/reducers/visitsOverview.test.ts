@@ -1,11 +1,9 @@
+import type { ShlinkVisitsSummary } from '@shlinkio/shlink-js-sdk/api-contract';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkVisitsOverview } from '../../../src/api-contract';
 import type { RootState } from '../../../src/store';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
-import type {
-  PartialVisitsSummary,
-  VisitsOverview,
-} from '../../../src/visits/reducers/visitsOverview';
+import type { VisitsOverview } from '../../../src/visits/reducers/visitsOverview';
 import {
   loadVisitsOverview as loadVisitsOverviewCreator,
   visitsOverviewReducerCreator,
@@ -21,43 +19,38 @@ describe('visitsOverviewReducer', () => {
     const state = (payload: Partial<VisitsOverview> = {}) => fromPartial<VisitsOverview>(payload);
 
     it('returns loading on GET_OVERVIEW_START', () => {
-      const { loading } = reducer(
-        state({ loading: false, error: false }),
-        loadVisitsOverview.pending(''),
-      );
+      const { status } = reducer(state({ status: 'idle' }), loadVisitsOverview.pending(''));
 
-      expect(loading).toEqual(true);
+      expect(status).toEqual('loading');
     });
 
     it('stops loading and returns error on GET_OVERVIEW_ERROR', () => {
-      const { loading, error } = reducer(
-        state({ loading: true, error: false }),
-        loadVisitsOverview.rejected(null, ''),
-      );
+      const { status } = reducer(state({ status: 'loading' }), loadVisitsOverview.rejected(null, ''));
 
-      expect(loading).toEqual(false);
-      expect(error).toEqual(true);
+      expect(status).toEqual('error');
     });
 
     it('return visits overview on GET_OVERVIEW', () => {
       const action = loadVisitsOverview.fulfilled(fromPartial({
         nonOrphanVisits: { total: 100 },
       }), 'requestId');
-      const { loading, error, nonOrphanVisits } = reducer(state({ loading: true, error: false }), action);
+      const result = reducer(state({ status: 'loading' }), action);
 
-      expect(loading).toEqual(false);
-      expect(error).toEqual(false);
-      expect(nonOrphanVisits.total).toEqual(100);
+      expect(result).toEqual(expect.objectContaining({
+        status: 'loaded',
+        nonOrphanVisits: expect.objectContaining({ total: 100 }),
+      }));
     });
 
     it.each([
       [50, 53],
       [0, 3],
     ])('returns updated amounts on CREATE_VISITS', (providedOrphanVisitsCount, expectedOrphanVisitsCount) => {
-      const { nonOrphanVisits, orphanVisits } = reducer(
+      const result = reducer(
         state({
-          nonOrphanVisits: { total: 100 },
-          orphanVisits: { total: providedOrphanVisitsCount },
+          status: 'loaded',
+          nonOrphanVisits: fromPartial({ total: 100 }),
+          orphanVisits: fromPartial({ total: providedOrphanVisitsCount }),
         }),
         createNewVisits([
           fromPartial({ visit: {} }),
@@ -68,34 +61,36 @@ describe('visitsOverviewReducer', () => {
         ]),
       );
 
-      expect(nonOrphanVisits.total).toEqual(102);
-      expect(orphanVisits.total).toEqual(expectedOrphanVisitsCount);
+      expect(result).toEqual(expect.objectContaining({
+        nonOrphanVisits: expect.objectContaining({ total: 102 }),
+        orphanVisits: expect.objectContaining({ total: expectedOrphanVisitsCount }),
+      }));
     });
 
     it.each([
       [
-        {} satisfies Omit<PartialVisitsSummary, 'total'>,
-        {} satisfies Omit<PartialVisitsSummary, 'total'>,
-        { total: 103 } satisfies PartialVisitsSummary,
-        { total: 203 } satisfies PartialVisitsSummary,
+        {} satisfies Partial<ShlinkVisitsSummary>,
+        {} satisfies Partial<ShlinkVisitsSummary>,
+        { total: 103 } satisfies Partial<ShlinkVisitsSummary>,
+        { total: 203 } satisfies Partial<ShlinkVisitsSummary>,
       ],
       [
-        { bots: 35 } satisfies Omit<PartialVisitsSummary, 'total'>,
-        { bots: 35 } satisfies Omit<PartialVisitsSummary, 'total'>,
-        { total: 103, bots: 37 } satisfies PartialVisitsSummary,
-        { total: 203, bots: 36 } satisfies PartialVisitsSummary,
+        { bots: 35 } satisfies Partial<ShlinkVisitsSummary>,
+        { bots: 35 } satisfies Partial<ShlinkVisitsSummary>,
+        { total: 103, bots: 37 } satisfies Partial<ShlinkVisitsSummary>,
+        { total: 203, bots: 36 } satisfies Partial<ShlinkVisitsSummary>,
       ],
       [
-        { nonBots: 41, bots: 85 } satisfies Omit<PartialVisitsSummary, 'total'>,
-        { nonBots: 63, bots: 27 } satisfies Omit<PartialVisitsSummary, 'total'>,
-        { total: 103, nonBots: 42, bots: 87 } satisfies PartialVisitsSummary,
-        { total: 203, nonBots: 65, bots: 28 } satisfies PartialVisitsSummary,
+        { nonBots: 41, bots: 85 } satisfies Partial<ShlinkVisitsSummary>,
+        { nonBots: 63, bots: 27 } satisfies Partial<ShlinkVisitsSummary>,
+        { total: 103, nonBots: 42, bots: 87 } satisfies Partial<ShlinkVisitsSummary>,
+        { total: 203, nonBots: 65, bots: 28 } satisfies Partial<ShlinkVisitsSummary>,
       ],
       [
-        { nonBots: 56 } satisfies Omit<PartialVisitsSummary, 'total'>,
-        { nonBots: 99 } satisfies Omit<PartialVisitsSummary, 'total'>,
-        { total: 103, nonBots: 57 } satisfies PartialVisitsSummary,
-        { total: 203, nonBots: 101 } satisfies PartialVisitsSummary,
+        { nonBots: 56 } satisfies Partial<ShlinkVisitsSummary>,
+        { nonBots: 99 } satisfies Partial<ShlinkVisitsSummary>,
+        { total: 103, nonBots: 57 } satisfies Partial<ShlinkVisitsSummary>,
+        { total: 203, nonBots: 101 } satisfies Partial<ShlinkVisitsSummary>,
       ],
     ])('takes bots and non-bots into consideration when creating visits', (
       initialNonOrphanVisits,
@@ -103,10 +98,11 @@ describe('visitsOverviewReducer', () => {
       expectedNonOrphanVisits,
       expectedOrphanVisits,
     ) => {
-      const { nonOrphanVisits, orphanVisits } = reducer(
+      const result = reducer(
         state({
-          nonOrphanVisits: { total: 100, ...initialNonOrphanVisits },
-          orphanVisits: { total: 200, ...initialOrphanVisits },
+          status: 'loaded',
+          nonOrphanVisits: { total: 100, bots: 0, nonBots: 0, ...initialNonOrphanVisits },
+          orphanVisits: { total: 200, bots: 0, nonBots: 0, ...initialOrphanVisits },
         }),
         createNewVisits([
           fromPartial({ visit: {} }),
@@ -118,8 +114,10 @@ describe('visitsOverviewReducer', () => {
         ]),
       );
 
-      expect(nonOrphanVisits).toEqual(expectedNonOrphanVisits);
-      expect(orphanVisits).toEqual(expectedOrphanVisits);
+      expect(result).toEqual(expect.objectContaining({
+        nonOrphanVisits: expect.objectContaining(expectedNonOrphanVisits),
+        orphanVisits: expect.objectContaining(expectedOrphanVisits),
+      }));
     });
   });
 

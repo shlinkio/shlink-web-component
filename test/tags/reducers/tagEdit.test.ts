@@ -1,6 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient } from '../../../src/api-contract';
-import { editTag as editTagCreator, tagEdited, tagEditReducerCreator } from '../../../src/tags/reducers/tagEdit';
+import { editTagThunk as editTag, tagEdited, tagEditReducer as reducer } from '../../../src/tags/reducers/tagEdit';
 import type { ColorGenerator } from '../../../src/utils/services/ColorGenerator';
 
 describe('tagEditReducer', () => {
@@ -8,10 +8,8 @@ describe('tagEditReducer', () => {
   const newName = 'bar';
   const color = '#ff0000';
   const editTagCall = vi.fn();
-  const buildShlinkApiClient = () => fromPartial<ShlinkApiClient>({ editTag: editTagCall });
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ editTag: editTagCall });
   const colorGenerator = fromPartial<ColorGenerator>({ setColorForKey: vi.fn() });
-  const editTag = editTagCreator(buildShlinkApiClient, colorGenerator);
-  const { reducer } = tagEditReducerCreator(editTag);
 
   describe('reducer', () => {
     it('returns loading on EDIT_TAG_START', () => {
@@ -44,7 +42,7 @@ describe('tagEditReducer', () => {
     it('calls API on success', async () => {
       editTagCall.mockResolvedValue(undefined);
 
-      await editTag({ oldName, newName, color })(dispatch, vi.fn(), {});
+      await editTag({ oldName, newName, color, apiClientFactory, colorGenerator })(dispatch, vi.fn(), {});
 
       expect(editTagCall).toHaveBeenCalledOnce();
       expect(editTagCall).toHaveBeenCalledWith({ oldName, newName });

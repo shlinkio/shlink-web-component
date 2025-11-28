@@ -1,9 +1,11 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
+import { ContainerProvider } from '../../../src/container/context';
 import { EditTagModalFactory } from '../../../src/tags/helpers/EditTagModal';
 import type { TagEdition } from '../../../src/tags/reducers/tagEdit';
 import { checkAccessibility } from '../../__helpers__/accessibility';
-import { renderWithEvents } from '../../__helpers__/setUpTest';
+import { renderWithStore } from '../../__helpers__/setUpTest';
+import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<EditTagModal />', () => {
   const EditTagModal = EditTagModalFactory(fromPartial({
@@ -11,12 +13,19 @@ describe('<EditTagModal />', () => {
   }));
   const editTag = vi.fn().mockReturnValue(Promise.resolve());
   const onClose = vi.fn();
-  const setUp = (tagEdit: Partial<TagEdition> = {}) => {
-    const edition = fromPartial<TagEdition>(tagEdit);
-    return renderWithEvents(
-      <EditTagModal isOpen tag="foo" tagEdit={edition} editTag={editTag} tagEdited={vi.fn()} onClose={onClose} />,
-    );
-  };
+  const setUp = (tagEdit: Partial<TagEdition> = {}) => renderWithStore(
+    <ContainerProvider
+      value={fromPartial({
+        apiClientFactory: () => fromPartial({ editTag }),
+        ColorGenerator: colorGeneratorMock,
+      })}
+    >
+      <EditTagModal tag="foo" isOpen onClose={onClose} />
+    </ContainerProvider>,
+    {
+      initialState: { tagEdit: fromPartial<TagEdition>(tagEdit) },
+    },
+  );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

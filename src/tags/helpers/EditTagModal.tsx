@@ -24,14 +24,15 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
   const { ColorGenerator: colorGenerator } = useDependencies(EditTagModal);
   const [newTagName, setNewTagName] = useState(tag);
   const [color, setColor] = useState(colorGenerator.getColorForKey(tag));
-  const { editing, error, edited, errorData } = tagEdit;
+  const { status } = tagEdit;
+  const editing = status === 'editing';
   const saveTag = useCallback(async () => {
     await editTag({ oldName: tag, newName: newTagName, color });
     onClose();
   }, [color, editTag, newTagName, onClose, tag]);
   const onClosed = useCallback(
-    () => edited && tagEdited({ oldName: tag, newName: newTagName, color }),
-    [color, edited, newTagName, tag, tagEdited],
+    () => status === 'edited' && tagEdited({ oldName: tag, newName: newTagName, color }),
+    [color, status, newTagName, tag, tagEdited],
   );
 
   return (
@@ -55,9 +56,9 @@ const EditTagModal: FCWithDeps<EditTagModalProps, EditTagModalDeps> = (
         />
       </div>
 
-      {error && (
+      {status === 'error' && (
         <Result variant="error" size="sm" className="mt-2">
-          <ShlinkApiError errorData={errorData} fallbackMessage="Something went wrong while editing the tag :(" />
+          <ShlinkApiError errorData={tagEdit.error} fallbackMessage="Something went wrong while editing the tag :(" />
         </Result>
       )}
     </CardModal>

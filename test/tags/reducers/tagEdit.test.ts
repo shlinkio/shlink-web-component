@@ -15,26 +15,16 @@ describe('tagEditReducer', () => {
 
   describe('reducer', () => {
     it('returns loading on EDIT_TAG_START', () => {
-      expect(reducer(undefined, editTag.pending('', fromPartial({})))).toEqual({
-        editing: true,
-        edited: false,
-        error: false,
-      });
+      expect(reducer(undefined, editTag.pending('', fromPartial({})))).toEqual({ status: 'editing' });
     });
 
     it('returns error on EDIT_TAG_ERROR', () => {
-      expect(reducer(undefined, editTag.rejected(null, '', fromPartial({})))).toEqual({
-        editing: false,
-        edited: false,
-        error: true,
-      });
+      expect(reducer(undefined, editTag.rejected(null, '', fromPartial({})))).toEqual({ status: 'error' });
     });
 
     it('returns tag names on EDIT_TAG', () => {
       expect(reducer(undefined, editTag.fulfilled({ oldName, newName, color }, '', fromPartial({})))).toEqual({
-        editing: false,
-        edited: true,
-        error: false,
+        status: 'edited',
         oldName: 'foo',
         newName: 'bar',
       });

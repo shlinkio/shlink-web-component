@@ -36,16 +36,13 @@ describe('<EditTagModal />', () => {
     [true, 'Saving...'],
     [false, 'Save'],
   ])('renders submit button in expected state', (editing, name) => {
-    setUp({ editing });
+    setUp({ status: editing ? 'editing' : 'idle' });
     expect(screen.getByRole('button', { name })).toBeInTheDocument();
   });
 
-  it.each([
-    [true, 1],
-    [false, 0],
-  ])('displays error result in case of error', (error, expectedResultCount) => {
-    setUp({ error, errorData: fromPartial({}) });
-    expect(screen.queryAllByText('Something went wrong while editing the tag :(')).toHaveLength(expectedResultCount);
+  it('displays error result in case of error', () => {
+    setUp({ status: 'error', error: fromPartial({}) });
+    expect(screen.getByText('Something went wrong while editing the tag :(')).toBeInTheDocument();
   });
 
   it('updates tag value when text changes', async () => {

@@ -31,7 +31,9 @@ export const shortUrlsDetailsReducerCreator = (apiClientFactory: () => ShlinkApi
       const pairs = await Promise.all(identifiers.map(
         async (identifier): Promise<[ShlinkShortUrlIdentifier, ShlinkShortUrl]> => {
           const { shortCode, domain } = identifier;
-          const alreadyLoaded = shortUrlsList?.shortUrls?.data.find((url) => shortUrlMatches(url, shortCode, domain));
+          const alreadyLoaded = shortUrlsList.status === 'loaded'
+            ? shortUrlsList.shortUrls.data.find((url) => shortUrlMatches(url, shortCode, domain))
+            : undefined;
 
           return [identifier, alreadyLoaded ?? await apiClientFactory().getShortUrl({ shortCode, domain })];
         },

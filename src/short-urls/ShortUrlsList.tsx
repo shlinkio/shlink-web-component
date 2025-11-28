@@ -54,7 +54,8 @@ const ShortUrlsList: FCWithDeps<any, ShortUrlsListDeps> = boundToMercureHub(() =
     // This separated state handling is needed to be able to fall back to settings value, but only once when loaded
     orderBy ?? settings.shortUrlsList?.defaultOrdering ?? DEFAULT_SHORT_URLS_ORDERING,
   );
-  const { pagination } = shortUrlsList?.shortUrls ?? {};
+  const urlsAreLoaded = shortUrlsList.status === 'loaded';
+  const { pagination } = urlsAreLoaded ? shortUrlsList.shortUrls : {};
   const doExcludeBots = useMemo(
     () => excludeBots ?? settings.visits?.excludeBots,
     [excludeBots, settings.visits?.excludeBots],
@@ -117,20 +118,20 @@ const ShortUrlsList: FCWithDeps<any, ShortUrlsListDeps> = boundToMercureHub(() =
   return (
     <VisitsComparisonProvider value={visitsComparisonValue}>
       <ShortUrlsFilteringBar
-        shortUrlsAmount={shortUrlsList.shortUrls?.pagination.totalItems}
+        shortUrlsAmount={urlsAreLoaded ? shortUrlsList.shortUrls.pagination.totalItems : undefined}
         order={actualOrderBy}
         handleOrderBy={handleOrderBy}
         className="mb-4"
       />
       <VisitsComparisonCollector type="short-urls" className="mb-4" />
-      <SimpleCard bodyClassName={clsx({ 'pb-0': !shortUrlsList.loading })}>
+      <SimpleCard bodyClassName={clsx({ 'pb-0': urlsAreLoaded })}>
         <ShortUrlsTable
           shortUrlsList={shortUrlsList}
           orderByColumn={orderByColumn}
           renderOrderIcon={renderOrderIcon}
           onTagClick={addTag}
         />
-        {!shortUrlsList.loading && <Paginator paginator={pagination} currentQueryString={location.search} />}
+        {pagination && <Paginator paginator={pagination} currentQueryString={location.search} />}
       </SimpleCard>
     </VisitsComparisonProvider>
 

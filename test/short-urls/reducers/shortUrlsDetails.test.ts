@@ -48,21 +48,22 @@ describe('shortUrlsDetailsReducer', () => {
     const buildGetState = (shortUrlsList?: ShortUrlsList) => () => fromPartial<RootState>({ shortUrlsList });
 
     it.each([
-      [undefined],
-      [fromPartial<ShortUrlsList>({})],
+      [fromPartial<ShortUrlsList>({ status: 'loading' })],
       [
         fromPartial<ShortUrlsList>({
+          status: 'loaded',
           shortUrls: { data: [] },
         }),
       ],
       [
         fromPartial<ShortUrlsList>({
+          status: 'loaded',
           shortUrls: {
             data: [{ shortCode: 'this_will_not_match' }],
           },
         }),
       ],
-    ])('performs API call when short URL is not found in local state', async (shortUrlsList?: ShortUrlsList) => {
+    ])('performs API call when short URL is not found in local state', async (shortUrlsList: ShortUrlsList) => {
       const identifier = { shortCode: 'abc123', domain: '' };
       const resolvedShortUrl = fromPartial<ShlinkShortUrl>({ longUrl: 'foo', shortCode: 'abc123' });
       getShortUrlCall.mockResolvedValue(resolvedShortUrl);
@@ -82,6 +83,7 @@ describe('shortUrlsDetailsReducer', () => {
       await getShortUrlsDetails([foundShortUrl])(
         dispatchMock,
         buildGetState(fromPartial({
+          status: 'loaded',
           shortUrls: {
             data: [foundShortUrl],
           },

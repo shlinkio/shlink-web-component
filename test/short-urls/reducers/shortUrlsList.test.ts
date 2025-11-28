@@ -3,6 +3,7 @@ import type { ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlsList } from '../..
 import { createShortUrlThunk as createShortUrl } from '../../../src/short-urls/reducers/shortUrlCreation';
 import { shortUrlDeleted } from '../../../src/short-urls/reducers/shortUrlDeletion';
 import { editShortUrlThunk } from '../../../src/short-urls/reducers/shortUrlEdition';
+import type { ShortUrlsList } from '../../../src/short-urls/reducers/shortUrlsList';
 import {
   listShortUrlsThunk as listShortUrls,
   shortUrlsListReducer as reducer,
@@ -17,26 +18,19 @@ describe('shortUrlsListReducer', () => {
 
   describe('reducer', () => {
     it('returns loading on LIST_SHORT_URLS_START', () =>
-      expect(reducer(undefined, listShortUrls.pending('', { apiClientFactory }))).toEqual({
-        loading: true,
-        error: false,
-      }));
+      expect(reducer(undefined, listShortUrls.pending('', { apiClientFactory }))).toEqual({ status: 'loading' }));
 
     it('returns short URLs on LIST_SHORT_URLS', () =>
       expect(reducer(undefined, listShortUrls.fulfilled(fromPartial({ data: [] }), '', { apiClientFactory }))).toEqual({
         shortUrls: { data: [] },
-        loading: false,
-        error: false,
+        status: 'loaded',
       }));
 
     it('returns error on LIST_SHORT_URLS_ERROR', () =>
-      expect(reducer(undefined, listShortUrls.rejected(null, '', { apiClientFactory }))).toEqual({
-        loading: false,
-        error: true,
-      }));
+      expect(reducer(undefined, listShortUrls.rejected(null, '', { apiClientFactory }))).toEqual({ status: 'error' }));
 
     it('removes matching URL and reduces total on SHORT_URL_DELETED', () => {
-      const state = {
+      const state: ShortUrlsList = {
         shortUrls: fromPartial<ShlinkShortUrlsList>({
           data: [
             { shortCode },
@@ -45,8 +39,7 @@ describe('shortUrlsListReducer', () => {
           ],
           pagination: { totalItems: 10 },
         }),
-        loading: false,
-        error: false,
+        status: 'loaded',
       };
 
       expect(reducer(state, shortUrlDeleted(fromPartial({ shortCode })))).toEqual({
@@ -54,8 +47,7 @@ describe('shortUrlsListReducer', () => {
           data: [{ shortCode, domain: 'example.com' }, { shortCode: 'foo' }],
           pagination: { totalItems: 9 },
         },
-        loading: false,
-        error: false,
+        status: 'loaded',
       });
     });
 
@@ -69,7 +61,7 @@ describe('shortUrlsListReducer', () => {
       [[createNewShortUrlVisit(20), createNewShortUrlVisit(40)], 40],
       [[], 10],
     ])('updates visits count on CREATE_VISITS', (createdVisits, expectedCount) => {
-      const state = {
+      const state: ShortUrlsList = {
         shortUrls: fromPartial<ShlinkShortUrlsList>({
           data: [
             { shortCode, domain: 'example.com', visitsSummary: { total: 5 } },
@@ -77,8 +69,7 @@ describe('shortUrlsListReducer', () => {
             { shortCode: 'foo', visitsSummary: { total: 8 } },
           ],
         }),
-        loading: false,
-        error: false,
+        status: 'loaded',
       };
 
       expect(reducer(state, createNewVisits(createdVisits))).toEqual({
@@ -89,8 +80,7 @@ describe('shortUrlsListReducer', () => {
             { shortCode: 'foo', visitsSummary: { total: 8 } },
           ],
         },
-        loading: false,
-        error: false,
+        status: 'loaded',
       });
     });
 
@@ -127,13 +117,12 @@ describe('shortUrlsListReducer', () => {
       ],
     ])('prepends new short URL and increases total on CREATE_SHORT_URL', (data, expectedData) => {
       const newShortUrl = fromPartial<ShlinkShortUrl>({ shortCode: 'newOne' });
-      const state = {
+      const state: ShortUrlsList = {
         shortUrls: fromPartial<ShlinkShortUrlsList>({
           data,
           pagination: { totalItems: 15 },
         }),
-        loading: false,
-        error: false,
+        status: 'loaded',
       };
 
       expect(reducer(state, createShortUrl.fulfilled(newShortUrl, '', fromPartial({})))).toEqual({
@@ -141,8 +130,7 @@ describe('shortUrlsListReducer', () => {
           data: expectedData,
           pagination: { totalItems: 16 },
         },
-        loading: false,
-        error: false,
+        status: 'loaded',
       });
     });
 
@@ -164,18 +152,19 @@ describe('shortUrlsListReducer', () => {
         return [editedShortUrl, list, expectedList];
       })(),
     ])('updates matching short URL on SHORT_URL_EDITED', (editedShortUrl, initialList, expectedList) => {
-      const state = {
+      const state: ShortUrlsList = {
         shortUrls: fromPartial<ShlinkShortUrlsList>({
           data: initialList,
           pagination: { totalItems: 15 },
         }),
-        loading: false,
-        error: false,
+        status: 'loaded',
       };
 
       const result = reducer(state, editShortUrlThunk.fulfilled(editedShortUrl, '', fromPartial({})));
 
-      expect(result.shortUrls?.data).toEqual(expectedList);
+      expect(result).toEqual(expect.objectContaining({
+        shortUrls: expect.objectContaining({ data: expectedList }),
+      }));
     });
   });
 

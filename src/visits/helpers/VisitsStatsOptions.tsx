@@ -9,7 +9,7 @@ export type VisitsStatsOptionsProps = {
 };
 
 export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion, deleteVisits }) => {
-  const { deleting } = visitsDeletion;
+  const deleting = visitsDeletion.status === 'deleting';
   const { flag: doubleConfirmed, setToTrue: setDoubleConfirmed } = useToggle();
 
   return (

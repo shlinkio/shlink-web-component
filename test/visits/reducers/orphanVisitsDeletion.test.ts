@@ -16,21 +16,21 @@ describe('orphanVisitsDeletionReducer', () => {
   describe('reducer', () => {
     it('returns deleting for pending action', () => {
       const result = reducer(fromPartial({}), deleteOrphanVisits.pending(''));
-      expect(result).toEqual(expect.objectContaining({ deleting: true, error: false }));
+      expect(result).toEqual(expect.objectContaining({ status: 'deleting' }));
     });
 
     it('returns error for rejected action', () => {
       const error = { type: 'INTERNAL_SERVER_ERROR', status: 500 } as unknown as Error;
       const result = reducer(fromPartial({}), deleteOrphanVisits.rejected(error, ''));
 
-      expect(result).toEqual(expect.objectContaining({ deleting: false, error: true }));
+      expect(result).toEqual(expect.objectContaining({ status: 'error' }));
     });
 
     it('returns success on fulfilled rejected', () => {
       const deletionResult = { deletedVisits: 10 };
       const result = reducer(fromPartial({}), deleteOrphanVisits.fulfilled(deletionResult, ''));
 
-      expect(result).toEqual(expect.objectContaining({ deleting: false, error: false, ...deletionResult }));
+      expect(result).toEqual(expect.objectContaining({ status: 'deleted', ...deletionResult }));
     });
   });
 

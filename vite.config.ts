@@ -57,7 +57,6 @@ export default defineConfig({
       'clsx',
       'compare-versions',
       'date-fns',
-      'event-source-polyfill',
       'history',
       'leaflet',
       'qr-code-styling',

@@ -1,9 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
-import { EventSourcePolyfill } from 'event-source-polyfill';
 import { bindToMercureTopic } from '../../../src/mercure/helpers';
 import type { MercureInfo } from '../../../src/mercure/reducers/mercureInfo';
-
-vi.mock('event-source-polyfill');
 
 const noop = () => {};
 
@@ -11,6 +8,14 @@ describe('helpers', () => {
   describe('bindToMercureTopic', () => {
     const onMessage = vi.fn();
     const onTokenExpired = vi.fn();
+    const EventSourceMock = vi.fn(class {
+      close = vi.fn();
+    });
+
+    beforeEach(() => {
+      vi.stubGlobal('EventSource', EventSourceMock);
+    });
+    afterEach(() => vi.unstubAllGlobals());
 
     it.each([
       [fromPartial<MercureInfo>({ status: 'error' })],
@@ -19,7 +24,7 @@ describe('helpers', () => {
     ])('does not bind an EventSource when loading, error or no hub URL', (mercureInfo) => {
       bindToMercureTopic(mercureInfo, [''], noop, noop);
 
-      expect(EventSourcePolyfill).not.toHaveBeenCalled();
+      expect(EventSourceMock).not.toHaveBeenCalled();
       expect(onMessage).not.toHaveBeenCalled();
       expect(onTokenExpired).not.toHaveBeenCalled();
     });
@@ -31,6 +36,7 @@ describe('helpers', () => {
       const hubUrl = new URL(mercureHubUrl);
 
       hubUrl.searchParams.append('topic', topic);
+      hubUrl.searchParams.append('authorization', token);
 
       const callback = bindToMercureTopic({
         status: 'loaded',
@@ -38,16 +44,12 @@ describe('helpers', () => {
         token,
       }, [topic], onMessage, onTokenExpired);
 
-      expect(EventSourcePolyfill).toHaveBeenCalledWith(hubUrl, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      expect(EventSourceMock).toHaveBeenCalledWith(hubUrl);
 
-      const [es] = (EventSourcePolyfill as any).mock.instances as EventSourcePolyfill[];
+      const [es] = EventSourceMock.mock.instances as any[];
 
       es.onmessage?.({ data: '{"foo": "bar"}' });
-      es.onerror?.({ status: 401 });
+      es.onerror?.();
       expect(onMessage).toHaveBeenCalledWith({ foo: 'bar' });
       expect(onTokenExpired).toHaveBeenCalled();
 

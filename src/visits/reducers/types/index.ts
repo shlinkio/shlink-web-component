@@ -33,8 +33,11 @@ export type VisitsInfo = VisitsLoadingInfo & VisitsLoaded & {
   fallbackInterval?: DateInterval;
 };
 
-export type VisitsDeletion = {
-  deleting: boolean;
-  error: boolean,
-  errorData?: ProblemDetailsError;
-};
+export type VisitsDeletion<Result = unknown> = {
+  status: 'idle' | 'deleting';
+} | {
+  status: 'error';
+  error?: ProblemDetailsError;
+} | (Result & {
+  status: 'deleted';
+});

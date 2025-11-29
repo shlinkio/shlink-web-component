@@ -37,8 +37,6 @@ describe('<ShortUrlVisits />', () => {
                 }),
               },
             })}
-            shortUrlVisitsDeletion={fromPartial({})}
-            deleteShortUrlVisits={vi.fn()}
             cancelGetShortUrlVisits={vi.fn()}
           />
         </Card>

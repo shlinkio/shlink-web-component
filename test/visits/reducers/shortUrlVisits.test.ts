@@ -10,6 +10,7 @@ import {
   getShortUrlVisits as getShortUrlVisitsCreator,
   shortUrlVisitsReducerCreator,
 } from '../../../src/visits/reducers/shortUrlVisits';
+import { deleteShortUrlVisitsThunk } from '../../../src/visits/reducers/shortUrlVisitsDeletion';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
 import { problemDetailsError } from '../../__mocks__/ProblemDetailsError.mock';
 
@@ -20,10 +21,7 @@ describe('shortUrlVisitsReducer', () => {
   const getShortUrlVisitsCall = vi.fn();
   const buildApiClientMock = () => fromPartial<ShlinkApiClient>({ getShortUrlVisits: getShortUrlVisitsCall });
   const getShortUrlVisits = getShortUrlVisitsCreator(buildApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetShortUrlVisits } = shortUrlVisitsReducerCreator(
-    getShortUrlVisits,
-    fromPartial({ fulfilled: { type: 'deleteShortUrlVisits' } }),
-  );
+  const { reducer, cancelGetVisits: cancelGetShortUrlVisits } = shortUrlVisitsReducerCreator(getShortUrlVisits);
 
   describe('reducer', () => {
     const buildState = (data: Partial<ShortUrlVisits>) => fromPartial<ShortUrlVisits>(data);
@@ -159,7 +157,10 @@ describe('shortUrlVisitsReducer', () => {
         shortCode: 'abc123',
         domain: 'domain',
       });
-      const result = reducer(prevState, { type: 'deleteShortUrlVisits', payload: { shortCode, domain } });
+      const result = reducer(
+        prevState,
+        deleteShortUrlVisitsThunk.fulfilled(fromPartial({ shortCode, domain }), '', fromPartial({})),
+      );
 
       expect(result.visits).toHaveLength(expectedVisitsLength);
     });

@@ -1,17 +1,13 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient } from '../../../src/api-contract';
 import {
-  deleteShortUrlVisits as deleteShortUrlVisitsCreator,
-  shortUrlVisitsDeletionReducerCreator,
+  deleteShortUrlVisitsThunk as deleteShortUrlVisits,
+  shortUrlVisitsDeletionReducer as reducer,
 } from '../../../src/visits/reducers/shortUrlVisitsDeletion';
 
 describe('shortUrlsVisitsDeletionReducer', () => {
   const deleteShortUrlVisitsCall = vi.fn();
-  const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({
-    deleteShortUrlVisits: deleteShortUrlVisitsCall,
-  });
-  const deleteShortUrlVisits = deleteShortUrlVisitsCreator(buildShlinkApiClientMock);
-  const { reducer } = shortUrlVisitsDeletionReducerCreator(deleteShortUrlVisits);
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ deleteShortUrlVisits: deleteShortUrlVisitsCall });
 
   describe('reducer', () => {
     it('returns deleting for pending action', () => {
@@ -39,7 +35,7 @@ describe('shortUrlsVisitsDeletionReducer', () => {
     it('dispatches payload containing short URL info and deleted visits', async () => {
       deleteShortUrlVisitsCall.mockResolvedValue({ deletedVisits: 50 });
 
-      await deleteShortUrlVisits({ shortCode: 'foo' })(dispatch, vi.fn(), {});
+      await deleteShortUrlVisits({ shortCode: 'foo', apiClientFactory })(dispatch, vi.fn(), {});
 
       expect(deleteShortUrlVisitsCall).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);

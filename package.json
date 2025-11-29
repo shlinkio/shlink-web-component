@@ -67,7 +67,7 @@
     "@shlinkio/data-manipulation": "^1.0.4",
     "@vitest/browser-playwright": "^4.0.13",
     "bottlejs": "^2.0.1",
-    "bowser": "^2.12.1",
+    "bowser": "^2.13.1",
     "clsx": "^2.1.1",
     "compare-versions": "^6.1.1",
     "date-fns": "^4.1.0",

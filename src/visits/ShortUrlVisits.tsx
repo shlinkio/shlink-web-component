@@ -9,7 +9,7 @@ import { useShortUrlIdentifier } from '../short-urls/helpers/hooks';
 import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadShortUrlVisits, ShortUrlVisits as ShortUrlVisitsState } from './reducers/shortUrlVisits';
-import type { ShortUrlVisitsDeletion } from './reducers/shortUrlVisitsDeletion';
+import { useUrlVisitsDeletion } from './reducers/shortUrlVisitsDeletion';
 import type { GetVisitsOptions } from './reducers/types';
 import { ShortUrlVisitsHeader } from './ShortUrlVisitsHeader';
 import type { NormalizedVisit, VisitsParams } from './types';
@@ -17,9 +17,7 @@ import { VisitsStats } from './VisitsStats';
 
 export type ShortUrlVisitsProps = {
   shortUrlVisits: ShortUrlVisitsState;
-  shortUrlVisitsDeletion: ShortUrlVisitsDeletion;
   getShortUrlVisits: (params: LoadShortUrlVisits) => void;
-  deleteShortUrlVisits: (shortUrl: ShlinkShortUrlIdentifier) => void;
   getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
   shortUrlsDetails: ShortUrlsDetails;
   cancelGetShortUrlVisits: () => void;
@@ -31,11 +29,9 @@ type ShortUrlVisitsDeps = {
 
 const ShortUrlVisits: FCWithDeps<ShortUrlVisitsProps, ShortUrlVisitsDeps> = boundToMercureHub(({
   shortUrlVisits,
-  shortUrlVisitsDeletion,
   shortUrlsDetails,
   getShortUrlVisits,
   getShortUrlsDetails,
-  deleteShortUrlVisits,
   cancelGetShortUrlVisits,
 }: ShortUrlVisitsProps) => {
   const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
@@ -55,6 +51,8 @@ const ShortUrlVisits: FCWithDeps<ShortUrlVisitsProps, ShortUrlVisitsDeps> = boun
     `short-url_${shortUrl?.shortUrl.replace(/https?:\/\//g, '')}_visits.csv`,
     visits,
   ), [reportExporter, shortUrl?.shortUrl]);
+
+  const { shortUrlVisitsDeletion, deleteShortUrlVisits } = useUrlVisitsDeletion();
   const deletion = useMemo(() => {
     const deleteVisits = () => deleteShortUrlVisits(identifier);
     return { deleteVisits, visitsDeletion: shortUrlVisitsDeletion };

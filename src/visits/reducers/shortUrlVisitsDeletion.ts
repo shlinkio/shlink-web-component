@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient, ShlinkDeleteVisitsResult, ShlinkShortUrlIdentifier } from '../../api-contract';
+import { useCallback } from 'react';
+import type { ShlinkDeleteVisitsResult, ShlinkShortUrlIdentifier } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
-import { createAsyncThunk } from '../../store/helpers';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 import type { VisitsDeletion } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisitsDeletion';
@@ -14,17 +17,17 @@ const initialState: ShortUrlVisitsDeletion = {
   status: 'idle',
 };
 
-export const deleteShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
+export const deleteShortUrlVisitsThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/deleteShortUrlVisits`,
-  async ({ shortCode, domain }: ShlinkShortUrlIdentifier): Promise<DeleteVisitsResult> => {
+  async (
+    { shortCode, domain, apiClientFactory }: WithApiClient<ShlinkShortUrlIdentifier>,
+  ): Promise<DeleteVisitsResult> => {
     const result = await apiClientFactory().deleteShortUrlVisits({ shortCode, domain });
     return { ...result, shortCode, domain };
   },
 );
 
-export const shortUrlVisitsDeletionReducerCreator = (
-  deleteShortUrlVisitsThunk: ReturnType<typeof deleteShortUrlVisits>,
-) => createSlice({
+export const { reducer: shortUrlVisitsDeletionReducer } = createSlice({
   name: REDUCER_PREFIX,
   initialState: initialState as ShortUrlVisitsDeletion,
   reducers: {},
@@ -39,3 +42,15 @@ export const shortUrlVisitsDeletionReducerCreator = (
     });
   },
 });
+
+export const useUrlVisitsDeletion = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const deleteShortUrlVisits = useCallback(
+    (shortUrl: ShlinkShortUrlIdentifier) => dispatch(deleteShortUrlVisitsThunk({ ...shortUrl, apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const shortUrlVisitsDeletion = useAppSelector((state) => state.shortUrlVisitsDeletion);
+
+  return { shortUrlVisitsDeletion, deleteShortUrlVisits };
+};

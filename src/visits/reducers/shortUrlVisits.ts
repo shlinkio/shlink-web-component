@@ -1,7 +1,7 @@
 import type { ShlinkApiClient, ShlinkShortUrlIdentifier, ShlinkVisitsParams } from '../../api-contract';
 import { filterCreatedVisitsByShortUrl } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
-import type { deleteShortUrlVisits } from './shortUrlVisitsDeletion';
+import { deleteShortUrlVisitsThunk } from './shortUrlVisitsDeletion';
 import type { LoadVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisits';
@@ -38,7 +38,6 @@ export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => cr
 
 export const shortUrlVisitsReducerCreator = (
   asyncThunkCreator: ReturnType<typeof getShortUrlVisits>,
-  deleteShortUrlVisitsThunk: ReturnType<typeof deleteShortUrlVisits>,
 ) => createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,

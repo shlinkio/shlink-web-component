@@ -12,27 +12,17 @@ import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import { GoBackButton } from '../utils/components/GoBackButton';
 import { RedirectRuleCard } from './helpers/RedirectRuleCard';
 import { RedirectRuleModal } from './helpers/RedirectRuleModal';
-import type { SetShortUrlRedirectRules, SetShortUrlRedirectRulesInfo } from './reducers/setShortUrlRedirectRules';
+import { useUrlRedirectRulesSaving } from './reducers/setShortUrlRedirectRules';
 import { useUrlRedirectRules } from './reducers/shortUrlRedirectRules';
 
 export type ShortUrlRedirectRulesProps = {
   shortUrlsDetails: ShortUrlsDetails;
   getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
-
-  shortUrlRedirectRulesSaving: SetShortUrlRedirectRules;
-  setShortUrlRedirectRules: (info: SetShortUrlRedirectRulesInfo) => void;
-
-  resetSetRules: () => void;
 };
 
-export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
-  getShortUrlsDetails,
-  shortUrlsDetails,
-  setShortUrlRedirectRules,
-  shortUrlRedirectRulesSaving,
-  resetSetRules,
-}) => {
+export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({ getShortUrlsDetails, shortUrlsDetails }) => {
   const { shortUrlRedirectRules, getShortUrlRedirectRules } = useUrlRedirectRules();
+  const { setShortUrlRedirectRules, shortUrlRedirectRulesSaving, resetSetRules } = useUrlRedirectRulesSaving();
   const loading = shortUrlRedirectRules.status === 'loading';
   const identifier = useShortUrlIdentifier();
   const { status } = shortUrlsDetails;
@@ -86,7 +76,9 @@ export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({
     getShortUrlRedirectRules(identifier);
     getShortUrlsDetails([identifier]);
 
-    return resetSetRules;
+    return () => {
+      resetSetRules();
+    };
   }, [getShortUrlRedirectRules, getShortUrlsDetails, identifier, resetSetRules]);
 
   const { redirectRules, defaultLongUrl } = shortUrlRedirectRules.status === 'loaded'

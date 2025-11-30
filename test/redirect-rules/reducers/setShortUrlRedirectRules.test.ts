@@ -4,21 +4,20 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient } from '../../../src/api-contract';
 import { parseApiError } from '../../../src/api-contract/utils';
 import {
-  setShortUrlRedirectRules as setShortUrlRedirectRulesCreator,
-  setShortUrlRedirectRulesReducerCreator,
+  resetSetRules,
+  setShortUrlRedirectRulesThunk as setShortUrlRedirectRules,
+  shortUrlRedirectRulesSavingReducer as reducer,
 } from '../../../src/redirect-rules/reducers/setShortUrlRedirectRules';
 
 describe('setShortUrlRedirectRulesReducer', () => {
   const setShortUrlRedirectRulesCall = vi.fn();
-  const buildShlinkApiClient = () => fromPartial<ShlinkApiClient>({
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({
     setShortUrlRedirectRules: setShortUrlRedirectRulesCall,
   });
-  const setShortUrlRedirectRules = setShortUrlRedirectRulesCreator(buildShlinkApiClient);
-  const { reducer, resetSetRules } = setShortUrlRedirectRulesReducerCreator(setShortUrlRedirectRules);
 
   describe('reducer', () => {
     it('returns saving on pending', () => {
-      const result = reducer(undefined, setShortUrlRedirectRules.pending('', fromPartial({}), undefined));
+      const result = reducer(undefined, setShortUrlRedirectRules.pending('', fromPartial({})));
       expect(result).toEqual({ status: 'saving' });
     });
 
@@ -26,7 +25,7 @@ describe('setShortUrlRedirectRulesReducer', () => {
       const error = { type: ErrorType.INVALID_SHORTCODE, status: 404 } as unknown as Error;
       const result = reducer(
         undefined,
-        setShortUrlRedirectRules.rejected(error, '', fromPartial({}), undefined, undefined),
+        setShortUrlRedirectRules.rejected(error, '', fromPartial({})),
       );
       expect(result).toEqual({ status: 'error', error: parseApiError(error) });
     });
@@ -34,7 +33,7 @@ describe('setShortUrlRedirectRulesReducer', () => {
     it('returns saved on fulfilled', () => {
       const result = reducer(
         undefined,
-        setShortUrlRedirectRules.fulfilled(fromPartial({}), '', fromPartial({}), undefined),
+        setShortUrlRedirectRules.fulfilled(fromPartial({}), '', fromPartial({})),
       );
       expect(result).toEqual({ status: 'saved' });
     });
@@ -58,7 +57,9 @@ describe('setShortUrlRedirectRulesReducer', () => {
       ];
 
       setShortUrlRedirectRulesCall.mockResolvedValue(shortUrlRules);
-      await setShortUrlRedirectRules({ shortUrl: fromPartial({}), data: fromPartial({}) })(dispatch, vi.fn(), {});
+      await setShortUrlRedirectRules(
+        { shortUrl: fromPartial({}), data: fromPartial({}), apiClientFactory },
+      )(dispatch, vi.fn(), {});
 
       expect(setShortUrlRedirectRulesCall).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);

@@ -36,39 +36,6 @@ export default defineConfig({
     },
   },
 
-  // Vitest recommended to add these dependencies here to avoid flaky tests
-  optimizeDeps: {
-    include: [
-      '@formkit/drag-and-drop/react',
-      '@fortawesome/free-regular-svg-icons',
-      '@fortawesome/free-solid-svg-icons',
-      '@fortawesome/react-fontawesome',
-      '@json2csv/plainjs',
-      '@testing-library/react',
-      '@testing-library/user-event',
-      '@shlinkio/data-manipulation',
-      '@shlinkio/shlink-frontend-kit',
-      '@shlinkio/shlink-js-sdk',
-      '@shlinkio/shlink-js-sdk/api-contract',
-      '@shlinkio/shlink-js-sdk/fetch',
-      'axe-core',
-      'bottlejs',
-      'bowser',
-      'clsx',
-      'compare-versions',
-      'date-fns',
-      'history',
-      'leaflet',
-      'qr-code-styling',
-      'react-dom/client',
-      'react-external-link',
-      'react-leaflet',
-      'react-router',
-      'react-swipeable',
-      'recharts',
-    ],
-  },
-
   test: {
     globals: true,
     setupFiles: [

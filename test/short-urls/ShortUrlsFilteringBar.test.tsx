@@ -12,7 +12,7 @@ import { TagsSearchDropdownFactory } from '../../src/tags/helpers/TagsSearchDrop
 import { FeaturesProvider } from '../../src/utils/features';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
 type SetUpOptions = {
@@ -37,7 +37,7 @@ describe('<ShortUrlsFilteringBar />', () => {
     filterByExcludedTagSupported = false,
   }: SetUpOptions = {}) => {
     history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
-    return renderWithEvents(
+    return renderWithStore(
       <Router location={history.location} navigator={history}>
         <SettingsProvider value={fromPartial({ visits: {} })}>
           <RoutesPrefixProvider value={routesPrefix}>
@@ -50,7 +50,6 @@ describe('<ShortUrlsFilteringBar />', () => {
               <ShortUrlsFilteringBar
                 order={{}}
                 handleOrderBy={handleOrderBy}
-                tagsList={fromPartial({ tags: ['foo', 'bar', 'baz'] })}
                 domainsList={fromPartial({
                   domains: [
                     { isDefault: true, domain: 'example.com' },
@@ -62,6 +61,9 @@ describe('<ShortUrlsFilteringBar />', () => {
           </RoutesPrefixProvider>
         </SettingsProvider>
       </Router>,
+      {
+        initialState: { tagsList: fromPartial({ tags: ['foo', 'bar', 'baz'] }) },
+      },
     );
   };
 

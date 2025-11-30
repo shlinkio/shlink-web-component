@@ -10,7 +10,7 @@ import { componentFactory, useDependencies } from '../container/utils';
 import { DomainSelector } from '../domains/DomainSelector';
 import type { DomainsList } from '../domains/reducers/domainsList';
 import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
-import type { TagsList } from '../tags/reducers/tagsList';
+import { useTagsList } from '../tags/reducers/tagsList';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import { LabelledDateInput } from '../utils/dates/LabelledDateInput';
 import { hasValue } from '../utils/helpers';
@@ -25,7 +25,6 @@ export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEd
 }
 
 type ShortUrlFormConnectProps = ShortUrlFormProps<ShlinkCreateShortUrlData | ShlinkEditShortUrlData> & {
-  tagsList: TagsList;
   domainsList: DomainsList;
 };
 
@@ -39,9 +38,10 @@ const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData)
   'shortCodeLength' in data && 'customSlug' in data && 'domain' in data;
 
 const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
-  { basicMode = false, saving, onSave, initialState, tagsList, domainsList },
+  { basicMode = false, saving, onSave, initialState, domainsList },
 ) => {
   const { TagsSelector } = useDependencies(ShortUrlForm as unknown as ShortUrlFormDeps);
+  const { tagsList } = useTagsList();
   const [shortUrlData, setShortUrlData] = useState(initialState);
   const isCreation = isCreationData(shortUrlData);
 

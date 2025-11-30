@@ -1,8 +1,6 @@
 import type Bottle from 'bottlejs';
-import type { ConnectDecorator } from '../../container';
 import { OverviewFactory } from '../Overview';
 
-export function provideServices(bottle: Bottle, connect: ConnectDecorator) {
+export function provideServices(bottle: Bottle) {
   bottle.factory('Overview', OverviewFactory);
-  bottle.decorator('Overview', connect(['tagsList']));
 }

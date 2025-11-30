@@ -1,6 +1,6 @@
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { OrderingDropdown, SearchInput } from '@shlinkio/shlink-frontend-kit';
-import type { TagsFilteringMode } from '@shlinkio/shlink-js-sdk/api-contract';
+import type { ShlinkTagsFilteringMode } from '@shlinkio/shlink-js-sdk/api-contract';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
@@ -10,7 +10,7 @@ import { DomainFilterDropdown } from '../domains/helpers/DomainFilterDropdown';
 import type { DomainsList } from '../domains/reducers/domainsList';
 import { useSetting } from '../settings';
 import type { TagsSearchDropdownProps } from '../tags/helpers/TagsSearchDropdown';
-import type { TagsList } from '../tags/reducers/tagsList';
+import { useTagsList } from '../tags/reducers/tagsList';
 import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import type { DateInterval, DateRange } from '../utils/dates/helpers/dateIntervals';
@@ -30,7 +30,6 @@ export type ShortUrlsFilteringBarProps = {
 };
 
 type ShortUrlsFilteringConnectProps = ShortUrlsFilteringBarProps & {
-  tagsList: TagsList;
   domainsList: DomainsList;
 };
 
@@ -40,9 +39,10 @@ type ShortUrlsFilteringBarDeps = {
 };
 
 const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrlsFilteringBarDeps> = (
-  { className, shortUrlsAmount, order, handleOrderBy, tagsList, domainsList },
+  { className, shortUrlsAmount, order, handleOrderBy, domainsList },
 ) => {
   const { ExportShortUrlsBtn, TagsSearchDropdown } = useDependencies(ShortUrlsFilteringBar);
+  const { tagsList } = useTagsList();
   const [{
     search,
     tags,
@@ -77,13 +77,13 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrl
   );
   const setDomain = useCallback((domain?: string) => toFirstPage({ domain }), [toFirstPage]);
   const changeTagSelection = useCallback((newTags: string[]) => toFirstPage({ tags: newTags }), [toFirstPage]);
-  const changeTagsMode = useCallback((tagsMode: TagsFilteringMode) => toFirstPage({ tagsMode }), [toFirstPage]);
+  const changeTagsMode = useCallback((tagsMode: ShlinkTagsFilteringMode) => toFirstPage({ tagsMode }), [toFirstPage]);
   const changeExcludeTagSelection = useCallback(
     (newTags: string[]) => toFirstPage({ excludeTags: newTags }),
     [toFirstPage],
   );
   const changeExcludeTagsMode = useCallback(
-    (excludeTagsMode: TagsFilteringMode) => toFirstPage({ excludeTagsMode }),
+    (excludeTagsMode: ShlinkTagsFilteringMode) => toFirstPage({ excludeTagsMode }),
     [toFirstPage],
   );
 

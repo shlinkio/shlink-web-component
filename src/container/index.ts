@@ -40,9 +40,9 @@ const connect: ConnectDecorator = (propsFromState: string[] | null, actionServic
 
 provideWebComponentServices(bottle);
 provideShortUrlsServices(bottle, connect);
-provideTagsServices(bottle, connect);
+provideTagsServices(bottle);
 provideVisitsServices(bottle, connect);
 provideDomainsServices(bottle, connect);
-provideOverviewServices(bottle, connect);
+provideOverviewServices(bottle);
 provideUtilsServices(bottle);
 provideRedirectRulesServices(bottle, connect);

@@ -4,5 +4,5 @@ import { OverviewFactory } from '../Overview';
 
 export function provideServices(bottle: Bottle, connect: ConnectDecorator) {
   bottle.factory('Overview', OverviewFactory);
-  bottle.decorator('Overview', connect(['tagsList', 'visitsOverview'], ['loadVisitsOverview']));
+  bottle.decorator('Overview', connect(['tagsList']));
 }

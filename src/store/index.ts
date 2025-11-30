@@ -30,6 +30,7 @@ import { shortUrlVisitsDeletionReducer } from '../visits/reducers/shortUrlVisits
 import type { TagVisits } from '../visits/reducers/tagVisits';
 import type { VisitsInfo } from '../visits/reducers/types';
 import type { VisitsOverview } from '../visits/reducers/visitsOverview';
+import { visitsOverviewReducer } from '../visits/reducers/visitsOverview';
 import type { VisitsComparisonInfo } from '../visits/visits-comparison/reducers/types';
 
 // @ts-expect-error process is actually available in vite
@@ -58,7 +59,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     tagDelete: tagDeleteReducer,
     tagEdit: tagEditReducer,
     domainsList: container.domainsListReducer as DomainsList,
-    visitsOverview: container.visitsOverviewReducer as VisitsOverview,
+    visitsOverview: visitsOverviewReducer,
     shortUrlRedirectRules: shortUrlRedirectRulesReducer,
     shortUrlRedirectRulesSaving: container.setShortUrlRedirectRulesReducer as SetShortUrlRedirectRules,
   } as const),
@@ -73,8 +74,8 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
 export type StoreType = ReturnType<typeof setUpStore>;
 export type AppDispatch = StoreType['dispatch'];
 
-// FIXME Replace with `export type RootState = ReturnType<StoreType['getState']>` When reducers are no longer pulled
-//       from container
+// FIXME Replace with `export type RootState = ReturnType<StoreType['getState']>` when reducers are no longer pulled
+//       from the container
 export type RootState = {
   mercureInfo: MercureInfo;
   shortUrlsList: ShortUrlsList;

@@ -9,7 +9,6 @@ import { getNonOrphanVisits, nonOrphanVisitsReducerCreator } from '../reducers/n
 import { getOrphanVisits, orphanVisitsReducerCreator } from '../reducers/orphanVisits';
 import { getShortUrlVisits, shortUrlVisitsReducerCreator } from '../reducers/shortUrlVisits';
 import { getTagVisits, tagVisitsReducerCreator } from '../reducers/tagVisits';
-import { loadVisitsOverview, visitsOverviewReducerCreator } from '../reducers/visitsOverview';
 import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import { TagVisitsFactory } from '../TagVisits';
 import { DomainVisitsComparison } from '../visits-comparison/DomainVisitsComparison';
@@ -115,12 +114,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('getNonOrphanVisits', getNonOrphanVisits, 'apiClientFactory');
   bottle.serviceFactory('cancelGetNonOrphanVisits', (obj) => obj.cancelGetVisits, 'nonOrphanVisitsReducerCreator');
 
-  bottle.serviceFactory('loadVisitsOverview', loadVisitsOverview, 'apiClientFactory');
-
   // Reducers
-  bottle.serviceFactory('visitsOverviewReducerCreator', visitsOverviewReducerCreator, 'loadVisitsOverview');
-  bottle.serviceFactory('visitsOverviewReducer', (obj) => obj.reducer, 'visitsOverviewReducerCreator');
-
   bottle.serviceFactory('domainVisitsReducerCreator', domainVisitsReducerCreator, 'getDomainVisits');
   bottle.serviceFactory('domainVisitsReducer', (obj) => obj.reducer, 'domainVisitsReducerCreator');
 

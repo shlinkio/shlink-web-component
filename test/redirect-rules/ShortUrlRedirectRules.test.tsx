@@ -16,7 +16,6 @@ describe('<ShortUrlRedirectRules />', () => {
   const getShortUrlRedirectRules = vi.fn().mockResolvedValue({});
   const getShortUrlsDetails = vi.fn();
   const setShortUrlRedirectRules = vi.fn();
-  const resetSetRules = vi.fn();
   const setUp = async ({ loading, ...data }: SetUpOptions = {}) => {
     const renderResult = renderWithStore(
       <MemoryRouter>
@@ -30,9 +29,6 @@ describe('<ShortUrlRedirectRules />', () => {
               },
             })}
             getShortUrlsDetails={getShortUrlsDetails}
-            shortUrlRedirectRulesSaving={fromPartial({ status: 'idle', ...data })}
-            setShortUrlRedirectRules={setShortUrlRedirectRules}
-            resetSetRules={resetSetRules}
           />
         </Card>
       </MemoryRouter>,
@@ -47,8 +43,9 @@ describe('<ShortUrlRedirectRules />', () => {
               { longUrl: 'https://example.com/third', conditions: [{ type: 'query-param' }] },
             ],
           }),
+          shortUrlRedirectRulesSaving: fromPartial({ status: 'idle', ...data }),
         },
-        apiClientFactory: () => fromPartial({ getShortUrlRedirectRules }),
+        apiClientFactory: () => fromPartial({ getShortUrlRedirectRules, setShortUrlRedirectRules }),
       },
     );
 
@@ -69,11 +66,10 @@ describe('<ShortUrlRedirectRules />', () => {
   });
 
   it('resets rules state when unmounted', async () => {
-    await setUp();
+    const { store } = await setUp({ status: 'saved' });
 
-    expect(resetSetRules).not.toHaveBeenCalled();
     cleanup();
-    expect(resetSetRules).toHaveBeenCalledOnce();
+    expect(store.getState().shortUrlRedirectRulesSaving.status).toEqual('idle');
   });
 
   it('can change rules order', async () => {
@@ -161,14 +157,12 @@ describe('<ShortUrlRedirectRules />', () => {
     const { user } = await setUp();
 
     await user.click(screen.getByRole('button', { name: 'Save rules' }));
-    expect(setShortUrlRedirectRules).toHaveBeenCalledWith(expect.objectContaining({
-      data: {
-        redirectRules: [
-          { longUrl: 'https://example.com/first', conditions: [{ type: 'device' }] },
-          { longUrl: 'https://example.com/second', conditions: [{ type: 'language' }] },
-          { longUrl: 'https://example.com/third', conditions: [{ type: 'query-param' }] },
-        ],
-      },
+    expect(setShortUrlRedirectRules).toHaveBeenCalledWith(expect.any(Object), expect.objectContaining({
+      redirectRules: [
+        { longUrl: 'https://example.com/first', conditions: [{ type: 'device' }] },
+        { longUrl: 'https://example.com/second', conditions: [{ type: 'language' }] },
+        { longUrl: 'https://example.com/third', conditions: [{ type: 'query-param' }] },
+      ],
     }));
   });
 });

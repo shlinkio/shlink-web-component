@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { DomainsList } from '../domains/reducers/domainsList';
 import type { MercureInfo } from '../mercure/reducers/mercureInfo';
 import { mercureInfoReducer } from '../mercure/reducers/mercureInfo';
-import type { SetShortUrlRedirectRules } from '../redirect-rules/reducers/setShortUrlRedirectRules';
+import type {
+  SetShortUrlRedirectRules } from '../redirect-rules/reducers/setShortUrlRedirectRules';
+import {
+  shortUrlRedirectRulesSavingReducer,
+} from '../redirect-rules/reducers/setShortUrlRedirectRules';
 import type { ShortUrlRedirectRules } from '../redirect-rules/reducers/shortUrlRedirectRules';
 import { shortUrlRedirectRulesReducer } from '../redirect-rules/reducers/shortUrlRedirectRules';
 import type { ShortUrlCreation } from '../short-urls/reducers/shortUrlCreation';
@@ -62,7 +66,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     domainsList: container.domainsListReducer as DomainsList,
     visitsOverview: visitsOverviewReducer,
     shortUrlRedirectRules: shortUrlRedirectRulesReducer,
-    shortUrlRedirectRulesSaving: container.setShortUrlRedirectRulesReducer as SetShortUrlRedirectRules,
+    shortUrlRedirectRulesSaving: shortUrlRedirectRulesSavingReducer,
   } as const),
   preloadedState,
   middleware: (defaultMiddlewaresIncludingReduxThunk) => defaultMiddlewaresIncludingReduxThunk({

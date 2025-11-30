@@ -10,13 +10,14 @@ import { loadMercureInfo } from './mercure/reducers/mercureInfo';
 import type { Settings } from './settings';
 import { SettingsProvider } from './settings';
 import { ShlinkSidebarVisibilityProvider } from './sidebar/ShlinkSidebarVisibilityProvider';
+import { listTagsThunk as listTags } from './tags/reducers/tagsList';
 import { FeaturesProvider, useFeatures } from './utils/features';
 import type { SemVerOrLatest } from './utils/helpers/version';
 import { RoutesPrefixProvider } from './utils/routesPrefix';
 import type { TagColorsStorage } from './utils/services/TagColorsStorage';
 
 export type ShlinkWebComponentProps = {
-  serverVersion: SemVerOrLatest; // FIXME Consider making this optional and trying to resolve it if not set
+  serverVersion: SemVerOrLatest; // TODO Consider making this optional and trying to resolve it if not set
   apiClient: ShlinkApiClient;
   tagColorsStorage?: TagColorsStorage;
   routesPrefix?: string;
@@ -56,14 +57,14 @@ export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentP
 
     // It's important to not try to resolve services before the API client has been registered, as many other services
     // depend on it
-    const { Main, store, listTags, listDomains } = bottle.container;
+    const { Main, store, listDomains } = bottle.container;
     mainContent.current = <Main createNotFound={createNotFound} autoToggleButton={autoSidebarToggle} />;
     setStore(store);
 
     // Load mercure info
     store.dispatch(loadMercureInfo({ ...settings, apiClientFactory: () => apiClientRef }));
     // Load tags, as they are used by multiple components
-    store.dispatch(listTags());
+    store.dispatch(listTags({ apiClientFactory: () => apiClientRef }));
     // Load domains, as they are used by multiple components
     store.dispatch(listDomains());
   }, [apiClient, autoSidebarToggle, createNotFound, settings, tagColorsStorage]);

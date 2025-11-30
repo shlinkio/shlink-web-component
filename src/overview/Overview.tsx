@@ -11,7 +11,7 @@ import { useSetting } from '../settings';
 import type { CreateShortUrlProps } from '../short-urls/CreateShortUrl';
 import { ITEMS_IN_OVERVIEW_PAGE, useUrlsList } from '../short-urls/reducers/shortUrlsList';
 import type { ShortUrlsTableType } from '../short-urls/ShortUrlsTable';
-import type { TagsList } from '../tags/reducers/tagsList';
+import { useTagsList } from '../tags/reducers/tagsList';
 import { useRoutesPrefix } from '../utils/routesPrefix';
 import { useVisitsOverview } from '../visits/reducers/visitsOverview';
 import { HighlightCard } from './helpers/HighlightCard';
@@ -37,10 +37,6 @@ const OverviewCard: FC<OverviewCardProps> = ({ children, titleLinkText, titleLin
   </Card>
 );
 
-export type OverviewProps = {
-  tagsList: TagsList;
-};
-
 type OverviewDeps = {
   ShortUrlsTable: ShortUrlsTableType;
   CreateShortUrl: FC<CreateShortUrlProps>;
@@ -48,7 +44,7 @@ type OverviewDeps = {
 
 const visitsSummaryFallback: ShlinkVisitsSummary = { total: 0, bots: 0, nonBots: 0 };
 
-const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub(({ tagsList }) => {
+const Overview: FCWithDeps<any, OverviewDeps> = boundToMercureHub(() => {
   const { ShortUrlsTable, CreateShortUrl } = useDependencies(Overview);
   const { shortUrlsList, listShortUrls } = useUrlsList();
   const { loadVisitsOverview, visitsOverview } = useVisitsOverview();
@@ -57,6 +53,7 @@ const Overview: FCWithDeps<OverviewProps, OverviewDeps> = boundToMercureHub(({ t
     orphanVisits: visitsSummaryFallback,
     nonOrphanVisits: visitsSummaryFallback,
   };
+  const { tagsList } = useTagsList();
   const loadingTags = tagsList.status === 'loading';
   const routesPrefix = useRoutesPrefix();
   const navigate = useNavigate();

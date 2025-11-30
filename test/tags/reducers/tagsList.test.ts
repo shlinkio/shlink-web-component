@@ -6,33 +6,31 @@ import type { TagStats } from '../../../src/tags/data';
 import { tagDeleted } from '../../../src/tags/reducers/tagDelete';
 import { tagEdited } from '../../../src/tags/reducers/tagEdit';
 import type { TagsList } from '../../../src/tags/reducers/tagsList';
-import {
-  filterTags,
-  listTags as listTagsCreator,
-  tagsListReducerCreator,
-} from '../../../src/tags/reducers/tagsList';
+import { filterTags, listTagsThunk as listTags, tagsListReducer as reducer } from '../../../src/tags/reducers/tagsList';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
 import type { CreateVisit } from '../../../src/visits/types';
 
 describe('tagsListReducer', () => {
   const state = (props: Partial<TagsList>) => fromPartial<TagsList>(props);
-  const buildShlinkApiClient = vi.fn();
-  const listTags = listTagsCreator(buildShlinkApiClient);
-  const { reducer } = tagsListReducerCreator(listTags);
+  const apiClientFactory = vi.fn();
 
   describe('reducer', () => {
     it('returns loading on LIST_TAGS_START', () => {
-      expect(reducer(undefined, listTags.pending(''))).toEqual(expect.objectContaining({ status: 'loading' }));
+      expect(reducer(undefined, listTags.pending('', fromPartial({})))).toEqual(expect.objectContaining({
+        status: 'loading',
+      }));
     });
 
     it('returns error on LIST_TAGS_ERROR', () => {
-      expect(reducer(undefined, listTags.rejected(null, ''))).toEqual(expect.objectContaining({ status: 'error' }));
+      expect(reducer(undefined, listTags.rejected(null, '', fromPartial({})))).toEqual(expect.objectContaining({
+        status: 'error',
+      }));
     });
 
     it('returns provided tags as filtered and regular tags on LIST_TAGS', () => {
       const tags = ['foo', 'bar', 'baz'];
 
-      expect(reducer(undefined, listTags.fulfilled(fromPartial({ tags }), ''))).toEqual({
+      expect(reducer(undefined, listTags.fulfilled(fromPartial({ tags }), '', fromPartial({})))).toEqual({
         tags,
         filteredTags: tags,
         status: 'idle',
@@ -194,11 +192,11 @@ describe('tagsListReducer', () => {
       };
 
       tagsStatsMock.mockResolvedValue({ data: stats });
-      buildShlinkApiClient.mockReturnValue({ tagsStats: tagsStatsMock });
+      apiClientFactory.mockReturnValue({ tagsStats: tagsStatsMock });
 
-      await listTags()(dispatch, vi.fn(), {});
+      await listTags({ apiClientFactory })(dispatch, vi.fn(), {});
 
-      expect(buildShlinkApiClient).toHaveBeenCalledOnce();
+      expect(apiClientFactory).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
         payload: { tags, stats: expectedStats },

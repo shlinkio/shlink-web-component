@@ -2,30 +2,44 @@ import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { SettingsProvider } from '../../src/settings';
 import type { TagsList } from '../../src/tags/reducers/tagsList';
-import type { TagsListProps } from '../../src/tags/TagsList';
 import { TagsListFactory } from '../../src/tags/TagsList';
 import type { TagsTableProps } from '../../src/tags/TagsTable';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<TagsList />', () => {
-  const filterTags = vi.fn();
-  const TagsListComp = TagsListFactory(fromPartial({
+  const TagsList = TagsListFactory(fromPartial({
     TagsTable: ({ sortedTags }: TagsTableProps) => <>TagsTable ({sortedTags.map((t) => t.visits).join(',')})</>,
   }));
   const setUp = (tagsList: Partial<TagsList> = {}, excludeBots = false) => renderWithStore(
     <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
-      <TagsListComp
-        {...fromPartial<TagsListProps>({})}
-        filterTags={filterTags}
-        tagsList={fromPartial({ filteredTags: [], ...tagsList })}
-      />
+      <TagsList />
     </SettingsProvider>,
+    {
+      initialState: {
+        tagsList: fromPartial({
+          filteredTags: [],
+          tags: ['foo', 'bar', 'baz'],
+          stats: {
+            foo: {
+              visitsSummary: { total: 0 },
+            },
+            bar: {
+              visitsSummary: { total: 0 },
+            },
+            baz: {
+              visitsSummary: { total: 0 },
+            },
+          },
+          ...tagsList,
+        }),
+      },
+    },
   );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('shows a loading message when tags are being loaded', () => {
+  it('shows a loading message when tags are being loaded', async () => {
     setUp({ status: 'loading' });
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
@@ -39,12 +53,11 @@ describe('<TagsList />', () => {
     expect(screen.queryByText('Loading')).not.toBeInTheDocument();
   });
 
-  it('triggers tags filtering when search field changes', async () => {
-    const { user } = setUp();
+  it('filters tags when search field changes', async () => {
+    const { user, store } = setUp();
 
-    expect(filterTags).not.toHaveBeenCalled();
-    await user.type(screen.getByPlaceholderText('Search...'), 'Hello');
-    await waitFor(() => expect(filterTags).toHaveBeenCalledOnce());
+    await user.type(screen.getByPlaceholderText('Search...'), 'ba');
+    await waitFor(() => expect(store.getState().tagsList.filteredTags).toEqual(['bar', 'baz']));
   });
 
   it.each([

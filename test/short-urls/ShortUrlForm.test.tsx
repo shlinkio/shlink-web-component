@@ -5,7 +5,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { ShortUrlFormFactory } from '../../src/short-urls/ShortUrlForm';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
 
 type SetUpOptions = {
   basicMode?: boolean;
@@ -32,15 +32,17 @@ describe('<ShortUrlForm />', () => {
       initialState.domain = undefined;
     }
 
-    return renderWithEvents(
+    return renderWithStore(
       <ShortUrlForm
         basicMode={basicMode}
         saving={false}
         initialState={initialState}
         onSave={createShortUrl}
-        tagsList={fromPartial({ tags: [] })}
         domainsList={fromPartial({ domains: [] })}
       />,
+      {
+        initialState: { tagsList: fromPartial({ tags: [] }) },
+      },
     );
   };
 

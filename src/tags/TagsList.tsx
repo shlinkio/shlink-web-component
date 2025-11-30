@@ -1,4 +1,11 @@
-import { determineOrder, Message, OrderingDropdown, Result, SearchInput,sortList  } from '@shlinkio/shlink-frontend-kit';
+import {
+  determineOrder,
+  Message,
+  OrderingDropdown,
+  Result,
+  SearchInput,
+  sortList,
+} from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import { ShlinkApiError } from '../common/ShlinkApiError';
@@ -12,20 +19,16 @@ import { useVisitsComparison, VisitsComparisonProvider } from '../visits/visits-
 import type { SimplifiedTag } from './data';
 import type { TagsOrder, TagsOrderableFields } from './data/TagsListChildrenProps';
 import { TAGS_ORDERABLE_FIELDS } from './data/TagsListChildrenProps';
-import type { TagsList as TagsListState } from './reducers/tagsList';
+import { useTagsList } from './reducers/tagsList';
 import type { TagsTableProps } from './TagsTable';
-
-export type TagsListProps = {
-  filterTags: (searchTerm: string) => void;
-  tagsList: TagsListState;
-};
 
 type TagsListDeps = {
   TagsTable: FC<TagsTableProps>;
 };
 
-const TagsList: FCWithDeps<TagsListProps, TagsListDeps> = boundToMercureHub(({ filterTags, tagsList }) => {
+const TagsList: FCWithDeps<any, TagsListDeps> = boundToMercureHub(() => {
   const { TagsTable } = useDependencies(TagsList);
+  const { filterTags, tagsList } = useTagsList();
   const settings = useSettings();
   const [order, setOrder] = useState<TagsOrder>(settings.tags?.defaultOrdering ?? {});
   const sortedTags = useMemo(() => {

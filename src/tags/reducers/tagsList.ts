@@ -1,8 +1,11 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import type { ProblemDetailsError, ShlinkApiClient } from '../../api-contract';
+import { useCallback } from 'react';
+import type { ProblemDetailsError } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import { createShortUrlThunk } from '../../short-urls/reducers/shortUrlCreation';
-import { createAsyncThunk } from '../../store/helpers';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 import { createNewVisits } from '../../visits/reducers/visitCreation';
 import type { CreateVisit } from '../../visits/types';
 import type { TagStats } from '../data';
@@ -81,9 +84,9 @@ const calculateVisitsPerTag = (createdVisits: CreateVisit[]): TagIncrease[] => O
   }, {}),
 );
 
-export const listTags = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
+export const listTagsThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/listTags`,
-  async (): Promise<ListTags> => {
+  async ({ apiClientFactory }: WithApiClient): Promise<ListTags> => {
     const { data: stats } = await apiClientFactory().tagsStats();
     const processedStats = stats.reduce<TagsStatsMap>((acc, { tag, ...rest }) => {
       acc[tag] = rest;
@@ -97,7 +100,7 @@ export const listTags = (apiClientFactory: () => ShlinkApiClient) => createAsync
 
 export const filterTags = createAction<string>(`${REDUCER_PREFIX}/filterTags`);
 
-export const tagsListReducerCreator = (listTagsThunk: ReturnType<typeof listTags>) => createSlice({
+export const { reducer: tagsListReducer } = createSlice({
   name: REDUCER_PREFIX,
   initialState: initialState as TagsList,
   reducers: {},
@@ -140,3 +143,13 @@ export const tagsListReducerCreator = (listTagsThunk: ReturnType<typeof listTags
     }));
   },
 });
+
+export const useTagsList = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const listTags = useCallback(() => dispatch(listTagsThunk({ apiClientFactory })), [apiClientFactory, dispatch]);
+  const dispatchFilterTags = useCallback((searchTerm: string) => dispatch(filterTags(searchTerm)), [dispatch]);
+  const tagsList = useAppSelector((state) => state.tagsList);
+
+  return { tagsList, listTags, filterTags: dispatchFilterTags };
+};

@@ -23,11 +23,14 @@ describe('<Overview />', () => {
       <MemoryRouter>
         <SettingsProvider value={fromPartial({ visits })}>
           <RoutesPrefixProvider value={routesPrefix}>
-            <Overview tagsList={fromPartial({ status: 'idle', tags: ['foo', 'bar', 'baz'] })} />
+            <Overview />
           </RoutesPrefixProvider>
         </SettingsProvider>
       </MemoryRouter>,
       {
+        initialState: {
+          tagsList: fromPartial({ status: 'idle', tags: ['foo', 'bar', 'baz'] }),
+        },
         apiClientFactory: vi.fn().mockReturnValue(fromPartial<ShlinkApiClient>({
           listShortUrls: vi.fn().mockResolvedValue(shortUrls),
           getVisitsOverview: vi.fn().mockResolvedValue(fromPartial({

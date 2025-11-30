@@ -5,27 +5,25 @@ import type { RootState } from '../../../src/store';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
 import type { VisitsOverview } from '../../../src/visits/reducers/visitsOverview';
 import {
-  loadVisitsOverview as loadVisitsOverviewCreator,
-  visitsOverviewReducerCreator,
+  loadVisitsOverviewThunk as loadVisitsOverview,
+  visitsOverviewReducer as reducer,
 } from '../../../src/visits/reducers/visitsOverview';
 
 describe('visitsOverviewReducer', () => {
   const getVisitsOverview = vi.fn();
-  const buildApiClientMock = () => fromPartial<ShlinkApiClient>({ getVisitsOverview });
-  const loadVisitsOverview = loadVisitsOverviewCreator(buildApiClientMock);
-  const { reducer } = visitsOverviewReducerCreator(loadVisitsOverview);
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ getVisitsOverview });
 
   describe('reducer', () => {
     const state = (payload: Partial<VisitsOverview> = {}) => fromPartial<VisitsOverview>(payload);
 
     it('returns loading on GET_OVERVIEW_START', () => {
-      const { status } = reducer(state({ status: 'idle' }), loadVisitsOverview.pending(''));
+      const { status } = reducer(state({ status: 'idle' }), loadVisitsOverview.pending('', fromPartial({})));
 
       expect(status).toEqual('loading');
     });
 
     it('stops loading and returns error on GET_OVERVIEW_ERROR', () => {
-      const { status } = reducer(state({ status: 'loading' }), loadVisitsOverview.rejected(null, ''));
+      const { status } = reducer(state({ status: 'loading' }), loadVisitsOverview.rejected(null, '', fromPartial({})));
 
       expect(status).toEqual('error');
     });
@@ -33,7 +31,7 @@ describe('visitsOverviewReducer', () => {
     it('return visits overview on GET_OVERVIEW', () => {
       const action = loadVisitsOverview.fulfilled(fromPartial({
         nonOrphanVisits: { total: 100 },
-      }), 'requestId');
+      }), 'requestId', fromPartial({}));
       const result = reducer(state({ status: 'loading' }), action);
 
       expect(result).toEqual(expect.objectContaining({
@@ -138,7 +136,7 @@ describe('visitsOverviewReducer', () => {
       const resolvedOverview = fromPartial<ShlinkVisitsOverview>(serverResult);
       getVisitsOverview.mockResolvedValue(resolvedOverview);
 
-      await loadVisitsOverview()(dispatchMock, getState, {});
+      await loadVisitsOverview({ apiClientFactory })(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expect.objectContaining({ payload: dispatchedPayload }));

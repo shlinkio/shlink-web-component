@@ -12,7 +12,6 @@ import { renderWithStore } from '../__helpers__/setUpTest';
 describe('<Overview />', () => {
   const ShortUrlsTable = () => <>ShortUrlsTable</>;
   const CreateShortUrl = () => <>CreateShortUrl</>;
-  const loadVisitsOverview = vi.fn();
   const Overview = OverviewFactory(fromPartial({ ShortUrlsTable, CreateShortUrl }));
   const shortUrls = {
     pagination: { totalItems: 83710 },
@@ -24,21 +23,18 @@ describe('<Overview />', () => {
       <MemoryRouter>
         <SettingsProvider value={fromPartial({ visits })}>
           <RoutesPrefixProvider value={routesPrefix}>
-            <Overview
-              loadVisitsOverview={loadVisitsOverview}
-              tagsList={fromPartial({ status: 'idle', tags: ['foo', 'bar', 'baz'] })}
-              visitsOverview={fromPartial({
-                status: 'loaded',
-                nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },
-                orphanVisits: { total: 28, bots: 15, nonBots: 13 },
-              })}
-            />
+            <Overview tagsList={fromPartial({ status: 'idle', tags: ['foo', 'bar', 'baz'] })} />
           </RoutesPrefixProvider>
         </SettingsProvider>
       </MemoryRouter>,
       {
         apiClientFactory: vi.fn().mockReturnValue(fromPartial<ShlinkApiClient>({
           listShortUrls: vi.fn().mockResolvedValue(shortUrls),
+          getVisitsOverview: vi.fn().mockResolvedValue(fromPartial({
+            status: 'loaded',
+            nonOrphanVisits: { total: 3456, bots: 1000, nonBots: 2456 },
+            orphanVisits: { total: 28, bots: 15, nonBots: 13 },
+          })),
         })),
       },
     );
@@ -53,7 +49,7 @@ describe('<Overview />', () => {
 
   it('displays loading messages when still loading', async () => {
     const setUpPromise = setUp();
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getAllByText('Loading...')).toHaveLength(3);
 
     await setUpPromise;
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();

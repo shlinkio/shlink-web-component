@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ShlinkApiClient, ShlinkVisitsSummary } from '../../api-contract';
-import { createAsyncThunk } from '../../store/helpers';
+import { useCallback } from 'react';
+import type { ShlinkVisitsSummary } from '../../api-contract';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { createAsyncThunk,useApiClientFactory  } from '../../store/helpers';
 import { groupNewVisitsByType } from '../helpers';
 import type { CreateVisit } from '../types';
 import { createNewVisits } from './visitCreation';
@@ -24,14 +27,12 @@ const initialState: VisitsOverview = {
 
 const countBots = (visits: CreateVisit[]) => visits.filter(({ visit }) => visit.potentialBot).length;
 
-export const loadVisitsOverview = (apiClientFactory: () => ShlinkApiClient) => createAsyncThunk(
+export const loadVisitsOverviewThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/loadVisitsOverview`,
-  (): Promise<ParsedVisitsOverview> => apiClientFactory().getVisitsOverview(),
+  ({ apiClientFactory }: WithApiClient): Promise<ParsedVisitsOverview> => apiClientFactory().getVisitsOverview(),
 );
 
-export const visitsOverviewReducerCreator = (
-  loadVisitsOverviewThunk: ReturnType<typeof loadVisitsOverview>,
-) => createSlice({
+export const { reducer: visitsOverviewReducer } = createSlice({
   name: REDUCER_PREFIX,
   initialState: initialState as VisitsOverview,
   reducers: {},
@@ -74,3 +75,15 @@ export const visitsOverviewReducerCreator = (
     });
   },
 });
+
+export const useVisitsOverview = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const loadVisitsOverview = useCallback(
+    () => dispatch(loadVisitsOverviewThunk({ apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const visitsOverview = useAppSelector((state) => state.visitsOverview);
+
+  return { visitsOverview, loadVisitsOverview };
+};

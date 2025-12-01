@@ -1,10 +1,11 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import { ShlinkSidebarVisibilityProvider } from '../src';
 import type { MainProps } from '../src/Main';
 import { MainFactory } from '../src/Main';
 import { checkAccessibility } from './__helpers__/accessibility';
+import { renderWithStore } from './__helpers__/setUpTest';
 
 type SetUpOptions = {
   currentPath?: string
@@ -24,15 +25,12 @@ describe('<Main />', () => {
     NonOrphanVisits: () => <>NonOrphanVisits</>,
     Overview: () => <>OverviewRoute</>,
     EditShortUrl: () => <>EditShortUrl</>,
-    ManageDomains: () => <>ManageDomains</>,
     TagVisitsComparison: () => <>TagVisitsComparison</>,
     DomainVisitsComparison: () => <>DomainVisitsComparison</>,
     ShortUrlVisitsComparison: () => <>ShortUrlVisitsComparison</>,
     ShortUrlRedirectRules: () => <>ShortUrlRedirectRules</>,
   }));
-  const setUp = (
-    { createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions,
-  ) => render(
+  const setUp = ({ createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions) => renderWithStore(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
       <ShlinkSidebarVisibilityProvider>
         <Main createNotFound={createNotFound} autoToggleButton={autoToggleButton} />
@@ -54,7 +52,7 @@ describe('<Main />', () => {
     ['/manage-tags', 'TagsList'],
     ['/domain/domain.com/visits/foo', 'DomainVisits'],
     ['/non-orphan-visits/foo', 'NonOrphanVisits'],
-    ['/manage-domains', 'ManageDomains'],
+    ['/manage-domains', 'Domain'],
     ['/tags/compare-visits', 'TagVisitsComparison'],
     ['/domains/compare-visits', 'DomainVisitsComparison'],
     ['/short-urls/compare-visits', 'ShortUrlVisitsComparison'],

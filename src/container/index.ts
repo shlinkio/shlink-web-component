@@ -42,7 +42,7 @@ provideWebComponentServices(bottle);
 provideShortUrlsServices(bottle, connect);
 provideTagsServices(bottle);
 provideVisitsServices(bottle, connect);
-provideDomainsServices(bottle, connect);
+provideDomainsServices(bottle);
 provideOverviewServices(bottle);
 provideUtilsServices(bottle);
 provideRedirectRulesServices(bottle, connect);

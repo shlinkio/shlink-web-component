@@ -4,13 +4,7 @@ import { ShlinkApiError } from '../common/ShlinkApiError';
 import { VisitsComparisonCollector } from '../visits/visits-comparison/VisitsComparisonCollector';
 import { useVisitsComparison, VisitsComparisonProvider } from '../visits/visits-comparison/VisitsComparisonContext';
 import { DomainRow } from './DomainRow';
-import type { DomainsList } from './reducers/domainsList';
-
-interface ManageDomainsProps {
-  filterDomains: (searchTerm: string) => void;
-  checkDomainHealth: (domain: string) => void;
-  domainsList: DomainsList;
-}
+import { useDomainsList } from './reducers/domainsList';
 
 const headers: Array<{ value: string; isHidden: boolean }> = [
   {
@@ -43,7 +37,8 @@ const headers: Array<{ value: string; isHidden: boolean }> = [
   },
 ];
 
-export const ManageDomains: FC<ManageDomainsProps> = ({ domainsList, filterDomains, checkDomainHealth }) => {
+export const ManageDomains: FC = () => {
+  const { domainsList, filterDomains, checkDomainHealth } = useDomainsList();
   const { filteredDomains: domains, defaultRedirects, status } = domainsList;
   const resolvedDefaultRedirects = defaultRedirects ?? domains.find(({ isDefault }) => isDefault)?.redirects;
   const visitsComparison = useVisitsComparison();

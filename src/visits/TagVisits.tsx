@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useParams } from 'react-router';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import type { DomainsList } from '../domains/reducers/domainsList';
+import { useDomainsList } from '../domains/reducers/domainsList';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
@@ -17,7 +17,6 @@ export type TagVisitsProps = {
   getTagVisits: (params: LoadTagVisits) => void;
   tagVisits: TagVisitsState;
   cancelGetTagVisits: () => void;
-  domainsList: DomainsList;
 };
 
 type TagVisitsDeps = {
@@ -26,9 +25,10 @@ type TagVisitsDeps = {
 };
 
 const TagVisits: FCWithDeps<TagVisitsProps, TagVisitsDeps> = boundToMercureHub((
-  { getTagVisits, tagVisits, cancelGetTagVisits, domainsList },
+  { getTagVisits, tagVisits, cancelGetTagVisits },
 ) => {
   const { ColorGenerator: colorGenerator, ReportExporter: reportExporter } = useDependencies(TagVisits);
+  const { domainsList } = useDomainsList();
   const { tag = '' } = useParams();
   const loadVisits = useCallback(
     (params: VisitsParams, options: GetVisitsOptions) => getTagVisits({

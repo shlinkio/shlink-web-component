@@ -33,13 +33,7 @@ describe('<ShortUrlForm />', () => {
     }
 
     return renderWithStore(
-      <ShortUrlForm
-        basicMode={basicMode}
-        saving={false}
-        initialState={initialState}
-        onSave={createShortUrl}
-        domainsList={fromPartial({ domains: [] })}
-      />,
+      <ShortUrlForm basicMode={basicMode} saving={false} initialState={initialState} onSave={createShortUrl} />,
       {
         initialState: { tagsList: fromPartial({ tags: [] }) },
       },

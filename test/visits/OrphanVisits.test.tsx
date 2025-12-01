@@ -21,12 +21,7 @@ describe('<OrphanVisits />', () => {
       <SettingsProvider value={fromPartial({})}>
         {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
         <Card>
-          <OrphanVisits
-            getOrphanVisits={getOrphanVisits}
-            orphanVisits={orphanVisits}
-            cancelGetOrphanVisits={vi.fn()}
-            domainsList={fromPartial({ domains: [] })}
-          />
+          <OrphanVisits getOrphanVisits={getOrphanVisits} orphanVisits={orphanVisits} cancelGetOrphanVisits={vi.fn()} />
         </Card>
       </SettingsProvider>
     </MemoryRouter>,

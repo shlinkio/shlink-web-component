@@ -5,7 +5,10 @@ import type { Domain } from '../../../src/domains/data';
 import type { EditDomainRedirectsOptions } from '../../../src/domains/reducers/domainRedirects';
 import { editDomainRedirects as editDomainRedirectsThunk } from '../../../src/domains/reducers/domainRedirects';
 import {
-  domainsListReducerCreator,
+  checkDomainHealthThunk as checkDomainHealth,
+  domainsListReducer as reducer,
+  filterDomains,
+  listDomainsThunk as listDomainsAction,
   replaceRedirectsOnDomain,
   replaceStatusOnDomain,
 } from '../../../src/domains/reducers/domainsList';
@@ -23,26 +26,23 @@ describe('domainsListReducer', () => {
   ];
   const domains: Domain[] = [...filteredDomains, fromPartial({ domain: 'bar', status: 'validating' })];
   const error = { type: 'NOT_FOUND', status: 404 } as unknown as Error;
-  const { reducer, listDomains: listDomainsAction, checkDomainHealth, filterDomains } = domainsListReducerCreator(
-    apiClientFactory,
-  );
 
   describe('reducer', () => {
     it('returns loading on LIST_DOMAINS_START', () => {
-      expect(reducer(undefined, listDomainsAction.pending(''))).toEqual(
+      expect(reducer(undefined, listDomainsAction.pending('', fromPartial({})))).toEqual(
         { domains: [], filteredDomains: [], status: 'loading' },
       );
     });
 
     it('returns error on LIST_DOMAINS_ERROR', () => {
-      expect(reducer(undefined, listDomainsAction.rejected(error, ''))).toEqual(
+      expect(reducer(undefined, listDomainsAction.rejected(error, '', fromPartial({})))).toEqual(
         { domains: [], filteredDomains: [], status: 'error', error: parseApiError(error) },
       );
     });
 
     it('returns domains on LIST_DOMAINS', () => {
       expect(
-        reducer(undefined, listDomainsAction.fulfilled({ domains }, '')),
+        reducer(undefined, listDomainsAction.fulfilled({ domains }, '', fromPartial({}))),
       ).toEqual({ domains, filteredDomains: domains, status: 'idle' });
     });
 
@@ -78,7 +78,7 @@ describe('domainsListReducer', () => {
     ])('replaces status on proper domain on VALIDATE_DOMAIN', (domain) => {
       expect(reducer(
         fromPartial({ domains, filteredDomains }),
-        checkDomainHealth.fulfilled({ domain, status: 'valid' }, '', ''),
+        checkDomainHealth.fulfilled({ domain, status: 'valid' }, '', fromPartial({})),
       )).toEqual({
         domains: domains.map(replaceStatusOnDomain(domain, 'valid')),
         filteredDomains: filteredDomains.map(replaceStatusOnDomain(domain, 'valid')),
@@ -114,7 +114,7 @@ describe('domainsListReducer', () => {
     it('dispatches domains once loaded', async () => {
       listDomains.mockResolvedValue({ data: domains });
 
-      await listDomainsAction()(dispatch, getState, {});
+      await listDomainsAction({ apiClientFactory })(dispatch, getState, {});
 
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
@@ -140,7 +140,7 @@ describe('domainsListReducer', () => {
     it('dispatches invalid status when health endpoint returns an error', async () => {
       health.mockRejectedValue({});
 
-      await checkDomainHealth(domain)(dispatch, getState, {});
+      await checkDomainHealth({ domain, apiClientFactory })(dispatch, getState, {});
 
       expect(health).toHaveBeenCalledOnce();
       expect(health).toHaveBeenCalledWith({ domain });
@@ -158,7 +158,7 @@ describe('domainsListReducer', () => {
     ) => {
       health.mockResolvedValue({ status: healthStatus });
 
-      await checkDomainHealth(domain)(dispatch, getState, {});
+      await checkDomainHealth({ domain, apiClientFactory })(dispatch, getState, {});
 
       expect(health).toHaveBeenCalledOnce();
       expect(health).toHaveBeenCalledWith({ domain });

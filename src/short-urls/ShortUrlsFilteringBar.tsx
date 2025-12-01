@@ -7,7 +7,7 @@ import { useCallback, useState } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { DomainFilterDropdown } from '../domains/helpers/DomainFilterDropdown';
-import type { DomainsList } from '../domains/reducers/domainsList';
+import { useDomainsList } from '../domains/reducers/domainsList';
 import { useSetting } from '../settings';
 import type { TagsSearchDropdownProps } from '../tags/helpers/TagsSearchDropdown';
 import { useTagsList } from '../tags/reducers/tagsList';
@@ -29,19 +29,16 @@ export type ShortUrlsFilteringBarProps = {
   shortUrlsAmount?: number;
 };
 
-type ShortUrlsFilteringConnectProps = ShortUrlsFilteringBarProps & {
-  domainsList: DomainsList;
-};
-
 type ShortUrlsFilteringBarDeps = {
   ExportShortUrlsBtn: FC<ExportShortUrlsBtnProps>;
   TagsSearchDropdown: FC<TagsSearchDropdownProps>;
 };
 
-const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringConnectProps, ShortUrlsFilteringBarDeps> = (
-  { className, shortUrlsAmount, order, handleOrderBy, domainsList },
+const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringBarProps, ShortUrlsFilteringBarDeps> = (
+  { className, shortUrlsAmount, order, handleOrderBy },
 ) => {
   const { ExportShortUrlsBtn, TagsSearchDropdown } = useDependencies(ShortUrlsFilteringBar);
+  const { domainsList } = useDomainsList();
   const { tagsList } = useTagsList();
   const [{
     search,

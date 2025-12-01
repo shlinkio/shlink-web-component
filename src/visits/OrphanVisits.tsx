@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
-import type { DomainsList } from '../domains/reducers/domainsList';
+import { useDomainsList } from '../domains/reducers/domainsList';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
@@ -16,7 +16,6 @@ export type OrphanVisitsProps = {
   getOrphanVisits: (params: LoadOrphanVisits) => void;
   orphanVisits: VisitsInfo;
   cancelGetOrphanVisits: () => void;
-  domainsList: DomainsList;
 };
 
 type OrphanVisitsDeps = {
@@ -24,7 +23,7 @@ type OrphanVisitsDeps = {
 };
 
 const OrphanVisits: FCWithDeps<OrphanVisitsProps, OrphanVisitsDeps> = boundToMercureHub((
-  { getOrphanVisits, orphanVisits, cancelGetOrphanVisits, domainsList },
+  { getOrphanVisits, orphanVisits, cancelGetOrphanVisits },
 ) => {
   const { ReportExporter: reportExporter } = useDependencies(OrphanVisits);
   const exportCsv = useCallback(
@@ -45,6 +44,7 @@ const OrphanVisits: FCWithDeps<OrphanVisitsProps, OrphanVisitsDeps> = boundToMer
     () => ({ deleteVisits: deleteOrphanVisits, visitsDeletion: orphanVisitsDeletion }),
     [deleteOrphanVisits, orphanVisitsDeletion],
   );
+  const { domainsList } = useDomainsList();
 
   return (
     <VisitsStats

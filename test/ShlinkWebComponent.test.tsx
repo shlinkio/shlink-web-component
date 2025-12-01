@@ -9,7 +9,6 @@ import { checkAccessibility } from './__helpers__/accessibility';
 describe('<ShlinkWebComponent />', () => {
   let bottle: Bottle;
   const dispatch = vi.fn();
-  const listDomains = vi.fn();
   const apiClient = fromPartial<ShlinkApiClient>({});
 
   const setUp = (tagColorsStorage?: TagColorsStorage) => {
@@ -28,7 +27,6 @@ describe('<ShlinkWebComponent />', () => {
       getState: vi.fn().mockReturnValue({}),
       subscribe: vi.fn(),
     });
-    bottle.value('listDomains', listDomains);
   });
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -50,8 +48,6 @@ describe('<ShlinkWebComponent />', () => {
 
   it('dispatches some redux actions on mount', async () => {
     setUp();
-
     await waitFor(() => expect(dispatch).toHaveBeenCalledTimes(3));
-    expect(listDomains).toHaveBeenCalledOnce();
   });
 });

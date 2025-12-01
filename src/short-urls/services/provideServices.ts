@@ -18,7 +18,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.factory('ShortUrlsRow', ShortUrlsRowFactory);
 
   bottle.factory('ShortUrlForm', ShortUrlFormFactory);
-  bottle.decorator('ShortUrlForm', connect(['domainsList']));
 
   bottle.factory('CreateShortUrl', CreateShortUrlFactory);
   bottle.decorator(
@@ -32,7 +31,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.factory('ExportShortUrlsBtn', ExportShortUrlsBtnFactory);
 
   bottle.factory('ShortUrlsFilteringBar', ShortUrlsFilteringBarFactory);
-  bottle.decorator('ShortUrlsFilteringBar', connect(['domainsList']));
 
   bottle.serviceFactory('shortUrlsDetailsReducerCreator', shortUrlsDetailsReducerCreator, 'apiClientFactory');
   bottle.serviceFactory('shortUrlsDetailsReducer', (obj) => obj.reducer, 'shortUrlsDetailsReducerCreator');

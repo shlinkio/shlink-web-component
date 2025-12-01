@@ -1,7 +1,6 @@
 import type { IContainer } from 'bottlejs';
 import Bottle from 'bottlejs';
 import { connect as reduxConnect } from 'react-redux';
-import { provideServices as provideDomainsServices } from '../domains/services/provideServices';
 import { provideServices as provideOverviewServices } from '../overview/services/provideServices';
 import { provideServices as provideRedirectRulesServices } from '../redirect-rules/services/provideServices';
 import { provideServices as provideShortUrlsServices } from '../short-urls/services/provideServices';
@@ -42,7 +41,6 @@ provideWebComponentServices(bottle);
 provideShortUrlsServices(bottle, connect);
 provideTagsServices(bottle);
 provideVisitsServices(bottle, connect);
-provideDomainsServices(bottle, connect);
 provideOverviewServices(bottle);
 provideUtilsServices(bottle);
 provideRedirectRulesServices(bottle, connect);

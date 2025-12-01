@@ -18,7 +18,7 @@ export const DomainStatusIcon: FC<DomainStatusIconProps> = ({ status }) => {
   const { anchor, tooltip } = useTooltip();
 
   if (status === 'validating') {
-    return <FontAwesomeIcon icon={loadingStatusIcon} spin />;
+    return <FontAwesomeIcon icon={loadingStatusIcon} spin data-testid="domain-health-loader" />;
   }
 
   return (

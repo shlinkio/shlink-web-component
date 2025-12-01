@@ -39,7 +39,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   ));
 
   bottle.factory('TagVisits', TagVisitsFactory);
-  bottle.decorator('TagVisits', connect(['tagVisits', 'domainsList'], ['getTagVisits', 'cancelGetTagVisits']));
+  bottle.decorator('TagVisits', connect(['tagVisits'], ['getTagVisits', 'cancelGetTagVisits']));
 
   bottle.factory('TagVisitsComparison', TagVisitsComparisonFactory);
   bottle.decorator('TagVisitsComparison', connect(
@@ -63,16 +63,10 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.decorator('DomainVisits', connect(['domainVisits'], ['getDomainVisits', 'cancelGetDomainVisits']));
 
   bottle.factory('OrphanVisits', OrphanVisitsFactory);
-  bottle.decorator('OrphanVisits', connect(
-    ['orphanVisits', 'domainsList'],
-    ['getOrphanVisits', 'cancelGetOrphanVisits'],
-  ));
+  bottle.decorator('OrphanVisits', connect(['orphanVisits'], ['getOrphanVisits', 'cancelGetOrphanVisits']));
 
   bottle.factory('NonOrphanVisits', NonOrphanVisitsFactory);
-  bottle.decorator('NonOrphanVisits', connect(
-    ['nonOrphanVisits', 'domainsList'],
-    ['getNonOrphanVisits', 'cancelGetNonOrphanVisits'],
-  ));
+  bottle.decorator('NonOrphanVisits', connect(['nonOrphanVisits'], ['getNonOrphanVisits', 'cancelGetNonOrphanVisits']));
 
   // Services
   bottle.serviceFactory('VisitsParser', () => visitsParser);

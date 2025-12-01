@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import type { IContainer } from 'bottlejs';
 import { useDispatch, useSelector } from 'react-redux';
 import type { DomainsList } from '../domains/reducers/domainsList';
+import { domainsListReducer } from '../domains/reducers/domainsList';
 import type { MercureInfo } from '../mercure/reducers/mercureInfo';
 import { mercureInfoReducer } from '../mercure/reducers/mercureInfo';
 import type {
@@ -63,7 +64,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     tagsList: tagsListReducer,
     tagDelete: tagDeleteReducer,
     tagEdit: tagEditReducer,
-    domainsList: container.domainsListReducer as DomainsList,
+    domainsList: domainsListReducer,
     visitsOverview: visitsOverviewReducer,
     shortUrlRedirectRules: shortUrlRedirectRulesReducer,
     shortUrlRedirectRulesSaving: shortUrlRedirectRulesSavingReducer,

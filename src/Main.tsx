@@ -4,6 +4,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { AsideMenu } from './common/AsideMenu';
 import type { FCWithDeps } from './container/utils';
 import { componentFactory, useDependencies } from './container/utils';
+import { ManageDomains } from './domains/ManageDomains';
 import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
 import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
 import { useSwipeable } from './utils/helpers/hooks';
@@ -25,7 +26,6 @@ type MainDeps = {
   NonOrphanVisits: FC,
   Overview: FC,
   EditShortUrl: FC,
-  ManageDomains: FC,
   TagVisitsComparison: FC,
   DomainVisitsComparison: FC,
   ShortUrlVisitsComparison: FC,
@@ -44,7 +44,6 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
     NonOrphanVisits,
     Overview,
     EditShortUrl,
-    ManageDomains,
     TagVisitsComparison,
     DomainVisitsComparison,
     ShortUrlVisitsComparison,
@@ -120,7 +119,6 @@ export const MainFactory = componentFactory(Main, [
   'NonOrphanVisits',
   'Overview',
   'EditShortUrl',
-  'ManageDomains',
   'TagVisitsComparison',
   'DomainVisitsComparison',
   'ShortUrlVisitsComparison',

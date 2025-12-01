@@ -47,22 +47,21 @@ describe('<ShortUrlsFilteringBar />', () => {
                 filterShortUrlsByExcludedTags: filterByExcludedTagSupported,
               })}
             >
-              <ShortUrlsFilteringBar
-                order={{}}
-                handleOrderBy={handleOrderBy}
-                domainsList={fromPartial({
-                  domains: [
-                    { isDefault: true, domain: 'example.com' },
-                    { isDefault: false, domain: 's.test' },
-                  ],
-                })}
-              />
+              <ShortUrlsFilteringBar order={{}} handleOrderBy={handleOrderBy} />
             </FeaturesProvider>
           </RoutesPrefixProvider>
         </SettingsProvider>
       </Router>,
       {
-        initialState: { tagsList: fromPartial({ tags: ['foo', 'bar', 'baz'] }) },
+        initialState: {
+          tagsList: fromPartial({ tags: ['foo', 'bar', 'baz'] }),
+          domainsList: fromPartial({
+            domains: [
+              { isDefault: true, domain: 'example.com' },
+              { isDefault: false, domain: 's.test' },
+            ],
+          }),
+        },
       },
     );
   };

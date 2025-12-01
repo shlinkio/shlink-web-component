@@ -23,12 +23,7 @@ describe('<TagVisits />', () => {
       <SettingsProvider value={fromPartial({})}>
         {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
         <Card>
-          <TagVisits
-            getTagVisits={getTagVisitsMock}
-            tagVisits={tagVisits}
-            cancelGetTagVisits={() => {}}
-            domainsList={fromPartial({ domains: [] })}
-          />
+          <TagVisits getTagVisits={getTagVisitsMock} tagVisits={tagVisits} cancelGetTagVisits={() => {}} />
         </Card>
       </SettingsProvider>
     </MemoryRouterWithParams>,

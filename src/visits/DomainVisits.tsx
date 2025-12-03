@@ -5,28 +5,21 @@ import { componentFactory, useDependencies } from '../container/utils';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
-import type { DomainVisits as DomainVisitsState, LoadDomainVisits } from './reducers/domainVisits';
+import { useDomainVisits } from './reducers/domainVisits';
 import type { GetVisitsOptions } from './reducers/types';
 import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsHeader } from './VisitsHeader';
 import { VisitsStats } from './VisitsStats';
 
-export type DomainVisitsProps = {
-  getDomainVisits: (params: LoadDomainVisits) => void;
-  domainVisits: DomainVisitsState;
-  cancelGetDomainVisits: () => void;
-};
-
 type DomainVisitsDeps = {
   ReportExporter: ReportExporter
 };
 
-const DomainVisits: FCWithDeps<DomainVisitsProps, DomainVisitsDeps> = boundToMercureHub((
-  { getDomainVisits, domainVisits, cancelGetDomainVisits },
-) => {
+const DomainVisits: FCWithDeps<any, DomainVisitsDeps> = boundToMercureHub(() => {
   const { ReportExporter: exporter } = useDependencies(DomainVisits);
   const { domain = '' } = useParams();
   const [authority, domainId = authority] = domain.split('_');
+  const { getDomainVisits, domainVisits, cancelGetDomainVisits } = useDomainVisits();
   const loadVisits = useCallback(
     (params: VisitsParams, options: GetVisitsOptions) => getDomainVisits({
       domain: domainId,

@@ -4,7 +4,6 @@ import { DomainVisitsFactory } from '../DomainVisits';
 import { MapModal } from '../helpers/MapModal';
 import { NonOrphanVisitsFactory } from '../NonOrphanVisits';
 import { OrphanVisitsFactory } from '../OrphanVisits';
-import { domainVisitsReducerCreator, getDomainVisits } from '../reducers/domainVisits';
 import { getNonOrphanVisits, nonOrphanVisitsReducerCreator } from '../reducers/nonOrphanVisits';
 import { getOrphanVisits, orphanVisitsReducerCreator } from '../reducers/orphanVisits';
 import { getTagVisits, tagVisitsReducerCreator } from '../reducers/tagVisits';
@@ -55,7 +54,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   ));
 
   bottle.factory('DomainVisits', DomainVisitsFactory);
-  bottle.decorator('DomainVisits', connect(['domainVisits'], ['getDomainVisits', 'cancelGetDomainVisits']));
 
   bottle.factory('OrphanVisits', OrphanVisitsFactory);
   bottle.decorator('OrphanVisits', connect(['orphanVisits'], ['getOrphanVisits', 'cancelGetOrphanVisits']));
@@ -84,9 +82,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'tagVisitsComparisonReducerCreator',
   );
 
-  bottle.serviceFactory('getDomainVisits', getDomainVisits, 'apiClientFactory');
-  bottle.serviceFactory('cancelGetDomainVisits', (obj) => obj.cancelGetVisits, 'domainVisitsReducerCreator');
-
   bottle.serviceFactory('getDomainVisitsForComparison', getDomainVisitsForComparison, 'apiClientFactory');
   bottle.serviceFactory(
     'cancelGetDomainVisitsForComparison',
@@ -101,9 +96,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('cancelGetNonOrphanVisits', (obj) => obj.cancelGetVisits, 'nonOrphanVisitsReducerCreator');
 
   // Reducers
-  bottle.serviceFactory('domainVisitsReducerCreator', domainVisitsReducerCreator, 'getDomainVisits');
-  bottle.serviceFactory('domainVisitsReducer', (obj) => obj.reducer, 'domainVisitsReducerCreator');
-
   bottle.serviceFactory('nonOrphanVisitsReducerCreator', nonOrphanVisitsReducerCreator, 'getNonOrphanVisits');
   bottle.serviceFactory('nonOrphanVisitsReducer', (obj) => obj.reducer, 'nonOrphanVisitsReducerCreator');
 

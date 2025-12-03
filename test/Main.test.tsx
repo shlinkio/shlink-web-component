@@ -7,6 +7,10 @@ import { MainFactory } from '../src/Main';
 import { checkAccessibility } from './__helpers__/accessibility';
 import { renderWithStore } from './__helpers__/setUpTest';
 
+vi.mock(import('../src/redirect-rules/ShortUrlRedirectRules'), () => ({
+  ShortUrlRedirectRules: () => <>ShortUrlRedirectRules</>,
+}));
+
 type SetUpOptions = {
   currentPath?: string
   createNotFound?: MainProps['createNotFound'];
@@ -28,7 +32,6 @@ describe('<Main />', () => {
     TagVisitsComparison: () => <>TagVisitsComparison</>,
     DomainVisitsComparison: () => <>DomainVisitsComparison</>,
     ShortUrlVisitsComparison: () => <>ShortUrlVisitsComparison</>,
-    ShortUrlRedirectRules: () => <>ShortUrlRedirectRules</>,
   }));
   const setUp = ({ createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions) => renderWithStore(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>

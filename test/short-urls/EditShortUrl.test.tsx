@@ -1,83 +1,82 @@
-import { screen } from '@testing-library/react';
+import type { ProblemDetailsError } from '@shlinkio/shlink-js-sdk/api-contract';
+import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
-import type { ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../src/api-contract';
 import { SettingsProvider } from '../../src/settings';
 import { EditShortUrlFactory } from '../../src/short-urls/EditShortUrl';
 import type { ShortUrlEdition } from '../../src/short-urls/reducers/shortUrlEdition';
-import type { ShortUrlsDetails } from '../../src/short-urls/reducers/shortUrlsDetails';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<EditShortUrl />', () => {
-  const identifier = { shortCode: 'abc123' };
-  const shortUrlToMap = (shortUrl: ShlinkShortUrl) => fromPartial<Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>>({
-    get: () => shortUrl,
-  });
   const getShortUrlsDetails = vi.fn();
   const EditShortUrl = EditShortUrlFactory(fromPartial({ ShortUrlForm: () => <span>ShortUrlForm</span> }));
-  const setUp = (detail: Partial<ShortUrlsDetails> = {}, edition: Partial<ShortUrlEdition> = {}) => renderWithStore(
-    <MemoryRouterWithParams params={identifier}>
-      <SettingsProvider value={{}}>
-        <EditShortUrl
-          shortUrlsDetails={fromPartial({ status: 'loaded', shortUrls: new Map(), ...detail })}
-          getShortUrlsDetails={getShortUrlsDetails}
-        />
-      </SettingsProvider>
-    </MemoryRouterWithParams>,
-    {
-      initialState: { shortUrlEdition: fromPartial(edition) },
-    },
-  );
+  const setUp = async (edition: Partial<ShortUrlEdition> = {}) => {
+    const renderResult = renderWithStore(
+      <MemoryRouterWithParams params={{ shortCode: 'abc123' }}>
+        <SettingsProvider value={{}}>
+          <EditShortUrl />
+        </SettingsProvider>
+      </MemoryRouterWithParams>,
+      {
+        initialState: { shortUrlEdition: fromPartial(edition) },
+        apiClientFactory: () => fromPartial({ getShortUrl: getShortUrlsDetails }),
+      },
+    );
+
+    // Wait for loading to finish
+    await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument());
+
+    return renderResult;
+  };
+
+  beforeEach(() => {
+    getShortUrlsDetails.mockImplementation((identifier) => Promise.resolve(
+      { shortUrl: 'https://s.test/abc123', meta: {}, ...identifier },
+    ));
+  });
 
   it.each([
-    [{ loading: true }, {}],
-    [{ error: true }, {}],
-    [{}, {}],
-    [{}, { error: true, saved: true }],
-    [{}, { error: false, saved: true }],
-  ])('passes a11y checks', (detail, edition) => checkAccessibility(setUp(
-    {
-      shortUrls: shortUrlToMap(fromPartial({
-        shortUrl: 'https://s.test/abc123',
-        meta: {},
-      })),
-      ...detail,
-    },
-    edition,
-  )));
+    {},
+    { error: true, saved: true },
+    { error: false, saved: true },
+  ])('passes a11y checks', (edition) => checkAccessibility(setUp(edition)));
 
-  it('renders loading message while loading detail', () => {
-    setUp({ status: 'loading' });
+  it('renders loading message while loading detail', async () => {
+    const setUpPromise = setUp();
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
     expect(screen.queryByText('ShortUrlForm')).not.toBeInTheDocument();
+
+    await setUpPromise;
   });
 
-  it('renders error when loading detail fails', () => {
-    setUp({ status: 'error' });
+  it('renders error when loading detail fails', async () => {
+    getShortUrlsDetails.mockRejectedValue(fromPartial<ProblemDetailsError>({}));
+
+    await setUp();
 
     expect(screen.getByText('An error occurred while loading short URL detail :(')).toBeInTheDocument();
     expect(screen.queryByText('ShortUrlForm')).not.toBeInTheDocument();
   });
 
-  it('renders form when detail properly loads', () => {
-    setUp({ shortUrls: shortUrlToMap(fromPartial({ meta: {} })) });
+  it('renders form when detail properly loads', async () => {
+    await setUp();
 
     expect(screen.getByText('ShortUrlForm')).toBeInTheDocument();
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
     expect(screen.queryByText('An error occurred while loading short URL detail :(')).not.toBeInTheDocument();
   });
 
-  it('shows error when saving data has failed', () => {
-    setUp({}, { error: true, saved: true });
+  it('shows error when saving data has failed', async () => {
+    await setUp({ error: true, saved: true });
 
     expect(screen.getByText('An error occurred while updating short URL :(')).toBeInTheDocument();
     expect(screen.getByText('ShortUrlForm')).toBeInTheDocument();
   });
 
-  it('shows message when saving data succeeds', () => {
-    setUp({}, { error: false, saved: true });
+  it('shows message when saving data succeeds', async () => {
+    await setUp({ error: false, saved: true });
 
     expect(screen.getByText('Short URL properly edited.')).toBeInTheDocument();
     expect(screen.getByText('ShortUrlForm')).toBeInTheDocument();

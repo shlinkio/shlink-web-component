@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import type { ShlinkShortUrlIdentifier } from '../api-contract';
 import type { FCWithDeps } from '../container/utils';
 import { componentFactory, useDependencies } from '../container/utils';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { urlDecodeShortCode } from '../short-urls/helpers';
 import { useShortUrlIdentifier } from '../short-urls/helpers/hooks';
-import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
+import { useUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import type { ReportExporter } from '../utils/services/ReportExporter';
 import type { LoadShortUrlVisits, ShortUrlVisits as ShortUrlVisitsState } from './reducers/shortUrlVisits';
 import { useUrlVisitsDeletion } from './reducers/shortUrlVisitsDeletion';
@@ -18,8 +17,6 @@ import { VisitsStats } from './VisitsStats';
 export type ShortUrlVisitsProps = {
   shortUrlVisits: ShortUrlVisitsState;
   getShortUrlVisits: (params: LoadShortUrlVisits) => void;
-  getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
-  shortUrlsDetails: ShortUrlsDetails;
   cancelGetShortUrlVisits: () => void;
 };
 
@@ -29,13 +26,12 @@ type ShortUrlVisitsDeps = {
 
 const ShortUrlVisits: FCWithDeps<ShortUrlVisitsProps, ShortUrlVisitsDeps> = boundToMercureHub(({
   shortUrlVisits,
-  shortUrlsDetails,
   getShortUrlVisits,
-  getShortUrlsDetails,
   cancelGetShortUrlVisits,
 }: ShortUrlVisitsProps) => {
   const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
   const identifier = useShortUrlIdentifier();
+  const { shortUrlsDetails, getShortUrlsDetails } = useUrlsDetails();
   const shortUrls = shortUrlsDetails.status === 'loaded' ? shortUrlsDetails.shortUrls : undefined;
   const shortUrl = useMemo(() => shortUrls?.get(identifier), [identifier, shortUrls]);
 

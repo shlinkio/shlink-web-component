@@ -1,29 +1,25 @@
 import type { FC } from 'react';
 import { useCallback, useEffect, useMemo } from 'react';
-import type { ShlinkShortUrlIdentifier,ShlinkVisit } from '../../api-contract';
+import type { ShlinkVisit } from '../../api-contract';
 import { boundToMercureHub } from '../../mercure/helpers/boundToMercureHub';
 import { Topics } from '../../mercure/helpers/Topics';
 import { queryToShortUrl, shortUrlToQuery } from '../../short-urls/helpers';
-import type { ShortUrlsDetails } from '../../short-urls/reducers/shortUrlsDetails';
+import { useUrlsDetails } from '../../short-urls/reducers/shortUrlsDetails';
 import { useArrayQueryParam } from '../../utils/helpers/hooks';
 import type { LoadShortUrlVisitsForComparison } from './reducers/shortUrlVisitsComparison';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
 
-type ShortUrlVisitsComparisonProps = {
+export type ShortUrlVisitsComparisonProps = {
   getShortUrlVisitsForComparison: (params: LoadShortUrlVisitsForComparison) => void;
   shortUrlVisitsComparison: VisitsComparisonInfo;
   cancelGetShortUrlVisitsComparison: () => void;
-  shortUrlsDetails: ShortUrlsDetails;
-  getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
 };
 
 export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = boundToMercureHub(({
   getShortUrlVisitsForComparison,
   shortUrlVisitsComparison,
   cancelGetShortUrlVisitsComparison,
-  shortUrlsDetails,
-  getShortUrlsDetails,
 }) => {
   const shortUrlIds = useArrayQueryParam('short-urls');
   const identifiers = useMemo(() => shortUrlIds.map(queryToShortUrl), [shortUrlIds]);
@@ -31,6 +27,7 @@ export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = bound
     (params: LoadVisitsForComparison) => getShortUrlVisitsForComparison({ ...params, shortUrls: identifiers }),
     [getShortUrlVisitsForComparison, identifiers],
   );
+  const { shortUrlsDetails, getShortUrlsDetails } = useUrlsDetails();
 
   const shortUrls = shortUrlsDetails.status === 'loaded' ? shortUrlsDetails.shortUrls : undefined;
   const loadedShortUrls = useMemo(() => [...shortUrls?.values() ?? []], [shortUrls]);

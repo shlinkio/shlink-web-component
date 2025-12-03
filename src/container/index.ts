@@ -2,7 +2,6 @@ import type { IContainer } from 'bottlejs';
 import Bottle from 'bottlejs';
 import { connect as reduxConnect } from 'react-redux';
 import { provideServices as provideOverviewServices } from '../overview/services/provideServices';
-import { provideServices as provideRedirectRulesServices } from '../redirect-rules/services/provideServices';
 import { provideServices as provideShortUrlsServices } from '../short-urls/services/provideServices';
 import { provideServices as provideTagsServices } from '../tags/services/provideServices';
 import { provideServices as provideUtilsServices } from '../utils/services/provideServices';
@@ -38,9 +37,8 @@ const connect: ConnectDecorator = (propsFromState: string[] | null, actionServic
   );
 
 provideWebComponentServices(bottle);
-provideShortUrlsServices(bottle, connect);
+provideShortUrlsServices(bottle);
 provideTagsServices(bottle);
 provideVisitsServices(bottle, connect);
 provideOverviewServices(bottle);
 provideUtilsServices(bottle);
-provideRedirectRulesServices(bottle, connect);

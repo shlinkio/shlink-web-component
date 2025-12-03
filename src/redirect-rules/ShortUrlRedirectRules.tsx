@@ -2,29 +2,25 @@ import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Message, Result, SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
-import type { ShlinkRedirectRuleData, ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
+import type { ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC, FormEvent } from 'react';
 import { useCallback, useEffect } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { ShlinkApiError } from '../common/ShlinkApiError';
 import { useShortUrlIdentifier } from '../short-urls/helpers/hooks';
-import type { ShortUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
+import { useUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import { GoBackButton } from '../utils/components/GoBackButton';
 import { RedirectRuleCard } from './helpers/RedirectRuleCard';
 import { RedirectRuleModal } from './helpers/RedirectRuleModal';
 import { useUrlRedirectRulesSaving } from './reducers/setShortUrlRedirectRules';
 import { useUrlRedirectRules } from './reducers/shortUrlRedirectRules';
 
-export type ShortUrlRedirectRulesProps = {
-  shortUrlsDetails: ShortUrlsDetails;
-  getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
-};
-
-export const ShortUrlRedirectRules: FC<ShortUrlRedirectRulesProps> = ({ getShortUrlsDetails, shortUrlsDetails }) => {
+export const ShortUrlRedirectRules: FC = () => {
   const { shortUrlRedirectRules, getShortUrlRedirectRules } = useUrlRedirectRules();
   const { setShortUrlRedirectRules, shortUrlRedirectRulesSaving, resetSetRules } = useUrlRedirectRulesSaving();
   const loading = shortUrlRedirectRules.status === 'loading';
   const identifier = useShortUrlIdentifier();
+  const { getShortUrlsDetails, shortUrlsDetails } = useUrlsDetails();
   const { status } = shortUrlsDetails;
   const shortUrl = identifier && status === 'loaded' ? shortUrlsDetails.shortUrls.get(identifier) : undefined;
   const [rulesContainerRef, rules, setRules] = useDragAndDrop<HTMLDivElement, ShlinkRedirectRuleData>([], {

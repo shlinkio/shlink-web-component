@@ -1,24 +1,26 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../../src/api-contract';
-import { shortUrlsDetailsReducerCreator } from '../../../src/short-urls/reducers/shortUrlsDetails';
+import {
+  getShortUrlsDetailsThunk as getShortUrlsDetails,
+  shortUrlsDetailsReducer as reducer,
+} from '../../../src/short-urls/reducers/shortUrlsDetails';
 import type { ShortUrlsList } from '../../../src/short-urls/reducers/shortUrlsList';
 import type { RootState } from '../../../src/store';
 
 describe('shortUrlsDetailsReducer', () => {
   const getShortUrlCall = vi.fn();
-  const buildShlinkApiClient = () => fromPartial<ShlinkApiClient>({ getShortUrl: getShortUrlCall });
-  const { reducer, getShortUrlsDetails } = shortUrlsDetailsReducerCreator(buildShlinkApiClient);
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ getShortUrl: getShortUrlCall });
 
   describe('reducer', () => {
     it('returns loading on pending', () => {
-      const { status } = reducer({ status: 'idle' }, getShortUrlsDetails.pending('', [], undefined));
+      const { status } = reducer({ status: 'idle' }, getShortUrlsDetails.pending('', fromPartial({})));
       expect(status).toEqual('loading');
     });
 
     it('stops loading and returns error on rejected', () => {
       const { status } = reducer(
         { status: 'loading' },
-        getShortUrlsDetails.rejected(null, '', [], undefined, undefined),
+        getShortUrlsDetails.rejected(null, '', fromPartial({})),
       );
 
       expect(status).toEqual('error');
@@ -31,7 +33,7 @@ describe('shortUrlsDetailsReducer', () => {
       ]);
       const state = reducer(
         { status: 'loading' },
-        getShortUrlsDetails.fulfilled(actionShortUrls, '', [identifier], undefined),
+        getShortUrlsDetails.fulfilled(actionShortUrls, '', fromPartial({ identifiers: [identifier] })),
       );
       const { status } = state;
 
@@ -68,7 +70,11 @@ describe('shortUrlsDetailsReducer', () => {
       const resolvedShortUrl = fromPartial<ShlinkShortUrl>({ longUrl: 'foo', shortCode: 'abc123' });
       getShortUrlCall.mockResolvedValue(resolvedShortUrl);
 
-      await getShortUrlsDetails([identifier])(dispatchMock, buildGetState(shortUrlsList), {});
+      await getShortUrlsDetails({ identifiers: [identifier], apiClientFactory })(
+        dispatchMock,
+        buildGetState(shortUrlsList),
+        {},
+      );
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
       expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
@@ -80,7 +86,7 @@ describe('shortUrlsDetailsReducer', () => {
     it('avoids API calls when short URL is found in local state', async () => {
       const foundShortUrl = fromPartial<ShlinkShortUrl>({ longUrl: 'foo', shortCode: 'abc123' });
 
-      await getShortUrlsDetails([foundShortUrl])(
+      await getShortUrlsDetails({ identifiers: [foundShortUrl], apiClientFactory })(
         dispatchMock,
         buildGetState(fromPartial({
           status: 'loaded',

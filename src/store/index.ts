@@ -37,6 +37,7 @@ import { shortUrlVisitsReducer } from '../visits/reducers/shortUrlVisits';
 import type { ShortUrlVisitsDeletion } from '../visits/reducers/shortUrlVisitsDeletion';
 import { shortUrlVisitsDeletionReducer } from '../visits/reducers/shortUrlVisitsDeletion';
 import type { TagVisits } from '../visits/reducers/tagVisits';
+import { tagVisitsReducer } from '../visits/reducers/tagVisits';
 import type { VisitsInfo } from '../visits/reducers/types';
 import type { VisitsOverview } from '../visits/reducers/visitsOverview';
 import { visitsOverviewReducer } from '../visits/reducers/visitsOverview';
@@ -57,7 +58,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     shortUrlVisits: shortUrlVisitsReducer,
     shortUrlVisitsDeletion: shortUrlVisitsDeletionReducer,
     shortUrlVisitsComparison: container.shortUrlVisitsComparisonReducer as VisitsComparisonInfo,
-    tagVisits: container.tagVisitsReducer as TagVisits,
+    tagVisits: tagVisitsReducer,
     tagVisitsComparison: container.tagVisitsComparisonReducer as VisitsComparisonInfo,
     domainVisits: domainVisitsReducer,
     domainVisitsComparison: container.domainVisitsComparisonReducer as VisitsComparisonInfo,

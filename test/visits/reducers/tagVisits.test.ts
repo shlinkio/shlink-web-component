@@ -2,13 +2,15 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
 import type { ShlinkApiClient, ShlinkVisit, ShlinkVisitsList } from '../../../src/api-contract';
 import type { RootState } from '../../../src/store';
+import type { WithApiClient } from '../../../src/store/helpers';
 import { formatIsoDate } from '../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../../src/utils/helpers';
 import type { LoadTagVisits, TagVisits } from '../../../src/visits/reducers/tagVisits';
 import {
-  getTagVisits as getTagVisitsCreator,
-  tagVisitsReducerCreator,
+  cancelGetTagVisits,
+  getTagVisitsThunk as getTagVisits,
+  tagVisitsReducer as reducer,
 } from '../../../src/visits/reducers/tagVisits';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
 import { problemDetailsError } from '../../__mocks__/ProblemDetailsError.mock';
@@ -18,9 +20,7 @@ describe('tagVisitsReducer', () => {
   const dateForVisit = (day: number) => `2020-01-1${day}T00:00:00Z`;
   const visitsMocks = rangeOf(2, (index) => fromPartial<ShlinkVisit>({ date: dateForVisit(index) }));
   const getTagVisitsCall = vi.fn();
-  const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getTagVisits: getTagVisitsCall });
-  const getTagVisits = getTagVisitsCreator(buildShlinkApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetTagVisits } = tagVisitsReducerCreator(getTagVisits);
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ getTagVisits: getTagVisitsCall });
 
   describe('reducer', () => {
     const buildState = (data: Partial<TagVisits>) => fromPartial<TagVisits>(data);
@@ -28,7 +28,7 @@ describe('tagVisitsReducer', () => {
     it('returns loading when pending', () => {
       const { loading } = reducer(
         buildState({ loading: false }),
-        getTagVisits.pending('', fromPartial({ tag: '' }), undefined),
+        getTagVisits.pending('', fromPartial({ tag: '' })),
       );
       expect(loading).toEqual(true);
     });
@@ -41,7 +41,7 @@ describe('tagVisitsReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         buildState({ loading: true, errorData: null }),
-        getTagVisits.rejected(problemDetailsError, '', fromPartial({ tag: '' }), undefined, undefined),
+        getTagVisits.rejected(problemDetailsError, '', fromPartial({ tag: '' })),
       );
 
       expect(loading).toEqual(false);
@@ -52,7 +52,7 @@ describe('tagVisitsReducer', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, errorData, visits } = reducer(
         buildState({ loading: true, errorData: null }),
-        getTagVisits.fulfilled({ visits: actionVisits }, '', fromPartial({ tag: '' }), undefined),
+        getTagVisits.fulfilled({ visits: actionVisits }, '', fromPartial({ tag: '' })),
       );
 
       expect(loading).toEqual(false);
@@ -156,7 +156,7 @@ describe('tagVisitsReducer', () => {
 
     it('dispatches start and success when promise is resolved', async () => {
       const visits = visitsMocks;
-      const getVisitsParam = { tag, params: {}, options: {} };
+      const getVisitsParam = { tag, params: {}, options: {}, apiClientFactory };
 
       getTagVisitsCall.mockResolvedValue({
         data: visitsMocks,
@@ -205,7 +205,9 @@ describe('tagVisitsReducer', () => {
         .mockResolvedValueOnce(buildVisitsResult())
         .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getTagVisits({ tag, params: {}, options: { doIntervalFallback: true } })(dispatchMock, getState, {});
+      await getTagVisits(
+        { tag, params: {}, options: { doIntervalFallback: true }, apiClientFactory },
+      )(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
@@ -252,10 +254,11 @@ describe('tagVisitsReducer', () => {
     ])('returns visits from prev interval when requested and possible', async (
       { dateRange, loadPrevInterval, expectsPrevVisits },
     ) => {
-      const getVisitsParam: LoadTagVisits = {
+      const getVisitsParam: WithApiClient<LoadTagVisits> = {
         tag,
         params: { dateRange },
         options: { loadPrevInterval },
+        apiClientFactory,
       };
       const prevVisits = expectsPrevVisits ? visitsMocks.map(
         (visit, index) => ({ ...visit, date: dateForVisit(index + 1 + visitsMocks.length) }),

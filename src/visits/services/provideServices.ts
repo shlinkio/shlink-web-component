@@ -6,7 +6,6 @@ import { NonOrphanVisitsFactory } from '../NonOrphanVisits';
 import { OrphanVisitsFactory } from '../OrphanVisits';
 import { getNonOrphanVisits, nonOrphanVisitsReducerCreator } from '../reducers/nonOrphanVisits';
 import { getOrphanVisits, orphanVisitsReducerCreator } from '../reducers/orphanVisits';
-import { getTagVisits, tagVisitsReducerCreator } from '../reducers/tagVisits';
 import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import { TagVisitsFactory } from '../TagVisits';
 import { DomainVisitsComparison } from '../visits-comparison/DomainVisitsComparison';
@@ -33,7 +32,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.factory('ShortUrlVisits', ShortUrlVisitsFactory);
 
   bottle.factory('TagVisits', TagVisitsFactory);
-  bottle.decorator('TagVisits', connect(['tagVisits'], ['getTagVisits', 'cancelGetTagVisits']));
 
   bottle.factory('TagVisitsComparison', TagVisitsComparisonFactory);
   bottle.decorator('TagVisitsComparison', connect(
@@ -72,9 +70,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'shortUrlVisitsComparisonReducerCreator',
   );
 
-  bottle.serviceFactory('getTagVisits', getTagVisits, 'apiClientFactory');
-  bottle.serviceFactory('cancelGetTagVisits', (obj) => obj.cancelGetVisits, 'tagVisitsReducerCreator');
-
   bottle.serviceFactory('getTagVisitsForComparison', getTagVisitsForComparison, 'apiClientFactory');
   bottle.serviceFactory(
     'cancelGetTagVisitsForComparison',
@@ -105,9 +100,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'getOrphanVisits',
   );
   bottle.serviceFactory('orphanVisitsReducer', (obj) => obj.reducer, 'orphanVisitsReducerCreator');
-
-  bottle.serviceFactory('tagVisitsReducerCreator', tagVisitsReducerCreator, 'getTagVisits');
-  bottle.serviceFactory('tagVisitsReducer', (obj) => obj.reducer, 'tagVisitsReducerCreator');
 
   bottle.serviceFactory(
     'tagVisitsComparisonReducerCreator',

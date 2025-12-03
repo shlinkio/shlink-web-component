@@ -5,6 +5,7 @@ import { AsideMenu } from './common/AsideMenu';
 import type { FCWithDeps } from './container/utils';
 import { componentFactory, useDependencies } from './container/utils';
 import { ManageDomains } from './domains/ManageDomains';
+import { ShortUrlRedirectRules } from './redirect-rules/ShortUrlRedirectRules';
 import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
 import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
 import { useSwipeable } from './utils/helpers/hooks';
@@ -29,7 +30,6 @@ type MainDeps = {
   TagVisitsComparison: FC,
   DomainVisitsComparison: FC,
   ShortUrlVisitsComparison: FC,
-  ShortUrlRedirectRules: FC,
 };
 
 const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButton }) => {
@@ -47,7 +47,6 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
     TagVisitsComparison,
     DomainVisitsComparison,
     ShortUrlVisitsComparison,
-    ShortUrlRedirectRules,
   } = useDependencies(Main);
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
@@ -122,5 +121,4 @@ export const MainFactory = componentFactory(Main, [
   'TagVisitsComparison',
   'DomainVisitsComparison',
   'ShortUrlVisitsComparison',
-  'ShortUrlRedirectRules',
 ]);

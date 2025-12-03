@@ -1,7 +1,10 @@
-import type { ShlinkVisitsList, ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { ShlinkApiClient, ShlinkOrphanVisit, ShlinkOrphanVisitType } from '../../api-contract';
+import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
+import { useCallback } from 'react';
+import type { ShlinkOrphanVisitType } from '../../api-contract';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { useApiClientFactory } from '../../store/helpers';
 import { isBetween } from '../../utils/dates/helpers/date';
-import { isOrphanVisit } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import { deleteOrphanVisitsThunk } from './orphanVisitsDeletion';
 import type { LoadWithDomainVisits, VisitsInfo } from './types';
@@ -20,17 +23,9 @@ const initialState: VisitsInfo = {
   progress: null,
 };
 
-const matchesType = (visit: ShlinkOrphanVisit, orphanVisitsType?: ShlinkOrphanVisitType) =>
-  !orphanVisitsType || orphanVisitsType === visit.type;
-
-const filterOrphanVisitsByType = ({ data, ...rest }: ShlinkVisitsList, type?: ShlinkOrphanVisitType) => {
-  const visits = data.filter((visit) => isOrphanVisit(visit) && matchesType(visit, type));
-  return { ...rest, data: visits };
-};
-
-export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
+export const getOrphanVisitsThunk = createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getOrphanVisits`,
-  createLoaders: ({ orphanVisitsType, domain, options }: LoadOrphanVisits) => {
+  createLoaders: ({ orphanVisitsType, domain, options, apiClientFactory }: WithApiClient<LoadOrphanVisits>) => {
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false } = options;
 
@@ -38,10 +33,7 @@ export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => crea
       ...query,
       type: orphanVisitsType,
       domain,
-    }).then(
-      // We still try to filter locally, for Shlink older than 4.0.0
-      (resp) => filterOrphanVisitsByType(resp, orphanVisitsType),
-    );
+    });
     const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) => apiClient.getOrphanVisits(q));
 
     return { visitsLoader, lastVisitLoader };
@@ -49,10 +41,11 @@ export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => crea
   shouldCancel: (getState) => getState().orphanVisits.cancelLoad,
 });
 
-export const orphanVisitsReducerCreator = (asyncThunk: ReturnType<typeof getOrphanVisits>) => createVisitsReducer({
+export const { reducer: orphanVisitsReducer, cancelGetVisits: cancelGetOrphanVisits } = createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,
-  asyncThunk,
+  // @ts-expect-error TODO Fix type inference
+  asyncThunk: getOrphanVisitsThunk,
   extraReducers: (builder) => {
     builder.addCase(deleteOrphanVisitsThunk.fulfilled, (state) => ({ ...state, visits: [] }));
   },
@@ -61,3 +54,16 @@ export const orphanVisitsReducerCreator = (asyncThunk: ReturnType<typeof getOrph
     return createdVisits.filter(({ visit, shortUrl }) => !shortUrl && isBetween(visit.date, startDate, endDate));
   },
 });
+
+export const useOrphanVisits = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const getOrphanVisits = useCallback(
+    (data: LoadOrphanVisits) => dispatch(getOrphanVisitsThunk({ ...data, apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const dispatchCancelGetOrphanVisits = useCallback(() => dispatch(cancelGetOrphanVisits()), [dispatch]);
+  const orphanVisits = useAppSelector((state) => state.orphanVisits);
+
+  return { orphanVisits, getOrphanVisits, cancelGetOrphanVisits: dispatchCancelGetOrphanVisits };
+};

@@ -1,5 +1,4 @@
 import { Message, Result, SimpleCard } from '@shlinkio/shlink-frontend-kit';
-import type { ShlinkShortUrlIdentifier } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { useEffect, useMemo } from 'react';
 import { ExternalLink } from 'react-external-link';
@@ -11,21 +10,17 @@ import { GoBackButton } from '../utils/components/GoBackButton';
 import { shortUrlDataFromShortUrl } from './helpers';
 import { useShortUrlIdentifier } from './helpers/hooks';
 import { useUrlEdition } from './reducers/shortUrlEdition';
-import type { ShortUrlsDetails } from './reducers/shortUrlsDetails';
+import { useUrlsDetails } from './reducers/shortUrlsDetails';
 import type { ShortUrlFormProps } from './ShortUrlForm';
-
-type EditShortUrlProps = {
-  shortUrlsDetails: ShortUrlsDetails;
-  getShortUrlsDetails: (identifiers: ShlinkShortUrlIdentifier[]) => void;
-};
 
 type EditShortUrlDeps = {
   ShortUrlForm: FC<ShortUrlFormProps<ShlinkEditShortUrlData>>;
 };
 
-const EditShortUrl: FCWithDeps<EditShortUrlProps, EditShortUrlDeps> = ({ shortUrlsDetails, getShortUrlsDetails }) => {
+const EditShortUrl: FCWithDeps<unknown, EditShortUrlDeps> = () => {
   const { ShortUrlForm } = useDependencies(EditShortUrl);
   const identifier = useShortUrlIdentifier();
+  const { shortUrlsDetails, getShortUrlsDetails } = useUrlsDetails();
   const { status } = shortUrlsDetails;
   const shortUrl = identifier && status === 'loaded' ? shortUrlsDetails.shortUrls.get(identifier) : undefined;
 

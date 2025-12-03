@@ -14,22 +14,14 @@ type SetUpOptions = Partial<SetShortUrlRedirectRules> & {
 
 describe('<ShortUrlRedirectRules />', () => {
   const getShortUrlRedirectRules = vi.fn().mockResolvedValue({});
-  const getShortUrlsDetails = vi.fn();
+  const getShortUrl = vi.fn().mockResolvedValue(fromPartial<ShlinkShortUrl>({ shortUrl: 'https://s.test/123' }));
   const setShortUrlRedirectRules = vi.fn();
   const setUp = async ({ loading, ...data }: SetUpOptions = {}) => {
     const renderResult = renderWithStore(
       <MemoryRouter>
         {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
         <Card>
-          <ShortUrlRedirectRules
-            shortUrlsDetails={fromPartial(loading ? { status: 'loading' } : {
-              status: 'loaded',
-              shortUrls: {
-                get: () => fromPartial<ShlinkShortUrl>({ shortUrl: 'https://s.test/123' }),
-              },
-            })}
-            getShortUrlsDetails={getShortUrlsDetails}
-          />
+          <ShortUrlRedirectRules />
         </Card>
       </MemoryRouter>,
       {
@@ -45,7 +37,7 @@ describe('<ShortUrlRedirectRules />', () => {
           }),
           shortUrlRedirectRulesSaving: fromPartial({ status: 'idle', ...data }),
         },
-        apiClientFactory: () => fromPartial({ getShortUrlRedirectRules, setShortUrlRedirectRules }),
+        apiClientFactory: () => fromPartial({ getShortUrlRedirectRules, setShortUrlRedirectRules, getShortUrl }),
       },
     );
 
@@ -62,7 +54,7 @@ describe('<ShortUrlRedirectRules />', () => {
     await setUp();
 
     expect(getShortUrlRedirectRules).toHaveBeenCalledOnce();
-    expect(getShortUrlsDetails).toHaveBeenCalledOnce();
+    expect(getShortUrl).toHaveBeenCalledOnce();
   });
 
   it('resets rules state when unmounted', async () => {

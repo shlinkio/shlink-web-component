@@ -33,10 +33,7 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('MapModal', () => MapModal);
 
   bottle.factory('ShortUrlVisits', ShortUrlVisitsFactory);
-  bottle.decorator('ShortUrlVisits', connect(
-    ['shortUrlVisits', 'shortUrlsDetails'],
-    ['getShortUrlVisits', 'getShortUrlsDetails', 'cancelGetShortUrlVisits'],
-  ));
+  bottle.decorator('ShortUrlVisits', connect(['shortUrlVisits'], ['getShortUrlVisits', 'cancelGetShortUrlVisits']));
 
   bottle.factory('TagVisits', TagVisitsFactory);
   bottle.decorator('TagVisits', connect(['tagVisits'], ['getTagVisits', 'cancelGetTagVisits']));
@@ -55,8 +52,8 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
 
   bottle.serviceFactory('ShortUrlVisitsComparison', () => ShortUrlVisitsComparison);
   bottle.decorator('ShortUrlVisitsComparison', connect(
-    ['shortUrlVisitsComparison', 'shortUrlsDetails'],
-    ['getShortUrlVisitsForComparison', 'cancelGetShortUrlVisitsForComparison', 'getShortUrlsDetails'],
+    ['shortUrlVisitsComparison'],
+    ['getShortUrlVisitsForComparison', 'cancelGetShortUrlVisitsForComparison'],
   ));
 
   bottle.factory('DomainVisits', DomainVisitsFactory);

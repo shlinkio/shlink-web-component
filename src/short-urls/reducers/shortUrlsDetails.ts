@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { ProblemDetailsError, ShlinkApiClient, ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../api-contract';
+import { useCallback } from 'react';
+import type { ProblemDetailsError, ShlinkShortUrl, ShlinkShortUrlIdentifier } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
-import { createAsyncThunk } from '../../store/helpers';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 import { shortUrlMatches } from '../helpers';
 
 const REDUCER_PREFIX = 'shlink/shortUrlsDetails';
@@ -20,41 +23,51 @@ const initialState: ShortUrlsDetails = {
   status: 'idle',
 };
 
-export const shortUrlsDetailsReducerCreator = (apiClientFactory: () => ShlinkApiClient) => {
-  const getShortUrlsDetails = createAsyncThunk(
-    `${REDUCER_PREFIX}/getShortUrlsDetails`,
-    async (
-      identifiers: ShlinkShortUrlIdentifier[],
-      { getState },
-    ): Promise<Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>> => {
-      const { shortUrlsList } = getState();
-      const pairs = await Promise.all(identifiers.map(
-        async (identifier): Promise<[ShlinkShortUrlIdentifier, ShlinkShortUrl]> => {
-          const { shortCode, domain } = identifier;
-          const alreadyLoaded = shortUrlsList.status === 'loaded'
-            ? shortUrlsList.shortUrls.data.find((url) => shortUrlMatches(url, shortCode, domain))
-            : undefined;
+export const getShortUrlsDetailsThunk = createAsyncThunk(
+  `${REDUCER_PREFIX}/getShortUrlsDetails`,
+  async (
+    { identifiers, apiClientFactory }: WithApiClient<{ identifiers: ShlinkShortUrlIdentifier[] }>,
+    { getState },
+  ): Promise<Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>> => {
+    const { shortUrlsList } = getState();
+    const pairs = await Promise.all(identifiers.map(
+      async (identifier): Promise<[ShlinkShortUrlIdentifier, ShlinkShortUrl]> => {
+        const { shortCode, domain } = identifier;
+        const alreadyLoaded = shortUrlsList.status === 'loaded'
+          ? shortUrlsList.shortUrls.data.find((url) => shortUrlMatches(url, shortCode, domain))
+          : undefined;
 
-          return [identifier, alreadyLoaded ?? await apiClientFactory().getShortUrl({ shortCode, domain })];
-        },
-      ));
+        return [identifier, alreadyLoaded ?? await apiClientFactory().getShortUrl({ shortCode, domain })];
+      },
+    ));
 
-      return new Map(pairs);
-    },
+    return new Map(pairs);
+  },
+);
+
+export const { reducer: shortUrlsDetailsReducer } = createSlice({
+  name: REDUCER_PREFIX,
+  initialState: initialState as ShortUrlsDetails,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getShortUrlsDetailsThunk.pending, () => ({ status: 'loading' }));
+    builder.addCase(getShortUrlsDetailsThunk.rejected, (_, { error }) => (
+      { status: 'error', error: parseApiError(error) }
+    ));
+    builder.addCase(getShortUrlsDetailsThunk.fulfilled, (_, { payload: shortUrls }) => (
+      { status: 'loaded', shortUrls }
+    ));
+  },
+});
+
+export const useUrlsDetails = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const getShortUrlsDetails = useCallback(
+    (identifiers: ShlinkShortUrlIdentifier[]) => dispatch(getShortUrlsDetailsThunk({ identifiers, apiClientFactory })),
+    [apiClientFactory, dispatch],
   );
+  const shortUrlsDetails = useAppSelector((state) => state.shortUrlsDetails);
 
-  const { reducer } = createSlice({
-    name: REDUCER_PREFIX,
-    initialState: initialState as ShortUrlsDetails,
-    reducers: {},
-    extraReducers: (builder) => {
-      builder.addCase(getShortUrlsDetails.pending, () => ({ status: 'loading' }));
-      builder.addCase(getShortUrlsDetails.rejected, (_, { error }) => (
-        { status: 'error', error: parseApiError(error) }
-      ));
-      builder.addCase(getShortUrlsDetails.fulfilled, (_, { payload: shortUrls }) => ({ status: 'loaded', shortUrls }));
-    },
-  });
-
-  return { reducer, getShortUrlsDetails };
+  return { shortUrlsDetails, getShortUrlsDetails };
 };

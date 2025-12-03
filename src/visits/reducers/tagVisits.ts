@@ -1,5 +1,8 @@
 import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { ShlinkApiClient } from '../../api-contract';
+import { useCallback } from 'react';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { useApiClientFactory } from '../../store/helpers';
 import { filterCreatedVisitsByTag } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { LoadWithDomainVisits, VisitsInfo } from './types';
@@ -23,9 +26,9 @@ const initialState: TagVisits = {
 
 export type LoadTagVisits = LoadWithDomainVisits & WithTag;
 
-export const getTagVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
+export const getTagVisitsThunk = createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getTagVisits`,
-  createLoaders: ({ tag, options, domain }: LoadTagVisits) => {
+  createLoaders: ({ tag, options, domain, apiClientFactory }: WithApiClient<LoadTagVisits>) => {
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false } = options;
 
@@ -37,14 +40,27 @@ export const getTagVisits = (apiClientFactory: () => ShlinkApiClient) => createV
   shouldCancel: (getState) => getState().tagVisits.cancelLoad,
 });
 
-export const tagVisitsReducerCreator = (asyncThunkCreator: ReturnType<typeof getTagVisits>) => createVisitsReducer({
+export const { reducer: tagVisitsReducer, cancelGetVisits: cancelGetTagVisits } = createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,
   // @ts-expect-error TODO Fix type inference
-  asyncThunkCreator,
+  asyncThunk: getTagVisitsThunk,
   filterCreatedVisits: ({ tag, params }: TagVisits, createdVisits) => filterCreatedVisitsByTag(
     createdVisits,
     tag,
     params?.dateRange,
   ),
 });
+
+export const useTagVisits = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const getTagVisits = useCallback(
+    (data: LoadTagVisits) => dispatch(getTagVisitsThunk({ ...data, apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const dispatchCancelGetTagVisits = useCallback(() => dispatch(cancelGetTagVisits()), [dispatch]);
+  const tagVisits = useAppSelector((state) => state.tagVisits);
+
+  return { tagVisits, getTagVisits, cancelGetTagVisits: dispatchCancelGetTagVisits };
+};

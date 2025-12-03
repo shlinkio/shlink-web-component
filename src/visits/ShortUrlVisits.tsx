@@ -7,34 +7,25 @@ import { urlDecodeShortCode } from '../short-urls/helpers';
 import { useShortUrlIdentifier } from '../short-urls/helpers/hooks';
 import { useUrlsDetails } from '../short-urls/reducers/shortUrlsDetails';
 import type { ReportExporter } from '../utils/services/ReportExporter';
-import type { LoadShortUrlVisits, ShortUrlVisits as ShortUrlVisitsState } from './reducers/shortUrlVisits';
+import { useUrlVisits } from './reducers/shortUrlVisits';
 import { useUrlVisitsDeletion } from './reducers/shortUrlVisitsDeletion';
 import type { GetVisitsOptions } from './reducers/types';
 import { ShortUrlVisitsHeader } from './ShortUrlVisitsHeader';
 import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsStats } from './VisitsStats';
 
-export type ShortUrlVisitsProps = {
-  shortUrlVisits: ShortUrlVisitsState;
-  getShortUrlVisits: (params: LoadShortUrlVisits) => void;
-  cancelGetShortUrlVisits: () => void;
-};
-
 type ShortUrlVisitsDeps = {
   ReportExporter: ReportExporter
 };
 
-const ShortUrlVisits: FCWithDeps<ShortUrlVisitsProps, ShortUrlVisitsDeps> = boundToMercureHub(({
-  shortUrlVisits,
-  getShortUrlVisits,
-  cancelGetShortUrlVisits,
-}: ShortUrlVisitsProps) => {
+const ShortUrlVisits: FCWithDeps<any, ShortUrlVisitsDeps> = boundToMercureHub(() => {
   const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
   const identifier = useShortUrlIdentifier();
   const { shortUrlsDetails, getShortUrlsDetails } = useUrlsDetails();
   const shortUrls = shortUrlsDetails.status === 'loaded' ? shortUrlsDetails.shortUrls : undefined;
   const shortUrl = useMemo(() => shortUrls?.get(identifier), [identifier, shortUrls]);
 
+  const { shortUrlVisits, getShortUrlVisits, cancelGetShortUrlVisits } = useUrlVisits();
   const loadVisits = useCallback(
     (params: VisitsParams, options: GetVisitsOptions) => getShortUrlVisits({
       ...identifier,

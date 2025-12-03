@@ -7,29 +7,22 @@ import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
 import type { ReportExporter } from '../utils/services/ReportExporter';
-import type { LoadTagVisits, TagVisits as TagVisitsState } from './reducers/tagVisits';
+import { useTagVisits } from './reducers/tagVisits';
 import type { GetVisitsOptions } from './reducers/types';
 import { TagVisitsHeader } from './TagVisitsHeader';
 import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsStats } from './VisitsStats';
-
-export type TagVisitsProps = {
-  getTagVisits: (params: LoadTagVisits) => void;
-  tagVisits: TagVisitsState;
-  cancelGetTagVisits: () => void;
-};
 
 type TagVisitsDeps = {
   ColorGenerator: ColorGenerator;
   ReportExporter: ReportExporter;
 };
 
-const TagVisits: FCWithDeps<TagVisitsProps, TagVisitsDeps> = boundToMercureHub((
-  { getTagVisits, tagVisits, cancelGetTagVisits },
-) => {
+const TagVisits: FCWithDeps<any, TagVisitsDeps> = boundToMercureHub(() => {
   const { ColorGenerator: colorGenerator, ReportExporter: reportExporter } = useDependencies(TagVisits);
   const { domainsList } = useDomainsList();
   const { tag = '' } = useParams();
+  const { getTagVisits, tagVisits, cancelGetTagVisits } = useTagVisits();
   const loadVisits = useCallback(
     (params: VisitsParams, options: GetVisitsOptions) => getTagVisits({
       tag,

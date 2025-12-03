@@ -2,13 +2,15 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
 import type { ShlinkApiClient, ShlinkVisit, ShlinkVisitsList } from '../../../src/api-contract';
 import type { RootState } from '../../../src/store';
+import type { WithApiClient } from '../../../src/store/helpers';
 import { formatIsoDate } from '../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../../src/utils/helpers';
 import type { LoadOrphanVisits } from '../../../src/visits/reducers/orphanVisits';
 import {
-  getOrphanVisits as getOrphanVisitsCreator,
-  orphanVisitsReducerCreator,
+  cancelGetOrphanVisits,
+  getOrphanVisitsThunk as getOrphanVisits,
+  orphanVisitsReducer as reducer,
 } from '../../../src/visits/reducers/orphanVisits';
 import { deleteOrphanVisitsThunk } from '../../../src/visits/reducers/orphanVisitsDeletion';
 import type { VisitsInfo } from '../../../src/visits/reducers/types';
@@ -20,9 +22,7 @@ describe('orphanVisitsReducer', () => {
   const dateForVisit = (day: number) => `2020-01-1${day}T00:00:00Z`;
   const visitsMocks = rangeOf(2, (index) => fromPartial<ShlinkVisit>({ date: dateForVisit(index), type: 'base_url' }));
   const getOrphanVisitsCall = vi.fn();
-  const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getOrphanVisits: getOrphanVisitsCall });
-  const getOrphanVisits = getOrphanVisitsCreator(buildShlinkApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetOrphanVisits } = orphanVisitsReducerCreator(getOrphanVisits);
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ getOrphanVisits: getOrphanVisitsCall });
 
   describe('reducer', () => {
     const buildState = (data: Partial<VisitsInfo>) => fromPartial<VisitsInfo>(data);
@@ -30,7 +30,7 @@ describe('orphanVisitsReducer', () => {
     it('returns loading when pending', () => {
       const { loading } = reducer(
         buildState({ loading: false }),
-        getOrphanVisits.pending('', fromPartial({}), undefined),
+        getOrphanVisits.pending('', fromPartial({})),
       );
       expect(loading).toEqual(true);
     });
@@ -43,7 +43,7 @@ describe('orphanVisitsReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         buildState({ loading: true, errorData: null }),
-        getOrphanVisits.rejected(problemDetailsError, '', fromPartial({}), undefined, undefined),
+        getOrphanVisits.rejected(problemDetailsError, '', fromPartial({})),
       );
 
       expect(loading).toEqual(false);
@@ -54,7 +54,7 @@ describe('orphanVisitsReducer', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, errorData, visits } = reducer(
         buildState({ loading: true, errorData: null }),
-        getOrphanVisits.fulfilled({ visits: actionVisits }, '', fromPartial({}), undefined),
+        getOrphanVisits.fulfilled({ visits: actionVisits }, '', fromPartial({})),
       );
 
       expect(loading).toEqual(false);
@@ -140,7 +140,7 @@ describe('orphanVisitsReducer', () => {
     });
 
     it('dispatches start and success when promise is resolved', async () => {
-      const getVisitsParam = { params: {}, options: {} };
+      const getVisitsParam = { params: {}, options: {}, apiClientFactory };
 
       getOrphanVisitsCall.mockResolvedValue({
         data: visitsMocks,
@@ -189,7 +189,9 @@ describe('orphanVisitsReducer', () => {
         .mockResolvedValueOnce(buildVisitsResult())
         .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getOrphanVisits({ params: {}, options: { doIntervalFallback: true } })(dispatchMock, getState, {});
+      await getOrphanVisits(
+        { params: {}, options: { doIntervalFallback: true }, apiClientFactory },
+      )(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
       expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
@@ -240,10 +242,11 @@ describe('orphanVisitsReducer', () => {
     ])('returns visits from prev interval when requested and possible', async (
       { dateRange, loadPrevInterval, expectsPrevVisits, orphanVisitsType },
     ) => {
-      const getVisitsParam: LoadOrphanVisits = {
+      const getVisitsParam: WithApiClient<LoadOrphanVisits> = {
         params: { dateRange },
         options: { loadPrevInterval },
         orphanVisitsType,
+        apiClientFactory,
       };
       const expectedVisits = visitsMocks.map(
         (visit) => (orphanVisitsType ? { ...visit, type: orphanVisitsType } : visit),

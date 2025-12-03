@@ -8,16 +8,16 @@ import type { createVisitsAsyncThunk } from './createVisitsAsyncThunk';
 
 interface VisitsReducerOptions<State extends VisitsInfo, AT extends ReturnType<typeof createVisitsAsyncThunk>> {
   name: string;
-  asyncThunkCreator: AT;
+  asyncThunk: AT;
   initialState: State;
   filterCreatedVisits: (state: State, createdVisits: CreateVisit[]) => CreateVisit[];
   extraReducers?: (builder: ActionReducerMapBuilder<State>) => void;
 }
 
 export const createVisitsReducer = <State extends VisitsInfo, AT extends ReturnType<typeof createVisitsAsyncThunk>>(
-  { name, asyncThunkCreator, initialState, filterCreatedVisits, extraReducers }: VisitsReducerOptions<State, AT>,
+  { name, asyncThunk, initialState, filterCreatedVisits, extraReducers }: VisitsReducerOptions<State, AT>,
 ) => {
-  const { pending, rejected, fulfilled, progressChanged, fallbackToInterval } = asyncThunkCreator;
+  const { pending, rejected, fulfilled, progressChanged, fallbackToInterval } = asyncThunk;
   const { reducer, actions } = createSlice({
     name,
     initialState,

@@ -2,13 +2,15 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { addDays, formatISO, subDays } from 'date-fns';
 import type { ShlinkApiClient, ShlinkVisit, ShlinkVisitsList } from '../../../src/api-contract';
 import type { RootState } from '../../../src/store';
+import type { WithApiClient } from '../../../src/store/helpers';
 import { formatIsoDate } from '../../../src/utils/dates/helpers/date';
 import type { DateInterval } from '../../../src/utils/dates/helpers/dateIntervals';
 import { rangeOf } from '../../../src/utils/helpers';
 import type { LoadShortUrlVisits, ShortUrlVisits } from '../../../src/visits/reducers/shortUrlVisits';
 import {
-  getShortUrlVisits as getShortUrlVisitsCreator,
-  shortUrlVisitsReducerCreator,
+  cancelGetVisits as cancelGetShortUrlVisits,
+  getShortUrlVisitsThunk as getShortUrlVisits,
+  shortUrlVisitsReducer as reducer,
 } from '../../../src/visits/reducers/shortUrlVisits';
 import { deleteShortUrlVisitsThunk } from '../../../src/visits/reducers/shortUrlVisitsDeletion';
 import { createNewVisits } from '../../../src/visits/reducers/visitCreation';
@@ -19,9 +21,7 @@ describe('shortUrlVisitsReducer', () => {
   const dateForVisit = (day: number) => `2020-01-1${day}T00:00:00Z`;
   const visitsMocks = rangeOf(2, (index) => fromPartial<ShlinkVisit>({ date: dateForVisit(index) }));
   const getShortUrlVisitsCall = vi.fn();
-  const buildApiClientMock = () => fromPartial<ShlinkApiClient>({ getShortUrlVisits: getShortUrlVisitsCall });
-  const getShortUrlVisits = getShortUrlVisitsCreator(buildApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetShortUrlVisits } = shortUrlVisitsReducerCreator(getShortUrlVisits);
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ getShortUrlVisits: getShortUrlVisitsCall });
 
   describe('reducer', () => {
     const buildState = (data: Partial<ShortUrlVisits>) => fromPartial<ShortUrlVisits>(data);
@@ -29,7 +29,7 @@ describe('shortUrlVisitsReducer', () => {
     it('returns loading wen pending', () => {
       const { loading } = reducer(
         buildState({ loading: false }),
-        getShortUrlVisits.pending('', fromPartial({ shortCode: '' }), undefined),
+        getShortUrlVisits.pending('', fromPartial({ shortCode: '' })),
       );
       expect(loading).toEqual(true);
     });
@@ -42,7 +42,7 @@ describe('shortUrlVisitsReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         buildState({ loading: true, errorData: null }),
-        getShortUrlVisits.rejected(problemDetailsError, '', fromPartial({ shortCode: '' }), undefined, undefined),
+        getShortUrlVisits.rejected(problemDetailsError, '', fromPartial({ shortCode: '' })),
       );
 
       expect(loading).toEqual(false);
@@ -53,7 +53,7 @@ describe('shortUrlVisitsReducer', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
       const { loading, errorData, visits } = reducer(
         buildState({ loading: true, errorData: null }),
-        getShortUrlVisits.fulfilled({ visits: actionVisits }, '', fromPartial({ shortCode: '' }), undefined),
+        getShortUrlVisits.fulfilled({ visits: actionVisits }, '', fromPartial({ shortCode: '' })),
       );
 
       expect(loading).toEqual(false);
@@ -177,7 +177,7 @@ describe('shortUrlVisitsReducer', () => {
       ['foobar.com'],
     ])('dispatches start and success when promise is resolved', async (domain) => {
       const shortCode = 'abc123';
-      const getVisitsParam = { shortCode, domain, params: {}, options: {} };
+      const getVisitsParam = { shortCode, domain, params: {}, options: {}, apiClientFactory };
 
       getShortUrlVisitsCall.mockResolvedValue({
         data: visitsMocks,
@@ -209,7 +209,9 @@ describe('shortUrlVisitsReducer', () => {
           },
         }));
 
-      await getShortUrlVisits({ shortCode: 'abc123', params: {}, options: {} })(dispatchMock, getState, {});
+      await getShortUrlVisits(
+        { shortCode: 'abc123', params: {}, options: {}, apiClientFactory },
+      )(dispatchMock, getState, {});
 
       expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(expectedRequests);
       expect(dispatchMock).toHaveBeenNthCalledWith(3, expect.objectContaining({
@@ -249,7 +251,7 @@ describe('shortUrlVisitsReducer', () => {
         .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
       await getShortUrlVisits(
-        { shortCode: 'abc123', params: {}, options: { doIntervalFallback: true } },
+        { shortCode: 'abc123', params: {}, options: { doIntervalFallback: true }, apiClientFactory },
       )(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
@@ -298,10 +300,11 @@ describe('shortUrlVisitsReducer', () => {
       { dateRange, loadPrevInterval, expectsPrevVisits },
     ) => {
       const shortCode = 'abc123';
-      const getVisitsParam: LoadShortUrlVisits = {
+      const getVisitsParam: WithApiClient<LoadShortUrlVisits> = {
         shortCode,
         params: { dateRange },
         options: { loadPrevInterval },
+        apiClientFactory,
       };
       const prevVisits = expectsPrevVisits ? visitsMocks.map(
         (visit, index) => ({ ...visit, date: dateForVisit(index + 1 + visitsMocks.length) }),

@@ -1,5 +1,8 @@
 import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { ShlinkApiClient } from '../../api-contract';
+import { useCallback } from 'react';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { useApiClientFactory } from '../../store/helpers';
 import { filterCreatedVisitsByDomain } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import type { LoadVisits, VisitsInfo } from './types';
@@ -23,9 +26,9 @@ const initialState: DomainVisits = {
   progress: null,
 };
 
-export const getDomainVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
+export const getDomainVisitsThunk = createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getDomainVisits`,
-  createLoaders: ({ domain, options }: LoadDomainVisits) => {
+  createLoaders: ({ domain, options, apiClientFactory }: WithApiClient<LoadDomainVisits>) => {
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false } = options;
 
@@ -37,16 +40,27 @@ export const getDomainVisits = (apiClientFactory: () => ShlinkApiClient) => crea
   shouldCancel: (getState) => getState().domainVisits.cancelLoad,
 });
 
-export const domainVisitsReducerCreator = (
-  asyncThunkCreator: ReturnType<typeof getDomainVisits>,
-) => createVisitsReducer({
+export const { reducer: domainVisitsReducer, cancelGetVisits: cancelGetDomainVisits } = createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,
   // @ts-expect-error TODO Fix type inference
-  asyncThunkCreator,
+  asyncThunk: getDomainVisitsThunk,
   filterCreatedVisits: ({ domain, params }, createdVisits) => filterCreatedVisitsByDomain(
     createdVisits,
     domain,
     params?.dateRange,
   ),
 });
+
+export const useDomainVisits = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const getDomainVisits = useCallback(
+    (params: LoadDomainVisits) => dispatch(getDomainVisitsThunk({ ...params, apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const dispatchCancelGetDomainVisits = useCallback(() => dispatch(cancelGetDomainVisits()), [dispatch]);
+  const domainVisits = useAppSelector((state) => state.domainVisits);
+
+  return { domainVisits, getDomainVisits, cancelGetDomainVisits: dispatchCancelGetDomainVisits };
+};

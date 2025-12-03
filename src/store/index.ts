@@ -29,12 +29,17 @@ import { tagEditReducer } from '../tags/reducers/tagEdit';
 import type { TagsList } from '../tags/reducers/tagsList';
 import { tagsListReducer } from '../tags/reducers/tagsList';
 import type { DomainVisits } from '../visits/reducers/domainVisits';
+import { domainVisitsReducer } from '../visits/reducers/domainVisits';
+import { nonOrphanVisitsReducer } from '../visits/reducers/nonOrphanVisits';
+import { orphanVisitsReducer } from '../visits/reducers/orphanVisits';
 import type { OrphanVisitsDeletion } from '../visits/reducers/orphanVisitsDeletion';
 import { orphanVisitsDeletionReducer } from '../visits/reducers/orphanVisitsDeletion';
 import type { ShortUrlVisits } from '../visits/reducers/shortUrlVisits';
+import { shortUrlVisitsReducer } from '../visits/reducers/shortUrlVisits';
 import type { ShortUrlVisitsDeletion } from '../visits/reducers/shortUrlVisitsDeletion';
 import { shortUrlVisitsDeletionReducer } from '../visits/reducers/shortUrlVisitsDeletion';
 import type { TagVisits } from '../visits/reducers/tagVisits';
+import { tagVisitsReducer } from '../visits/reducers/tagVisits';
 import type { VisitsInfo } from '../visits/reducers/types';
 import type { VisitsOverview } from '../visits/reducers/visitsOverview';
 import { visitsOverviewReducer } from '../visits/reducers/visitsOverview';
@@ -52,16 +57,16 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     shortUrlDeletion: shortUrlDeletionReducer,
     shortUrlEdition: shortUrlEditionReducer,
     shortUrlsDetails: shortUrlsDetailsReducer,
-    shortUrlVisits: container.shortUrlVisitsReducer as ShortUrlVisits,
+    shortUrlVisits: shortUrlVisitsReducer,
     shortUrlVisitsDeletion: shortUrlVisitsDeletionReducer,
     shortUrlVisitsComparison: container.shortUrlVisitsComparisonReducer as VisitsComparisonInfo,
-    tagVisits: container.tagVisitsReducer as TagVisits,
+    tagVisits: tagVisitsReducer,
     tagVisitsComparison: container.tagVisitsComparisonReducer as VisitsComparisonInfo,
-    domainVisits: container.domainVisitsReducer as DomainVisits,
+    domainVisits: domainVisitsReducer,
     domainVisitsComparison: container.domainVisitsComparisonReducer as VisitsComparisonInfo,
-    orphanVisits: container.orphanVisitsReducer as VisitsInfo,
+    orphanVisits: orphanVisitsReducer,
     orphanVisitsDeletion: orphanVisitsDeletionReducer,
-    nonOrphanVisits: container.nonOrphanVisitsReducer as VisitsInfo,
+    nonOrphanVisits: nonOrphanVisitsReducer,
     tagsList: tagsListReducer,
     tagDelete: tagDeleteReducer,
     tagEdit: tagEditReducer,
@@ -69,7 +74,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     visitsOverview: visitsOverviewReducer,
     shortUrlRedirectRules: shortUrlRedirectRulesReducer,
     shortUrlRedirectRulesSaving: shortUrlRedirectRulesSavingReducer,
-  } as const),
+  }),
   preloadedState,
   middleware: (defaultMiddlewaresIncludingReduxThunk) => defaultMiddlewaresIncludingReduxThunk({
     // State is too big for these

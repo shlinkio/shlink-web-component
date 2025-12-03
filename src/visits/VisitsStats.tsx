@@ -39,11 +39,13 @@ import { VisitsTable } from './VisitsTable';
 export type VisitsStatsProps = PropsWithChildren<{
   getVisits: (params: VisitsParams, options: GetVisitsOptions) => void;
   visitsInfo: VisitsInfo;
+  // TODO Rename to onCancelGetVisits
   cancelGetVisits: () => void;
   deletion?: {
     deleteVisits: () => void;
     visitsDeletion: VisitsDeletion;
   };
+  // TODO Rename to onExportVisits
   exportCsv: (visits: NormalizedVisit[]) => void;
   isOrphanVisits?: boolean;
   /** A domain filter dropdown will be displayed if provided */

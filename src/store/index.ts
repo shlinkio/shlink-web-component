@@ -32,6 +32,7 @@ import type { DomainVisits } from '../visits/reducers/domainVisits';
 import type { OrphanVisitsDeletion } from '../visits/reducers/orphanVisitsDeletion';
 import { orphanVisitsDeletionReducer } from '../visits/reducers/orphanVisitsDeletion';
 import type { ShortUrlVisits } from '../visits/reducers/shortUrlVisits';
+import { shortUrlVisitsReducer } from '../visits/reducers/shortUrlVisits';
 import type { ShortUrlVisitsDeletion } from '../visits/reducers/shortUrlVisitsDeletion';
 import { shortUrlVisitsDeletionReducer } from '../visits/reducers/shortUrlVisitsDeletion';
 import type { TagVisits } from '../visits/reducers/tagVisits';
@@ -52,7 +53,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     shortUrlDeletion: shortUrlDeletionReducer,
     shortUrlEdition: shortUrlEditionReducer,
     shortUrlsDetails: shortUrlsDetailsReducer,
-    shortUrlVisits: container.shortUrlVisitsReducer as ShortUrlVisits,
+    shortUrlVisits: shortUrlVisitsReducer,
     shortUrlVisitsDeletion: shortUrlVisitsDeletionReducer,
     shortUrlVisitsComparison: container.shortUrlVisitsComparisonReducer as VisitsComparisonInfo,
     tagVisits: container.tagVisitsReducer as TagVisits,
@@ -69,7 +70,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     visitsOverview: visitsOverviewReducer,
     shortUrlRedirectRules: shortUrlRedirectRulesReducer,
     shortUrlRedirectRulesSaving: shortUrlRedirectRulesSavingReducer,
-  } as const),
+  }),
   preloadedState,
   middleware: (defaultMiddlewaresIncludingReduxThunk) => defaultMiddlewaresIncludingReduxThunk({
     // State is too big for these

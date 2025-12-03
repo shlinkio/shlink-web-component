@@ -49,12 +49,10 @@ export const getOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => crea
   shouldCancel: (getState) => getState().orphanVisits.cancelLoad,
 });
 
-export const orphanVisitsReducerCreator = (
-  asyncThunkCreator: ReturnType<typeof getOrphanVisits>,
-) => createVisitsReducer({
+export const orphanVisitsReducerCreator = (asyncThunk: ReturnType<typeof getOrphanVisits>) => createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,
-  asyncThunkCreator,
+  asyncThunk,
   extraReducers: (builder) => {
     builder.addCase(deleteOrphanVisitsThunk.fulfilled, (state) => ({ ...state, visits: [] }));
   },

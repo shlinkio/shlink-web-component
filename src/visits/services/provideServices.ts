@@ -7,7 +7,6 @@ import { OrphanVisitsFactory } from '../OrphanVisits';
 import { domainVisitsReducerCreator, getDomainVisits } from '../reducers/domainVisits';
 import { getNonOrphanVisits, nonOrphanVisitsReducerCreator } from '../reducers/nonOrphanVisits';
 import { getOrphanVisits, orphanVisitsReducerCreator } from '../reducers/orphanVisits';
-import { getShortUrlVisits, shortUrlVisitsReducerCreator } from '../reducers/shortUrlVisits';
 import { getTagVisits, tagVisitsReducerCreator } from '../reducers/tagVisits';
 import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import { TagVisitsFactory } from '../TagVisits';
@@ -33,7 +32,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('MapModal', () => MapModal);
 
   bottle.factory('ShortUrlVisits', ShortUrlVisitsFactory);
-  bottle.decorator('ShortUrlVisits', connect(['shortUrlVisits'], ['getShortUrlVisits', 'cancelGetShortUrlVisits']));
 
   bottle.factory('TagVisits', TagVisitsFactory);
   bottle.decorator('TagVisits', connect(['tagVisits'], ['getTagVisits', 'cancelGetTagVisits']));
@@ -69,9 +67,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
   bottle.serviceFactory('VisitsParser', () => visitsParser);
 
   // Actions
-  bottle.serviceFactory('getShortUrlVisits', getShortUrlVisits, 'apiClientFactory');
-  bottle.serviceFactory('cancelGetShortUrlVisits', (obj) => obj.cancelGetVisits, 'shortUrlVisitsReducerCreator');
-
   bottle.serviceFactory('getShortUrlVisitsForComparison', getShortUrlVisitsForComparison, 'apiClientFactory');
   bottle.serviceFactory(
     'cancelGetShortUrlVisitsForComparison',
@@ -118,13 +113,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     'getOrphanVisits',
   );
   bottle.serviceFactory('orphanVisitsReducer', (obj) => obj.reducer, 'orphanVisitsReducerCreator');
-
-  bottle.serviceFactory(
-    'shortUrlVisitsReducerCreator',
-    shortUrlVisitsReducerCreator,
-    'getShortUrlVisits',
-  );
-  bottle.serviceFactory('shortUrlVisitsReducer', (obj) => obj.reducer, 'shortUrlVisitsReducerCreator');
 
   bottle.serviceFactory('tagVisitsReducerCreator', tagVisitsReducerCreator, 'getTagVisits');
   bottle.serviceFactory('tagVisitsReducer', (obj) => obj.reducer, 'tagVisitsReducerCreator');

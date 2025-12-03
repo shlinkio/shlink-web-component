@@ -1,4 +1,8 @@
-import type { ShlinkApiClient, ShlinkShortUrlIdentifier, ShlinkVisitsParams } from '../../api-contract';
+import { useCallback } from 'react';
+import type { ShlinkShortUrlIdentifier, ShlinkVisitsParams } from '../../api-contract';
+import { useAppDispatch, useAppSelector } from '../../store';
+import type { WithApiClient } from '../../store/helpers';
+import { useApiClientFactory } from '../../store/helpers';
 import { filterCreatedVisitsByShortUrl } from '../helpers';
 import { createVisitsAsyncThunk, createVisitsReducer, lastVisitLoaderForLoader } from './common';
 import { deleteShortUrlVisitsThunk } from './shortUrlVisitsDeletion';
@@ -19,9 +23,9 @@ const initialState: ShortUrlVisits = {
 
 export type LoadShortUrlVisits = LoadVisits & ShlinkShortUrlIdentifier;
 
-export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => createVisitsAsyncThunk({
+export const getShortUrlVisitsThunk = createVisitsAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getShortUrlVisits`,
-  createLoaders: ({ shortCode, domain, options }: LoadShortUrlVisits) => {
+  createLoaders: ({ shortCode, domain, options, apiClientFactory }: WithApiClient<LoadShortUrlVisits>) => {
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false } = options;
 
@@ -36,13 +40,11 @@ export const getShortUrlVisits = (apiClientFactory: () => ShlinkApiClient) => cr
   shouldCancel: (getState) => getState().shortUrlVisits.cancelLoad,
 });
 
-export const shortUrlVisitsReducerCreator = (
-  asyncThunkCreator: ReturnType<typeof getShortUrlVisits>,
-) => createVisitsReducer({
+export const { reducer: shortUrlVisitsReducer, cancelGetVisits } = createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,
   // @ts-expect-error TODO Fix type inference
-  asyncThunkCreator,
+  asyncThunk: getShortUrlVisitsThunk,
   extraReducers: (builder) => {
     builder.addCase(deleteShortUrlVisitsThunk.fulfilled, (state, { payload }) => {
       if (state.shortCode === payload.shortCode && state.domain === payload.domain) {
@@ -58,3 +60,16 @@ export const shortUrlVisitsReducerCreator = (
     params?.dateRange,
   ),
 });
+
+export const useUrlVisits = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const getShortUrlVisits = useCallback(
+    (data: LoadShortUrlVisits) => dispatch(getShortUrlVisitsThunk({ ...data, apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const dispatchCancelGetVisits = useCallback(() => dispatch(cancelGetVisits()), [dispatch]);
+  const shortUrlVisits = useAppSelector((state) => state.shortUrlVisits);
+
+  return { shortUrlVisits, getShortUrlVisits, cancelGetShortUrlVisits: dispatchCancelGetVisits };
+};

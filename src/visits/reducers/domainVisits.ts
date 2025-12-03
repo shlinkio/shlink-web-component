@@ -37,13 +37,11 @@ export const getDomainVisits = (apiClientFactory: () => ShlinkApiClient) => crea
   shouldCancel: (getState) => getState().domainVisits.cancelLoad,
 });
 
-export const domainVisitsReducerCreator = (
-  asyncThunkCreator: ReturnType<typeof getDomainVisits>,
-) => createVisitsReducer({
+export const domainVisitsReducerCreator = (asyncThunk: ReturnType<typeof getDomainVisits>) => createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,
   // @ts-expect-error TODO Fix type inference
-  asyncThunkCreator,
+  asyncThunk,
   filterCreatedVisits: ({ domain, params }, createdVisits) => filterCreatedVisitsByDomain(
     createdVisits,
     domain,

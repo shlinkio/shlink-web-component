@@ -29,11 +29,11 @@ export const getNonOrphanVisits = (apiClientFactory: () => ShlinkApiClient) => c
 });
 
 export const nonOrphanVisitsReducerCreator = (
-  asyncThunkCreator: ReturnType<typeof getNonOrphanVisits>,
+  asyncThunk: ReturnType<typeof getNonOrphanVisits>,
 ) => createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,
-  asyncThunkCreator,
+  asyncThunk,
   filterCreatedVisits: ({ params }, createdVisits) => {
     const { startDate, endDate } = params?.dateRange ?? {};
     return createdVisits.filter(({ visit }) => isBetween(visit.date, startDate, endDate));

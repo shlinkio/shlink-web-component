@@ -37,11 +37,11 @@ export const getTagVisits = (apiClientFactory: () => ShlinkApiClient) => createV
   shouldCancel: (getState) => getState().tagVisits.cancelLoad,
 });
 
-export const tagVisitsReducerCreator = (asyncThunkCreator: ReturnType<typeof getTagVisits>) => createVisitsReducer({
+export const tagVisitsReducerCreator = (asyncThunk: ReturnType<typeof getTagVisits>) => createVisitsReducer({
   name: REDUCER_PREFIX,
   initialState,
   // @ts-expect-error TODO Fix type inference
-  asyncThunkCreator,
+  asyncThunk,
   filterCreatedVisits: ({ tag, params }: TagVisits, createdVisits) => filterCreatedVisitsByTag(
     createdVisits,
     tag,

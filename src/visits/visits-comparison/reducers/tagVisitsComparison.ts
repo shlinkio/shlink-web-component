@@ -1,5 +1,8 @@
 import type { ShlinkVisitsParams } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { ShlinkApiClient } from '../../../api-contract';
+import { useCallback } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../store';
+import type { WithApiClient } from '../../../store/helpers';
+import { useApiClientFactory } from '../../../store/helpers';
 import { filterCreatedVisitsByTag } from '../../helpers';
 import { createVisitsComparisonAsyncThunk } from './common/createVisitsComparisonAsyncThunk';
 import { createVisitsComparisonReducer } from './common/createVisitsComparisonReducer';
@@ -17,9 +20,9 @@ const initialState: VisitsComparisonInfo = {
   progress: null,
 };
 
-export const getTagVisitsForComparison = (apiClientFactory: () => ShlinkApiClient) => createVisitsComparisonAsyncThunk({
+export const getTagVisitsForComparisonThunk = createVisitsComparisonAsyncThunk({
   typePrefix: `${REDUCER_PREFIX}/getTagVisitsForComparison`,
-  createLoaders: ({ tags }: LoadTagVisitsForComparison) => {
+  createLoaders: ({ tags, apiClientFactory }: WithApiClient<LoadTagVisitsForComparison>) => {
     const apiClient = apiClientFactory();
     const loaderEntries = tags.map((tag) => [
       tag,
@@ -31,15 +34,30 @@ export const getTagVisitsForComparison = (apiClientFactory: () => ShlinkApiClien
   shouldCancel: (getState) => getState().tagVisitsComparison.cancelLoad,
 });
 
-export const tagVisitsComparisonReducerCreator = (asyncThunk: ReturnType<typeof getTagVisitsForComparison>) =>
-  createVisitsComparisonReducer({
-    name: REDUCER_PREFIX,
-    initialState,
-    // @ts-expect-error TODO Fix type inference
-    asyncThunk,
-    filterCreatedVisitsForGroup: ({ groupKey: tag, params }, createdVisits) => filterCreatedVisitsByTag(
-      createdVisits,
-      tag,
-      params?.dateRange,
-    ),
-  });
+export const {
+  reducer: tagVisitsComparisonReducer,
+  cancelGetVisits: cancelGetTagVisitsForComparison,
+} = createVisitsComparisonReducer({
+  name: REDUCER_PREFIX,
+  initialState,
+  // @ts-expect-error TODO Fix type inference
+  asyncThunk: getTagVisitsForComparisonThunk,
+  filterCreatedVisitsForGroup: ({ groupKey: tag, params }, createdVisits) => filterCreatedVisitsByTag(
+    createdVisits,
+    tag,
+    params?.dateRange,
+  ),
+});
+
+export const useTagVisitsComparison = () => {
+  const dispatch = useAppDispatch();
+  const apiClientFactory = useApiClientFactory();
+  const getTagVisitsForComparison = useCallback(
+    (data: LoadTagVisitsForComparison) => dispatch(getTagVisitsForComparisonThunk({ ...data, apiClientFactory })),
+    [apiClientFactory, dispatch],
+  );
+  const cancelGetVisits = useCallback(() => dispatch(cancelGetTagVisitsForComparison()), [dispatch]);
+  const tagVisitsComparison = useAppSelector((state) => state.tagVisitsComparison);
+
+  return { tagVisitsComparison, getTagVisitsForComparison, cancelGetTagVisitsForComparison: cancelGetVisits };
+};

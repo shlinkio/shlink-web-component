@@ -5,8 +5,9 @@ import { formatIsoDate } from '../../../../src/utils/dates/helpers/date';
 import { rangeOf } from '../../../../src/utils/helpers';
 import { createNewVisits } from '../../../../src/visits/reducers/visitCreation';
 import {
-  getTagVisitsForComparison as getTagVisitsForComparisonCreator,
-  tagVisitsComparisonReducerCreator,
+  cancelGetTagVisitsForComparison,
+  getTagVisitsForComparisonThunk as getTagVisitsForComparison,
+  tagVisitsComparisonReducer as reducer,
 } from '../../../../src/visits/visits-comparison/reducers/tagVisitsComparison';
 import { problemDetailsError } from '../../../__mocks__/ProblemDetailsError.mock';
 
@@ -14,15 +15,11 @@ describe('tagVisitsComparisonReducer', () => {
   const now = new Date();
   const visitsMocks = rangeOf(2, () => fromPartial<ShlinkVisit>({}));
   const getTagVisitsCall = vi.fn();
-  const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getTagVisits: getTagVisitsCall });
-  const getTagVisitsForComparison = getTagVisitsForComparisonCreator(buildShlinkApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetTagVisitsForComparison } = tagVisitsComparisonReducerCreator(
-    getTagVisitsForComparison,
-  );
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ getTagVisits: getTagVisitsCall });
 
   describe('reducer', () => {
     it('returns loading when pending', () => {
-      const action = getTagVisitsForComparison.pending('', fromPartial({ tags: [] }), undefined);
+      const action = getTagVisitsForComparison.pending('', fromPartial({ tags: [] }));
       const { loading } = reducer(fromPartial({ loading: false }), action);
 
       expect(loading).toEqual(true);
@@ -36,7 +33,7 @@ describe('tagVisitsComparisonReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         fromPartial({ loading: true, errorData: null }),
-        getTagVisitsForComparison.rejected(problemDetailsError, '', fromPartial({ tags: [] }), undefined, undefined),
+        getTagVisitsForComparison.rejected(problemDetailsError, '', fromPartial({ tags: [] })),
       );
 
       expect(loading).toEqual(false);
@@ -136,7 +133,7 @@ describe('tagVisitsComparisonReducer', () => {
         baz: visitsMocks,
       };
       const tags = Object.keys(visitsGroups);
-      const getVisitsComparisonParam = { tags, params: {} };
+      const getVisitsComparisonParam = { tags, params: {}, apiClientFactory };
 
       getTagVisitsCall.mockResolvedValue({
         data: visitsMocks,

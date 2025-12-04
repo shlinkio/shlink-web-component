@@ -7,7 +7,7 @@ import type { createVisitsComparisonAsyncThunk } from './createVisitsComparisonA
 
 type VisitsReducerOptions<AT extends ReturnType<typeof createVisitsComparisonAsyncThunk>> = {
   name: string;
-  asyncThunkCreator: AT;
+  asyncThunk: AT;
   initialState: VisitsComparisonInfo;
   filterCreatedVisitsForGroup: (
     state: Omit<VisitsComparisonInfo, 'visitsGroups'> & { groupKey: string },
@@ -16,9 +16,9 @@ type VisitsReducerOptions<AT extends ReturnType<typeof createVisitsComparisonAsy
 };
 
 export const createVisitsComparisonReducer = <AT extends ReturnType<typeof createVisitsComparisonAsyncThunk>>(
-  { name, asyncThunkCreator, initialState, filterCreatedVisitsForGroup }: VisitsReducerOptions<AT>,
+  { name, asyncThunk, initialState, filterCreatedVisitsForGroup }: VisitsReducerOptions<AT>,
 ) => {
-  const { pending, rejected, fulfilled, progressChanged } = asyncThunkCreator;
+  const { pending, rejected, fulfilled, progressChanged } = asyncThunk;
   const { reducer, actions } = createSlice({
     name,
     initialState,

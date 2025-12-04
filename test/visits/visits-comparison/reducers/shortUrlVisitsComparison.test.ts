@@ -6,44 +6,34 @@ import { formatIsoDate } from '../../../../src/utils/dates/helpers/date';
 import { rangeOf } from '../../../../src/utils/helpers';
 import { createNewVisits } from '../../../../src/visits/reducers/visitCreation';
 import {
-  getShortUrlVisitsForComparison as getShortUrlVisitsForComparisonCreator,
-  shortUrlVisitsComparisonReducerCreator,
-} from '../../../../src/visits/visits-comparison/reducers/shortUrlVisitsComparison';
+  cancelGetShortUrlVisitsComparison,
+  getShortUrlVisitsForComparisonThunk as getShortUrlVisitsForComparison,
+  shortUrlVisitsComparisonReducer as reducer } from '../../../../src/visits/visits-comparison/reducers/shortUrlVisitsComparison';
 import { problemDetailsError } from '../../../__mocks__/ProblemDetailsError.mock';
 
 describe('shortUrlVisitsComparisonReducer', () => {
   const now = new Date();
   const visitsMocks = rangeOf(2, () => fromPartial<ShlinkVisit>({}));
   const getShortUrlVisitsCall = vi.fn();
-  const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getShortUrlVisits: getShortUrlVisitsCall });
-  const getShortUrlVisitsForComparison = getShortUrlVisitsForComparisonCreator(buildShlinkApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetShortUrlVisitsForComparison } = shortUrlVisitsComparisonReducerCreator(
-    getShortUrlVisitsForComparison,
-  );
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ getShortUrlVisits: getShortUrlVisitsCall });
 
   describe('reducer', () => {
     it('returns loading when pending', () => {
-      const action = getShortUrlVisitsForComparison.pending('', fromPartial({ shortUrls: [] }), undefined);
+      const action = getShortUrlVisitsForComparison.pending('', fromPartial({ shortUrls: [] }));
       const { loading } = reducer(fromPartial({ loading: false }), action);
 
       expect(loading).toEqual(true);
     });
 
     it('returns cancelLoad when load is cancelled', () => {
-      const { cancelLoad } = reducer(fromPartial({ cancelLoad: false }), cancelGetShortUrlVisitsForComparison());
+      const { cancelLoad } = reducer(fromPartial({ cancelLoad: false }), cancelGetShortUrlVisitsComparison());
       expect(cancelLoad).toEqual(true);
     });
 
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         fromPartial({ loading: true, errorData: null }),
-        getShortUrlVisitsForComparison.rejected(
-          problemDetailsError,
-          '',
-          fromPartial({ shortUrls: [] }),
-          undefined,
-          undefined,
-        ),
+        getShortUrlVisitsForComparison.rejected(problemDetailsError, '', fromPartial({ shortUrls: [] })),
       );
 
       expect(loading).toEqual(false);
@@ -63,7 +53,6 @@ describe('shortUrlVisitsComparisonReducer', () => {
           fromPartial({
             shortUrls: [{ shortCode: 'foo' }, { shortCode: 'bar', domain: 's.test' }],
           }),
-          undefined,
         ),
       );
 
@@ -155,7 +144,7 @@ describe('shortUrlVisitsComparisonReducer', () => {
         DEFAULT__baz: visitsMocks,
       };
       const shortUrls = Object.keys(visitsGroups).map(queryToShortUrl);
-      const getVisitsComparisonParams = { shortUrls, params: {} };
+      const getVisitsComparisonParams = { shortUrls, params: {}, apiClientFactory };
 
       getShortUrlVisitsCall.mockResolvedValue({
         data: visitsMocks,

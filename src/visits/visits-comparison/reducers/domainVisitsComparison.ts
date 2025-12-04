@@ -33,12 +33,12 @@ export const getDomainVisitsForComparison = (apiClientFactory: () => ShlinkApiCl
   });
 
 export const domainVisitsComparisonReducerCreator = (
-  asyncThunkCreator: ReturnType<typeof getDomainVisitsForComparison>,
+  asyncThunk: ReturnType<typeof getDomainVisitsForComparison>,
 ) => createVisitsComparisonReducer({
   name: REDUCER_PREFIX,
   initialState,
   // @ts-expect-error TODO Fix type inference
-  asyncThunkCreator,
+  asyncThunk,
   filterCreatedVisitsForGroup: ({ groupKey: domain, params }, createdVisits) => filterCreatedVisitsByDomain(
     createdVisits,
     domain,

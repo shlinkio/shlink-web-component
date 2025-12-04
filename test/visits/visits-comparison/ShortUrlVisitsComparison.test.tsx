@@ -1,3 +1,4 @@
+import type { ShlinkVisitsList } from '@shlinkio/shlink-js-sdk/api-contract';
 import { cleanup, screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
@@ -10,38 +11,27 @@ import { renderWithStore } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
   shortUrls?: ShlinkShortUrlIdentifier[];
-  loadingVisits?: boolean;
 };
 
 describe('<ShortUrlVisitsComparison />', () => {
-  const getShortUrlVisitsForComparison = vi.fn();
   const getShortUrl = vi.fn().mockImplementation(
     async (id: ShlinkShortUrlIdentifier) => ({ ...id, shortUrl: `https://${shortUrlToQuery(id)}` }),
   );
-  const cancelGetShortUrlVisitsComparison = vi.fn();
-  const setUp = async ({ shortUrls = [], loadingVisits = false }: SetUpOptions = {}) => {
+  const getShortUrlVisits = vi.fn().mockResolvedValue(fromPartial<ShlinkVisitsList>({
+    data: [],
+    pagination: { pagesCount: 1, currentPage: 1, totalItems: 0 },
+  }));
+  const setUp = async ({ shortUrls = [] }: SetUpOptions = {}) => {
     const renderResult = renderWithStore(
       <MemoryRouter initialEntries={[{ search: `?short-urls=${shortUrls.map(shortUrlToQuery).join(',')}` }]}>
-        <ShortUrlVisitsComparison
-          getShortUrlVisitsForComparison={getShortUrlVisitsForComparison}
-          cancelGetShortUrlVisitsComparison={cancelGetShortUrlVisitsComparison}
-          shortUrlVisitsComparison={fromPartial({
-            visitsGroups: Object.fromEntries(shortUrls.map((shortUrl) => [shortUrlToQuery(shortUrl), []])),
-            loading: loadingVisits,
-            progress: null,
-          })}
-        />
+        <ShortUrlVisitsComparison />
       </MemoryRouter>,
       {
-        apiClientFactory: () => fromPartial({ getShortUrl }),
+        apiClientFactory: () => fromPartial({ getShortUrl, getShortUrlVisits }),
       },
     );
 
-    if (loadingVisits) {
-      await waitFor(() => expect(screen.queryByTestId('title')).not.toHaveTextContent('Loading...'));
-    } else {
-      await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument());
-    }
+    await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument());
 
     return renderResult;
   };
@@ -55,18 +45,17 @@ describe('<ShortUrlVisitsComparison />', () => {
   ])('loads short URLs on mount', async (shortUrls) => {
     await setUp({ shortUrls });
 
-    expect(getShortUrlVisitsForComparison).toHaveBeenCalledWith(expect.objectContaining({ shortUrls }));
+    expect(getShortUrlVisits).toHaveBeenCalledTimes(shortUrls.length);
     expect(getShortUrl).toHaveBeenCalledTimes(shortUrls.length);
   });
 
   it('cancels loading visits when unmounted', async () => {
-    const setUpPromise = setUp();
+    const { store } = await setUp();
+    const isCanceled = () => store.getState().shortUrlVisitsComparison.cancelLoad;
 
-    expect(cancelGetShortUrlVisitsComparison).not.toHaveBeenCalled();
+    expect(isCanceled()).toBe(false);
     cleanup();
-    expect(cancelGetShortUrlVisitsComparison).toHaveBeenCalledOnce();
-
-    await setUpPromise;
+    expect(isCanceled()).toBe(true);
   });
 
   it.each([
@@ -79,7 +68,7 @@ describe('<ShortUrlVisitsComparison />', () => {
   });
 
   it('renders global loading if visits and details are loading', async () => {
-    const setUpPromise = setUp({ loadingVisits: true });
+    const setUpPromise = setUp();
     expect(screen.getByRole('heading', { name: 'Loading...' })).toBeInTheDocument();
     await setUpPromise;
   });

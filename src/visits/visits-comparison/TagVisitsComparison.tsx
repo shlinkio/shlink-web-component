@@ -6,25 +6,18 @@ import { Topics } from '../../mercure/helpers/Topics';
 import { Tag } from '../../tags/helpers/Tag';
 import { useArrayQueryParam } from '../../utils/helpers/hooks';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
-import type { LoadTagVisitsForComparison } from './reducers/tagVisitsComparison';
-import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
+import { useTagVisitsComparison } from './reducers/tagVisitsComparison';
+import type { LoadVisitsForComparison } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
-
-type TagVisitsComparisonProps = {
-  getTagVisitsForComparison: (params: LoadTagVisitsForComparison) => void;
-  tagVisitsComparison: VisitsComparisonInfo;
-  cancelGetTagVisitsComparison: () => void;
-};
 
 type TagVisitsComparisonDeps = {
   ColorGenerator: ColorGenerator;
 };
 
-const TagVisitsComparison: FCWithDeps<TagVisitsComparisonProps, TagVisitsComparisonDeps> = boundToMercureHub((
-  { getTagVisitsForComparison, tagVisitsComparison, cancelGetTagVisitsComparison },
-) => {
+const TagVisitsComparison: FCWithDeps<any, TagVisitsComparisonDeps> = boundToMercureHub(() => {
   const { ColorGenerator: colorGenerator } = useDependencies(TagVisitsComparison);
   const tags = useArrayQueryParam('tags');
+  const { getTagVisitsForComparison, tagVisitsComparison, cancelGetTagVisitsForComparison } = useTagVisitsComparison();
   const getVisitsForComparison = useCallback(
     (params: LoadVisitsForComparison) => getTagVisitsForComparison({ ...params, tags }),
     [getTagVisitsForComparison, tags],
@@ -43,7 +36,7 @@ const TagVisitsComparison: FCWithDeps<TagVisitsComparisonProps, TagVisitsCompari
       title={<>Comparing {tags.map((tag) => <Tag key={tag} colorGenerator={colorGenerator} text={tag} />)}</>}
       getVisitsForComparison={getVisitsForComparison}
       visitsComparisonInfo={tagVisitsComparison}
-      cancelGetVisitsComparison={cancelGetTagVisitsComparison}
+      cancelGetVisitsComparison={cancelGetTagVisitsForComparison}
       colors={colors}
     />
   );

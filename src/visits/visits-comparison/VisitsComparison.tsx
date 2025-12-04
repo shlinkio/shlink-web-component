@@ -19,6 +19,7 @@ type VisitsComparisonProps = {
   title: ReactNode;
   getVisitsForComparison: (params: LoadVisitsForComparison) => void;
   visitsComparisonInfo: VisitsComparisonInfo;
+  // TODO Rename to onCancelGetVisitsComparison
   cancelGetVisitsComparison: () => void;
   colors?: Record<string, string>;
 };

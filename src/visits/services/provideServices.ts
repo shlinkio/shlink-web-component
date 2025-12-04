@@ -1,5 +1,4 @@
 import type Bottle from 'bottlejs';
-import type { ConnectDecorator } from '../../container';
 import { DomainVisitsFactory } from '../DomainVisits';
 import { MapModal } from '../helpers/MapModal';
 import { NonOrphanVisitsFactory } from '../NonOrphanVisits';
@@ -7,47 +6,20 @@ import { OrphanVisitsFactory } from '../OrphanVisits';
 import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import { TagVisitsFactory } from '../TagVisits';
 import { DomainVisitsComparison } from '../visits-comparison/DomainVisitsComparison';
-import {
-  domainVisitsComparisonReducerCreator,
-  getDomainVisitsForComparison,
-} from '../visits-comparison/reducers/domainVisitsComparison';
 import { TagVisitsComparisonFactory } from '../visits-comparison/TagVisitsComparison';
 import * as visitsParser from './VisitsParser';
 
-export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
-  // Components
+export const provideServices = (bottle: Bottle) => {
   bottle.serviceFactory('MapModal', () => MapModal);
 
   bottle.factory('ShortUrlVisits', ShortUrlVisitsFactory);
   bottle.factory('TagVisits', TagVisitsFactory);
   bottle.factory('TagVisitsComparison', TagVisitsComparisonFactory);
-
   bottle.serviceFactory('DomainVisitsComparison', () => DomainVisitsComparison);
-  bottle.decorator('DomainVisitsComparison', connect(
-    ['domainVisitsComparison'],
-    ['getDomainVisitsForComparison', 'cancelGetDomainVisitsForComparison'],
-  ));
-
   bottle.factory('DomainVisits', DomainVisitsFactory);
   bottle.factory('OrphanVisits', OrphanVisitsFactory);
   bottle.factory('NonOrphanVisits', NonOrphanVisitsFactory);
 
   // Services
   bottle.serviceFactory('VisitsParser', () => visitsParser);
-
-  // Actions
-  bottle.serviceFactory('getDomainVisitsForComparison', getDomainVisitsForComparison, 'apiClientFactory');
-  bottle.serviceFactory(
-    'cancelGetDomainVisitsForComparison',
-    (obj) => obj.cancelGetVisits,
-    'domainVisitsComparisonReducerCreator',
-  );
-
-  // Reducers
-  bottle.serviceFactory(
-    'domainVisitsComparisonReducerCreator',
-    domainVisitsComparisonReducerCreator,
-    'getDomainVisitsForComparison',
-  );
-  bottle.serviceFactory('domainVisitsComparisonReducer', (obj) => obj.reducer, 'domainVisitsComparisonReducerCreator');
 };

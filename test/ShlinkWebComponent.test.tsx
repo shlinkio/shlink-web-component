@@ -8,7 +8,6 @@ import { checkAccessibility } from './__helpers__/accessibility';
 
 describe('<ShlinkWebComponent />', () => {
   let bottle: Bottle;
-  const dispatch = vi.fn();
   const apiClient = fromPartial<ShlinkApiClient>({});
 
   const setUp = (tagColorsStorage?: TagColorsStorage) => {
@@ -20,13 +19,7 @@ describe('<ShlinkWebComponent />', () => {
 
   beforeEach(() => {
     bottle = new Bottle();
-
     bottle.value('Main', () => <>Main</>);
-    bottle.value('store', {
-      dispatch,
-      getState: vi.fn().mockReturnValue({}),
-      subscribe: vi.fn(),
-    });
   });
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -44,10 +37,5 @@ describe('<ShlinkWebComponent />', () => {
   it('renders main content', async () => {
     setUp();
     await waitFor(() => expect(screen.getByText('Main')).toBeInTheDocument());
-  });
-
-  it('dispatches some redux actions on mount', async () => {
-    setUp();
-    await waitFor(() => expect(dispatch).toHaveBeenCalledTimes(3));
   });
 });

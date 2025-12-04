@@ -5,8 +5,9 @@ import { formatIsoDate } from '../../../../src/utils/dates/helpers/date';
 import { rangeOf } from '../../../../src/utils/helpers';
 import { createNewVisits } from '../../../../src/visits/reducers/visitCreation';
 import {
-  domainVisitsComparisonReducerCreator,
-  getDomainVisitsForComparison as getDomainVisitsForComparisonCreator,
+  cancelGetDomainVisitsForComparison,
+  domainVisitsComparisonReducer as reducer,
+  getDomainVisitsForComparisonThunk as getDomainVisitsForComparison,
 } from '../../../../src/visits/visits-comparison/reducers/domainVisitsComparison';
 import { problemDetailsError } from '../../../__mocks__/ProblemDetailsError.mock';
 
@@ -14,15 +15,11 @@ describe('domainVisitsComparisonReducer', () => {
   const now = new Date();
   const visitsMocks = rangeOf(2, () => fromPartial<ShlinkVisit>({}));
   const getDomainVisitsCall = vi.fn();
-  const buildShlinkApiClientMock = () => fromPartial<ShlinkApiClient>({ getDomainVisits: getDomainVisitsCall });
-  const getDomainVisitsForComparison = getDomainVisitsForComparisonCreator(buildShlinkApiClientMock);
-  const { reducer, cancelGetVisits: cancelGetDomainVisitsForComparison } = domainVisitsComparisonReducerCreator(
-    getDomainVisitsForComparison,
-  );
+  const apiClientFactory = () => fromPartial<ShlinkApiClient>({ getDomainVisits: getDomainVisitsCall });
 
   describe('reducer', () => {
     it('returns loading when pending', () => {
-      const action = getDomainVisitsForComparison.pending('', fromPartial({ domains: [] }), undefined);
+      const action = getDomainVisitsForComparison.pending('', fromPartial({ domains: [] }));
       const { loading } = reducer(fromPartial({ loading: false }), action);
 
       expect(loading).toEqual(true);
@@ -36,13 +33,7 @@ describe('domainVisitsComparisonReducer', () => {
     it('stops loading and returns error when rejected', () => {
       const { loading, errorData } = reducer(
         fromPartial({ loading: true, errorData: null }),
-        getDomainVisitsForComparison.rejected(
-          problemDetailsError,
-          '',
-          fromPartial({ domains: [] }),
-          undefined,
-          undefined,
-        ),
+        getDomainVisitsForComparison.rejected(problemDetailsError, '', fromPartial({ domains: [] })),
       );
 
       expect(loading).toEqual(false);
@@ -60,7 +51,6 @@ describe('domainVisitsComparisonReducer', () => {
           { visitsGroups: actionVisits },
           '',
           fromPartial({ domains: ['foo.com', 'bar.com'] }),
-          undefined,
         ),
       );
 
@@ -142,7 +132,7 @@ describe('domainVisitsComparisonReducer', () => {
         baz: visitsMocks,
       };
       const domains = Object.keys(visitsGroups);
-      const getVisitsComparisonParam = { domains, params: {} };
+      const getVisitsComparisonParam = { domains, params: {}, apiClientFactory };
 
       getDomainVisitsCall.mockResolvedValue({
         data: visitsMocks,

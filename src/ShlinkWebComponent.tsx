@@ -11,6 +11,7 @@ import { loadMercureInfo } from './mercure/reducers/mercureInfo';
 import type { Settings } from './settings';
 import { SettingsProvider } from './settings';
 import { ShlinkSidebarVisibilityProvider } from './sidebar/ShlinkSidebarVisibilityProvider';
+import { setUpStore } from './store';
 import { listTagsThunk as listTags } from './tags/reducers/tagsList';
 import { FeaturesProvider, useFeatures } from './utils/features';
 import type { SemVerOrLatest } from './utils/helpers/version';
@@ -58,7 +59,8 @@ export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentP
 
     // It's important to not try to resolve services before the API client has been registered, as many other services
     // depend on it
-    const { Main, store } = bottle.container;
+    const { Main } = bottle.container;
+    const store = setUpStore();
     mainContent.current = <Main createNotFound={createNotFound} autoToggleButton={autoSidebarToggle} />;
     setStore(store);
 

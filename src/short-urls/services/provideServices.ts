@@ -1,7 +1,6 @@
 import type Bottle from 'bottlejs';
 import { CreateShortUrlFactory } from '../CreateShortUrl';
 import { EditShortUrlFactory } from '../EditShortUrl';
-import { ExportShortUrlsBtnFactory } from '../helpers/ExportShortUrlsBtn';
 import { ShortUrlsRowFactory } from '../helpers/ShortUrlsRow';
 import { ShortUrlFormFactory } from '../ShortUrlForm';
 import { ShortUrlsFilteringBarFactory } from '../ShortUrlsFilteringBar';
@@ -15,6 +14,5 @@ export const provideServices = (bottle: Bottle) => {
   bottle.factory('ShortUrlForm', ShortUrlFormFactory);
   bottle.factory('CreateShortUrl', CreateShortUrlFactory);
   bottle.factory('EditShortUrl', EditShortUrlFactory);
-  bottle.factory('ExportShortUrlsBtn', ExportShortUrlsBtnFactory);
   bottle.factory('ShortUrlsFilteringBar', ShortUrlsFilteringBarFactory);
 };

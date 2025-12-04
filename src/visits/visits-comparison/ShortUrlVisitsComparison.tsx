@@ -6,23 +6,18 @@ import { Topics } from '../../mercure/helpers/Topics';
 import { queryToShortUrl, shortUrlToQuery } from '../../short-urls/helpers';
 import { useUrlsDetails } from '../../short-urls/reducers/shortUrlsDetails';
 import { useArrayQueryParam } from '../../utils/helpers/hooks';
-import type { LoadShortUrlVisitsForComparison } from './reducers/shortUrlVisitsComparison';
+import { useUrlVisitsComparison } from './reducers/shortUrlVisitsComparison';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
 
-export type ShortUrlVisitsComparisonProps = {
-  getShortUrlVisitsForComparison: (params: LoadShortUrlVisitsForComparison) => void;
-  shortUrlVisitsComparison: VisitsComparisonInfo;
-  cancelGetShortUrlVisitsComparison: () => void;
-};
-
-export const ShortUrlVisitsComparison: FC<ShortUrlVisitsComparisonProps> = boundToMercureHub(({
-  getShortUrlVisitsForComparison,
-  shortUrlVisitsComparison,
-  cancelGetShortUrlVisitsComparison,
-}) => {
+export const ShortUrlVisitsComparison: FC = boundToMercureHub(() => {
   const shortUrlIds = useArrayQueryParam('short-urls');
   const identifiers = useMemo(() => shortUrlIds.map(queryToShortUrl), [shortUrlIds]);
+  const {
+    getShortUrlVisitsForComparison,
+    shortUrlVisitsComparison,
+    cancelGetShortUrlVisitsComparison,
+  } = useUrlVisitsComparison();
   const getVisitsForComparison = useCallback(
     (params: LoadVisitsForComparison) => getShortUrlVisitsForComparison({ ...params, shortUrls: identifiers }),
     [getShortUrlVisitsForComparison, identifiers],

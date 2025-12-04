@@ -31,12 +31,12 @@ export const getTagVisitsForComparison = (apiClientFactory: () => ShlinkApiClien
   shouldCancel: (getState) => getState().tagVisitsComparison.cancelLoad,
 });
 
-export const tagVisitsComparisonReducerCreator = (asyncThunkCreator: ReturnType<typeof getTagVisitsForComparison>) =>
+export const tagVisitsComparisonReducerCreator = (asyncThunk: ReturnType<typeof getTagVisitsForComparison>) =>
   createVisitsComparisonReducer({
     name: REDUCER_PREFIX,
     initialState,
     // @ts-expect-error TODO Fix type inference
-    asyncThunkCreator,
+    asyncThunk,
     filterCreatedVisitsForGroup: ({ groupKey: tag, params }, createdVisits) => filterCreatedVisitsByTag(
       createdVisits,
       tag,

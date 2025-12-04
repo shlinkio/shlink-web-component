@@ -43,6 +43,7 @@ import { tagVisitsReducer } from '../visits/reducers/tagVisits';
 import type { VisitsInfo } from '../visits/reducers/types';
 import type { VisitsOverview } from '../visits/reducers/visitsOverview';
 import { visitsOverviewReducer } from '../visits/reducers/visitsOverview';
+import { shortUrlVisitsComparisonReducer } from '../visits/visits-comparison/reducers/shortUrlVisitsComparison';
 import type { VisitsComparisonInfo } from '../visits/visits-comparison/reducers/types';
 
 // @ts-expect-error process is actually available in vite
@@ -59,7 +60,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     shortUrlsDetails: shortUrlsDetailsReducer,
     shortUrlVisits: shortUrlVisitsReducer,
     shortUrlVisitsDeletion: shortUrlVisitsDeletionReducer,
-    shortUrlVisitsComparison: container.shortUrlVisitsComparisonReducer as VisitsComparisonInfo,
+    shortUrlVisitsComparison: shortUrlVisitsComparisonReducer,
     tagVisits: tagVisitsReducer,
     tagVisitsComparison: container.tagVisitsComparisonReducer as VisitsComparisonInfo,
     domainVisits: domainVisitsReducer,

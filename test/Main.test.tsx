@@ -10,6 +10,9 @@ import { renderWithStore } from './__helpers__/setUpTest';
 vi.mock(import('../src/redirect-rules/ShortUrlRedirectRules'), () => ({
   ShortUrlRedirectRules: () => <>ShortUrlRedirectRules</>,
 }));
+vi.mock(import('../src/visits/visits-comparison/ShortUrlVisitsComparison'), () => ({
+  ShortUrlVisitsComparison: () => <>ShortUrlVisitsComparison</>,
+}));
 
 type SetUpOptions = {
   currentPath?: string
@@ -31,7 +34,6 @@ describe('<Main />', () => {
     EditShortUrl: () => <>EditShortUrl</>,
     TagVisitsComparison: () => <>TagVisitsComparison</>,
     DomainVisitsComparison: () => <>DomainVisitsComparison</>,
-    ShortUrlVisitsComparison: () => <>ShortUrlVisitsComparison</>,
   }));
   const setUp = ({ createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions) => renderWithStore(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>

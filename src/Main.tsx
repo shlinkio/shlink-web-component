@@ -10,6 +10,7 @@ import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
 import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
+import { ShortUrlVisitsComparison } from './visits/visits-comparison/ShortUrlVisitsComparison';
 
 export type MainProps = {
   createNotFound?: (nonPrefixedHomePath: string) => ReactNode;
@@ -29,7 +30,6 @@ type MainDeps = {
   EditShortUrl: FC,
   TagVisitsComparison: FC,
   DomainVisitsComparison: FC,
-  ShortUrlVisitsComparison: FC,
 };
 
 const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButton }) => {
@@ -46,7 +46,6 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
     EditShortUrl,
     TagVisitsComparison,
     DomainVisitsComparison,
-    ShortUrlVisitsComparison,
   } = useDependencies(Main);
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
@@ -120,5 +119,4 @@ export const MainFactory = componentFactory(Main, [
   'EditShortUrl',
   'TagVisitsComparison',
   'DomainVisitsComparison',
-  'ShortUrlVisitsComparison',
 ]);

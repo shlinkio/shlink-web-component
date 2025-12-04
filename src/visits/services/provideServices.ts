@@ -15,7 +15,6 @@ import {
   getTagVisitsForComparison,
   tagVisitsComparisonReducerCreator,
 } from '../visits-comparison/reducers/tagVisitsComparison';
-import { ShortUrlVisitsComparison } from '../visits-comparison/ShortUrlVisitsComparison';
 import { TagVisitsComparisonFactory } from '../visits-comparison/TagVisitsComparison';
 import * as visitsParser from './VisitsParser';
 
@@ -38,8 +37,6 @@ export const provideServices = (bottle: Bottle, connect: ConnectDecorator) => {
     ['domainVisitsComparison'],
     ['getDomainVisitsForComparison', 'cancelGetDomainVisitsForComparison'],
   ));
-
-  bottle.serviceFactory('ShortUrlVisitsComparison', () => ShortUrlVisitsComparison);
 
   bottle.factory('DomainVisits', DomainVisitsFactory);
   bottle.factory('OrphanVisits', OrphanVisitsFactory);

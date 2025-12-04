@@ -1,15 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import type { IContainer } from 'bottlejs';
 import { useDispatch, useSelector } from 'react-redux';
 import type { DomainsList } from '../domains/reducers/domainsList';
 import { domainsListReducer } from '../domains/reducers/domainsList';
 import type { MercureInfo } from '../mercure/reducers/mercureInfo';
 import { mercureInfoReducer } from '../mercure/reducers/mercureInfo';
-import type {
-  SetShortUrlRedirectRules } from '../redirect-rules/reducers/setShortUrlRedirectRules';
-import {
-  shortUrlRedirectRulesSavingReducer,
-} from '../redirect-rules/reducers/setShortUrlRedirectRules';
+import type { SetShortUrlRedirectRules } from '../redirect-rules/reducers/setShortUrlRedirectRules';
+import { shortUrlRedirectRulesSavingReducer } from '../redirect-rules/reducers/setShortUrlRedirectRules';
 import type { ShortUrlRedirectRules } from '../redirect-rules/reducers/shortUrlRedirectRules';
 import { shortUrlRedirectRulesReducer } from '../redirect-rules/reducers/shortUrlRedirectRules';
 import type { ShortUrlCreation } from '../short-urls/reducers/shortUrlCreation';
@@ -43,6 +39,7 @@ import { tagVisitsReducer } from '../visits/reducers/tagVisits';
 import type { VisitsInfo } from '../visits/reducers/types';
 import type { VisitsOverview } from '../visits/reducers/visitsOverview';
 import { visitsOverviewReducer } from '../visits/reducers/visitsOverview';
+import { domainVisitsComparisonReducer } from '../visits/visits-comparison/reducers/domainVisitsComparison';
 import { shortUrlVisitsComparisonReducer } from '../visits/visits-comparison/reducers/shortUrlVisitsComparison';
 import { tagVisitsComparisonReducer } from '../visits/visits-comparison/reducers/tagVisitsComparison';
 import type { VisitsComparisonInfo } from '../visits/visits-comparison/reducers/types';
@@ -50,7 +47,7 @@ import type { VisitsComparisonInfo } from '../visits/visits-comparison/reducers/
 // @ts-expect-error process is actually available in vite
 const isProduction = process.env.NODE_ENV === 'production';
 
-export const setUpStore = (container: IContainer, preloadedState?: any) => configureStore<RootState>({
+export const setUpStore = (preloadedState?: any) => configureStore<RootState>({
   devTools: !isProduction,
   reducer: combineReducers({
     mercureInfo: mercureInfoReducer,
@@ -65,7 +62,7 @@ export const setUpStore = (container: IContainer, preloadedState?: any) => confi
     tagVisits: tagVisitsReducer,
     tagVisitsComparison: tagVisitsComparisonReducer,
     domainVisits: domainVisitsReducer,
-    domainVisitsComparison: container.domainVisitsComparisonReducer as VisitsComparisonInfo,
+    domainVisitsComparison: domainVisitsComparisonReducer,
     orphanVisits: orphanVisitsReducer,
     orphanVisitsDeletion: orphanVisitsDeletionReducer,
     nonOrphanVisits: nonOrphanVisitsReducer,

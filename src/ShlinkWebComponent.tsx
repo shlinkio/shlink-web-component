@@ -6,14 +6,11 @@ import { Provider as ReduxStoreProvider } from 'react-redux';
 import { BrowserRouter, useInRouterContext } from 'react-router';
 import type { ShlinkApiClient } from './api-contract';
 import { ContainerProvider } from './container/context';
-import { listDomainsThunk as listDomains } from './domains/reducers/domainsList';
 import { Main } from './Main';
-import { loadMercureInfo } from './mercure/reducers/mercureInfo';
 import type { Settings } from './settings';
 import { SettingsProvider } from './settings';
 import { ShlinkSidebarVisibilityProvider } from './sidebar/ShlinkSidebarVisibilityProvider';
 import { setUpStore } from './store';
-import { listTagsThunk as listTags } from './tags/reducers/tagsList';
 import { FeaturesProvider, useFeatures } from './utils/features';
 import type { SemVerOrLatest } from './utils/helpers/version';
 import { RoutesPrefixProvider } from './utils/routesPrefix';
@@ -55,13 +52,6 @@ export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentP
     // Create store after the API client has been registered in the container
     const store = setUpStore();
     setStore(store);
-
-    // Load mercure info
-    store.dispatch(loadMercureInfo({ ...settings, apiClientFactory }));
-    // Load tags, as they are used by multiple components
-    store.dispatch(listTags({ apiClientFactory }));
-    // Load domains, as they are used by multiple components
-    store.dispatch(listDomains({ apiClientFactory }));
   }, [apiClient, autoSidebarToggle, createNotFound, settings, tagColorsStorage]);
 
   return theStore && (

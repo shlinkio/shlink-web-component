@@ -28,6 +28,7 @@ vi.mock(import('../src/short-urls/EditShortUrl'), () => ({ EditShortUrl: () => <
 vi.mock(import('../src/short-urls/ShortUrlsList'), () => ({ ShortUrlsList: () => <>ShortUrlsList</> }));
 vi.mock(import('../src/overview/Overview'), () => ({ Overview: () => <>OverviewRoute</> }));
 vi.mock(import('../src/tags/TagsList'), () => ({ TagsList: () => <>TagsList</> }));
+vi.mock(import('../src/domains/ManageDomains'), () => ({ ManageDomains: () => <>ManageDomains</> }));
 
 type SetUpOptions = {
   currentPath?: string
@@ -58,7 +59,7 @@ describe('<Main />', () => {
     ['/manage-tags', 'TagsList'],
     ['/domain/domain.com/visits/foo', 'DomainVisits'],
     ['/non-orphan-visits/foo', 'NonOrphanVisits'],
-    ['/manage-domains', 'Domain'],
+    ['/manage-domains', 'ManageDomains'],
     ['/tags/compare-visits', 'TagVisitsComparison'],
     ['/domains/compare-visits', 'DomainVisitsComparison'],
     ['/short-urls/compare-visits', 'ShortUrlVisitsComparison'],

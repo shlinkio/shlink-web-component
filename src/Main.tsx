@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { AsideMenu } from './common/AsideMenu';
 import { ManageDomains } from './domains/ManageDomains';
+import { useDomainsList } from './domains/reducers/domainsList';
+import { useMercureInfo } from './mercure/reducers/mercureInfo';
 import { Overview } from './overview/Overview';
 import { ShortUrlRedirectRules } from './redirect-rules/ShortUrlRedirectRules';
 import { CreateShortUrl } from './short-urls/CreateShortUrl';
@@ -10,6 +12,7 @@ import { EditShortUrl } from './short-urls/EditShortUrl';
 import { ShortUrlsList } from './short-urls/ShortUrlsList';
 import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
 import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
+import { useTagsList } from './tags/reducers/tagsList';
 import { TagsList } from './tags/TagsList';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
@@ -30,6 +33,16 @@ export type MainProps = {
 export const Main: FC<MainProps> = ({ createNotFound, autoToggleButton }) => {
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
+
+  // Load some initial information that is shared by many components
+  const { loadMercureInfo } = useMercureInfo();
+  const { listTags } = useTagsList();
+  const { listDomains } = useDomainsList();
+  useEffect(() => {
+    loadMercureInfo();
+    listTags();
+    listDomains();
+  }, [listDomains, listTags, loadMercureInfo]);
 
   const { sidebarVisible, showSidebar, hideSidebar } = useSidebarVisibility()!;
 

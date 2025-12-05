@@ -1,12 +1,10 @@
 import { screen } from '@testing-library/react';
-import { fromPartial } from '@total-typescript/shoehorn';
-import { TagsSearchDropdownFactory } from '../../../src/tags/helpers/TagsSearchDropdown';
+import { TagsSearchDropdown } from '../../../src/tags/helpers/TagsSearchDropdown';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<TagsSearchDropdown />', () => {
-  const TagsSearchDropdown = TagsSearchDropdownFactory(fromPartial({ ColorGenerator: colorGeneratorMock }));
   const onTagsChange = vi.fn();
   const onModeChange = vi.fn();
   const setUp = (selectedTags = ['foo', 'bar']) => renderWithEvents(
@@ -17,6 +15,7 @@ describe('<TagsSearchDropdown />', () => {
       selectedTags={selectedTags}
       onTagsChange={onTagsChange}
       onModeChange={onModeChange}
+      ColorGenerator={colorGeneratorMock}
     />,
   );
   const setUpOpened = async (selectedTags?: string[]) => {

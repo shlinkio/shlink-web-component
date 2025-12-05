@@ -9,6 +9,7 @@ import { Overview } from './overview/Overview';
 import { ShortUrlRedirectRules } from './redirect-rules/ShortUrlRedirectRules';
 import { CreateShortUrl } from './short-urls/CreateShortUrl';
 import { EditShortUrl } from './short-urls/EditShortUrl';
+import { ShortUrlsList } from './short-urls/ShortUrlsList';
 import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
 import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
 import { useSwipeable } from './utils/helpers/hooks';
@@ -29,11 +30,10 @@ export type MainProps = {
 
 type MainDeps = {
   TagsList: FC;
-  ShortUrlsList: FC;
 };
 
 const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButton }) => {
-  const { TagsList, ShortUrlsList } = useDependencies(Main);
+  const { TagsList } = useDependencies(Main);
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
 
@@ -93,4 +93,4 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
   );
 };
 
-export const MainFactory = componentFactory(Main, ['TagsList', 'ShortUrlsList']);
+export const MainFactory = componentFactory(Main, ['TagsList']);

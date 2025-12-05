@@ -6,24 +6,24 @@ import { MemoryRouter } from 'react-router';
 import type { ShlinkShortUrl, ShlinkShortUrlMeta } from '../../../src/api-contract';
 import type { Settings } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';
-import { ShortUrlsRowFactory } from '../../../src/short-urls/helpers/ShortUrlsRow';
+import { ShortUrlsRow } from '../../../src/short-urls/helpers/ShortUrlsRow';
 import { now, parseDate } from '../../../src/utils/dates/helpers/date';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithStore } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
-interface SetUpOptions {
+type SetUpOptions = {
   title?: string | null;
   tags?: string[];
   meta?: ShlinkShortUrlMeta;
   settings?: Partial<Settings>;
   search?: string;
   hasRedirectRules?: boolean;
-}
+};
 
 describe('<ShortUrlsRow />', () => {
   const timeoutToggle = vi.fn(() => true);
-  const useTimeoutToggle = vi.fn(() => [false, timeoutToggle]);
+  const useTimeoutToggle = vi.fn().mockReturnValue([false, timeoutToggle]);
   const shortUrl: ShlinkShortUrl = {
     shortCode: 'abc123',
     shortUrl: 'https://s.test/abc123',
@@ -42,10 +42,6 @@ describe('<ShortUrlsRow />', () => {
       maxVisits: null,
     },
   };
-  const ShortUrlsRow = ShortUrlsRowFactory(fromPartial({
-    ColorGenerator: colorGeneratorMock,
-    useTimeoutToggle,
-  }));
 
   const setUp = (
     { title, tags = [], meta = {}, settings = {}, search, hasRedirectRules }: SetUpOptions = {},
@@ -58,6 +54,8 @@ describe('<ShortUrlsRow />', () => {
             <ShortUrlsRow
               shortUrl={{ ...shortUrl, title, tags, hasRedirectRules, meta: { ...shortUrl.meta, ...meta } }}
               onTagClick={() => null}
+              useTimeoutToggle={useTimeoutToggle}
+              ColorGenerator={colorGeneratorMock}
             />
           </Table>
         </Card>

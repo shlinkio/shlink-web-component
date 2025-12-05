@@ -4,34 +4,33 @@ import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
+import { ContainerProvider } from '../../src/container/context';
 import type { Settings } from '../../src/settings';
 import { SettingsProvider } from '../../src/settings';
 import type { ShortUrlsOrder } from '../../src/short-urls/data';
 import type { ShortUrlsList as ShortUrlsListModel } from '../../src/short-urls/reducers/shortUrlsList';
 import { ShortUrlsListFactory } from '../../src/short-urls/ShortUrlsList';
-import type { ShortUrlsTableType } from '../../src/short-urls/ShortUrlsTable';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
+import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
 type SetUpOptions = {
   settings?: Partial<Settings>;
 };
 
 describe('<ShortUrlsList />', () => {
-  const ShortUrlsTable: ShortUrlsTableType = ({ onTagClick }) => (
-    <button type="button" onClick={() => onTagClick?.('foo')} data-testid="add-tag-button">
-      ShortUrlsTable
-    </button>
-  );
   const ShortUrlsFilteringBar = () => <span>ShortUrlsFilteringBar</span>;
-  const ShortUrlsList = ShortUrlsListFactory(fromPartial({ ShortUrlsTable, ShortUrlsFilteringBar }));
+  const ShortUrlsList = ShortUrlsListFactory(fromPartial({ ShortUrlsFilteringBar }));
   const shortUrlsApiResponse = fromPartial<ShlinkShortUrlsList>({
     data: [
       {
         shortCode: 'testShortCode',
         shortUrl: 'https://www.example.com/testShortUrl',
         longUrl: 'https://www.example.com/testLongUrl',
-        tags: ['test tag'],
+        tags: ['test tag', 'foo-tag'],
+        visitsSummary: {},
+        meta: {},
+        dateCreated: '2025-01-01T10:00:00+00:00',
       },
     ],
     pagination: { pagesCount: 3 },
@@ -45,7 +44,15 @@ describe('<ShortUrlsList />', () => {
     const renderResult = renderWithStore(
       <Router location={history.location} navigator={history}>
         <SettingsProvider value={fromPartial(settings)}>
-          <ShortUrlsList />
+          <ContainerProvider
+            value={fromPartial({
+              useTimeoutToggle: vi.fn().mockReturnValue([]),
+              ColorGenerator: colorGeneratorMock,
+              apiClientFactory,
+            })}
+          >
+            <ShortUrlsList />
+          </ContainerProvider>
         </SettingsProvider>
       </Router>,
       {
@@ -53,7 +60,6 @@ describe('<ShortUrlsList />', () => {
           shortUrlsList: fromPartial<ShortUrlsListModel>({ shortUrls: shortUrlsApiResponse }),
           mercureInfo: fromPartial({ status: 'loading' }),
         },
-        apiClientFactory,
       },
     );
 
@@ -65,20 +71,13 @@ describe('<ShortUrlsList />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('wraps expected components', async () => {
-    await setUp();
-
-    expect(screen.getByText('ShortUrlsTable')).toBeInTheDocument();
-    expect(screen.getByText('ShortUrlsFilteringBar')).toBeInTheDocument();
-  });
-
   it('passes current query to paginator', async () => {
     await setUp();
 
-    const links = screen.getAllByRole('link');
+    const paginatorLinks = screen.getByTestId('paginator').querySelectorAll('a');
 
-    expect(links.length > 0).toEqual(true);
-    links.forEach(
+    expect(paginatorLinks.length).toBeGreaterThan(0);
+    paginatorLinks.forEach(
       (link) => expect(link).toHaveAttribute('href', expect.stringContaining('?tags=test%20tag&search=example.com')),
     );
   });
@@ -96,8 +95,8 @@ describe('<ShortUrlsList />', () => {
     const getTagsFromQuery = () => new URLSearchParams(history.location.search).get('tags');
 
     expect(getTagsFromQuery()).toEqual('test tag');
-    await user.click(screen.getByTestId('add-tag-button'));
-    expect(getTagsFromQuery()).toEqual('test tag,foo');
+    await user.click(screen.getByRole('button', { name: 'foo-tag' }));
+    expect(getTagsFromQuery()).toEqual('test tag,foo-tag');
   });
 
   it.each([

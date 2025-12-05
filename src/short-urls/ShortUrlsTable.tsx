@@ -1,11 +1,9 @@
 import { Table } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, PropsWithChildren, ReactNode } from 'react';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
 import { UnstyledButton } from '../utils/components/UnstyledButton';
 import type { ShortUrlsOrderableFields } from './data';
-import type { ShortUrlsRowType } from './helpers/ShortUrlsRow';
+import { ShortUrlsRow } from './helpers/ShortUrlsRow';
 import type { ShortUrlsList as ShortUrlsListState } from './reducers/shortUrlsList';
 
 type ShortUrlsTableProps = {
@@ -15,11 +13,7 @@ type ShortUrlsTableProps = {
   onTagClick?: (tag: string) => void;
 };
 
-type ShortUrlsTableDeps = {
-  ShortUrlsRow: ShortUrlsRowType;
-};
-
-type ShortUrlsTableBodyProps = ShortUrlsTableDeps & Pick<ShortUrlsTableProps, 'shortUrlsList' | 'onTagClick'>;
+type ShortUrlsTableBodyProps = Pick<ShortUrlsTableProps, 'shortUrlsList' | 'onTagClick'>;
 
 const FullRow: FC<PropsWithChildren<{ danger?: boolean }>> = ({ children, danger }) => (
   <Table.Row>
@@ -29,7 +23,7 @@ const FullRow: FC<PropsWithChildren<{ danger?: boolean }>> = ({ children, danger
   </Table.Row>
 );
 
-const ShortUrlsTableBody: FC<ShortUrlsTableBodyProps> = ({ shortUrlsList, onTagClick, ShortUrlsRow }) => {
+const ShortUrlsTableBody: FC<ShortUrlsTableBodyProps> = ({ shortUrlsList, onTagClick }) => {
   const { status } = shortUrlsList;
 
   if (status === 'error') {
@@ -53,13 +47,9 @@ const ShortUrlsTableBody: FC<ShortUrlsTableBodyProps> = ({ shortUrlsList, onTagC
   ));
 };
 
-const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
-  orderByColumn,
-  renderOrderIcon,
-  shortUrlsList,
-  onTagClick,
-}: ShortUrlsTableProps) => {
-  const { ShortUrlsRow } = useDependencies(ShortUrlsTable);
+export const ShortUrlsTable: FC<ShortUrlsTableProps> = (
+  { orderByColumn, renderOrderIcon, shortUrlsList, onTagClick },
+) => {
   const columnsClasses = clsx({ 'cursor-pointer': !!orderByColumn });
 
   return (
@@ -90,11 +80,7 @@ const ShortUrlsTable: FCWithDeps<ShortUrlsTableProps, ShortUrlsTableDeps> = ({
         </Table.Row>
       )}
     >
-      <ShortUrlsTableBody ShortUrlsRow={ShortUrlsRow} shortUrlsList={shortUrlsList} onTagClick={onTagClick} />
+      <ShortUrlsTableBody shortUrlsList={shortUrlsList} onTagClick={onTagClick} />
     </Table>
   );
 };
-
-export type ShortUrlsTableType = typeof ShortUrlsTable;
-
-export const ShortUrlsTableFactory = componentFactory(ShortUrlsTable, ['ShortUrlsRow']);

@@ -35,11 +35,6 @@ export type ShlinkWebComponentProps = {
   autoSidebarToggle?: boolean;
 };
 
-// FIXME This allows to track the reference to be resolved by the container, but it's hacky and relies on not more than
-//       one ShlinkWebComponent rendered at the same time.
-//       Works for now, but should be addressed.
-let apiClientRef: ShlinkApiClient;
-
 export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentProps> => (
   { serverVersion, apiClient, settings, routesPrefix = '', createNotFound, tagColorsStorage, autoSidebarToggle = true },
 ) => {
@@ -50,27 +45,26 @@ export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentP
   const RouterOrFragment = useMemo(() => (inRouterContext ? Fragment : BrowserRouter), [inRouterContext]);
 
   useEffect(() => {
-    apiClientRef = apiClient;
-    bottle.value('apiClientFactory', () => apiClientRef);
+    const apiClientFactory = () => apiClient;
+    bottle.value('apiClientFactory', apiClientFactory);
 
     if (tagColorsStorage) {
       bottle.value('TagColorsStorage', tagColorsStorage);
     }
 
-    // It's important to not try to resolve services before the API client has been registered, as many other services
-    // depend on it
+    // Create store after the API client has been registered in the container
     const store = setUpStore();
     setStore(store);
 
     // Load mercure info
-    store.dispatch(loadMercureInfo({ ...settings, apiClientFactory: () => apiClientRef }));
+    store.dispatch(loadMercureInfo({ ...settings, apiClientFactory }));
     // Load tags, as they are used by multiple components
-    store.dispatch(listTags({ apiClientFactory: () => apiClientRef }));
+    store.dispatch(listTags({ apiClientFactory }));
     // Load domains, as they are used by multiple components
-    store.dispatch(listDomains({ apiClientFactory: () => apiClientRef }));
+    store.dispatch(listDomains({ apiClientFactory }));
   }, [apiClient, autoSidebarToggle, createNotFound, settings, tagColorsStorage]);
 
-  return !theStore ? <></> : (
+  return theStore && (
     <ReduxStoreProvider store={theStore}>
       <ContainerProvider value={bottle.container}>
         <SettingsProvider value={settings ?? {}}>

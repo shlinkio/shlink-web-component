@@ -2,8 +2,6 @@ import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { AsideMenu } from './common/AsideMenu';
-import type { FCWithDeps } from './container/utils';
-import { componentFactory, useDependencies } from './container/utils';
 import { ManageDomains } from './domains/ManageDomains';
 import { Overview } from './overview/Overview';
 import { ShortUrlRedirectRules } from './redirect-rules/ShortUrlRedirectRules';
@@ -12,6 +10,7 @@ import { EditShortUrl } from './short-urls/EditShortUrl';
 import { ShortUrlsList } from './short-urls/ShortUrlsList';
 import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
 import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
+import { TagsList } from './tags/TagsList';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
 import { DomainVisits } from './visits/DomainVisits';
@@ -28,12 +27,7 @@ export type MainProps = {
   autoToggleButton: boolean;
 };
 
-type MainDeps = {
-  TagsList: FC;
-};
-
-const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButton }) => {
-  const { TagsList } = useDependencies(Main);
+export const Main: FC<MainProps> = ({ createNotFound, autoToggleButton }) => {
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
 
@@ -92,5 +86,3 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
     </>
   );
 };
-
-export const MainFactory = componentFactory(Main, ['TagsList']);

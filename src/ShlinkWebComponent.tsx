@@ -1,12 +1,13 @@
 import type { Store } from '@reduxjs/toolkit';
 import type Bottle from 'bottlejs';
 import type { FC, ReactNode } from 'react';
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 import { BrowserRouter, useInRouterContext } from 'react-router';
 import type { ShlinkApiClient } from './api-contract';
 import { ContainerProvider } from './container/context';
 import { listDomainsThunk as listDomains } from './domains/reducers/domainsList';
+import { Main } from './Main';
 import { loadMercureInfo } from './mercure/reducers/mercureInfo';
 import type { Settings } from './settings';
 import { SettingsProvider } from './settings';
@@ -43,7 +44,6 @@ export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentP
   { serverVersion, apiClient, settings, routesPrefix = '', createNotFound, tagColorsStorage, autoSidebarToggle = true },
 ) => {
   const features = useFeatures(serverVersion);
-  const mainContent = useRef<ReactNode>(undefined);
   const [theStore, setStore] = useState<Store | undefined>();
 
   const inRouterContext = useInRouterContext();
@@ -59,9 +59,7 @@ export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentP
 
     // It's important to not try to resolve services before the API client has been registered, as many other services
     // depend on it
-    const { Main } = bottle.container;
     const store = setUpStore();
-    mainContent.current = <Main createNotFound={createNotFound} autoToggleButton={autoSidebarToggle} />;
     setStore(store);
 
     // Load mercure info
@@ -80,7 +78,7 @@ export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentP
             <ShlinkSidebarVisibilityProvider>
               <RoutesPrefixProvider value={routesPrefix}>
                 <RouterOrFragment>
-                  {mainContent.current}
+                  <Main createNotFound={createNotFound} autoToggleButton={autoSidebarToggle} />
                 </RouterOrFragment>
               </RoutesPrefixProvider>
             </ShlinkSidebarVisibilityProvider>

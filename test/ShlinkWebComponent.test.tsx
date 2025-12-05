@@ -19,7 +19,6 @@ describe('<ShlinkWebComponent />', () => {
 
   beforeEach(() => {
     bottle = new Bottle();
-    bottle.value('Main', () => <>Main</>);
   });
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -34,8 +33,8 @@ describe('<ShlinkWebComponent />', () => {
     expect(bottle.container.apiClientFactory).toBeDefined();
   });
 
-  it('renders main content', async () => {
+  it('renders main content once store is created', async () => {
     setUp();
-    await waitFor(() => expect(screen.getByText('Main')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('Overview')).toBeInTheDocument());
   });
 });

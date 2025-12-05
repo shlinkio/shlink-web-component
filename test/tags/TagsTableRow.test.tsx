@@ -3,7 +3,7 @@ import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import { ContainerProvider } from '../../src/container/context';
-import { TagsTableRowFactory } from '../../src/tags/TagsTableRow';
+import { TagsTableRow } from '../../src/tags/TagsTableRow';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import type { VisitsComparison } from '../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../src/visits/visits-comparison/VisitsComparisonContext';
@@ -18,7 +18,6 @@ type SetUpOptions = {
 };
 
 describe('<TagsTableRow />', () => {
-  const TagsTableRow = TagsTableRowFactory(fromPartial({ ColorGenerator: colorGeneratorMock }));
   const tag = 'foo&bar';
   const setUp = ({ visits = 0, shortUrls = 0, visitsComparison }: SetUpOptions = {}) => renderWithStore(
     <MemoryRouter>
@@ -29,7 +28,7 @@ describe('<TagsTableRow />', () => {
           >
             <table>
               <tbody>
-                <TagsTableRow tag={{ tag, visits, shortUrls }} />
+                <TagsTableRow tag={{ tag, visits, shortUrls }} ColorGenerator={colorGeneratorMock} />
               </tbody>
             </table>
           </VisitsComparisonProvider>

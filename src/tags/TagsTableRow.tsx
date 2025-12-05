@@ -5,9 +5,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatNumber, RowDropdown, Table, useToggle } from '@shlinkio/shlink-frontend-kit';
+import type { FC } from 'react';
 import { Link } from 'react-router';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
+import { withDependencies } from '../container/context';
 import { useRoutesPrefix } from '../utils/routesPrefix';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
 import { useVisitsComparisonContext } from '../visits/visits-comparison/VisitsComparisonContext';
@@ -18,14 +18,10 @@ import { TagBullet } from './helpers/TagBullet';
 
 export type TagsTableRowProps = {
   tag: SimplifiedTag;
-};
-
-type TagsTableRowDeps = {
   ColorGenerator: ColorGenerator;
 };
 
-const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) => {
-  const { ColorGenerator: colorGenerator } = useDependencies(TagsTableRow);
+const TagsTableRowBase: FC<TagsTableRowProps> = ({ tag, ColorGenerator: colorGenerator }) => {
   const { flag: isDeleteModalOpen, setToFalse: closeDelete, setToTrue: openDelete } = useToggle();
   const { flag: isEditModalOpen, setToFalse: closeEdit, setToTrue: openEdit } = useToggle();
   const routesPrefix = useRoutesPrefix();
@@ -42,7 +38,7 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
         </Link>
       </Table.Cell>
       <Table.Cell className="lg:text-right" columnName="Visits">
-        <Link to={`${routesPrefix}/tag/${tag.tag}/visits`}>
+        <Link to={`${routesPrefix}/tag/${tag.tag}/visits`} data-testid="visits-amount">
           {formatNumber(tag.visits)}
         </Link>
       </Table.Cell>
@@ -77,7 +73,4 @@ const TagsTableRow: FCWithDeps<TagsTableRowProps, TagsTableRowDeps> = ({ tag }) 
   );
 };
 
-export const TagsTableRowFactory = componentFactory(
-  TagsTableRow,
-  ['ColorGenerator'],
-);
+export const TagsTableRow = withDependencies(TagsTableRowBase, ['ColorGenerator']);

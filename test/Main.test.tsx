@@ -1,9 +1,8 @@
 import { screen } from '@testing-library/react';
-import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import { ShlinkSidebarVisibilityProvider } from '../src';
 import type { MainProps } from '../src/Main';
-import { MainFactory } from '../src/Main';
+import { Main } from '../src/Main';
 import { checkAccessibility } from './__helpers__/accessibility';
 import { renderWithStore } from './__helpers__/setUpTest';
 
@@ -28,6 +27,7 @@ vi.mock(import('../src/short-urls/CreateShortUrl'), () => ({ CreateShortUrl: () 
 vi.mock(import('../src/short-urls/EditShortUrl'), () => ({ EditShortUrl: () => <>EditShortUrl</> }));
 vi.mock(import('../src/short-urls/ShortUrlsList'), () => ({ ShortUrlsList: () => <>ShortUrlsList</> }));
 vi.mock(import('../src/overview/Overview'), () => ({ Overview: () => <>OverviewRoute</> }));
+vi.mock(import('../src/tags/TagsList'), () => ({ TagsList: () => <>TagsList</> }));
 
 type SetUpOptions = {
   currentPath?: string
@@ -36,9 +36,6 @@ type SetUpOptions = {
 };
 
 describe('<Main />', () => {
-  const Main = MainFactory(fromPartial({
-    TagsList: () => <>TagsList</>,
-  }));
   const setUp = ({ createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions) => renderWithStore(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
       <ShlinkSidebarVisibilityProvider>

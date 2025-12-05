@@ -1,25 +1,25 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
-import { TagsTableFactory } from '../../src/tags/TagsTable';
-import type { TagsTableRowProps } from '../../src/tags/TagsTableRow';
+import { ContainerProvider } from '../../src/container/context';
+import { TagsTable } from '../../src/tags/TagsTable';
 import { rangeOf } from '../../src/utils/helpers';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { renderWithStore } from '../__helpers__/setUpTest';
+import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<TagsTable />', () => {
   const orderByColumn = vi.fn();
-  const TagsTable = TagsTableFactory(fromPartial({
-    TagsTableRow: ({ tag }: TagsTableRowProps) => <tr><td>TagsTableRow [{tag.tag}]</td></tr>,
-  }));
   const tags = (amount: number) => rangeOf(amount, (i) => `tag_${i}`);
-  const setUp = (sortedTags: string[] = [], search = '') => renderWithEvents(
+  const setUp = (sortedTags: string[] = [], search = '') => renderWithStore(
     <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
-      <TagsTable
-        sortedTags={sortedTags.map((tag) => fromPartial({ tag }))}
-        currentOrder={{}}
-        orderByColumn={() => orderByColumn}
-      />
+      <ContainerProvider value={fromPartial({ ColorGenerator: colorGeneratorMock, apiClientFactory: vi.fn() })}>
+        <TagsTable
+          sortedTags={sortedTags.map((tag) => fromPartial({ tag }))}
+          currentOrder={{}}
+          orderByColumn={() => orderByColumn}
+        />
+      </ContainerProvider>
     </MemoryRouter>,
   );
 
@@ -42,7 +42,7 @@ describe('<TagsTable />', () => {
   ])('renders as many rows as there are in current page', (filteredTags, expectedRows) => {
     setUp(filteredTags);
 
-    expect(screen.getAllByText(/^TagsTableRow/)).toHaveLength(expectedRows);
+    expect(screen.getAllByRole('row')).toHaveLength(expectedRows);
     expect(screen.queryByText('No results found')).not.toBeInTheDocument();
   });
 
@@ -73,10 +73,12 @@ describe('<TagsTable />', () => {
   ])('renders page from query if present', (page, expectedRows, offset) => {
     setUp(tags(87), `page=${page}`);
 
-    const tagRows = screen.queryAllByText(/^TagsTableRow/);
+    const tagRows = screen.queryAllByRole('row');
 
-    expect(tagRows).toHaveLength(expectedRows);
-    tagRows.forEach((row, index) => expect(row).toHaveTextContent(`[tag_${index + offset + 1}]`));
+    expect(tagRows).toHaveLength(expectedRows || 1); // No results still render the fallback row
+    if (expectedRows > 0) {
+      tagRows.forEach((row, index) => expect(row).toHaveTextContent(`tag_${index + offset + 1}`));
+    }
   });
 
   /** Enable once Paginator marks the active page somehow */

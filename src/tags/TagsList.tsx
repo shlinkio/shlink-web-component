@@ -6,11 +6,8 @@ import {
   SearchInput,
   sortList,
 } from '@shlinkio/shlink-frontend-kit';
-import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import { ShlinkApiError } from '../common/ShlinkApiError';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useSettings } from '../settings';
@@ -20,14 +17,9 @@ import type { SimplifiedTag } from './data';
 import type { TagsOrder, TagsOrderableFields } from './data/TagsListChildrenProps';
 import { TAGS_ORDERABLE_FIELDS } from './data/TagsListChildrenProps';
 import { useTagsList } from './reducers/tagsList';
-import type { TagsTableProps } from './TagsTable';
+import { TagsTable } from './TagsTable';
 
-type TagsListDeps = {
-  TagsTable: FC<TagsTableProps>;
-};
-
-const TagsList: FCWithDeps<any, TagsListDeps> = boundToMercureHub(() => {
-  const { TagsTable } = useDependencies(TagsList);
+export const TagsList = boundToMercureHub(() => {
   const { filterTags, tagsList } = useTagsList();
   const settings = useSettings();
   const [order, setOrder] = useState<TagsOrder>(settings.tags?.defaultOrdering ?? {});
@@ -86,5 +78,3 @@ const TagsList: FCWithDeps<any, TagsListDeps> = boundToMercureHub(() => {
     </VisitsComparisonProvider>
   );
 }, () => [Topics.visits]);
-
-export const TagsListFactory = componentFactory(TagsList, ['TagsTable']);

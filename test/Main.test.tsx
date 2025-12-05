@@ -24,6 +24,9 @@ vi.mock(import('../src/visits/ShortUrlVisits'), () => ({ ShortUrlVisits: () => <
 vi.mock(import('../src/visits/OrphanVisits'), () => ({ OrphanVisits: () => <>OrphanVisits</> }));
 vi.mock(import('../src/visits/NonOrphanVisits'), () => ({ NonOrphanVisits: () => <>NonOrphanVisits</> }));
 vi.mock(import('../src/visits/DomainVisits'), () => ({ DomainVisits: () => <>DomainVisits</> }));
+vi.mock(import('../src/short-urls/CreateShortUrl'), () => ({ CreateShortUrl: () => <>CreateShortUrl</> }));
+vi.mock(import('../src/short-urls/EditShortUrl'), () => ({ EditShortUrl: () => <>EditShortUrl</> }));
+vi.mock(import('../src/overview/Overview'), () => ({ Overview: () => <>OverviewRoute</> }));
 
 type SetUpOptions = {
   currentPath?: string
@@ -35,9 +38,6 @@ describe('<Main />', () => {
   const Main = MainFactory(fromPartial({
     TagsList: () => <>TagsList</>,
     ShortUrlsList: () => <>ShortUrlsList</>,
-    CreateShortUrl: () => <>CreateShortUrl</>,
-    Overview: () => <>OverviewRoute</>,
-    EditShortUrl: () => <>EditShortUrl</>,
   }));
   const setUp = ({ createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions) => renderWithStore(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>

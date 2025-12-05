@@ -5,15 +5,13 @@ import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import { ContainerProvider } from '../../src/container/context';
-import { OverviewFactory } from '../../src/overview/Overview';
+import { Overview } from '../../src/overview/Overview';
 import { SettingsProvider } from '../../src/settings';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<Overview />', () => {
-  const CreateShortUrl = () => <>CreateShortUrl</>;
-  const Overview = OverviewFactory(fromPartial({ CreateShortUrl }));
   const shortUrls = {
     data: [],
     pagination: { totalItems: 83710 },

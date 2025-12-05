@@ -5,7 +5,10 @@ import { AsideMenu } from './common/AsideMenu';
 import type { FCWithDeps } from './container/utils';
 import { componentFactory, useDependencies } from './container/utils';
 import { ManageDomains } from './domains/ManageDomains';
+import { Overview } from './overview/Overview';
 import { ShortUrlRedirectRules } from './redirect-rules/ShortUrlRedirectRules';
+import { CreateShortUrl } from './short-urls/CreateShortUrl';
+import { EditShortUrl } from './short-urls/EditShortUrl';
 import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
 import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
 import { useSwipeable } from './utils/helpers/hooks';
@@ -27,19 +30,10 @@ export type MainProps = {
 type MainDeps = {
   TagsList: FC;
   ShortUrlsList: FC;
-  CreateShortUrl: FC;
-  Overview: FC;
-  EditShortUrl: FC;
 };
 
 const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButton }) => {
-  const {
-    TagsList,
-    ShortUrlsList,
-    CreateShortUrl,
-    Overview,
-    EditShortUrl,
-  } = useDependencies(Main);
+  const { TagsList, ShortUrlsList } = useDependencies(Main);
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
 
@@ -99,10 +93,4 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
   );
 };
 
-export const MainFactory = componentFactory(Main, [
-  'TagsList',
-  'ShortUrlsList',
-  'CreateShortUrl',
-  'Overview',
-  'EditShortUrl',
-]);
+export const MainFactory = componentFactory(Main, ['TagsList', 'ShortUrlsList']);

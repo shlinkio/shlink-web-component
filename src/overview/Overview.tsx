@@ -3,12 +3,10 @@ import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
 import type { ShlinkVisitsSummary } from '../api-contract';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useSetting } from '../settings';
-import type { CreateShortUrlProps } from '../short-urls/CreateShortUrl';
+import { CreateShortUrl } from '../short-urls/CreateShortUrl';
 import { ITEMS_IN_OVERVIEW_PAGE, useUrlsList } from '../short-urls/reducers/shortUrlsList';
 import { ShortUrlsTable } from '../short-urls/ShortUrlsTable';
 import { useTagsList } from '../tags/reducers/tagsList';
@@ -37,14 +35,9 @@ const OverviewCard: FC<OverviewCardProps> = ({ children, titleLinkText, titleLin
   </Card>
 );
 
-type OverviewDeps = {
-  CreateShortUrl: FC<CreateShortUrlProps>;
-};
-
 const visitsSummaryFallback: ShlinkVisitsSummary = { total: 0, bots: 0, nonBots: 0 };
 
-const Overview: FCWithDeps<any, OverviewDeps> = boundToMercureHub(() => {
-  const { CreateShortUrl } = useDependencies(Overview);
+export const Overview = boundToMercureHub(() => {
   const { shortUrlsList, listShortUrls } = useUrlsList();
   const { loadVisitsOverview, visitsOverview } = useVisitsOverview();
   const loadingVisits = visitsOverview.status === 'loading';
@@ -113,5 +106,3 @@ const Overview: FCWithDeps<any, OverviewDeps> = boundToMercureHub(() => {
     </div>
   );
 }, () => [Topics.visits, Topics.orphanVisits]);
-
-export const OverviewFactory = componentFactory(Overview, ['CreateShortUrl']);

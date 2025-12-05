@@ -5,11 +5,9 @@ import type { FC, FormEvent } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import type { ShlinkCreateShortUrlData, ShlinkEditShortUrlData } from '../api-contract';
 import { isErrorAction } from '../api-contract/utils';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
 import { DomainSelector } from '../domains/DomainSelector';
 import { useDomainsList } from '../domains/reducers/domainsList';
-import type { TagsSelectorProps } from '../tags/helpers/TagsSelector';
+import { TagsSelector } from '../tags/helpers/TagsSelector';
 import { useTagsList } from '../tags/reducers/tagsList';
 import { formatIsoDate } from '../utils/dates/helpers/date';
 import { LabelledDateInput } from '../utils/dates/LabelledDateInput';
@@ -24,21 +22,14 @@ export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEd
   onSave: (shortUrlData: T) => Promise<unknown>;
 }
 
-type ShortUrlFormConnectProps = ShortUrlFormProps<ShlinkCreateShortUrlData | ShlinkEditShortUrlData>;
-
-type ShortUrlFormDeps = {
-  TagsSelector: FC<TagsSelectorProps>;
-};
+export type ShortUrlFormConnectProps = ShortUrlFormProps<ShlinkCreateShortUrlData | ShlinkEditShortUrlData>;
 
 const toDate = (date?: string | Date): Date | undefined => (typeof date === 'string' ? parseISO(date) : date);
 
 const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData): data is ShlinkCreateShortUrlData =>
   'shortCodeLength' in data && 'customSlug' in data && 'domain' in data;
 
-const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
-  { basicMode = false, saving, onSave, initialState },
-) => {
-  const { TagsSelector } = useDependencies(ShortUrlForm as unknown as ShortUrlFormDeps);
+export const ShortUrlForm: FC<ShortUrlFormConnectProps> = ({ basicMode = false, saving, onSave, initialState }) => {
   const { domainsList } = useDomainsList();
   const { tagsList } = useTagsList();
   const [shortUrlData, setShortUrlData] = useState(initialState);
@@ -94,7 +85,7 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
         </div>
       </div>
     </div>
-  ), [TagsSelector, basicMode, changeTags, isCreation, shortUrlData, tagsList.tags]);
+  ), [basicMode, changeTags, isCreation, shortUrlData, tagsList.tags]);
 
   return (
     <form name="shortUrlForm" onSubmit={submit} className="flex flex-col gap-4">
@@ -245,5 +236,3 @@ const ShortUrlForm: FCWithDeps<ShortUrlFormConnectProps, ShortUrlFormDeps> = (
     </form>
   );
 };
-
-export const ShortUrlFormFactory = componentFactory(ShortUrlForm, ['TagsSelector']);

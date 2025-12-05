@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { TagFilteringMode } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';
-import { TagsSelectorFactory } from '../../../src/tags/helpers/TagsSelector';
+import { TagsSelector } from '../../../src/tags/helpers/TagsSelector';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
@@ -14,7 +14,6 @@ type SetUpOptions = {
 
 describe('<TagsSelector />', () => {
   const onChange = vi.fn();
-  const TagsSelector = TagsSelectorFactory(fromPartial({ ColorGenerator: colorGeneratorMock }));
   const tags = ['foo', 'bar'];
   const setUp = ({ allTags, tagFilteringMode }: SetUpOptions = {}) => renderWithEvents(
     <SettingsProvider
@@ -27,6 +26,7 @@ describe('<TagsSelector />', () => {
         selectedTags={tags}
         onChange={onChange}
         placeholder="Add tags to the URL"
+        ColorGenerator={colorGeneratorMock}
       />
     </SettingsProvider>,
   );

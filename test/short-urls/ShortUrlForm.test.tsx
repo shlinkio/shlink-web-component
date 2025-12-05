@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
-import { ShortUrlFormFactory } from '../../src/short-urls/ShortUrlForm';
+import { ShortUrlForm } from '../../src/short-urls/ShortUrlForm';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
@@ -15,9 +15,6 @@ type SetUpOptions = {
 
 describe('<ShortUrlForm />', () => {
   const createShortUrl = vi.fn().mockResolvedValue({});
-  const ShortUrlForm = ShortUrlFormFactory(fromPartial({
-    TagsSelector: () => <span>TagsSelector</span>,
-  }));
   const setUp = ({ basicMode, title, isCreation = true }: SetUpOptions = {}) => {
     const initialState: ShlinkCreateShortUrlData = {
       findIfExists: false,

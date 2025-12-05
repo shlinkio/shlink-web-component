@@ -1,19 +1,12 @@
 import { screen } from '@testing-library/react';
-import { fromPartial } from '@total-typescript/shoehorn';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
-import type { ShlinkCreateShortUrlData } from '../../src/api-contract';
 import { SettingsProvider } from '../../src/settings';
-import { CreateShortUrlFactory } from '../../src/short-urls/CreateShortUrl';
-import type { ShortUrlFormProps } from '../../src/short-urls/ShortUrlForm';
+import { CreateShortUrl } from '../../src/short-urls/CreateShortUrl';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<CreateShortUrl />', () => {
-  const ShortUrlForm = ({ initialState }: ShortUrlFormProps<ShlinkCreateShortUrlData>) => (
-    <span>ShortUrlForm ({initialState.longUrl})</span>
-  );
-  const CreateShortUrl = CreateShortUrlFactory(fromPartial({ ShortUrlForm }));
   const setUp = (longUrlQuery?: string) => {
     const history = createMemoryHistory();
     if (longUrlQuery) {
@@ -33,6 +26,12 @@ describe('<CreateShortUrl />', () => {
 
   it.each([undefined, 'https://example.com'])('renders initial long URL', (longUrl) => {
     setUp(longUrl);
-    expect(screen.getByText(`ShortUrlForm (${longUrl ?? ''})`)).toBeInTheDocument();
+    const input = screen.getByPlaceholderText('URL to be shortened');
+
+    if (longUrl) {
+      expect(input).toHaveValue(longUrl);
+    } else {
+      expect(input).not.toHaveValue();
+    }
   });
 });

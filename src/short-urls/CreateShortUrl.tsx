@@ -2,26 +2,17 @@ import { useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import type { ShlinkCreateShortUrlData } from '../api-contract';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
 import { useSetting } from '../settings';
 import { CreateShortUrlResult } from './helpers/CreateShortUrlResult';
 import { useUrlCreation } from './reducers/shortUrlCreation';
-import type { ShortUrlFormProps } from './ShortUrlForm';
+import { ShortUrlForm } from './ShortUrlForm';
 
 export type CreateShortUrlProps = {
   basicMode?: boolean;
 };
 
-type CreateShortUrlDeps = {
-  ShortUrlForm: FC<ShortUrlFormProps<ShlinkCreateShortUrlData>>;
-};
-
-const CreateShortUrl: FCWithDeps<CreateShortUrlProps, CreateShortUrlDeps> = ({
-  basicMode = false,
-}) => {
+export const CreateShortUrl: FC<CreateShortUrlProps> = ({ basicMode = false }) => {
   const { createShortUrl, shortUrlCreation, resetCreateShortUrl } = useUrlCreation();
-  const { ShortUrlForm } = useDependencies(CreateShortUrl);
   const shortUrlCreationSettings = useSetting('shortUrlCreation');
   const { 'long-url': longUrlFromQuery = '' } = useParsedQuery<{ 'long-url'?: string }>();
   const initialState = useMemo(
@@ -49,7 +40,7 @@ const CreateShortUrl: FCWithDeps<CreateShortUrlProps, CreateShortUrlDeps> = ({
         basicMode={basicMode}
         onSave={async (data) => {
           resetCreateShortUrl();
-          return createShortUrl(data);
+          return createShortUrl(data as ShlinkCreateShortUrlData);
         }}
       />
       <CreateShortUrlResult
@@ -60,5 +51,3 @@ const CreateShortUrl: FCWithDeps<CreateShortUrlProps, CreateShortUrlDeps> = ({
     </>
   );
 };
-
-export const CreateShortUrlFactory = componentFactory(CreateShortUrl, ['ShortUrlForm']);

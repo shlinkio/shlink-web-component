@@ -2,23 +2,15 @@ import { Message, Result, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useEffect, useMemo } from 'react';
 import { ExternalLink } from 'react-external-link';
-import type { ShlinkEditShortUrlData } from '../api-contract';
 import { ShlinkApiError } from '../common/ShlinkApiError';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
 import { GoBackButton } from '../utils/components/GoBackButton';
 import { shortUrlDataFromShortUrl } from './helpers';
 import { useShortUrlIdentifier } from './helpers/hooks';
 import { useUrlEdition } from './reducers/shortUrlEdition';
 import { useUrlsDetails } from './reducers/shortUrlsDetails';
-import type { ShortUrlFormProps } from './ShortUrlForm';
+import { ShortUrlForm } from './ShortUrlForm';
 
-type EditShortUrlDeps = {
-  ShortUrlForm: FC<ShortUrlFormProps<ShlinkEditShortUrlData>>;
-};
-
-const EditShortUrl: FCWithDeps<unknown, EditShortUrlDeps> = () => {
-  const { ShortUrlForm } = useDependencies(EditShortUrl);
+export const EditShortUrl: FC = () => {
   const identifier = useShortUrlIdentifier();
   const { shortUrlsDetails, getShortUrlsDetails } = useUrlsDetails();
   const { status } = shortUrlsDetails;
@@ -50,12 +42,12 @@ const EditShortUrl: FCWithDeps<unknown, EditShortUrlDeps> = () => {
     <div className="flex flex-col gap-y-4">
       <header>
         <SimpleCard>
-          <h2 className="sm:flex items-center">
+          <h4 className="sm:flex items-center text-4xl">
             <GoBackButton />
             <div className="text-center grow">
               <small>Edit <ExternalLink href={shortUrl?.shortUrl ?? ''} /></small>
             </div>
-          </h2>
+          </h4>
         </SimpleCard>
       </header>
       <ShortUrlForm
@@ -76,5 +68,3 @@ const EditShortUrl: FCWithDeps<unknown, EditShortUrlDeps> = () => {
     </div>
   );
 };
-
-export const EditShortUrlFactory = componentFactory(EditShortUrl, ['ShortUrlForm']);

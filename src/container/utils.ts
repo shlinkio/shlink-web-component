@@ -2,6 +2,7 @@ import type { IContainer } from 'bottlejs';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 
+/** @deprecated */
 export type FCWithDeps<Props, Deps> = FC<Props> & Partial<Deps>;
 
 /** @deprecated */

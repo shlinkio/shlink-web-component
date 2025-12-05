@@ -1,6 +1,6 @@
+import type { FC } from 'react';
 import { useCallback, useMemo } from 'react';
-import type { FCWithDeps } from '../../container/utils';
-import { componentFactory, useDependencies } from '../../container/utils';
+import { withDependencies } from '../../container/context';
 import { boundToMercureHub } from '../../mercure/helpers/boundToMercureHub';
 import { Topics } from '../../mercure/helpers/Topics';
 import { Tag } from '../../tags/helpers/Tag';
@@ -10,12 +10,13 @@ import { useTagVisitsComparison } from './reducers/tagVisitsComparison';
 import type { LoadVisitsForComparison } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
 
-type TagVisitsComparisonDeps = {
+export type TagVisitsComparisonProps = {
   ColorGenerator: ColorGenerator;
 };
 
-const TagVisitsComparison: FCWithDeps<any, TagVisitsComparisonDeps> = boundToMercureHub(() => {
-  const { ColorGenerator: colorGenerator } = useDependencies(TagVisitsComparison);
+const TagVisitsComparisonBase: FC<TagVisitsComparisonProps> = boundToMercureHub((
+  { ColorGenerator: colorGenerator },
+) => {
   const tags = useArrayQueryParam('tags');
   const { getTagVisitsForComparison, tagVisitsComparison, cancelGetTagVisitsForComparison } = useTagVisitsComparison();
   const getVisitsForComparison = useCallback(
@@ -42,4 +43,4 @@ const TagVisitsComparison: FCWithDeps<any, TagVisitsComparisonDeps> = boundToMer
   );
 }, () => [Topics.visits]);
 
-export const TagVisitsComparisonFactory = componentFactory(TagVisitsComparison, ['ColorGenerator']);
+export const TagVisitsComparison = withDependencies(TagVisitsComparisonBase, ['ColorGenerator']);

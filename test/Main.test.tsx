@@ -16,6 +16,9 @@ vi.mock(import('../src/visits/visits-comparison/ShortUrlVisitsComparison'), () =
 vi.mock(import('../src/visits/visits-comparison/DomainVisitsComparison'), () => ({
   DomainVisitsComparison: () => <>DomainVisitsComparison</>,
 }));
+vi.mock(import('../src/visits/visits-comparison/TagVisitsComparison'), () => ({
+  TagVisitsComparison: () => <>TagVisitsComparison</>,
+}));
 
 type SetUpOptions = {
   currentPath?: string
@@ -35,7 +38,6 @@ describe('<Main />', () => {
     NonOrphanVisits: () => <>NonOrphanVisits</>,
     Overview: () => <>OverviewRoute</>,
     EditShortUrl: () => <>EditShortUrl</>,
-    TagVisitsComparison: () => <>TagVisitsComparison</>,
   }));
   const setUp = ({ createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions) => renderWithStore(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>

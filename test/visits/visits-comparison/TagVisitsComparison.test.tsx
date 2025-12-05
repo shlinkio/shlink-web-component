@@ -2,15 +2,12 @@ import type { ShlinkVisitsList } from '@shlinkio/shlink-js-sdk/api-contract';
 import { cleanup, screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
-import { TagVisitsComparisonFactory } from '../../../src/visits/visits-comparison/TagVisitsComparison';
+import { TagVisitsComparison } from '../../../src/visits/visits-comparison/TagVisitsComparison';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithStore } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock, getColorForKey } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<TagVisitsComparison />', () => {
-  const TagVisitsComparison = TagVisitsComparisonFactory(fromPartial({
-    ColorGenerator: colorGeneratorMock,
-  }));
   const getTagVisits = vi.fn().mockResolvedValue(fromPartial<ShlinkVisitsList>({
     data: [],
     pagination: { currentPage: 1, pagesCount: 1, totalItems: 0 },
@@ -18,7 +15,7 @@ describe('<TagVisitsComparison />', () => {
   const setUp = async (tags = ['foo', 'bar', 'baz']) => {
     const renderResult = renderWithStore(
       <MemoryRouter initialEntries={[{ search: `?tags=${tags.join(',')}` }]}>
-        <TagVisitsComparison />
+        <TagVisitsComparison ColorGenerator={colorGeneratorMock} />
       </MemoryRouter>,
       {
         apiClientFactory: () => fromPartial({ getTagVisits }),

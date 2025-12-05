@@ -12,6 +12,7 @@ import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
 import { DomainVisitsComparison } from './visits/visits-comparison/DomainVisitsComparison';
 import { ShortUrlVisitsComparison } from './visits/visits-comparison/ShortUrlVisitsComparison';
+import { TagVisitsComparison } from './visits/visits-comparison/TagVisitsComparison';
 
 export type MainProps = {
   createNotFound?: (nonPrefixedHomePath: string) => ReactNode;
@@ -29,7 +30,6 @@ type MainDeps = {
   NonOrphanVisits: FC,
   Overview: FC,
   EditShortUrl: FC,
-  TagVisitsComparison: FC,
 };
 
 const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButton }) => {
@@ -44,7 +44,6 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
     NonOrphanVisits,
     Overview,
     EditShortUrl,
-    TagVisitsComparison,
   } = useDependencies(Main);
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
@@ -116,5 +115,4 @@ export const MainFactory = componentFactory(Main, [
   'NonOrphanVisits',
   'Overview',
   'EditShortUrl',
-  'TagVisitsComparison',
 ]);

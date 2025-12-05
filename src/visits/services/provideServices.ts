@@ -5,7 +5,6 @@ import { NonOrphanVisitsFactory } from '../NonOrphanVisits';
 import { OrphanVisitsFactory } from '../OrphanVisits';
 import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import { TagVisitsFactory } from '../TagVisits';
-import { TagVisitsComparisonFactory } from '../visits-comparison/TagVisitsComparison';
 import * as visitsParser from './VisitsParser';
 
 export const provideServices = (bottle: Bottle) => {
@@ -13,7 +12,6 @@ export const provideServices = (bottle: Bottle) => {
 
   bottle.factory('ShortUrlVisits', ShortUrlVisitsFactory);
   bottle.factory('TagVisits', TagVisitsFactory);
-  bottle.factory('TagVisitsComparison', TagVisitsComparisonFactory);
   bottle.factory('DomainVisits', DomainVisitsFactory);
   bottle.factory('OrphanVisits', OrphanVisitsFactory);
   bottle.factory('NonOrphanVisits', NonOrphanVisitsFactory);

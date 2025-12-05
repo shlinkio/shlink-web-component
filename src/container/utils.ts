@@ -4,10 +4,12 @@ import { useMemo } from 'react';
 
 export type FCWithDeps<Props, Deps> = FC<Props> & Partial<Deps>;
 
+/** @deprecated */
 export function useDependencies<Deps>(obj: Deps): Omit<Required<Deps>, keyof FC> {
   return useMemo(() => obj as Omit<Required<Deps>, keyof FC>, [obj]);
 }
 
+/** @deprecated */
 export function componentFactory<Deps, CompType = Omit<Partial<Deps>, keyof FC>>(
   Component: CompType,
   deps: ReadonlyArray<keyof CompType>,

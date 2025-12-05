@@ -18,10 +18,9 @@ import { useShortUrlsQuery } from './helpers/hooks';
 import { Paginator } from './Paginator';
 import { useUrlsList } from './reducers/shortUrlsList';
 import type { ShortUrlsFilteringBarProps } from './ShortUrlsFilteringBar';
-import type { ShortUrlsTableType } from './ShortUrlsTable';
+import { ShortUrlsTable } from './ShortUrlsTable';
 
 type ShortUrlsListDeps = {
-  ShortUrlsTable: ShortUrlsTableType,
   ShortUrlsFilteringBar: FC<ShortUrlsFilteringBarProps>,
 };
 
@@ -32,7 +31,7 @@ const DEFAULT_SHORT_URLS_ORDERING: ShortUrlsOrder = {
 
 const ShortUrlsList: FCWithDeps<any, ShortUrlsListDeps> = boundToMercureHub(() => {
   const { listShortUrls, shortUrlsList } = useUrlsList();
-  const { ShortUrlsTable, ShortUrlsFilteringBar } = useDependencies(ShortUrlsList);
+  const { ShortUrlsFilteringBar } = useDependencies(ShortUrlsList);
   const { page } = useParams();
   const location = useLocation();
   const [{
@@ -138,4 +137,4 @@ const ShortUrlsList: FCWithDeps<any, ShortUrlsListDeps> = boundToMercureHub(() =
   );
 }, () => [Topics.visits]);
 
-export const ShortUrlsListFactory = componentFactory(ShortUrlsList, ['ShortUrlsTable', 'ShortUrlsFilteringBar']);
+export const ShortUrlsListFactory = componentFactory(ShortUrlsList, ['ShortUrlsFilteringBar']);

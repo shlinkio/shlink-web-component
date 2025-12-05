@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
-import { ExportShortUrlsBtnFactory } from '../../../src/short-urls/helpers/ExportShortUrlsBtn';
+import { ExportShortUrlsBtn } from '../../../src/short-urls/helpers/ExportShortUrlsBtn';
 import type { ReportExporter } from '../../../src/utils/services/ReportExporter';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
@@ -11,13 +11,13 @@ describe('<ExportShortUrlsBtn />', () => {
   const listShortUrls = vi.fn();
   const exportShortUrls = vi.fn();
   const reportExporter = fromPartial<ReportExporter>({ exportShortUrls });
-  const ExportShortUrlsBtn = ExportShortUrlsBtnFactory(fromPartial({
-    apiClientFactory: vi.fn().mockReturnValue({ listShortUrls }),
-    ReportExporter: reportExporter,
-  }));
   const setUp = (amount?: number) => renderWithEvents(
     <MemoryRouter>
-      <ExportShortUrlsBtn amount={amount} />
+      <ExportShortUrlsBtn
+        amount={amount}
+        apiClientFactory={vi.fn().mockReturnValue({ listShortUrls })}
+        ReportExporter={reportExporter}
+      />
     </MemoryRouter>,
   );
 

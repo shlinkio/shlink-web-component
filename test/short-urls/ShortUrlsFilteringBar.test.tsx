@@ -74,7 +74,7 @@ describe('<ShortUrlsFilteringBar />', () => {
 
   it('renders expected children components', () => {
     setUp();
-    expect(screen.getByText('ExportShortUrlsBtn')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^Export/ })).toBeInTheDocument();
   });
 
   it('redirects to first page when search field changes', async () => {

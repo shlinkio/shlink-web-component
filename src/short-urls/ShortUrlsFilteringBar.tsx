@@ -18,7 +18,7 @@ import { datesToDateRange } from '../utils/dates/helpers/dateIntervals';
 import { useFeature } from '../utils/features';
 import type { ShortUrlsOrder, ShortUrlsOrderableFields } from './data';
 import { SHORT_URLS_ORDERABLE_FIELDS } from './data';
-import type { ExportShortUrlsBtnProps } from './helpers/ExportShortUrlsBtn';
+import { ExportShortUrlsBtn } from './helpers/ExportShortUrlsBtn';
 import { useShortUrlsQuery } from './helpers/hooks';
 import { ShortUrlsFilterDropdown } from './helpers/ShortUrlsFilterDropdown';
 
@@ -30,14 +30,13 @@ export type ShortUrlsFilteringBarProps = {
 };
 
 type ShortUrlsFilteringBarDeps = {
-  ExportShortUrlsBtn: FC<ExportShortUrlsBtnProps>;
   TagsSearchDropdown: FC<TagsSearchDropdownProps>;
 };
 
 const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringBarProps, ShortUrlsFilteringBarDeps> = (
   { className, shortUrlsAmount, order, handleOrderBy },
 ) => {
-  const { ExportShortUrlsBtn, TagsSearchDropdown } = useDependencies(ShortUrlsFilteringBar);
+  const { TagsSearchDropdown } = useDependencies(ShortUrlsFilteringBar);
   const { domainsList } = useDomainsList();
   const { tagsList } = useTagsList();
   const [{
@@ -164,5 +163,5 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringBarProps, ShortUrlsFil
 
 export const ShortUrlsFilteringBarFactory = componentFactory(
   ShortUrlsFilteringBar,
-  ['ExportShortUrlsBtn', 'TagsSearchDropdown'],
+  ['TagsSearchDropdown'],
 );

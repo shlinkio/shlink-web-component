@@ -2,11 +2,11 @@ import { faArrowsSplitUpAndLeft as rulesIcon } from '@fortawesome/free-solid-svg
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { TimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import { CopyToClipboardButton, Table } from '@shlinkio/shlink-frontend-kit';
+import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 import { ExternalLink } from 'react-external-link';
 import type { ShlinkShortUrl } from '../../api-contract';
-import type { FCWithDeps } from '../../container/utils';
-import { componentFactory, useDependencies } from '../../container/utils';
+import { withDependencies } from '../../container/context';
 import { useSetting } from '../../settings';
 import { Time } from '../../utils/dates/Time';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
@@ -17,20 +17,16 @@ import { ShortUrlStatus } from './ShortUrlStatus';
 import { ShortUrlVisitsCount } from './ShortUrlVisitsCount';
 import { Tags } from './Tags';
 
-type ShortUrlsRowProps = {
+export type ShortUrlsRowProps = {
   onTagClick?: (tag: string) => void;
   shortUrl: ShlinkShortUrl;
-};
-
-type ShortUrlsRowDeps = {
   ColorGenerator: ColorGenerator;
   useTimeoutToggle: TimeoutToggle;
 };
 
-export type ShortUrlsRowType = typeof ShortUrlsRow;
-
-const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUrl, onTagClick }) => {
-  const { ColorGenerator: colorGenerator, useTimeoutToggle } = useDependencies(ShortUrlsRow);
+const ShortUrlsRowBase: FC<ShortUrlsRowProps> = (
+  { shortUrl, onTagClick, ColorGenerator: colorGenerator, useTimeoutToggle },
+) => {
   // eslint-disable-next-line react-compiler/react-compiler
   const [active, setActive] = useTimeoutToggle({ initialValue: false, delay: 500 });
   const isFirstRun = useRef(true);
@@ -100,4 +96,4 @@ const ShortUrlsRow: FCWithDeps<ShortUrlsRowProps, ShortUrlsRowDeps> = ({ shortUr
   );
 };
 
-export const ShortUrlsRowFactory = componentFactory(ShortUrlsRow, ['ColorGenerator', 'useTimeoutToggle']);
+export const ShortUrlsRow = withDependencies(ShortUrlsRowBase, ['ColorGenerator', 'useTimeoutToggle']);

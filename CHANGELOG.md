@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 * [#874](https://github.com/shlinkio/shlink-web-component/issues/874) Simplify redux models by using a discriminator `status` prop to indicate all their possible states (loading, error, success, etc.).
+* [#161](https://github.com/shlinkio/shlink-web-component/issues/161) Migrate from redux `connect` to redux hooks, and stop injecting redux state and actions via DI container.
 
 ### Deprecated
 * *Nothing*

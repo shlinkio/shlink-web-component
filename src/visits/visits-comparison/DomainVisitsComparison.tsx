@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { useCallback } from 'react';
 import { boundToMercureHub } from '../../mercure/helpers/boundToMercureHub';
 import { Topics } from '../../mercure/helpers/Topics';
@@ -7,7 +6,7 @@ import { useDomainVisitsComparison } from './reducers/domainVisitsComparison';
 import type { LoadVisitsForComparison } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
 
-export const DomainVisitsComparison: FC = boundToMercureHub(() => {
+export const DomainVisitsComparison = boundToMercureHub(() => {
   const domains = useArrayQueryParam('domains');
   const {
     getDomainVisitsForComparison,

@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { useCallback } from 'react';
 import { useParams } from 'react-router';
 import { withDependencies } from '../container/context';
@@ -18,7 +17,7 @@ export type TagVisitsProps = {
   ReportExporter: ReportExporter;
 };
 
-const TagVisitsBase: FC<TagVisitsProps> = boundToMercureHub((
+const TagVisitsBase = boundToMercureHub<TagVisitsProps>((
   { ColorGenerator: colorGenerator, ReportExporter: reportExporter },
 ) => {
   const { domainsList } = useDomainsList();

@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { useCallback, useEffect, useMemo } from 'react';
 import { withDependencies } from '../container/context';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
@@ -18,7 +17,7 @@ export type ShortUrlVisitsProps = {
   ReportExporter: ReportExporter
 };
 
-const ShortUrlVisitsBase: FC<ShortUrlVisitsProps> = boundToMercureHub(({ ReportExporter: reportExporter }) => {
+const ShortUrlVisitsBase = boundToMercureHub<ShortUrlVisitsProps>(({ ReportExporter: reportExporter }) => {
   const identifier = useShortUrlIdentifier();
   const { shortUrlsDetails, getShortUrlsDetails } = useUrlsDetails();
   const shortUrls = shortUrlsDetails.status === 'loaded' ? shortUrlsDetails.shortUrls : undefined;

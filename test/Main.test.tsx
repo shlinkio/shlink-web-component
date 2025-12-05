@@ -19,6 +19,7 @@ vi.mock(import('../src/visits/visits-comparison/DomainVisitsComparison'), () => 
 vi.mock(import('../src/visits/visits-comparison/TagVisitsComparison'), () => ({
   TagVisitsComparison: () => <>TagVisitsComparison</>,
 }));
+vi.mock(import('../src/visits/TagVisits'), () => ({ TagVisits: () => <>TagVisits</> }));
 
 type SetUpOptions = {
   currentPath?: string
@@ -32,7 +33,6 @@ describe('<Main />', () => {
     ShortUrlsList: () => <>ShortUrlsList</>,
     CreateShortUrl: () => <>CreateShortUrl</>,
     ShortUrlVisits: () => <>ShortUrlVisits</>,
-    TagVisits: () => <>TagVisits</>,
     DomainVisits: () => <>DomainVisits</>,
     OrphanVisits: () => <>OrphanVisits</>,
     NonOrphanVisits: () => <>NonOrphanVisits</>,

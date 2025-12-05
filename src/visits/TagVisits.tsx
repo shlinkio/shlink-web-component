@@ -1,7 +1,7 @@
+import type { FC } from 'react';
 import { useCallback } from 'react';
 import { useParams } from 'react-router';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
+import { withDependencies } from '../container/context';
 import { useDomainsList } from '../domains/reducers/domainsList';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
@@ -13,13 +13,14 @@ import { TagVisitsHeader } from './TagVisitsHeader';
 import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsStats } from './VisitsStats';
 
-type TagVisitsDeps = {
+export type TagVisitsProps = {
   ColorGenerator: ColorGenerator;
   ReportExporter: ReportExporter;
 };
 
-const TagVisits: FCWithDeps<any, TagVisitsDeps> = boundToMercureHub(() => {
-  const { ColorGenerator: colorGenerator, ReportExporter: reportExporter } = useDependencies(TagVisits);
+const TagVisitsBase: FC<TagVisitsProps> = boundToMercureHub((
+  { ColorGenerator: colorGenerator, ReportExporter: reportExporter },
+) => {
   const { domainsList } = useDomainsList();
   const { tag = '' } = useParams();
   const { getTagVisits, tagVisits, cancelGetTagVisits } = useTagVisits();
@@ -50,4 +51,4 @@ const TagVisits: FCWithDeps<any, TagVisitsDeps> = boundToMercureHub(() => {
   );
 }, () => [Topics.visits]);
 
-export const TagVisitsFactory = componentFactory(TagVisits, ['ColorGenerator', 'ReportExporter']);
+export const TagVisits = withDependencies(TagVisitsBase, ['ColorGenerator', 'ReportExporter']);

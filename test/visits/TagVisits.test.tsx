@@ -4,7 +4,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { SettingsProvider } from '../../src/settings';
-import { TagVisitsFactory } from '../../src/visits/TagVisits';
+import { TagVisits } from '../../src/visits/TagVisits';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
 import { renderWithStore } from '../__helpers__/setUpTest';
@@ -17,17 +17,13 @@ describe('<TagVisits />', () => {
     pagination: { totalItems: 1, pagesCount: 1, currentPage: 1 },
   });
   const getTagVisits = vi.fn().mockResolvedValue(tagVisits);
-  const TagVisits = TagVisitsFactory(fromPartial({
-    ColorGenerator: colorGeneratorMock,
-    ReportExporter: fromPartial({ exportVisits }),
-  }));
   const setUp = async () => {
     const renderResult = renderWithStore(
       <MemoryRouterWithParams params={{ tag: 'foo' }} splat>
         <SettingsProvider value={fromPartial({})}>
           {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
           <Card>
-            <TagVisits />
+            <TagVisits ReportExporter={fromPartial({ exportVisits })} ColorGenerator={colorGeneratorMock} />
           </Card>
         </SettingsProvider>
       </MemoryRouterWithParams>,

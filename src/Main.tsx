@@ -10,6 +10,7 @@ import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
 import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
+import { ShortUrlVisits } from './visits/ShortUrlVisits';
 import { TagVisits } from './visits/TagVisits';
 import { DomainVisitsComparison } from './visits/visits-comparison/DomainVisitsComparison';
 import { ShortUrlVisitsComparison } from './visits/visits-comparison/ShortUrlVisitsComparison';
@@ -24,7 +25,6 @@ type MainDeps = {
   TagsList: FC,
   ShortUrlsList: FC,
   CreateShortUrl: FC,
-  ShortUrlVisits: FC,
   DomainVisits: FC,
   OrphanVisits: FC,
   NonOrphanVisits: FC,
@@ -37,7 +37,6 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
     TagsList,
     ShortUrlsList,
     CreateShortUrl,
-    ShortUrlVisits,
     DomainVisits,
     OrphanVisits,
     NonOrphanVisits,
@@ -107,7 +106,6 @@ export const MainFactory = componentFactory(Main, [
   'TagsList',
   'ShortUrlsList',
   'CreateShortUrl',
-  'ShortUrlVisits',
   'DomainVisits',
   'OrphanVisits',
   'NonOrphanVisits',

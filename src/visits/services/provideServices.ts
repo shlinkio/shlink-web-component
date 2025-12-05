@@ -2,11 +2,9 @@ import type Bottle from 'bottlejs';
 import { DomainVisitsFactory } from '../DomainVisits';
 import { NonOrphanVisitsFactory } from '../NonOrphanVisits';
 import { OrphanVisitsFactory } from '../OrphanVisits';
-import { ShortUrlVisitsFactory } from '../ShortUrlVisits';
 import * as visitsParser from './VisitsParser';
 
 export const provideServices = (bottle: Bottle) => {
-  bottle.factory('ShortUrlVisits', ShortUrlVisitsFactory);
   bottle.factory('DomainVisits', DomainVisitsFactory);
   bottle.factory('OrphanVisits', OrphanVisitsFactory);
   bottle.factory('NonOrphanVisits', NonOrphanVisitsFactory);

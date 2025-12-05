@@ -1,6 +1,6 @@
+import type { FC } from 'react';
 import { useCallback, useEffect, useMemo } from 'react';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
+import { withDependencies } from '../container/context';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { urlDecodeShortCode } from '../short-urls/helpers';
@@ -14,12 +14,11 @@ import { ShortUrlVisitsHeader } from './ShortUrlVisitsHeader';
 import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsStats } from './VisitsStats';
 
-type ShortUrlVisitsDeps = {
+export type ShortUrlVisitsProps = {
   ReportExporter: ReportExporter
 };
 
-const ShortUrlVisits: FCWithDeps<any, ShortUrlVisitsDeps> = boundToMercureHub(() => {
-  const { ReportExporter: reportExporter } = useDependencies(ShortUrlVisits);
+const ShortUrlVisitsBase: FC<ShortUrlVisitsProps> = boundToMercureHub(({ ReportExporter: reportExporter }) => {
   const identifier = useShortUrlIdentifier();
   const { shortUrlsDetails, getShortUrlsDetails } = useUrlsDetails();
   const shortUrls = shortUrlsDetails.status === 'loaded' ? shortUrlsDetails.shortUrls : undefined;
@@ -66,4 +65,4 @@ const ShortUrlVisits: FCWithDeps<any, ShortUrlVisitsDeps> = boundToMercureHub(()
   );
 }, (params) => (params.shortCode ? [Topics.shortUrlVisits(urlDecodeShortCode(params.shortCode))] : []));
 
-export const ShortUrlVisitsFactory = componentFactory(ShortUrlVisits, ['ReportExporter']);
+export const ShortUrlVisits = withDependencies(ShortUrlVisitsBase, ['ReportExporter']);

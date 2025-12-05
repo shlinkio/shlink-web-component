@@ -5,7 +5,7 @@ import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router';
 import { SettingsProvider } from '../../src/settings';
-import { NonOrphanVisitsFactory } from '../../src/visits/NonOrphanVisits';
+import { NonOrphanVisits } from '../../src/visits/NonOrphanVisits';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
@@ -16,16 +16,13 @@ describe('<NonOrphanVisits />', () => {
     pagination: { currentPage: 1, pagesCount: 1, totalItems: 1 },
   });
   const getNonOrphanVisits = vi.fn().mockResolvedValue(nonOrphanVisits);
-  const NonOrphanVisits = NonOrphanVisitsFactory(fromPartial({
-    ReportExporter: fromPartial({ exportVisits }),
-  }));
   const setUp = async () => {
     const renderResult = renderWithStore(
       <MemoryRouter>
         <SettingsProvider value={fromPartial({})}>
           {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
           <Card>
-            <NonOrphanVisits />
+            <NonOrphanVisits ReportExporter={fromPartial({ exportVisits })} />
           </Card>
         </SettingsProvider>
       </MemoryRouter>,

@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
+import { withDependencies } from '../container/context';
 import { useDomainsList } from '../domains/reducers/domainsList';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
@@ -11,12 +10,11 @@ import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsHeader } from './VisitsHeader';
 import { VisitsStats } from './VisitsStats';
 
-type NonOrphanVisitsDeps = {
+export type NonOrphanVisitsProps = {
   ReportExporter: ReportExporter;
 };
 
-const NonOrphanVisits: FCWithDeps<any, NonOrphanVisitsDeps> = boundToMercureHub(() => {
-  const { ReportExporter: reportExporter } = useDependencies(NonOrphanVisits);
+const NonOrphanVisitsBase = boundToMercureHub<NonOrphanVisitsProps>(({ ReportExporter: reportExporter }) => {
   const exportCsv = useCallback(
     (visits: NormalizedVisit[]) => reportExporter.exportVisits('non_orphan_visits.csv', visits),
     [reportExporter],
@@ -45,4 +43,4 @@ const NonOrphanVisits: FCWithDeps<any, NonOrphanVisitsDeps> = boundToMercureHub(
   );
 }, () => [Topics.visits]);
 
-export const NonOrphanVisitsFactory = componentFactory(NonOrphanVisits, ['ReportExporter']);
+export const NonOrphanVisits = withDependencies(NonOrphanVisitsBase, ['ReportExporter']);

@@ -9,7 +9,7 @@ import type { Settings } from '../../src/settings';
 import { SettingsProvider } from '../../src/settings';
 import type { ShortUrlsOrder } from '../../src/short-urls/data';
 import type { ShortUrlsList as ShortUrlsListModel } from '../../src/short-urls/reducers/shortUrlsList';
-import { ShortUrlsListFactory } from '../../src/short-urls/ShortUrlsList';
+import { ShortUrlsList } from '../../src/short-urls/ShortUrlsList';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
@@ -19,8 +19,6 @@ type SetUpOptions = {
 };
 
 describe('<ShortUrlsList />', () => {
-  const ShortUrlsFilteringBar = () => <span>ShortUrlsFilteringBar</span>;
-  const ShortUrlsList = ShortUrlsListFactory(fromPartial({ ShortUrlsFilteringBar }));
   const shortUrlsApiResponse = fromPartial<ShlinkShortUrlsList>({
     data: [
       {

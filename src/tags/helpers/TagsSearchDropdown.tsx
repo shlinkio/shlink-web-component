@@ -8,11 +8,10 @@ import {
   SearchCombobox,
   useTagsSearch,
 } from '@shlinkio/shlink-frontend-kit';
-import type { TagsFilteringMode } from '@shlinkio/shlink-js-sdk/api-contract';
-import type { MouseEvent } from 'react';
+import type { ShlinkTagsFilteringMode } from '@shlinkio/shlink-js-sdk/api-contract';
+import type { FC, MouseEvent } from 'react';
 import { useCallback } from 'react';
-import type { FCWithDeps } from '../../container/utils';
-import { componentFactory, useDependencies } from '../../container/utils';
+import { withDependencies } from '../../container/context';
 import { useSetting } from '../../settings';
 import { ColorBullet } from '../../utils/components/ColorBullet';
 import { Muted } from '../../utils/components/Muted';
@@ -27,23 +26,28 @@ export type TagsSearchDropdownProps = {
   /** Invoked every time selected tags change */
   onTagsChange?: (tags: string[]) => void;
   /** Current tags mode */
-  mode?: TagsFilteringMode;
+  mode?: ShlinkTagsFilteringMode;
   /** Invoked when tags mode changes */
-  onModeChange?: (mode: TagsFilteringMode) => void;
+  onModeChange?: (mode: ShlinkTagsFilteringMode) => void;
 
   buttonClassName?: string;
   title: string;
   prefix: string;
-};
 
-type TagsSearchDropdownDeps = {
   ColorGenerator: ColorGenerator;
 };
 
-const TagsSearchDropdown: FCWithDeps<TagsSearchDropdownProps, TagsSearchDropdownDeps> = (
-  { tags, selectedTags, onTagsChange, mode = 'any', onModeChange, buttonClassName, title, prefix },
-) => {
-  const { ColorGenerator: colorGenerator } = useDependencies(TagsSearchDropdown);
+const TagsSearchDropdownBase: FC<TagsSearchDropdownProps> = ({
+  tags,
+  selectedTags,
+  onTagsChange,
+  mode = 'any',
+  onModeChange,
+  buttonClassName,
+  title,
+  prefix,
+  ColorGenerator: colorGenerator,
+}) => {
   const shortUrlCreation = useSetting('shortUrlCreation');
   const searchMode = shortUrlCreation?.tagFilteringMode ?? 'startsWith';
 
@@ -140,4 +144,4 @@ const TagsSearchDropdown: FCWithDeps<TagsSearchDropdownProps, TagsSearchDropdown
   );
 };
 
-export const TagsSearchDropdownFactory = componentFactory(TagsSearchDropdown, ['ColorGenerator']);
+export const TagsSearchDropdown = withDependencies(TagsSearchDropdownBase, ['ColorGenerator']);

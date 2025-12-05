@@ -1,20 +1,21 @@
 import { CardModal, Input, Result } from '@shlinkio/shlink-frontend-kit';
+import type { FC } from 'react';
 import { useCallback, useState } from 'react';
 import { ShlinkApiError } from '../../common/ShlinkApiError';
-import type { FCWithDeps } from '../../container/utils';
-import { componentFactory, useDependencies } from '../../container/utils';
+import { withDependencies } from '../../container/context';
 import { ColorPicker } from '../../utils/components/ColorPicker';
 import type { ColorGenerator } from '../../utils/services/ColorGenerator';
-import type { TagModalProps } from '../data';
 import { useTagEdit } from '../reducers/tagEdit';
 
-type EditTagModalDeps = {
+export type EditTagModalProps = {
+  tag: string;
+  isOpen: boolean;
+  onClose: () => void;
   ColorGenerator: ColorGenerator;
 };
 
-const EditTagModal: FCWithDeps<TagModalProps, EditTagModalDeps> = ({ tag, onClose, isOpen }) => {
+const EditTagModalBase: FC<EditTagModalProps> = ({ tag, onClose, isOpen, ColorGenerator: colorGenerator }) => {
   const { editTag, tagEdited, tagEdit } = useTagEdit();
-  const { ColorGenerator: colorGenerator } = useDependencies(EditTagModal);
   const [newTagName, setNewTagName] = useState(tag);
   const [color, setColor] = useState(colorGenerator.getColorForKey(tag));
   const { status } = tagEdit;
@@ -58,4 +59,4 @@ const EditTagModal: FCWithDeps<TagModalProps, EditTagModalDeps> = ({ tag, onClos
   );
 };
 
-export const EditTagModalFactory = componentFactory(EditTagModal, ['ColorGenerator']);
+export const EditTagModal = withDependencies(EditTagModalBase, ['ColorGenerator']);

@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { useParams } from 'react-router';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
+import { withDependencies } from '../container/context';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import type { ReportExporter } from '../utils/services/ReportExporter';
@@ -11,12 +10,11 @@ import type { NormalizedVisit, VisitsParams } from './types';
 import { VisitsHeader } from './VisitsHeader';
 import { VisitsStats } from './VisitsStats';
 
-type DomainVisitsDeps = {
+export type DomainVisitsProps = {
   ReportExporter: ReportExporter
 };
 
-const DomainVisits: FCWithDeps<any, DomainVisitsDeps> = boundToMercureHub(() => {
-  const { ReportExporter: exporter } = useDependencies(DomainVisits);
+const DomainVisitsBase = boundToMercureHub<DomainVisitsProps>(({ ReportExporter: exporter }) => {
   const { domain = '' } = useParams();
   const [authority, domainId = authority] = domain.split('_');
   const { getDomainVisits, domainVisits, cancelGetDomainVisits } = useDomainVisits();
@@ -45,4 +43,4 @@ const DomainVisits: FCWithDeps<any, DomainVisitsDeps> = boundToMercureHub(() => 
   );
 }, () => [Topics.visits]);
 
-export const DomainVisitsFactory = componentFactory(DomainVisits, ['ReportExporter']);
+export const DomainVisits = withDependencies(DomainVisitsBase, ['ReportExporter']);

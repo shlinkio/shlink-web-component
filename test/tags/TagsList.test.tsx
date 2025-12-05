@@ -1,20 +1,23 @@
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
+import { MemoryRouter } from 'react-router';
+import { ContainerProvider } from '../../src/container/context';
 import { SettingsProvider } from '../../src/settings';
 import type { TagsList } from '../../src/tags/reducers/tagsList';
-import { TagsListFactory } from '../../src/tags/TagsList';
-import type { TagsTableProps } from '../../src/tags/TagsTable';
+import { TagsList as TagsListComp } from '../../src/tags/TagsList';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
+import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<TagsList />', () => {
-  const TagsList = TagsListFactory(fromPartial({
-    TagsTable: ({ sortedTags }: TagsTableProps) => <>TagsTable ({sortedTags.map((t) => t.visits).join(',')})</>,
-  }));
   const setUp = (tagsList: Partial<TagsList> = {}, excludeBots = false) => renderWithStore(
-    <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
-      <TagsList />
-    </SettingsProvider>,
+    <MemoryRouter>
+      <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
+        <ContainerProvider value={fromPartial({ ColorGenerator: colorGeneratorMock, apiClientFactory: vi.fn() })}>
+          <TagsListComp />
+        </ContainerProvider>
+      </SettingsProvider>
+    </MemoryRouter>,
     {
       initialState: {
         tagsList: fromPartial({
@@ -68,7 +71,7 @@ describe('<TagsList />', () => {
         nonBots: 15,
         bots: 5,
       },
-      '20,20,20',
+      '20',
     ],
     [
       true,
@@ -77,9 +80,9 @@ describe('<TagsList />', () => {
         nonBots: 15,
         bots: 5,
       },
-      '15,15,15',
+      '15',
     ],
-  ])('displays proper amount of visits', (excludeBots, visitsSummary, expectedAmounts) => {
+  ])('displays proper amount of visits', (excludeBots, visitsSummary, expectedAmount) => {
     setUp({
       filteredTags: ['foo', 'bar', 'baz'],
       stats: {
@@ -97,6 +100,10 @@ describe('<TagsList />', () => {
         },
       },
     }, excludeBots);
-    expect(screen.getByText(`TagsTable (${expectedAmounts})`)).toBeInTheDocument();
+
+    const amounts = screen.getAllByTestId('visits-amount');
+    amounts.forEach((amountEl) => {
+      expect(amountEl).toHaveTextContent(expectedAmount);
+    });
   });
 });

@@ -1,16 +1,13 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { ContainerProvider } from '../../../src/container/context';
-import { EditTagModalFactory } from '../../../src/tags/helpers/EditTagModal';
+import { EditTagModal } from '../../../src/tags/helpers/EditTagModal';
 import type { TagEdition } from '../../../src/tags/reducers/tagEdit';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithStore } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<EditTagModal />', () => {
-  const EditTagModal = EditTagModalFactory(fromPartial({
-    ColorGenerator: fromPartial({ getColorForKey: vi.fn(() => 'green') }),
-  }));
   const editTag = vi.fn().mockReturnValue(Promise.resolve());
   const onClose = vi.fn();
   const setUp = (tagEdit: Partial<TagEdition> = {}) => renderWithStore(

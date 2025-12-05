@@ -4,12 +4,10 @@ import type { ShlinkTagsFilteringMode } from '@shlinkio/shlink-js-sdk/api-contra
 import { clsx } from 'clsx';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
 import { DomainFilterDropdown } from '../domains/helpers/DomainFilterDropdown';
 import { useDomainsList } from '../domains/reducers/domainsList';
 import { useSetting } from '../settings';
-import type { TagsSearchDropdownProps } from '../tags/helpers/TagsSearchDropdown';
+import { TagsSearchDropdown } from '../tags/helpers/TagsSearchDropdown';
 import { useTagsList } from '../tags/reducers/tagsList';
 import { DateRangeSelector } from '../utils/dates/DateRangeSelector';
 import { formatIsoDate } from '../utils/dates/helpers/date';
@@ -29,14 +27,9 @@ export type ShortUrlsFilteringBarProps = {
   shortUrlsAmount?: number;
 };
 
-type ShortUrlsFilteringBarDeps = {
-  TagsSearchDropdown: FC<TagsSearchDropdownProps>;
-};
-
-const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringBarProps, ShortUrlsFilteringBarDeps> = (
+export const ShortUrlsFilteringBar: FC<ShortUrlsFilteringBarProps> = (
   { className, shortUrlsAmount, order, handleOrderBy },
 ) => {
-  const { TagsSearchDropdown } = useDependencies(ShortUrlsFilteringBar);
   const { domainsList } = useDomainsList();
   const { tagsList } = useTagsList();
   const [{
@@ -160,8 +153,3 @@ const ShortUrlsFilteringBar: FCWithDeps<ShortUrlsFilteringBarProps, ShortUrlsFil
     </div>
   );
 };
-
-export const ShortUrlsFilteringBarFactory = componentFactory(
-  ShortUrlsFilteringBar,
-  ['TagsSearchDropdown'],
-);

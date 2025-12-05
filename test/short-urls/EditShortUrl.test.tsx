@@ -2,7 +2,7 @@ import type { ProblemDetailsError } from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { SettingsProvider } from '../../src/settings';
-import { EditShortUrlFactory } from '../../src/short-urls/EditShortUrl';
+import { EditShortUrl } from '../../src/short-urls/EditShortUrl';
 import type { ShortUrlEdition } from '../../src/short-urls/reducers/shortUrlEdition';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
@@ -10,7 +10,6 @@ import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<EditShortUrl />', () => {
   const getShortUrlsDetails = vi.fn();
-  const EditShortUrl = EditShortUrlFactory(fromPartial({ ShortUrlForm: () => <span>ShortUrlForm</span> }));
   const setUp = async (edition: Partial<ShortUrlEdition> = {}) => {
     const renderResult = renderWithStore(
       <MemoryRouterWithParams params={{ shortCode: 'abc123' }}>
@@ -46,7 +45,7 @@ describe('<EditShortUrl />', () => {
     const setUpPromise = setUp();
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
-    expect(screen.queryByText('ShortUrlForm')).not.toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('URL to be shortened')).not.toBeInTheDocument();
 
     await setUpPromise;
   });
@@ -57,13 +56,13 @@ describe('<EditShortUrl />', () => {
     await setUp();
 
     expect(screen.getByText('An error occurred while loading short URL detail :(')).toBeInTheDocument();
-    expect(screen.queryByText('ShortUrlForm')).not.toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('URL to be shortened')).not.toBeInTheDocument();
   });
 
   it('renders form when detail properly loads', async () => {
     await setUp();
 
-    expect(screen.getByText('ShortUrlForm')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('URL to be shortened')).toBeInTheDocument();
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
     expect(screen.queryByText('An error occurred while loading short URL detail :(')).not.toBeInTheDocument();
   });
@@ -72,13 +71,13 @@ describe('<EditShortUrl />', () => {
     await setUp({ error: true, saved: true });
 
     expect(screen.getByText('An error occurred while updating short URL :(')).toBeInTheDocument();
-    expect(screen.getByText('ShortUrlForm')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('URL to be shortened')).toBeInTheDocument();
   });
 
   it('shows message when saving data succeeds', async () => {
     await setUp({ error: false, saved: true });
 
     expect(screen.getByText('Short URL properly edited.')).toBeInTheDocument();
-    expect(screen.getByText('ShortUrlForm')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('URL to be shortened')).toBeInTheDocument();
   });
 });

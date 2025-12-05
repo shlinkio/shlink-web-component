@@ -1,28 +1,21 @@
 import { splitEvery } from '@shlinkio/data-manipulation';
-import { Paginator, SimpleCard, Table,useParsedQuery  } from '@shlinkio/shlink-frontend-kit';
+import { Paginator, SimpleCard, Table, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC } from 'react';
-import { useCallback , useEffect, useRef } from 'react';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
+import { useCallback, useEffect, useRef } from 'react';
 import { useQueryState } from '../utils/helpers/hooks';
 import { TableOrderIcon } from '../utils/table/TableOrderIcon';
 import type { TagsListChildrenProps, TagsOrder, TagsOrderableFields } from './data/TagsListChildrenProps';
-import type { TagsTableRowProps } from './TagsTableRow';
+import { TagsTableRow } from './TagsTableRow';
 
 export interface TagsTableProps extends TagsListChildrenProps {
   orderByColumn: (field: TagsOrderableFields) => () => void;
   currentOrder: TagsOrder;
 }
 
-type TagsTableDeps = {
-  TagsTableRow: FC<TagsTableRowProps>;
-};
-
 const TAGS_PER_PAGE = 20; // TODO Allow customizing this value in settings
 
-const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orderByColumn, currentOrder }) => {
-  const { TagsTableRow } = useDependencies(TagsTable);
+export const TagsTable: FC<TagsTableProps> = ({ sortedTags, orderByColumn, currentOrder }) => {
   const isFirstLoad = useRef(true);
   const { page: pageFromQuery = 1 } = useParsedQuery<{ page?: number | string }>();
   const [page, setPage] = useQueryState<number>('page', Number(pageFromQuery));
@@ -87,5 +80,3 @@ const TagsTable: FCWithDeps<TagsTableProps, TagsTableDeps> = ({ sortedTags, orde
     </SimpleCard>
   );
 };
-
-export const TagsTableFactory = componentFactory(TagsTable, ['TagsTableRow']);

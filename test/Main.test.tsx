@@ -1,9 +1,8 @@
 import { screen } from '@testing-library/react';
-import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import { ShlinkSidebarVisibilityProvider } from '../src';
 import type { MainProps } from '../src/Main';
-import { MainFactory } from '../src/Main';
+import { Main } from '../src/Main';
 import { checkAccessibility } from './__helpers__/accessibility';
 import { renderWithStore } from './__helpers__/setUpTest';
 
@@ -16,6 +15,19 @@ vi.mock(import('../src/visits/visits-comparison/ShortUrlVisitsComparison'), () =
 vi.mock(import('../src/visits/visits-comparison/DomainVisitsComparison'), () => ({
   DomainVisitsComparison: () => <>DomainVisitsComparison</>,
 }));
+vi.mock(import('../src/visits/visits-comparison/TagVisitsComparison'), () => ({
+  TagVisitsComparison: () => <>TagVisitsComparison</>,
+}));
+vi.mock(import('../src/visits/TagVisits'), () => ({ TagVisits: () => <>TagVisits</> }));
+vi.mock(import('../src/visits/ShortUrlVisits'), () => ({ ShortUrlVisits: () => <>ShortUrlVisits</> }));
+vi.mock(import('../src/visits/OrphanVisits'), () => ({ OrphanVisits: () => <>OrphanVisits</> }));
+vi.mock(import('../src/visits/NonOrphanVisits'), () => ({ NonOrphanVisits: () => <>NonOrphanVisits</> }));
+vi.mock(import('../src/visits/DomainVisits'), () => ({ DomainVisits: () => <>DomainVisits</> }));
+vi.mock(import('../src/short-urls/CreateShortUrl'), () => ({ CreateShortUrl: () => <>CreateShortUrl</> }));
+vi.mock(import('../src/short-urls/EditShortUrl'), () => ({ EditShortUrl: () => <>EditShortUrl</> }));
+vi.mock(import('../src/short-urls/ShortUrlsList'), () => ({ ShortUrlsList: () => <>ShortUrlsList</> }));
+vi.mock(import('../src/overview/Overview'), () => ({ Overview: () => <>OverviewRoute</> }));
+vi.mock(import('../src/tags/TagsList'), () => ({ TagsList: () => <>TagsList</> }));
 
 type SetUpOptions = {
   currentPath?: string
@@ -24,19 +36,6 @@ type SetUpOptions = {
 };
 
 describe('<Main />', () => {
-  const Main = MainFactory(fromPartial({
-    TagsList: () => <>TagsList</>,
-    ShortUrlsList: () => <>ShortUrlsList</>,
-    CreateShortUrl: () => <>CreateShortUrl</>,
-    ShortUrlVisits: () => <>ShortUrlVisits</>,
-    TagVisits: () => <>TagVisits</>,
-    DomainVisits: () => <>DomainVisits</>,
-    OrphanVisits: () => <>OrphanVisits</>,
-    NonOrphanVisits: () => <>NonOrphanVisits</>,
-    Overview: () => <>OverviewRoute</>,
-    EditShortUrl: () => <>EditShortUrl</>,
-    TagVisitsComparison: () => <>TagVisitsComparison</>,
-  }));
   const setUp = ({ createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions) => renderWithStore(
     <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
       <ShlinkSidebarVisibilityProvider>

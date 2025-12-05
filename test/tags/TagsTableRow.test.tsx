@@ -2,7 +2,8 @@ import { screen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
-import { TagsTableRowFactory } from '../../src/tags/TagsTableRow';
+import { ContainerProvider } from '../../src/container/context';
+import { TagsTableRow } from '../../src/tags/TagsTableRow';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import type { VisitsComparison } from '../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../src/visits/visits-comparison/VisitsComparisonContext';
@@ -16,29 +17,23 @@ type SetUpOptions = {
   visitsComparison?: Partial<VisitsComparison>;
 };
 
-type ModalProps = {
-  isOpen: boolean;
-};
-
 describe('<TagsTableRow />', () => {
-  const TagsTableRow = TagsTableRowFactory(fromPartial({
-    EditTagModal: ({ isOpen }: ModalProps) => <td>EditTagModal {isOpen ? 'OPEN' : 'CLOSED'}</td>,
-    ColorGenerator: colorGeneratorMock,
-  }));
   const tag = 'foo&bar';
   const setUp = ({ visits = 0, shortUrls = 0, visitsComparison }: SetUpOptions = {}) => renderWithStore(
     <MemoryRouter>
-      <RoutesPrefixProvider value="/server/abc123">
-        <VisitsComparisonProvider
-          value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
-        >
-          <table>
-            <tbody>
-              <TagsTableRow tag={{ tag, visits, shortUrls }} />
-            </tbody>
-          </table>
-        </VisitsComparisonProvider>
-      </RoutesPrefixProvider>
+      <ContainerProvider value={fromPartial({ ColorGenerator: colorGeneratorMock, apiClientFactory: vi.fn() })}>
+        <RoutesPrefixProvider value="/server/abc123">
+          <VisitsComparisonProvider
+            value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
+          >
+            <table>
+              <tbody>
+                <TagsTableRow tag={{ tag, visits, shortUrls }} ColorGenerator={colorGeneratorMock} />
+              </tbody>
+            </table>
+          </VisitsComparisonProvider>
+        </RoutesPrefixProvider>
+      </ContainerProvider>
     </MemoryRouter>,
   );
 
@@ -74,18 +69,28 @@ describe('<TagsTableRow />', () => {
     expect(screen.queryByRole('menu')).toBeInTheDocument();
   });
 
-  it('allows toggling modals through dropdown items', async () => {
+  it('allows toggling edit modal', async () => {
     const { user } = setUp();
 
-    expect(screen.getByText(/^EditTagModal/)).toHaveTextContent('CLOSED');
-    expect(screen.getByText(/^EditTagModal/)).not.toHaveTextContent('OPEN');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Edit tag' })).not.toBeInTheDocument();
+
     await clickMenuItem(user, 'Edit');
-    expect(screen.getByText(/^EditTagModal/)).toHaveTextContent('OPEN');
-    expect(screen.getByText(/^EditTagModal/)).not.toHaveTextContent('CLOSED');
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Edit tag' })).toBeInTheDocument();
+  });
+
+  it('allows toggling delete modal', async () => {
+    const { user } = setUp();
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Delete tag' })).not.toBeInTheDocument();
+
     await clickMenuItem(user, 'Delete tag');
+
     expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Delete tag' })).toBeInTheDocument();
   });
 
   it.each([

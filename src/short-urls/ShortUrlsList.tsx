@@ -1,12 +1,9 @@
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
 import { determineOrderDir, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
-import type { FC } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useParams } from 'react-router';
 import type { ShlinkShortUrlsOrder } from '../api-contract';
-import type { FCWithDeps } from '../container/utils';
-import { componentFactory, useDependencies } from '../container/utils';
 import { boundToMercureHub } from '../mercure/helpers/boundToMercureHub';
 import { Topics } from '../mercure/helpers/Topics';
 import { useSettings } from '../settings';
@@ -17,21 +14,16 @@ import type { ShortUrlsOrder, ShortUrlsOrderableFields } from './data';
 import { useShortUrlsQuery } from './helpers/hooks';
 import { Paginator } from './Paginator';
 import { useUrlsList } from './reducers/shortUrlsList';
-import type { ShortUrlsFilteringBarProps } from './ShortUrlsFilteringBar';
+import { ShortUrlsFilteringBar } from './ShortUrlsFilteringBar';
 import { ShortUrlsTable } from './ShortUrlsTable';
-
-type ShortUrlsListDeps = {
-  ShortUrlsFilteringBar: FC<ShortUrlsFilteringBarProps>,
-};
 
 const DEFAULT_SHORT_URLS_ORDERING: ShortUrlsOrder = {
   field: 'dateCreated',
   dir: 'DESC',
 };
 
-const ShortUrlsList: FCWithDeps<any, ShortUrlsListDeps> = boundToMercureHub(() => {
+export const ShortUrlsList = boundToMercureHub(() => {
   const { listShortUrls, shortUrlsList } = useUrlsList();
-  const { ShortUrlsFilteringBar } = useDependencies(ShortUrlsList);
   const { page } = useParams();
   const location = useLocation();
   const [{
@@ -136,5 +128,3 @@ const ShortUrlsList: FCWithDeps<any, ShortUrlsListDeps> = boundToMercureHub(() =
 
   );
 }, () => [Topics.visits]);
-
-export const ShortUrlsListFactory = componentFactory(ShortUrlsList, ['ShortUrlsFilteringBar']);

@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { useCallback, useEffect, useMemo } from 'react';
 import type { ShlinkVisit } from '../../api-contract';
 import { boundToMercureHub } from '../../mercure/helpers/boundToMercureHub';
@@ -10,7 +9,7 @@ import { useUrlVisitsComparison } from './reducers/shortUrlVisitsComparison';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
 
-export const ShortUrlVisitsComparison: FC = boundToMercureHub(() => {
+export const ShortUrlVisitsComparison = boundToMercureHub(() => {
   const shortUrlIds = useArrayQueryParam('short-urls');
   const identifiers = useMemo(() => shortUrlIds.map(queryToShortUrl), [shortUrlIds]);
   const {

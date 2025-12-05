@@ -5,10 +5,10 @@ import { formatISO, parseISO } from 'date-fns';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
+import { ContainerProvider } from '../../src/container/context';
 import { DEFAULT_DOMAIN } from '../../src/domains/data';
 import { SettingsProvider } from '../../src/settings';
-import { ShortUrlsFilteringBarFactory } from '../../src/short-urls/ShortUrlsFilteringBar';
-import { TagsSearchDropdownFactory } from '../../src/tags/helpers/TagsSearchDropdown';
+import { ShortUrlsFilteringBar } from '../../src/short-urls/ShortUrlsFilteringBar';
 import { FeaturesProvider } from '../../src/utils/features';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
@@ -23,10 +23,6 @@ type SetUpOptions = {
 };
 
 describe('<ShortUrlsFilteringBar />', () => {
-  const ShortUrlsFilteringBar = ShortUrlsFilteringBarFactory(fromPartial({
-    ExportShortUrlsBtn: () => <>ExportShortUrlsBtn</>,
-    TagsSearchDropdown: TagsSearchDropdownFactory(fromPartial({ ColorGenerator: colorGeneratorMock })),
-  }));
   const handleOrderBy = vi.fn();
   let history: MemoryHistory;
 
@@ -39,18 +35,20 @@ describe('<ShortUrlsFilteringBar />', () => {
     history = createMemoryHistory({ initialEntries: search ? [{ search }] : undefined });
     return renderWithStore(
       <Router location={history.location} navigator={history}>
-        <SettingsProvider value={fromPartial({ visits: {} })}>
-          <RoutesPrefixProvider value={routesPrefix}>
-            <FeaturesProvider
-              value={fromPartial({
-                filterShortUrlsByDomain: filterByDomainSupported,
-                filterShortUrlsByExcludedTags: filterByExcludedTagSupported,
-              })}
-            >
-              <ShortUrlsFilteringBar order={{}} handleOrderBy={handleOrderBy} />
-            </FeaturesProvider>
-          </RoutesPrefixProvider>
-        </SettingsProvider>
+        <ContainerProvider value={fromPartial({ ColorGenerator: colorGeneratorMock, apiClientFactory: vi.fn() })}>
+          <SettingsProvider value={fromPartial({ visits: {} })}>
+            <RoutesPrefixProvider value={routesPrefix}>
+              <FeaturesProvider
+                value={fromPartial({
+                  filterShortUrlsByDomain: filterByDomainSupported,
+                  filterShortUrlsByExcludedTags: filterByExcludedTagSupported,
+                })}
+              >
+                <ShortUrlsFilteringBar order={{}} handleOrderBy={handleOrderBy} />
+              </FeaturesProvider>
+            </RoutesPrefixProvider>
+          </SettingsProvider>
+        </ContainerProvider>
       </Router>,
       {
         initialState: {

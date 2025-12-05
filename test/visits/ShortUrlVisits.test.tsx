@@ -6,7 +6,7 @@ import { formatISO } from 'date-fns';
 import { MemoryRouter } from 'react-router';
 import { now } from 'tinybench';
 import { SettingsProvider } from '../../src/settings';
-import { ShortUrlVisitsFactory } from '../../src/visits/ShortUrlVisits';
+import { ShortUrlVisits } from '../../src/visits/ShortUrlVisits';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
@@ -16,16 +16,13 @@ describe('<ShortUrlVisits />', () => {
     data: [fromPartial({ date: formatISO(new Date()) })],
     pagination: { pagesCount: 1, totalItems: 1, currentPage: 1 },
   } satisfies ShlinkVisitsList);
-  const ShortUrlVisits = ShortUrlVisitsFactory(fromPartial({
-    ReportExporter: fromPartial({ exportVisits }),
-  }));
   const setUp = async () => {
     const renderResult = renderWithStore(
       <MemoryRouter>
         <SettingsProvider value={fromPartial({})}>
           {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
           <Card>
-            <ShortUrlVisits />
+            <ShortUrlVisits ReportExporter={fromPartial({ exportVisits })} />
           </Card>
         </SettingsProvider>
       </MemoryRouter>,

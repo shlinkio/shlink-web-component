@@ -2,50 +2,32 @@ import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { AsideMenu } from './common/AsideMenu';
-import type { FCWithDeps } from './container/utils';
-import { componentFactory, useDependencies } from './container/utils';
 import { ManageDomains } from './domains/ManageDomains';
+import { Overview } from './overview/Overview';
 import { ShortUrlRedirectRules } from './redirect-rules/ShortUrlRedirectRules';
+import { CreateShortUrl } from './short-urls/CreateShortUrl';
+import { EditShortUrl } from './short-urls/EditShortUrl';
+import { ShortUrlsList } from './short-urls/ShortUrlsList';
 import { ShlinkSidebarToggleButton } from './sidebar/ShlinkSidebarToggleButton';
 import { useSidebarVisibility } from './sidebar/ShlinkSidebarVisibilityProvider';
+import { TagsList } from './tags/TagsList';
 import { useSwipeable } from './utils/helpers/hooks';
 import { useRoutesPrefix } from './utils/routesPrefix';
+import { DomainVisits } from './visits/DomainVisits';
+import { NonOrphanVisits } from './visits/NonOrphanVisits';
+import { OrphanVisits } from './visits/OrphanVisits';
+import { ShortUrlVisits } from './visits/ShortUrlVisits';
+import { TagVisits } from './visits/TagVisits';
 import { DomainVisitsComparison } from './visits/visits-comparison/DomainVisitsComparison';
 import { ShortUrlVisitsComparison } from './visits/visits-comparison/ShortUrlVisitsComparison';
+import { TagVisitsComparison } from './visits/visits-comparison/TagVisitsComparison';
 
 export type MainProps = {
   createNotFound?: (nonPrefixedHomePath: string) => ReactNode;
   autoToggleButton: boolean;
 };
 
-type MainDeps = {
-  TagsList: FC,
-  ShortUrlsList: FC,
-  CreateShortUrl: FC,
-  ShortUrlVisits: FC,
-  TagVisits: FC,
-  DomainVisits: FC,
-  OrphanVisits: FC,
-  NonOrphanVisits: FC,
-  Overview: FC,
-  EditShortUrl: FC,
-  TagVisitsComparison: FC,
-};
-
-const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButton }) => {
-  const {
-    TagsList,
-    ShortUrlsList,
-    CreateShortUrl,
-    ShortUrlVisits,
-    TagVisits,
-    DomainVisits,
-    OrphanVisits,
-    NonOrphanVisits,
-    Overview,
-    EditShortUrl,
-    TagVisitsComparison,
-  } = useDependencies(Main);
+export const Main: FC<MainProps> = ({ createNotFound, autoToggleButton }) => {
   const location = useLocation();
   const routesPrefix = useRoutesPrefix();
 
@@ -104,17 +86,3 @@ const Main: FCWithDeps<MainProps, MainDeps> = ({ createNotFound, autoToggleButto
     </>
   );
 };
-
-export const MainFactory = componentFactory(Main, [
-  'TagsList',
-  'ShortUrlsList',
-  'CreateShortUrl',
-  'ShortUrlVisits',
-  'TagVisits',
-  'DomainVisits',
-  'OrphanVisits',
-  'NonOrphanVisits',
-  'Overview',
-  'EditShortUrl',
-  'TagVisitsComparison',
-]);

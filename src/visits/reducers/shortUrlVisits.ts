@@ -10,15 +10,10 @@ import type { LoadVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisits';
 
-export type ShortUrlVisits = VisitsInfo & ShlinkShortUrlIdentifier;
+export type ShortUrlVisits = VisitsInfo<ShlinkShortUrlIdentifier>;
 
 const initialState: ShortUrlVisits = {
-  visits: [],
-  shortCode: '',
-  loading: false,
-  errorData: null,
-  cancelLoad: false,
-  progress: null,
+  status: 'idle',
 };
 
 export type LoadShortUrlVisits = LoadVisits & ShlinkShortUrlIdentifier;
@@ -37,28 +32,29 @@ export const getShortUrlVisitsThunk = createVisitsAsyncThunk({
 
     return { visitsLoader, lastVisitLoader };
   },
-  shouldCancel: (getState) => getState().shortUrlVisits.cancelLoad,
+  shouldCancel: (getState) => getState().shortUrlVisits.status === 'canceled',
 });
 
 export const { reducer: shortUrlVisitsReducer, cancelGetVisits } = createVisitsReducer({
   name: REDUCER_PREFIX,
-  initialState,
-  // @ts-expect-error TODO Fix type inference
+  initialState: initialState as ShortUrlVisits,
   asyncThunk: getShortUrlVisitsThunk,
   extraReducers: (builder) => {
     builder.addCase(deleteShortUrlVisitsThunk.fulfilled, (state, { payload }) => {
-      if (state.shortCode === payload.shortCode && state.domain === payload.domain) {
+      if (state.status === 'loaded' && state.shortCode === payload.shortCode && state.domain === payload.domain) {
         return { ...state, visits: [] };
       }
 
       return state;
     });
   },
-  filterCreatedVisits: ({ shortCode, domain, params }: ShortUrlVisits, createdVisits) => filterCreatedVisitsByShortUrl(
-    createdVisits,
-    { shortCode, domain },
-    params?.dateRange,
-  ),
+  filterCreatedVisits: (state, createdVisits) => state.status !== 'loaded'
+    ? createdVisits
+    : filterCreatedVisitsByShortUrl(
+      createdVisits,
+      { shortCode: state.shortCode, domain: state.domain },
+      state.params?.dateRange,
+    ),
 });
 
 export const useUrlVisits = () => {

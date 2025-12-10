@@ -38,7 +38,10 @@ const DomainVisitsBase = boundToMercureHub<DomainVisitsProps>(({ ReportExporter:
       visitsInfo={domainVisits}
       exportCsv={exportCsv}
     >
-      <VisitsHeader visits={domainVisits.visits} title={`"${authority}" visits`} />
+      <VisitsHeader
+        visits={domainVisits.status === 'loaded' ? domainVisits.visits : []}
+        title={`"${authority}" visits`}
+      />
     </VisitsStats>
   );
 }, () => [Topics.visits]);

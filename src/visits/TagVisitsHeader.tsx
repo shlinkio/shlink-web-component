@@ -9,11 +9,11 @@ interface TagVisitsHeaderProps {
 }
 
 export const TagVisitsHeader = ({ tagVisits, colorGenerator }: TagVisitsHeaderProps) => {
-  const { visits, tag } = tagVisits;
+  const { tag, visits = [] } = tagVisits.status === 'loaded' ? tagVisits : {};
   const visitsStatsTitle = (
     <span className="flex items-center justify-center">
       <span className="mr-2">Visits for</span>
-      <Tag text={tag} colorGenerator={colorGenerator} />
+      {tag && <Tag text={tag} colorGenerator={colorGenerator} />}
     </span>
   );
 

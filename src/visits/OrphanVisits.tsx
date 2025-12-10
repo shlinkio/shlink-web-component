@@ -47,7 +47,7 @@ const OrphanVisitsBase = boundToMercureHub<OrphanVisitsProps>(({ ReportExporter:
       isOrphanVisits
       domains={domainsList.domains}
     >
-      <VisitsHeader title="Orphan visits" visits={orphanVisits.visits} />
+      <VisitsHeader title="Orphan visits" visits={orphanVisits.status === 'loaded' ? orphanVisits.visits : []} />
     </VisitsStats>
   );
 }, () => [Topics.orphanVisits]);

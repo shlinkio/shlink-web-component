@@ -13,15 +13,10 @@ type WithTag = {
   tag: string;
 };
 
-export type TagVisits = VisitsInfo & WithTag;
+export type TagVisits = VisitsInfo<WithTag>;
 
 const initialState: TagVisits = {
-  visits: [],
-  tag: '',
-  loading: false,
-  cancelLoad: false,
-  errorData: null,
-  progress: null,
+  status: 'idle',
 };
 
 export type LoadTagVisits = LoadWithDomainVisits & WithTag;
@@ -37,19 +32,16 @@ export const getTagVisitsThunk = createVisitsAsyncThunk({
 
     return { visitsLoader, lastVisitLoader };
   },
-  shouldCancel: (getState) => getState().tagVisits.cancelLoad,
+  shouldCancel: (getState) => getState().tagVisits.status === 'canceled',
 });
 
 export const { reducer: tagVisitsReducer, cancelGetVisits: cancelGetTagVisits } = createVisitsReducer({
   name: REDUCER_PREFIX,
-  initialState,
-  // @ts-expect-error TODO Fix type inference
+  initialState: initialState as TagVisits,
   asyncThunk: getTagVisitsThunk,
-  filterCreatedVisits: ({ tag, params }: TagVisits, createdVisits) => filterCreatedVisitsByTag(
-    createdVisits,
-    tag,
-    params?.dateRange,
-  ),
+  filterCreatedVisits: (state, createdVisits) => state.status !== 'loaded'
+    ? createdVisits
+    : filterCreatedVisitsByTag(createdVisits, state.tag, state.params?.dateRange),
 });
 
 export const useTagVisits = () => {

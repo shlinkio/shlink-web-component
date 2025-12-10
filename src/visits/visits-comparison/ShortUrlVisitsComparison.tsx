@@ -26,7 +26,18 @@ export const ShortUrlVisitsComparison = boundToMercureHub(() => {
   const shortUrls = shortUrlsDetails.status === 'loaded' ? shortUrlsDetails.shortUrls : undefined;
   const loadedShortUrls = useMemo(() => [...shortUrls?.values() ?? []], [shortUrls]);
   const visitsComparisonInfo = useMemo((): VisitsComparisonInfo => {
-    const { visitsGroups: baseVisitsGroups, loading, ...rest } = shortUrlVisitsComparison;
+    const { status } = shortUrlVisitsComparison;
+
+    if (shortUrlsDetails.status === 'loading') {
+      const progress = status === 'loading' ? shortUrlVisitsComparison.progress : null;
+      return { status: 'loading', progress };
+    }
+
+    if (status !== 'loaded') {
+      return shortUrlVisitsComparison;
+    }
+
+    const { visitsGroups: baseVisitsGroups, ...rest } = shortUrlVisitsComparison;
     const visitsGroups = loadedShortUrls.reduce<Record<string, ShlinkVisit[]>>(
       (acc, shortUrl) => {
         acc[shortUrl.shortUrl] = baseVisitsGroups[shortUrlToQuery(shortUrl)] ?? [];
@@ -35,7 +46,7 @@ export const ShortUrlVisitsComparison = boundToMercureHub(() => {
       {},
     );
 
-    return { ...rest, visitsGroups, loading: loading || shortUrlsDetails.status === 'loading' };
+    return { ...rest, visitsGroups };
   }, [shortUrlVisitsComparison, shortUrlsDetails.status, loadedShortUrls]);
 
   useEffect(() => {

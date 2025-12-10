@@ -9,21 +9,16 @@ import type { LoadVisits, VisitsInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/domainVisits';
 
-interface WithDomain {
+type WithDomain = {
   domain: string;
-}
+};
 
-export interface DomainVisits extends VisitsInfo, WithDomain {}
+export type DomainVisits = VisitsInfo<WithDomain>;
 
-export interface LoadDomainVisits extends LoadVisits, WithDomain {}
+export type LoadDomainVisits = LoadVisits & WithDomain;
 
 const initialState: DomainVisits = {
-  visits: [],
-  domain: '',
-  loading: false,
-  cancelLoad: false,
-  errorData: null,
-  progress: null,
+  status: 'idle',
 };
 
 export const getDomainVisitsThunk = createVisitsAsyncThunk({
@@ -37,19 +32,16 @@ export const getDomainVisitsThunk = createVisitsAsyncThunk({
 
     return { visitsLoader, lastVisitLoader };
   },
-  shouldCancel: (getState) => getState().domainVisits.cancelLoad,
+  shouldCancel: (getState) => getState().domainVisits.status === 'canceled',
 });
 
 export const { reducer: domainVisitsReducer, cancelGetVisits: cancelGetDomainVisits } = createVisitsReducer({
   name: REDUCER_PREFIX,
-  initialState,
-  // @ts-expect-error TODO Fix type inference
+  initialState: initialState as DomainVisits,
   asyncThunk: getDomainVisitsThunk,
-  filterCreatedVisits: ({ domain, params }, createdVisits) => filterCreatedVisitsByDomain(
-    createdVisits,
-    domain,
-    params?.dateRange,
-  ),
+  filterCreatedVisits: (state, createdVisits) => state.status !== 'loaded'
+    ? createdVisits
+    : filterCreatedVisitsByDomain(createdVisits, state.domain, state.params?.dateRange),
 });
 
 export const useDomainVisits = () => {

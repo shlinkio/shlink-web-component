@@ -49,9 +49,7 @@ describe('<VisitsStats />', () => {
                 <VisitsStats
                   getVisits={getVisitsMock}
                   visitsInfo={fromPartial({
-                    loading: false,
-                    errorData: null,
-                    progress: null,
+                    status: 'loaded',
                     visits: [],
                     ...visitsInfo,
                   })}
@@ -72,7 +70,7 @@ describe('<VisitsStats />', () => {
 
   it('renders a preloader when visits are loading', () => {
     setUp({
-      visitsInfo: { loading: true, progress: null },
+      visitsInfo: { status: 'loading', progress: null },
     });
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
@@ -81,7 +79,7 @@ describe('<VisitsStats />', () => {
 
   it('renders a warning and progress bar when loading large amounts of visits', () => {
     setUp({
-      visitsInfo: { loading: true, progress: 25 },
+      visitsInfo: { status: 'loading', progress: 25 },
     });
 
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -91,7 +89,7 @@ describe('<VisitsStats />', () => {
 
   it('renders an error message when visits could not be loaded', () => {
     setUp({
-      visitsInfo: { errorData: fromPartial({ }) },
+      visitsInfo: { status: 'error', error: fromPartial({}) },
     });
     expect(screen.getByText('An error occurred while loading visits :(')).toBeInTheDocument();
   });

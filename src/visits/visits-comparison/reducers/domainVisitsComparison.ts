@@ -13,11 +13,7 @@ const REDUCER_PREFIX = 'shlink/domainVisitsComparison';
 export type LoadDomainVisitsForComparison = LoadVisitsForComparison & { domains: string[]; };
 
 const initialState: VisitsComparisonInfo = {
-  visitsGroups: {},
-  loading: false,
-  cancelLoad: false,
-  errorData: null,
-  progress: null,
+  status: 'idle',
 };
 
 export const getDomainVisitsForComparisonThunk = createVisitsComparisonAsyncThunk({
@@ -31,7 +27,7 @@ export const getDomainVisitsForComparisonThunk = createVisitsComparisonAsyncThun
 
     return Object.fromEntries(loaderEntries);
   },
-  shouldCancel: (getState) => getState().domainVisitsComparison.cancelLoad,
+  shouldCancel: (getState) => getState().domainVisitsComparison.status === 'canceled',
 });
 
 export const {
@@ -39,8 +35,7 @@ export const {
   cancelGetVisits: cancelGetDomainVisitsForComparison,
 } = createVisitsComparisonReducer({
   name: REDUCER_PREFIX,
-  initialState,
-  // @ts-expect-error TODO Fix type inference
+  initialState: initialState as VisitsComparisonInfo,
   asyncThunk: getDomainVisitsForComparisonThunk,
   filterCreatedVisitsForGroup: ({ groupKey: domain, params }, createdVisits) => filterCreatedVisitsByDomain(
     createdVisits,

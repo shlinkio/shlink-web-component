@@ -51,7 +51,7 @@ describe('<ShortUrlVisitsComparison />', () => {
 
   it('cancels loading visits when unmounted', async () => {
     const { store } = await setUp();
-    const isCanceled = () => store.getState().shortUrlVisitsComparison.cancelLoad;
+    const isCanceled = () => store.getState().shortUrlVisitsComparison.status === 'canceled';
 
     expect(isCanceled()).toBe(false);
     cleanup();

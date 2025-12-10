@@ -20,7 +20,8 @@ const TagVisitsComparisonBase = boundToMercureHub<TagVisitsComparisonProps>(({ C
     (params: LoadVisitsForComparison) => getTagVisitsForComparison({ ...params, tags }),
     [getTagVisitsForComparison, tags],
   );
-  const { visitsGroups } = tagVisitsComparison;
+  const { status } = tagVisitsComparison;
+  const { visitsGroups } = status === 'loaded' ? tagVisitsComparison : { visitsGroups: {} };
   const colors = useMemo(
     () => Object.keys(visitsGroups).reduce<Record<string, string>>((acc, key) => {
       acc[key] = colorGenerator.getColorForKey(key);

@@ -39,7 +39,7 @@ describe('<DomainVisitsComparison />', () => {
 
   it('cancels loading visits when unmounted', async () => {
     const { store } = await setUp();
-    const isCanceled = () => store.getState().domainVisitsComparison.cancelLoad;
+    const isCanceled = () => store.getState().domainVisitsComparison.status === 'canceled';
 
     expect(isCanceled()).toBe(false);
     cleanup();

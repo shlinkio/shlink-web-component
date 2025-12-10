@@ -38,7 +38,10 @@ const NonOrphanVisitsBase = boundToMercureHub<NonOrphanVisitsProps>(({ ReportExp
       exportCsv={exportCsv}
       domains={domainsList.domains}
     >
-      <VisitsHeader title="Non-orphan visits" visits={nonOrphanVisits.visits} />
+      <VisitsHeader
+        title="Non-orphan visits"
+        visits={nonOrphanVisits.status === 'loaded' ? nonOrphanVisits.visits : []}
+      />
     </VisitsStats>
   );
 }, () => [Topics.visits]);

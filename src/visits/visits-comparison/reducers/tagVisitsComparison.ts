@@ -13,11 +13,7 @@ const REDUCER_PREFIX = 'shlink/tagVisitsComparison';
 export type LoadTagVisitsForComparison = LoadVisitsForComparison & { tags: string[]; };
 
 const initialState: VisitsComparisonInfo = {
-  visitsGroups: {},
-  loading: false,
-  cancelLoad: false,
-  errorData: null,
-  progress: null,
+  status: 'idle',
 };
 
 export const getTagVisitsForComparisonThunk = createVisitsComparisonAsyncThunk({
@@ -31,7 +27,7 @@ export const getTagVisitsForComparisonThunk = createVisitsComparisonAsyncThunk({
 
     return Object.fromEntries(loaderEntries);
   },
-  shouldCancel: (getState) => getState().tagVisitsComparison.cancelLoad,
+  shouldCancel: (getState) => getState().tagVisitsComparison.status === 'canceled',
 });
 
 export const {
@@ -39,8 +35,7 @@ export const {
   cancelGetVisits: cancelGetTagVisitsForComparison,
 } = createVisitsComparisonReducer({
   name: REDUCER_PREFIX,
-  initialState,
-  // @ts-expect-error TODO Fix type inference
+  initialState: initialState as VisitsComparisonInfo,
   asyncThunk: getTagVisitsForComparisonThunk,
   filterCreatedVisitsForGroup: ({ groupKey: tag, params }, createdVisits) => filterCreatedVisitsByTag(
     createdVisits,

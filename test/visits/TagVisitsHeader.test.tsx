@@ -7,7 +7,8 @@ import { checkAccessibility } from '../__helpers__/accessibility';
 import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<TagVisitsHeader />', () => {
-  const tagVisits = fromPartial<TagVisits>({
+  const tagVisits = fromPartial<Extract<TagVisits, { status: 'loaded' }>>({
+    status: 'loaded',
     tag: 'foo',
     visits: [{}, {}, {}, {}],
   });

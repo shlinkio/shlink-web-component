@@ -25,39 +25,42 @@ describe('nonOrphanVisitsReducer', () => {
   describe('reducer', () => {
     const buildState = (data: Partial<VisitsInfo>) => fromPartial<VisitsInfo>(data);
 
-    it('returns loading when pending', () => {
-      const { loading } = reducer(
-        buildState({ loading: false }),
+    it('returns loading when idle', () => {
+      const { status } = reducer(
+        buildState({ status: 'idle' }),
         getNonOrphanVisits.pending('', fromPartial({})),
       );
-      expect(loading).toEqual(true);
+      expect(status).toEqual('loading');
     });
 
-    it('returns cancelLoad when loading is cancelled', () => {
-      const { cancelLoad } = reducer(buildState({ cancelLoad: false }), cancelGetNonOrphanVisits());
-      expect(cancelLoad).toEqual(true);
+    it('returns canceled status when loading is canceled', () => {
+      const { status } = reducer(buildState({ status: 'loading' }), cancelGetNonOrphanVisits());
+      expect(status).toEqual('canceled');
     });
 
     it('stops loading and returns error when rejected', () => {
-      const { loading, errorData } = reducer(
-        buildState({ loading: true, errorData: null }),
+      const result = reducer(
+        buildState({ status: 'loading' }),
         getNonOrphanVisits.rejected(problemDetailsError, '', fromPartial({})),
       );
 
-      expect(loading).toEqual(false);
-      expect(errorData).toEqual(problemDetailsError);
+      expect(result.status).toEqual('error');
+      if (result.status === 'error') {
+        expect(result.error).toEqual(problemDetailsError);
+      }
     });
 
     it('return visits when fulfilled', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
-      const { loading, errorData, visits } = reducer(
-        buildState({ loading: true, errorData: null }),
+      const result = reducer(
+        buildState({ status: 'loading' }),
         getNonOrphanVisits.fulfilled({ visits: actionVisits }, '', fromPartial({})),
       );
 
-      expect(loading).toEqual(false);
-      expect(errorData).toBeNull();
-      expect(visits).toEqual(actionVisits);
+      expect(result.status).toEqual('loaded');
+      if (result.status === 'loaded') {
+        expect(result.visits).toEqual(actionVisits);
+      }
     });
 
     it.each([
@@ -101,17 +104,29 @@ describe('nonOrphanVisitsReducer', () => {
         visitsMocks.length + 2,
       ],
     ])('prepends new visits when visits are created', (state, expectedVisits) => {
-      const prevState = buildState({ ...state, visits: visitsMocks });
+      const prevState = buildState({ ...state, status: 'loaded', visits: visitsMocks });
       const visit = fromPartial<ShlinkVisit>({ date: formatIsoDate(now) ?? undefined });
 
-      const { visits } = reducer(prevState, createNewVisits([{ visit }, { visit }]));
+      const result = reducer(prevState, createNewVisits([{ visit }, { visit }]));
 
-      expect(visits).toHaveLength(expectedVisits);
+      expect(result.status).toEqual('loaded');
+      if (result.status === 'loaded') {
+        expect(result.visits).toHaveLength(expectedVisits);
+      }
     });
 
-    it('returns new progress when progress is changed', () => {
-      const { progress } = reducer(undefined, getNonOrphanVisits.progressChanged(85));
-      expect(progress).toEqual(85);
+    it.each([
+      {
+        prevStatus: 'loading' as const,
+        expectedResult: { status: 'loading', progress: 85 },
+      },
+      {
+        prevStatus: 'canceled' as const,
+        expectedResult: { status: 'canceled' },
+      },
+    ])('returns new progress when it changes and previous status is loading', ({ prevStatus, expectedResult }) => {
+      const result = reducer(buildState({ status: prevStatus }), getNonOrphanVisits.progressChanged(85));
+      expect(result).toEqual(expectedResult);
     });
 
     it('returns fallbackInterval when falling back to another interval', () => {
@@ -125,7 +140,7 @@ describe('nonOrphanVisitsReducer', () => {
   describe('getNonOrphanVisits', () => {
     const dispatchMock = vi.fn();
     const getState = () => fromPartial<RootState>({
-      orphanVisits: { cancelLoad: false },
+      orphanVisits: { status: 'idle' },
     });
 
     it('dispatches start and success when promise is resolved', async () => {

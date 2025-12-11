@@ -1,3 +1,4 @@
+import { useParams } from 'react-router';
 import { Tag } from '../tags/helpers/Tag';
 import type { ColorGenerator } from '../utils/services/ColorGenerator';
 import type { TagVisits } from './reducers/tagVisits';
@@ -9,11 +10,12 @@ interface TagVisitsHeaderProps {
 }
 
 export const TagVisitsHeader = ({ tagVisits, colorGenerator }: TagVisitsHeaderProps) => {
-  const { tag, visits = [] } = tagVisits.status === 'loaded' ? tagVisits : {};
+  const { tag: tagFromPath = '' } = useParams();
+  const { visits = [], tag = tagFromPath } = tagVisits.status === 'loaded' ? tagVisits : {};
   const visitsStatsTitle = (
     <span className="flex items-center justify-center">
       <span className="mr-2">Visits for</span>
-      {tag && <Tag text={tag} colorGenerator={colorGenerator} />}
+      <Tag text={tag} colorGenerator={colorGenerator} />
     </span>
   );
 

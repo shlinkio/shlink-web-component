@@ -31,7 +31,9 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   visitsComparisonInfo,
   cancelGetVisitsComparison,
 }) => {
-  const { loading, visitsGroups } = visitsComparisonInfo;
+  const { status } = visitsComparisonInfo;
+  const loading = status === 'loading';
+  const { visitsGroups = {} } = status === 'loaded' ? visitsComparisonInfo : {};
   const visitsSettings = useSetting('visits');
   const normalizedVisitsGroups = useMemo(
     () => Object.keys(visitsGroups).reduce<Record<string, VisitsList>>((acc, key, index) => {
@@ -102,7 +104,7 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
         <div className="hidden lg:block lg:flex-2 xl:flex-3" />
       </div>
 
-      <VisitsLoadingFeedback info={visitsComparisonInfo} />
+      {status !== 'loaded' && <VisitsLoadingFeedback info={visitsComparisonInfo} />}
       {!loading && (
         <VisitsSectionWithFallback showFallback={showFallback}>
           <LineChartCard visitsGroups={normalizedVisitsGroups} onDateRangeChange={setDates} />

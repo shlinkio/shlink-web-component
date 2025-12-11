@@ -91,7 +91,9 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     isOrphanVisits = false,
     domains,
   } = props;
-  const { visits, prevVisits, loading, errorData, fallbackInterval } = visitsInfo;
+  const { status } = visitsInfo;
+  const loading = status === 'loading';
+  const { visits, prevVisits } = status === 'loaded' ? visitsInfo : { visits: [] };
   const [{ dateRange, visitsFilter, loadPrevInterval, domain }, updateQuery] = useVisitsQuery();
   const visitsSettings = useSetting('visits');
   const [activeInterval, setActiveInterval] = useState<DateInterval>();
@@ -107,8 +109,9 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     },
     [updateQuery],
   );
+  const { fallbackInterval } = status === 'fallback' ? visitsInfo : {};
   const [currentFallbackInterval, setCurrentFallbackInterval] = useState<DateInterval>(
-    fallbackInterval ?? visitsSettings?.defaultInterval ?? 'last30Days',
+    status === 'fallback' ? visitsInfo.fallbackInterval : (visitsSettings?.defaultInterval ?? 'last30Days'),
   );
   const [highlightedVisits, setHighlightedVisits] = useState<NormalizedVisit[]>([]);
   const [highlightedLabel, setHighlightedLabel] = useState<string | undefined>();
@@ -183,7 +186,7 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     if (fallbackInterval && currentFallbackInterval === (visitsSettings?.defaultInterval ?? 'last30Days')) {
       setCurrentFallbackInterval(fallbackInterval);
     }
-  }, [currentFallbackInterval, fallbackInterval, visitsSettings?.defaultInterval]);
+  }, [currentFallbackInterval, status, fallbackInterval, visitsSettings?.defaultInterval]);
 
   return (
     <div className="flex flex-col gap-y-4">
@@ -240,8 +243,8 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
       </section>
 
       <section className="flex flex-col gap-4">
-        <VisitsLoadingFeedback info={visitsInfo} />
-        {!loading && !errorData && (
+        {status !== 'loaded' && status !== 'fallback' && <VisitsLoadingFeedback info={visitsInfo} />}
+        {!loading && status !== 'error' && (
           <>
             <NavPills fill className="sticky top-(--header-height) z-2">
               {Object.values(sections).map(({ title, icon, subPath, shouldRender }: VisitsNavLinkOptions, index) => (

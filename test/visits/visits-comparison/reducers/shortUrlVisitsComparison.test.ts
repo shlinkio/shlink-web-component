@@ -8,7 +8,8 @@ import { createNewVisits } from '../../../../src/visits/reducers/visitCreation';
 import {
   cancelGetShortUrlVisitsComparison,
   getShortUrlVisitsForComparisonThunk as getShortUrlVisitsForComparison,
-  shortUrlVisitsComparisonReducer as reducer } from '../../../../src/visits/visits-comparison/reducers/shortUrlVisitsComparison';
+  shortUrlVisitsComparisonReducer as reducer,
+} from '../../../../src/visits/visits-comparison/reducers/shortUrlVisitsComparison';
 import { problemDetailsError } from '../../../__mocks__/ProblemDetailsError.mock';
 
 describe('shortUrlVisitsComparisonReducer', () => {
@@ -18,26 +19,25 @@ describe('shortUrlVisitsComparisonReducer', () => {
   const apiClientFactory = () => fromPartial<ShlinkApiClient>({ getShortUrlVisits: getShortUrlVisitsCall });
 
   describe('reducer', () => {
-    it('returns loading when pending', () => {
+    it('returns loading when idle', () => {
       const action = getShortUrlVisitsForComparison.pending('', fromPartial({ shortUrls: [] }));
-      const { loading } = reducer(fromPartial({ loading: false }), action);
+      const { status } = reducer(fromPartial({ status: 'idle' }), action);
 
-      expect(loading).toEqual(true);
+      expect(status).toEqual('loading');
     });
 
-    it('returns cancelLoad when load is cancelled', () => {
-      const { cancelLoad } = reducer(fromPartial({ cancelLoad: false }), cancelGetShortUrlVisitsComparison());
-      expect(cancelLoad).toEqual(true);
+    it('returns canceled status when load is canceled', () => {
+      const { status } = reducer(fromPartial({ status: 'loading' }), cancelGetShortUrlVisitsComparison());
+      expect(status).toEqual('canceled');
     });
 
     it('stops loading and returns error when rejected', () => {
-      const { loading, errorData } = reducer(
-        fromPartial({ loading: true, errorData: null }),
+      const result = reducer(
+        fromPartial({ status: 'loading' }),
         getShortUrlVisitsForComparison.rejected(problemDetailsError, '', fromPartial({ shortUrls: [] })),
       );
 
-      expect(loading).toEqual(false);
-      expect(errorData).toEqual(problemDetailsError);
+      expect(result).toEqual({ status: 'error', error: problemDetailsError });
     });
 
     it('returns visits groups when fulfilled', () => {
@@ -45,8 +45,8 @@ describe('shortUrlVisitsComparisonReducer', () => {
         DEFAULT__foo: visitsMocks,
         's.test__bar': visitsMocks,
       };
-      const { loading, errorData, visitsGroups } = reducer(
-        fromPartial({ loading: true, errorData: null }),
+      const result = reducer(
+        fromPartial({ status: 'loading' }),
         getShortUrlVisitsForComparison.fulfilled(
           { visitsGroups: actionVisits },
           '',
@@ -56,14 +56,21 @@ describe('shortUrlVisitsComparisonReducer', () => {
         ),
       );
 
-      expect(loading).toEqual(false);
-      expect(errorData).toBeNull();
-      expect(visitsGroups).toEqual(actionVisits);
+      expect(result).toEqual({ status: 'loaded', visitsGroups: actionVisits });
     });
 
-    it('returns new progress when progress changes', () => {
-      const { progress } = reducer(undefined, getShortUrlVisitsForComparison.progressChanged(85));
-      expect(progress).toEqual(85);
+    it.each([
+      {
+        prevStatus: 'loading' as const,
+        expectedResult: { status: 'loading', progress: 85 },
+      },
+      {
+        prevStatus: 'canceled' as const,
+        expectedResult: { status: 'canceled' },
+      },
+    ])('returns new progress when it changes and previous status is loading', ({ prevStatus, expectedResult }) => {
+      const result = reducer(fromPartial({ status: prevStatus }), getShortUrlVisitsForComparison.progressChanged(85));
+      expect(result).toEqual(expectedResult);
     });
 
     it.each([
@@ -121,20 +128,23 @@ describe('shortUrlVisitsComparisonReducer', () => {
         's.test__bar': visitsMocks,
       };
       const shortUrl = fromPartial<ShlinkShortUrl>(shortUrlId);
-      const { visitsGroups } = reducer(
-        fromPartial({ visitsGroups: actionVisits, params: { dateRange } }),
+      const result = reducer(
+        { visitsGroups: actionVisits, params: { dateRange }, status: 'loaded' },
         createNewVisits([fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } })]),
       );
 
-      expect(visitsGroups.DEFAULT__foo).toHaveLength(expectedFooVisits);
-      expect(visitsGroups['s.test__bar']).toHaveLength(expectedBarVisits);
+      expect(result.status).toEqual('loaded');
+      if (result.status === 'loaded') {
+        expect(result.visitsGroups.DEFAULT__foo).toHaveLength(expectedFooVisits);
+        expect(result.visitsGroups['s.test__bar']).toHaveLength(expectedBarVisits);
+      }
     });
   });
 
   describe('getShortUrlVisitsForComparison', () => {
     const dispatch = vi.fn();
     const getState = vi.fn().mockReturnValue({
-      shortUrlVisitsComparison: { cancelLoad: false },
+      shortUrlVisitsComparison: { status: 'idle' },
     });
 
     it('dispatches start and success when promise is resolved', async () => {

@@ -26,39 +26,36 @@ describe('shortUrlVisitsReducer', () => {
   describe('reducer', () => {
     const buildState = (data: Partial<ShortUrlVisits>) => fromPartial<ShortUrlVisits>(data);
 
-    it('returns loading wen pending', () => {
-      const { loading } = reducer(
-        buildState({ loading: false }),
+    it('returns loading when idle', () => {
+      const { status } = reducer(
+        buildState({ status: 'idle' }),
         getShortUrlVisits.pending('', fromPartial({ shortCode: '' })),
       );
-      expect(loading).toEqual(true);
+      expect(status).toEqual('loading');
     });
 
-    it('returns cancelLoad when loading is cancelled', () => {
-      const { cancelLoad } = reducer(buildState({ cancelLoad: false }), cancelGetShortUrlVisits());
-      expect(cancelLoad).toEqual(true);
+    it('returns canceled status when loading is canceled', () => {
+      const { status } = reducer(buildState({ status: 'loading' }), cancelGetShortUrlVisits());
+      expect(status).toEqual('canceled');
     });
 
     it('stops loading and returns error when rejected', () => {
-      const { loading, errorData } = reducer(
-        buildState({ loading: true, errorData: null }),
+      const result = reducer(
+        buildState({ status: 'loading' }),
         getShortUrlVisits.rejected(problemDetailsError, '', fromPartial({ shortCode: '' })),
       );
 
-      expect(loading).toEqual(false);
-      expect(errorData).toEqual(problemDetailsError);
+      expect(result).toEqual({ status: 'error', error: problemDetailsError });
     });
 
     it('return visits when fulfilled', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
-      const { loading, errorData, visits } = reducer(
-        buildState({ loading: true, errorData: null }),
+      const result = reducer(
+        buildState({ status: 'loading' }),
         getShortUrlVisits.fulfilled({ visits: actionVisits }, '', fromPartial({ shortCode: '' })),
       );
 
-      expect(loading).toEqual(false);
-      expect(errorData).toBeNull();
-      expect(visits).toEqual(actionVisits);
+      expect(result).toEqual({ status: 'loaded', visits: actionVisits });
     });
 
     it.each([
@@ -119,25 +116,32 @@ describe('shortUrlVisitsReducer', () => {
         visitsMocks.length,
       ],
     ])('prepends new visits when visits are created', (state, expectedVisits) => {
-      const shortUrl = {
-        shortCode: 'abc123',
-      };
-      const prevState = buildState({
-        ...state,
-        visits: visitsMocks,
-      });
+      const shortUrl = { shortCode: 'abc123' };
+      const prevState = buildState({ ...state, status: 'loaded', visits: visitsMocks });
 
-      const { visits } = reducer(
+      const result = reducer(
         prevState,
         createNewVisits([fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } })]),
       );
 
-      expect(visits).toHaveLength(expectedVisits);
+      expect(result.status).toEqual('loaded');
+      if (result.status === 'loaded') {
+        expect(result.visits).toHaveLength(expectedVisits);
+      }
     });
 
-    it('returns new progress progress changes', () => {
-      const { progress } = reducer(undefined, getShortUrlVisits.progressChanged(85));
-      expect(progress).toEqual(85);
+    it.each([
+      {
+        prevStatus: 'loading' as const,
+        expectedResult: { status: 'loading', progress: 85 },
+      },
+      {
+        prevStatus: 'canceled' as const,
+        expectedResult: { status: 'canceled' },
+      },
+    ])('returns new progress when it changes and previous status is loading', ({ prevStatus, expectedResult }) => {
+      const result = reducer(buildState({ status: prevStatus }), getShortUrlVisits.progressChanged(85));
+      expect(result).toEqual(expectedResult);
     });
 
     it('returns fallbackInterval when falling back to another interval', () => {
@@ -153,6 +157,7 @@ describe('shortUrlVisitsReducer', () => {
       { shortCode: 'abc123', domain: undefined, expectedVisitsLength: 2 },
     ])('clears visits when visits are deleted for active short URL', ({ shortCode, domain, expectedVisitsLength }) => {
       const prevState = buildState({
+        status: 'loaded',
         visits: [fromPartial({}), fromPartial({})],
         shortCode: 'abc123',
         domain: 'domain',
@@ -162,14 +167,17 @@ describe('shortUrlVisitsReducer', () => {
         deleteShortUrlVisitsThunk.fulfilled(fromPartial({ shortCode, domain }), '', fromPartial({})),
       );
 
-      expect(result.visits).toHaveLength(expectedVisitsLength);
+      expect(result.status).toEqual('loaded');
+      if (result.status === 'loaded') {
+        expect(result.visits).toHaveLength(expectedVisitsLength);
+      }
     });
   });
 
   describe('getShortUrlVisits', () => {
     const dispatchMock = vi.fn();
     const getState = () => fromPartial<RootState>({
-      shortUrlVisits: { cancelLoad: false },
+      shortUrlVisits: { status: 'idle' },
     });
 
     it.each([

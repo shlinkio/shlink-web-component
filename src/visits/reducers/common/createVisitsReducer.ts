@@ -2,46 +2,50 @@ import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { parseApiError } from '../../../api-contract/utils';
 import type { CreateVisit } from '../../types';
-import type { VisitsInfo } from '../types';
+import type { LoadVisits, VisitsInfo } from '../types';
 import { createNewVisits } from '../visitCreation';
 import type { createVisitsAsyncThunk } from './createVisitsAsyncThunk';
 
-interface VisitsReducerOptions<State extends VisitsInfo, AT extends ReturnType<typeof createVisitsAsyncThunk>> {
+interface VisitsReducerOptions<State, T extends LoadVisits> {
   name: string;
-  asyncThunk: AT;
-  initialState: State;
-  filterCreatedVisits: (state: State, createdVisits: CreateVisit[]) => CreateVisit[];
-  extraReducers?: (builder: ActionReducerMapBuilder<State>) => void;
+  asyncThunk: ReturnType<typeof createVisitsAsyncThunk<T>>;
+  initialState: VisitsInfo<State>;
+  filterCreatedVisits: (state: VisitsInfo<State>, createdVisits: CreateVisit[]) => CreateVisit[];
+  extraReducers?: (builder: ActionReducerMapBuilder<VisitsInfo<State>>) => void;
 }
 
-export const createVisitsReducer = <State extends VisitsInfo, AT extends ReturnType<typeof createVisitsAsyncThunk>>(
-  { name, asyncThunk, initialState, filterCreatedVisits, extraReducers }: VisitsReducerOptions<State, AT>,
+export const createVisitsReducer = <State, T extends LoadVisits>(
+  { name, asyncThunk, initialState, filterCreatedVisits, extraReducers }: VisitsReducerOptions<State, T>,
 ) => {
   const { pending, rejected, fulfilled, progressChanged, fallbackToInterval } = asyncThunk;
   const { reducer, actions } = createSlice({
     name,
     initialState,
     reducers: {
-      cancelGetVisits: (state) => ({ ...state, cancelLoad: true }),
+      cancelGetVisits: () => ({ status: 'canceled' as const }),
     },
     extraReducers: (builder) => {
-      builder.addCase(pending, () => ({ ...initialState, loading: true }));
-      builder.addCase(rejected, (_, { error }) => (
-        { ...initialState, errorData: parseApiError(error) ?? null }
-      ));
-      builder.addCase(fulfilled, (state, { payload }) => (
-        // Unpack the whole payload, as it could have different props depending on the concrete reducer
-        { ...state, ...payload, loading: false, progress: null, errorData: null }
+      builder.addCase(pending, () => ({ status: 'loading', progress: null }));
+      builder.addCase(progressChanged, (state, { payload: progress }) => (
+        // Update progress only if already loading
+        state.status !== 'loading' ? state : { status: 'loading', progress }
       ));
 
-      builder.addCase(progressChanged, (state, { payload: progress }) => ({ ...state, progress }));
-      builder.addCase(fallbackToInterval, (state, { payload: fallbackInterval }) => (
-        { ...state, fallbackInterval }
+      builder.addCase(rejected, (_, { error }) => ({ status: 'error', error: parseApiError(error) }));
+
+      // Unpack the whole payload, as it could have different props depending on the concrete reducer
+      builder.addCase(fulfilled, (state, { payload }) => ({ ...state, ...payload, status: 'loaded' }));
+
+      builder.addCase(fallbackToInterval, (_, { payload: fallbackInterval }) => (
+        { status: 'fallback', fallbackInterval }
       ));
 
       builder.addCase(createNewVisits, (state, { payload }) => {
+        if (state.status !== 'loaded') {
+          return state;
+        }
+
         const { visits } = state;
-        // @ts-expect-error TODO Fix type inference
         const newVisits = filterCreatedVisits(state, payload.createdVisits).map(({ visit }) => visit);
 
         return !newVisits.length ? state : { ...state, visits: [...newVisits, ...visits] };

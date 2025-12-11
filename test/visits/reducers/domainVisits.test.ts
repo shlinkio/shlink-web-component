@@ -26,39 +26,36 @@ describe('domainVisitsReducer', () => {
   describe('reducer', () => {
     const buildState = (data: Partial<DomainVisits>) => fromPartial<DomainVisits>(data);
 
-    it('returns loading when pending', () => {
-      const { loading } = reducer(
-        buildState({ loading: false }),
+    it('returns loading when idle', () => {
+      const { status } = reducer(
+        buildState({ status: 'idle' }),
         getDomainVisits.pending('', fromPartial({})),
       );
-      expect(loading).toEqual(true);
+      expect(status).toEqual('loading');
     });
 
-    it('returns cancelLoad when load is cancelled', () => {
-      const { cancelLoad } = reducer(buildState({ cancelLoad: false }), cancelGetDomainVisits());
-      expect(cancelLoad).toEqual(true);
+    it('returns canceled status when load is canceled', () => {
+      const { status } = reducer(buildState({ status: 'loading' }), cancelGetDomainVisits());
+      expect(status).toEqual('canceled');
     });
 
     it('stops loading and returns error when rejected', () => {
-      const { loading, errorData } = reducer(
-        buildState({ loading: true, errorData: null }),
+      const result = reducer(
+        buildState({ status: 'loading' }),
         getDomainVisits.rejected(problemDetailsError, '', fromPartial({})),
       );
 
-      expect(loading).toEqual(false);
-      expect(errorData).toEqual(problemDetailsError);
+      expect(result).toEqual({ status: 'error', error: problemDetailsError });
     });
 
     it('return visits when fulfilled', () => {
       const actionVisits: ShlinkVisit[] = [fromPartial({}), fromPartial({})];
-      const { loading, errorData, visits } = reducer(
-        buildState({ loading: true, errorData: null }),
+      const result = reducer(
+        buildState({ status: 'loading' }),
         getDomainVisits.fulfilled({ visits: actionVisits }, '', fromPartial({}), undefined),
       );
 
-      expect(loading).toEqual(false);
-      expect(errorData).toBeNull();
-      expect(visits).toEqual(actionVisits);
+      expect(result).toEqual({ status: 'loaded', visits: actionVisits });
     });
 
     it.each([
@@ -127,16 +124,28 @@ describe('domainVisitsReducer', () => {
       ],
     ])('prepends new visits when visits are created', (state, shortUrlDomain, expectedVisits) => {
       const shortUrl = fromPartial<ShlinkShortUrl>({ domain: shortUrlDomain });
-      const { visits } = reducer(buildState({ ...state, visits: visitsMocks }), createNewVisits([
+      const result = reducer(buildState({ ...state, status: 'loaded', visits: visitsMocks }), createNewVisits([
         fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } }),
       ]));
 
-      expect(visits).toHaveLength(expectedVisits);
+      expect(result.status).toEqual('loaded');
+      if (result.status === 'loaded') {
+        expect(result.visits).toHaveLength(expectedVisits);
+      }
     });
 
-    it('returns new progress when progress changes', () => {
-      const { progress } = reducer(undefined, getDomainVisits.progressChanged(85));
-      expect(progress).toEqual(85);
+    it.each([
+      {
+        prevStatus: 'loading' as const,
+        expectedResult: { status: 'loading', progress: 85 },
+      },
+      {
+        prevStatus: 'canceled' as const,
+        expectedResult: { status: 'canceled' },
+      },
+    ])('returns new progress when it changes and previous status is loading', ({ prevStatus, expectedResult }) => {
+      const result = reducer(buildState({ status: prevStatus }), getDomainVisits.progressChanged(85));
+      expect(result).toEqual(expectedResult);
     });
 
     it('returns fallbackInterval when falling back to another interval', () => {
@@ -153,7 +162,7 @@ describe('domainVisitsReducer', () => {
   describe('getDomainVisits', () => {
     const dispatchMock = vi.fn();
     const getState = () => fromPartial<RootState>({
-      domainVisits: { cancelLoad: false },
+      domainVisits: { status: 'idle' },
     });
     const domain = 'foo.com';
 

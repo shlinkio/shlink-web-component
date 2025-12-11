@@ -40,7 +40,7 @@ describe('<TagVisitsComparison />', () => {
 
   it('cancels loading visits when unmounted', async () => {
     const { store } = await setUp();
-    const isCanceled = () => store.getState().tagVisitsComparison.cancelLoad;
+    const isCanceled = () => store.getState().tagVisitsComparison.status === 'canceled';
 
     expect(isCanceled()).toBe(false);
     cleanup();

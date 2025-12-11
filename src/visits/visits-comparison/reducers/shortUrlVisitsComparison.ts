@@ -14,11 +14,7 @@ const REDUCER_PREFIX = 'shlink/shortUrlVisitsComparison';
 export type LoadShortUrlVisitsForComparison = LoadVisitsForComparison & { shortUrls: ShlinkShortUrlIdentifier[]; };
 
 const initialState: VisitsComparisonInfo = {
-  visitsGroups: {},
-  loading: false,
-  cancelLoad: false,
-  errorData: null,
-  progress: null,
+  status: 'idle',
 };
 
 export const getShortUrlVisitsForComparisonThunk = createVisitsComparisonAsyncThunk({
@@ -32,7 +28,7 @@ export const getShortUrlVisitsForComparisonThunk = createVisitsComparisonAsyncTh
 
     return Object.fromEntries(loaderEntries);
   },
-  shouldCancel: (getState) => getState().shortUrlVisitsComparison.cancelLoad,
+  shouldCancel: (getState) => getState().shortUrlVisitsComparison.status === 'canceled',
 });
 
 export const {
@@ -40,8 +36,7 @@ export const {
   cancelGetVisits: cancelGetShortUrlVisitsComparison,
 } = createVisitsComparisonReducer({
   name: REDUCER_PREFIX,
-  initialState,
-  // @ts-expect-error TODO Fix type inference
+  initialState: initialState as VisitsComparisonInfo,
   asyncThunk: getShortUrlVisitsForComparisonThunk,
   filterCreatedVisitsForGroup: ({ groupKey, params }, createdVisits) => filterCreatedVisitsByShortUrl(
     createdVisits,

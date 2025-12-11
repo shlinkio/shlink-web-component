@@ -31,7 +31,7 @@ const Date = ({ shortUrl }: { shortUrl?: ShlinkShortUrl }) => {
 };
 
 export const ShortUrlVisitsHeader = ({ shortUrl, loading, shortUrlVisits }: ShortUrlVisitsHeaderProps) => {
-  const { visits } = shortUrlVisits;
+  const { visits = [] } = shortUrlVisits.status === 'loaded' ? shortUrlVisits : {};
   const shortLink = shortUrl?.shortUrl ?? '';
   const longLink = shortUrl?.longUrl ?? '';
   const title = shortUrl?.title;

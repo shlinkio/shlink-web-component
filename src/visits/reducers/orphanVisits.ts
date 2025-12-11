@@ -16,11 +16,7 @@ export interface LoadOrphanVisits extends LoadWithDomainVisits {
 }
 
 const initialState: VisitsInfo = {
-  visits: [],
-  loading: false,
-  cancelLoad: false,
-  errorData: null,
-  progress: null,
+  status: 'idle',
 };
 
 export const getOrphanVisitsThunk = createVisitsAsyncThunk({
@@ -38,19 +34,22 @@ export const getOrphanVisitsThunk = createVisitsAsyncThunk({
 
     return { visitsLoader, lastVisitLoader };
   },
-  shouldCancel: (getState) => getState().orphanVisits.cancelLoad,
+  shouldCancel: (getState) => getState().orphanVisits.status === 'canceled',
 });
 
 export const { reducer: orphanVisitsReducer, cancelGetVisits: cancelGetOrphanVisits } = createVisitsReducer({
   name: REDUCER_PREFIX,
-  initialState,
-  // @ts-expect-error TODO Fix type inference
+  initialState: initialState as VisitsInfo,
   asyncThunk: getOrphanVisitsThunk,
   extraReducers: (builder) => {
     builder.addCase(deleteOrphanVisitsThunk.fulfilled, (state) => ({ ...state, visits: [] }));
   },
-  filterCreatedVisits: ({ params }, createdVisits) => {
-    const { startDate, endDate } = params?.dateRange ?? {};
+  filterCreatedVisits: (state, createdVisits) => {
+    if (state.status !== 'loaded') {
+      return createdVisits;
+    }
+
+    const { startDate, endDate } = state.params?.dateRange ?? {};
     return createdVisits.filter(({ visit, shortUrl }) => !shortUrl && isBetween(visit.date, startDate, endDate));
   },
 });

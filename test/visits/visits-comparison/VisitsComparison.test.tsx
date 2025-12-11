@@ -24,7 +24,7 @@ describe('<VisitsComparison />', () => {
         title="Comparing visits"
         getVisitsForComparison={getVisitsForComparison}
         cancelGetVisitsComparison={cancelGetVisitsComparison}
-        visitsComparisonInfo={fromPartial({ loading, visitsGroups, progress: null })}
+        visitsComparisonInfo={loading ? { status: 'loading', progress: null } : { status: 'loaded', visitsGroups }}
       />
     </MemoryRouter>,
   );

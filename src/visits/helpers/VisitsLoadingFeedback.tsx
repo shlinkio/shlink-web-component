@@ -29,21 +29,24 @@ const ProgressBar: FC<ProgressBarProps> = ({ className, value, ...rest }) => {
 };
 
 export const VisitsLoadingFeedback: FC<VisitsLoadingFeedbackProps> = ({ info }) => {
-  const { loading, errorData, progress } = info;
-  return (
-    <>
-      {loading && progress === null && <Message loading />}
-      {loading && progress !== null && (
-        <Message loading>
-          This is going to take a while... :S
-          <ProgressBar value={progress} className="mt-4" />
-        </Message>
-      )}
-      {errorData && (
-        <Result variant="error">
-          <ShlinkApiError errorData={errorData} fallbackMessage="An error occurred while loading visits :(" />
-        </Result>
-      )}
-    </>
-  );
+  const { status } = info;
+
+  if (status === 'error') {
+    return (
+      <Result variant="error">
+        <ShlinkApiError errorData={info.error} fallbackMessage="An error occurred while loading visits :(" />
+      </Result>
+    );
+  }
+
+  if (status === 'loading') {
+    return info.progress === null ? <Message loading /> : (
+      <Message loading>
+        This is going to take a while... :S
+        <ProgressBar value={info.progress} className="mt-4" />
+      </Message>
+    );
+  }
+
+  return null;
 };

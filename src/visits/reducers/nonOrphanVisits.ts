@@ -10,11 +10,7 @@ import type { LoadWithDomainVisits, VisitsInfo } from './types';
 const REDUCER_PREFIX = 'shlink/orphanVisits';
 
 const initialState: VisitsInfo = {
-  visits: [],
-  loading: false,
-  cancelLoad: false,
-  errorData: null,
-  progress: null,
+  status: 'idle',
 };
 
 export const getNonOrphanVisitsThunk = createVisitsAsyncThunk({
@@ -28,16 +24,19 @@ export const getNonOrphanVisitsThunk = createVisitsAsyncThunk({
 
     return { visitsLoader, lastVisitLoader };
   },
-  shouldCancel: (getState) => getState().orphanVisits.cancelLoad,
+  shouldCancel: (getState) => getState().nonOrphanVisits.status === 'canceled',
 });
 
 export const { reducer: nonOrphanVisitsReducer, cancelGetVisits: cancelGetNonOrphanVisits } = createVisitsReducer({
   name: REDUCER_PREFIX,
-  initialState,
-  // @ts-expect-error TODO Fix type inference
+  initialState: initialState as VisitsInfo,
   asyncThunk: getNonOrphanVisitsThunk,
-  filterCreatedVisits: ({ params }, createdVisits) => {
-    const { startDate, endDate } = params?.dateRange ?? {};
+  filterCreatedVisits: (state, createdVisits) => {
+    if (state.status !== 'loaded') {
+      return createdVisits;
+    }
+
+    const { startDate, endDate } = state.params?.dateRange ?? {};
     return createdVisits.filter(({ visit }) => isBetween(visit.date, startDate, endDate));
   },
 });

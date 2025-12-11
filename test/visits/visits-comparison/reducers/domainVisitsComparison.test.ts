@@ -18,26 +18,25 @@ describe('domainVisitsComparisonReducer', () => {
   const apiClientFactory = () => fromPartial<ShlinkApiClient>({ getDomainVisits: getDomainVisitsCall });
 
   describe('reducer', () => {
-    it('returns loading when pending', () => {
+    it('returns loading when idle', () => {
       const action = getDomainVisitsForComparison.pending('', fromPartial({ domains: [] }));
-      const { loading } = reducer(fromPartial({ loading: false }), action);
+      const { status } = reducer(fromPartial({ status: 'idle' }), action);
 
-      expect(loading).toEqual(true);
+      expect(status).toEqual('loading');
     });
 
-    it('returns cancelLoad when load is cancelled', () => {
-      const { cancelLoad } = reducer(fromPartial({ cancelLoad: false }), cancelGetDomainVisitsForComparison());
-      expect(cancelLoad).toEqual(true);
+    it('returns canceled status when load is canceled', () => {
+      const { status } = reducer(fromPartial({ status: 'loading' }), cancelGetDomainVisitsForComparison());
+      expect(status).toEqual('canceled');
     });
 
     it('stops loading and returns error when rejected', () => {
-      const { loading, errorData } = reducer(
-        fromPartial({ loading: true, errorData: null }),
+      const result = reducer(
+        fromPartial({ status: 'loading' }),
         getDomainVisitsForComparison.rejected(problemDetailsError, '', fromPartial({ domains: [] })),
       );
 
-      expect(loading).toEqual(false);
-      expect(errorData).toEqual(problemDetailsError);
+      expect(result).toEqual({ status: 'error', error: problemDetailsError });
     });
 
     it('returns visits groups when fulfilled', () => {
@@ -45,8 +44,8 @@ describe('domainVisitsComparisonReducer', () => {
         'foo.com': visitsMocks,
         'bar.com': visitsMocks,
       };
-      const { loading, errorData, visitsGroups } = reducer(
-        fromPartial({ loading: true, errorData: null }),
+      const result = reducer(
+        fromPartial({ status: 'loading' }),
         getDomainVisitsForComparison.fulfilled(
           { visitsGroups: actionVisits },
           '',
@@ -54,14 +53,21 @@ describe('domainVisitsComparisonReducer', () => {
         ),
       );
 
-      expect(loading).toEqual(false);
-      expect(errorData).toBeNull();
-      expect(visitsGroups).toEqual(actionVisits);
+      expect(result).toEqual({ status: 'loaded', visitsGroups: actionVisits });
     });
 
-    it('returns new progress when progress changes', () => {
-      const { progress } = reducer(undefined, getDomainVisitsForComparison.progressChanged(85));
-      expect(progress).toEqual(85);
+    it.each([
+      {
+        prevStatus: 'loading' as const,
+        expectedResult: { status: 'loading', progress: 85 },
+      },
+      {
+        prevStatus: 'canceled' as const,
+        expectedResult: { status: 'canceled' },
+      },
+    ])('returns new progress when it changes and previous status is loading', ({ prevStatus, expectedResult }) => {
+      const result = reducer(fromPartial({ status: prevStatus }), getDomainVisitsForComparison.progressChanged(85));
+      expect(result).toEqual(expectedResult);
     });
 
     it.each([
@@ -109,20 +115,23 @@ describe('domainVisitsComparisonReducer', () => {
         'bar.com': visitsMocks,
       };
       const shortUrl = fromPartial<ShlinkShortUrl>({ domain: shortUrlDomain });
-      const { visitsGroups } = reducer(
-        fromPartial({ visitsGroups: actionVisits, params: { dateRange } }),
+      const result = reducer(
+        { visitsGroups: actionVisits, params: { dateRange }, status: 'loaded' },
         createNewVisits([fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } })]),
       );
 
-      expect(visitsGroups['foo.com']).toHaveLength(expectedFooVisits);
-      expect(visitsGroups['bar.com']).toHaveLength(expectedBarVisits);
+      expect(result.status).toEqual('loaded');
+      if (result.status === 'loaded') {
+        expect(result.visitsGroups['foo.com']).toHaveLength(expectedFooVisits);
+        expect(result.visitsGroups['bar.com']).toHaveLength(expectedBarVisits);
+      }
     });
   });
 
   describe('getDomainVisitsForComparison', () => {
     const dispatch = vi.fn();
     const getState = vi.fn().mockReturnValue({
-      domainVisitsComparison: { cancelLoad: false },
+      domainVisitsComparison: { status: 'idle' },
     });
 
     it('dispatches start and success when promise is resolved', async () => {

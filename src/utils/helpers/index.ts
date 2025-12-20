@@ -1,4 +1,6 @@
 import { range } from '@shlinkio/data-manipulation';
+import { formatNumber } from '@shlinkio/shlink-frontend-kit';
+import type { ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
 export type OptionalString = string | null | undefined;
 
@@ -41,3 +43,6 @@ export const humanFriendlyJoin = (list: string[]): string => {
   const [lastElement, ...rest] = list.reverse();
   return `${rest.reverse().join(', ')} and ${lastElement}`;
 };
+
+export const chartTooltipFormatter = (value?: ValueType): string | undefined =>
+  typeof value === 'string' || typeof value === 'number' ? formatNumber(value) : undefined;

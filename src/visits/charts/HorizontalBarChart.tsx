@@ -8,6 +8,7 @@ import {
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Bar, CartesianGrid, Cell, ComposedChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { chartTooltipFormatter } from '../../utils/helpers';
 import type { Stats } from '../types';
 import { useChartDimensions } from './ChartDimensionsContext';
 import { CHART_TOOLTIP_COMMON_PROPS, prevColor, prevColorAlpha } from './constants';
@@ -80,8 +81,9 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
         <Tooltip
           filterNull // This will prevent "hidden" values to render a tooltip
           {...CHART_TOOLTIP_COMMON_PROPS}
-          formatter={(value: number, name: keyof HorizontalBarChartEntry) => {
-            const prettifiedValue = formatNumber(value);
+          formatter={(value, key) => {
+            const name = key as keyof HorizontalBarChartEntry;
+            const prettifiedValue = chartTooltipFormatter(value);
             const label = (() => {
               if (name === 'highlightedAmount') {
                 return highlightedLabel;

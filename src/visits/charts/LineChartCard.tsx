@@ -35,7 +35,7 @@ import { CartesianGrid, Line, LineChart, ReferenceArea, Tooltip, XAxis, YAxis } 
 import type { CategoricalChartFunc } from 'recharts/types/chart/types';
 import { formatInternational } from '../../utils/dates/helpers/date';
 import type { StrictDateRange } from '../../utils/dates/helpers/dateIntervals';
-import { rangeOf } from '../../utils/helpers';
+import { chartTooltipFormatter, rangeOf } from '../../utils/helpers';
 import { useKeyDown, useMaxResolution } from '../../utils/helpers/hooks';
 import type { MediaMatcher } from '../../utils/types';
 import type { NormalizedVisit, Stats } from '../types';
@@ -343,7 +343,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
           >
             <XAxis dataKey="formattedDate" />
             <YAxis tickFormatter={formatNumber} yAxisId="1" />
-            <Tooltip formatter={formatNumber} {...CHART_TOOLTIP_COMMON_PROPS} />
+            <Tooltip formatter={chartTooltipFormatter} {...CHART_TOOLTIP_COMMON_PROPS} />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
             {Object.entries(visitsGroups).map(([dataKey, v]) => v.length > 0 && (
               <Line

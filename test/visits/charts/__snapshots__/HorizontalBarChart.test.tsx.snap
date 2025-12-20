@@ -38,7 +38,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
       <title />
       <desc />
       <g
-        id="recharts-zindex--100-«rd»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-grid"
@@ -171,7 +171,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex--50-«re»"
+        tabindex="-1"
       />
       <defs>
         <clippath
@@ -186,17 +186,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         </clippath>
       </defs>
       <g
-        id="recharts-zindex-100-«rg»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-200-«rh»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-300-«ri»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«rf»"
+          id="recharts-bar-«r1»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -215,10 +215,10 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-400-«rj»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-500-«rk»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -412,19 +412,19 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-600-«rl»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1000-«rm»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1100-«rn»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1200-«ro»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-2000-«rp»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -634,7 +634,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
       <title />
       <desc />
       <g
-        id="recharts-zindex--100-«rq»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-grid"
@@ -767,7 +767,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex--50-«rr»"
+        tabindex="-1"
       />
       <defs>
         <clippath
@@ -782,17 +782,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         </clippath>
       </defs>
       <g
-        id="recharts-zindex-100-«ru»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-200-«rv»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-300-«r10»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«rs»"
+          id="recharts-bar-«r2»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -811,7 +811,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«rt»"
+          id="recharts-bar-«r3»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -830,10 +830,10 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-400-«r11»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-500-«r12»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -1027,19 +1027,19 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-600-«r13»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1000-«r14»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1100-«r15»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1200-«r16»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-2000-«r17»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -1249,7 +1249,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
       <title />
       <desc />
       <g
-        id="recharts-zindex--100-«r18»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-grid"
@@ -1395,7 +1395,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex--50-«r19»"
+        tabindex="-1"
       />
       <defs>
         <clippath
@@ -1410,17 +1410,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         </clippath>
       </defs>
       <g
-        id="recharts-zindex-100-«r1c»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-200-«r1d»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-300-«r1e»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r1a»"
+          id="recharts-bar-«r4»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -1442,7 +1442,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r1b»"
+          id="recharts-bar-«r5»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -1464,10 +1464,10 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-400-«r1f»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-500-«r1g»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -1681,19 +1681,19 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-600-«r1h»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1000-«r1i»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1100-«r1j»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1200-«r1k»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-2000-«r1l»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -1926,7 +1926,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
       <title />
       <desc />
       <g
-        id="recharts-zindex--100-«r1m»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-grid"
@@ -2072,7 +2072,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex--50-«r1n»"
+        tabindex="-1"
       />
       <defs>
         <clippath
@@ -2087,17 +2087,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         </clippath>
       </defs>
       <g
-        id="recharts-zindex-100-«r1q»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-200-«r1r»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-300-«r1s»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r1o»"
+          id="recharts-bar-«r6»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -2119,7 +2119,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r1p»"
+          id="recharts-bar-«r7»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -2141,10 +2141,10 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-400-«r1t»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-500-«r1u»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -2358,19 +2358,19 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-600-«r1v»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1000-«r20»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1100-«r21»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1200-«r22»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-2000-«r23»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -2603,7 +2603,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
       <title />
       <desc />
       <g
-        id="recharts-zindex--100-«r24»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-grid"
@@ -2749,7 +2749,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex--50-«r25»"
+        tabindex="-1"
       />
       <defs>
         <clippath
@@ -2764,17 +2764,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </clippath>
       </defs>
       <g
-        id="recharts-zindex-100-«r29»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-200-«r2a»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-300-«r2b»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r26»"
+          id="recharts-bar-«r8»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -2796,7 +2796,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r27»"
+          id="recharts-bar-«r9»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -2818,7 +2818,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r28»"
+          id="recharts-bar-«ra»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -2840,10 +2840,10 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-400-«r2c»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-500-«r2d»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -3057,19 +3057,19 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-600-«r2e»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1000-«r2f»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1100-«r2g»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1200-«r2h»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-2000-«r2i»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -3302,7 +3302,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
       <title />
       <desc />
       <g
-        id="recharts-zindex--100-«r2j»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-grid"
@@ -3448,7 +3448,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex--50-«r2k»"
+        tabindex="-1"
       />
       <defs>
         <clippath
@@ -3463,17 +3463,17 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         </clippath>
       </defs>
       <g
-        id="recharts-zindex-100-«r2n»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-200-«r2o»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-300-«r2p»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r2l»"
+          id="recharts-bar-«rb»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -3495,7 +3495,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r2m»"
+          id="recharts-bar-«rc»"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -3517,10 +3517,10 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-400-«r2q»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-500-«r2r»"
+        tabindex="-1"
       >
         <g
           class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -3734,19 +3734,19 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         </g>
       </g>
       <g
-        id="recharts-zindex-600-«r2s»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1000-«r2t»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1100-«r2u»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-1200-«r2v»"
+        tabindex="-1"
       />
       <g
-        id="recharts-zindex-2000-«r30»"
+        tabindex="-1"
       >
         <g
           class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"

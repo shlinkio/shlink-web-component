@@ -16,7 +16,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r4u»"
+          aria-controls="«r1u»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -40,7 +40,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r52»"
+            aria-controls="«r22»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -66,7 +66,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r4u»"
+      id="«r1u»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -104,7 +104,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«r55»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -172,7 +172,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«r56»"
+            tabindex="-1"
           />
           <defs>
             <clippath
@@ -187,19 +187,19 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«r57»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«r58»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«r59»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«r5a»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-500-«r5b»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -247,19 +247,19 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«r5c»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1000-«r5d»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«r5e»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«r5f»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«r5g»"
+            tabindex="-1"
           />
         </svg>
       </div>
@@ -284,7 +284,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r5h»"
+          aria-controls="«r25»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -308,7 +308,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r5l»"
+            aria-controls="«r29»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -334,7 +334,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r5h»"
+      id="«r25»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -372,7 +372,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«r5o»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -440,7 +440,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«r5p»"
+            tabindex="-1"
           />
           <defs>
             <clippath
@@ -455,19 +455,19 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«r5q»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«r5r»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«r5s»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«r5t»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-500-«r5u»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -515,19 +515,19 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«r5v»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1000-«r60»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«r61»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«r62»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«r63»"
+            tabindex="-1"
           />
         </svg>
       </div>
@@ -598,7 +598,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r64»"
+          aria-controls="«r2c»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -622,7 +622,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r68»"
+            aria-controls="«r2g»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -648,7 +648,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r64»"
+      id="«r2c»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -686,7 +686,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«r6b»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -754,7 +754,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«r6c»"
+            tabindex="-1"
           />
           <defs>
             <clippath
@@ -769,16 +769,16 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«r6e»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«r6f»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«r6g»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«r6h»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
@@ -788,7 +788,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                 d="M65,5L795,365"
                 fill="none"
                 height="360"
-                id="recharts-line-«r6d»"
+                id="recharts-line-«r2j»"
                 stroke="#2078CF"
                 stroke-dasharray="0px 813.9410400390625px"
                 stroke-width="2"
@@ -797,7 +797,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-500-«r6i»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -988,7 +988,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«r6j»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line-dots"
@@ -1018,16 +1018,16 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-1000-«r6k»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«r6l»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«r6m»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«r6n»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -1247,7 +1247,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r6o»"
+          aria-controls="«r2k»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1271,7 +1271,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r6s»"
+            aria-controls="«r2o»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1297,7 +1297,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r6o»"
+      id="«r2k»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1335,7 +1335,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«r6v»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -1403,7 +1403,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«r70»"
+            tabindex="-1"
           />
           <defs>
             <clippath
@@ -1418,16 +1418,16 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«r74»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«r75»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«r76»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«r77»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
@@ -1437,7 +1437,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 d="M65,5L795,365"
                 fill="none"
                 height="360"
-                id="recharts-line-«r71»"
+                id="recharts-line-«r2r»"
                 stroke="#2078CF"
                 stroke-dasharray="0px 813.9410400390625px"
                 stroke-width="2"
@@ -1452,7 +1452,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 d="M65,5L795,365"
                 fill="none"
                 height="360"
-                id="recharts-line-«r72»"
+                id="recharts-line-«r2s»"
                 stroke="#f77f28"
                 stroke-dasharray="0px 813.9410400390625px"
                 stroke-width="2"
@@ -1467,7 +1467,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                 d="M65,5L795,365"
                 fill="none"
                 height="360"
-                id="recharts-line-«r73»"
+                id="recharts-line-«r2t»"
                 stroke="#1DAA58"
                 stroke-dasharray="0px, 813.9410400390625px"
                 stroke-width="2"
@@ -1476,7 +1476,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-500-«r78»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -1667,7 +1667,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«r79»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line-dots"
@@ -1751,16 +1751,16 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-1000-«r7a»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«r7b»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«r7c»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«r7d»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -1994,7 +1994,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r7e»"
+          aria-controls="«r2u»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -2018,7 +2018,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r7i»"
+            aria-controls="«r32»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -2044,7 +2044,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r7e»"
+      id="«r2u»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2082,7 +2082,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«r7l»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -2215,7 +2215,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«r7m»"
+            tabindex="-1"
           />
           <defs>
             <clippath
@@ -2230,16 +2230,16 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«r7p»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«r7q»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«r7r»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«r7s»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
@@ -2249,7 +2249,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 d="M65,95C85.278,230,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,365,795,365"
                 fill="none"
                 height="360"
-                id="recharts-line-«r7n»"
+                id="recharts-line-«r35»"
                 stroke="red"
                 stroke-dasharray="0px 949.263916015625px"
                 stroke-width="2"
@@ -2264,7 +2264,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                 d="M65,365C85.278,365,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,185,795,5"
                 fill="none"
                 height="360"
-                id="recharts-line-«r7o»"
+                id="recharts-line-«r36»"
                 stroke="yellow"
                 stroke-dasharray="0px 1037.2572021484375px"
                 stroke-width="2"
@@ -2273,7 +2273,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-500-«r7t»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -2559,7 +2559,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«r7u»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line-dots"
@@ -2857,16 +2857,16 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-1000-«r7v»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«r80»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«r81»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«r82»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"

@@ -1,7 +1,8 @@
-import { formatNumber,isDarkThemeEnabled, PRIMARY_DARK_COLOR, PRIMARY_LIGHT_COLOR  } from '@shlinkio/shlink-frontend-kit';
+import { isDarkThemeEnabled, PRIMARY_DARK_COLOR, PRIMARY_LIGHT_COLOR } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Cell, Pie, PieChart, Tooltip } from 'recharts';
+import { chartTooltipFormatter } from '../../utils/helpers';
 import type { Stats } from '../types';
 import { useChartDimensions } from './ChartDimensionsContext';
 import { CHART_TOOLTIP_STYLES, chartColorForIndex, prevColor } from './constants';
@@ -37,7 +38,11 @@ export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, prevStats, showNu
         <div style={wrapperDimensions}>
           <ChartWrapper>
             <PieChart {...dimensions}>
-              <Tooltip formatter={formatNumber} contentStyle={CHART_TOOLTIP_STYLES} itemStyle={{ color: 'white' }} />
+              <Tooltip
+                formatter={chartTooltipFormatter}
+                contentStyle={CHART_TOOLTIP_STYLES}
+                itemStyle={{ color: 'white' }}
+              />
               <Pie
                 data={chartData}
                 dataKey="value"

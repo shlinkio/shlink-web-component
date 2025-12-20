@@ -81,13 +81,12 @@ describe('<TagsTable />', () => {
     }
   });
 
-  /** Enable once Paginator marks the active page somehow */
-  it.skip('allows changing current page in paginator', async () => {
+  it('allows changing current page in paginator', async () => {
     const { user, container } = setUp(tags(100));
 
-    expect(container.querySelector('.active')).toHaveTextContent('1');
+    expect(container.querySelector('[data-active="true"]')).toHaveTextContent('1');
     await user.click(screen.getByText('5'));
-    expect(container.querySelector('.active')).toHaveTextContent('5');
+    expect(container.querySelector('[data-active="true"]')).toHaveTextContent('5');
   });
 
   it('orders tags when column is clicked', async () => {

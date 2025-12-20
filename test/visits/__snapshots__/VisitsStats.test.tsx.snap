@@ -18,7 +18,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«rrv»"
+          aria-controls="«rjn»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -42,7 +42,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«rs3»"
+            aria-controls="«rjr»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -68,7 +68,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«rrv»"
+      id="«rjn»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -106,7 +106,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«rs6»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -174,11 +174,11 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«rs7»"
+            tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts111-clip"
+              id="recharts106-clip"
             >
               <rect
                 height="260"
@@ -189,16 +189,16 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«rs9»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«rsa»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«rsb»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«rsc»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
@@ -208,7 +208,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                 d="M65,5L795,265"
                 fill="none"
                 height="260"
-                id="recharts-line-«rs8»"
+                id="recharts-line-«rju»"
                 stroke="#2078CF"
                 stroke-dasharray="0px 774.9193725585938px"
                 stroke-width="2"
@@ -217,7 +217,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-500-«rsd»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -408,7 +408,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«rse»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line-dots"
@@ -438,16 +438,16 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-1000-«rsf»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«rsg»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«rsh»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«rsi»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -655,7 +655,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«rt5»"
+          aria-controls="«rkh»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -679,7 +679,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«rt9»"
+            aria-controls="«rkl»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -705,7 +705,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«rt5»"
+      id="«rkh»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -743,7 +743,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«rte»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -811,11 +811,11 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«rtf»"
+            tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts115-clip"
+              id="recharts110-clip"
             >
               <rect
                 height="260"
@@ -826,16 +826,16 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«rth»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«rti»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«rtj»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«rtk»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
@@ -845,7 +845,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                 d="M65,5L795,265"
                 fill="none"
                 height="260"
-                id="recharts-line-«rtg»"
+                id="recharts-line-«rkq»"
                 stroke="#2078CF"
                 stroke-dasharray="0px 774.9193725585938px"
                 stroke-width="2"
@@ -854,7 +854,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-500-«rtl»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -1045,7 +1045,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«rtm»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line-dots"
@@ -1075,16 +1075,16 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-1000-«rtn»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«rto»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«rtp»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«rtq»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -1292,7 +1292,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«rud»"
+          aria-controls="«rld»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1316,7 +1316,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«ruh»"
+            aria-controls="«rlh»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1342,7 +1342,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«rud»"
+      id="«rld»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1380,7 +1380,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«ruk»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -1448,11 +1448,11 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«rul»"
+            tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts119-clip"
+              id="recharts114-clip"
             >
               <rect
                 height="260"
@@ -1463,16 +1463,16 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«run»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«ruo»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«rup»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«ruq»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
@@ -1482,7 +1482,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                 d="M65,5L795,265"
                 fill="none"
                 height="260"
-                id="recharts-line-«rum»"
+                id="recharts-line-«rlk»"
                 stroke="#2078CF"
                 stroke-dasharray="0px 774.9193725585938px"
                 stroke-width="2"
@@ -1491,7 +1491,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-500-«rur»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -1682,7 +1682,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«rus»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line-dots"
@@ -1712,16 +1712,16 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-1000-«rut»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«ruu»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«ruv»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«rv0»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -1929,7 +1929,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«rvj»"
+          aria-controls="«rm7»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1953,7 +1953,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«rvn»"
+            aria-controls="«rmb»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1979,7 +1979,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«rvj»"
+      id="«rm7»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2017,7 +2017,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«rvq»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -2085,11 +2085,11 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«rvr»"
+            tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts123-clip"
+              id="recharts118-clip"
             >
               <rect
                 height="260"
@@ -2100,16 +2100,16 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«rvu»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«rvv»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«r100»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«r101»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
@@ -2119,7 +2119,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                 d="M65,5L795,265"
                 fill="none"
                 height="260"
-                id="recharts-line-«rvs»"
+                id="recharts-line-«rme»"
                 stroke="#2078CF"
                 stroke-dasharray="0px 774.9193725585938px"
                 stroke-width="2"
@@ -2134,7 +2134,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                 d="M65,5L795,265"
                 fill="none"
                 height="260"
-                id="recharts-line-«rvt»"
+                id="recharts-line-«rmf»"
                 stroke="#1DAA58"
                 stroke-dasharray="0px, 774.9193725585938px"
                 stroke-width="2"
@@ -2143,7 +2143,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-500-«r102»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -2334,7 +2334,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«r103»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line-dots"
@@ -2392,16 +2392,16 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-1000-«r104»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«r105»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«r106»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«r107»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -2623,7 +2623,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r10q»"
+          aria-controls="«rn2»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -2647,7 +2647,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r10u»"
+            aria-controls="«rn6»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -2673,7 +2673,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r10q»"
+      id="«rn2»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2711,7 +2711,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«r111»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -2779,11 +2779,11 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«r112»"
+            tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts129-clip"
+              id="recharts124-clip"
             >
               <rect
                 height="260"
@@ -2794,16 +2794,16 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«r115»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«r116»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«r117»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«r118»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
@@ -2813,7 +2813,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                 d="M65,5L795,265"
                 fill="none"
                 height="260"
-                id="recharts-line-«r113»"
+                id="recharts-line-«rn9»"
                 stroke="#2078CF"
                 stroke-dasharray="0px 774.9193725585938px"
                 stroke-width="2"
@@ -2828,7 +2828,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                 d="M65,5L795,265"
                 fill="none"
                 height="260"
-                id="recharts-line-«r114»"
+                id="recharts-line-«rna»"
                 stroke="#1DAA58"
                 stroke-dasharray="0px, 774.9193725585938px"
                 stroke-width="2"
@@ -2837,7 +2837,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-500-«r119»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -3028,7 +3028,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«r11a»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line-dots"
@@ -3086,16 +3086,16 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-1000-«r11b»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«r11c»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«r11d»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«r11e»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"
@@ -3317,7 +3317,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r121»"
+          aria-controls="«rnt»"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -3341,7 +3341,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r125»"
+            aria-controls="«ro1»"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -3367,7 +3367,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r121»"
+      id="«rnt»"
     >
       <div
         class="recharts-wrapper select-none"
@@ -3405,7 +3405,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           <title />
           <desc />
           <g
-            id="recharts-zindex--100-«r128»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-grid"
@@ -3473,11 +3473,11 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex--50-«r129»"
+            tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts135-clip"
+              id="recharts130-clip"
             >
               <rect
                 height="260"
@@ -3488,16 +3488,16 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             </clippath>
           </defs>
           <g
-            id="recharts-zindex-100-«r12c»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-200-«r12d»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-300-«r12e»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-400-«r12f»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
@@ -3507,7 +3507,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                 d="M65,5L795,265"
                 fill="none"
                 height="260"
-                id="recharts-line-«r12a»"
+                id="recharts-line-«ro4»"
                 stroke="#2078CF"
                 stroke-dasharray="0px 774.9193725585938px"
                 stroke-width="2"
@@ -3522,7 +3522,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                 d="M65,5L795,265"
                 fill="none"
                 height="260"
-                id="recharts-line-«r12b»"
+                id="recharts-line-«ro5»"
                 stroke="#1DAA58"
                 stroke-dasharray="0px, 774.9193725585938px"
                 stroke-width="2"
@@ -3531,7 +3531,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-500-«r12g»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
@@ -3722,7 +3722,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-600-«r12h»"
+            tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line-dots"
@@ -3780,16 +3780,16 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             </g>
           </g>
           <g
-            id="recharts-zindex-1000-«r12i»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1100-«r12j»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-1200-«r12k»"
+            tabindex="-1"
           />
           <g
-            id="recharts-zindex-2000-«r12l»"
+            tabindex="-1"
           >
             <g
               class="recharts-cartesian-axis-tick-labels recharts-xAxis-tick-labels"

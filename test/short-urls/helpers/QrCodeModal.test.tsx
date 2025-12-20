@@ -30,9 +30,7 @@ describe('<QrCodeModal />', () => {
     expect(externalLink).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  // FIXME Snapshots do not match when run in CI, because it generate some slightly off coordinates.
-  //       I Need to investigate why.
-  it.skipIf(import.meta.env.CI).each([
+  it.each([
     { applyChanges: () => {} },
     {
       // Setting size and margin

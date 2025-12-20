@@ -77,7 +77,7 @@ export default defineConfig({
       './dev/tailwind.css',
     ],
 
-    // Propagate env vars from process.env, so that they can be accessed from tests
+    // Propagate env vars from process.env, so that they can be accessed from tests via import.meta.env
     env: process.env,
 
     // Run tests in an actual browser

@@ -19,6 +19,7 @@ type SetUpOptions = {
   geolocationRedirectCondition?: boolean;
   advancedQueryRedirectConditions?: boolean;
   desktopDeviceTypes?: boolean;
+  dateRedirectConditions?: boolean;
 };
 
 describe('<RedirectRuleModal />', () => {
@@ -29,6 +30,7 @@ describe('<RedirectRuleModal />', () => {
     geolocationRedirectCondition = true,
     advancedQueryRedirectConditions = true,
     desktopDeviceTypes = true,
+    dateRedirectConditions = true,
   }: SetUpOptions) => renderWithEvents(
     <TestModalWrapper
       renderModal={(args) => (
@@ -38,6 +40,7 @@ describe('<RedirectRuleModal />', () => {
             geolocationRedirectCondition,
             advancedQueryRedirectConditions,
             desktopDeviceTypes,
+            dateRedirectConditions,
           })}
         >
           <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
@@ -154,6 +157,14 @@ describe('<RedirectRuleModal />', () => {
     await addConditionWithType(user, 'geolocation-city-name');
     await user.type(screen.getByLabelText('City name:'), 'Los Angeles');
 
+    // Add a new condition of type before-date
+    await addConditionWithType(user, 'before-date');
+    await user.type(screen.getByLabelText('Before:'), '2025-01-01 10:00');
+
+    // Add a new condition of type after-date
+    await addConditionWithType(user, 'after-date');
+    await user.type(screen.getByLabelText('After:'), '2035-01-01 10:00');
+
     await user.click(screen.getByRole('button', { name: 'Confirm' }));
 
     expect(onSave).toHaveBeenCalledWith({
@@ -167,6 +178,8 @@ describe('<RedirectRuleModal />', () => {
         { type: 'ip-address', matchValue: '192.168.1.*', matchKey: null },
         { type: 'geolocation-country-code', matchValue: 'CL', matchKey: null },
         { type: 'geolocation-city-name', matchValue: 'Los Angeles', matchKey: null },
+        { type: 'before-date', matchValue: '2025-01-01T10:00:00Z', matchKey: null },
+        { type: 'after-date', matchValue: '2035-01-01T10:00:00Z', matchKey: null },
       ],
     });
 
@@ -179,18 +192,21 @@ describe('<RedirectRuleModal />', () => {
       ipRedirectCondition: false,
       geolocationRedirectCondition: false,
       advancedQueryRedirectConditions: false,
+      dateRedirectConditions: false,
       expectedOptions: ['Device', 'Language', 'Query param'] as const,
     },
     {
       ipRedirectCondition: true,
       geolocationRedirectCondition: false,
       advancedQueryRedirectConditions: false,
+      dateRedirectConditions: false,
       expectedOptions: ['Device', 'Language', 'Query param', 'IP address'] as const,
     },
     {
       ipRedirectCondition: true,
       geolocationRedirectCondition: true,
       advancedQueryRedirectConditions: false,
+      dateRedirectConditions: false,
       expectedOptions: [
         'Device',
         'Language',
@@ -204,6 +220,7 @@ describe('<RedirectRuleModal />', () => {
       ipRedirectCondition: true,
       geolocationRedirectCondition: true,
       advancedQueryRedirectConditions: true,
+      dateRedirectConditions: false,
       expectedOptions: [
         'Device',
         'Language',
@@ -215,10 +232,26 @@ describe('<RedirectRuleModal />', () => {
         'City name (geolocation)',
       ] as const,
     },
-  ])('displays only supported options', async (
-    { ipRedirectCondition, geolocationRedirectCondition, advancedQueryRedirectConditions, expectedOptions },
-  ) => {
-    const { user } = setUp({ ipRedirectCondition, geolocationRedirectCondition, advancedQueryRedirectConditions });
+    {
+      ipRedirectCondition: true,
+      geolocationRedirectCondition: true,
+      advancedQueryRedirectConditions: true,
+      dateRedirectConditions: true,
+      expectedOptions: [
+        'Device',
+        'Language',
+        'Query param',
+        'Any value query param',
+        'Valueless query param',
+        'IP address',
+        'Country (geolocation)',
+        'City name (geolocation)',
+        'Before date',
+        'After date',
+      ] as const,
+    },
+  ])('displays only supported options', async ({ expectedOptions, ...features }) => {
+    const { user } = setUp({ ...features });
 
     // Add a condition box, with a type other than device-type (default one), so that device type options do not affect
     // assertions and cause false negatives

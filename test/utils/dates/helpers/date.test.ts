@@ -10,8 +10,7 @@ describe('date', () => {
         parseDate('2020-03-05 10:00:10', 'yyyy-MM-dd HH:mm:ss'),
         formatISO(parseDate('2020-03-05 10:00:10', 'yyyy-MM-dd HH:mm:ss')),
       ],
-      ['2020-03-05 10:00:10', '2020-03-05 10:00:10'],
-      ['foo', 'foo'],
+      ['2020-03-05 10:00:10', '2020-03-05T10:00:10Z'],
       [undefined, undefined],
       [null, null],
     ])('formats date as expected', (date, expected) => {

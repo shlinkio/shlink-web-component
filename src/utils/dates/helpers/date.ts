@@ -7,6 +7,7 @@ import {
   isWithinInterval,
   parse,
   parseISO as stdParseISO,
+  toDate,
 } from 'date-fns';
 
 export const STANDARD_DATE_FORMAT = 'yyyy-MM-dd';
@@ -22,11 +23,12 @@ export const now = () => new Date();
 export const isDateObject = (date: DateOrString): date is Date => typeof date !== 'string';
 
 const formatDateFromFormat = (date?: NullableDate, theFormat?: string): string | null | undefined => {
-  if (!date || !isDateObject(date)) {
+  if (!date) {
     return date;
   }
 
-  return theFormat ? format(date, theFormat) : formatISO(date);
+  const theDate = toDate(date);
+  return theFormat ? format(theDate, theFormat) : formatISO(theDate);
 };
 
 export const formatIsoDate = (date?: NullableDate) => formatDateFromFormat(date, undefined);

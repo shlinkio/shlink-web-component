@@ -8,9 +8,11 @@ import type {
   ShlinkRedirectRuleData,
 } from '@shlinkio/shlink-js-sdk/api-contract';
 import { clsx } from 'clsx';
+import { formatISO, toDate } from 'date-fns';
 import type { FC } from 'react';
 import { useCallback, useEffect , useMemo, useRef, useState } from 'react';
 import { countryCodes } from '../../utils/country-codes';
+import { LabelledDateInput } from '../../utils/dates/LabelledDateInput';
 import { useFeature } from '../../utils/features';
 
 const DeviceTypeControls: FC<{
@@ -156,6 +158,7 @@ const Condition: FC<{
   const supportsIpRedirectCondition = useFeature('ipRedirectCondition');
   const supportsGeolocationRedirectCondition = useFeature('geolocationRedirectCondition');
   const supportsAdvancedQueryConditions = useFeature('advancedQueryRedirectConditions');
+  const supportsDateConditions = useFeature('dateRedirectConditions');
   const conditionNames = useMemo((): Partial<Record<ShlinkRedirectConditionType, string>> => {
     const conditionNames: Partial<Record<ShlinkRedirectConditionType, string>> = {
       device: 'Device type',
@@ -177,8 +180,18 @@ const Condition: FC<{
       conditionNames['geolocation-city-name'] = 'City name (geolocation)';
     }
 
+    if (supportsDateConditions) {
+      conditionNames['before-date'] = 'Before date';
+      conditionNames['after-date'] = 'After date';
+    }
+
     return conditionNames;
-  }, [supportsAdvancedQueryConditions, supportsGeolocationRedirectCondition, supportsIpRedirectCondition]);
+  }, [
+    supportsAdvancedQueryConditions,
+    supportsDateConditions,
+    supportsGeolocationRedirectCondition,
+    supportsIpRedirectCondition,
+  ]);
 
   return (
     <div className={clsx(
@@ -245,6 +258,17 @@ const Condition: FC<{
       )}
       {condition.type === 'geolocation-city-name' && (
         <CityNameControls cityName={condition.matchValue} onCityNameChange={setConditionValue} />
+      )}
+      {(condition.type === 'before-date' || condition.type === 'after-date') && (
+        <div className="flex flex-col gap-1">
+          <LabelledDateInput
+            label={condition.type === 'before-date' ? 'Before' : 'After'}
+            withTime
+            spaceless
+            value={condition.matchValue ? toDate(condition.matchValue) : undefined}
+            onChange={(newDate) => newDate && setConditionValue(formatISO(newDate))}
+          />
+        </div>
       )}
     </div>
   );

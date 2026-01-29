@@ -11,9 +11,13 @@ describe('<RedirectRuleCard />', () => {
     { type: 'device', matchValue: 'android', matchKey: null },
     { type: 'language', matchValue: 'es-ES', matchKey: null },
     { type: 'query-param', matchValue: 'bar', matchKey: 'foo' },
+    { type: 'any-value-query-param', matchValue: null, matchKey: 'foo-any-value' },
+    { type: 'valueless-query-param', matchValue: null, matchKey: 'foo-valueless' },
     { type: 'ip-address', matchValue: '1.2.3.4', matchKey: null },
     { type: 'geolocation-country-code', matchValue: 'FR', matchKey: null },
     { type: 'geolocation-city-name', matchValue: 'Paris', matchKey: null },
+    { type: 'before-date', matchValue: '2025-01-01T00:00:00+00:00', matchKey: null },
+    { type: 'after-date', matchValue: '2035-01-01T00:00:00+00:00', matchKey: null },
   ];
   const setUp = (props: Partial<RedirectRuleCardProps> = {}) => renderWithEvents(
     <RedirectRuleCard
@@ -55,10 +59,16 @@ describe('<RedirectRuleCard />', () => {
 
     expect(screen.getByText('Device is android')).toBeInTheDocument();
     expect(screen.getByText('es-ES language is accepted')).toBeInTheDocument();
-    expect(screen.getByText('Query string contains foo=bar')).toBeInTheDocument();
+    expect(screen.getByText('Query string contains "foo=bar"')).toBeInTheDocument();
+    expect(screen.getByText('Query string contains "foo-any-value" param')).toBeInTheDocument();
+    expect(screen.getByText(
+      'Query string contains "foo-valueless" param without a value (https://example.com?foo-valueless)',
+    )).toBeInTheDocument();
     expect(screen.getByText('IP address matches 1.2.3.4')).toBeInTheDocument();
     expect(screen.getByText('Country code is FR')).toBeInTheDocument();
     expect(screen.getByText('City name is Paris')).toBeInTheDocument();
+    expect(screen.getByText('Date is before 2025-01-01 00:00')).toBeInTheDocument();
+    expect(screen.getByText('Date is after 2035-01-01 00:00')).toBeInTheDocument();
   });
 
   it('can delete the rule', async () => {

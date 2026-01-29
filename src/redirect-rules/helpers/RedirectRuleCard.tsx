@@ -4,6 +4,7 @@ import { Button, SimpleCard,useToggle  } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { ExternalLink } from 'react-external-link';
+import { formatHumanFriendly } from '../../utils/dates/helpers/date';
 import { RedirectRuleModal } from './RedirectRuleModal';
 
 export type RedirectRuleCardProps = {
@@ -61,11 +62,22 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
                 {condition.type === 'device' && <>Device is {condition.matchValue}</>}
                 {condition.type === 'language' && <>{condition.matchValue} language is accepted</>}
                 {condition.type === 'query-param' && (
-                  <>Query string contains {condition.matchKey}={condition.matchValue}</>
+                  <>Query string contains &quot;{condition.matchKey}={condition.matchValue}&quot;</>
+                )}
+                {condition.type === 'any-value-query-param' && (
+                  <>Query string contains &quot;{condition.matchKey}&quot; param</>
+                )}
+                {condition.type === 'valueless-query-param' && (
+                  <>
+                    Query string contains &quot;{condition.matchKey}&quot; param without a value
+                    (https://example.com?{condition.matchKey})
+                  </>
                 )}
                 {condition.type === 'ip-address' && <>IP address matches {condition.matchValue}</>}
                 {condition.type === 'geolocation-country-code' && <>Country code is {condition.matchValue}</>}
                 {condition.type === 'geolocation-city-name' && <>City name is {condition.matchValue}</>}
+                {condition.type === 'before-date' && <>Date is before {formatHumanFriendly(condition.matchValue)}</>}
+                {condition.type === 'after-date' && <>Date is after {formatHumanFriendly(condition.matchValue)}</>}
               </div>
             ))}
           </div>

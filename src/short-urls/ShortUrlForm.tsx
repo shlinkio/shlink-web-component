@@ -1,6 +1,6 @@
 import { Button, Checkbox, Input, Label, LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
-import { parseISO } from 'date-fns';
+import { toDate } from 'date-fns';
 import type { FC, FormEvent } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import type { ShlinkCreateShortUrlData, ShlinkEditShortUrlData } from '../api-contract';
@@ -23,8 +23,6 @@ export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEd
 }
 
 export type ShortUrlFormConnectProps = ShortUrlFormProps<ShlinkCreateShortUrlData | ShlinkEditShortUrlData>;
-
-const toDate = (date?: string | Date): Date | undefined => (typeof date === 'string' ? parseISO(date) : date);
 
 const isCreationData = (data: ShlinkCreateShortUrlData | ShlinkEditShortUrlData): data is ShlinkCreateShortUrlData =>
   'shortCodeLength' in data && 'customSlug' in data && 'domain' in data;

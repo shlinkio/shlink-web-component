@@ -104,6 +104,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -172,11 +173,12 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts29-clip"
+              id="recharts37-clip"
             >
               <rect
                 height="360"
@@ -187,18 +189,23 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -247,18 +254,23 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           />
         </svg>
@@ -372,6 +384,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -440,11 +453,12 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts31-clip"
+              id="recharts40-clip"
             >
               <rect
                 height="360"
@@ -455,18 +469,23 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -515,18 +534,23 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           />
         </svg>
@@ -686,6 +710,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -754,11 +779,12 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts33-clip"
+              id="recharts43-clip"
             >
               <rect
                 height="360"
@@ -769,34 +795,43 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,365"
-                fill="none"
-                height="360"
-                id="recharts-line-«r2j»"
-                stroke="#2078CF"
-                stroke-dasharray="0px 813.9410400390625px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,365"
+                  fill="none"
+                  height="360"
+                  id="recharts-line-«r2j»"
+                  stroke="#2078CF"
+                  stroke-dasharray="0px 813.9410400390625px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -988,6 +1023,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           >
             <g
@@ -1018,15 +1054,19 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           >
             <g
@@ -1335,6 +1375,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -1403,11 +1444,12 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts37-clip"
+              id="recharts48-clip"
             >
               <rect
                 height="360"
@@ -1418,64 +1460,81 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,365"
-                fill="none"
-                height="360"
-                id="recharts-line-«r2r»"
-                stroke="#2078CF"
-                stroke-dasharray="0px 813.9410400390625px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,365"
+                  fill="none"
+                  height="360"
+                  id="recharts-line-«r2r»"
+                  stroke="#2078CF"
+                  stroke-dasharray="0px 813.9410400390625px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,365"
-                fill="none"
-                height="360"
-                id="recharts-line-«r2s»"
-                stroke="#f77f28"
-                stroke-dasharray="0px 813.9410400390625px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,365"
+                  fill="none"
+                  height="360"
+                  id="recharts-line-«r2s»"
+                  stroke="#f77f28"
+                  stroke-dasharray="0px 813.9410400390625px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,365"
-                fill="none"
-                height="360"
-                id="recharts-line-«r2t»"
-                stroke="#1DAA58"
-                stroke-dasharray="0px, 813.9410400390625px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,365"
+                  fill="none"
+                  height="360"
+                  id="recharts-line-«r2t»"
+                  stroke="#1DAA58"
+                  stroke-dasharray="0px, 813.9410400390625px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -1667,6 +1726,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           >
             <g
@@ -1751,15 +1811,19 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           >
             <g
@@ -2082,6 +2146,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -2215,11 +2280,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts45-clip"
+              id="recharts57-clip"
             >
               <rect
                 height="360"
@@ -2230,49 +2296,62 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,95C85.278,230,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,365,795,365"
-                fill="none"
-                height="360"
-                id="recharts-line-«r35»"
-                stroke="red"
-                stroke-dasharray="0px 949.263916015625px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,95C85.278,230,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,365,795,365"
+                  fill="none"
+                  height="360"
+                  id="recharts-line-«r35»"
+                  stroke="red"
+                  stroke-dasharray="0px 949.263916015625px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,365C85.278,365,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,185,795,5"
-                fill="none"
-                height="360"
-                id="recharts-line-«r36»"
-                stroke="yellow"
-                stroke-dasharray="0px 1037.2572021484375px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,365C85.278,365,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,185,795,5"
+                  fill="none"
+                  height="360"
+                  id="recharts-line-«r36»"
+                  stroke="yellow"
+                  stroke-dasharray="0px 1037.2572021484375px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -2559,6 +2638,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           >
             <g
@@ -2857,15 +2937,19 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           >
             <g

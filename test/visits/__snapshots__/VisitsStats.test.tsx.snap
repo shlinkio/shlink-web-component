@@ -106,6 +106,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -174,11 +175,12 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts106-clip"
+              id="recharts122-clip"
             >
               <rect
                 height="260"
@@ -189,34 +191,43 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,265"
-                fill="none"
-                height="260"
-                id="recharts-line-«rju»"
-                stroke="#2078CF"
-                stroke-dasharray="0px 774.9193725585938px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,265"
+                  fill="none"
+                  height="260"
+                  id="recharts-line-«rju»"
+                  stroke="#2078CF"
+                  stroke-dasharray="0px 774.9193725585938px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -408,6 +419,7 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           >
             <g
@@ -438,15 +450,19 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           >
             <g
@@ -743,6 +759,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -811,11 +828,12 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts110-clip"
+              id="recharts127-clip"
             >
               <rect
                 height="260"
@@ -826,34 +844,43 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,265"
-                fill="none"
-                height="260"
-                id="recharts-line-«rkq»"
-                stroke="#2078CF"
-                stroke-dasharray="0px 774.9193725585938px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,265"
+                  fill="none"
+                  height="260"
+                  id="recharts-line-«rkq»"
+                  stroke="#2078CF"
+                  stroke-dasharray="0px 774.9193725585938px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -1045,6 +1072,7 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           >
             <g
@@ -1075,15 +1103,19 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           >
             <g
@@ -1380,6 +1412,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -1448,11 +1481,12 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts114-clip"
+              id="recharts132-clip"
             >
               <rect
                 height="260"
@@ -1463,34 +1497,43 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,265"
-                fill="none"
-                height="260"
-                id="recharts-line-«rlk»"
-                stroke="#2078CF"
-                stroke-dasharray="0px 774.9193725585938px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,265"
+                  fill="none"
+                  height="260"
+                  id="recharts-line-«rlk»"
+                  stroke="#2078CF"
+                  stroke-dasharray="0px 774.9193725585938px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -1682,6 +1725,7 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           >
             <g
@@ -1712,15 +1756,19 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           >
             <g
@@ -2017,6 +2065,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -2085,11 +2134,12 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts118-clip"
+              id="recharts137-clip"
             >
               <rect
                 height="260"
@@ -2100,49 +2150,62 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,265"
-                fill="none"
-                height="260"
-                id="recharts-line-«rme»"
-                stroke="#2078CF"
-                stroke-dasharray="0px 774.9193725585938px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,265"
+                  fill="none"
+                  height="260"
+                  id="recharts-line-«rme»"
+                  stroke="#2078CF"
+                  stroke-dasharray="0px 774.9193725585938px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,265"
-                fill="none"
-                height="260"
-                id="recharts-line-«rmf»"
-                stroke="#1DAA58"
-                stroke-dasharray="0px, 774.9193725585938px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,265"
+                  fill="none"
+                  height="260"
+                  id="recharts-line-«rmf»"
+                  stroke="#1DAA58"
+                  stroke-dasharray="0px, 774.9193725585938px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -2334,6 +2397,7 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           >
             <g
@@ -2392,15 +2456,19 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           >
             <g
@@ -2711,6 +2779,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -2779,11 +2848,12 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts124-clip"
+              id="recharts144-clip"
             >
               <rect
                 height="260"
@@ -2794,49 +2864,62 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,265"
-                fill="none"
-                height="260"
-                id="recharts-line-«rn9»"
-                stroke="#2078CF"
-                stroke-dasharray="0px 774.9193725585938px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,265"
+                  fill="none"
+                  height="260"
+                  id="recharts-line-«rn9»"
+                  stroke="#2078CF"
+                  stroke-dasharray="0px 774.9193725585938px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,265"
-                fill="none"
-                height="260"
-                id="recharts-line-«rna»"
-                stroke="#1DAA58"
-                stroke-dasharray="0px, 774.9193725585938px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,265"
+                  fill="none"
+                  height="260"
+                  id="recharts-line-«rna»"
+                  stroke="#1DAA58"
+                  stroke-dasharray="0px, 774.9193725585938px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -3028,6 +3111,7 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           >
             <g
@@ -3086,15 +3170,19 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           >
             <g
@@ -3405,6 +3493,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
           <title />
           <desc />
           <g
+            class="recharts-zIndex-layer_-100"
             tabindex="-1"
           >
             <g
@@ -3473,11 +3562,12 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_-50"
             tabindex="-1"
           />
           <defs>
             <clippath
-              id="recharts130-clip"
+              id="recharts151-clip"
             >
               <rect
                 height="260"
@@ -3488,49 +3578,62 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             </clippath>
           </defs>
           <g
+            class="recharts-zIndex-layer_100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_300"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_400"
             tabindex="-1"
           >
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,265"
-                fill="none"
-                height="260"
-                id="recharts-line-«ro4»"
-                stroke="#2078CF"
-                stroke-dasharray="0px 774.9193725585938px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,265"
+                  fill="none"
+                  height="260"
+                  id="recharts-line-«ro4»"
+                  stroke="#2078CF"
+                  stroke-dasharray="0px 774.9193725585938px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
             <g
               class="recharts-layer recharts-line"
             >
-              <path
-                class="recharts-curve recharts-line-curve"
-                d="M65,5L795,265"
-                fill="none"
-                height="260"
-                id="recharts-line-«ro5»"
-                stroke="#1DAA58"
-                stroke-dasharray="0px, 774.9193725585938px"
-                stroke-width="2"
-                width="730"
-              />
+              <g
+                class="recharts-layer recharts-shape"
+              >
+                <path
+                  class="recharts-curve recharts-line-curve"
+                  d="M65,5L795,265"
+                  fill="none"
+                  height="260"
+                  id="recharts-line-«ro5»"
+                  stroke="#1DAA58"
+                  stroke-dasharray="0px, 774.9193725585938px"
+                  stroke-width="2"
+                  width="730"
+                />
+              </g>
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_500"
             tabindex="-1"
           >
             <g
@@ -3722,6 +3825,7 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_600"
             tabindex="-1"
           >
             <g
@@ -3780,15 +3884,19 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
             </g>
           </g>
           <g
+            class="recharts-zIndex-layer_1000"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1100"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_1200"
             tabindex="-1"
           />
           <g
+            class="recharts-zIndex-layer_2000"
             tabindex="-1"
           >
             <g

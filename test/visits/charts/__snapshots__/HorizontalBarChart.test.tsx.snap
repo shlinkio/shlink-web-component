@@ -38,6 +38,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
       <title />
       <desc />
       <g
+        class="recharts-zIndex-layer_-100"
         tabindex="-1"
       >
         <g
@@ -171,11 +172,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_-50"
         tabindex="-1"
       />
       <defs>
         <clippath
-          id="recharts3-clip"
+          id="recharts4-clip"
         >
           <rect
             height="360"
@@ -186,12 +188,15 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         </clippath>
       </defs>
       <g
+        class="recharts-zIndex-layer_100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_300"
         tabindex="-1"
       >
         <g
@@ -206,18 +211,28 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_400"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_500"
         tabindex="-1"
       >
         <g
@@ -412,18 +427,23 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_600"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1000"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_2000"
         tabindex="-1"
       >
         <g
@@ -634,6 +654,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
       <title />
       <desc />
       <g
+        class="recharts-zIndex-layer_-100"
         tabindex="-1"
       >
         <g
@@ -767,11 +788,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_-50"
         tabindex="-1"
       />
       <defs>
         <clippath
-          id="recharts11-clip"
+          id="recharts13-clip"
         >
           <rect
             height="360"
@@ -782,12 +804,15 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         </clippath>
       </defs>
       <g
+        class="recharts-zIndex-layer_100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_300"
         tabindex="-1"
       >
         <g
@@ -802,10 +827,18 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
@@ -821,18 +854,28 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_400"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_500"
         tabindex="-1"
       >
         <g
@@ -1027,18 +1070,23 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_600"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1000"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_2000"
         tabindex="-1"
       >
         <g
@@ -1249,6 +1297,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
       <title />
       <desc />
       <g
+        class="recharts-zIndex-layer_-100"
         tabindex="-1"
       >
         <g
@@ -1395,11 +1444,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_-50"
         tabindex="-1"
       />
       <defs>
         <clippath
-          id="recharts25-clip"
+          id="recharts28-clip"
         >
           <rect
             height="360"
@@ -1410,12 +1460,15 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         </clippath>
       </defs>
       <g
+        class="recharts-zIndex-layer_100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_300"
         tabindex="-1"
       >
         <g
@@ -1430,13 +1483,25 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
@@ -1452,21 +1517,28 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
-              <g
-                class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_400"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_500"
         tabindex="-1"
       >
         <g
@@ -1681,18 +1753,23 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_600"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1000"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_2000"
         tabindex="-1"
       >
         <g
@@ -1926,6 +2003,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
       <title />
       <desc />
       <g
+        class="recharts-zIndex-layer_-100"
         tabindex="-1"
       >
         <g
@@ -2072,11 +2150,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_-50"
         tabindex="-1"
       />
       <defs>
         <clippath
-          id="recharts43-clip"
+          id="recharts45-clip"
         >
           <rect
             height="360"
@@ -2087,12 +2166,15 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         </clippath>
       </defs>
       <g
+        class="recharts-zIndex-layer_100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_300"
         tabindex="-1"
       >
         <g
@@ -2107,13 +2189,18 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
-              <g
-                class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
@@ -2129,21 +2216,35 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_400"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_500"
         tabindex="-1"
       >
         <g
@@ -2358,18 +2459,23 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_600"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1000"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_2000"
         tabindex="-1"
       >
         <g
@@ -2603,6 +2709,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
       <title />
       <desc />
       <g
+        class="recharts-zIndex-layer_-100"
         tabindex="-1"
       >
         <g
@@ -2749,11 +2856,12 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_-50"
         tabindex="-1"
       />
       <defs>
         <clippath
-          id="recharts61-clip"
+          id="recharts62-clip"
         >
           <rect
             height="360"
@@ -2764,12 +2872,15 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </clippath>
       </defs>
       <g
+        class="recharts-zIndex-layer_100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_300"
         tabindex="-1"
       >
         <g
@@ -2784,13 +2895,18 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
-              <g
-                class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
@@ -2806,13 +2922,25 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
@@ -2828,21 +2956,35 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_400"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_500"
         tabindex="-1"
       >
         <g
@@ -3057,18 +3199,23 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_600"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1000"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_2000"
         tabindex="-1"
       >
         <g
@@ -3302,6 +3449,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
       <title />
       <desc />
       <g
+        class="recharts-zIndex-layer_-100"
         tabindex="-1"
       >
         <g
@@ -3448,6 +3596,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_-50"
         tabindex="-1"
       />
       <defs>
@@ -3463,12 +3612,15 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         </clippath>
       </defs>
       <g
+        class="recharts-zIndex-layer_100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_300"
         tabindex="-1"
       >
         <g
@@ -3483,13 +3635,25 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
@@ -3505,21 +3669,35 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
             >
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
               <g
                 class="recharts-layer recharts-bar-rectangle"
-              />
+              >
+                <g
+                  class="recharts-layer recharts-inactive-bar"
+                />
+              </g>
             </g>
           </g>
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_400"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_500"
         tabindex="-1"
       >
         <g
@@ -3734,18 +3912,23 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         </g>
       </g>
       <g
+        class="recharts-zIndex-layer_600"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1000"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1100"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_1200"
         tabindex="-1"
       />
       <g
+        class="recharts-zIndex-layer_2000"
         tabindex="-1"
       >
         <g

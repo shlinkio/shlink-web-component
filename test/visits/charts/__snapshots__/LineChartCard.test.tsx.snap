@@ -16,7 +16,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r1u»"
+          aria-controls="_r_1u_"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -40,7 +40,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r22»"
+            aria-controls="_r_22_"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -53,10 +53,10 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
-              viewBox="0 0 384 512"
+              viewBox="0 0 320 512"
             >
               <path
-                d="M352 160c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-9.2-9.2-11.9-22.9-6.9-34.9S19.1 160 32 160l320 0z"
+                d="M140.3 376.8c12.6 10.2 31.1 9.5 42.8-2.2l128-128c9.2-9.2 11.9-22.9 6.9-34.9S301.4 192 288.5 192l-256 0c-12.9 0-24.6 7.8-29.6 19.8S.7 237.5 9.9 246.6l128 128 2.4 2.2z"
                 fill="currentColor"
               />
             </svg>
@@ -66,7 +66,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r1u»"
+      id="_r_1u_"
     >
       <div
         class="recharts-wrapper select-none"
@@ -84,7 +84,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             aria-live="assertive"
             class="recharts-default-tooltip"
             role="status"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
@@ -296,7 +296,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r25»"
+          aria-controls="_r_25_"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -320,7 +320,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r29»"
+            aria-controls="_r_29_"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -333,10 +333,10 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
-              viewBox="0 0 384 512"
+              viewBox="0 0 320 512"
             >
               <path
-                d="M352 160c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-9.2-9.2-11.9-22.9-6.9-34.9S19.1 160 32 160l320 0z"
+                d="M140.3 376.8c12.6 10.2 31.1 9.5 42.8-2.2l128-128c9.2-9.2 11.9-22.9 6.9-34.9S301.4 192 288.5 192l-256 0c-12.9 0-24.6 7.8-29.6 19.8S.7 237.5 9.9 246.6l128 128 2.4 2.2z"
                 fill="currentColor"
               />
             </svg>
@@ -346,7 +346,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r25»"
+      id="_r_25_"
     >
       <div
         class="recharts-wrapper select-none"
@@ -364,7 +364,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             aria-live="assertive"
             class="recharts-default-tooltip"
             role="status"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
@@ -622,7 +622,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r2c»"
+          aria-controls="_r_2c_"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -646,7 +646,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r2g»"
+            aria-controls="_r_2g_"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -659,10 +659,10 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
-              viewBox="0 0 384 512"
+              viewBox="0 0 320 512"
             >
               <path
-                d="M352 160c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-9.2-9.2-11.9-22.9-6.9-34.9S19.1 160 32 160l320 0z"
+                d="M140.3 376.8c12.6 10.2 31.1 9.5 42.8-2.2l128-128c9.2-9.2 11.9-22.9 6.9-34.9S301.4 192 288.5 192l-256 0c-12.9 0-24.6 7.8-29.6 19.8S.7 237.5 9.9 246.6l128 128 2.4 2.2z"
                 fill="currentColor"
               />
             </svg>
@@ -672,7 +672,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r2c»"
+      id="_r_2c_"
     >
       <div
         class="recharts-wrapper select-none"
@@ -690,7 +690,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             aria-live="assertive"
             class="recharts-default-tooltip"
             role="status"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
@@ -821,7 +821,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                   d="M65,5L795,365"
                   fill="none"
                   height="360"
-                  id="recharts-line-«r2j»"
+                  id="recharts-line-_r_2j_"
                   stroke="#2078CF"
                   stroke-dasharray="0px 813.9410400390625px"
                   stroke-width="2"
@@ -1287,7 +1287,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r2k»"
+          aria-controls="_r_2k_"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -1311,7 +1311,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r2o»"
+            aria-controls="_r_2o_"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -1324,10 +1324,10 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
-              viewBox="0 0 384 512"
+              viewBox="0 0 320 512"
             >
               <path
-                d="M352 160c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-9.2-9.2-11.9-22.9-6.9-34.9S19.1 160 32 160l320 0z"
+                d="M140.3 376.8c12.6 10.2 31.1 9.5 42.8-2.2l128-128c9.2-9.2 11.9-22.9 6.9-34.9S301.4 192 288.5 192l-256 0c-12.9 0-24.6 7.8-29.6 19.8S.7 237.5 9.9 246.6l128 128 2.4 2.2z"
                 fill="currentColor"
               />
             </svg>
@@ -1337,7 +1337,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r2k»"
+      id="_r_2k_"
     >
       <div
         class="recharts-wrapper select-none"
@@ -1355,7 +1355,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             aria-live="assertive"
             class="recharts-default-tooltip"
             role="status"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
@@ -1486,7 +1486,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                   d="M65,5L795,365"
                   fill="none"
                   height="360"
-                  id="recharts-line-«r2r»"
+                  id="recharts-line-_r_2r_"
                   stroke="#2078CF"
                   stroke-dasharray="0px 813.9410400390625px"
                   stroke-width="2"
@@ -1505,7 +1505,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                   d="M65,5L795,365"
                   fill="none"
                   height="360"
-                  id="recharts-line-«r2s»"
+                  id="recharts-line-_r_2s_"
                   stroke="#f77f28"
                   stroke-dasharray="0px 813.9410400390625px"
                   stroke-width="2"
@@ -1524,7 +1524,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                   d="M65,5L795,365"
                   fill="none"
                   height="360"
-                  id="recharts-line-«r2t»"
+                  id="recharts-line-_r_2t_"
                   stroke="#1DAA58"
                   stroke-dasharray="0px, 813.9410400390625px"
                   stroke-width="2"
@@ -2058,7 +2058,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
         class="flex content-center gap-1"
       >
         <button
-          aria-controls="«r2u»"
+          aria-controls="_r_2u_"
           aria-expanded="false"
           aria-label="Expand"
           class="inline-flex rounded-md focus-ring text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm cursor-pointer"
@@ -2082,7 +2082,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
           class="relative inline-block"
         >
           <button
-            aria-controls="«r32»"
+            aria-controls="_r_32_"
             aria-expanded="false"
             aria-haspopup="true"
             class="flex items-center rounded-md focus-ring justify-between cursor-pointer text-lm-brand dark:text-dm-brand highlight:text-lm-brand-dark dark:highlight:text-dm-brand-dark highlight:underline px-1.5 py-1 text-sm gap-x-1.5 [&]:p-0"
@@ -2095,10 +2095,10 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               data-icon="caret-down"
               data-prefix="fas"
               role="img"
-              viewBox="0 0 384 512"
+              viewBox="0 0 320 512"
             >
               <path
-                d="M352 160c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-9.2-9.2-11.9-22.9-6.9-34.9S19.1 160 32 160l320 0z"
+                d="M140.3 376.8c12.6 10.2 31.1 9.5 42.8-2.2l128-128c9.2-9.2 11.9-22.9 6.9-34.9S301.4 192 288.5 192l-256 0c-12.9 0-24.6 7.8-29.6 19.8S.7 237.5 9.9 246.6l128 128 2.4 2.2z"
                 fill="currentColor"
               />
             </svg>
@@ -2108,7 +2108,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
     </div>
     <div
       class="p-4 bg-lm-primary dark:bg-dm-primary first:rounded-t-md first:rounded-t-md last:rounded-b-md"
-      id="«r2u»"
+      id="_r_2u_"
     >
       <div
         class="recharts-wrapper select-none"
@@ -2126,7 +2126,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             aria-live="assertive"
             class="recharts-default-tooltip"
             role="status"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
@@ -2322,7 +2322,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   d="M65,95C85.278,230,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,365,795,365"
                   fill="none"
                   height="360"
-                  id="recharts-line-«r35»"
+                  id="recharts-line-_r_35_"
                   stroke="red"
                   stroke-dasharray="0px 949.263916015625px"
                   stroke-width="2"
@@ -2341,7 +2341,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   d="M65,365C85.278,365,105.556,365,125.833,365C146.111,365,166.389,365,186.667,365C206.944,365,227.222,365,247.5,365C267.778,365,288.056,365,308.333,365C328.611,365,348.889,365,369.167,365C389.444,365,409.722,365,430,365C450.278,365,470.556,365,490.833,365C511.111,365,531.389,365,551.667,365C571.944,365,592.222,365,612.5,365C632.778,365,653.056,365,673.333,365C693.611,365,713.889,365,734.167,365C754.444,365,774.722,185,795,5"
                   fill="none"
                   height="360"
-                  id="recharts-line-«r36»"
+                  id="recharts-line-_r_36_"
                   stroke="yellow"
                   stroke-dasharray="0px 1037.2572021484375px"
                   stroke-width="2"

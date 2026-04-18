@@ -18,7 +18,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
         aria-live="assertive"
         class="recharts-default-tooltip"
         role="status"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -201,7 +201,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 1`] = `
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r1»"
+          id="recharts-bar-_r_1_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -634,7 +634,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         aria-live="assertive"
         class="recharts-default-tooltip"
         role="status"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -817,7 +817,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r2»"
+          id="recharts-bar-_r_2_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -844,7 +844,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 2`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r3»"
+          id="recharts-bar-_r_3_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -1277,7 +1277,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         aria-live="assertive"
         class="recharts-default-tooltip"
         role="status"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -1473,7 +1473,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r4»"
+          id="recharts-bar-_r_4_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -1507,7 +1507,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 3`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r5»"
+          id="recharts-bar-_r_5_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -1983,7 +1983,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         aria-live="assertive"
         class="recharts-default-tooltip"
         role="status"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -2179,7 +2179,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r6»"
+          id="recharts-bar-_r_6_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -2206,7 +2206,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 4`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r7»"
+          id="recharts-bar-_r_7_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -2689,7 +2689,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         aria-live="assertive"
         class="recharts-default-tooltip"
         role="status"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -2885,7 +2885,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r8»"
+          id="recharts-bar-_r_8_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -2912,7 +2912,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«r9»"
+          id="recharts-bar-_r_9_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -2946,7 +2946,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 5`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«ra»"
+          id="recharts-bar-_r_a_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -3429,7 +3429,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         aria-live="assertive"
         class="recharts-default-tooltip"
         role="status"
-        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+        style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
       >
         <p
           class="recharts-tooltip-label"
@@ -3625,7 +3625,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
       >
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«rb»"
+          id="recharts-bar-_r_b_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"
@@ -3659,7 +3659,7 @@ exports[`<HorizontalBarChart /> > renders expected charts and tooltip 6`] = `
         </g>
         <g
           class="recharts-layer recharts-bar"
-          id="recharts-bar-«rc»"
+          id="recharts-bar-_r_c_"
         >
           <g
             class="recharts-layer recharts-bar-rectangles"

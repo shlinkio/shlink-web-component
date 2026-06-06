@@ -108,8 +108,8 @@
     "tailwindcss": "^4.1.5",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.58.0",
-    "vite": "^8.0.14",
-    "vite-plugin-dts": "^5.0.1",
+    "vite": "^8.0.16",
+    "vite-plugin-dts": "^5.0.2",
     "vitest": "^4.0.3"
   },
   "browserslist": [

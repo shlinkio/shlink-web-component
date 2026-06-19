@@ -11,6 +11,7 @@ const supportedFeatures = {
   filterShortUrlsByExcludedTags: { minVersion: '4.6.0' },
   filterVisitsByDomain: { minVersion: '4.6.0' },
   dateRedirectConditions: { minVersion: '5.0.0' },
+  browserRedirectConditions: { minVersion: '5.1.0' },
 } as const satisfies Record<string, Versions>;
 
 Object.freeze(supportedFeatures);
@@ -31,6 +32,7 @@ const getFeaturesForVersion = (serverVersion: SemVerOrLatest): Record<Feature, b
   filterShortUrlsByExcludedTags: isFeatureEnabledForVersion('filterShortUrlsByExcludedTags', serverVersion),
   filterVisitsByDomain: isFeatureEnabledForVersion('filterVisitsByDomain', serverVersion),
   dateRedirectConditions: isFeatureEnabledForVersion('dateRedirectConditions', serverVersion),
+  browserRedirectConditions: isFeatureEnabledForVersion('browserRedirectConditions', serverVersion),
 });
 
 const FeaturesContext = createContext(getFeaturesForVersion('0.0.0'));

@@ -78,6 +78,7 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
                 {condition.type === 'geolocation-city-name' && <>City name is {condition.matchValue}</>}
                 {condition.type === 'before-date' && <>Date is before {formatHumanFriendly(condition.matchValue)}</>}
                 {condition.type === 'after-date' && <>Date is after {formatHumanFriendly(condition.matchValue)}</>}
+                {condition.type === 'browser' && <>Browser is {condition.matchValue}</>}
               </div>
             ))}
           </div>

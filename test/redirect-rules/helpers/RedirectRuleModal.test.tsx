@@ -20,6 +20,7 @@ type SetUpOptions = {
   advancedQueryRedirectConditions?: boolean;
   desktopDeviceTypes?: boolean;
   dateRedirectConditions?: boolean;
+  browserRedirectConditions?: boolean;
 };
 
 describe('<RedirectRuleModal />', () => {
@@ -31,6 +32,7 @@ describe('<RedirectRuleModal />', () => {
     advancedQueryRedirectConditions = true,
     desktopDeviceTypes = true,
     dateRedirectConditions = true,
+    browserRedirectConditions = true,
   }: SetUpOptions) => renderWithEvents(
     <TestModalWrapper
       renderModal={(args) => (
@@ -41,6 +43,7 @@ describe('<RedirectRuleModal />', () => {
             advancedQueryRedirectConditions,
             desktopDeviceTypes,
             dateRedirectConditions,
+            browserRedirectConditions,
           })}
         >
           <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
@@ -165,6 +168,10 @@ describe('<RedirectRuleModal />', () => {
     await addConditionWithType(user, 'after-date');
     await user.type(screen.getByLabelText('After:'), '2035-01-01 10:00');
 
+    // Add a new condition of type browser
+    await addConditionWithType(user, 'browser');
+    await user.selectOptions(screen.getByLabelText('Browser:'), ['firefox']);
+
     await user.click(screen.getByRole('button', { name: 'Confirm' }));
 
     expect(onSave).toHaveBeenCalledWith({
@@ -180,6 +187,7 @@ describe('<RedirectRuleModal />', () => {
         { type: 'geolocation-city-name', matchValue: 'Los Angeles', matchKey: null },
         { type: 'before-date', matchValue: '2025-01-01T10:00:00Z', matchKey: null },
         { type: 'after-date', matchValue: '2035-01-01T10:00:00Z', matchKey: null },
+        { type: 'browser', matchValue: 'firefox', matchKey: null },
       ],
     });
 
@@ -193,6 +201,7 @@ describe('<RedirectRuleModal />', () => {
       geolocationRedirectCondition: false,
       advancedQueryRedirectConditions: false,
       dateRedirectConditions: false,
+      browserRedirectConditions: false,
       expectedOptions: ['Device', 'Language', 'Query param'] as const,
     },
     {
@@ -200,6 +209,7 @@ describe('<RedirectRuleModal />', () => {
       geolocationRedirectCondition: false,
       advancedQueryRedirectConditions: false,
       dateRedirectConditions: false,
+      browserRedirectConditions: false,
       expectedOptions: ['Device', 'Language', 'Query param', 'IP address'] as const,
     },
     {
@@ -207,6 +217,7 @@ describe('<RedirectRuleModal />', () => {
       geolocationRedirectCondition: true,
       advancedQueryRedirectConditions: false,
       dateRedirectConditions: false,
+      browserRedirectConditions: false,
       expectedOptions: [
         'Device',
         'Language',
@@ -221,6 +232,7 @@ describe('<RedirectRuleModal />', () => {
       geolocationRedirectCondition: true,
       advancedQueryRedirectConditions: true,
       dateRedirectConditions: false,
+      browserRedirectConditions: false,
       expectedOptions: [
         'Device',
         'Language',
@@ -236,7 +248,26 @@ describe('<RedirectRuleModal />', () => {
       ipRedirectCondition: true,
       geolocationRedirectCondition: true,
       advancedQueryRedirectConditions: true,
+      dateRedirectConditions: false,
+      browserRedirectConditions: true,
+      expectedOptions: [
+        'Device',
+        'Language',
+        'Query param',
+        'Any value query param',
+        'Valueless query param',
+        'IP address',
+        'Country (geolocation)',
+        'City name (geolocation)',
+        'Browser',
+      ] as const,
+    },
+    {
+      ipRedirectCondition: true,
+      geolocationRedirectCondition: true,
+      advancedQueryRedirectConditions: true,
       dateRedirectConditions: true,
+      browserRedirectConditions: false,
       expectedOptions: [
         'Device',
         'Language',

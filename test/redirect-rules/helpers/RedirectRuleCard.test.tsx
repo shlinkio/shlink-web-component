@@ -18,6 +18,7 @@ describe('<RedirectRuleCard />', () => {
     { type: 'geolocation-city-name', matchValue: 'Paris', matchKey: null },
     { type: 'before-date', matchValue: '2025-01-01T00:00:00+00:00', matchKey: null },
     { type: 'after-date', matchValue: '2035-01-01T00:00:00+00:00', matchKey: null },
+    { type: 'browser', matchValue: 'chrome', matchKey: null },
   ];
   const setUp = (props: Partial<RedirectRuleCardProps> = {}) => renderWithEvents(
     <RedirectRuleCard
@@ -69,6 +70,7 @@ describe('<RedirectRuleCard />', () => {
     expect(screen.getByText('City name is Paris')).toBeInTheDocument();
     expect(screen.getByText('Date is before 2025-01-01 00:00')).toBeInTheDocument();
     expect(screen.getByText('Date is after 2035-01-01 00:00')).toBeInTheDocument();
+    expect(screen.getByText('Browser is chrome')).toBeInTheDocument();
   });
 
   it('can delete the rule', async () => {

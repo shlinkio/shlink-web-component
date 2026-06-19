@@ -84,7 +84,7 @@ exports[`<LineChartCard /> > renders chart with expected data 1`] = `
             aria-live="assertive"
             class="recharts-default-tooltip"
             role="status"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
@@ -364,7 +364,7 @@ exports[`<LineChartCard /> > renders chart with expected data 2`] = `
             aria-live="assertive"
             class="recharts-default-tooltip"
             role="status"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
@@ -690,7 +690,7 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
             aria-live="assertive"
             class="recharts-default-tooltip"
             role="status"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
@@ -1355,7 +1355,7 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
             aria-live="assertive"
             class="recharts-default-tooltip"
             role="status"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"
@@ -2126,7 +2126,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
             aria-live="assertive"
             class="recharts-default-tooltip"
             role="status"
-            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: none; white-space: nowrap; color: white; border-radius: 5px;"
+            style="margin: 0px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: nowrap; color: white; border-radius: 5px;"
           >
             <p
               class="recharts-tooltip-label"

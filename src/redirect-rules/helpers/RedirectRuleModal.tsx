@@ -2,6 +2,7 @@ import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, CardModal, LabelledInput, LabelledSelect } from '@shlinkio/shlink-frontend-kit';
 import type {
+  ShlinkBrowser,
   ShlinkDeviceType,
   ShlinkRedirectCondition,
   ShlinkRedirectConditionType,
@@ -48,6 +49,32 @@ const DeviceTypeControls: FC<{
     >
       {!deviceType && <option value="">- Select type -</option>}
       {Object.entries(deviceNames).map(([key, value]) => <option key={key} value={key}>{value}</option>)}
+    </LabelledSelect>
+  );
+};
+
+const BrowserControls: FC<{
+  browser: string | null;
+  onBrowserChange: (browser: ShlinkBrowser) => void;
+}> = ({ browser, onBrowserChange }) => {
+  const browserNames: Record<ShlinkBrowser, string> = {
+    chrome: 'Google Chrome',
+    firefox: 'Mozilla Firefox',
+    edge: 'Microsoft Edge',
+    safari: 'Safari',
+    opera: 'Opera',
+    android_browser: 'Android browser',
+  };
+
+  return (
+    <LabelledSelect
+      label="Device type:"
+      value={browser ?? undefined}
+      onChange={(e) => onBrowserChange((e.target as HTMLSelectElement).value as ShlinkBrowser)}
+      hiddenRequired
+    >
+      {!browser && <option value="">- Select browser -</option>}
+      {Object.entries(browserNames).map(([key, value]) => <option key={key} value={key}>{value}</option>)}
     </LabelledSelect>
   );
 };
@@ -159,6 +186,7 @@ const Condition: FC<{
   const supportsGeolocationRedirectCondition = useFeature('geolocationRedirectCondition');
   const supportsAdvancedQueryConditions = useFeature('advancedQueryRedirectConditions');
   const supportsDateConditions = useFeature('dateRedirectConditions');
+  const supportsBrowserConditions = useFeature('browserRedirectConditions');
   const conditionNames = useMemo((): Partial<Record<ShlinkRedirectConditionType, string>> => {
     const conditionNames: Partial<Record<ShlinkRedirectConditionType, string>> = {
       device: 'Device type',
@@ -185,9 +213,14 @@ const Condition: FC<{
       conditionNames['after-date'] = 'After date';
     }
 
+    if (supportsBrowserConditions) {
+      conditionNames['browser'] = 'Browser';
+    }
+
     return conditionNames;
   }, [
     supportsAdvancedQueryConditions,
+    supportsBrowserConditions,
     supportsDateConditions,
     supportsGeolocationRedirectCondition,
     supportsIpRedirectCondition,
@@ -269,6 +302,9 @@ const Condition: FC<{
             onChange={(newDate) => newDate && setConditionValue(formatISO(newDate))}
           />
         </div>
+      )}
+      {condition.type === 'browser' && (
+        <BrowserControls browser={condition.matchValue} onBrowserChange={setConditionValue} />
       )}
     </div>
   );

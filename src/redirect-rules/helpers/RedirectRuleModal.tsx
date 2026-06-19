@@ -68,7 +68,7 @@ const BrowserControls: FC<{
 
   return (
     <LabelledSelect
-      label="Device type:"
+      label="Browser:"
       value={browser ?? undefined}
       onChange={(e) => onBrowserChange((e.target as HTMLSelectElement).value as ShlinkBrowser)}
       hiddenRequired

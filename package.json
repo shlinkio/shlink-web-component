@@ -17,11 +17,11 @@
     },
     "./api-contract": {
       "import": "./dist/api-contract.js",
-      "types": "./dist/api-contract.d.ts"
+      "types": "./dist/api-contract/index.d.ts"
     },
     "./settings": {
       "import": "./dist/settings.js",
-      "types": "./dist/settings.d.ts"
+      "types": "./dist/settings/index.d.ts"
     },
     "./tailwind.preset.css": {
       "style": "./dist/tailwind.preset.css",

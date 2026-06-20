@@ -8,7 +8,14 @@ import pack from './package.json';
 
 // eslint-disable-next-line no-restricted-exports
 export default defineConfig({
-  plugins: [react(), tailwindcss(), dts({ rollupTypes: true })],
+  plugins: [
+    react(),
+    tailwindcss(),
+    dts({
+      compilerOptions: { rootDir: 'src' },
+      exclude: ['test', 'dev'],
+    }),
+  ],
 
   build: {
     lib: {
@@ -20,13 +27,9 @@ export default defineConfig({
       name: 'shlink-web-component',
       formats: ['es'], // Generate ES module only
     },
-    rollupOptions: {
+    rolldownOptions: {
       // Make sure dependencies and peer dependencies are not bundled with the library
       external: [...Object.keys(pack.dependencies), ...Object.keys(pack.peerDependencies), 'react/jsx-runtime'],
-      output: {
-        // This ensures generated CSS file is called index.css, not style.css
-        assetFileNames: 'index.[ext]',
-      },
     },
   },
 

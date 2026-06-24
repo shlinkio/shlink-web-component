@@ -113,14 +113,5 @@ export default defineConfig({
         lines: 93,
       },
     },
-
-    // Workaround for bug in react-router (or vitest module resolution) which causes different react-router versions to
-    // be resolved for the main package and dependencies which have a peer dependency in react-router.
-    // This ensures always the same version is resolved.
-    // See https://github.com/remix-run/react-router/issues/12785 for details
-    // The bug can be reproduced in ^20.19 and in >=22.11
-    alias: {
-      'react-router': resolve(__dirname, 'node_modules/react-router/dist/development/index.mjs'),
-    },
   },
 });

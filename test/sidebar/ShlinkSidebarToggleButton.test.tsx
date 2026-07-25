@@ -8,17 +8,18 @@ describe('<ShlinkSidebarToggleButton />', () => {
   let currentVisibility: boolean = false;
 
   function VisibilityChecker() {
-    // eslint-disable-next-line react-compiler/react-compiler
+    // oxlint-disable-next-line react/react-compiler
     currentVisibility = useSidebarVisibility()!.sidebarVisible;
     return null;
   }
 
-  const setUp = () => renderWithEvents(
-    <ShlinkSidebarVisibilityProvider>
-      <ShlinkSidebarToggleButton />
-      <VisibilityChecker />
-    </ShlinkSidebarVisibilityProvider>,
-  );
+  const setUp = () =>
+    renderWithEvents(
+      <ShlinkSidebarVisibilityProvider>
+        <ShlinkSidebarToggleButton />
+        <VisibilityChecker />
+      </ShlinkSidebarVisibilityProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

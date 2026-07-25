@@ -2,9 +2,10 @@ import type { Size } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import type { FC, HTMLProps, PropsWithChildren } from 'react';
 
-export type MutedProps = PropsWithChildren & Omit<HTMLProps<HTMLSpanElement>, 'size'> & {
-  size?: Size;
-};
+export type MutedProps = PropsWithChildren &
+  Omit<HTMLProps<HTMLSpanElement>, 'size'> & {
+    size?: Size;
+  };
 
 export const Muted: FC<MutedProps> = ({ className, size, ...rest }) => (
   <span

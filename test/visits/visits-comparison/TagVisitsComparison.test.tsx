@@ -8,10 +8,12 @@ import { renderWithStore } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock, getColorForKey } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<TagVisitsComparison />', () => {
-  const getTagVisits = vi.fn().mockResolvedValue(fromPartial<ShlinkVisitsList>({
-    data: [],
-    pagination: { currentPage: 1, pagesCount: 1, totalItems: 0 },
-  }));
+  const getTagVisits = vi.fn().mockResolvedValue(
+    fromPartial<ShlinkVisitsList>({
+      data: [],
+      pagination: { currentPage: 1, pagesCount: 1, totalItems: 0 },
+    }),
+  );
   const setUp = async (tags = ['foo', 'bar', 'baz']) => {
     const renderResult = renderWithStore(
       <MemoryRouter initialEntries={[{ search: `?tags=${tags.join(',')}` }]}>
@@ -29,11 +31,7 @@ describe('<TagVisitsComparison />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it.each([
-    [['foo']],
-    [['foo', 'bar']],
-    [['baz', 'something', 'whatever']],
-  ])('loads tags on mount', async (tags) => {
+  it.each([[['foo']], [['foo', 'bar']], [['baz', 'something', 'whatever']]])('loads tags on mount', async (tags) => {
     await setUp(tags);
     expect(getTagVisits).toHaveBeenCalledTimes(tags.length);
   });
@@ -47,11 +45,7 @@ describe('<TagVisitsComparison />', () => {
     expect(isCanceled()).toBe(true);
   });
 
-  it.each([
-    [['foo']],
-    [['foo', 'bar']],
-    [['baz', 'something', 'whatever']],
-  ])('renders tags in title', async (tags) => {
+  it.each([[['foo']], [['foo', 'bar']], [['baz', 'something', 'whatever']]])('renders tags in title', async (tags) => {
     await setUp(tags);
     tags.forEach((tag) => expect(screen.getByText(tag)).toBeInTheDocument());
   });

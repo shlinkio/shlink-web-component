@@ -19,23 +19,24 @@ type SetUpOptions = {
 
 describe('<TagsTableRow />', () => {
   const tag = 'foo&bar';
-  const setUp = ({ visits = 0, shortUrls = 0, visitsComparison }: SetUpOptions = {}) => renderWithStore(
-    <MemoryRouter>
-      <ContainerProvider value={fromPartial({ ColorGenerator: colorGeneratorMock, apiClientFactory: vi.fn() })}>
-        <RoutesPrefixProvider value="/server/abc123">
-          <VisitsComparisonProvider
-            value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
-          >
-            <table>
-              <tbody>
-                <TagsTableRow tag={{ tag, visits, shortUrls }} ColorGenerator={colorGeneratorMock} />
-              </tbody>
-            </table>
-          </VisitsComparisonProvider>
-        </RoutesPrefixProvider>
-      </ContainerProvider>
-    </MemoryRouter>,
-  );
+  const setUp = ({ visits = 0, shortUrls = 0, visitsComparison }: SetUpOptions = {}) =>
+    renderWithStore(
+      <MemoryRouter>
+        <ContainerProvider value={fromPartial({ ColorGenerator: colorGeneratorMock, apiClientFactory: vi.fn() })}>
+          <RoutesPrefixProvider value="/server/abc123">
+            <VisitsComparisonProvider
+              value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
+            >
+              <table>
+                <tbody>
+                  <TagsTableRow tag={{ tag, visits, shortUrls }} ColorGenerator={colorGeneratorMock} />
+                </tbody>
+              </table>
+            </VisitsComparisonProvider>
+          </RoutesPrefixProvider>
+        </ContainerProvider>
+      </MemoryRouter>,
+    );
 
   const clickMenuItem = async (user: UserEvent, name: string) => {
     await user.click(screen.getByRole('button'));
@@ -53,10 +54,7 @@ describe('<TagsTableRow />', () => {
     const [shortUrlsLink, visitsLink] = screen.getAllByRole('link');
 
     expect(shortUrlsLink).toHaveTextContent(expectedShortUrls);
-    expect(shortUrlsLink).toHaveAttribute(
-      'href',
-      `/server/abc123/list-short-urls/1?tags=${encodeURIComponent(tag)}`,
-    );
+    expect(shortUrlsLink).toHaveAttribute('href', `/server/abc123/list-short-urls/1?tags=${encodeURIComponent(tag)}`);
     expect(visitsLink).toHaveTextContent(expectedVisits);
     expect(visitsLink).toHaveAttribute('href', `/server/abc123/tag/${tag}/visits`);
   });
@@ -93,10 +91,7 @@ describe('<TagsTableRow />', () => {
     expect(screen.getByRole('heading', { name: 'Delete tag' })).toBeInTheDocument();
   });
 
-  it.each([
-    [undefined],
-    [{ itemsToCompare: [{ name: tag, query: '' }], canAddItemWithName: () => false }],
-  ])(
+  it.each([[undefined], [{ itemsToCompare: [{ name: tag, query: '' }], canAddItemWithName: () => false }]])(
     'has disabled visits comparison menu item when context is not provided or tag is already selected',
     async (visitsComparison) => {
       const { user } = setUp({ visitsComparison });
@@ -113,9 +108,11 @@ describe('<TagsTableRow />', () => {
 
     await clickMenuItem(user, 'Compare visits');
 
-    expect(addItemToCompare).toHaveBeenCalledWith(expect.objectContaining({
-      name: tag,
-      query: tag,
-    }));
+    expect(addItemToCompare).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: tag,
+        query: tag,
+      }),
+    );
   });
 });

@@ -11,7 +11,7 @@ import type {
 import { clsx } from 'clsx';
 import { formatISO, toDate } from 'date-fns';
 import type { FC } from 'react';
-import { useCallback, useEffect , useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { countryCodes } from '../../utils/country-codes';
 import { LabelledDateInput } from '../../utils/dates/LabelledDateInput';
 import { useFeature } from '../../utils/features';
@@ -48,7 +48,11 @@ const DeviceTypeControls: FC<{
       hiddenRequired
     >
       {!deviceType && <option value="">- Select type -</option>}
-      {Object.entries(deviceNames).map(([key, value]) => <option key={key} value={key}>{value}</option>)}
+      {Object.entries(deviceNames).map(([key, value]) => (
+        <option key={key} value={key}>
+          {value}
+        </option>
+      ))}
     </LabelledSelect>
   );
 };
@@ -74,7 +78,11 @@ const BrowserControls: FC<{
       hiddenRequired
     >
       {!browser && <option value="">- Select browser -</option>}
-      {Object.entries(browserNames).map(([key, value]) => <option key={key} value={key}>{value}</option>)}
+      {Object.entries(browserNames).map(([key, value]) => (
+        <option key={key} value={key}>
+          {value}
+        </option>
+      ))}
     </LabelledSelect>
   );
 };
@@ -84,12 +92,7 @@ const PlainValueControls: FC<{
   onValueChange: (newValue: string) => void;
   label: string;
   placeholder: string;
-}> = ({
-  value,
-  onValueChange,
-  label,
-  placeholder,
-}) => (
+}> = ({ value, onValueChange, label, placeholder }) => (
   <LabelledInput
     label={`${label}:`}
     value={value ?? ''}
@@ -99,7 +102,7 @@ const PlainValueControls: FC<{
   />
 );
 
-const LanguageControls: FC<{ language: string | null; onLanguageChange: (lang: string) => void; }> = ({
+const LanguageControls: FC<{ language: string | null; onLanguageChange: (lang: string) => void }> = ({
   language,
   onLanguageChange,
 }) => (
@@ -111,12 +114,7 @@ const QueryParamControls: FC<{
   value?: string | null;
   onValueChange: (value: string) => void;
   onNameChange: (value: string) => void;
-}> = ({
-  name,
-  value,
-  onNameChange,
-  onValueChange,
-}) => (
+}> = ({ name, value, onNameChange, onValueChange }) => (
   <>
     <LabelledInput
       label="Param name:"
@@ -137,10 +135,16 @@ const QueryParamControls: FC<{
   </>
 );
 
-const IpAddressControls: FC<{ ipAddress: string | null; onIpAddressChange: (ipAddress: string) => void; }> = (
-  { ipAddress, onIpAddressChange },
-) => (
-  <PlainValueControls value={ipAddress} onValueChange={onIpAddressChange} label="IP address" placeholder="192.168.1.10" />
+const IpAddressControls: FC<{ ipAddress: string | null; onIpAddressChange: (ipAddress: string) => void }> = ({
+  ipAddress,
+  onIpAddressChange,
+}) => (
+  <PlainValueControls
+    value={ipAddress}
+    onValueChange={onIpAddressChange}
+    label="IP address"
+    placeholder="192.168.1.10"
+  />
 );
 
 const CountryCodeControls: FC<{ countryCode: string | null; onCountryCodeChange: (countryCode: string) => void }> = ({
@@ -154,26 +158,33 @@ const CountryCodeControls: FC<{ countryCode: string | null; onCountryCodeChange:
     hiddenRequired
   >
     {!countryCode && <option value="">- Select country -</option>}
-    {Object.entries(countryCodes).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
+    {Object.entries(countryCodes).map(([code, name]) => (
+      <option key={code} value={code}>
+        {name}
+      </option>
+    ))}
   </LabelledSelect>
 );
 
-const CityNameControls: FC<{ cityName: string | null; onCityNameChange: (cityName: string) => void; }> = (
-  { cityName, onCityNameChange },
-) => (
-  <PlainValueControls value={cityName} onValueChange={onCityNameChange} label="City name" placeholder="New York" />
-);
+const CityNameControls: FC<{ cityName: string | null; onCityNameChange: (cityName: string) => void }> = ({
+  cityName,
+  onCityNameChange,
+}) => <PlainValueControls value={cityName} onValueChange={onCityNameChange} label="City name" placeholder="New York" />;
 
 const Condition: FC<{
   condition: ShlinkRedirectCondition;
   onConditionChange: (condition: ShlinkRedirectCondition) => void;
   onDelete: () => void;
 }> = ({ condition, onConditionChange, onDelete }) => {
-  const switchToType = useCallback((newType: ShlinkRedirectConditionType) => onConditionChange({
-    type: newType,
-    matchValue: null,
-    matchKey: null,
-  }), [onConditionChange]);
+  const switchToType = useCallback(
+    (newType: ShlinkRedirectConditionType) =>
+      onConditionChange({
+        type: newType,
+        matchValue: null,
+        matchKey: null,
+      }),
+    [onConditionChange],
+  );
   const setConditionValue = useCallback(
     (newValue: string) => onConditionChange({ ...condition, matchValue: newValue }),
     [condition, onConditionChange],
@@ -227,20 +238,19 @@ const Condition: FC<{
   ]);
 
   return (
-    <div className={clsx(
-      'flex flex-col gap-2',
-      'border border-lm-border dark:border-dm-border',
-      'rounded-md relative p-4 h-full',
-    )}>
+    <div
+      className={clsx(
+        'flex flex-col gap-2',
+        'border border-lm-border dark:border-dm-border',
+        'rounded-md relative p-4 h-full',
+      )}
+    >
       <div>
         <Button
           variant="secondary"
           aria-label="Remove condition"
           onClick={onDelete}
-          className={clsx(
-            'absolute -top-3.5 -right-3.5 [&]:px-2',
-            '[&]:rounded-full bg-lm-primary dark:bg-dm-primary',
-          )}
+          className={clsx('absolute -top-3.5 -right-3.5 [&]:px-2', '[&]:rounded-full bg-lm-primary dark:bg-dm-primary')}
         >
           <FontAwesomeIcon icon={faXmark} widthAuto />
         </Button>
@@ -251,7 +261,9 @@ const Condition: FC<{
           hiddenRequired
         >
           {Object.entries(conditionNames).map(([condition, name]) => (
-            <option key={condition} value={condition}>{name}</option>
+            <option key={condition} value={condition}>
+              {name}
+            </option>
           ))}
         </LabelledSelect>
       </div>
@@ -326,26 +338,32 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, onClose,
     onClose();
   }, [onSave, redirectRule, onClose]);
 
-  const addDraftCondition = useCallback(() => setRedirectRule(
-    ({ longUrl, conditions }) => ({
-      longUrl,
-      conditions: [...conditions, { type: 'device', matchValue: null, matchKey: null }],
-    }),
-  ), []);
-  const updateCondition = useCallback((index: number, newCondition: ShlinkRedirectCondition) => setRedirectRule(
-    ({ longUrl, conditions: prevConditions }) => {
-      const conditions = [...prevConditions];
-      conditions[index] = newCondition;
-      return { longUrl, conditions };
-    },
-  ), []);
-  const removeCondition = useCallback((index: number) => setRedirectRule(
-    ({ longUrl, conditions: oldConditions }) => {
-      const conditions = [...oldConditions];
-      conditions.splice(index, 1);
-      return { longUrl, conditions };
-    },
-  ), []);
+  const addDraftCondition = useCallback(
+    () =>
+      setRedirectRule(({ longUrl, conditions }) => ({
+        longUrl,
+        conditions: [...conditions, { type: 'device', matchValue: null, matchKey: null }],
+      })),
+    [],
+  );
+  const updateCondition = useCallback(
+    (index: number, newCondition: ShlinkRedirectCondition) =>
+      setRedirectRule(({ longUrl, conditions: prevConditions }) => {
+        const conditions = [...prevConditions];
+        conditions[index] = newCondition;
+        return { longUrl, conditions };
+      }),
+    [],
+  );
+  const removeCondition = useCallback(
+    (index: number) =>
+      setRedirectRule(({ longUrl, conditions: oldConditions }) => {
+        const conditions = [...oldConditions];
+        conditions.splice(index, 1);
+        return { longUrl, conditions };
+      }),
+    [],
+  );
 
   const longUrlRef = useRef<HTMLInputElement>(null);
   const reset = useCallback(() => setRedirectRule(initialData ?? { longUrl: '', conditions: [] }), [initialData]);
@@ -392,7 +410,11 @@ export const RedirectRuleModal: FC<RedirectRuleModalProps> = ({ isOpen, onClose,
           <FontAwesomeIcon icon={faPlus} />
         </Button>
       </div>
-      {redirectRule.conditions.length === 0 && <div className="text-center"><i>Add conditions...</i></div>}
+      {redirectRule.conditions.length === 0 && (
+        <div className="text-center">
+          <i>Add conditions...</i>
+        </div>
+      )}
       {redirectRule.conditions.length > 0 && (
         <div className="pr-3 mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {redirectRule.conditions.map((condition, index) => (

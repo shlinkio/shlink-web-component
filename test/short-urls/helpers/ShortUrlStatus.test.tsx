@@ -7,10 +7,15 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 describe('<ShortUrlStatus />', () => {
   const setUp = (shortUrl: ShlinkShortUrl) => render(<ShortUrlStatus shortUrl={shortUrl} />);
 
-  it('passes a11y checks', () => checkAccessibility(setUp(fromPartial({
-    meta: { maxVisits: 10 },
-    visitsSummary: {},
-  }))));
+  it('passes a11y checks', () =>
+    checkAccessibility(
+      setUp(
+        fromPartial({
+          meta: { maxVisits: 10 },
+          visitsSummary: {},
+        }),
+      ),
+    ));
 
   it.each([
     [
@@ -34,8 +39,16 @@ describe('<ShortUrlStatus />', () => {
       'This short URL cannot be currently visited because it has reached the maximum amount of 1 visit',
     ],
     [{}, {}, 'This short URL can be visited normally'],
-    [fromPartial<ShlinkShortUrlMeta>({ validUntil: '2099-01-01T10:30:15' }), {}, 'This short URL can be visited normally'],
-    [fromPartial<ShlinkShortUrlMeta>({ validSince: '2020-01-01T10:30:15' }), {}, 'This short URL can be visited normally'],
+    [
+      fromPartial<ShlinkShortUrlMeta>({ validUntil: '2099-01-01T10:30:15' }),
+      {},
+      'This short URL can be visited normally',
+    ],
+    [
+      fromPartial<ShlinkShortUrlMeta>({ validSince: '2020-01-01T10:30:15' }),
+      {},
+      'This short URL can be visited normally',
+    ],
     [
       fromPartial<ShlinkShortUrlMeta>({ maxVisits: 10 }),
       fromPartial<ShlinkVisitsSummary>({ total: 1 }),

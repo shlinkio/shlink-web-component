@@ -8,11 +8,12 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<VisitsSettings />', () => {
   const setVisitsSettings = vi.fn();
-  const setUp = (settings: Partial<Settings> = {}) => renderWithEvents(
-    <SettingsProvider value={fromPartial(settings)}>
-      <VisitsSettings onChange={setVisitsSettings} />
-    </SettingsProvider>,
-  );
+  const setUp = (settings: Partial<Settings> = {}) =>
+    renderWithEvents(
+      <SettingsProvider value={fromPartial(settings)}>
+        <VisitsSettings onChange={setVisitsSettings} />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

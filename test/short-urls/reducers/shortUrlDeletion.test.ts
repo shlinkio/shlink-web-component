@@ -22,10 +22,15 @@ describe('shortUrlDeletionReducer', () => {
     });
 
     it('returns shortCode on SHORT_URL_DELETED', () =>
-      expect(reducer(undefined, deleteShortUrl.fulfilled({ shortCode: 'foo' }, '', {
-        shortCode: 'foo',
-        apiClientFactory,
-      }))).toEqual({ shortCode: 'foo', status: 'deleted' }));
+      expect(
+        reducer(
+          undefined,
+          deleteShortUrl.fulfilled({ shortCode: 'foo' }, '', {
+            shortCode: 'foo',
+            apiClientFactory,
+          }),
+        ),
+      ).toEqual({ shortCode: 'foo', status: 'deleted' }));
 
     it('returns errorData on DELETE_SHORT_URL_ERROR', () => {
       const error = problemDetailsError;
@@ -41,20 +46,23 @@ describe('shortUrlDeletionReducer', () => {
     const dispatch = vi.fn();
     const getState = vi.fn().mockReturnValue({ selectedServer: {} });
 
-    it.each(
-      [[undefined], [null], ['example.com']],
-    )('dispatches proper actions if API client request succeeds', async (domain) => {
-      const shortCode = 'abc123';
+    it.each([[undefined], [null], ['example.com']])(
+      'dispatches proper actions if API client request succeeds',
+      async (domain) => {
+        const shortCode = 'abc123';
 
-      await deleteShortUrl({ shortCode, domain, apiClientFactory })(dispatch, getState, {});
+        await deleteShortUrl({ shortCode, domain, apiClientFactory })(dispatch, getState, {});
 
-      expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { shortCode, domain },
-      }));
+        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(dispatch).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            payload: { shortCode, domain },
+          }),
+        );
 
-      expect(deleteShortUrlCall).toHaveBeenCalledOnce();
-      expect(deleteShortUrlCall).toHaveBeenCalledWith({ shortCode, domain });
-    });
+        expect(deleteShortUrlCall).toHaveBeenCalledOnce();
+        expect(deleteShortUrlCall).toHaveBeenCalledWith({ shortCode, domain });
+      },
+    );
   });
 });

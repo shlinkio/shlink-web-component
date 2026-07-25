@@ -15,9 +15,12 @@ type VisitsReducerOptions<T extends LoadVisitsForComparison> = {
   ) => CreateVisit[];
 };
 
-export const createVisitsComparisonReducer = <T extends LoadVisitsForComparison>(
-  { name, asyncThunk, initialState, filterCreatedVisitsForGroup }: VisitsReducerOptions<T>,
-) => {
+export const createVisitsComparisonReducer = <T extends LoadVisitsForComparison>({
+  name,
+  asyncThunk,
+  initialState,
+  filterCreatedVisitsForGroup,
+}: VisitsReducerOptions<T>) => {
   const { pending, rejected, fulfilled, progressChanged } = asyncThunk;
   const { reducer, actions } = createSlice({
     name,
@@ -27,10 +30,10 @@ export const createVisitsComparisonReducer = <T extends LoadVisitsForComparison>
     },
     extraReducers: (builder) => {
       builder.addCase(pending, () => ({ status: 'loading', progress: null }));
-      builder.addCase(progressChanged, (state, { payload: progress }) => (
+      builder.addCase(progressChanged, (state, { payload: progress }) =>
         // Update progress only if already loading
-        state.status !== 'loading' ? state : { status: 'loading', progress }
-      ));
+        state.status !== 'loading' ? state : { status: 'loading', progress },
+      );
       builder.addCase(rejected, (_, { error }) => ({ status: 'error', error: parseApiError(error) }));
       builder.addCase(fulfilled, (state, { payload }) => ({ ...state, ...payload, status: 'loaded' }));
 
@@ -41,10 +44,9 @@ export const createVisitsComparisonReducer = <T extends LoadVisitsForComparison>
 
         const { visitsGroups, params, ...rest } = state;
         const newVisitGroupsPairs = Object.keys(visitsGroups).map((groupKey) => {
-          const newVisits = filterCreatedVisitsForGroup(
-            { params, groupKey },
-            payload.createdVisits,
-          ).map(({ visit }) => visit);
+          const newVisits = filterCreatedVisitsForGroup({ params, groupKey }, payload.createdVisits).map(
+            ({ visit }) => visit,
+          );
 
           return [groupKey, [...newVisits, ...visitsGroups[groupKey]]];
         });

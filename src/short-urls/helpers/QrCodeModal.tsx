@@ -1,7 +1,7 @@
 import { faClone, faImage } from '@fortawesome/free-regular-svg-icons';
 import { faCheck, faFileDownload as downloadIcon, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, CardModal,useTimeoutToggle  } from '@shlinkio/shlink-frontend-kit';
+import { Button, CardModal, useTimeoutToggle } from '@shlinkio/shlink-frontend-kit';
 import type { DrawType } from 'qr-code-styling';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback, useRef, useState } from 'react';
@@ -21,9 +21,12 @@ export type QrCodeModalProps = ShortUrlModalProps & {
   qrDrawType?: DrawType;
 };
 
-export const QrCodeModal: FC<QrCodeModalProps> = (
-  { shortUrl: { shortUrl, shortCode }, onClose, isOpen, qrDrawType },
-) => {
+export const QrCodeModal: FC<QrCodeModalProps> = ({
+  shortUrl: { shortUrl, shortCode },
+  onClose,
+  isOpen,
+  qrDrawType,
+}) => {
   const initialQrSettings = useSetting('qrCodes', defaultQrCodeSettings);
   const [{ size, margin, color, bgColor, errorCorrection, format }, setQrCodeOptions] = useState(initialQrSettings);
   const setQrOption = useCallback(
@@ -64,7 +67,11 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
       size="lg"
       open={isOpen}
       onClose={onClose}
-      title={<>QR code for <ExternalLink href={shortUrl} /></>}
+      title={
+        <>
+          QR code for <ExternalLink href={shortUrl} />
+        </>
+      }
       onClosed={resetOptions}
     >
       <div className="flex flex-col-reverse lg:flex-row gap-4">
@@ -81,7 +88,9 @@ export const QrCodeModal: FC<QrCodeModalProps> = (
               logo={logo?.url}
               drawType={qrDrawType}
             />
-            <div className="italic">Preview ({size + margin}x{size + margin})</div>
+            <div className="italic">
+              Preview ({size + margin}x{size + margin})
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-2 lg:w-64">

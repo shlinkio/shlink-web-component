@@ -10,9 +10,11 @@ export type CreateShortUrlResultProps = {
   canBeClosed?: boolean;
 };
 
-export const CreateShortUrlResult: FC<CreateShortUrlResultProps> = (
-  { creation, resetCreateShortUrl, canBeClosed = false }: CreateShortUrlResultProps,
-) => {
+export const CreateShortUrlResult: FC<CreateShortUrlResultProps> = ({
+  creation,
+  resetCreateShortUrl,
+  canBeClosed = false,
+}: CreateShortUrlResultProps) => {
   const { status } = creation;
 
   useEffect(() => {
@@ -46,7 +48,9 @@ export const CreateShortUrlResult: FC<CreateShortUrlResultProps> = (
         </div>
       )}
       <div className="flex items-center justify-center gap-1">
-        <span><b>Great!</b> The short URL is <b>{shortUrl}</b></span>
+        <span>
+          <b>Great!</b> The short URL is <b>{shortUrl}</b>
+        </span>
         <CopyToClipboardButton text={shortUrl} />
       </div>
     </Result>

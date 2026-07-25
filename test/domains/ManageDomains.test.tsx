@@ -54,11 +54,13 @@ describe('<ManageDomains />', () => {
       fromPartial({ domain: 'bar' }),
       fromPartial({ domain: 'baz' }),
     ];
-    const { user } = await setUp(fromPartial({
-      status: 'idle',
-      domains,
-      filteredDomains: domains,
-    }));
+    const { user } = await setUp(
+      fromPartial({
+        status: 'idle',
+        domains,
+        filteredDomains: domains,
+      }),
+    );
 
     expect(screen.getAllByRole('row')).toHaveLength(3);
     await user.type(screen.getByPlaceholderText('Search...'), 'ba');
@@ -68,10 +70,12 @@ describe('<ManageDomains />', () => {
   it('shows expected headers and one row when list of domains is empty', async () => {
     await setUp();
 
-    expect(screen.getAllByRole('columnheader', {
-      // Tests are run in a mobile resolution, where table headers are hidden
-      hidden: true,
-    })).toHaveLength(7);
+    expect(
+      screen.getAllByRole('columnheader', {
+        // Tests are run in a mobile resolution, where table headers are hidden
+        hidden: true,
+      }),
+    ).toHaveLength(7);
     expect(screen.getByText('No results found')).toBeInTheDocument();
   });
 

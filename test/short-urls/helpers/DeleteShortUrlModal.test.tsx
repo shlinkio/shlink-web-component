@@ -15,15 +15,14 @@ describe('<DeleteShortUrlModal />', () => {
     longUrl: 'https://long-domain.com/foo/bar',
   });
   const deleteShortUrl = vi.fn().mockResolvedValue({});
-  const setUp = (shortUrlDeletion: ShortUrlDeletion) => renderWithStore(
-    <TestModalWrapper
-      renderModal={(args) => <DeleteShortUrlModal {...args} shortUrl={shortUrl} />}
-    />,
-    {
-      initialState: { shortUrlDeletion },
-      apiClientFactory: () => fromPartial({ deleteShortUrl }),
-    },
-  );
+  const setUp = (shortUrlDeletion: ShortUrlDeletion) =>
+    renderWithStore(
+      <TestModalWrapper renderModal={(args) => <DeleteShortUrlModal {...args} shortUrl={shortUrl} />} />,
+      {
+        initialState: { shortUrlDeletion },
+        apiClientFactory: () => fromPartial({ deleteShortUrl }),
+      },
+    );
 
   it.each([
     [{ status: 'idle' as const }],

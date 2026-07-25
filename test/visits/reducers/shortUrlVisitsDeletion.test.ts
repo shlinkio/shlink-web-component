@@ -39,9 +39,11 @@ describe('shortUrlsVisitsDeletionReducer', () => {
 
       expect(deleteShortUrlVisitsCall).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { shortCode: 'foo', deletedVisits: 50 },
-      }));
+      expect(dispatch).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { shortCode: 'foo', deletedVisits: 50 },
+        }),
+      );
     });
   });
 });

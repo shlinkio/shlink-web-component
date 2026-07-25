@@ -48,15 +48,17 @@ export const ShortUrlsFilterDropdown = ({ onChange, selected = {} }: ShortUrlsFi
       <Dropdown.Separator />
       <Dropdown.Item
         disabled={
-          selected.excludeBots === undefined
-          && selected.excludeMaxVisitsReached === undefined
-          && selected.excludePastValidUntil === undefined
+          selected.excludeBots === undefined &&
+          selected.excludeMaxVisitsReached === undefined &&
+          selected.excludePastValidUntil === undefined
         }
-        onClick={() => onChange({
-          excludeBots: undefined,
-          excludeMaxVisitsReached: undefined,
-          excludePastValidUntil: undefined,
-        })}
+        onClick={() =>
+          onChange({
+            excludeBots: undefined,
+            excludeMaxVisitsReached: undefined,
+            excludePastValidUntil: undefined,
+          })
+        }
         className="italic"
       >
         Reset to defaults

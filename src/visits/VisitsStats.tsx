@@ -69,16 +69,17 @@ const sections = {
 
 Object.freeze(sections);
 
-const PrevVisitsNotice: FC<{ display: boolean }> = ({ display }) => display && (
-  <div className="mx-auto w-3/4">
-    <SimpleCard>
-      <div className="flex gap-2">
-        <FontAwesomeIcon icon={faWarning} className="mt-1" />
-        <i>Could not calculate previous period because selected one does not have a strictly defined start date.</i>
-      </div>
-    </SimpleCard>
-  </div>
-);
+const PrevVisitsNotice: FC<{ display: boolean }> = ({ display }) =>
+  display && (
+    <div className="mx-auto w-3/4">
+      <SimpleCard>
+        <div className="flex gap-2">
+          <FontAwesomeIcon icon={faWarning} className="mt-1" />
+          <i>Could not calculate previous period because selected one does not have a strictly defined start date.</i>
+        </div>
+      </SimpleCard>
+    </div>
+  );
 
 export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   const {
@@ -127,23 +128,32 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
   );
   const processedPrevStats = useMemo(() => processStatsFromVisits(normalizedPrevVisits ?? []), [normalizedPrevVisits]);
   const visitsGroups = useMemo(
-    () => Object.fromEntries([
-      ['Visits', Object.assign(normalizedVisits, { type: 'main' as const })],
-      normalizedPrevVisits && ['Previous period', Object.assign(normalizedPrevVisits, { type: 'previous' as const })],
-      highlightedVisits.length > 0 && [
-        highlightedLabel ?? 'Selected',
-        Object.assign(highlightedVisits, { type: 'highlighted' as const }),
-      ],
-    ].filter(Boolean)),
+    () =>
+      Object.fromEntries(
+        [
+          ['Visits', Object.assign(normalizedVisits, { type: 'main' as const })],
+          normalizedPrevVisits && [
+            'Previous period',
+            Object.assign(normalizedPrevVisits, { type: 'previous' as const }),
+          ],
+          highlightedVisits.length > 0 && [
+            highlightedLabel ?? 'Selected',
+            Object.assign(highlightedVisits, { type: 'highlighted' as const }),
+          ],
+        ].filter(Boolean),
+      ),
     [highlightedLabel, highlightedVisits, normalizedPrevVisits, normalizedVisits],
   );
 
-  const resolvedFilter = useMemo(() => ({
-    ...visitsFilter,
-    excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
-    loadPrevInterval: loadPrevInterval ?? visitsSettings?.loadPrevInterval,
-    domain,
-  }), [loadPrevInterval, visitsFilter, visitsSettings?.excludeBots, visitsSettings?.loadPrevInterval, domain]);
+  const resolvedFilter = useMemo(
+    () => ({
+      ...visitsFilter,
+      excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
+      loadPrevInterval: loadPrevInterval ?? visitsSettings?.loadPrevInterval,
+      domain,
+    }),
+    [loadPrevInterval, visitsFilter, visitsSettings?.excludeBots, visitsSettings?.loadPrevInterval, domain],
+  );
   const mapLocations = useMemo(() => Object.values(citiesForMap), [citiesForMap]);
 
   const selectedBarRef = useRef<string>(undefined);
@@ -151,19 +161,22 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
     selectedBarRef.current = undefined;
     setHighlightedVisits(selectedVisits);
   }, []);
-  const highlightVisitsForProp = useCallback((prop: HighlightableProps<NormalizedOrphanVisit>, value: string) => {
-    const newSelectedBar = `${prop}_${value}`;
+  const highlightVisitsForProp = useCallback(
+    (prop: HighlightableProps<NormalizedOrphanVisit>, value: string) => {
+      const newSelectedBar = `${prop}_${value}`;
 
-    if (selectedBarRef.current === newSelectedBar) {
-      setHighlightedVisits([]);
-      setHighlightedLabel(undefined);
-      selectedBarRef.current = undefined;
-    } else {
-      setHighlightedVisits((normalizedVisits as NormalizedOrphanVisit[]).filter((visit) => visit[prop] === value));
-      setHighlightedLabel(value);
-      selectedBarRef.current = newSelectedBar;
-    }
-  }, [normalizedVisits]);
+      if (selectedBarRef.current === newSelectedBar) {
+        setHighlightedVisits([]);
+        setHighlightedLabel(undefined);
+        selectedBarRef.current = undefined;
+      } else {
+        setHighlightedVisits((normalizedVisits as NormalizedOrphanVisit[]).filter((visit) => visit[prop] === value));
+        setHighlightedLabel(value);
+        selectedBarRef.current = newSelectedBar;
+      }
+    },
+    [normalizedVisits],
+  );
 
   const filterByDomainIsSupported = useFeature('filterVisitsByDomain');
 
@@ -178,12 +191,14 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
 
     getVisits({ dateRange: resolvedDateRange, filter }, options);
 
+    // oxlint-disable-next-line react/react-compiler
     setSelectedVisits([]); // Reset selected visits every time we load visits
     isFirstLoad.current = false;
   }, [currentFallbackInterval, dateRange, getVisits, resolvedFilter, setSelectedVisits]);
   useEffect(() => {
     // As soon as the fallback is loaded, if the initial interval used the settings one, we do fall back
     if (fallbackInterval && currentFallbackInterval === (visitsSettings?.defaultInterval ?? 'last30Days')) {
+      // oxlint-disable-next-line react/react-compiler
       setCurrentFallbackInterval(fallbackInterval);
     }
   }, [currentFallbackInterval, status, fallbackInterval, visitsSettings?.defaultInterval]);
@@ -214,10 +229,12 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
             isOrphanVisits={isOrphanVisits}
             withPrevInterval
             selected={resolvedFilter}
-            onChange={({ loadPrevInterval: newLoadPrevInterval, ...newVisitsFilter }) => updateQuery({
-              visitsFilter: newVisitsFilter,
-              loadPrevInterval: newLoadPrevInterval,
-            })}
+            onChange={({ loadPrevInterval: newLoadPrevInterval, ...newVisitsFilter }) =>
+              updateQuery({
+                visitsFilter: newVisitsFilter,
+                loadPrevInterval: newLoadPrevInterval,
+              })
+            }
           />
         </div>
         <div className="lg:w-1/2 xl:flex-3 flex gap-2">
@@ -247,22 +264,22 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
         {!loading && status !== 'error' && (
           <>
             <NavPills fill className="sticky top-(--header-height) z-2">
-              {Object.values(sections).map(({ title, icon, subPath, shouldRender }: VisitsNavLinkOptions, index) => (
-                !shouldRender || shouldRender(props)
-                  ? (
+              {Object.values(sections)
+                .map(({ title, icon, subPath, shouldRender }: VisitsNavLinkOptions, index) =>
+                  !shouldRender || shouldRender(props) ? (
                     <NavPills.Pill key={index} to={buildSectionUrl(subPath)} replace>
                       <FontAwesomeIcon icon={icon} />
                       <span className="ml-2 max-lg:sr-only">{title}</span>
                     </NavPills.Pill>
-                  )
-                  : undefined
-              )).filter(Boolean)}
+                  ) : undefined,
+                )
+                .filter(Boolean)}
             </NavPills>
 
             <Routes>
               <Route
                 path={sections.byTime.subPath}
-                element={(
+                element={
                   <VisitsSectionWithFallback showFallback={visits.length === 0}>
                     <div data-testid="line-chart-container">
                       <LineChartCard
@@ -273,21 +290,18 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                     </div>
                     <PrevVisitsNotice display={!!resolvedFilter.loadPrevInterval && !prevVisits} />
                   </VisitsSectionWithFallback>
-                )}
+                }
               />
 
               <Route
                 path={sections.byContext.subPath}
-                element={(
+                element={
                   <VisitsSectionWithFallback showFallback={visits.length === 0}>
                     <div
-                      className={clsx(
-                        'grid grid-cols-1 gap-4',
-                        {
-                          'lg:grid-cols-2': isOrphanVisits,
-                          'xl:grid-cols-3': !isOrphanVisits,
-                        },
-                      )}
+                      className={clsx('grid grid-cols-1 gap-4', {
+                        'lg:grid-cols-2': isOrphanVisits,
+                        'xl:grid-cols-3': !isOrphanVisits,
+                      })}
                     >
                       <DoughnutChartCard title="Operating systems" stats={os} prevStats={processedPrevStats.os} />
                       <DoughnutChartCard title="Browsers" stats={browsers} prevStats={processedPrevStats.browsers} />
@@ -321,12 +335,12 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                     </div>
                     <PrevVisitsNotice display={!!resolvedFilter.loadPrevInterval && !prevVisits} />
                   </VisitsSectionWithFallback>
-                )}
+                }
               />
 
               <Route
                 path={sections.byLocation.subPath}
-                element={(
+                element={
                   <VisitsSectionWithFallback showFallback={visits.length === 0}>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                       <SortableBarChartCard
@@ -347,9 +361,11 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                         prevStats={processedPrevStats.cities}
                         highlightedStats={highlightedVisitsToStats(highlightedVisits, 'city')}
                         highlightedLabel={highlightedLabel}
-                        extraHeaderContent={(activeCities) => mapLocations.length > 0 && (
-                          <OpenMapModalBtn modalTitle="Cities" locations={mapLocations} activeCities={activeCities} />
-                        )}
+                        extraHeaderContent={(activeCities) =>
+                          mapLocations.length > 0 && (
+                            <OpenMapModalBtn modalTitle="Cities" locations={mapLocations} activeCities={activeCities} />
+                          )
+                        }
                         sortingItems={{
                           name: 'City name',
                           amount: 'Visits amount',
@@ -359,26 +375,21 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
                     </div>
                     <PrevVisitsNotice display={!!resolvedFilter.loadPrevInterval && !prevVisits} />
                   </VisitsSectionWithFallback>
-                )}
+                }
               />
 
               <Route
                 path={sections.list.subPath}
-                element={(
+                element={
                   <VisitsTable
                     visits={normalizedVisits}
                     selectedVisits={highlightedVisits}
                     setSelectedVisits={setSelectedVisits}
                   />
-                )}
+                }
               />
 
-              {deletion && (
-                <Route
-                  path={sections.options.subPath}
-                  element={<VisitsStatsOptions {...deletion} />}
-                />
-              )}
+              {deletion && <Route path={sections.options.subPath} element={<VisitsStatsOptions {...deletion} />} />}
 
               <Route path="*" element={<Navigate replace to={buildSectionUrl(sections.byTime.subPath)} />} />
             </Routes>

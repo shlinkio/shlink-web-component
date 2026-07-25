@@ -10,35 +10,36 @@ import { renderWithStore } from '../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<TagsList />', () => {
-  const setUp = (tagsList: Partial<TagsList> = {}, excludeBots = false) => renderWithStore(
-    <MemoryRouter>
-      <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
-        <ContainerProvider value={fromPartial({ ColorGenerator: colorGeneratorMock, apiClientFactory: vi.fn() })}>
-          <TagsListComp />
-        </ContainerProvider>
-      </SettingsProvider>
-    </MemoryRouter>,
-    {
-      initialState: {
-        tagsList: fromPartial({
-          filteredTags: [],
-          tags: ['foo', 'bar', 'baz'],
-          stats: {
-            foo: {
-              visitsSummary: { total: 0 },
+  const setUp = (tagsList: Partial<TagsList> = {}, excludeBots = false) =>
+    renderWithStore(
+      <MemoryRouter>
+        <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
+          <ContainerProvider value={fromPartial({ ColorGenerator: colorGeneratorMock, apiClientFactory: vi.fn() })}>
+            <TagsListComp />
+          </ContainerProvider>
+        </SettingsProvider>
+      </MemoryRouter>,
+      {
+        initialState: {
+          tagsList: fromPartial({
+            filteredTags: [],
+            tags: ['foo', 'bar', 'baz'],
+            stats: {
+              foo: {
+                visitsSummary: { total: 0 },
+              },
+              bar: {
+                visitsSummary: { total: 0 },
+              },
+              baz: {
+                visitsSummary: { total: 0 },
+              },
             },
-            bar: {
-              visitsSummary: { total: 0 },
-            },
-            baz: {
-              visitsSummary: { total: 0 },
-            },
-          },
-          ...tagsList,
-        }),
+            ...tagsList,
+          }),
+        },
       },
-    },
-  );
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -83,23 +84,26 @@ describe('<TagsList />', () => {
       '15',
     ],
   ])('displays proper amount of visits', (excludeBots, visitsSummary, expectedAmount) => {
-    setUp({
-      filteredTags: ['foo', 'bar', 'baz'],
-      stats: {
-        foo: {
-          visitsSummary,
-          shortUrlsCount: 1,
-        },
-        bar: {
-          visitsSummary,
-          shortUrlsCount: 1,
-        },
-        baz: {
-          visitsSummary,
-          shortUrlsCount: 1,
+    setUp(
+      {
+        filteredTags: ['foo', 'bar', 'baz'],
+        stats: {
+          foo: {
+            visitsSummary,
+            shortUrlsCount: 1,
+          },
+          bar: {
+            visitsSummary,
+            shortUrlsCount: 1,
+          },
+          baz: {
+            visitsSummary,
+            shortUrlsCount: 1,
+          },
         },
       },
-    }, excludeBots);
+      excludeBots,
+    );
 
     const amounts = screen.getAllByTestId('visits-amount');
     amounts.forEach((amountEl) => {

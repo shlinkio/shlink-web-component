@@ -11,7 +11,7 @@ import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/shortUrlVisitsComparison';
 
-export type LoadShortUrlVisitsForComparison = LoadVisitsForComparison & { shortUrls: ShlinkShortUrlIdentifier[]; };
+export type LoadShortUrlVisitsForComparison = LoadVisitsForComparison & { shortUrls: ShlinkShortUrlIdentifier[] };
 
 const initialState: VisitsComparisonInfo = {
   status: 'idle',
@@ -31,27 +31,21 @@ export const getShortUrlVisitsForComparisonThunk = createVisitsComparisonAsyncTh
   shouldCancel: (getState) => getState().shortUrlVisitsComparison.status === 'canceled',
 });
 
-export const {
-  reducer: shortUrlVisitsComparisonReducer,
-  cancelGetVisits: cancelGetShortUrlVisitsComparison,
-} = createVisitsComparisonReducer({
-  name: REDUCER_PREFIX,
-  initialState: initialState as VisitsComparisonInfo,
-  asyncThunk: getShortUrlVisitsForComparisonThunk,
-  filterCreatedVisitsForGroup: ({ groupKey, params }, createdVisits) => filterCreatedVisitsByShortUrl(
-    createdVisits,
-    queryToShortUrl(groupKey),
-    params?.dateRange,
-  ),
-});
+export const { reducer: shortUrlVisitsComparisonReducer, cancelGetVisits: cancelGetShortUrlVisitsComparison } =
+  createVisitsComparisonReducer({
+    name: REDUCER_PREFIX,
+    initialState: initialState as VisitsComparisonInfo,
+    asyncThunk: getShortUrlVisitsForComparisonThunk,
+    filterCreatedVisitsForGroup: ({ groupKey, params }, createdVisits) =>
+      filterCreatedVisitsByShortUrl(createdVisits, queryToShortUrl(groupKey), params?.dateRange),
+  });
 
 export const useUrlVisitsComparison = () => {
   const dispatch = useAppDispatch();
   const apiClientFactory = useApiClientFactory();
   const getShortUrlVisitsForComparison = useCallback(
-    (data: LoadShortUrlVisitsForComparison) => dispatch(getShortUrlVisitsForComparisonThunk(
-      { ...data, apiClientFactory },
-    )),
+    (data: LoadShortUrlVisitsForComparison) =>
+      dispatch(getShortUrlVisitsForComparisonThunk({ ...data, apiClientFactory })),
     [apiClientFactory, dispatch],
   );
   const cancelGetVisits = useCallback(() => dispatch(cancelGetShortUrlVisitsComparison()), [dispatch]);

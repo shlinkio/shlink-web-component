@@ -32,10 +32,9 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
           {itemsToCompare.map((item, index) => (
             <li
               key={`${item.name}_${index}`}
-              className={clsx(
-                'flex items-center gap-1 text-sm font-bold text-white py-0.5 px-1.5 rounded',
-                { 'bg-gray-500': !item.style?.backgroundColor },
-              )}
+              className={clsx('flex items-center gap-1 text-sm font-bold text-white py-0.5 px-1.5 rounded', {
+                'bg-gray-500': !item.style?.backgroundColor,
+              })}
               style={item.style}
             >
               {item.name}
@@ -57,11 +56,7 @@ export const VisitsComparisonCollector: FC<VisitsComparisonCollectorProps> = ({ 
             Compare ({itemsToCompare.length}/5)
             <FontAwesomeIcon icon={faChevronRight} />
           </Button>
-          <Button
-            aria-label="Close compare"
-            variant="secondary"
-            onClick={clearItemsToCompare}
-          >
+          <Button aria-label="Close compare" variant="secondary" onClick={clearItemsToCompare}>
             <FontAwesomeIcon icon={faClose} />
           </Button>
         </div>

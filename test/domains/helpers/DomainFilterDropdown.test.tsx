@@ -10,14 +10,10 @@ describe('<DomainFilterDropdown />', () => {
   const onChange = vi.fn();
 
   const setUp = ({
-    domains = [
-      fromPartial({ isDefault: true, domain: 'example.com' }),
-      fromPartial({ domain: 's.test' }),
-    ],
+    domains = [fromPartial({ isDefault: true, domain: 'example.com' }), fromPartial({ domain: 's.test' })],
     value,
-  }: Partial<Omit<DomainFilterDropdownProps, 'onChange'>> = {}) => renderWithEvents(
-    <DomainFilterDropdown onChange={onChange} domains={domains} value={value} />,
-  );
+  }: Partial<Omit<DomainFilterDropdownProps, 'onChange'>> = {}) =>
+    renderWithEvents(<DomainFilterDropdown onChange={onChange} domains={domains} value={value} />);
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

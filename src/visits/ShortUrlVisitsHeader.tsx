@@ -37,9 +37,19 @@ export const ShortUrlVisitsHeader = ({ shortUrl, loading, shortUrlVisits }: Shor
   const title = shortUrl?.title;
 
   return (
-    <VisitsHeader title={<>Visits for <ExternalLink href={shortLink} /></>} visits={visits} shortUrl={shortUrl}>
+    <VisitsHeader
+      title={
+        <>
+          Visits for <ExternalLink href={shortLink} />
+        </>
+      }
+      visits={visits}
+      shortUrl={shortUrl}
+    >
       <hr />
-      <div>Created: <Date shortUrl={shortUrl} /></div>
+      <div>
+        Created: <Date shortUrl={shortUrl} />
+      </div>
       <div data-testid="long-url-container">
         {`${title ? 'Title' : 'Long URL'}: `}
         {loading && <small>Loading...</small>}

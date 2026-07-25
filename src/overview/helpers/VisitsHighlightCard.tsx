@@ -13,14 +13,17 @@ export type VisitsHighlightCardProps = Omit<HighlightCardProps, 'tooltip' | 'chi
 export const VisitsHighlightCard: FC<VisitsHighlightCardProps> = ({ loading, excludeBots, visitsSummary, ...rest }) => (
   <HighlightCard
     tooltip={
-      visitsSummary.bots !== undefined
-        ? <>{excludeBots ? 'Plus' : 'Including'} <b data-testid="tooltip-amount">{formatNumber(visitsSummary.bots)}</b> potential bot visits</>
-        : undefined
+      visitsSummary.bots !== undefined ? (
+        <>
+          {excludeBots ? 'Plus' : 'Including'} <b data-testid="tooltip-amount">{formatNumber(visitsSummary.bots)}</b>{' '}
+          potential bot visits
+        </>
+      ) : undefined
     }
     {...rest}
   >
-    {loading ? 'Loading...' : formatNumber(
-      excludeBots && visitsSummary.nonBots !== undefined ? visitsSummary.nonBots : visitsSummary.total,
-    )}
+    {loading
+      ? 'Loading...'
+      : formatNumber(excludeBots && visitsSummary.nonBots !== undefined ? visitsSummary.nonBots : visitsSummary.total)}
   </HighlightCard>
 );

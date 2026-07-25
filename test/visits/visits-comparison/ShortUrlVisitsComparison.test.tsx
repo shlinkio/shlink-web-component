@@ -14,13 +14,16 @@ type SetUpOptions = {
 };
 
 describe('<ShortUrlVisitsComparison />', () => {
-  const getShortUrl = vi.fn().mockImplementation(
-    async (id: ShlinkShortUrlIdentifier) => ({ ...id, shortUrl: `https://${shortUrlToQuery(id)}` }),
-  );
-  const getShortUrlVisits = vi.fn().mockResolvedValue(fromPartial<ShlinkVisitsList>({
-    data: [],
-    pagination: { pagesCount: 1, currentPage: 1, totalItems: 0 },
+  const getShortUrl = vi.fn().mockImplementation(async (id: ShlinkShortUrlIdentifier) => ({
+    ...id,
+    shortUrl: `https://${shortUrlToQuery(id)}`,
   }));
+  const getShortUrlVisits = vi.fn().mockResolvedValue(
+    fromPartial<ShlinkVisitsList>({
+      data: [],
+      pagination: { pagesCount: 1, currentPage: 1, totalItems: 0 },
+    }),
+  );
   const setUp = async ({ shortUrls = [] }: SetUpOptions = {}) => {
     const renderResult = renderWithStore(
       <MemoryRouter initialEntries={[{ search: `?short-urls=${shortUrls.map(shortUrlToQuery).join(',')}` }]}>

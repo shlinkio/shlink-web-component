@@ -25,9 +25,8 @@ export interface GroupedNewVisits {
 }
 
 export const groupNewVisitsByType = (createdVisits: CreateVisit[]): GroupedNewVisits => {
-  const groupedVisits: Partial<GroupedNewVisits> = groupBy(
-    createdVisits,
-    (newVisit: CreateVisit) => (isOrphanVisit(newVisit.visit) ? 'orphanVisits' : 'nonOrphanVisits'),
+  const groupedVisits: Partial<GroupedNewVisits> = groupBy(createdVisits, (newVisit: CreateVisit) =>
+    isOrphanVisit(newVisit.visit) ? 'orphanVisits' : 'nonOrphanVisits',
   );
   return { orphanVisits: [], nonOrphanVisits: [], ...groupedVisits };
 };
@@ -39,10 +38,11 @@ export const filterCreatedVisitsByShortUrl = (
   createdVisits: CreateVisit[],
   { shortCode, domain }: ShlinkShortUrlIdentifier,
   { endDate, startDate }: DateRange = {},
-): CreateVisit[] => createdVisits.filter(
-  ({ shortUrl, visit }) =>
-    shortUrl && shortUrlMatches(shortUrl, shortCode, domain) && isBetween(visit.date, startDate, endDate),
-);
+): CreateVisit[] =>
+  createdVisits.filter(
+    ({ shortUrl, visit }) =>
+      shortUrl && shortUrlMatches(shortUrl, shortCode, domain) && isBetween(visit.date, startDate, endDate),
+  );
 
 /**
  * Filters created visits array by those matching a domain and date range
@@ -51,9 +51,10 @@ export const filterCreatedVisitsByDomain = (
   createdVisits: CreateVisit[],
   domain: string,
   { endDate, startDate }: DateRange = {},
-): CreateVisit[] => createdVisits.filter(
-  ({ shortUrl, visit }) => shortUrl && domainMatches(shortUrl, domain) && isBetween(visit.date, startDate, endDate),
-);
+): CreateVisit[] =>
+  createdVisits.filter(
+    ({ shortUrl, visit }) => shortUrl && domainMatches(shortUrl, domain) && isBetween(visit.date, startDate, endDate),
+  );
 
 /**
  * Filters created visits array by those matching a domain and date range
@@ -62,9 +63,10 @@ export const filterCreatedVisitsByTag = (
   createdVisits: CreateVisit[],
   tag: string,
   { endDate, startDate }: DateRange = {},
-): CreateVisit[] => createdVisits.filter(
-  ({ shortUrl, visit }) => shortUrl?.tags.includes(tag) && isBetween(visit.date, startDate, endDate),
-);
+): CreateVisit[] =>
+  createdVisits.filter(
+    ({ shortUrl, visit }) => shortUrl?.tags.includes(tag) && isBetween(visit.date, startDate, endDate),
+  );
 
 export const highlightedVisitsToStats = <T extends NormalizedVisit>(
   highlightedVisits: T[],
@@ -78,9 +80,7 @@ export const toApiDateRange = (dateRange?: DateRange): Pick<ShlinkVisitsParams, 
   return { startDate, endDate };
 };
 
-export const toApiParams = (
-  { filter, dateRange }: VisitsParams,
-): Omit<ShlinkVisitsParams, 'page' | 'itemsPerPage'> => {
+export const toApiParams = ({ filter, dateRange }: VisitsParams): Omit<ShlinkVisitsParams, 'page' | 'itemsPerPage'> => {
   const { startDate, endDate } = toApiDateRange(dateRange);
   const excludeBots = filter?.excludeBots || undefined;
 

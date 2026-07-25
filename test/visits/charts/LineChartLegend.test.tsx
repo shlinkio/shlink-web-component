@@ -5,16 +5,21 @@ import { LineChartLegend } from '../../../src/visits/charts/LineChartLegend';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<LineChartLegend />', () => {
-  const setUp = ({ emptyVisits = false }: { emptyVisits?: boolean } = {}) => render(
-    <LineChartLegend
-      visitsGroups={emptyVisits ? {} : {
-        red: rangeOf(3, () => fromPartial({})),
-        green: rangeOf(5, () => fromPartial({})),
-        blue: [],
-        yellow: rangeOf(1322, () => fromPartial({})),
-      }}
-    />,
-  );
+  const setUp = ({ emptyVisits = false }: { emptyVisits?: boolean } = {}) =>
+    render(
+      <LineChartLegend
+        visitsGroups={
+          emptyVisits
+            ? {}
+            : {
+                red: rangeOf(3, () => fromPartial({})),
+                green: rangeOf(5, () => fromPartial({})),
+                blue: [],
+                yellow: rangeOf(1322, () => fromPartial({})),
+              }
+        }
+      />,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

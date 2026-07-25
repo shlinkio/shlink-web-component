@@ -31,19 +31,20 @@ vi.mock(import('../src/tags/TagsList'), () => ({ TagsList: () => <>TagsList</> }
 vi.mock(import('../src/domains/ManageDomains'), () => ({ ManageDomains: () => <>ManageDomains</> }));
 
 type SetUpOptions = {
-  currentPath?: string
+  currentPath?: string;
   createNotFound?: MainProps['createNotFound'];
   autoToggleButton?: boolean;
 };
 
 describe('<Main />', () => {
-  const setUp = ({ createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions) => renderWithStore(
-    <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
-      <ShlinkSidebarVisibilityProvider>
-        <Main createNotFound={createNotFound} autoToggleButton={autoToggleButton} />
-      </ShlinkSidebarVisibilityProvider>
-    </MemoryRouter>,
-  );
+  const setUp = ({ createNotFound, currentPath = '/', autoToggleButton = true }: SetUpOptions) =>
+    renderWithStore(
+      <MemoryRouter initialEntries={[{ pathname: currentPath }]}>
+        <ShlinkSidebarVisibilityProvider>
+          <Main createNotFound={createNotFound} autoToggleButton={autoToggleButton} />
+        </ShlinkSidebarVisibilityProvider>
+      </MemoryRouter>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp({})));
 
@@ -63,13 +64,10 @@ describe('<Main />', () => {
     ['/tags/compare-visits', 'TagVisitsComparison'],
     ['/domains/compare-visits', 'DomainVisitsComparison'],
     ['/short-urls/compare-visits', 'ShortUrlVisitsComparison'],
-  ])(
-    'renders expected component based on location and server version',
-    (currentPath, expectedContent) => {
-      setUp({ currentPath });
-      expect(screen.getByText(expectedContent)).toBeInTheDocument();
-    },
-  );
+  ])('renders expected component based on location and server version', (currentPath, expectedContent) => {
+    setUp({ currentPath });
+    expect(screen.getByText(expectedContent)).toBeInTheDocument();
+  });
 
   it('renders not-found when trying to navigate to invalid route', () => {
     const createNotFound = () => <>Oops! Route not found.</>;

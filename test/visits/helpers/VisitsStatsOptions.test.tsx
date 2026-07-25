@@ -6,12 +6,13 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<VisitsStatsOptions />', () => {
   const deleteVisits = vi.fn();
-  const setUp = (deleting = false) => renderWithEvents(
-    <VisitsStatsOptions
-      deleteVisits={deleteVisits}
-      visitsDeletion={fromPartial({ status: deleting ? 'deleting' : 'idle' })}
-    />,
-  );
+  const setUp = (deleting = false) =>
+    renderWithEvents(
+      <VisitsStatsOptions
+        deleteVisits={deleteVisits}
+        visitsDeletion={fromPartial({ status: deleting ? 'deleting' : 'idle' })}
+      />,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

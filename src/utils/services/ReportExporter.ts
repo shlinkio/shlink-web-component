@@ -4,8 +4,10 @@ import { saveCsv } from '../helpers/files';
 import type { JsonToCsv } from '../helpers/json';
 
 export class ReportExporter {
-  public constructor(private readonly window: Window, private readonly jsonToCsv: JsonToCsv) {
-  }
+  public constructor(
+    private readonly window: Window,
+    private readonly jsonToCsv: JsonToCsv,
+  ) {}
 
   public readonly exportVisits = (filename: string, visits: NormalizedVisit[]) => {
     if (!visits.length) {

@@ -9,22 +9,26 @@ import { RoutesPrefixProvider } from '../../../src/utils/routesPrefix';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<ShortUrlDetailLink />', () => {
-  const setUp = (props: Partial<ShortUrlDetailLinkProps>, routesPrefix = '') => render(
-    <MemoryRouter>
-      <RoutesPrefixProvider value={routesPrefix}>
-        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-        <Card>
-          <ShortUrlDetailLink asLink suffix="visits" {...props}>
-            Something
-          </ShortUrlDetailLink>
-        </Card>
-      </RoutesPrefixProvider>
-    </MemoryRouter>,
-  );
+  const setUp = (props: Partial<ShortUrlDetailLinkProps>, routesPrefix = '') =>
+    render(
+      <MemoryRouter>
+        <RoutesPrefixProvider value={routesPrefix}>
+          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+          <Card>
+            <ShortUrlDetailLink asLink suffix="visits" {...props}>
+              Something
+            </ShortUrlDetailLink>
+          </Card>
+        </RoutesPrefixProvider>
+      </MemoryRouter>,
+    );
 
-  it('passes a11y checks', () => checkAccessibility(setUp({
-    shortUrl: fromPartial<ShlinkShortUrl>({ shortCode: 'abc123' }),
-  })));
+  it('passes a11y checks', () =>
+    checkAccessibility(
+      setUp({
+        shortUrl: fromPartial<ShlinkShortUrl>({ shortCode: 'abc123' }),
+      }),
+    ));
 
   it.each([
     [false, undefined],

@@ -11,14 +11,17 @@ import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 
 const REDUCER_PREFIX = 'shlink/tagEdit';
 
-export type TagEdition = {
-  status: 'idle' | 'editing';
-} | {
-  status: 'error';
-  error?: ProblemDetailsError;
-} | (ShlinkRenaming & {
-  status: 'edited';
-});
+export type TagEdition =
+  | {
+      status: 'idle' | 'editing';
+    }
+  | {
+      status: 'error';
+      error?: ProblemDetailsError;
+    }
+  | (ShlinkRenaming & {
+      status: 'edited';
+    });
 
 export type EditTag = ShlinkRenaming & {
   color: string;

@@ -1,5 +1,5 @@
 import type { Theme } from '@shlinkio/shlink-frontend-kit';
-import { changeThemeInMarkup , Label, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
+import { changeThemeInMarkup, Label, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
 

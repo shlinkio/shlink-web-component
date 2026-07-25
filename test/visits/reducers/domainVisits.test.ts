@@ -27,10 +27,7 @@ describe('domainVisitsReducer', () => {
     const buildState = (data: Partial<DomainVisits>) => fromPartial<DomainVisits>(data);
 
     it('returns loading when idle', () => {
-      const { status } = reducer(
-        buildState({ status: 'idle' }),
-        getDomainVisits.pending('', fromPartial({})),
-      );
+      const { status } = reducer(buildState({ status: 'idle' }), getDomainVisits.pending('', fromPartial({})));
       expect(status).toEqual('loading');
     });
 
@@ -124,9 +121,10 @@ describe('domainVisitsReducer', () => {
       ],
     ])('prepends new visits when visits are created', (state, shortUrlDomain, expectedVisits) => {
       const shortUrl = fromPartial<ShlinkShortUrl>({ domain: shortUrlDomain });
-      const result = reducer(buildState({ ...state, status: 'loaded', visits: visitsMocks }), createNewVisits([
-        fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } }),
-      ]));
+      const result = reducer(
+        buildState({ ...state, status: 'loaded', visits: visitsMocks }),
+        createNewVisits([fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } })]),
+      );
 
       expect(result.status).toEqual('loaded');
       if (result.status === 'loaded') {
@@ -150,10 +148,7 @@ describe('domainVisitsReducer', () => {
 
     it('returns fallbackInterval when falling back to another interval', () => {
       const fallbackInterval: DateInterval = 'last30Days';
-      const state = reducer(
-        undefined,
-        getDomainVisits.fallbackToInterval(fallbackInterval),
-      );
+      const state = reducer(undefined, getDomainVisits.fallbackToInterval(fallbackInterval));
 
       expect(state).toEqual(expect.objectContaining({ fallbackInterval }));
     });
@@ -161,9 +156,10 @@ describe('domainVisitsReducer', () => {
 
   describe('getDomainVisits', () => {
     const dispatchMock = vi.fn();
-    const getState = () => fromPartial<RootState>({
-      domainVisits: { status: 'idle' },
-    });
+    const getState = () =>
+      fromPartial<RootState>({
+        domainVisits: { status: 'idle' },
+      });
     const domain = 'foo.com';
 
     it('dispatches start and success when promise is resolved', async () => {
@@ -182,9 +178,11 @@ describe('domainVisitsReducer', () => {
       await getDomainVisits(getVisitsParam)(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
-      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits, ...getVisitsParam },
-      }));
+      expect(dispatchMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { visits, ...getVisitsParam },
+        }),
+      );
       expect(getDomainVisitsCall).toHaveBeenCalledOnce();
     });
 
@@ -200,31 +198,32 @@ describe('domainVisitsReducer', () => {
         3,
       ],
       [[], expect.objectContaining({ type: getDomainVisits.fulfilled.toString() }), 2],
-    ])('dispatches fallback interval when the list of visits is empty', async (
-      lastVisits,
-      expectedSecondDispatch,
-      expectedDispatchCalls,
-    ) => {
-      const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisitsList => ({
-        data,
-        pagination: {
-          currentPage: 1,
-          pagesCount: 1,
-          totalItems: 1,
-        },
-      });
-      getDomainVisitsCall
-        .mockResolvedValueOnce(buildVisitsResult())
-        .mockResolvedValueOnce(buildVisitsResult(lastVisits));
+    ])(
+      'dispatches fallback interval when the list of visits is empty',
+      async (lastVisits, expectedSecondDispatch, expectedDispatchCalls) => {
+        const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisitsList => ({
+          data,
+          pagination: {
+            currentPage: 1,
+            pagesCount: 1,
+            totalItems: 1,
+          },
+        });
+        getDomainVisitsCall
+          .mockResolvedValueOnce(buildVisitsResult())
+          .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getDomainVisits(
-        { domain, params: {}, options: { doIntervalFallback: true }, apiClientFactory },
-      )(dispatchMock, getState, {});
+        await getDomainVisits({ domain, params: {}, options: { doIntervalFallback: true }, apiClientFactory })(
+          dispatchMock,
+          getState,
+          {},
+        );
 
-      expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
-      expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
-      expect(getDomainVisitsCall).toHaveBeenCalledTimes(2);
-    });
+        expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
+        expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
+        expect(getDomainVisitsCall).toHaveBeenCalledTimes(2);
+      },
+    );
 
     it.each([
       // Strict date range and loadPrevInterval: true -> prev visits are loaded
@@ -263,35 +262,38 @@ describe('domainVisitsReducer', () => {
         loadPrevInterval: false,
         expectsPrevVisits: false,
       },
-    ])('returns visits from prev interval when requested and possible', async (
-      { dateRange, loadPrevInterval, expectsPrevVisits },
-    ) => {
-      const getVisitsParam: WithApiClient<LoadDomainVisits> = {
-        domain,
-        params: { dateRange },
-        options: { loadPrevInterval },
-        apiClientFactory,
-      };
-      const prevVisits = expectsPrevVisits ? visitsMocks.map(
-        (visit, index) => ({ ...visit, date: dateForVisit(index + 1 + visitsMocks.length) }),
-      ) : undefined;
+    ])(
+      'returns visits from prev interval when requested and possible',
+      async ({ dateRange, loadPrevInterval, expectsPrevVisits }) => {
+        const getVisitsParam: WithApiClient<LoadDomainVisits> = {
+          domain,
+          params: { dateRange },
+          options: { loadPrevInterval },
+          apiClientFactory,
+        };
+        const prevVisits = expectsPrevVisits
+          ? visitsMocks.map((visit, index) => ({ ...visit, date: dateForVisit(index + 1 + visitsMocks.length) }))
+          : undefined;
 
-      getDomainVisitsCall.mockResolvedValue({
-        data: visitsMocks,
-        pagination: {
-          currentPage: 1,
-          pagesCount: 1,
-          totalItems: 1,
-        },
-      });
+        getDomainVisitsCall.mockResolvedValue({
+          data: visitsMocks,
+          pagination: {
+            currentPage: 1,
+            pagesCount: 1,
+            totalItems: 1,
+          },
+        });
 
-      await getDomainVisits(getVisitsParam)(dispatchMock, getState, {});
+        await getDomainVisits(getVisitsParam)(dispatchMock, getState, {});
 
-      expect(dispatchMock).toHaveBeenCalledTimes(2);
-      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits: visitsMocks, prevVisits, ...getVisitsParam },
-      }));
-      expect(getDomainVisitsCall).toHaveBeenCalledTimes(expectsPrevVisits ? 2 : 1);
-    });
+        expect(dispatchMock).toHaveBeenCalledTimes(2);
+        expect(dispatchMock).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            payload: { visits: visitsMocks, prevVisits, ...getVisitsParam },
+          }),
+        );
+        expect(getDomainVisitsCall).toHaveBeenCalledTimes(expectsPrevVisits ? 2 : 1);
+      },
+    );
   });
 });

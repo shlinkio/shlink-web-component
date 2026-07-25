@@ -1105,12 +1105,12 @@ exports[`<LineChartCard /> > renders chart with expected data 3`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="768.8203125"
+                  x="770.640625"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="768.8203125"
+                    x="770.640625"
                   >
                     2016-05
                   </tspan>
@@ -1862,12 +1862,12 @@ exports[`<LineChartCard /> > renders chart with expected data 4`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="768.8203125"
+                  x="770.640625"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="768.8203125"
+                    x="770.640625"
                   >
                     2016-05
                   </tspan>
@@ -2657,7 +2657,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="125.83333333333334"
+                cx="125.8333"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2668,7 +2668,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="186.66666666666669"
+                cx="186.6667"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2690,7 +2690,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="308.33333333333337"
+                cx="308.3333"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2701,7 +2701,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="369.1666666666667"
+                cx="369.1667"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2723,7 +2723,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="490.83333333333337"
+                cx="490.8333"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2734,7 +2734,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="551.6666666666667"
+                cx="551.6667"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2756,7 +2756,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="673.3333333333334"
+                cx="673.3333"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2767,7 +2767,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="734.1666666666667"
+                cx="734.1667"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2804,7 +2804,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="125.83333333333334"
+                cx="125.8333"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2815,7 +2815,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="186.66666666666669"
+                cx="186.6667"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2837,7 +2837,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="308.33333333333337"
+                cx="308.3333"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2848,7 +2848,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="369.1666666666667"
+                cx="369.1667"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2870,7 +2870,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="490.83333333333337"
+                cx="490.8333"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2881,7 +2881,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="551.6666666666667"
+                cx="551.6667"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2903,7 +2903,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="673.3333333333334"
+                cx="673.3333"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -2914,7 +2914,7 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
               />
               <circle
                 class="recharts-dot recharts-line-dot"
-                cx="734.1666666666667"
+                cx="734.1667"
                 cy="365"
                 fill="#fff"
                 height="360"
@@ -3098,12 +3098,12 @@ exports[`<LineChartCard /> > renders chart with expected data 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="768.8203125"
+                  x="770.640625"
                   y="373"
                 >
                   <tspan
                     dy="0.71em"
-                    x="768.8203125"
+                    x="770.640625"
                   >
                     2024-04
                   </tspan>

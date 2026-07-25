@@ -2,9 +2,10 @@ import { compare } from 'compare-versions';
 
 type SemVerPatternFragment = `${bigint | '*'}`;
 
-type SemVerPattern = SemVerPatternFragment
-| `${SemVerPatternFragment}.${SemVerPatternFragment}`
-| `${SemVerPatternFragment}.${SemVerPatternFragment}.${SemVerPatternFragment}`;
+type SemVerPattern =
+  | SemVerPatternFragment
+  | `${SemVerPatternFragment}.${SemVerPatternFragment}`
+  | `${SemVerPatternFragment}.${SemVerPatternFragment}.${SemVerPatternFragment}`;
 
 export type Versions = {
   maxVersion?: SemVerPattern;

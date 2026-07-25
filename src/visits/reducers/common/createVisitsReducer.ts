@@ -14,9 +14,13 @@ interface VisitsReducerOptions<State, T extends LoadVisits> {
   extraReducers?: (builder: ActionReducerMapBuilder<VisitsInfo<State>>) => void;
 }
 
-export const createVisitsReducer = <State, T extends LoadVisits>(
-  { name, asyncThunk, initialState, filterCreatedVisits, extraReducers }: VisitsReducerOptions<State, T>,
-) => {
+export const createVisitsReducer = <State, T extends LoadVisits>({
+  name,
+  asyncThunk,
+  initialState,
+  filterCreatedVisits,
+  extraReducers,
+}: VisitsReducerOptions<State, T>) => {
   const { pending, rejected, fulfilled, progressChanged, fallbackToInterval } = asyncThunk;
   const { reducer, actions } = createSlice({
     name,
@@ -26,19 +30,20 @@ export const createVisitsReducer = <State, T extends LoadVisits>(
     },
     extraReducers: (builder) => {
       builder.addCase(pending, () => ({ status: 'loading', progress: null }));
-      builder.addCase(progressChanged, (state, { payload: progress }) => (
+      builder.addCase(progressChanged, (state, { payload: progress }) =>
         // Update progress only if already loading
-        state.status !== 'loading' ? state : { status: 'loading', progress }
-      ));
+        state.status !== 'loading' ? state : { status: 'loading', progress },
+      );
 
       builder.addCase(rejected, (_, { error }) => ({ status: 'error', error: parseApiError(error) }));
 
       // Unpack the whole payload, as it could have different props depending on the concrete reducer
       builder.addCase(fulfilled, (state, { payload }) => ({ ...state, ...payload, status: 'loaded' }));
 
-      builder.addCase(fallbackToInterval, (_, { payload: fallbackInterval }) => (
-        { status: 'fallback', fallbackInterval }
-      ));
+      builder.addCase(fallbackToInterval, (_, { payload: fallbackInterval }) => ({
+        status: 'fallback',
+        fallbackInterval,
+      }));
 
       builder.addCase(createNewVisits, (state, { payload }) => {
         if (state.status !== 'loaded') {

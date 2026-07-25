@@ -6,11 +6,12 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<DoughnutChartCard />', () => {
   const stats = { foo: 10, bar: 5602 };
-  const setUp = () => renderWithEvents(
-    <ChartDimensionsProvider value={{ width: 800, height: 400 }}>
-      <DoughnutChartCard title="Stats" stats={stats} prevStats={{}} />
-    </ChartDimensionsProvider>,
-  );
+  const setUp = () =>
+    renderWithEvents(
+      <ChartDimensionsProvider value={{ width: 800, height: 400 }}>
+        <DoughnutChartCard title="Stats" stats={stats} prevStats={{}} />
+      </ChartDimensionsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

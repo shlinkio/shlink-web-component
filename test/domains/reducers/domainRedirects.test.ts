@@ -17,9 +17,11 @@ describe('domainRedirectsReducer', () => {
       await editDomainRedirects(fromPartial({ domain, apiClientFactory }))(dispatch, getState, {});
 
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { domain, redirects },
-      }));
+      expect(dispatch).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { domain, redirects },
+        }),
+      );
       expect(editDomainRedirectsCall).toHaveBeenCalledOnce();
     });
   });

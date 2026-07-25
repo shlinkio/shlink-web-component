@@ -4,7 +4,7 @@ import type { ShlinkDeleteVisitsResult } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import { useAppDispatch, useAppSelector } from '../../store';
 import type { WithApiClient } from '../../store/helpers';
-import { createAsyncThunk,useApiClientFactory  } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 import type { VisitsDeletion } from './types';
 
 const REDUCER_PREFIX = 'shlink/orphanVisitsDeletion';
@@ -26,9 +26,10 @@ export const { reducer: orphanVisitsDeletionReducer } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(deleteOrphanVisitsThunk.pending, () => ({ status: 'deleting' }));
-    builder.addCase(deleteOrphanVisitsThunk.rejected, (_, { error }) => (
-      { status: 'error', error: parseApiError(error) }
-    ));
+    builder.addCase(deleteOrphanVisitsThunk.rejected, (_, { error }) => ({
+      status: 'error',
+      error: parseApiError(error),
+    }));
     builder.addCase(deleteOrphanVisitsThunk.fulfilled, (_, { payload }) => {
       const { deletedVisits } = payload;
       return { status: 'deleted', deletedVisits };

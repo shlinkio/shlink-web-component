@@ -36,10 +36,12 @@ export const DomainDropdown: FC<DomainDropdownProps> = ({ domain }) => {
         <RowDropdown.Item
           className="gap-1.5"
           disabled={!visitsComparison || !visitsComparison.canAddItemWithName(domain.domain)}
-          onClick={() => visitsComparison?.addItemToCompare({
-            name: domain.domain,
-            query: domain.domain,
-          })}
+          onClick={() =>
+            visitsComparison?.addItemToCompare({
+              name: domain.domain,
+              query: domain.domain,
+            })
+          }
         >
           <FontAwesomeIcon icon={lineChartIcon} /> Compare visits
         </RowDropdown.Item>

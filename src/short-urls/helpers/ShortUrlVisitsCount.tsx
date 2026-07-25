@@ -13,9 +13,12 @@ interface ShortUrlVisitsCountProps {
   asLink?: boolean;
 }
 
-export const ShortUrlVisitsCount = (
-  { visitsCount, shortUrl, active = false, asLink = false }: ShortUrlVisitsCountProps,
-) => {
+export const ShortUrlVisitsCount = ({
+  visitsCount,
+  shortUrl,
+  active = false,
+  asLink = false,
+}: ShortUrlVisitsCountProps) => {
   const { anchor, tooltip } = useTooltip();
   const { maxVisits, validSince, validUntil } = shortUrl?.meta ?? {};
   const hasLimit = !!maxVisits || !!validSince || !!validUntil;
@@ -46,19 +49,20 @@ export const ShortUrlVisitsCount = (
         <ul className="flex flex-col gap-y-2">
           {maxVisits && (
             <li>
-              This short URL will not accept more than <b>{formatNumber(maxVisits)}</b> visit{maxVisits === 1 ? '' : 's'}.
+              This short URL will not accept more than <b>{formatNumber(maxVisits)}</b> visit
+              {maxVisits === 1 ? '' : 's'}.
             </li>
           )}
           {validSince && (
             <li>
-              This short URL will not accept visits
-              before <b className="whitespace-nowrap">{formatHumanFriendly(parseISO(validSince))}</b>.
+              This short URL will not accept visits before{' '}
+              <b className="whitespace-nowrap">{formatHumanFriendly(parseISO(validSince))}</b>.
             </li>
           )}
           {validUntil && (
             <li>
-              This short URL will not accept visits
-              after <b className="whitespace-nowrap">{formatHumanFriendly(parseISO(validUntil))}</b>.
+              This short URL will not accept visits after{' '}
+              <b className="whitespace-nowrap">{formatHumanFriendly(parseISO(validUntil))}</b>.
             </li>
           )}
         </ul>

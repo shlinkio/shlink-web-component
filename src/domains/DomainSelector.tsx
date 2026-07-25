@@ -1,6 +1,6 @@
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Dropdown, Input,useToggle  } from '@shlinkio/shlink-frontend-kit';
+import { Button, Dropdown, Input, useToggle } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { useCallback } from 'react';
 import { Muted } from '../utils/components/Muted';

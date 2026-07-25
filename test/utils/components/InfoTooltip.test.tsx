@@ -5,17 +5,12 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<InfoTooltip />', () => {
-  const setUp = (props: Partial<InfoTooltipProps> = {}) => renderWithEvents(
-    <InfoTooltip placement="right" {...props} />,
-  );
+  const setUp = (props: Partial<InfoTooltipProps> = {}) =>
+    renderWithEvents(<InfoTooltip placement="right" {...props} />);
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it.each([
-    [undefined],
-    ['foo'],
-    ['bar'],
-  ])('renders expected className on span', (className) => {
+  it.each([[undefined], ['foo'], ['bar']])('renders expected className on span', (className) => {
     const { container } = setUp({ className });
 
     if (className) {
@@ -43,21 +38,19 @@ describe('<InfoTooltip />', () => {
     await waitForElementToBeRemoved(tooltip);
   });
 
-  it.each([
-    ['right' as const],
-    ['left' as const],
-    ['top' as const],
-    ['bottom' as const],
-  ])('places tooltip where requested', async (placement) => {
-    const { user } = setUp({ placement });
-    const anchor = screen.getByTestId('tooltip-anchor');
+  it.each([['right' as const], ['left' as const], ['top' as const], ['bottom' as const]])(
+    'places tooltip where requested',
+    async (placement) => {
+      const { user } = setUp({ placement });
+      const anchor = screen.getByTestId('tooltip-anchor');
 
-    await user.hover(anchor);
-    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
+      await user.hover(anchor);
+      await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
 
-    expect(anchor).toHaveAttribute('data-placement', placement);
+      expect(anchor).toHaveAttribute('data-placement', placement);
 
-    await user.unhover(anchor);
-    await waitForElementToBeRemoved(screen.getByRole('tooltip'));
-  });
+      await user.unhover(anchor);
+      await waitForElementToBeRemoved(screen.getByRole('tooltip'));
+    },
+  );
 });

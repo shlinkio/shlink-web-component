@@ -24,7 +24,10 @@ export const parseUserAgent = (userAgent: string | Empty): ParsedUserAgent => {
     return { browser: DEFAULT, os: DEFAULT };
   }
 
-  const { browser: { name: browser }, os: { name: os } } = bowser.parse(userAgent);
+  const {
+    browser: { name: browser },
+    os: { name: os },
+  } = bowser.parse(userAgent);
 
   return { os: os ?? DEFAULT, browser: browser && BROWSERS_ALLOWLIST.includes(browser) ? browser : DEFAULT };
 };
@@ -38,4 +41,10 @@ export const extractDomain = (url: string | Empty): string => {
 };
 
 export const fillTheGaps = (stats: Stats, labels: string[]): number[] =>
-  Object.values({ ...zipObj(labels, labels.map(() => 0)), ...stats });
+  Object.values({
+    ...zipObj(
+      labels,
+      labels.map(() => 0),
+    ),
+    ...stats,
+  });

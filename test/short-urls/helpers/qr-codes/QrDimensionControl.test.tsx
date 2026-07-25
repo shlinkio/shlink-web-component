@@ -10,16 +10,12 @@ type SetUpOptions = {
 
 describe('<QrDimensionControl />', () => {
   const onChange = vi.fn();
-  const setUp = ({ name = 'the dimension', value }: SetUpOptions = {}) => renderWithEvents(
-    <QrDimensionControl name={name} value={value ?? 30} onChange={onChange} />,
-  );
+  const setUp = ({ name = 'the dimension', value }: SetUpOptions = {}) =>
+    renderWithEvents(<QrDimensionControl name={name} value={value ?? 30} onChange={onChange} />);
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it.each([
-    { value: undefined },
-    { value: 15 },
-  ])('shows a range slider', ({ value }) => {
+  it.each([{ value: undefined }, { value: 15 }])('shows a range slider', ({ value }) => {
     setUp({ value });
     expect(screen.getByRole('slider')).toBeInTheDocument();
   });

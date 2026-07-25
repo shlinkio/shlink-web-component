@@ -29,57 +29,63 @@ describe('domainsListReducer', () => {
 
   describe('reducer', () => {
     it('returns loading on LIST_DOMAINS_START', () => {
-      expect(reducer(undefined, listDomainsAction.pending('', fromPartial({})))).toEqual(
-        { domains: [], filteredDomains: [], status: 'loading' },
-      );
+      expect(reducer(undefined, listDomainsAction.pending('', fromPartial({})))).toEqual({
+        domains: [],
+        filteredDomains: [],
+        status: 'loading',
+      });
     });
 
     it('returns error on LIST_DOMAINS_ERROR', () => {
-      expect(reducer(undefined, listDomainsAction.rejected(error, '', fromPartial({})))).toEqual(
-        { domains: [], filteredDomains: [], status: 'error', error: parseApiError(error) },
-      );
+      expect(reducer(undefined, listDomainsAction.rejected(error, '', fromPartial({})))).toEqual({
+        domains: [],
+        filteredDomains: [],
+        status: 'error',
+        error: parseApiError(error),
+      });
     });
 
     it('returns domains on LIST_DOMAINS', () => {
-      expect(
-        reducer(undefined, listDomainsAction.fulfilled({ domains }, '', fromPartial({}))),
-      ).toEqual({ domains, filteredDomains: domains, status: 'idle' });
+      expect(reducer(undefined, listDomainsAction.fulfilled({ domains }, '', fromPartial({})))).toEqual({
+        domains,
+        filteredDomains: domains,
+        status: 'idle',
+      });
     });
 
     it('filters domains on FILTER_DOMAINS', () => {
       expect(reducer(fromPartial({ domains }), filterDomains('oO'))).toEqual({ domains, filteredDomains });
     });
 
-    it.each([
-      ['foo'],
-      ['bar'],
-      ['does_not_exist'],
-    ])('replaces redirects on proper domain on EDIT_DOMAIN_REDIRECTS', (domain) => {
-      const redirects: ShlinkDomainRedirects = {
-        baseUrlRedirect: 'bar',
-        regular404Redirect: 'foo',
-        invalidShortUrlRedirect: null,
-      };
-      const editDomainRedirects: EditDomainRedirectsOptions = { domain, redirects, apiClientFactory };
+    it.each([['foo'], ['bar'], ['does_not_exist']])(
+      'replaces redirects on proper domain on EDIT_DOMAIN_REDIRECTS',
+      (domain) => {
+        const redirects: ShlinkDomainRedirects = {
+          baseUrlRedirect: 'bar',
+          regular404Redirect: 'foo',
+          invalidShortUrlRedirect: null,
+        };
+        const editDomainRedirects: EditDomainRedirectsOptions = { domain, redirects, apiClientFactory };
 
-      expect(reducer(
-        fromPartial({ domains, filteredDomains }),
-        editDomainRedirectsThunk.fulfilled(editDomainRedirects, '', editDomainRedirects),
-      )).toEqual({
-        domains: domains.map(replaceRedirectsOnDomain(editDomainRedirects)),
-        filteredDomains: filteredDomains.map(replaceRedirectsOnDomain(editDomainRedirects)),
-      });
-    });
+        expect(
+          reducer(
+            fromPartial({ domains, filteredDomains }),
+            editDomainRedirectsThunk.fulfilled(editDomainRedirects, '', editDomainRedirects),
+          ),
+        ).toEqual({
+          domains: domains.map(replaceRedirectsOnDomain(editDomainRedirects)),
+          filteredDomains: filteredDomains.map(replaceRedirectsOnDomain(editDomainRedirects)),
+        });
+      },
+    );
 
-    it.each([
-      ['foo'],
-      ['bar'],
-      ['does_not_exist'],
-    ])('replaces status on proper domain on VALIDATE_DOMAIN', (domain) => {
-      expect(reducer(
-        fromPartial({ domains, filteredDomains }),
-        checkDomainHealth.fulfilled({ domain, status: 'valid' }, '', fromPartial({})),
-      )).toEqual({
+    it.each([['foo'], ['bar'], ['does_not_exist']])('replaces status on proper domain on VALIDATE_DOMAIN', (domain) => {
+      expect(
+        reducer(
+          fromPartial({ domains, filteredDomains }),
+          checkDomainHealth.fulfilled({ domain, status: 'valid' }, '', fromPartial({})),
+        ),
+      ).toEqual({
         domains: domains.map(replaceStatusOnDomain(domain, 'valid')),
         filteredDomains: filteredDomains.map(replaceStatusOnDomain(domain, 'valid')),
       });
@@ -96,18 +102,17 @@ describe('domainsListReducer', () => {
       expect(state.domains[3].domain).toEqual(domain);
     });
 
-    it.each([
-      { domain: null },
-      { domain: domains[0].domain },
-      { domain: domains[1].domain },
-    ])('ignores existing domains when a short URL is created', ({ domain }) => {
-      const state = reducer(
-        fromPartial({ domains, filteredDomains }),
-        createShortUrlThunk.fulfilled(fromPartial({ domain }), '', fromPartial({ domain: domain ?? undefined })),
-      );
+    it.each([{ domain: null }, { domain: domains[0].domain }, { domain: domains[1].domain }])(
+      'ignores existing domains when a short URL is created',
+      ({ domain }) => {
+        const state = reducer(
+          fromPartial({ domains, filteredDomains }),
+          createShortUrlThunk.fulfilled(fromPartial({ domain }), '', fromPartial({ domain: domain ?? undefined })),
+        );
 
-      expect(state.domains).toEqual(domains);
-    });
+        expect(state.domains).toEqual(domains);
+      },
+    );
   });
 
   describe('listDomains', () => {
@@ -117,19 +122,17 @@ describe('domainsListReducer', () => {
       await listDomainsAction({ apiClientFactory })(dispatch, getState, {});
 
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { domains },
-      }));
+      expect(dispatch).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { domains },
+        }),
+      );
       expect(listDomains).toHaveBeenCalledOnce();
     });
   });
 
   describe('filterDomains', () => {
-    it.each([
-      ['foo'],
-      ['bar'],
-      ['something'],
-    ])('creates action as expected', (searchTerm) => {
+    it.each([['foo'], ['bar'], ['something']])('creates action as expected', (searchTerm) => {
       expect(filterDomains(searchTerm).payload).toEqual(searchTerm);
     });
   });
@@ -144,27 +147,31 @@ describe('domainsListReducer', () => {
 
       expect(health).toHaveBeenCalledOnce();
       expect(health).toHaveBeenCalledWith({ domain });
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { domain, status: 'invalid' },
-      }));
+      expect(dispatch).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { domain, status: 'invalid' },
+        }),
+      );
     });
 
     it.each([
       ['pass', 'valid'],
       ['fail', 'invalid'],
-    ])('dispatches proper status based on status returned from health endpoint', async (
-      healthStatus,
-      expectedStatus,
-    ) => {
-      health.mockResolvedValue({ status: healthStatus });
+    ])(
+      'dispatches proper status based on status returned from health endpoint',
+      async (healthStatus, expectedStatus) => {
+        health.mockResolvedValue({ status: healthStatus });
 
-      await checkDomainHealth({ domain, apiClientFactory })(dispatch, getState, {});
+        await checkDomainHealth({ domain, apiClientFactory })(dispatch, getState, {});
 
-      expect(health).toHaveBeenCalledOnce();
-      expect(health).toHaveBeenCalledWith({ domain });
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { domain, status: expectedStatus },
-      }));
-    });
+        expect(health).toHaveBeenCalledOnce();
+        expect(health).toHaveBeenCalledWith({ domain });
+        expect(dispatch).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            payload: { domain, status: expectedStatus },
+          }),
+        );
+      },
+    );
   });
 });

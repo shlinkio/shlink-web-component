@@ -10,9 +10,8 @@ import { renderWithEvents } from '../__helpers__/setUpTest';
 describe('<ShortUrlsTable />', () => {
   const shortUrlsList = fromPartial<ShortUrlsList>({});
   const orderByColumn = vi.fn();
-  const setUp = () => renderWithEvents(
-    <ShortUrlsTable shortUrlsList={shortUrlsList} orderByColumn={() => orderByColumn} />,
-  );
+  const setUp = () =>
+    renderWithEvents(<ShortUrlsTable shortUrlsList={shortUrlsList} orderByColumn={() => orderByColumn} />);
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -39,13 +38,15 @@ describe('<ShortUrlsTable />', () => {
   it('should render table header cells with conditional order by icon', () => {
     setUp();
 
-    const getThElementForSortableField = (orderableField: string) => screen.getAllByRole(
-      'columnheader',
-      { hidden: true },
-    ).find(
-      ({ innerHTML }) => innerHTML.includes(SHORT_URLS_ORDERABLE_FIELDS[orderableField as ShortUrlsOrderableFields]),
+    const getThElementForSortableField = (orderableField: string) =>
+      screen
+        .getAllByRole('columnheader', { hidden: true })
+        .find(({ innerHTML }) =>
+          innerHTML.includes(SHORT_URLS_ORDERABLE_FIELDS[orderableField as ShortUrlsOrderableFields]),
+        );
+    const sortableFields = Object.keys(SHORT_URLS_ORDERABLE_FIELDS).filter(
+      (sortableField) => sortableField !== 'title',
     );
-    const sortableFields = Object.keys(SHORT_URLS_ORDERABLE_FIELDS).filter((sortableField) => sortableField !== 'title');
 
     expect.assertions(sortableFields.length * 2);
     sortableFields.forEach((sortableField) => {

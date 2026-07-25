@@ -20,15 +20,10 @@ export const VisitsHeader: FC<VisitsHeaderProps> = ({ visits, shortUrl, children
           <small>{title}</small>
         </span>
         <span
-          className={clsx(
-            'px-3 py-1.5 rounded-md ml-3',
-            'font-bold text-white text-2xl',
-            'bg-lm-main dark:bg-dm-main',
-          )}
+          className={clsx('px-3 py-1.5 rounded-md ml-3', 'font-bold text-white text-2xl', 'bg-lm-main dark:bg-dm-main')}
           data-testid="badge"
         >
-          Visits:{' '}
-          <ShortUrlVisitsCount visitsCount={visits.length} shortUrl={shortUrl} />
+          Visits: <ShortUrlVisitsCount visitsCount={visits.length} shortUrl={shortUrl} />
         </span>
       </h2>
       <h3 className="text-center block sm:hidden mt-3">

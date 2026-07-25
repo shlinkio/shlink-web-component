@@ -63,39 +63,41 @@ const updateVisitedUrlsForVisit = (visitedUrlsStats: Stats, visit: NormalizedVis
   visitedUrlsStats[visitedUrl] = (visitedUrlsStats[visitedUrl] || 0) + 1;
 };
 
-export const processStatsFromVisits = (visits: NormalizedVisit[]) => visits.reduce(
-  (stats: VisitsStats, visit: NormalizedVisit) => {
-    // We mutate the original object because it has a big performance impact when large data sets are processed
-    updateOsStatsForVisit(stats.os, visit);
-    updateBrowsersStatsForVisit(stats.browsers, visit);
-    updateReferrersStatsForVisit(stats.referrers, visit);
-    updateCountriesStatsForVisit(stats.countries, visit);
-    updateCitiesStatsForVisit(stats.cities, visit);
-    updateCitiesForMapForVisit(stats.citiesForMap, visit);
-    updateVisitedUrlsForVisit(stats.visitedUrls, visit);
+export const processStatsFromVisits = (visits: NormalizedVisit[]) =>
+  visits.reduce(
+    (stats: VisitsStats, visit: NormalizedVisit) => {
+      // We mutate the original object because it has a big performance impact when large data sets are processed
+      updateOsStatsForVisit(stats.os, visit);
+      updateBrowsersStatsForVisit(stats.browsers, visit);
+      updateReferrersStatsForVisit(stats.referrers, visit);
+      updateCountriesStatsForVisit(stats.countries, visit);
+      updateCitiesStatsForVisit(stats.cities, visit);
+      updateCitiesForMapForVisit(stats.citiesForMap, visit);
+      updateVisitedUrlsForVisit(stats.visitedUrls, visit);
 
-    return stats;
-  },
-  { os: {}, browsers: {}, referrers: {}, countries: {}, cities: {}, citiesForMap: {}, visitedUrls: {} },
-);
+      return stats;
+    },
+    { os: {}, browsers: {}, referrers: {}, countries: {}, cities: {}, citiesForMap: {}, visitedUrls: {} },
+  );
 
-export const normalizeVisits = (visits: ShlinkVisit[]) => visits.map((visit): NormalizedVisit => {
-  const { userAgent, date, referer, visitLocation, potentialBot } = visit;
-  return {
-    date,
-    potentialBot,
-    userAgent,
-    ...parseUserAgent(userAgent),
-    referer: extractDomain(referer),
-    country: visitLocation?.countryName || 'Unknown',
-    region: visitLocation?.regionName || 'Unknown',
-    city: visitLocation?.cityName || 'Unknown',
-    latitude: visitLocation?.latitude,
-    longitude: visitLocation?.longitude,
-    visitedUrl: visit.visitedUrl,
-    type: isOrphanVisit(visit) ? visit.type : undefined,
-  };
-});
+export const normalizeVisits = (visits: ShlinkVisit[]) =>
+  visits.map((visit): NormalizedVisit => {
+    const { userAgent, date, referer, visitLocation, potentialBot } = visit;
+    return {
+      date,
+      potentialBot,
+      userAgent,
+      ...parseUserAgent(userAgent),
+      referer: extractDomain(referer),
+      country: visitLocation?.countryName || 'Unknown',
+      region: visitLocation?.regionName || 'Unknown',
+      city: visitLocation?.cityName || 'Unknown',
+      latitude: visitLocation?.latitude,
+      longitude: visitLocation?.longitude,
+      visitedUrl: visit.visitedUrl,
+      type: isOrphanVisit(visit) ? visit.type : undefined,
+    };
+  });
 
 export interface VisitsParser {
   processStatsFromVisits: (normalizedVisits: NormalizedVisit[]) => VisitsStats;

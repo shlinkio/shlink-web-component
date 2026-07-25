@@ -12,3 +12,4 @@ jobs:
     secrets: inherit
     with:
       install-playwright: true
+      cs-script: true

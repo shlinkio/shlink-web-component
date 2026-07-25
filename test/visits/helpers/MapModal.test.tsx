@@ -7,7 +7,7 @@ describe('<MapModal />', () => {
   const toggle = vi.fn();
   const zaragozaLat = 41.6563497;
   const zaragozaLong = -0.876566;
-  const newYorkLat = 40.730610;
+  const newYorkLat = 40.73061;
   const newYorkLong = -73.935242;
   const locations: CityStats[] = [
     {

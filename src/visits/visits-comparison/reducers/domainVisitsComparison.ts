@@ -10,7 +10,7 @@ import type { LoadVisitsForComparison, VisitsComparisonInfo } from './types';
 
 const REDUCER_PREFIX = 'shlink/domainVisitsComparison';
 
-export type LoadDomainVisitsForComparison = LoadVisitsForComparison & { domains: string[]; };
+export type LoadDomainVisitsForComparison = LoadVisitsForComparison & { domains: string[] };
 
 const initialState: VisitsComparisonInfo = {
   status: 'idle',
@@ -30,19 +30,14 @@ export const getDomainVisitsForComparisonThunk = createVisitsComparisonAsyncThun
   shouldCancel: (getState) => getState().domainVisitsComparison.status === 'canceled',
 });
 
-export const {
-  reducer: domainVisitsComparisonReducer,
-  cancelGetVisits: cancelGetDomainVisitsForComparison,
-} = createVisitsComparisonReducer({
-  name: REDUCER_PREFIX,
-  initialState: initialState as VisitsComparisonInfo,
-  asyncThunk: getDomainVisitsForComparisonThunk,
-  filterCreatedVisitsForGroup: ({ groupKey: domain, params }, createdVisits) => filterCreatedVisitsByDomain(
-    createdVisits,
-    domain,
-    params?.dateRange,
-  ),
-});
+export const { reducer: domainVisitsComparisonReducer, cancelGetVisits: cancelGetDomainVisitsForComparison } =
+  createVisitsComparisonReducer({
+    name: REDUCER_PREFIX,
+    initialState: initialState as VisitsComparisonInfo,
+    asyncThunk: getDomainVisitsForComparisonThunk,
+    filterCreatedVisitsForGroup: ({ groupKey: domain, params }, createdVisits) =>
+      filterCreatedVisitsByDomain(createdVisits, domain, params?.dateRange),
+  });
 
 export const useDomainVisitsComparison = () => {
   const dispatch = useAppDispatch();

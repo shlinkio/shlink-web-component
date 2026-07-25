@@ -6,14 +6,13 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<CreateShortUrlResult />', () => {
-  const setUp = (creation: ShortUrlCreation, canBeClosed?: boolean) => renderWithEvents(
-    <CreateShortUrlResult resetCreateShortUrl={() => {}} creation={creation} canBeClosed={canBeClosed} />,
-  );
+  const setUp = (creation: ShortUrlCreation, canBeClosed?: boolean) =>
+    renderWithEvents(
+      <CreateShortUrlResult resetCreateShortUrl={() => {}} creation={creation} canBeClosed={canBeClosed} />,
+    );
 
-  it('passes a11y checks', () => checkAccessibility(setUp(
-    { result: fromPartial({ shortUrl: 'https://s.test/abc123' }), status: 'saved' },
-    true,
-  )));
+  it('passes a11y checks', () =>
+    checkAccessibility(setUp({ result: fromPartial({ shortUrl: 'https://s.test/abc123' }), status: 'saved' }, true)));
 
   it('renders an error when error is true', () => {
     setUp({ status: 'error' });

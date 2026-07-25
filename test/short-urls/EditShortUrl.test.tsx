@@ -30,16 +30,14 @@ describe('<EditShortUrl />', () => {
   };
 
   beforeEach(() => {
-    getShortUrlsDetails.mockImplementation((identifier) => Promise.resolve(
-      { shortUrl: 'https://s.test/abc123', meta: {}, ...identifier },
-    ));
+    getShortUrlsDetails.mockImplementation((identifier) =>
+      Promise.resolve({ shortUrl: 'https://s.test/abc123', meta: {}, ...identifier }),
+    );
   });
 
-  it.each([
-    {},
-    { error: true, saved: true },
-    { error: false, saved: true },
-  ])('passes a11y checks', (edition) => checkAccessibility(setUp(edition)));
+  it.each([{}, { error: true, saved: true }, { error: false, saved: true }])('passes a11y checks', (edition) =>
+    checkAccessibility(setUp(edition)),
+  );
 
   it('renders loading message while loading detail', async () => {
     const setUpPromise = setUp();

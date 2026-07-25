@@ -42,11 +42,17 @@ export const DeleteShortUrlModal = ({ shortUrl, onClose, isOpen }: DeleteShortUr
       onClosed={() => status === 'deleted' && shortUrlDeleted(shortUrl)}
     >
       <div className="flex flex-col gap-y-2">
-        <p><b className="text-danger">Caution!</b> You are about to delete a short URL.</p>
+        <p>
+          <b className="text-danger">Caution!</b> You are about to delete a short URL.
+        </p>
         <p>This action cannot be undone. Once you have deleted it, all the visits stats will be lost.</p>
 
         <LabelledInput
-          label={<>Type <b>{DELETION_PATTERN}</b> to confirm deletion.</>}
+          label={
+            <>
+              Type <b>{DELETION_PATTERN}</b> to confirm deletion.
+            </>
+          }
           type="text"
           placeholder={DELETION_PATTERN}
           value={inputValue}
@@ -55,8 +61,15 @@ export const DeleteShortUrlModal = ({ shortUrl, onClose, isOpen }: DeleteShortUr
         />
 
         {status === 'error' && (
-          <Result variant={isInvalidDeletionError(shortUrlDeletion.error) ? 'warning' : 'error'} size="sm" className="mt-2">
-            <ShlinkApiError errorData={shortUrlDeletion.error} fallbackMessage="Something went wrong while deleting the URL :(" />
+          <Result
+            variant={isInvalidDeletionError(shortUrlDeletion.error) ? 'warning' : 'error'}
+            size="sm"
+            className="mt-2"
+          >
+            <ShlinkApiError
+              errorData={shortUrlDeletion.error}
+              fallbackMessage="Something went wrong while deleting the URL :("
+            />
           </Result>
         )}
       </div>

@@ -83,50 +83,33 @@ describe('tagVisitsComparisonReducer', () => {
       // Query filter in the future. Tag matches foo. No new visits prepended
       [{ startDate: addDays(now, 1) }, 'foo', visitsMocks.length, visitsMocks.length],
       // Query filter with start and end in the past. Tag matches foo. No new visits prepended
-      [
-        { startDate: subDays(now, 5), endDate: subDays(now, 2) },
-        'foo',
-        visitsMocks.length,
-        visitsMocks.length,
-      ],
+      [{ startDate: subDays(now, 5), endDate: subDays(now, 2) }, 'foo', visitsMocks.length, visitsMocks.length],
       // Query filter with start and end in the present. Tag matches foo. Visits prepended to foo
-      [
-        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
-        'foo',
-        visitsMocks.length + 1,
-        visitsMocks.length,
-      ],
+      [{ startDate: subDays(now, 5), endDate: addDays(now, 3) }, 'foo', visitsMocks.length + 1, visitsMocks.length],
       // Query filter with start and end in the present. Tag matches bar. Visits prepended to bar
-      [
-        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
-        'bar',
-        visitsMocks.length,
-        visitsMocks.length + 1,
-      ],
+      [{ startDate: subDays(now, 5), endDate: addDays(now, 3) }, 'bar', visitsMocks.length, visitsMocks.length + 1],
       // Query filter with start and end in the present. No tag match. No new visits prepended
-      [
-        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
-        'baz',
-        visitsMocks.length,
-        visitsMocks.length,
-      ],
-    ])('prepends new visits when visits are created', (dateRange, shortUrlTag, expectedFooVisits, expectedBarVisits) => {
-      const actionVisits: Record<string, ShlinkVisit[]> = {
-        foo: visitsMocks,
-        bar: visitsMocks,
-      };
-      const shortUrl = fromPartial<ShlinkShortUrl>({ tags: [shortUrlTag] });
-      const result = reducer(
-        { visitsGroups: actionVisits, params: { dateRange }, status: 'loaded' },
-        createNewVisits([fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } })]),
-      );
+      [{ startDate: subDays(now, 5), endDate: addDays(now, 3) }, 'baz', visitsMocks.length, visitsMocks.length],
+    ])(
+      'prepends new visits when visits are created',
+      (dateRange, shortUrlTag, expectedFooVisits, expectedBarVisits) => {
+        const actionVisits: Record<string, ShlinkVisit[]> = {
+          foo: visitsMocks,
+          bar: visitsMocks,
+        };
+        const shortUrl = fromPartial<ShlinkShortUrl>({ tags: [shortUrlTag] });
+        const result = reducer(
+          { visitsGroups: actionVisits, params: { dateRange }, status: 'loaded' },
+          createNewVisits([fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } })]),
+        );
 
-      expect(result.status).toEqual('loaded');
-      if (result.status === 'loaded') {
-        expect(result.visitsGroups.foo).toHaveLength(expectedFooVisits);
-        expect(result.visitsGroups.bar).toHaveLength(expectedBarVisits);
-      }
-    });
+        expect(result.status).toEqual('loaded');
+        if (result.status === 'loaded') {
+          expect(result.visitsGroups.foo).toHaveLength(expectedFooVisits);
+          expect(result.visitsGroups.bar).toHaveLength(expectedBarVisits);
+        }
+      },
+    );
   });
 
   describe('getTagVisitsForComparison', () => {
@@ -156,9 +139,11 @@ describe('tagVisitsComparisonReducer', () => {
       await getTagVisitsForComparison(getVisitsComparisonParam)(dispatch, getState, {});
 
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { ...getVisitsComparisonParam, visitsGroups },
-      }));
+      expect(dispatch).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { ...getVisitsComparisonParam, visitsGroups },
+        }),
+      );
       expect(getTagVisitsCall).toHaveBeenCalledTimes(tags.length);
       expect(getTagVisitsCall).toHaveBeenNthCalledWith(1, 'foo', expect.anything());
       expect(getTagVisitsCall).toHaveBeenNthCalledWith(2, 'bar', expect.anything());

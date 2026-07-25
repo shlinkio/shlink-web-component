@@ -60,26 +60,31 @@ export const useVisitsQuery = (): [VisitsQuery, UpdateQuery] => {
     }),
     [endDate, excludeBots, loadPrevInterval, orphanVisitsType, startDate, domain],
   );
-  const updateQuery = useCallback((extra: DeepPartial<VisitsQuery>) => {
-    const { dateRange, visitsFilter = {}, loadPrevInterval: newLoadPrevInterval, domain } = mergeDeepRight(
-      query,
-      extra,
-    );
-    const { excludeBots: newExcludeBots, orphanVisitsType: newOrphanVisitsType } = visitsFilter;
-    const newQuery: VisitsRawQuery = {
-      ...rest, // Merge with rest of existing query so that unknown params are preserved
-      startDate: dateFromRangeToQuery('startDate', dateRange),
-      endDate: dateFromRangeToQuery('endDate', dateRange),
-      excludeBots: newExcludeBots === undefined ? undefined : parseBooleanToString(newExcludeBots),
-      orphanVisitsType: newOrphanVisitsType,
-      loadPrevInterval: newLoadPrevInterval === undefined ? undefined : parseBooleanToString(newLoadPrevInterval),
-      domain,
-    };
-    const stringifiedQuery = stringifyQueryParams(newQuery);
-    const queryString = !stringifiedQuery ? '' : `?${stringifiedQuery}`;
+  const updateQuery = useCallback(
+    (extra: DeepPartial<VisitsQuery>) => {
+      const {
+        dateRange,
+        visitsFilter = {},
+        loadPrevInterval: newLoadPrevInterval,
+        domain,
+      } = mergeDeepRight(query, extra);
+      const { excludeBots: newExcludeBots, orphanVisitsType: newOrphanVisitsType } = visitsFilter;
+      const newQuery: VisitsRawQuery = {
+        ...rest, // Merge with rest of existing query so that unknown params are preserved
+        startDate: dateFromRangeToQuery('startDate', dateRange),
+        endDate: dateFromRangeToQuery('endDate', dateRange),
+        excludeBots: newExcludeBots === undefined ? undefined : parseBooleanToString(newExcludeBots),
+        orphanVisitsType: newOrphanVisitsType,
+        loadPrevInterval: newLoadPrevInterval === undefined ? undefined : parseBooleanToString(newLoadPrevInterval),
+        domain,
+      };
+      const stringifiedQuery = stringifyQueryParams(newQuery);
+      const queryString = !stringifiedQuery ? '' : `?${stringifiedQuery}`;
 
-    navigate(queryString, { replace: true, relative: 'route' });
-  }, [query, navigate, rest]);
+      navigate(queryString, { replace: true, relative: 'route' });
+    },
+    [query, navigate, rest],
+  );
 
   return [query, updateQuery];
 };

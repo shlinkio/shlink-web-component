@@ -1,6 +1,6 @@
 import { faPalette as colorIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Input,isLightColor  } from '@shlinkio/shlink-frontend-kit';
+import { Input, isLightColor } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
 import { forwardRef } from 'react';
 
@@ -13,10 +13,7 @@ export type ColorPickerProps = {
 
 export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(
   ({ name, color, onChange, className }, ref) => (
-    <div
-      className={clsx('relative rounded w-12', className)}
-      style={{ backgroundColor: color, borderColor: color }}
-    >
+    <div className={clsx('relative rounded w-12', className)} style={{ backgroundColor: color, borderColor: color }}>
       <Input
         className="w-full h-full cursor-pointer relative z-1 opacity-0"
         type="color"

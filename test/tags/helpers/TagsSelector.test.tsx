@@ -15,21 +15,22 @@ type SetUpOptions = {
 describe('<TagsSelector />', () => {
   const onChange = vi.fn();
   const tags = ['foo', 'bar'];
-  const setUp = ({ allTags, tagFilteringMode }: SetUpOptions = {}) => renderWithEvents(
-    <SettingsProvider
-      value={fromPartial({
-        shortUrlCreation: { tagFilteringMode },
-      })}
-    >
-      <TagsSelector
-        tags={allTags ?? [...tags, 'baz']}
-        selectedTags={tags}
-        onChange={onChange}
-        placeholder="Add tags to the URL"
-        ColorGenerator={colorGeneratorMock}
-      />
-    </SettingsProvider>,
-  );
+  const setUp = ({ allTags, tagFilteringMode }: SetUpOptions = {}) =>
+    renderWithEvents(
+      <SettingsProvider
+        value={fromPartial({
+          shortUrlCreation: { tagFilteringMode },
+        })}
+      >
+        <TagsSelector
+          tags={allTags ?? [...tags, 'baz']}
+          selectedTags={tags}
+          onChange={onChange}
+          placeholder="Add tags to the URL"
+          ColorGenerator={colorGeneratorMock}
+        />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

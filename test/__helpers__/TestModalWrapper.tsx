@@ -6,9 +6,7 @@ interface RenderModalArgs {
   onClose: () => void;
 }
 
-export const TestModalWrapper: FC<{ renderModal: (args: RenderModalArgs) => ReactElement }> = (
-  { renderModal },
-) => {
+export const TestModalWrapper: FC<{ renderModal: (args: RenderModalArgs) => ReactElement }> = ({ renderModal }) => {
   const { flag: isOpen, setToFalse: onClose } = useToggle(true);
   return renderModal({ isOpen, onClose });
 };

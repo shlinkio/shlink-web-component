@@ -4,16 +4,18 @@ import type { ProblemDetailsError, ShlinkSetRedirectRulesData, ShlinkShortUrlIde
 import { parseApiError } from '../../api-contract/utils';
 import { useAppDispatch, useAppSelector } from '../../store';
 import type { WithApiClient } from '../../store/helpers';
-import { createAsyncThunk,useApiClientFactory  } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/setShortUrlRedirectRules';
 
-export type SetShortUrlRedirectRules = {
-  status: 'idle' | 'saving' | 'saved';
-} | {
-  status: 'error';
-  error?: ProblemDetailsError;
-};
+export type SetShortUrlRedirectRules =
+  | {
+      status: 'idle' | 'saving' | 'saved';
+    }
+  | {
+      status: 'error';
+      error?: ProblemDetailsError;
+    };
 
 const initialState: SetShortUrlRedirectRules = {
   status: 'idle',
@@ -40,9 +42,10 @@ const { reducer, actions } = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(setShortUrlRedirectRulesThunk.pending, () => ({ status: 'saving' }));
-    builder.addCase(setShortUrlRedirectRulesThunk.rejected, (_, { error }) => (
-      { status: 'error', error: parseApiError(error) }
-    ));
+    builder.addCase(setShortUrlRedirectRulesThunk.rejected, (_, { error }) => ({
+      status: 'error',
+      error: parseApiError(error),
+    }));
     builder.addCase(setShortUrlRedirectRulesThunk.fulfilled, () => ({ status: 'saved' }));
   },
 });

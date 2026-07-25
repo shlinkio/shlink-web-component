@@ -14,9 +14,8 @@ describe('<DoughnutChartLegend />', () => {
     fromPartial({ name: 'foo2', color: '#008000', value: 8 }),
     fromPartial({ name: 'bar2', color: '#000080', value: 3481 }),
   ];
-  const setUp = (showNumbers = false) => render(
-    <DoughnutChartLegend chartData={chartData} showNumbers={showNumbers} />,
-  );
+  const setUp = (showNumbers = false) =>
+    render(<DoughnutChartLegend chartData={chartData} showNumbers={showNumbers} />);
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

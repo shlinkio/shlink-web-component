@@ -22,12 +22,16 @@ type TagsListCommon = {
   stats: TagsStatsMap;
 };
 
-export type TagsList = TagsListCommon & ({
-  status: 'idle' | 'loading';
-} | {
-  status: 'error';
-  error?: ProblemDetailsError;
-});
+export type TagsList = TagsListCommon &
+  (
+    | {
+        status: 'idle' | 'loading';
+      }
+    | {
+        status: 'error';
+        error?: ProblemDetailsError;
+      }
+  );
 
 type ListTags = {
   tags: string[];
@@ -46,43 +50,48 @@ type TagIncrease = [string, { bots: number; nonBots: number }];
 
 const renameTag = (oldName: string, newName: string) => (tag: string) => (tag === oldName ? newName : tag);
 const rejectTag = (tags: string[], tagToReject: string) => tags.filter((tag) => tag !== tagToReject);
-const increaseVisitsForTags = (tags: TagIncrease[], stats: TagsStatsMap) => tags.reduce((theStats, [tag, increase]) => {
-  if (!theStats[tag]) {
-    return theStats;
-  }
+const increaseVisitsForTags = (tags: TagIncrease[], stats: TagsStatsMap) =>
+  tags.reduce(
+    (theStats, [tag, increase]) => {
+      if (!theStats[tag]) {
+        return theStats;
+      }
 
-  const { bots, nonBots } = increase;
-  const tagStats = theStats[tag];
+      const { bots, nonBots } = increase;
+      const tagStats = theStats[tag];
 
-  return {
-    ...theStats,
-    [tag]: {
-      ...tagStats,
-      visitsSummary: {
-        total: tagStats.visitsSummary.total + bots + nonBots,
-        bots: tagStats.visitsSummary.bots + bots,
-        nonBots: tagStats.visitsSummary.nonBots + nonBots,
-      },
+      return {
+        ...theStats,
+        [tag]: {
+          ...tagStats,
+          visitsSummary: {
+            total: tagStats.visitsSummary.total + bots + nonBots,
+            bots: tagStats.visitsSummary.bots + bots,
+            nonBots: tagStats.visitsSummary.nonBots + nonBots,
+          },
+        },
+      };
     },
-  };
-}, { ...stats });
-const calculateVisitsPerTag = (createdVisits: CreateVisit[]): TagIncrease[] => Object.entries(
-  createdVisits.reduce<TagIncreaseRecord>((acc, { shortUrl, visit }) => {
-    shortUrl?.tags.forEach((tag) => {
-      if (!acc[tag]) {
-        acc[tag] = { bots: 0, nonBots: 0 };
-      }
+    { ...stats },
+  );
+const calculateVisitsPerTag = (createdVisits: CreateVisit[]): TagIncrease[] =>
+  Object.entries(
+    createdVisits.reduce<TagIncreaseRecord>((acc, { shortUrl, visit }) => {
+      shortUrl?.tags.forEach((tag) => {
+        if (!acc[tag]) {
+          acc[tag] = { bots: 0, nonBots: 0 };
+        }
 
-      if (visit.potentialBot) {
-        acc[tag].bots += 1;
-      } else {
-        acc[tag].nonBots += 1;
-      }
-    });
+        if (visit.potentialBot) {
+          acc[tag].bots += 1;
+        } else {
+          acc[tag].nonBots += 1;
+        }
+      });
 
-    return acc;
-  }, {}),
-);
+      return acc;
+    }, {}),
+  );
 
 export const listTagsThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/listTags`,
@@ -111,12 +120,17 @@ export const { reducer: tagsListReducer } = createSlice({
     }));
 
     builder.addCase(listTagsThunk.pending, () => ({ ...initialState, status: 'loading' }));
-    builder.addCase(listTagsThunk.rejected, (_, { error }) => (
-      { ...initialState, status: 'error', error: parseApiError(error) }
-    ));
-    builder.addCase(listTagsThunk.fulfilled, (_, { payload }) => (
-      { stats: payload.stats, tags: payload.tags, filteredTags: payload.tags, status: 'idle' }
-    ));
+    builder.addCase(listTagsThunk.rejected, (_, { error }) => ({
+      ...initialState,
+      status: 'error',
+      error: parseApiError(error),
+    }));
+    builder.addCase(listTagsThunk.fulfilled, (_, { payload }) => ({
+      stats: payload.stats,
+      tags: payload.tags,
+      filteredTags: payload.tags,
+      status: 'idle',
+    }));
 
     builder.addCase(tagDeleted, ({ tags, filteredTags, ...rest }, { payload: tag }) => ({
       ...rest,

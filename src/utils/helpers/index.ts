@@ -9,11 +9,10 @@ export const rangeOf = <T>(size: number, mappingFn: (value: number) => T, startA
 
 export type Empty = null | undefined | '' | never[];
 
-const isEmpty = (value: NonNullable<any>): boolean => (
-  (Array.isArray(value) && value.length === 0)
-  || (typeof value === 'string' && value === '')
-  || (typeof value === 'object' && Object.keys(value).length === 0)
-);
+const isEmpty = (value: NonNullable<any>): boolean =>
+  (Array.isArray(value) && value.length === 0) ||
+  (typeof value === 'string' && value === '') ||
+  (typeof value === 'object' && Object.keys(value).length === 0);
 
 export const hasValue = <T>(value: T | Empty): value is T => value !== undefined && value !== null && !isEmpty(value);
 
@@ -23,9 +22,8 @@ export type BooleanString = 'true' | 'false';
 
 export const parseBooleanToString = (value: boolean): BooleanString => (value ? 'true' : 'false');
 
-export const parseOptionalBooleanToString = (value?: boolean): BooleanString | undefined => (
-  value === undefined ? undefined : parseBooleanToString(value)
-);
+export const parseOptionalBooleanToString = (value?: boolean): BooleanString | undefined =>
+  value === undefined ? undefined : parseBooleanToString(value);
 
 /**
  * Joins a list of strings separated by comma, with the "and" separator between the last two elements

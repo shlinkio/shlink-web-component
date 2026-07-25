@@ -4,16 +4,18 @@ import type { ProblemDetailsError } from '../../api-contract';
 import { parseApiError } from '../../api-contract/utils';
 import { useAppDispatch, useAppSelector } from '../../store';
 import type { WithApiClient } from '../../store/helpers';
-import { createAsyncThunk,useApiClientFactory  } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/tagDelete';
 
-export type TagDeletion = {
-  status: 'idle' | 'deleting' | 'deleted';
-} | {
-  status: 'error';
-  error?: ProblemDetailsError;
-};
+export type TagDeletion =
+  | {
+      status: 'idle' | 'deleting' | 'deleted';
+    }
+  | {
+      status: 'error';
+      error?: ProblemDetailsError;
+    };
 
 const initialState: TagDeletion = {
   status: 'idle',
@@ -21,11 +23,12 @@ const initialState: TagDeletion = {
 
 export const tagDeleted = createAction<string>(`${REDUCER_PREFIX}/tagDeleted`);
 
-export const deleteTagThunk = createAsyncThunk(`${REDUCER_PREFIX}/deleteTag`, async (
-  { apiClientFactory, tag }: WithApiClient<{ tag: string }>,
-): Promise<void> => {
-  await apiClientFactory().deleteTags([tag]);
-});
+export const deleteTagThunk = createAsyncThunk(
+  `${REDUCER_PREFIX}/deleteTag`,
+  async ({ apiClientFactory, tag }: WithApiClient<{ tag: string }>): Promise<void> => {
+    await apiClientFactory().deleteTags([tag]);
+  },
+);
 
 export const { reducer: tagDeleteReducer } = createSlice({
   name: REDUCER_PREFIX,
@@ -33,10 +36,7 @@ export const { reducer: tagDeleteReducer } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(deleteTagThunk.pending, () => ({ status: 'deleting' }));
-    builder.addCase(
-      deleteTagThunk.rejected,
-      (_, { error }) => ({ status: 'error', error: parseApiError(error) }),
-    );
+    builder.addCase(deleteTagThunk.rejected, (_, { error }) => ({ status: 'error', error: parseApiError(error) }));
     builder.addCase(deleteTagThunk.fulfilled, () => ({ status: 'deleted' }));
   },
 });

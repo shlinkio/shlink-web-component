@@ -24,20 +24,17 @@ describe('<Tag />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp('the-tag')));
 
-  it.each([
-    [brandColor()],
-    ['#8A661C'],
-    ['#F7BE05'],
-    ['#5A02D8'],
-    ['#202786'],
-  ])('includes generated color as backgroundColor', (backgroundColor) => {
-    stylesForKey.mockReturnValue({ backgroundColor });
+  it.each([[brandColor()], ['#8A661C'], ['#F7BE05'], ['#5A02D8'], ['#202786']])(
+    'includes generated color as backgroundColor',
+    (backgroundColor) => {
+      stylesForKey.mockReturnValue({ backgroundColor });
 
-    const { container } = setUp('foo');
-    const { r, g, b } = hexToRgb(backgroundColor);
+      const { container } = setUp('foo');
+      const { r, g, b } = hexToRgb(backgroundColor);
 
-    expect(container.firstChild).toHaveStyle({ 'background-color': `rgb(${r}, ${g}, ${b})` });
-  });
+      expect(container.firstChild).toHaveStyle({ 'background-color': `rgb(${r}, ${g}, ${b})` });
+    },
+  );
 
   it.each([[true], [false]])('invokes expected callbacks when appropriate events are triggered', async (clearable) => {
     const { user } = setUp('foo', clearable);

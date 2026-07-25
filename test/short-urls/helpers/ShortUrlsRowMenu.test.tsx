@@ -21,22 +21,21 @@ describe('<ShortUrlsRowMenu />', () => {
     shortUrl: 'https://s.test/abc123',
   });
   const deleteShortUrl = vi.fn().mockResolvedValue({});
-  const setUp = (
-    { visitsComparison, shortUrlsListSettings }: SetUpOptions = {},
-  ) => renderWithStore(
-    <MemoryRouter>
-      <VisitsComparisonProvider
-        value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
-      >
-        <SettingsProvider value={fromPartial({ shortUrlsList: shortUrlsListSettings })}>
-          <ShortUrlsRowMenu shortUrl={shortUrl} />
-        </SettingsProvider>
-      </VisitsComparisonProvider>
-    </MemoryRouter>,
-    {
-      apiClientFactory: () => fromPartial({ deleteShortUrl }),
-    },
-  );
+  const setUp = ({ visitsComparison, shortUrlsListSettings }: SetUpOptions = {}) =>
+    renderWithStore(
+      <MemoryRouter>
+        <VisitsComparisonProvider
+          value={visitsComparison && fromPartial({ canAddItemWithName: () => true, ...visitsComparison })}
+        >
+          <SettingsProvider value={fromPartial({ shortUrlsList: shortUrlsListSettings })}>
+            <ShortUrlsRowMenu shortUrl={shortUrl} />
+          </SettingsProvider>
+        </VisitsComparisonProvider>
+      </MemoryRouter>,
+      {
+        apiClientFactory: () => fromPartial({ deleteShortUrl }),
+      },
+    );
   const setUpAndOpen = async (options: SetUpOptions = {}) => {
     const result = setUp(options);
     await result.user.click(screen.getByRole('button'));
@@ -47,9 +46,12 @@ describe('<ShortUrlsRowMenu />', () => {
   it.each([
     [setUp],
     [setUpAndOpen],
-    [() => setUpAndOpen({
-      visitsComparison: { itemsToCompare: [] },
-    })],
+    [
+      () =>
+        setUpAndOpen({
+          visitsComparison: { itemsToCompare: [] },
+        }),
+    ],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it.each([
@@ -112,17 +114,18 @@ describe('<ShortUrlsRowMenu />', () => {
       shortUrlsListSettings: { confirmDeletions: true },
       shouldRequestConfirmation: true,
     },
-  ])('directly deletes short URL if confirmation is disabled', async (
-    { shortUrlsListSettings, shouldRequestConfirmation },
-  ) => {
-    const { user } = await setUpAndOpen({ shortUrlsListSettings });
+  ])(
+    'directly deletes short URL if confirmation is disabled',
+    async ({ shortUrlsListSettings, shouldRequestConfirmation }) => {
+      const { user } = await setUpAndOpen({ shortUrlsListSettings });
 
-    await user.click(screen.getByRole('menuitem', { name: 'Delete short URL' }));
+      await user.click(screen.getByRole('menuitem', { name: 'Delete short URL' }));
 
-    if (!shouldRequestConfirmation) {
-      expect(deleteShortUrl).toHaveBeenCalled();
-    } else {
-      expect(deleteShortUrl).not.toHaveBeenCalled();
-    }
-  });
+      if (!shouldRequestConfirmation) {
+        expect(deleteShortUrl).toHaveBeenCalled();
+      } else {
+        expect(deleteShortUrl).not.toHaveBeenCalled();
+      }
+    },
+  );
 });

@@ -12,9 +12,9 @@ type CommonProps = PropsWithChildren<{
   className?: string;
 }>;
 
-type ClearableProps = CommonProps & { onClose?: MouseEventHandler; onClick?: never; };
+type ClearableProps = CommonProps & { onClose?: MouseEventHandler; onClick?: never };
 
-type ActionableProps = CommonProps & { onClick?: MouseEventHandler; onClose?: never; };
+type ActionableProps = CommonProps & { onClick?: MouseEventHandler; onClose?: never };
 
 type TagProps = ClearableProps | ActionableProps;
 
@@ -46,11 +46,7 @@ export const Tag: FC<TagProps> = (props) => {
     >
       {children ?? text}
       {clearable && (
-        <UnstyledButton
-          aria-label={`Remove ${text}`}
-          className="p-0 text-lg leading-5.5"
-          onClick={props.onClose}
-        >
+        <UnstyledButton aria-label={`Remove ${text}`} className="p-0 text-lg leading-5.5" onClick={props.onClose}>
           <FontAwesomeIcon icon={faClose} size="sm" />
         </UnstyledButton>
       )}

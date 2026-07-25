@@ -2,7 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { VisitsListSettings } from '../../src/settings';
-import { defaultVisitsListColumns , SettingsProvider } from '../../src/settings';
+import { defaultVisitsListColumns, SettingsProvider } from '../../src/settings';
 import { rangeOf } from '../../src/utils/helpers';
 import type { NormalizedRegularVisit, NormalizedVisit } from '../../src/visits/types';
 import type { VisitsTableProps } from '../../src/visits/VisitsTable';
@@ -11,25 +11,26 @@ import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 type SetUpOptions = Partial<VisitsTableProps> & {
-  visitsList?: VisitsListSettings,
+  visitsList?: VisitsListSettings;
 };
 
 describe('<VisitsTable />', () => {
   const setSelectedVisits = vi.fn();
-  const setUpFactory = ({ visitsList, ...props }: SetUpOptions = {}) => renderWithEvents(
-    <SettingsProvider value={fromPartial({ visitsList })}>
-      <VisitsTable visits={[]} {...props} setSelectedVisits={setSelectedVisits} />
-    </SettingsProvider>,
-  );
-  const setUp = (visits: NormalizedVisit[] = [], selectedVisits: NormalizedVisit[] = []) => setUpFactory(
-    { visits, selectedVisits },
-  );
-  const setUpWithBots = () => setUpFactory({
-    visits: [
-      fromPartial({ potentialBot: false, date: '2022-05-05' }),
-      fromPartial({ potentialBot: true, date: '2022-05-05' }),
-    ],
-  });
+  const setUpFactory = ({ visitsList, ...props }: SetUpOptions = {}) =>
+    renderWithEvents(
+      <SettingsProvider value={fromPartial({ visitsList })}>
+        <VisitsTable visits={[]} {...props} setSelectedVisits={setSelectedVisits} />
+      </SettingsProvider>,
+    );
+  const setUp = (visits: NormalizedVisit[] = [], selectedVisits: NormalizedVisit[] = []) =>
+    setUpFactory({ visits, selectedVisits });
+  const setUpWithBots = () =>
+    setUpFactory({
+      visits: [
+        fromPartial({ potentialBot: false, date: '2022-05-05' }),
+        fromPartial({ potentialBot: true, date: '2022-05-05' }),
+      ],
+    });
   const setUpWithSettings = (visitsList: VisitsListSettings) => setUpFactory({ visitsList });
 
   const getFirstColumnValue = () => screen.getAllByRole('row')[2]?.querySelectorAll('td')[3]?.textContent;
@@ -47,16 +48,17 @@ describe('<VisitsTable />', () => {
     expect(screen.getByText('There are no visits matching current filter')).toBeInTheDocument();
   });
 
-  it.each(
-    rangeOf(20, (value) => [value]),
-  )('does not render footer when there is only one page to render', (visitsCount) => {
-    const { container } = setUp(
-      rangeOf(visitsCount, () => fromPartial<NormalizedVisit>({ browser: '', date: '2022-01-01', referer: '' })),
-    );
+  it.each(rangeOf(20, (value) => [value]))(
+    'does not render footer when there is only one page to render',
+    (visitsCount) => {
+      const { container } = setUp(
+        rangeOf(visitsCount, () => fromPartial<NormalizedVisit>({ browser: '', date: '2022-01-01', referer: '' })),
+      );
 
-    expect(container.querySelector('tfoot')).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('pagination')).not.toBeInTheDocument();
-  });
+      expect(container.querySelector('tfoot')).not.toBeInTheDocument();
+      expect(screen.queryByLabelText('pagination')).not.toBeInTheDocument();
+    },
+  );
 
   it('selected rows are highlighted', async () => {
     const visits = rangeOf(10, () => fromPartial<NormalizedVisit>({ browser: '', date: '2022-01-01', referer: '' }));
@@ -79,12 +81,16 @@ describe('<VisitsTable />', () => {
   });
 
   it('orders visits when column is clicked', async () => {
-    const { user } = setUp(rangeOf(9, (index) => fromPartial<NormalizedVisit>({
-      browser: '',
-      date: `2022-01-0${10 - index}`,
-      referer: `${index}`,
-      country: `Country_${index}`,
-    })));
+    const { user } = setUp(
+      rangeOf(9, (index) =>
+        fromPartial<NormalizedVisit>({
+          browser: '',
+          date: `2022-01-0${10 - index}`,
+          referer: `${index}`,
+          country: `Country_${index}`,
+        }),
+      ),
+    );
 
     expect(getFirstColumnValue()).toContain('Country_1');
     await clickColumn(user, 2); // Date column ASC
@@ -120,9 +126,9 @@ describe('<VisitsTable />', () => {
   });
 
   it('resets selected visits when search term changes', async () => {
-    const visits = rangeOf(50, (index) => fromPartial<NormalizedVisit>(
-      { country: `country${index}`, browser: '', date: '2022-01-01', referer: '' },
-    ));
+    const visits = rangeOf(50, (index) =>
+      fromPartial<NormalizedVisit>({ country: `country${index}`, browser: '', date: '2022-01-01', referer: '' }),
+    );
     const { user } = setUp(visits, [visits[1], visits[2]]);
 
     // Jump to second page, and then set some filtering text
@@ -135,29 +141,31 @@ describe('<VisitsTable />', () => {
     expect(setSelectedVisits).toHaveBeenCalledWith([]);
   });
 
-  it.each([
-    { withVisitedUrl: true },
-    { withVisitedUrl: false },
-  ])('displays proper amount of columns based on visited URL', ({ withVisitedUrl }) => {
-    setUp([fromPartial<NormalizedRegularVisit>({
-      visitedUrl: withVisitedUrl ? 'visited_url' : undefined,
-      date: '2020-01-01T09:09:09',
-    })]);
+  it.each([{ withVisitedUrl: true }, { withVisitedUrl: false }])(
+    'displays proper amount of columns based on visited URL',
+    ({ withVisitedUrl }) => {
+      setUp([
+        fromPartial<NormalizedRegularVisit>({
+          visitedUrl: withVisitedUrl ? 'visited_url' : undefined,
+          date: '2020-01-01T09:09:09',
+        }),
+      ]);
 
-    const cells = screen.getAllByRole('cell');
-    const lastCell = cells[cells.length - 1];
+      const cells = screen.getAllByRole('cell');
+      const lastCell = cells[cells.length - 1];
 
-    expect(screen.getAllByRole('columnheader')).toHaveLength(withVisitedUrl ? 10 : 9);
-    if (withVisitedUrl) {
-      expect(lastCell).toHaveTextContent('visited_url');
-    } else {
-      expect(lastCell).not.toHaveTextContent('visited_url');
-    }
-  });
+      expect(screen.getAllByRole('columnheader')).toHaveLength(withVisitedUrl ? 10 : 9);
+      if (withVisitedUrl) {
+        expect(lastCell).toHaveTextContent('visited_url');
+      } else {
+        expect(lastCell).not.toHaveTextContent('visited_url');
+      }
+    },
+  );
 
   it('displays bots icon when a visit is a potential bot', () => {
     setUpWithBots();
-    const [,, nonBotVisitRow, botVisitRow] = screen.getAllByRole('row');
+    const [, , nonBotVisitRow, botVisitRow] = screen.getAllByRole('row');
 
     expect(nonBotVisitRow.querySelectorAll('td')[1]).toBeEmptyDOMElement();
     expect(botVisitRow.querySelectorAll('td')[1]).not.toBeEmptyDOMElement();

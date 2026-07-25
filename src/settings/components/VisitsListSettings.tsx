@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { Muted } from '../../utils/components/Muted';
 import { humanFriendlyJoin } from '../../utils/helpers';
 import type { VisitsColumn } from '../index';
-import { defaultVisitsListColumns , useSetting } from '../index';
+import { defaultVisitsListColumns, useSetting } from '../index';
 import type { VisitsListSettings as VisitsListSettingsConfig } from '../types';
 import { LabelledToggle } from './fe-kit/LabelledToggle';
 
@@ -38,27 +38,28 @@ Object.freeze(columnsExclusion);
 export const VisitsListSettings: FC<VisitsListSettingsProps> = ({ onChange }) => {
   const visitsListSettings = useSetting('visitsList');
   const columns = useMemo(
-    () => mergeDeepRight(
-      defaultVisitsListColumns,
-      visitsListSettings?.columns ?? {},
-    ) as typeof defaultVisitsListColumns,
+    () =>
+      mergeDeepRight(defaultVisitsListColumns, visitsListSettings?.columns ?? {}) as typeof defaultVisitsListColumns,
     [visitsListSettings?.columns],
   );
-  const toggleColumn = useCallback((column: VisitsColumn, show: boolean) => {
-    const newColumns = {
-      ...columns,
-      [column]: show,
-    };
+  const toggleColumn = useCallback(
+    (column: VisitsColumn, show: boolean) => {
+      const newColumns = {
+        ...columns,
+        [column]: show,
+      };
 
-    // If the column is being shown, hide all columns it excludes
-    if (show) {
-      columnsExclusion[column]?.forEach((excludedColumn) => {
-        newColumns[excludedColumn] = false;
-      });
-    }
+      // If the column is being shown, hide all columns it excludes
+      if (show) {
+        columnsExclusion[column]?.forEach((excludedColumn) => {
+          newColumns[excludedColumn] = false;
+        });
+      }
 
-    onChange({ columns: newColumns });
-  }, [columns, onChange]);
+      onChange({ columns: newColumns });
+    },
+    [columns, onChange],
+  );
 
   return (
     <SimpleCard title="Visits list">

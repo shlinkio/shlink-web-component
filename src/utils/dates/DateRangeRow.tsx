@@ -9,9 +9,13 @@ interface DateRangeRowProps extends DateRange {
   disabled?: boolean;
 }
 
-export const DateRangeRow: FC<DateRangeRowProps> = (
-  { startDate, endDate, disabled = false, onStartDateChange, onEndDateChange },
-) => (
+export const DateRangeRow: FC<DateRangeRowProps> = ({
+  startDate,
+  endDate,
+  disabled = false,
+  onStartDateChange,
+  onEndDateChange,
+}) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-4">
     <div className="flex flex-col">
       <LabelledDateInput

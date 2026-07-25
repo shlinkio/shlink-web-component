@@ -34,8 +34,7 @@ const initialState: ShortUrlEdition = {
 export const editShortUrlThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/editShortUrl`,
   ({ shortCode, domain, data, apiClientFactory }: WithApiClient<EditShortUrl>): Promise<ShlinkShortUrl> =>
-    apiClientFactory().updateShortUrl({ shortCode, domain }, data as any) // TODO parse dates
-  ,
+    apiClientFactory().updateShortUrl({ shortCode, domain }, data as any), // TODO parse dates
 );
 
 export const { reducer: shortUrlEditionReducer } = createSlice({
@@ -44,14 +43,19 @@ export const { reducer: shortUrlEditionReducer } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(editShortUrlThunk.pending, (state) => ({ ...state, saving: true, error: false, saved: false }));
-    builder.addCase(
-      editShortUrlThunk.rejected,
-      (state, { error }) => ({ ...state, saving: false, error: true, saved: false, errorData: parseApiError(error) }),
-    );
-    builder.addCase(
-      editShortUrlThunk.fulfilled,
-      (_, { payload: shortUrl }) => ({ shortUrl, saving: false, error: false, saved: true }),
-    );
+    builder.addCase(editShortUrlThunk.rejected, (state, { error }) => ({
+      ...state,
+      saving: false,
+      error: true,
+      saved: false,
+      errorData: parseApiError(error),
+    }));
+    builder.addCase(editShortUrlThunk.fulfilled, (_, { payload: shortUrl }) => ({
+      shortUrl,
+      saving: false,
+      error: false,
+      saved: true,
+    }));
   },
 });
 

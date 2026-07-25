@@ -106,20 +106,25 @@ describe('<ShortUrlForm />', () => {
     ['', false, ''],
     [undefined, false, undefined],
     ['old title', false, null],
-  ])('sends expected title based on original and new values', async (originalTitle, withNewTitle, expectedSentTitle) => {
-    const { user } = setUp({ title: originalTitle });
+  ])(
+    'sends expected title based on original and new values',
+    async (originalTitle, withNewTitle, expectedSentTitle) => {
+      const { user } = setUp({ title: originalTitle });
 
-    await user.type(screen.getByPlaceholderText('URL to be shortened'), 'https://long-domain.com/foo/bar');
-    await user.clear(screen.getByPlaceholderText('Title'));
-    if (withNewTitle) {
-      await user.type(screen.getByPlaceholderText('Title'), 'new title');
-    }
-    await user.click(screen.getByRole('button', { name: 'Save' }));
+      await user.type(screen.getByPlaceholderText('URL to be shortened'), 'https://long-domain.com/foo/bar');
+      await user.clear(screen.getByPlaceholderText('Title'));
+      if (withNewTitle) {
+        await user.type(screen.getByPlaceholderText('Title'), 'new title');
+      }
+      await user.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect(createShortUrl).toHaveBeenCalledWith(expect.objectContaining({
-      title: expectedSentTitle,
-    }));
-  });
+      expect(createShortUrl).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: expectedSentTitle,
+        }),
+      );
+    },
+  );
 
   it.each([
     { result: {}, initialValue: 'https://long-domain.com/foo/bar', expectedValueAfterSave: '' },

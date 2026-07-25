@@ -25,9 +25,8 @@ export const getShortUrlVisitsThunk = createVisitsAsyncThunk({
     const { doIntervalFallback = false } = options;
 
     const visitsLoader = (query: ShlinkVisitsParams) => apiClient.getShortUrlVisits({ shortCode, domain }, query);
-    const lastVisitLoader = lastVisitLoaderForLoader(
-      doIntervalFallback,
-      (q) => apiClient.getShortUrlVisits({ shortCode, domain }, q),
+    const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) =>
+      apiClient.getShortUrlVisits({ shortCode, domain }, q),
     );
 
     return { visitsLoader, lastVisitLoader };
@@ -48,13 +47,14 @@ export const { reducer: shortUrlVisitsReducer, cancelGetVisits } = createVisitsR
       return state;
     });
   },
-  filterCreatedVisits: (state, createdVisits) => state.status !== 'loaded'
-    ? createdVisits
-    : filterCreatedVisitsByShortUrl(
-      createdVisits,
-      { shortCode: state.shortCode, domain: state.domain },
-      state.params?.dateRange,
-    ),
+  filterCreatedVisits: (state, createdVisits) =>
+    state.status !== 'loaded'
+      ? createdVisits
+      : filterCreatedVisitsByShortUrl(
+          createdVisits,
+          { shortCode: state.shortCode, domain: state.domain },
+          state.params?.dateRange,
+        ),
 });
 
 export const useUrlVisits = () => {

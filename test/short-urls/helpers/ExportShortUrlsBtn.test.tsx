@@ -11,15 +11,16 @@ describe('<ExportShortUrlsBtn />', () => {
   const listShortUrls = vi.fn();
   const exportShortUrls = vi.fn();
   const reportExporter = fromPartial<ReportExporter>({ exportShortUrls });
-  const setUp = (amount?: number) => renderWithEvents(
-    <MemoryRouter>
-      <ExportShortUrlsBtn
-        amount={amount}
-        apiClientFactory={vi.fn().mockReturnValue({ listShortUrls })}
-        ReportExporter={reportExporter}
-      />
-    </MemoryRouter>,
-  );
+  const setUp = (amount?: number) =>
+    renderWithEvents(
+      <MemoryRouter>
+        <ExportShortUrlsBtn
+          amount={amount}
+          apiClientFactory={vi.fn().mockReturnValue({ listShortUrls })}
+          ReportExporter={reportExporter}
+        />
+      </MemoryRouter>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp(497135)));
 
@@ -51,20 +52,24 @@ describe('<ExportShortUrlsBtn />', () => {
 
   it('maps short URLs for exporting', async () => {
     listShortUrls.mockResolvedValue({
-      data: [fromPartial<ShlinkShortUrl>({
-        shortUrl: 'https://s.test/short-code',
-        tags: [],
-        visitsSummary: {},
-      })],
+      data: [
+        fromPartial<ShlinkShortUrl>({
+          shortUrl: 'https://s.test/short-code',
+          tags: [],
+          visitsSummary: {},
+        }),
+      ],
     });
     const { user } = setUp();
 
     await user.click(screen.getByRole('button'));
 
-    expect(exportShortUrls).toHaveBeenCalledWith([expect.objectContaining({
-      shortUrl: 'https://s.test/short-code',
-      domain: 's.test',
-      shortCode: 'short-code',
-    })]);
+    expect(exportShortUrls).toHaveBeenCalledWith([
+      expect.objectContaining({
+        shortUrl: 'https://s.test/short-code',
+        domain: 's.test',
+        shortCode: 'short-code',
+      }),
+    ]);
   });
 });

@@ -8,14 +8,15 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<UserInterfaceSettings />', () => {
   const setUiSettings = vi.fn();
-  const setUp = (ui?: UiSettings, defaultDarkTheme = false) => renderWithEvents(
-    <SettingsProvider value={fromPartial({ ui })}>
-      <UserInterfaceSettings
-        onChange={setUiSettings}
-        _matchMedia={vi.fn().mockReturnValue({ matches: defaultDarkTheme })}
-      />
-    </SettingsProvider>,
-  );
+  const setUp = (ui?: UiSettings, defaultDarkTheme = false) =>
+    renderWithEvents(
+      <SettingsProvider value={fromPartial({ ui })}>
+        <UserInterfaceSettings
+          onChange={setUiSettings}
+          _matchMedia={vi.fn().mockReturnValue({ matches: defaultDarkTheme })}
+        />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -36,14 +37,13 @@ describe('<UserInterfaceSettings />', () => {
     }
   });
 
-  it.each([
-    [{ theme: 'dark' as const }],
-    [{ theme: 'light' as const }],
-    [undefined],
-  ])('shows different icons based on theme', (ui) => {
-    setUp(ui);
-    expect(screen.getByRole('img', { hidden: true })).toMatchSnapshot();
-  });
+  it.each([[{ theme: 'dark' as const }], [{ theme: 'light' as const }], [undefined]])(
+    'shows different icons based on theme',
+    (ui) => {
+      setUp(ui);
+      expect(screen.getByRole('img', { hidden: true })).toMatchSnapshot();
+    },
+  );
 
   it.each([
     ['light' as const, 'dark' as const],

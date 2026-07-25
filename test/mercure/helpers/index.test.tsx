@@ -8,9 +8,11 @@ describe('helpers', () => {
   describe('bindToMercureTopic', () => {
     const onMessage = vi.fn();
     const onTokenExpired = vi.fn();
-    const EventSourceMock = vi.fn(class {
-      close = vi.fn();
-    });
+    const EventSourceMock = vi.fn(
+      class {
+        close = vi.fn();
+      },
+    );
 
     beforeEach(() => {
       vi.stubGlobal('EventSource', EventSourceMock);
@@ -38,11 +40,16 @@ describe('helpers', () => {
       hubUrl.searchParams.append('topic', topic);
       hubUrl.searchParams.append('authorization', token);
 
-      const callback = bindToMercureTopic({
-        status: 'loaded',
-        mercureHubUrl,
-        token,
-      }, [topic], onMessage, onTokenExpired);
+      const callback = bindToMercureTopic(
+        {
+          status: 'loaded',
+          mercureHubUrl,
+          token,
+        },
+        [topic],
+        onMessage,
+        onTokenExpired,
+      );
 
       expect(EventSourceMock).toHaveBeenCalledWith(hubUrl);
 

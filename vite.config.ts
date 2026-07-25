@@ -1,12 +1,11 @@
+import { resolve } from 'path';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { playwright } from '@vitest/browser-playwright';
-import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vitest/config';
 import pack from './package.json';
 
-// eslint-disable-next-line no-restricted-exports
 export default defineConfig({
   plugins: [
     react(),
@@ -22,7 +21,7 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
         'api-contract': resolve(__dirname, 'src/api-contract/index.ts'),
-        'settings': resolve(__dirname, 'src/settings/index.ts'),
+        settings: resolve(__dirname, 'src/settings/index.ts'),
       },
       name: 'shlink-web-component',
       formats: ['es'], // Generate ES module only

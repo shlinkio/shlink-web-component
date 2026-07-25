@@ -27,14 +27,17 @@ describe('<ShortUrlVisits />', () => {
         </SettingsProvider>
       </MemoryRouter>,
       {
-        apiClientFactory: () => fromPartial({
-          getShortUrlVisits,
-          getShortUrl: vi.fn().mockResolvedValue(fromPartial<ShlinkShortUrl>({
-            shortUrl: 'https://s.test/123',
-            longUrl: 'https://shlink.io',
-            dateCreated: formatISO(now()),
-          })),
-        }),
+        apiClientFactory: () =>
+          fromPartial({
+            getShortUrlVisits,
+            getShortUrl: vi.fn().mockResolvedValue(
+              fromPartial<ShlinkShortUrl>({
+                shortUrl: 'https://s.test/123',
+                longUrl: 'https://shlink.io',
+                dateCreated: formatISO(now()),
+              }),
+            ),
+          }),
       },
     );
 

@@ -23,26 +23,22 @@ describe('<SortableBarChartCard />', () => {
     Foo: 100,
     Bar: 50,
   };
-  const setUp = (
-    { withPagination = false, extraStats = {}, highlightedStats, prevStats, extra }: SetUpOptions = {},
-  ) => renderWithEvents(
-    <SortableBarChartCard
-      title="Foo"
-      stats={{ ...stats, ...extraStats }}
-      prevStats={prevStats}
-      highlightedStats={highlightedStats}
-      sortingItems={sortingItems}
-      withPagination={withPagination}
-      extraHeaderContent={extra}
-    />,
-  );
+  const setUp = ({ withPagination = false, extraStats = {}, highlightedStats, prevStats, extra }: SetUpOptions = {}) =>
+    renderWithEvents(
+      <SortableBarChartCard
+        title="Foo"
+        stats={{ ...stats, ...extraStats }}
+        prevStats={prevStats}
+        highlightedStats={highlightedStats}
+        sortingItems={sortingItems}
+        withPagination={withPagination}
+        extraHeaderContent={extra}
+      />,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it.each([
-    'Name',
-    'Amount',
-  ])('renders properly ordered stats when ordering is set', async (orderField) => {
+  it.each(['Name', 'Amount'])('renders properly ordered stats when ordering is set', async (orderField) => {
     const { user, container } = setUp();
     const checkCoordinates = () => {
       const spans = Array.from(container.querySelectorAll('tspan'));
@@ -111,15 +107,19 @@ describe('<SortableBarChartCard />', () => {
     { withHighlights: false, withPrev: false, expectedRectangles: 1 },
   ])('renders highlighted and prev stats when provided', ({ withHighlights, withPrev, expectedRectangles }) => {
     const { container } = setUp({
-      highlightedStats: withHighlights ? {
-        Foo: 25,
-        Bar: 40,
-      } : undefined,
-      prevStats: withPrev ? {
-        Foo: 25,
-        Bar: 40,
-        Baz: 400,
-      } : undefined,
+      highlightedStats: withHighlights
+        ? {
+            Foo: 25,
+            Bar: 40,
+          }
+        : undefined,
+      prevStats: withPrev
+        ? {
+            Foo: 25,
+            Bar: 40,
+            Baz: 400,
+          }
+        : undefined,
     });
 
     expect(container.querySelectorAll('.recharts-bar-rectangles')).toHaveLength(expectedRectangles);

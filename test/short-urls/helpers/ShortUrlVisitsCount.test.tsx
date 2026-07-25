@@ -6,13 +6,18 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<ShortUrlVisitsCount />', () => {
-  const setUp = (visitsCount: number, shortUrl: ShlinkShortUrl) => renderWithEvents(
-    <ShortUrlVisitsCount visitsCount={visitsCount} shortUrl={shortUrl} />,
-  );
+  const setUp = (visitsCount: number, shortUrl: ShlinkShortUrl) =>
+    renderWithEvents(<ShortUrlVisitsCount visitsCount={visitsCount} shortUrl={shortUrl} />);
 
-  it('passes a11y checks', () => checkAccessibility(setUp(50, fromPartial({
-    meta: fromPartial({ maxVisits: 100 }),
-  }))));
+  it('passes a11y checks', () =>
+    checkAccessibility(
+      setUp(
+        50,
+        fromPartial({
+          meta: fromPartial({ maxVisits: 100 }),
+        }),
+      ),
+    ));
 
   it.each([undefined, {}])('just returns visits when no limits are provided', (meta) => {
     const visitsCount = 45;
@@ -36,15 +41,21 @@ describe('<ShortUrlVisitsCount />', () => {
     [['This short URL will not accept more than 1 visit'], { maxVisits: 1 }],
     [['This short URL will not accept visits before 2022-01-01 10:00'], { validSince: '2022-01-01T10:00:00' }],
     [['This short URL will not accept visits after 2022-05-05 15:30'], { validUntil: '2022-05-05T15:30:30' }],
-    [[
-      'This short URL will not accept more than 100 visits',
-      'This short URL will not accept visits after 2022-05-05 15:30',
-    ], { validUntil: '2022-05-05T15:30:30', maxVisits: 100 }],
-    [[
-      'This short URL will not accept more than 100 visits',
-      'This short URL will not accept visits before 2023-01-01 10:00',
-      'This short URL will not accept visits after 2023-05-05 15:30',
-    ], { validSince: '2023-01-01T10:00:00', validUntil: '2023-05-05T15:30:30', maxVisits: 100 }],
+    [
+      [
+        'This short URL will not accept more than 100 visits',
+        'This short URL will not accept visits after 2022-05-05 15:30',
+      ],
+      { validUntil: '2022-05-05T15:30:30', maxVisits: 100 },
+    ],
+    [
+      [
+        'This short URL will not accept more than 100 visits',
+        'This short URL will not accept visits before 2023-01-01 10:00',
+        'This short URL will not accept visits after 2023-05-05 15:30',
+      ],
+      { validSince: '2023-01-01T10:00:00', validUntil: '2023-05-05T15:30:30', maxVisits: 100 },
+    ],
   ])('displays proper amount of tooltip list items', async (expectedListItems, meta) => {
     const { user } = setUp(100, fromPartial({ meta }));
 

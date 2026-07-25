@@ -8,14 +8,12 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<ShortUrlsListSettings />', () => {
   const setSettings = vi.fn();
-  const setUp = (shortUrlsList?: ShortUrlsSettings) => renderWithEvents(
-    <SettingsProvider value={fromPartial({ shortUrlsList })}>
-      <ShortUrlsListSettings
-        onChange={setSettings}
-        defaultOrdering={{ field: 'dateCreated', dir: 'DESC' }}
-      />
-    </SettingsProvider>,
-  );
+  const setUp = (shortUrlsList?: ShortUrlsSettings) =>
+    renderWithEvents(
+      <SettingsProvider value={fromPartial({ shortUrlsList })}>
+        <ShortUrlsListSettings onChange={setSettings} defaultOrdering={{ field: 'dateCreated', dir: 'DESC' }} />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -23,7 +21,10 @@ describe('<ShortUrlsListSettings />', () => {
     [undefined, 'Order by: Created at - DESC'],
     [fromPartial<ShortUrlsSettings>({}), 'Order by: Created at - DESC'],
     [fromPartial<ShortUrlsSettings>({ defaultOrdering: {} }), 'Order by...'],
-    [fromPartial<ShortUrlsSettings>({ defaultOrdering: { field: 'longUrl', dir: 'DESC' } }), 'Order by: Long URL - DESC'],
+    [
+      fromPartial<ShortUrlsSettings>({ defaultOrdering: { field: 'longUrl', dir: 'DESC' } }),
+      'Order by: Long URL - DESC',
+    ],
     [fromPartial<ShortUrlsSettings>({ defaultOrdering: { field: 'visits', dir: 'ASC' } }), 'Order by: Visits - ASC'],
   ])('shows expected ordering', (shortUrlsList, expectedOrder) => {
     setUp(shortUrlsList);
@@ -59,22 +60,22 @@ describe('<ShortUrlsListSettings />', () => {
     if (expectedChecked) {
       expect(checkbox).toBeChecked();
       expect(helpText).toHaveTextContent('When deleting a short URL, confirmation will be required.');
-      expect(helpText).not.toHaveTextContent('When deleting a short URL, confirmation won\'t be required.');
+      expect(helpText).not.toHaveTextContent("When deleting a short URL, confirmation won't be required.");
     } else {
       expect(checkbox).not.toBeChecked();
-      expect(helpText).toHaveTextContent('When deleting a short URL, confirmation won\'t be required.');
+      expect(helpText).toHaveTextContent("When deleting a short URL, confirmation won't be required.");
       expect(helpText).not.toHaveTextContent('When deleting a short URL, confirmation will be required.');
     }
   });
 
-  it.each([
-    { confirmDeletions: true },
-    { confirmDeletions: false },
-  ])('invokes setSettings when delete confirmation toggle value changes', async ({ confirmDeletions }) => {
-    const { user } = setUp({ confirmDeletions });
+  it.each([{ confirmDeletions: true }, { confirmDeletions: false }])(
+    'invokes setSettings when delete confirmation toggle value changes',
+    async ({ confirmDeletions }) => {
+      const { user } = setUp({ confirmDeletions });
 
-    expect(setSettings).not.toHaveBeenCalled();
-    await user.click(screen.getByLabelText(/^Request confirmation before deleting a short URL./));
-    expect(setSettings).toHaveBeenCalledWith({ confirmDeletions: !confirmDeletions });
-  });
+      expect(setSettings).not.toHaveBeenCalled();
+      await user.click(screen.getByLabelText(/^Request confirmation before deleting a short URL./));
+      expect(setSettings).toHaveBeenCalledWith({ confirmDeletions: !confirmDeletions });
+    },
+  );
 });

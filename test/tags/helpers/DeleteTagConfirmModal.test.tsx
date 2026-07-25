@@ -10,17 +10,11 @@ import { TestModalWrapper } from '../../__helpers__/TestModalWrapper';
 describe('<DeleteTagConfirmModal />', () => {
   const tag = 'nodejs';
   const deleteTags = vi.fn();
-  const setUp = (tagDelete: TagDeletion = { status: 'idle' }) => renderWithStore(
-    <TestModalWrapper
-      renderModal={(args) => (
-        <DeleteTagConfirmModal {...args} tag={tag} />
-      )}
-    />,
-    {
+  const setUp = (tagDelete: TagDeletion = { status: 'idle' }) =>
+    renderWithStore(<TestModalWrapper renderModal={(args) => <DeleteTagConfirmModal {...args} tag={tag} />} />, {
       initialState: { tagDelete },
       apiClientFactory: () => fromPartial<ShlinkApiClient>({ deleteTags }),
-    },
-  );
+    });
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

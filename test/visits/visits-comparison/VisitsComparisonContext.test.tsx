@@ -5,20 +5,17 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('useVisitsComparison', () => {
   const FakeComponent = () => {
-    const {
-      itemsToCompare,
-      clearItemsToCompare,
-      removeItemToCompare,
-      addItemToCompare,
-      canAddItemWithName,
-    } = useVisitsComparison();
+    const { itemsToCompare, clearItemsToCompare, removeItemToCompare, addItemToCompare, canAddItemWithName } =
+      useVisitsComparison();
     const [canAdd, setCanAdd] = useState(false);
 
     return (
       <>
         <ul>
           {itemsToCompare.map((item, index) => (
-            <li key={`${item.name}_${index}`}>{item.name} {item.query}</li>
+            <li key={`${item.name}_${index}`}>
+              {item.name} {item.query}
+            </li>
           ))}
         </ul>
 
@@ -36,7 +33,9 @@ describe('useVisitsComparison', () => {
         >
           Remove first
         </button>
-        <button type="button" data-testid="clear-button" onClick={clearItemsToCompare}>Clear</button>
+        <button type="button" data-testid="clear-button" onClick={clearItemsToCompare}>
+          Clear
+        </button>
 
         <button
           type="button"

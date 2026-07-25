@@ -33,24 +33,25 @@ describe('<RedirectRuleModal />', () => {
     desktopDeviceTypes = true,
     dateRedirectConditions = true,
     browserRedirectConditions = true,
-  }: SetUpOptions) => renderWithEvents(
-    <TestModalWrapper
-      renderModal={(args) => (
-        <FeaturesProvider
-          value={fromPartial({
-            ipRedirectCondition,
-            geolocationRedirectCondition,
-            advancedQueryRedirectConditions,
-            desktopDeviceTypes,
-            dateRedirectConditions,
-            browserRedirectConditions,
-          })}
-        >
-          <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
-        </FeaturesProvider>
-      )}
-    />,
-  );
+  }: SetUpOptions) =>
+    renderWithEvents(
+      <TestModalWrapper
+        renderModal={(args) => (
+          <FeaturesProvider
+            value={fromPartial({
+              ipRedirectCondition,
+              geolocationRedirectCondition,
+              advancedQueryRedirectConditions,
+              desktopDeviceTypes,
+              dateRedirectConditions,
+              browserRedirectConditions,
+            })}
+          >
+            <RedirectRuleModal {...args} onSave={onSave} initialData={initialData} />
+          </FeaturesProvider>
+        )}
+      />,
+    );
   const addConditionWithType = async (user: UserEvent, option: ShlinkRedirectConditionType) => {
     await user.click(screen.getByLabelText('Add condition'));
     const [lastTypeSelect] = screen.getAllByLabelText('Type:').reverse();
@@ -59,17 +60,21 @@ describe('<RedirectRuleModal />', () => {
 
   it.each([
     [undefined],
-    [{
-      longUrl: 'https://example.com',
-      conditions: [],
-    } satisfies ShlinkRedirectRuleData],
-    [{
-      longUrl: 'https://example.com',
-      conditions: [
-        { type: 'device', matchValue: 'android', matchKey: null },
-        { type: 'language', matchValue: 'en-US', matchKey: null },
-      ],
-    } satisfies ShlinkRedirectRuleData],
+    [
+      {
+        longUrl: 'https://example.com',
+        conditions: [],
+      } satisfies ShlinkRedirectRuleData,
+    ],
+    [
+      {
+        longUrl: 'https://example.com',
+        conditions: [
+          { type: 'device', matchValue: 'android', matchKey: null },
+          { type: 'language', matchValue: 'en-US', matchKey: null },
+        ],
+      } satisfies ShlinkRedirectRuleData,
+    ],
   ])('passes a11y checks', (initialData) => checkAccessibility(setUp({ initialData })));
 
   it('can add more conditions', async () => {
@@ -92,20 +97,20 @@ describe('<RedirectRuleModal />', () => {
     expect(screen.getAllByLabelText('Type:')).toHaveLength(5);
   });
 
-  it.each([
-    [[]],
-    [[{ type: 'device', matchValue: 'android', matchKey: null } satisfies ShlinkRedirectCondition]],
-  ])('disables confirm button as long as there are no conditions', (conditions) => {
-    setUp({
-      initialData: { longUrl: 'https://example.com', conditions },
-    });
+  it.each([[[]], [[{ type: 'device', matchValue: 'android', matchKey: null } satisfies ShlinkRedirectCondition]]])(
+    'disables confirm button as long as there are no conditions',
+    (conditions) => {
+      setUp({
+        initialData: { longUrl: 'https://example.com', conditions },
+      });
 
-    if (conditions.length === 0) {
-      expect(screen.getByRole('button', { name: 'Confirm' })).toHaveAttribute('disabled');
-    } else {
-      expect(screen.getByRole('button', { name: 'Confirm' })).not.toHaveAttribute('disabled');
-    }
-  });
+      if (conditions.length === 0) {
+        expect(screen.getByRole('button', { name: 'Confirm' })).toHaveAttribute('disabled');
+      } else {
+        expect(screen.getByRole('button', { name: 'Confirm' })).not.toHaveAttribute('disabled');
+      }
+    },
+  );
 
   it('saves rule when form is submit, and closes modal', async () => {
     const initialData: ShlinkRedirectRuleData = {

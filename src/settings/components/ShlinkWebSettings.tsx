@@ -4,9 +4,9 @@ import { clsx } from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
-import type { DeepPartial } from '../../utils/types';
 import type { QrCodeSettings } from '..';
 import { SettingsProvider } from '..';
+import type { DeepPartial } from '../../utils/types';
 import type { RealTimeUpdatesSettings, Settings, ShortUrlsListSettings } from '../types';
 import { QrCodeColorSettings } from './qr-codes/QrCodeColorSettings';
 import { QrCodeFormatSettings } from './qr-codes/QrCodeFormatSettings';
@@ -27,9 +27,7 @@ export type ShlinkWebSettingsProps = {
 };
 
 const SettingsSections: FC<PropsWithChildren<{ className?: string }>> = ({ children, className }) => (
-  <div className={clsx('flex flex-col gap-4', className)}>
-    {children}
-  </div>
+  <div className={clsx('flex flex-col gap-4', className)}>{children}</div>
 );
 
 export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
@@ -71,7 +69,7 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
       <Routes>
         <Route
           path="general"
-          element={(
+          element={
             <SettingsSections>
               <UserInterfaceSettings onChange={(v) => updateSettingsProp('ui', v)} />
               <RealTimeUpdates
@@ -79,11 +77,11 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
                 onIntervalChange={setRealTimeUpdatesInterval}
               />
             </SettingsSections>
-          )}
+          }
         />
         <Route
           path="short-urls"
-          element={(
+          element={
             <SettingsSections>
               <ShortUrlCreation onChange={(v) => updateSettingsProp('shortUrlCreation', v)} />
               <ShortUrlsList
@@ -91,28 +89,28 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
                 onChange={(v) => updateSettingsProp('shortUrlsList', v)}
               />
             </SettingsSections>
-          )}
+          }
         />
         <Route
           path="visits"
-          element={(
+          element={
             <SettingsSections>
               <Visits onChange={(v) => updateSettingsProp('visits', v)} />
               <VisitsListSettings onChange={(vl) => updateSettingsProp('visitsList', vl)} />
             </SettingsSections>
-          )}
+          }
         />
         <Route
           path="tags"
-          element={(
+          element={
             <SettingsSections>
               <Tags onChange={(v) => updateSettingsProp('tags', v)} />
             </SettingsSections>
-          )}
+          }
         />
         <Route
           path="qr-codes"
-          element={(
+          element={
             <SettingsSections>
               <div className="flex flex-col lg:flex-row gap-4">
                 <QrCodeSizeSettings onChange={updateQrCodeSettings} className="w-full" />
@@ -120,7 +118,7 @@ export const ShlinkWebSettings: FC<ShlinkWebSettingsProps> = ({
               </div>
               <QrCodeFormatSettings onChange={updateQrCodeSettings} />
             </SettingsSections>
-          )}
+          }
         />
         <Route path="*" element={<Navigate replace to="../general" />} />
       </Routes>

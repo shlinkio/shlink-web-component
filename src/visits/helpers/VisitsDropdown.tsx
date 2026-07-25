@@ -47,7 +47,9 @@ export const VisitsDropdown = ({
       )}
 
       <Dropdown.Title>Bots:</Dropdown.Title>
-      <Dropdown.Item selected={excludeBots} onClick={onBotsClick}>Exclude potential bots</Dropdown.Item>
+      <Dropdown.Item selected={excludeBots} onClick={onBotsClick}>
+        Exclude potential bots
+      </Dropdown.Item>
 
       {isOrphanVisits && (
         <>
@@ -62,9 +64,9 @@ export const VisitsDropdown = ({
       <Dropdown.Separator />
       <Dropdown.Item
         disabled={
-          selected.excludeBots === undefined
-          && selected.loadPrevInterval === undefined
-          && selected.orphanVisitsType === undefined
+          selected.excludeBots === undefined &&
+          selected.loadPrevInterval === undefined &&
+          selected.orphanVisitsType === undefined
         }
         onClick={() => onChange({ excludeBots: undefined, loadPrevInterval: undefined, orphanVisitsType: undefined })}
       >

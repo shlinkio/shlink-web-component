@@ -6,18 +6,19 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<VisitsHighlightCard />', () => {
-  const setUp = (props: Partial<VisitsHighlightCardProps> = {}) => renderWithEvents(
-    <MemoryRouter>
-      <VisitsHighlightCard
-        loading={false}
-        visitsSummary={{ total: 0, bots: 0, nonBots: 0 }}
-        excludeBots={false}
-        title="title"
-        link=""
-        {...props}
-      />
-    </MemoryRouter>,
-  );
+  const setUp = (props: Partial<VisitsHighlightCardProps> = {}) =>
+    renderWithEvents(
+      <MemoryRouter>
+        <VisitsHighlightCard
+          loading={false}
+          visitsSummary={{ total: 0, bots: 0, nonBots: 0 }}
+          excludeBots={false}
+          title="title"
+          link=""
+          {...props}
+        />
+      </MemoryRouter>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -48,18 +49,30 @@ describe('<VisitsHighlightCard />', () => {
   });
 
   it.each([
-    [true, 20, () => {
-      expect(screen.getByText('20')).toBeInTheDocument();
-      expect(screen.queryByText('50')).not.toBeInTheDocument();
-    }],
-    [true, 0, () => {
-      expect(screen.getByText('0')).toBeInTheDocument();
-      expect(screen.queryByText('50')).not.toBeInTheDocument();
-    }],
-    [false, 20, () => {
-      expect(screen.getByText('50')).toBeInTheDocument();
-      expect(screen.queryByText('20')).not.toBeInTheDocument();
-    }],
+    [
+      true,
+      20,
+      () => {
+        expect(screen.getByText('20')).toBeInTheDocument();
+        expect(screen.queryByText('50')).not.toBeInTheDocument();
+      },
+    ],
+    [
+      true,
+      0,
+      () => {
+        expect(screen.getByText('0')).toBeInTheDocument();
+        expect(screen.queryByText('50')).not.toBeInTheDocument();
+      },
+    ],
+    [
+      false,
+      20,
+      () => {
+        expect(screen.getByText('50')).toBeInTheDocument();
+        expect(screen.queryByText('20')).not.toBeInTheDocument();
+      },
+    ],
   ])('displays non-bots when present and bots are excluded', (excludeBots, nonBots, assert) => {
     setUp({
       excludeBots,

@@ -24,7 +24,6 @@ export const DomainStatusIcon: FC<DomainStatusIconProps> = ({ status }) => {
   return (
     <span {...anchor}>
       <FontAwesomeIcon
-
         icon={status === 'valid' ? checkIcon : invalidIcon}
         className={clsx({ 'text-danger': status !== 'valid' })}
       />

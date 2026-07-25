@@ -12,19 +12,20 @@ describe('<OpenMapModalBtn />', () => {
     fromPartial({ cityName: 'foo', count: 30, latLong: [5, 5] }),
     fromPartial({ cityName: 'bar', count: 45, latLong: [88, 88] }),
   ];
-  const setUp = (activeCities?: string[]) => renderWithEvents(
-    <OpenMapModalBtn modalTitle={title} locations={locations} activeCities={activeCities} />,
-  );
+  const setUp = (activeCities?: string[]) =>
+    renderWithEvents(<OpenMapModalBtn modalTitle={title} locations={locations} activeCities={activeCities} />);
   const openDropdown = (user: UserEvent) => user.click(screen.getByRole('button'));
 
   it.each([
     [setUp],
-    [async () => {
-      const { user, container } = setUp();
-      await openDropdown(user);
+    [
+      async () => {
+        const { user, container } = setUp();
+        await openDropdown(user);
 
-      return { container };
-    }],
+        return { container };
+      },
+    ],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('opens modal on click', async () => {

@@ -40,7 +40,9 @@ export const MapModal = ({ toggle, isOpen, title, locations = [] }: MapModalProp
       <OpenStreetMapTile />
       {locations.map(({ cityName, latLong, count }, index) => (
         <Marker key={index} position={latLong}>
-          <Popup><b>{count}</b> visit{count > 1 ? 's' : ''} from <b>{cityName}</b></Popup>
+          <Popup>
+            <b>{count}</b> visit{count > 1 ? 's' : ''} from <b>{cityName}</b>
+          </Popup>
         </Marker>
       ))}
     </MapContainer>

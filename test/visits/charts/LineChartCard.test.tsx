@@ -16,17 +16,16 @@ type SetUpOptions = {
 
 describe('<LineChartCard />', () => {
   const onDateRangeChange = vi.fn();
-  const setUp = ({ visitsGroups = {} }: SetUpOptions = {}) => renderWithEvents(
-    <ChartDimensionsProvider value={{ width: 800, height: 400 }}>
-      <LineChartCard visitsGroups={visitsGroups} onDateRangeChange={onDateRangeChange} />
-    </ChartDimensionsProvider>,
-  );
+  const setUp = ({ visitsGroups = {} }: SetUpOptions = {}) =>
+    renderWithEvents(
+      <ChartDimensionsProvider value={{ width: 800, height: 400 }}>
+        <LineChartCard visitsGroups={visitsGroups} onDateRangeChange={onDateRangeChange} />
+      </ChartDimensionsProvider>,
+    );
 
   const asMainVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(visits, { type: 'main' as const });
-  const asHighlightedVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(
-    visits,
-    { type: 'highlighted' as const },
-  );
+  const asHighlightedVisits = (visits: NormalizedVisit[]): VisitsList =>
+    Object.assign(visits, { type: 'highlighted' as const });
   const asPrevVisits = (visits: NormalizedVisit[]): VisitsList => Object.assign(visits, { type: 'previous' as const });
   const asColoredVisits = (visits: NormalizedVisit[], color: string): VisitsList => Object.assign(visits, { color });
 
@@ -63,25 +62,25 @@ describe('<LineChartCard />', () => {
     [[{ date: formatISO(subMonths(new Date(), 6)) }], 1],
     [[{ date: formatISO(subMonths(new Date(), 7)) }], 0],
     [[{ date: formatISO(subYears(new Date(), 1)) }], 0],
-  ])('renders group menu and selects proper grouping item based on visits dates', async (
-    visits,
-    expectedActiveIndex,
-  ) => {
-    const { user } = setUp({
-      visitsGroups: { v: asMainVisits(visits.map((visit) => fromPartial(visit))) },
-    });
+  ])(
+    'renders group menu and selects proper grouping item based on visits dates',
+    async (visits, expectedActiveIndex) => {
+      const { user } = setUp({
+        visitsGroups: { v: asMainVisits(visits.map((visit) => fromPartial(visit))) },
+      });
 
-    await user.click(screen.getByRole('button', { name: /Group by/ }));
+      await user.click(screen.getByRole('button', { name: /Group by/ }));
 
-    const items = screen.getAllByRole('menuitem');
+      const items = screen.getAllByRole('menuitem');
 
-    expect(items).toHaveLength(4);
-    expect(items[0]).toHaveTextContent('Month');
-    expect(items[1]).toHaveTextContent('Week');
-    expect(items[2]).toHaveTextContent('Day');
-    expect(items[3]).toHaveTextContent('Hour');
-    expect(items[expectedActiveIndex]).toHaveAttribute('data-selected', 'true');
-  });
+      expect(items).toHaveLength(4);
+      expect(items[0]).toHaveTextContent('Month');
+      expect(items[1]).toHaveTextContent('Week');
+      expect(items[2]).toHaveTextContent('Day');
+      expect(items[3]).toHaveTextContent('Hour');
+      expect(items[expectedActiveIndex]).toHaveAttribute('data-selected', 'true');
+    },
+  );
 
   // FIXME Snapshots do not match when run in CI, because it generate some slightly off coordinates.
   //       I Need to investigate why.
@@ -98,17 +97,23 @@ describe('<LineChartCard />', () => {
     ],
     [
       {
-        foo: asColoredVisits([
-          fromPartial<NormalizedVisit>({ date: '2023-04-01' }),
-          fromPartial<NormalizedVisit>({ date: '2023-04-02' }),
-          fromPartial<NormalizedVisit>({ date: '2023-04-03' }),
-        ], 'red'),
-        bar: asColoredVisits([
-          fromPartial<NormalizedVisit>({ date: '2024-04-01' }),
-          fromPartial<NormalizedVisit>({ date: '2024-04-03' }),
-          fromPartial<NormalizedVisit>({ date: '2024-04-05' }),
-          fromPartial<NormalizedVisit>({ date: '2024-04-07' }),
-        ], 'yellow'),
+        foo: asColoredVisits(
+          [
+            fromPartial<NormalizedVisit>({ date: '2023-04-01' }),
+            fromPartial<NormalizedVisit>({ date: '2023-04-02' }),
+            fromPartial<NormalizedVisit>({ date: '2023-04-03' }),
+          ],
+          'red',
+        ),
+        bar: asColoredVisits(
+          [
+            fromPartial<NormalizedVisit>({ date: '2024-04-01' }),
+            fromPartial<NormalizedVisit>({ date: '2024-04-03' }),
+            fromPartial<NormalizedVisit>({ date: '2024-04-05' }),
+            fromPartial<NormalizedVisit>({ date: '2024-04-07' }),
+          ],
+          'yellow',
+        ),
       },
     ],
   ])('renders chart with expected data', (visitsGroups) => {
@@ -141,18 +146,18 @@ describe('<LineChartCard />', () => {
     expect(isBeforeOrEqual(startDate, endDate)).toBe(true);
   });
 
-  it.each([
-    { button: 1 },
-    { button: 2 },
-  ])('does not select a date range when clicking with a button other than main one', ({ button }) => {
-    const { chart } = setUpChartWithData();
+  it.each([{ button: 1 }, { button: 2 }])(
+    'does not select a date range when clicking with a button other than main one',
+    ({ button }) => {
+      const { chart } = setUpChartWithData();
 
-    fireEvent.mouseDown(chart, { clientX: 100, clientY: 200, button });
-    fireEvent.mouseMove(chart, { clientX: 300, clientY: 200 });
-    fireEvent.mouseUp(chart, { clientX: 300, clientY: 200 });
+      fireEvent.mouseDown(chart, { clientX: 100, clientY: 200, button });
+      fireEvent.mouseMove(chart, { clientX: 300, clientY: 200 });
+      fireEvent.mouseUp(chart, { clientX: 300, clientY: 200 });
 
-    expect(onDateRangeChange).not.toHaveBeenCalled();
-  });
+      expect(onDateRangeChange).not.toHaveBeenCalled();
+    },
+  );
 
   it('allows chart to be expanded', async () => {
     const { user } = setUpChartWithData();

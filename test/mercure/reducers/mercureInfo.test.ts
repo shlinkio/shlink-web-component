@@ -30,10 +30,11 @@ describe('mercureInfoReducer', () => {
 
   describe('loadMercureInfo', () => {
     const dispatch = vi.fn();
-    const createSettings = (enabled: boolean): WithApiClient<Settings> => fromPartial({
-      apiClientFactory,
-      realTimeUpdates: { enabled },
-    });
+    const createSettings = (enabled: boolean): WithApiClient<Settings> =>
+      fromPartial({
+        apiClientFactory,
+        realTimeUpdates: { enabled },
+      });
 
     it('dispatches error when real time updates are disabled', async () => {
       getMercureInfo.mockResolvedValue(mercureInfo);
@@ -43,9 +44,11 @@ describe('mercureInfoReducer', () => {
 
       expect(getMercureInfo).not.toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        error: new Error('Real time updates not enabled'),
-      }));
+      expect(dispatch).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          error: new Error('Real time updates not enabled'),
+        }),
+      );
     });
 
     it('calls API on success', async () => {

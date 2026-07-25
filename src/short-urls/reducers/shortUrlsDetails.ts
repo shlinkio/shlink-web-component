@@ -9,15 +9,18 @@ import { shortUrlMatches } from '../helpers';
 
 const REDUCER_PREFIX = 'shlink/shortUrlsDetails';
 
-export type ShortUrlsDetails = {
-  status: 'idle' | 'loading';
-} | {
-  status: 'error';
-  error?: ProblemDetailsError;
-} | {
-  status: 'loaded';
-  shortUrls: Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>;
-};
+export type ShortUrlsDetails =
+  | {
+      status: 'idle' | 'loading';
+    }
+  | {
+      status: 'error';
+      error?: ProblemDetailsError;
+    }
+  | {
+      status: 'loaded';
+      shortUrls: Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>;
+    };
 
 const initialState: ShortUrlsDetails = {
   status: 'idle',
@@ -30,16 +33,17 @@ export const getShortUrlsDetailsThunk = createAsyncThunk(
     { getState },
   ): Promise<Map<ShlinkShortUrlIdentifier, ShlinkShortUrl>> => {
     const { shortUrlsList } = getState();
-    const pairs = await Promise.all(identifiers.map(
-      async (identifier): Promise<[ShlinkShortUrlIdentifier, ShlinkShortUrl]> => {
+    const pairs = await Promise.all(
+      identifiers.map(async (identifier): Promise<[ShlinkShortUrlIdentifier, ShlinkShortUrl]> => {
         const { shortCode, domain } = identifier;
-        const alreadyLoaded = shortUrlsList.status === 'loaded'
-          ? shortUrlsList.shortUrls.data.find((url) => shortUrlMatches(url, shortCode, domain))
-          : undefined;
+        const alreadyLoaded =
+          shortUrlsList.status === 'loaded'
+            ? shortUrlsList.shortUrls.data.find((url) => shortUrlMatches(url, shortCode, domain))
+            : undefined;
 
-        return [identifier, alreadyLoaded ?? await apiClientFactory().getShortUrl({ shortCode, domain })];
-      },
-    ));
+        return [identifier, alreadyLoaded ?? (await apiClientFactory().getShortUrl({ shortCode, domain }))];
+      }),
+    );
 
     return new Map(pairs);
   },
@@ -51,12 +55,14 @@ export const { reducer: shortUrlsDetailsReducer } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getShortUrlsDetailsThunk.pending, () => ({ status: 'loading' }));
-    builder.addCase(getShortUrlsDetailsThunk.rejected, (_, { error }) => (
-      { status: 'error', error: parseApiError(error) }
-    ));
-    builder.addCase(getShortUrlsDetailsThunk.fulfilled, (_, { payload: shortUrls }) => (
-      { status: 'loaded', shortUrls }
-    ));
+    builder.addCase(getShortUrlsDetailsThunk.rejected, (_, { error }) => ({
+      status: 'error',
+      error: parseApiError(error),
+    }));
+    builder.addCase(getShortUrlsDetailsThunk.fulfilled, (_, { payload: shortUrls }) => ({
+      status: 'loaded',
+      shortUrls,
+    }));
   },
 });
 

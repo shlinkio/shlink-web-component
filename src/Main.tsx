@@ -58,10 +58,7 @@ export const Main: FC<MainProps> = ({ createNotFound, autoToggleButton }) => {
       <div {...swipeableProps} className="h-full">
         <div className="h-full">
           <AsideMenu routePrefix={routesPrefix} showOnMobile={sidebarVisible} />
-          <div
-            className="min-h-full pt-[20px] md:pt-[30px] md:pl-(--aside-menu-width)"
-            onPointerDown={hideSidebar}
-          >
+          <div className="min-h-full pt-[20px] md:pt-[30px] md:pl-(--aside-menu-width)" onPointerDown={hideSidebar}>
             <div className="container mx-auto px-3">
               <Routes>
                 <Route index element={<Navigate replace to="overview" />} />
@@ -69,23 +66,33 @@ export const Main: FC<MainProps> = ({ createNotFound, autoToggleButton }) => {
                 <Route path="/list-short-urls/:page" element={<ShortUrlsList />} />
                 <Route path="/create-short-url" element={<CreateShortUrl />} />
                 <Route path="/short-code/:shortCode/visits">
-                  {['', '*'].map((path) => <Route key={path} path={path} element={<ShortUrlVisits />} />)}
+                  {['', '*'].map((path) => (
+                    <Route key={path} path={path} element={<ShortUrlVisits />} />
+                  ))}
                 </Route>
                 <Route path="/short-code/:shortCode/edit" element={<EditShortUrl />} />
                 <Route path="/short-code/:shortCode/redirect-rules" element={<ShortUrlRedirectRules />} />
                 <Route path="/short-urls/compare-visits" element={<ShortUrlVisitsComparison />} />
                 <Route path="/tag/:tag/visits">
-                  {['', '*'].map((path) => <Route key={path} path={path} element={<TagVisits />} />)}
+                  {['', '*'].map((path) => (
+                    <Route key={path} path={path} element={<TagVisits />} />
+                  ))}
                 </Route>
                 <Route path="/tags/compare-visits" element={<TagVisitsComparison />} />
                 <Route path="/domain/:domain/visits">
-                  {['', '*'].map((path) => <Route key={path} path={path} element={<DomainVisits />} />)}
+                  {['', '*'].map((path) => (
+                    <Route key={path} path={path} element={<DomainVisits />} />
+                  ))}
                 </Route>
                 <Route path="/orphan-visits">
-                  {['', '*'].map((path) => <Route key={path} path={path} element={<OrphanVisits />} />)}
+                  {['', '*'].map((path) => (
+                    <Route key={path} path={path} element={<OrphanVisits />} />
+                  ))}
                 </Route>
                 <Route path="/non-orphan-visits">
-                  {['', '*'].map((path) => <Route key={path} path={path} element={<NonOrphanVisits />} />)}
+                  {['', '*'].map((path) => (
+                    <Route key={path} path={path} element={<NonOrphanVisits />} />
+                  ))}
                 </Route>
                 <Route path="/manage-tags" element={<TagsList />} />
                 <Route path="/manage-domains" element={<ManageDomains />} />

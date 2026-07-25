@@ -4,11 +4,12 @@ import { AsideMenu } from '../../src/common/AsideMenu';
 import { checkAccessibility } from '../__helpers__/accessibility';
 
 describe('<AsideMenu />', () => {
-  const setUp = () => render(
-    <MemoryRouter>
-      <AsideMenu routePrefix="/abc123" />
-    </MemoryRouter>,
-  );
+  const setUp = () =>
+    render(
+      <MemoryRouter>
+        <AsideMenu routePrefix="/abc123" />
+      </MemoryRouter>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

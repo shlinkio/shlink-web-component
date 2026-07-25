@@ -8,11 +8,13 @@ import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/mercure';
 
-export type MercureInfo = {
-  status: 'loading' | 'error';
-} | (ShlinkMercureInfo & {
-  status: 'loaded';
-});
+export type MercureInfo =
+  | {
+      status: 'loading' | 'error';
+    }
+  | (ShlinkMercureInfo & {
+      status: 'loaded';
+    });
 
 const initialState: MercureInfo = {
   status: 'loading',

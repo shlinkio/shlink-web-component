@@ -1,18 +1,19 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { Settings } from '../../../src/settings';
-import { defaultVisitsListColumns , SettingsProvider } from '../../../src/settings';
+import { defaultVisitsListColumns, SettingsProvider } from '../../../src/settings';
 import { visitsListColumns, VisitsListSettings } from '../../../src/settings/components/VisitsListSettings';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<VisitsListSettings />', () => {
   const setVisitsSettings = vi.fn();
-  const setUp = (visitsListSettings: Partial<Settings['visitsList']> = {}) => renderWithEvents(
-    <SettingsProvider value={fromPartial({ visitsList: visitsListSettings })}>
-      <VisitsListSettings onChange={setVisitsSettings} />
-    </SettingsProvider>,
-  );
+  const setUp = (visitsListSettings: Partial<Settings['visitsList']> = {}) =>
+    renderWithEvents(
+      <SettingsProvider value={fromPartial({ visitsList: visitsListSettings })}>
+        <VisitsListSettings onChange={setVisitsSettings} />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -31,25 +32,29 @@ describe('<VisitsListSettings />', () => {
     const { user } = setUp();
 
     await user.click(screen.getByLabelText('City'));
-    expect(setVisitsSettings).toHaveBeenLastCalledWith(expect.objectContaining({
-      columns: {
-        ...defaultVisitsListColumns,
-        city: !defaultVisitsListColumns.city,
-      },
-    }));
+    expect(setVisitsSettings).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        columns: {
+          ...defaultVisitsListColumns,
+          city: !defaultVisitsListColumns.city,
+        },
+      }),
+    );
   });
 
   it('changes excluded columns when a column with exclussions is toggled', async () => {
     const { user } = setUp();
 
     await user.click(screen.getByLabelText(/^User agent/));
-    expect(setVisitsSettings).toHaveBeenLastCalledWith(expect.objectContaining({
-      columns: {
-        ...defaultVisitsListColumns,
-        os: false,
-        browser: false,
-        userAgent: true,
-      },
-    }));
+    expect(setVisitsSettings).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        columns: {
+          ...defaultVisitsListColumns,
+          os: false,
+          browser: false,
+          userAgent: true,
+        },
+      }),
+    );
   });
 });

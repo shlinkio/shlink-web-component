@@ -1,7 +1,7 @@
 import { LabelledInput, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import { clsx } from 'clsx';
-import { Muted } from '../../utils/components/Muted';
 import { useSetting } from '..';
+import { Muted } from '../../utils/components/Muted';
 import { LabelledToggle } from './fe-kit/LabelledToggle';
 
 export type RealTimeUpdatesProps = {
@@ -9,9 +9,7 @@ export type RealTimeUpdatesProps = {
   onIntervalChange: (interval: number) => void;
 };
 
-export const RealTimeUpdatesSettings = (
-  { toggleRealTimeUpdates, onIntervalChange }: RealTimeUpdatesProps,
-) => {
+export const RealTimeUpdatesSettings = ({ toggleRealTimeUpdates, onIntervalChange }: RealTimeUpdatesProps) => {
   const { enabled, interval } = useSetting('realTimeUpdates', { enabled: true });
 
   return (
@@ -19,17 +17,19 @@ export const RealTimeUpdatesSettings = (
       <LabelledToggle
         checked={enabled}
         onChange={toggleRealTimeUpdates}
-        helpText={<>Real-time updates are currently being <b>{enabled ? 'processed' : 'ignored'}</b>.</>}
+        helpText={
+          <>
+            Real-time updates are currently being <b>{enabled ? 'processed' : 'ignored'}</b>.
+          </>
+        }
       >
         Enable or disable real-time updates.
       </LabelledToggle>
       <div>
         <LabelledInput
-          label={(
-            <span className={clsx({ 'dark:text-gray-400': !enabled })}>
-              Real-time updates frequency (in minutes):
-            </span>
-          )}
+          label={
+            <span className={clsx({ 'dark:text-gray-400': !enabled })}>Real-time updates frequency (in minutes):</span>
+          }
           type="number"
           min={0}
           placeholder="Immediate"
@@ -41,10 +41,11 @@ export const RealTimeUpdatesSettings = (
           <Muted size="sm">
             {interval ? (
               <span>
-                Updates will be reflected in the UI
-                every <b>{interval}</b> minute{interval > 1 && 's'}.
+                Updates will be reflected in the UI every <b>{interval}</b> minute{interval > 1 && 's'}.
               </span>
-            ) : 'Updates will be reflected in the UI as soon as they happen.'}
+            ) : (
+              'Updates will be reflected in the UI as soon as they happen.'
+            )}
           </Muted>
         )}
       </div>

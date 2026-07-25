@@ -11,7 +11,7 @@ export const isServerInfoSet = (serverInfo: ServerInfo): serverInfo is Required<
 export const useServerInfo = (): [ServerInfo, (newServerInfo: ServerInfo) => void] => {
   const [serverInfo, setServerInfo] = useState<ServerInfo>(() => {
     const rawInfo = localStorage.getItem('active_shlink_server_info');
-    return rawInfo ? JSON.parse(rawInfo) as ServerInfo : {};
+    return rawInfo ? (JSON.parse(rawInfo) as ServerInfo) : {};
   });
   const updateServerInfo = useCallback((newServerInfo: ServerInfo) => {
     localStorage.setItem('active_shlink_server_info', JSON.stringify(newServerInfo));

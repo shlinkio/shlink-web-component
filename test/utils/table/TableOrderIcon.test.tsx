@@ -4,9 +4,8 @@ import { TableOrderIcon } from '../../../src/utils/table/TableOrderIcon';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<TableOrderIcon />', () => {
-  const setUp = (field: string, currentDir?: OrderDir, className?: string) => render(
-    <TableOrderIcon currentOrder={{ dir: currentDir, field: 'foo' }} field={field} className={className} />,
-  );
+  const setUp = (field: string, currentDir?: OrderDir, className?: string) =>
+    render(<TableOrderIcon currentOrder={{ dir: currentDir, field: 'foo' }} field={field} className={className} />);
 
   it('passes a11y checks', () => checkAccessibility(setUp('foo', 'ASC')));
 
@@ -19,10 +18,7 @@ describe('<TableOrderIcon />', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it.each([
-    ['DESC' as OrderDir],
-    ['ASC' as OrderDir],
-  ])('renders an icon when all conditions are met', (dir) => {
+  it.each([['DESC' as OrderDir], ['ASC' as OrderDir]])('renders an icon when all conditions are met', (dir) => {
     const { container } = setUp('foo', dir);
 
     expect(container.firstChild).not.toBeNull();

@@ -36,30 +36,38 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(50);
 
-  const getSortedPairsForStats = useCallback((statsToSort: Stats, sorting: Record<string, string>) => {
-    const pairs = Object.entries(statsToSort);
-    const sortedPairs = !order.field ? pairs : sortBy(
-      pairs,
-      ([key, value]: StatsRow) => toLowerIfString(order.field === Object.keys(sorting)[0] ? key : value),
-    );
+  const getSortedPairsForStats = useCallback(
+    (statsToSort: Stats, sorting: Record<string, string>) => {
+      const pairs = Object.entries(statsToSort);
+      const sortedPairs = !order.field
+        ? pairs
+        : sortBy(pairs, ([key, value]: StatsRow) =>
+            toLowerIfString(order.field === Object.keys(sorting)[0] ? key : value),
+          );
 
-    return !order.dir || order.dir === 'ASC' ? sortedPairs : [...sortedPairs].reverse();
-  }, [order.dir, order.field]);
-  const determineCurrentPagePairs = useCallback((pages: StatsRow[][]): StatsRow[] => {
-    const page = pages[currentPage - 1];
+      return !order.dir || order.dir === 'ASC' ? sortedPairs : [...sortedPairs].reverse();
+    },
+    [order.dir, order.field],
+  );
+  const determineCurrentPagePairs = useCallback(
+    (pages: StatsRow[][]): StatsRow[] => {
+      const page = pages[currentPage - 1];
 
-    if (currentPage < pages.length) {
-      return page;
-    }
+      if (currentPage < pages.length) {
+        return page;
+      }
 
-    const firstPageLength = pages[0].length;
+      const firstPageLength = pages[0].length;
 
-    // Using the "hidden" key, the chart will just replace the label by an empty string
-    return [...page, ...rangeOf(firstPageLength - page.length, (i): StatsRow => [`hidden_${i}`, 0])];
-  }, [currentPage]);
+      // Using the "hidden" key, the chart will just replace the label by an empty string
+      return [...page, ...rangeOf(firstPageLength - page.length, (i): StatsRow => [`hidden_${i}`, 0])];
+    },
+    [currentPage],
+  );
   const renderPagination = useCallback(
-    (pagesCount: number): ReactNode =>
-      <Paginator currentPage={currentPage} pagesCount={pagesCount} onPageChange={setCurrentPage} />,
+    (pagesCount: number): ReactNode => (
+      <Paginator currentPage={currentPage} pagesCount={pagesCount} onPageChange={setCurrentPage} />
+    ),
     [currentPage],
   );
   const determineStats = useCallback(
@@ -68,12 +76,24 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
       const sortedKeys = sortedPairs.map(pickKeyFromPair);
 
       // Highlighted and prev stats have to be ordered based on the regular stats, not on their own values
-      const sortedHighlightedPairs = theHighlightedStats && Object.entries(
-        { ...zipObj(sortedKeys, sortedKeys.map(() => 0)), ...theHighlightedStats },
-      );
-      const sortedPrevPairs = thePrevStats && Object.entries(
-        { ...zipObj(sortedKeys, sortedKeys.map(() => 0)), ...thePrevStats },
-      );
+      const sortedHighlightedPairs =
+        theHighlightedStats &&
+        Object.entries({
+          ...zipObj(
+            sortedKeys,
+            sortedKeys.map(() => 0),
+          ),
+          ...theHighlightedStats,
+        });
+      const sortedPrevPairs =
+        thePrevStats &&
+        Object.entries({
+          ...zipObj(
+            sortedKeys,
+            sortedKeys.map(() => 0),
+          ),
+          ...thePrevStats,
+        });
 
       if (sortedPairs.length <= itemsPerPage) {
         return {
@@ -89,9 +109,8 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
 
       return {
         currentPageStats: Object.fromEntries(determineCurrentPagePairs(pages)),
-        currentPageHighlightedStats: highlightedPages && Object.fromEntries(
-          determineCurrentPagePairs(highlightedPages),
-        ),
+        currentPageHighlightedStats:
+          highlightedPages && Object.fromEntries(determineCurrentPagePairs(highlightedPages)),
         currentPagePrevStats: prevPages && Object.fromEntries(determineCurrentPagePairs(prevPages)),
         pagination: renderPagination(pages.length),
         max: roundTen(Math.max(...sortedPairs.map(pickValueFromPair))),
@@ -101,19 +120,20 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
   );
 
   const { currentPageStats, currentPagePrevStats, currentPageHighlightedStats, pagination, max } = useMemo(
-    () => determineStats(
-      stats,
-      sortingItems,
-      highlightedStats && Object.keys(highlightedStats).length > 0 ? highlightedStats : undefined,
-      prevStats && Object.keys(prevStats).length > 0 ? prevStats : undefined,
-    ),
+    () =>
+      determineStats(
+        stats,
+        sortingItems,
+        highlightedStats && Object.keys(highlightedStats).length > 0 ? highlightedStats : undefined,
+        prevStats && Object.keys(prevStats).length > 0 ? prevStats : undefined,
+      ),
     [determineStats, highlightedStats, prevStats, sortingItems, stats],
   );
   const activeCities = useMemo(() => Object.keys(currentPageStats), [currentPageStats]);
 
   return (
     <ChartCard
-      title={(
+      title={
         <SpaceBetweenContainer>
           {title}
           <div className="flex items-center gap-3">
@@ -142,10 +162,14 @@ export const SortableBarChartCard: FC<SortableBarChartCardProps> = ({
             />
           </div>
         </SpaceBetweenContainer>
-      )}
-      footer={pagination && (
-        <div className="flex justify-around items-center" data-testid="chart-paginator">{pagination}</div>
-      )}
+      }
+      footer={
+        pagination && (
+          <div className="flex justify-around items-center" data-testid="chart-paginator">
+            {pagination}
+          </div>
+        )
+      }
     >
       <HorizontalBarChart
         stats={currentPageStats}

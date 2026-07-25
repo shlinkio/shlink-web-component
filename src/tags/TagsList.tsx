@@ -19,62 +19,61 @@ import { TAGS_ORDERABLE_FIELDS } from './data/TagsListChildrenProps';
 import { useTagsList } from './reducers/tagsList';
 import { TagsTable } from './TagsTable';
 
-export const TagsList = boundToMercureHub(() => {
-  const { filterTags, tagsList } = useTagsList();
-  const settings = useSettings();
-  const [order, setOrder] = useState<TagsOrder>(settings.tags?.defaultOrdering ?? {});
-  const sortedTags = useMemo(() => {
-    const simplifiedTags = tagsList.filteredTags.map((tag): SimplifiedTag => {
-      const theTag = tagsList.stats[tag];
-      const visits = settings.visits?.excludeBots ? theTag.visitsSummary.nonBots : theTag.visitsSummary.total;
+export const TagsList = boundToMercureHub(
+  () => {
+    const { filterTags, tagsList } = useTagsList();
+    const settings = useSettings();
+    const [order, setOrder] = useState<TagsOrder>(settings.tags?.defaultOrdering ?? {});
+    const sortedTags = useMemo(() => {
+      const simplifiedTags = tagsList.filteredTags.map((tag): SimplifiedTag => {
+        const theTag = tagsList.stats[tag];
+        const visits = settings.visits?.excludeBots ? theTag.visitsSummary.nonBots : theTag.visitsSummary.total;
 
-      return {
-        tag,
-        visits,
-        shortUrls: theTag?.shortUrlsCount ?? 0,
-      };
-    });
-    return sortList<SimplifiedTag>(simplifiedTags, order);
-  }, [order, settings.visits?.excludeBots, tagsList.filteredTags, tagsList.stats]);
-  const visitsComparison = useVisitsComparison();
+        return {
+          tag,
+          visits,
+          shortUrls: theTag?.shortUrlsCount ?? 0,
+        };
+      });
+      return sortList<SimplifiedTag>(simplifiedTags, order);
+    }, [order, settings.visits?.excludeBots, tagsList.filteredTags, tagsList.stats]);
+    const visitsComparison = useVisitsComparison();
 
-  if (tagsList.status === 'loading') {
-    return <Message loading />;
-  }
+    if (tagsList.status === 'loading') {
+      return <Message loading />;
+    }
 
-  if (tagsList.status === 'error') {
+    if (tagsList.status === 'error') {
+      return (
+        <Result variant="error">
+          <ShlinkApiError errorData={tagsList.error} fallbackMessage="Error loading tags :(" />
+        </Result>
+      );
+    }
+
+    const orderByColumn = (field: TagsOrderableFields) => () =>
+      setOrder(determineOrder({ currentField: order.field, currentOrderDir: order.dir, newField: field }));
+
     return (
-      <Result variant="error">
-        <ShlinkApiError errorData={tagsList.error} fallbackMessage="Error loading tags :(" />
-      </Result>
-    );
-  }
-
-  const orderByColumn = (field: TagsOrderableFields) => () =>
-    setOrder(determineOrder({ currentField: order.field, currentOrderDir: order.dir, newField: field }));
-
-  return (
-    <VisitsComparisonProvider value={visitsComparison}>
-      <div className="flex flex-col gap-4">
-        <SearchInput onChange={filterTags} />
-        <div className="flex flex-col lg:flex-row lg:justify-end">
-          <div className="lg:w-1/2">
-            <OrderingDropdown
-              containerClassName="[&]:block"
-              buttonClassName="w-full"
-              items={TAGS_ORDERABLE_FIELDS}
-              order={order}
-              onChange={setOrder}
-            />
+      <VisitsComparisonProvider value={visitsComparison}>
+        <div className="flex flex-col gap-4">
+          <SearchInput onChange={filterTags} />
+          <div className="flex flex-col lg:flex-row lg:justify-end">
+            <div className="lg:w-1/2">
+              <OrderingDropdown
+                containerClassName="[&]:block"
+                buttonClassName="w-full"
+                items={TAGS_ORDERABLE_FIELDS}
+                order={order}
+                onChange={setOrder}
+              />
+            </div>
           </div>
+          <VisitsComparisonCollector type="tags" />
+          <TagsTable sortedTags={sortedTags} currentOrder={order} orderByColumn={orderByColumn} />
         </div>
-        <VisitsComparisonCollector type="tags" />
-        <TagsTable
-          sortedTags={sortedTags}
-          currentOrder={order}
-          orderByColumn={orderByColumn}
-        />
-      </div>
-    </VisitsComparisonProvider>
-  );
-}, () => [Topics.visits]);
+      </VisitsComparisonProvider>
+    );
+  },
+  () => [Topics.visits],
+);

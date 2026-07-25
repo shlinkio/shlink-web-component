@@ -9,50 +9,62 @@ import { useShortUrlsQuery } from './hooks';
 
 export type ExportShortUrlsBtnProps = {
   amount?: number;
-  apiClientFactory: () => ShlinkApiClient,
-  ReportExporter: ReportExporter,
+  apiClientFactory: () => ShlinkApiClient;
+  ReportExporter: ReportExporter;
 };
 
 const itemsPerPage = 20;
 
-const ExportShortUrlsBtnBase: FC<ExportShortUrlsBtnProps> = (
-  { amount = 0, apiClientFactory, ReportExporter: reportExporter },
-) => {
+const ExportShortUrlsBtnBase: FC<ExportShortUrlsBtnProps> = ({
+  amount = 0,
+  apiClientFactory,
+  ReportExporter: reportExporter,
+}) => {
   const [{ tags, search, startDate, endDate, orderBy, tagsMode }] = useShortUrlsQuery();
   const { flag: loading, setToTrue: startLoading, setToFalse: stopLoading } = useToggle();
   const exportAllUrls = useCallback(async () => {
     const totalPages = amount / itemsPerPage;
     const loadAllUrls = async (page = 1): Promise<ShlinkShortUrl[]> => {
-      const { data } = await apiClientFactory().listShortUrls(
-        { page: `${page}`, tags, searchTerm: search, startDate, endDate, orderBy, tagsMode, itemsPerPage },
-      );
+      const { data } = await apiClientFactory().listShortUrls({
+        page: `${page}`,
+        tags,
+        searchTerm: search,
+        startDate,
+        endDate,
+        orderBy,
+        tagsMode,
+        itemsPerPage,
+      });
 
       if (page >= totalPages) {
         return data;
       }
 
       // TODO Support parallelization
+      // oxlint-disable-next-line - False positive
       return data.concat(await loadAllUrls(page + 1));
     };
 
     startLoading();
     const shortUrls = await loadAllUrls();
 
-    reportExporter.exportShortUrls(shortUrls.map((shortUrl) => {
-      const { hostname: domain, pathname } = new URL(shortUrl.shortUrl);
-      const shortCode = pathname.substring(1); // Remove trailing slash
+    reportExporter.exportShortUrls(
+      shortUrls.map((shortUrl) => {
+        const { hostname: domain, pathname } = new URL(shortUrl.shortUrl);
+        const shortCode = pathname.substring(1); // Remove trailing slash
 
-      return {
-        createdAt: shortUrl.dateCreated,
-        domain,
-        shortCode,
-        shortUrl: shortUrl.shortUrl,
-        longUrl: shortUrl.longUrl,
-        title: shortUrl.title ?? '',
-        tags: shortUrl.tags.join('|'),
-        visits: shortUrl.visitsSummary.total,
-      };
-    }));
+        return {
+          createdAt: shortUrl.dateCreated,
+          domain,
+          shortCode,
+          shortUrl: shortUrl.shortUrl,
+          longUrl: shortUrl.longUrl,
+          title: shortUrl.title ?? '',
+          tags: shortUrl.tags.join('|'),
+          visits: shortUrl.visitsSummary.total,
+        };
+      }),
+    );
     stopLoading();
   }, [
     amount,

@@ -34,8 +34,8 @@ const INTERVAL_TO_STRING_MAP: Record<DateInterval, string | undefined> = {
 
 const INTERVALS = Object.keys(INTERVAL_TO_STRING_MAP) as DateInterval[];
 
-export const dateRangeIsEmpty = (dateRange?: DateRange): boolean => !dateRange
-  || (!dateRange.startDate && !dateRange.endDate);
+export const dateRangeIsEmpty = (dateRange?: DateRange): boolean =>
+  !dateRange || (!dateRange.startDate && !dateRange.endDate);
 
 export const rangeIsInterval = (range?: DateRange | DateInterval): range is DateInterval =>
   typeof range === 'string' && INTERVALS.includes(range);
@@ -130,9 +130,10 @@ export const isMandatoryStartDateRange = (dateRange?: DateRange): dateRange is M
  *
  * Only the startDate is required. The endDate will fall back to current date if not provided
  */
-export const calcPrevDateRange = (
-  { startDate, endDate: optionalEndDate }: MandatoryStartDateRange,
-): StrictDateRange => {
+export const calcPrevDateRange = ({
+  startDate,
+  endDate: optionalEndDate,
+}: MandatoryStartDateRange): StrictDateRange => {
   const endDate = optionalEndDate ?? new Date();
   const daysDiff = differenceInDays(endOfDay(endDate), startOfDay(startDate)) + 1;
   const newStartDate = subDays(startOfDay(startDate), daysDiff);

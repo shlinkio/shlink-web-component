@@ -5,7 +5,7 @@ import { parseApiError } from '../../api-contract/utils';
 import { createShortUrlThunk } from '../../short-urls/reducers/shortUrlCreation';
 import { useAppDispatch, useAppSelector } from '../../store';
 import type { WithApiClient } from '../../store/helpers';
-import { createAsyncThunk,useApiClientFactory  } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 import type { Domain, DomainStatus } from '../data';
 import type { EditDomainRedirects } from './domainRedirects';
 import { editDomainRedirects } from './domainRedirects';
@@ -18,12 +18,16 @@ type DomainsListCommon = {
   defaultRedirects?: ShlinkDomainRedirects;
 };
 
-export type DomainsList = DomainsListCommon & ({
-  status: 'idle' | 'loading';
-} | {
-  status: 'error';
-  error?: ProblemDetailsError;
-});
+export type DomainsList = DomainsListCommon &
+  (
+    | {
+        status: 'idle' | 'loading';
+      }
+    | {
+        status: 'error';
+        error?: ProblemDetailsError;
+      }
+  );
 
 interface ListDomains {
   domains: Domain[];
@@ -41,11 +45,15 @@ const initialState: DomainsList = {
   filteredDomains: [],
 };
 
-export const replaceRedirectsOnDomain = ({ domain, redirects }: EditDomainRedirects) =>
-  (d: Domain): Domain => (d.domain !== domain ? d : { ...d, redirects });
+export const replaceRedirectsOnDomain =
+  ({ domain, redirects }: EditDomainRedirects) =>
+  (d: Domain): Domain =>
+    d.domain !== domain ? d : { ...d, redirects };
 
-export const replaceStatusOnDomain = (domain: string, status: DomainStatus) =>
-  (d: Domain): Domain => (d.domain !== domain ? d : { ...d, status });
+export const replaceStatusOnDomain =
+  (domain: string, status: DomainStatus) =>
+  (d: Domain): Domain =>
+    d.domain !== domain ? d : { ...d, status };
 
 export const listDomainsThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/listDomains`,
@@ -79,12 +87,16 @@ export const { reducer: domainsListReducer } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(listDomainsThunk.pending, () => ({ ...initialState, status: 'loading' }));
-    builder.addCase(listDomainsThunk.rejected, (_, { error }) => (
-      { ...initialState, status: 'error', error: parseApiError(error) }
-    ));
-    builder.addCase(listDomainsThunk.fulfilled, (_, { payload }) => (
-      { ...initialState, ...payload, filteredDomains: payload.domains }
-    ));
+    builder.addCase(listDomainsThunk.rejected, (_, { error }) => ({
+      ...initialState,
+      status: 'error',
+      error: parseApiError(error),
+    }));
+    builder.addCase(listDomainsThunk.fulfilled, (_, { payload }) => ({
+      ...initialState,
+      ...payload,
+      filteredDomains: payload.domains,
+    }));
 
     builder.addCase(checkDomainHealthThunk.fulfilled, ({ domains, filteredDomains, ...rest }, { payload }) => ({
       ...rest,

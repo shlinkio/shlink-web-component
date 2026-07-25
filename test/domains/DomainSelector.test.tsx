@@ -6,17 +6,18 @@ import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<DomainSelector />', () => {
-  const setUp = (value = '') => renderWithEvents(
-    <DomainSelector
-      value={value}
-      onChange={vi.fn()}
-      domains={[
-        fromPartial({ domain: 'default.com', isDefault: true }),
-        fromPartial({ domain: 'foo.com' }),
-        fromPartial({ domain: 'bar.com' }),
-      ]}
-    />,
-  );
+  const setUp = (value = '') =>
+    renderWithEvents(
+      <DomainSelector
+        value={value}
+        onChange={vi.fn()}
+        domains={[
+          fromPartial({ domain: 'default.com', isDefault: true }),
+          fromPartial({ domain: 'foo.com' }),
+          fromPartial({ domain: 'bar.com' }),
+        ]}
+      />,
+    );
 
   const switchToInputMode = async (user: UserEvent) => {
     await user.click(screen.getByRole('button', { name: 'Domain' }));
@@ -25,12 +26,14 @@ describe('<DomainSelector />', () => {
 
   it.each([
     [setUp],
-    [async () => {
-      const { user, container } = setUp();
-      await switchToInputMode(user);
+    [
+      async () => {
+        const { user, container } = setUp();
+        await switchToInputMode(user);
 
-      return { container };
-    }],
+        return { container };
+      },
+    ],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it.each([

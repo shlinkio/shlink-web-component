@@ -39,10 +39,8 @@ const FeaturesContext = createContext(getFeaturesForVersion('0.0.0'));
 
 export const FeaturesProvider = FeaturesContext.Provider;
 
-export const useFeatures = (serverVersion: SemVerOrLatest) => useMemo(
-  () => getFeaturesForVersion(serverVersion),
-  [serverVersion],
-);
+export const useFeatures = (serverVersion: SemVerOrLatest) =>
+  useMemo(() => getFeaturesForVersion(serverVersion), [serverVersion]);
 
 export const useFeature = (feature: Feature) => {
   const features = useContext(FeaturesContext);

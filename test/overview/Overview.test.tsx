@@ -30,10 +30,11 @@ describe('<Overview />', () => {
             <ContainerProvider
               value={fromPartial({
                 useToggleTimeout: vi.fn(() => []),
-                apiClientFactory: () => fromPartial<ShlinkApiClient>({
-                  listShortUrls: vi.fn().mockResolvedValue(shortUrls),
-                  getVisitsOverview: vi.fn().mockResolvedValue(visitsOverview),
-                }),
+                apiClientFactory: () =>
+                  fromPartial<ShlinkApiClient>({
+                    listShortUrls: vi.fn().mockResolvedValue(shortUrls),
+                    getVisitsOverview: vi.fn().mockResolvedValue(visitsOverview),
+                  }),
               })}
             >
               <Overview />

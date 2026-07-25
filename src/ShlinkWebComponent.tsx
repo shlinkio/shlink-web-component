@@ -32,43 +32,53 @@ export type ShlinkWebComponentProps = {
   autoSidebarToggle?: boolean;
 };
 
-export const createShlinkWebComponent = (bottle: Bottle): FC<ShlinkWebComponentProps> => (
-  { serverVersion, apiClient, settings, routesPrefix = '', createNotFound, tagColorsStorage, autoSidebarToggle = true },
-) => {
-  const features = useFeatures(serverVersion);
-  const [theStore, setStore] = useState<Store | undefined>();
+export const createShlinkWebComponent =
+  (bottle: Bottle): FC<ShlinkWebComponentProps> =>
+  ({
+    serverVersion,
+    apiClient,
+    settings,
+    routesPrefix = '',
+    createNotFound,
+    tagColorsStorage,
+    autoSidebarToggle = true,
+  }) => {
+    const features = useFeatures(serverVersion);
+    const [theStore, setStore] = useState<Store | undefined>();
 
-  const inRouterContext = useInRouterContext();
-  const RouterOrFragment = useMemo(() => (inRouterContext ? Fragment : BrowserRouter), [inRouterContext]);
+    const inRouterContext = useInRouterContext();
+    const RouterOrFragment = useMemo(() => (inRouterContext ? Fragment : BrowserRouter), [inRouterContext]);
 
-  useEffect(() => {
-    const apiClientFactory = () => apiClient;
-    bottle.value('apiClientFactory', apiClientFactory);
+    useEffect(() => {
+      const apiClientFactory = () => apiClient;
+      bottle.value('apiClientFactory', apiClientFactory);
 
-    if (tagColorsStorage) {
-      bottle.value('TagColorsStorage', tagColorsStorage);
-    }
+      if (tagColorsStorage) {
+        bottle.value('TagColorsStorage', tagColorsStorage);
+      }
 
-    // Create store after the API client has been registered in the container
-    const store = setUpStore();
-    setStore(store);
-  }, [apiClient, autoSidebarToggle, createNotFound, settings, tagColorsStorage]);
+      // Create store after the API client has been registered in the container
+      const store = setUpStore();
+      setStore(store);
+    }, [apiClient, autoSidebarToggle, createNotFound, settings, tagColorsStorage]);
 
-  return theStore && (
-    <ReduxStoreProvider store={theStore}>
-      <ContainerProvider value={bottle.container}>
-        <SettingsProvider value={settings ?? {}}>
-          <FeaturesProvider value={features}>
-            <ShlinkSidebarVisibilityProvider>
-              <RoutesPrefixProvider value={routesPrefix}>
-                <RouterOrFragment>
-                  <Main createNotFound={createNotFound} autoToggleButton={autoSidebarToggle} />
-                </RouterOrFragment>
-              </RoutesPrefixProvider>
-            </ShlinkSidebarVisibilityProvider>
-          </FeaturesProvider>
-        </SettingsProvider>
-      </ContainerProvider>
-    </ReduxStoreProvider>
-  );
-};
+    return (
+      theStore && (
+        <ReduxStoreProvider store={theStore}>
+          <ContainerProvider value={bottle.container}>
+            <SettingsProvider value={settings ?? {}}>
+              <FeaturesProvider value={features}>
+                <ShlinkSidebarVisibilityProvider>
+                  <RoutesPrefixProvider value={routesPrefix}>
+                    <RouterOrFragment>
+                      <Main createNotFound={createNotFound} autoToggleButton={autoSidebarToggle} />
+                    </RouterOrFragment>
+                  </RoutesPrefixProvider>
+                </ShlinkSidebarVisibilityProvider>
+              </FeaturesProvider>
+            </SettingsProvider>
+          </ContainerProvider>
+        </ReduxStoreProvider>
+      )
+    );
+  };

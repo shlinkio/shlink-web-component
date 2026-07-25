@@ -138,18 +138,19 @@ describe('<VisitsStats />', () => {
     { activeRoute: '/by-location', prevVisits: [], shouldShowMessage: false },
     { activeRoute: '/list', prevVisits: undefined, shouldShowMessage: false },
     { activeRoute: '/list', prevVisits: [], shouldShowMessage: false },
-  ])('displays message when trying to load prev visits and prev interval cannot be calculated', (
-    { activeRoute, prevVisits, shouldShowMessage },
-  ) => {
-    const settings = fromPartial<Settings>({ visits: { loadPrevInterval: true } });
-    setUp({ visitsInfo: { visits, prevVisits }, activeRoute, settings });
+  ])(
+    'displays message when trying to load prev visits and prev interval cannot be calculated',
+    ({ activeRoute, prevVisits, shouldShowMessage }) => {
+      const settings = fromPartial<Settings>({ visits: { loadPrevInterval: true } });
+      setUp({ visitsInfo: { visits, prevVisits }, activeRoute, settings });
 
-    if (shouldShowMessage) {
-      expect(screen.getByText(/^Could not calculate previous period/)).toBeInTheDocument();
-    } else {
-      expect(screen.queryByText(/^Could not calculate previous period/)).not.toBeInTheDocument();
-    }
-  });
+      if (shouldShowMessage) {
+        expect(screen.getByText(/^Could not calculate previous period/)).toBeInTheDocument();
+      } else {
+        expect(screen.queryByText(/^Could not calculate previous period/)).not.toBeInTheDocument();
+      }
+    },
+  );
 
   it('exports CSV when export btn is clicked', async () => {
     const { user } = setUp({ visitsInfo: { visits } });
@@ -184,15 +185,18 @@ describe('<VisitsStats />', () => {
     { domains: [], filterByDomainSupported: false },
     { domains: undefined, filterByDomainSupported: true },
     { domains: [], filterByDomainSupported: true },
-  ])('shows domains filtering control when domains are provided and the feature is supported', ({ domains, filterByDomainSupported }) => {
-    setUp({ domains, filterByDomainSupported });
+  ])(
+    'shows domains filtering control when domains are provided and the feature is supported',
+    ({ domains, filterByDomainSupported }) => {
+      setUp({ domains, filterByDomainSupported });
 
-    if (domains && filterByDomainSupported) {
-      expect(screen.getByRole('button', { name: 'All domains' })).toBeInTheDocument();
-    } else {
-      expect(screen.queryByRole('button', { name: 'All domains' })).not.toBeInTheDocument();
-    }
-  });
+      if (domains && filterByDomainSupported) {
+        expect(screen.getByRole('button', { name: 'All domains' })).toBeInTheDocument();
+      } else {
+        expect(screen.queryByRole('button', { name: 'All domains' })).not.toBeInTheDocument();
+      }
+    },
+  );
 
   it.each([
     { selectedDomain: /^foo/, expectedFilter: DEFAULT_DOMAIN },
@@ -228,10 +232,7 @@ describe('<VisitsStats />', () => {
       },
     });
 
-    expect(getVisitsMock).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.objectContaining({ loadPrevInterval }),
-    );
+    expect(getVisitsMock).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ loadPrevInterval }));
     expect(screen.getByTestId('line-chart-container')).toMatchSnapshot();
   });
 });

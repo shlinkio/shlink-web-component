@@ -9,9 +9,10 @@ import {
 
 describe('shortUrlRedirectRulesReducer', () => {
   const getShortUrlRedirectRulesCall = vi.fn();
-  const apiClientFactory = () => fromPartial<ShlinkApiClient>({
-    getShortUrlRedirectRules: getShortUrlRedirectRulesCall,
-  });
+  const apiClientFactory = () =>
+    fromPartial<ShlinkApiClient>({
+      getShortUrlRedirectRules: getShortUrlRedirectRulesCall,
+    });
 
   describe('reducer', () => {
     it('returns loading on pending', () => {

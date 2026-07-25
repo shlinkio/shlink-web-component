@@ -8,11 +8,12 @@ import { renderWithEvents } from '../../../__helpers__/setUpTest';
 
 describe('<QrCodeSizeSettings />', () => {
   const onChange = vi.fn();
-  const setUp = (qrCodeSettings?: QrCodeSettings) => renderWithEvents(
-    <SettingsProvider value={{ qrCodes: qrCodeSettings }}>
-      <QrCodeSizeSettings onChange={onChange} />
-    </SettingsProvider>,
-  );
+  const setUp = (qrCodeSettings?: QrCodeSettings) =>
+    renderWithEvents(
+      <SettingsProvider value={{ qrCodes: qrCodeSettings }}>
+        <QrCodeSizeSettings onChange={onChange} />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

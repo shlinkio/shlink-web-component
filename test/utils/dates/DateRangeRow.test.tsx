@@ -7,9 +7,8 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<DateRangeRow />', () => {
   const onEndDateChange = vi.fn();
   const onStartDateChange = vi.fn();
-  const setUp = () => renderWithEvents(
-    <DateRangeRow onEndDateChange={onEndDateChange} onStartDateChange={onStartDateChange} />,
-  );
+  const setUp = () =>
+    renderWithEvents(<DateRangeRow onEndDateChange={onEndDateChange} onStartDateChange={onStartDateChange} />);
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

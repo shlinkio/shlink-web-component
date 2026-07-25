@@ -32,41 +32,56 @@ export const ShortUrlRedirectRules: FC = () => {
   const { flag: isModalOpen, setToFalse: closeModal, setToTrue: openModal } = useToggle();
 
   const pushRule = useCallback((rule: ShlinkRedirectRuleData) => setRules((prev = []) => [...prev, rule]), [setRules]);
-  const removeRule = useCallback((index: number) => setRules((prev = []) => {
-    const copy = [...prev];
-    copy.splice(index, 1);
-    return copy;
-  }), [setRules]);
-  const updateRule = useCallback((index: number, rule: ShlinkRedirectRuleData) => setRules((prev = []) => {
-    const copy = [...prev];
-    copy[index] = rule;
-    return copy;
-  }), [setRules]);
+  const removeRule = useCallback(
+    (index: number) =>
+      setRules((prev = []) => {
+        const copy = [...prev];
+        copy.splice(index, 1);
+        return copy;
+      }),
+    [setRules],
+  );
+  const updateRule = useCallback(
+    (index: number, rule: ShlinkRedirectRuleData) =>
+      setRules((prev = []) => {
+        const copy = [...prev];
+        copy[index] = rule;
+        return copy;
+      }),
+    [setRules],
+  );
 
-  const moveRuleToNewPosition = useCallback((oldIndex: number, newIndex: number) => setRules((prev = []) => {
-    if (!prev[newIndex]) {
-      return prev;
-    }
+  const moveRuleToNewPosition = useCallback(
+    (oldIndex: number, newIndex: number) =>
+      setRules((prev = []) => {
+        if (!prev[newIndex]) {
+          return prev;
+        }
 
-    const copy = [...prev];
-    const temp = copy[newIndex];
-    copy[newIndex] = copy[oldIndex];
-    copy[oldIndex] = temp;
+        const copy = [...prev];
+        const temp = copy[newIndex];
+        copy[newIndex] = copy[oldIndex];
+        copy[oldIndex] = temp;
 
-    return copy;
-  }), [setRules]);
+        return copy;
+      }),
+    [setRules],
+  );
   const moveRuleUp = useCallback((index: number) => moveRuleToNewPosition(index, index - 1), [moveRuleToNewPosition]);
   const moveRuleDown = useCallback((index: number) => moveRuleToNewPosition(index, index + 1), [moveRuleToNewPosition]);
 
-  const onSubmit = useCallback((e: FormEvent) => {
-    e.preventDefault();
-    if (rules) {
-      setShortUrlRedirectRules({
-        shortUrl: identifier,
-        data: { redirectRules: rules },
-      });
-    }
-  }, [identifier, rules, setShortUrlRedirectRules]);
+  const onSubmit = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+      if (rules) {
+        setShortUrlRedirectRules({
+          shortUrl: identifier,
+          data: { redirectRules: rules },
+        });
+      }
+    },
+    [identifier, rules, setShortUrlRedirectRules],
+  );
 
   useEffect(() => {
     getShortUrlRedirectRules(identifier);
@@ -77,9 +92,7 @@ export const ShortUrlRedirectRules: FC = () => {
     };
   }, [getShortUrlRedirectRules, getShortUrlsDetails, identifier, resetSetRules]);
 
-  const { redirectRules, defaultLongUrl } = shortUrlRedirectRules.status === 'loaded'
-    ? shortUrlRedirectRules
-    : {};
+  const { redirectRules, defaultLongUrl } = shortUrlRedirectRules.status === 'loaded' ? shortUrlRedirectRules : {};
   useEffect(() => {
     // Initialize rules once loaded
     if (redirectRules) {
@@ -94,8 +107,12 @@ export const ShortUrlRedirectRules: FC = () => {
           <h2 className="sm:flex justify-between items-center">
             <GoBackButton />
             <div className="text-center grow">
-              {status === 'loading' ? <>Loading...</> : (
-                <small>Redirect rules for <ExternalLink href={shortUrl?.shortUrl ?? ''} /></small>
+              {status === 'loading' ? (
+                <>Loading...</>
+              ) : (
+                <small>
+                  Redirect rules for <ExternalLink href={shortUrl?.shortUrl ?? ''} />
+                </small>
               )}
             </div>
           </h2>
@@ -118,7 +135,9 @@ export const ShortUrlRedirectRules: FC = () => {
       <form onSubmit={onSubmit}>
         {loading && <Message loading />}
         {rules.length === 0 && !loading && (
-          <SimpleCard className="text-center"><i>This short URL has no dynamic redirect rules</i></SimpleCard>
+          <SimpleCard className="text-center">
+            <i>This short URL has no dynamic redirect rules</i>
+          </SimpleCard>
         )}
         <div className="flex flex-col gap-2" ref={rulesContainerRef}>
           {rules.map((rule, index) => (

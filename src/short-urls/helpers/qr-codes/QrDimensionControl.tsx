@@ -10,14 +10,14 @@ export type QrCodeDimensionControlProps = {
   onChange: (newValue: number) => void;
 };
 
-export const QrDimensionControl: FC<QrCodeDimensionControlProps> = (
-  { name, value, step, min, max, onChange },
-) => {
+export const QrDimensionControl: FC<QrCodeDimensionControlProps> = ({ name, value, step, min, max, onChange }) => {
   const id = useId();
 
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={id} className="capitalize">{name}: {value}px</label>
+      <label htmlFor={id} className="capitalize">
+        {name}: {value}px
+      </label>
       <input
         id={id}
         type="range"

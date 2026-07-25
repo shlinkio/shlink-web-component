@@ -40,7 +40,9 @@ export const VisitsLoadingFeedback: FC<VisitsLoadingFeedbackProps> = ({ info }) 
   }
 
   if (status === 'loading') {
-    return info.progress === null ? <Message loading /> : (
+    return info.progress === null ? (
+      <Message loading />
+    ) : (
       <Message loading>
         This is going to take a while... :S
         <ProgressBar value={info.progress} className="mt-4" />

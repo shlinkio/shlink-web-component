@@ -18,10 +18,7 @@ describe('shortUrlsDetailsReducer', () => {
     });
 
     it('stops loading and returns error on rejected', () => {
-      const { status } = reducer(
-        { status: 'loading' },
-        getShortUrlsDetails.rejected(null, '', fromPartial({})),
-      );
+      const { status } = reducer({ status: 'loading' }, getShortUrlsDetails.rejected(null, '', fromPartial({})));
 
       expect(status).toEqual('error');
     });
@@ -77,9 +74,11 @@ describe('shortUrlsDetailsReducer', () => {
       );
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
-      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: new Map([[identifier, resolvedShortUrl]]),
-      }));
+      expect(dispatchMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: new Map([[identifier, resolvedShortUrl]]),
+        }),
+      );
       expect(getShortUrlCall).toHaveBeenCalledOnce();
     });
 
@@ -88,19 +87,23 @@ describe('shortUrlsDetailsReducer', () => {
 
       await getShortUrlsDetails({ identifiers: [foundShortUrl], apiClientFactory })(
         dispatchMock,
-        buildGetState(fromPartial({
-          status: 'loaded',
-          shortUrls: {
-            data: [foundShortUrl],
-          },
-        })),
+        buildGetState(
+          fromPartial({
+            status: 'loaded',
+            shortUrls: {
+              data: [foundShortUrl],
+            },
+          }),
+        ),
         {},
       );
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
-      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: new Map([[foundShortUrl, foundShortUrl]]),
-      }));
+      expect(dispatchMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: new Map([[foundShortUrl, foundShortUrl]]),
+        }),
+      );
       expect(getShortUrlCall).not.toHaveBeenCalled();
     });
   });

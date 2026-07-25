@@ -28,7 +28,10 @@ export const DeleteTagConfirmModal = ({ tag, onClose, isOpen }: DeleteTagConfirm
       Are you sure you want to delete tag <b>{tag}</b>?
       {status === 'error' && (
         <Result variant="error" size="sm" className="mt-2">
-          <ShlinkApiError errorData={tagDelete.error} fallbackMessage="Something went wrong while deleting the tag :(" />
+          <ShlinkApiError
+            errorData={tagDelete.error}
+            fallbackMessage="Something went wrong while deleting the tag :("
+          />
         </Result>
       )}
     </CardModal>

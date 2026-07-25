@@ -16,9 +16,11 @@ export type EditDomainRedirectsOptions = EditDomainRedirects & {
 
 export const editDomainRedirects = createAsyncThunk(
   EDIT_DOMAIN_REDIRECTS,
-  async (
-    { domain, redirects: providedRedirects, apiClientFactory }: EditDomainRedirectsOptions,
-  ): Promise<EditDomainRedirects> => {
+  async ({
+    domain,
+    redirects: providedRedirects,
+    apiClientFactory,
+  }: EditDomainRedirectsOptions): Promise<EditDomainRedirects> => {
     const apiClient = apiClientFactory();
     const redirects = await apiClient.editDomainRedirects({ domain, ...providedRedirects });
     return { domain, redirects };
@@ -28,10 +30,16 @@ export const editDomainRedirects = createAsyncThunk(
 export const useDomainRedirects = () => {
   const dispatch = useAppDispatch();
   const apiClientFactory = useApiClientFactory();
-  const dispatchEditDomainRedirects = useCallback((edit: EditDomainRedirects) => dispatch(editDomainRedirects({
-    ...edit,
-    apiClientFactory,
-  })), [apiClientFactory, dispatch]);
+  const dispatchEditDomainRedirects = useCallback(
+    (edit: EditDomainRedirects) =>
+      dispatch(
+        editDomainRedirects({
+          ...edit,
+          apiClientFactory,
+        }),
+      ),
+    [apiClientFactory, dispatch],
+  );
 
   return { editDomainRedirects: dispatchEditDomainRedirects };
 };

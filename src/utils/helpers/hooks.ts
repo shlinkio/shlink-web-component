@@ -1,16 +1,12 @@
-import {
-  parseQueryString,
-  stringifyQueryParams,
-  useParsedQuery,
-} from '@shlinkio/shlink-frontend-kit';
+import { parseQueryString, stringifyQueryParams, useParsedQuery } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSwipeable as useReactSwipeable } from 'react-swipeable';
 import type { MediaMatcher } from '../types';
 
 export const useSwipeable = (showSidebar: () => void, hideSidebar: () => void) => {
   const swipeMenuIfNoModalExists = (callback: () => void) => (e: any) => {
-    const swippedOnVisitsTable = (e.event.composedPath() as HTMLElement[]).some(
-      ({ classList }) => classList?.contains('visits-table'),
+    const swippedOnVisitsTable = (e.event.composedPath() as HTMLElement[]).some(({ classList }) =>
+      classList?.contains('visits-table'),
     );
 
     if (swippedOnVisitsTable || document.querySelector('.modal')) {
@@ -29,14 +25,17 @@ export const useSwipeable = (showSidebar: () => void, hideSidebar: () => void) =
 
 export const useQueryState = <T>(paramName: string, initialState: T): [T, (newValue: T) => void] => {
   const [value, setValue] = useState(initialState);
-  const setValueWithLocation = useCallback((valueToSet: T) => {
-    const { location, history } = window;
-    const query = parseQueryString<any>(location.search);
+  const setValueWithLocation = useCallback(
+    (valueToSet: T) => {
+      const { location, history } = window;
+      const query = parseQueryString<any>(location.search);
 
-    query[paramName] = valueToSet;
-    history.pushState(null, '', `${location.pathname}?${stringifyQueryParams(query)}`);
-    setValue(valueToSet);
-  }, [paramName]);
+      query[paramName] = valueToSet;
+      history.pushState(null, '', `${location.pathname}?${stringifyQueryParams(query)}`);
+      setValue(valueToSet);
+    },
+    [paramName],
+  );
 
   return [value, setValueWithLocation];
 };

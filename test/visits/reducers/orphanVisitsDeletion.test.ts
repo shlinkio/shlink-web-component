@@ -39,9 +39,11 @@ describe('orphanVisitsDeletionReducer', () => {
 
       expect(deleteOrphanVisitsCall).toHaveBeenCalledOnce();
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { deletedVisits: 50 },
-      }));
+      expect(dispatch).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { deletedVisits: 50 },
+        }),
+      );
     });
   });
 });

@@ -22,109 +22,122 @@ const DEFAULT_SHORT_URLS_ORDERING: ShortUrlsOrder = {
   dir: 'DESC',
 };
 
-export const ShortUrlsList = boundToMercureHub(() => {
-  const { listShortUrls, shortUrlsList } = useUrlsList();
-  const { page } = useParams();
-  const location = useLocation();
-  const [{
-    tags,
-    tagsMode,
-    excludeTags,
-    excludeTagsMode,
-    search,
-    startDate,
-    endDate,
-    orderBy,
-    excludeBots,
-    excludePastValidUntil,
-    excludeMaxVisitsReached,
-    domain,
-  }, toFirstPage] = useShortUrlsQuery();
-  const settings = useSettings();
-  const [actualOrderBy, setActualOrderBy] = useState(
-    // This separated state handling is needed to be able to fall back to settings value, but only once when loaded
-    orderBy ?? settings.shortUrlsList?.defaultOrdering ?? DEFAULT_SHORT_URLS_ORDERING,
-  );
-  const urlsAreLoaded = shortUrlsList.status === 'loaded';
-  const { pagination } = urlsAreLoaded ? shortUrlsList.shortUrls : {};
-  const doExcludeBots = useMemo(
-    () => excludeBots ?? settings.visits?.excludeBots,
-    [excludeBots, settings.visits?.excludeBots],
-  );
-  const handleOrderBy = useCallback((field?: ShortUrlsOrderableFields, dir?: OrderDir) => {
-    toFirstPage({ orderBy: { field, dir } });
-    setActualOrderBy({ field, dir });
-  }, [toFirstPage]);
-  const orderByColumn = (field: ShortUrlsOrderableFields) => () => handleOrderBy(
-    field,
-    determineOrderDir({ currentOrderDir: actualOrderBy.dir, currentField: actualOrderBy.field, newField: field }),
-  );
-  const renderOrderIcon = (field: ShortUrlsOrderableFields) =>
-    <TableOrderIcon currentOrder={actualOrderBy} field={field} />;
-  const addTag = useCallback(
-    (newTag: string) => toFirstPage({ tags: [...new Set([...tags, newTag])] }),
-    [tags, toFirstPage],
-  );
-  const parseOrderByForShlink = useCallback(({ field, dir }: ShortUrlsOrder): ShlinkShortUrlsOrder => {
-    if (doExcludeBots && field === 'visits') {
-      return { field: 'nonBotVisits', dir };
-    }
+export const ShortUrlsList = boundToMercureHub(
+  () => {
+    const { listShortUrls, shortUrlsList } = useUrlsList();
+    const { page } = useParams();
+    const location = useLocation();
+    const [
+      {
+        tags,
+        tagsMode,
+        excludeTags,
+        excludeTagsMode,
+        search,
+        startDate,
+        endDate,
+        orderBy,
+        excludeBots,
+        excludePastValidUntil,
+        excludeMaxVisitsReached,
+        domain,
+      },
+      toFirstPage,
+    ] = useShortUrlsQuery();
+    const settings = useSettings();
+    const [actualOrderBy, setActualOrderBy] = useState(
+      // This separated state handling is needed to be able to fall back to settings value, but only once when loaded
+      orderBy ?? settings.shortUrlsList?.defaultOrdering ?? DEFAULT_SHORT_URLS_ORDERING,
+    );
+    const urlsAreLoaded = shortUrlsList.status === 'loaded';
+    const { pagination } = urlsAreLoaded ? shortUrlsList.shortUrls : {};
+    const doExcludeBots = useMemo(
+      () => excludeBots ?? settings.visits?.excludeBots,
+      [excludeBots, settings.visits?.excludeBots],
+    );
+    const handleOrderBy = useCallback(
+      (field?: ShortUrlsOrderableFields, dir?: OrderDir) => {
+        toFirstPage({ orderBy: { field, dir } });
+        setActualOrderBy({ field, dir });
+      },
+      [toFirstPage],
+    );
+    const orderByColumn = (field: ShortUrlsOrderableFields) => () =>
+      handleOrderBy(
+        field,
+        determineOrderDir({ currentOrderDir: actualOrderBy.dir, currentField: actualOrderBy.field, newField: field }),
+      );
+    const renderOrderIcon = (field: ShortUrlsOrderableFields) => (
+      <TableOrderIcon currentOrder={actualOrderBy} field={field} />
+    );
+    const addTag = useCallback(
+      (newTag: string) => toFirstPage({ tags: [...new Set([...tags, newTag])] }),
+      [tags, toFirstPage],
+    );
+    const parseOrderByForShlink = useCallback(
+      ({ field, dir }: ShortUrlsOrder): ShlinkShortUrlsOrder => {
+        if (doExcludeBots && field === 'visits') {
+          return { field: 'nonBotVisits', dir };
+        }
 
-    return { field, dir };
-  }, [doExcludeBots]);
-  const visitsComparisonValue = useVisitsComparison();
+        return { field, dir };
+      },
+      [doExcludeBots],
+    );
+    const visitsComparisonValue = useVisitsComparison();
 
-  useEffect(() => {
-    listShortUrls({
+    useEffect(() => {
+      listShortUrls({
+        page,
+        searchTerm: search,
+        tags,
+        tagsMode,
+        excludeTags,
+        excludeTagsMode,
+        startDate,
+        endDate,
+        orderBy: parseOrderByForShlink(actualOrderBy),
+        excludePastValidUntil,
+        excludeMaxVisitsReached,
+        domain,
+      });
+    }, [
+      listShortUrls,
+      parseOrderByForShlink,
       page,
-      searchTerm: search,
+      search,
       tags,
-      tagsMode,
-      excludeTags,
-      excludeTagsMode,
       startDate,
       endDate,
-      orderBy: parseOrderByForShlink(actualOrderBy),
+      actualOrderBy,
+      tagsMode,
       excludePastValidUntil,
       excludeMaxVisitsReached,
       domain,
-    });
-  }, [
-    listShortUrls,
-    parseOrderByForShlink,
-    page,
-    search,
-    tags,
-    startDate,
-    endDate,
-    actualOrderBy,
-    tagsMode,
-    excludePastValidUntil,
-    excludeMaxVisitsReached,
-    domain,
-    excludeTags,
-    excludeTagsMode,
-  ]);
+      excludeTags,
+      excludeTagsMode,
+    ]);
 
-  return (
-    <VisitsComparisonProvider value={visitsComparisonValue}>
-      <ShortUrlsFilteringBar
-        shortUrlsAmount={urlsAreLoaded ? shortUrlsList.shortUrls.pagination.totalItems : undefined}
-        order={actualOrderBy}
-        handleOrderBy={handleOrderBy}
-        className="mb-4"
-      />
-      <VisitsComparisonCollector type="short-urls" className="mb-4" />
-      <SimpleCard bodyClassName={clsx({ 'pb-0': urlsAreLoaded })}>
-        <ShortUrlsTable
-          shortUrlsList={shortUrlsList}
-          orderByColumn={orderByColumn}
-          renderOrderIcon={renderOrderIcon}
-          onTagClick={addTag}
+    return (
+      <VisitsComparisonProvider value={visitsComparisonValue}>
+        <ShortUrlsFilteringBar
+          shortUrlsAmount={urlsAreLoaded ? shortUrlsList.shortUrls.pagination.totalItems : undefined}
+          order={actualOrderBy}
+          handleOrderBy={handleOrderBy}
+          className="mb-4"
         />
-        {pagination && <Paginator paginator={pagination} currentQueryString={location.search} />}
-      </SimpleCard>
-    </VisitsComparisonProvider>
-
-  );
-}, () => [Topics.visits]);
+        <VisitsComparisonCollector type="short-urls" className="mb-4" />
+        <SimpleCard bodyClassName={clsx({ 'pb-0': urlsAreLoaded })}>
+          <ShortUrlsTable
+            shortUrlsList={shortUrlsList}
+            orderByColumn={orderByColumn}
+            renderOrderIcon={renderOrderIcon}
+            onTagClick={addTag}
+          />
+          {pagination && <Paginator paginator={pagination} currentQueryString={location.search} />}
+        </SimpleCard>
+      </VisitsComparisonProvider>
+    );
+  },
+  () => [Topics.visits],
+);

@@ -20,10 +20,11 @@ export type DoughnutChartEntry = {
   color: string;
 };
 
-const useChartData = (stats: Stats): DoughnutChartEntry[] => useMemo(
-  () => Object.entries(stats).map(([name, value], i) => ({ name, value, color: chartColorForIndex(i) })),
-  [stats],
-);
+const useChartData = (stats: Stats): DoughnutChartEntry[] =>
+  useMemo(
+    () => Object.entries(stats).map(([name, value], i) => ({ name, value, color: chartColorForIndex(i) })),
+    [stats],
+  );
 
 export const DoughnutChart: FC<DoughnutChartProps> = ({ stats, prevStats, showNumbersInLegend }) => {
   const chartData = useChartData(stats);

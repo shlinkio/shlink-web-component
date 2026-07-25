@@ -134,7 +134,10 @@ describe('date-types', () => {
       [{}, {}],
       [{ startDate: currentDate }, { startDate: currentDate }],
       [{ endDate: currentDate }, { endDate: currentDate }],
-      [{ startDate: daysBack(10), endDate: currentDate }, { startDate: daysBack(10), endDate: currentDate }],
+      [
+        { startDate: daysBack(10), endDate: currentDate },
+        { startDate: daysBack(10), endDate: currentDate },
+      ],
     ])('returns properly parsed interval or range', (rangeOrInterval, expectedResult) => {
       expect(toDateRange(rangeOrInterval)).toEqual(expectedResult);
     });
@@ -189,14 +192,8 @@ describe('date-types', () => {
 
   describe('dateRangeDaysDiff', () => {
     it.each([
-      [
-        { startDate: new Date('2024-01-10 00:00:00'), endDate: new Date('2024-01-18 23:59:59') },
-        8,
-      ],
-      [
-        { startDate: new Date('2024-02-27 23:00:00'), endDate: new Date('2024-05-02 01:00:00') },
-        64,
-      ],
+      [{ startDate: new Date('2024-01-10 00:00:00'), endDate: new Date('2024-01-18 23:59:59') }, 8],
+      [{ startDate: new Date('2024-02-27 23:00:00'), endDate: new Date('2024-05-02 01:00:00') }, 64],
       [{ startDate: subDays(currentDate, 5) }, 5],
       [undefined, undefined],
       [{}, undefined],

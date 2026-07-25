@@ -16,9 +16,8 @@ const currentDefaultInterval = (visitsSettings?: VisitsSettingsConfig): DateInte
 export const VisitsSettings: FC<VisitsSettingsProps> = ({ onChange }) => {
   const visitsSettings = useSetting('visits');
   const updateSettings = useCallback(
-    ({ defaultInterval, ...rest }: Partial<VisitsSettingsConfig>) => onChange(
-      { defaultInterval: defaultInterval ?? currentDefaultInterval(visitsSettings), ...rest },
-    ),
+    ({ defaultInterval, ...rest }: Partial<VisitsSettingsConfig>) =>
+      onChange({ defaultInterval: defaultInterval ?? currentDefaultInterval(visitsSettings), ...rest }),
     [onChange, visitsSettings],
   );
 
@@ -28,12 +27,12 @@ export const VisitsSettings: FC<VisitsSettingsProps> = ({ onChange }) => {
         data-testid="exclude-bots"
         checked={!!visitsSettings?.excludeBots}
         onChange={(excludeBots) => updateSettings({ excludeBots })}
-        helpText={(
+        helpText={
           <>
-            The visits coming from potential bots will
-            be <b>{visitsSettings?.excludeBots ? 'excluded' : 'included'}</b>.
+            The visits coming from potential bots will be <b>{visitsSettings?.excludeBots ? 'excluded' : 'included'}</b>
+            .
           </>
-        )}
+        }
       >
         Exclude bots wherever possible (this option&lsquo;s effect might depend on Shlink server&lsquo;s version).
       </LabelledToggle>
@@ -42,12 +41,12 @@ export const VisitsSettings: FC<VisitsSettingsProps> = ({ onChange }) => {
         data-testid="compare-visits"
         checked={!!visitsSettings?.loadPrevInterval}
         onChange={(loadPrevInterval) => updateSettings({ loadPrevInterval })}
-        helpText={(
+        helpText={
           <>
-            When loading visits, previous period <b>{visitsSettings?.loadPrevInterval ? 'will' : 'won\'t'}</b> be
-            loaded by default.
+            When loading visits, previous period <b>{visitsSettings?.loadPrevInterval ? 'will' : "won't"}</b> be loaded
+            by default.
           </>
-        )}
+        }
       >
         Compare visits with previous period.
       </LabelledToggle>

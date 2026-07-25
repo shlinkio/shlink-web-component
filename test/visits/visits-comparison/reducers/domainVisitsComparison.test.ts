@@ -82,50 +82,33 @@ describe('domainVisitsComparisonReducer', () => {
       // Query filter in the future. Domain matches foo. No new visits prepended
       [{ startDate: addDays(now, 1) }, 'foo.com', visitsMocks.length, visitsMocks.length],
       // Query filter with start and end in the past. Domain matches foo. No new visits prepended
-      [
-        { startDate: subDays(now, 5), endDate: subDays(now, 2) },
-        'foo.com',
-        visitsMocks.length,
-        visitsMocks.length,
-      ],
+      [{ startDate: subDays(now, 5), endDate: subDays(now, 2) }, 'foo.com', visitsMocks.length, visitsMocks.length],
       // Query filter with start and end in the present. Domain matches foo. Visits prepended to foo
-      [
-        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
-        'foo.com',
-        visitsMocks.length + 1,
-        visitsMocks.length,
-      ],
+      [{ startDate: subDays(now, 5), endDate: addDays(now, 3) }, 'foo.com', visitsMocks.length + 1, visitsMocks.length],
       // Query filter with start and end in the present. Domain matches bar. Visits prepended to bar
-      [
-        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
-        'bar.com',
-        visitsMocks.length,
-        visitsMocks.length + 1,
-      ],
+      [{ startDate: subDays(now, 5), endDate: addDays(now, 3) }, 'bar.com', visitsMocks.length, visitsMocks.length + 1],
       // Query filter with start and end in the present. No domain match. No new visits prepended
-      [
-        { startDate: subDays(now, 5), endDate: addDays(now, 3) },
-        'baz.com',
-        visitsMocks.length,
-        visitsMocks.length,
-      ],
-    ])('prepends new visits when visits are created', (dateRange, shortUrlDomain, expectedFooVisits, expectedBarVisits) => {
-      const actionVisits: Record<string, ShlinkVisit[]> = {
-        'foo.com': visitsMocks,
-        'bar.com': visitsMocks,
-      };
-      const shortUrl = fromPartial<ShlinkShortUrl>({ domain: shortUrlDomain });
-      const result = reducer(
-        { visitsGroups: actionVisits, params: { dateRange }, status: 'loaded' },
-        createNewVisits([fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } })]),
-      );
+      [{ startDate: subDays(now, 5), endDate: addDays(now, 3) }, 'baz.com', visitsMocks.length, visitsMocks.length],
+    ])(
+      'prepends new visits when visits are created',
+      (dateRange, shortUrlDomain, expectedFooVisits, expectedBarVisits) => {
+        const actionVisits: Record<string, ShlinkVisit[]> = {
+          'foo.com': visitsMocks,
+          'bar.com': visitsMocks,
+        };
+        const shortUrl = fromPartial<ShlinkShortUrl>({ domain: shortUrlDomain });
+        const result = reducer(
+          { visitsGroups: actionVisits, params: { dateRange }, status: 'loaded' },
+          createNewVisits([fromPartial({ shortUrl, visit: { date: formatIsoDate(now) ?? undefined } })]),
+        );
 
-      expect(result.status).toEqual('loaded');
-      if (result.status === 'loaded') {
-        expect(result.visitsGroups['foo.com']).toHaveLength(expectedFooVisits);
-        expect(result.visitsGroups['bar.com']).toHaveLength(expectedBarVisits);
-      }
-    });
+        expect(result.status).toEqual('loaded');
+        if (result.status === 'loaded') {
+          expect(result.visitsGroups['foo.com']).toHaveLength(expectedFooVisits);
+          expect(result.visitsGroups['bar.com']).toHaveLength(expectedBarVisits);
+        }
+      },
+    );
   });
 
   describe('getDomainVisitsForComparison', () => {
@@ -155,9 +138,11 @@ describe('domainVisitsComparisonReducer', () => {
       await getDomainVisitsForComparison(getVisitsComparisonParam)(dispatch, getState, {});
 
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { ...getVisitsComparisonParam, visitsGroups },
-      }));
+      expect(dispatch).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { ...getVisitsComparisonParam, visitsGroups },
+        }),
+      );
       expect(getDomainVisitsCall).toHaveBeenCalledTimes(domains.length);
       expect(getDomainVisitsCall).toHaveBeenNthCalledWith(1, 'foo', expect.anything());
       expect(getDomainVisitsCall).toHaveBeenNthCalledWith(2, 'bar', expect.anything());

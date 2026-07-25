@@ -16,7 +16,15 @@ export const QrCodeSizeSettings: FC<QrCodeSizeSettingsProps> = ({ onChange, clas
     <SimpleCard title="Size" className={className} bodyClassName="flex flex-col gap-4">
       <LabelledInput
         label="Default dimensions:"
-        helpText={<>QR codes will be initially generated with <b data-testid="size">{size}x{size}px</b>.</>}
+        helpText={
+          <>
+            QR codes will be initially generated with{' '}
+            <b data-testid="size">
+              {size}x{size}px
+            </b>
+            .
+          </>
+        }
         type="range"
         value={size}
         step={10}
@@ -28,7 +36,11 @@ export const QrCodeSizeSettings: FC<QrCodeSizeSettingsProps> = ({ onChange, clas
 
       <LabelledInput
         label="Default margin:"
-        helpText={<>QR codes will be initially generated with a <b data-testid="margin">{margin}px</b> margin.</>}
+        helpText={
+          <>
+            QR codes will be initially generated with a <b data-testid="margin">{margin}px</b> margin.
+          </>
+        }
         type="range"
         value={margin}
         step={1}

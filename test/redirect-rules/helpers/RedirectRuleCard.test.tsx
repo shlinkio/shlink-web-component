@@ -20,18 +20,22 @@ describe('<RedirectRuleCard />', () => {
     { type: 'after-date', matchValue: '2035-01-01T00:00:00+00:00', matchKey: null },
     { type: 'browser', matchValue: 'chrome', matchKey: null },
   ];
-  const setUp = (props: Partial<RedirectRuleCardProps> = {}) => renderWithEvents(
-    <RedirectRuleCard
-      {...fromPartial<RedirectRuleCardProps>({
-        redirectRule: fromPartial({ conditions: [] }),
-        ...props,
-      })}
-    />,
-  );
+  const setUp = (props: Partial<RedirectRuleCardProps> = {}) =>
+    renderWithEvents(
+      <RedirectRuleCard
+        {...fromPartial<RedirectRuleCardProps>({
+          redirectRule: fromPartial({ conditions: [] }),
+          ...props,
+        })}
+      />,
+    );
 
-  it('passes a11y checks', () => checkAccessibility(setUp({
-    redirectRule: fromPartial({ conditions }),
-  })));
+  it('passes a11y checks', () =>
+    checkAccessibility(
+      setUp({
+        redirectRule: fromPartial({ conditions }),
+      }),
+    ));
 
   it('can move the rule up and down', async () => {
     const onMoveUp = vi.fn();
@@ -62,9 +66,11 @@ describe('<RedirectRuleCard />', () => {
     expect(screen.getByText('es-ES language is accepted')).toBeInTheDocument();
     expect(screen.getByText('Query string contains "foo=bar"')).toBeInTheDocument();
     expect(screen.getByText('Query string contains "foo-any-value" param')).toBeInTheDocument();
-    expect(screen.getByText(
-      'Query string contains "foo-valueless" param without a value (https://example.com?foo-valueless)',
-    )).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Query string contains "foo-valueless" param without a value (https://example.com?foo-valueless)',
+      ),
+    ).toBeInTheDocument();
     expect(screen.getByText('IP address matches 1.2.3.4')).toBeInTheDocument();
     expect(screen.getByText('Country code is FR')).toBeInTheDocument();
     expect(screen.getByText('City name is Paris')).toBeInTheDocument();

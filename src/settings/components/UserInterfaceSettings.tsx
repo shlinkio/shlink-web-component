@@ -1,6 +1,6 @@
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getSystemPreferredTheme , SimpleCard } from '@shlinkio/shlink-frontend-kit';
+import { getSystemPreferredTheme, SimpleCard } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { useSetting } from '..';

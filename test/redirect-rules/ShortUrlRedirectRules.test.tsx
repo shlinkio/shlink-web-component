@@ -26,15 +26,19 @@ describe('<ShortUrlRedirectRules />', () => {
       </MemoryRouter>,
       {
         initialState: {
-          shortUrlRedirectRules: fromPartial(loading ? { status: 'loading' } : {
-            status: 'loaded',
-            defaultLongUrl: 'https://shlink.io',
-            redirectRules: [
-              { longUrl: 'https://example.com/first', conditions: [{ type: 'device' }] },
-              { longUrl: 'https://example.com/second', conditions: [{ type: 'language' }] },
-              { longUrl: 'https://example.com/third', conditions: [{ type: 'query-param' }] },
-            ],
-          }),
+          shortUrlRedirectRules: fromPartial(
+            loading
+              ? { status: 'loading' }
+              : {
+                  status: 'loaded',
+                  defaultLongUrl: 'https://shlink.io',
+                  redirectRules: [
+                    { longUrl: 'https://example.com/first', conditions: [{ type: 'device' }] },
+                    { longUrl: 'https://example.com/second', conditions: [{ type: 'language' }] },
+                    { longUrl: 'https://example.com/third', conditions: [{ type: 'query-param' }] },
+                  ],
+                },
+          ),
           shortUrlRedirectRulesSaving: fromPartial({ status: 'idle', ...data }),
         },
         apiClientFactory: () => fromPartial({ getShortUrlRedirectRules, setShortUrlRedirectRules, getShortUrl }),
@@ -66,9 +70,8 @@ describe('<ShortUrlRedirectRules />', () => {
 
   it('can change rules order', async () => {
     const { user } = await setUp();
-    const moveRule = (priority: number, direction: 'up' | 'down') => user.click(
-      screen.getByLabelText(`Move rule with priority ${priority} ${direction}`),
-    );
+    const moveRule = (priority: number, direction: 'up' | 'down') =>
+      user.click(screen.getByLabelText(`Move rule with priority ${priority} ${direction}`));
     const assertLinksOrder = (links: string[]) => {
       const ruleLinks = screen.getAllByTestId('rule-long-url');
 
@@ -149,12 +152,15 @@ describe('<ShortUrlRedirectRules />', () => {
     const { user } = await setUp();
 
     await user.click(screen.getByRole('button', { name: 'Save rules' }));
-    expect(setShortUrlRedirectRules).toHaveBeenCalledWith(expect.any(Object), expect.objectContaining({
-      redirectRules: [
-        { longUrl: 'https://example.com/first', conditions: [{ type: 'device' }] },
-        { longUrl: 'https://example.com/second', conditions: [{ type: 'language' }] },
-        { longUrl: 'https://example.com/third', conditions: [{ type: 'query-param' }] },
-      ],
-    }));
+    expect(setShortUrlRedirectRules).toHaveBeenCalledWith(
+      expect.any(Object),
+      expect.objectContaining({
+        redirectRules: [
+          { longUrl: 'https://example.com/first', conditions: [{ type: 'device' }] },
+          { longUrl: 'https://example.com/second', conditions: [{ type: 'language' }] },
+          { longUrl: 'https://example.com/third', conditions: [{ type: 'query-param' }] },
+        ],
+      }),
+    );
   });
 });

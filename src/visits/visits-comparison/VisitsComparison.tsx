@@ -36,12 +36,13 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
   const { visitsGroups = {} } = status === 'loaded' ? visitsComparisonInfo : {};
   const visitsSettings = useSetting('visits');
   const normalizedVisitsGroups = useMemo(
-    () => Object.keys(visitsGroups).reduce<Record<string, VisitsList>>((acc, key, index) => {
-      acc[key] = Object.assign(normalizeVisits(visitsGroups[key]), {
-        color: colors?.[key] ?? chartColorForIndex(index),
-      });
-      return acc;
-    }, {}),
+    () =>
+      Object.keys(visitsGroups).reduce<Record<string, VisitsList>>((acc, key, index) => {
+        acc[key] = Object.assign(normalizeVisits(visitsGroups[key]), {
+          color: colors?.[key] ?? chartColorForIndex(index),
+        });
+        return acc;
+      }, {}),
     [colors, visitsGroups],
   );
   const showFallback = useMemo(() => Object.values(visitsGroups).every((group) => group.length === 0), [visitsGroups]);
@@ -62,10 +63,13 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
     [updateQuery],
   );
   const [initialInterval] = useState(() => dateRange ?? visitsSettings?.defaultInterval ?? 'last30Days');
-  const resolvedFilter = useMemo(() => ({
-    ...visitsFilter,
-    excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
-  }), [visitsFilter, visitsSettings?.excludeBots]);
+  const resolvedFilter = useMemo(
+    () => ({
+      ...visitsFilter,
+      excludeBots: visitsFilter.excludeBots ?? visitsSettings?.excludeBots,
+    }),
+    [visitsFilter, visitsSettings?.excludeBots],
+  );
 
   useEffect(() => {
     const resolvedDateRange = dateRange ?? toDateRange(initialInterval);
@@ -96,9 +100,11 @@ export const VisitsComparison: FC<VisitsComparisonProps> = ({
           <VisitsDropdown
             disabled={loading}
             selected={resolvedFilter}
-            onChange={({ orphanVisitsType, excludeBots }) => updateQuery({
-              visitsFilter: { orphanVisitsType, excludeBots },
-            })}
+            onChange={({ orphanVisitsType, excludeBots }) =>
+              updateQuery({
+                visitsFilter: { orphanVisitsType, excludeBots },
+              })
+            }
           />
         </div>
         <div className="hidden lg:block lg:flex-2 xl:flex-3" />

@@ -17,18 +17,29 @@ export type DomainFilterDropdownProps = {
 };
 
 export const DomainFilterDropdown: FC<DomainFilterDropdownProps> = ({ domains, value, onChange }) => {
-  const valueIsEmpty= !value;
+  const valueIsEmpty = !value;
   const prettyValue = value === DEFAULT_DOMAIN ? domains.find(({ isDefault }) => isDefault)?.domain : value;
-  const doChange = useCallback((newDomain?: string) => {
-    // Avoid re-triggering a change when the same value that's already selected is clicked again
-    if (newDomain !== value) {
-      onChange(newDomain);
-    }
-  }, [onChange, value]);
+  const doChange = useCallback(
+    (newDomain?: string) => {
+      // Avoid re-triggering a change when the same value that's already selected is clicked again
+      if (newDomain !== value) {
+        onChange(newDomain);
+      }
+    },
+    [onChange, value],
+  );
 
   return (
     <Dropdown
-      buttonContent={valueIsEmpty ? 'All domains' : <span>Domain: <b>{prettyValue}</b></span>}
+      buttonContent={
+        valueIsEmpty ? (
+          'All domains'
+        ) : (
+          <span>
+            Domain: <b>{prettyValue}</b>
+          </span>
+        )
+      }
       buttonClassName="w-full"
       menuAlignment="right"
       buttonDisabled={!domains.length}

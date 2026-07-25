@@ -27,24 +27,30 @@ export type ShortUrlsFilteringBarProps = {
   shortUrlsAmount?: number;
 };
 
-export const ShortUrlsFilteringBar: FC<ShortUrlsFilteringBarProps> = (
-  { className, shortUrlsAmount, order, handleOrderBy },
-) => {
+export const ShortUrlsFilteringBar: FC<ShortUrlsFilteringBarProps> = ({
+  className,
+  shortUrlsAmount,
+  order,
+  handleOrderBy,
+}) => {
   const { domainsList } = useDomainsList();
   const { tagsList } = useTagsList();
-  const [{
-    search,
-    tags,
-    tagsMode = 'any',
-    excludeTags,
-    excludeTagsMode = 'any',
-    startDate,
-    endDate,
-    excludeBots,
-    excludeMaxVisitsReached,
-    excludePastValidUntil,
-    domain,
-  }, toFirstPage] = useShortUrlsQuery();
+  const [
+    {
+      search,
+      tags,
+      tagsMode = 'any',
+      excludeTags,
+      excludeTagsMode = 'any',
+      startDate,
+      endDate,
+      excludeBots,
+      excludeMaxVisitsReached,
+      excludePastValidUntil,
+      domain,
+    },
+    toFirstPage,
+  ] = useShortUrlsQuery();
   const visitsSettings = useSetting('visits');
   const supportsFilterByDomain = useFeature('filterShortUrlsByDomain');
   const supportsFilterByExcludedTags = useFeature('filterShortUrlsByExcludedTags');
@@ -82,10 +88,10 @@ export const ShortUrlsFilteringBar: FC<ShortUrlsFilteringBarProps> = (
 
       <div className="flex flex-col xl:flex-row-reverse justify-between gap-y-4">
         <div
-          className={clsx(
-            'flex flex-col lg:flex-row gap-x-2 gap-y-4',
-            { 'min-w-3/4': supportsFilterByExcludedTags, 'min-w-2/3': !supportsFilterByExcludedTags },
-          )}
+          className={clsx('flex flex-col lg:flex-row gap-x-2 gap-y-4', {
+            'min-w-3/4': supportsFilterByExcludedTags,
+            'min-w-2/3': !supportsFilterByExcludedTags,
+          })}
         >
           <div className="flex flex-col md:flex-row gap-x-2 gap-y-4 grow">
             <div className="grow">

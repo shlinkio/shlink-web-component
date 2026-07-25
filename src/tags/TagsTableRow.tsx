@@ -50,11 +50,13 @@ const TagsTableRowBase: FC<TagsTableRowProps> = ({ tag, ColorGenerator: colorGen
           <RowDropdown.Item
             className="gap-1.5"
             disabled={!visitsComparison || !visitsComparison.canAddItemWithName(tag.tag)}
-            onClick={() => visitsComparison?.addItemToCompare({
-              name: tag.tag,
-              query: tag.tag,
-              style: colorGenerator.stylesForKey(tag.tag),
-            })}
+            onClick={() =>
+              visitsComparison?.addItemToCompare({
+                name: tag.tag,
+                query: tag.tag,
+                style: colorGenerator.stylesForKey(tag.tag),
+              })
+            }
           >
             <FontAwesomeIcon icon={lineChartIcon} /> Compare visits
           </RowDropdown.Item>

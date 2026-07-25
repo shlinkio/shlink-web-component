@@ -8,26 +8,34 @@ import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 
 const REDUCER_PREFIX = 'shlink/shortUrlDeletion';
 
-export type ShortUrlDeletion = {
-  status: 'idle' | 'deleting';
-} | {
-  status: 'deleted';
-  shortCode: string;
-} | {
-  status: 'error';
-  error?: ProblemDetailsError;
-};
+export type ShortUrlDeletion =
+  | {
+      status: 'idle' | 'deleting';
+    }
+  | {
+      status: 'deleted';
+      shortCode: string;
+    }
+  | {
+      status: 'error';
+      error?: ProblemDetailsError;
+    };
 
 const initialState: ShortUrlDeletion = {
   status: 'idle',
 };
 
-export const deleteShortUrlThunk = createAsyncThunk(`${REDUCER_PREFIX}/deleteShortUrl`, async (
-  { shortCode, domain, apiClientFactory }: WithApiClient<ShlinkShortUrlIdentifier>,
-): Promise<ShlinkShortUrlIdentifier> => {
-  await apiClientFactory().deleteShortUrl({ shortCode, domain });
-  return { shortCode, domain };
-});
+export const deleteShortUrlThunk = createAsyncThunk(
+  `${REDUCER_PREFIX}/deleteShortUrl`,
+  async ({
+    shortCode,
+    domain,
+    apiClientFactory,
+  }: WithApiClient<ShlinkShortUrlIdentifier>): Promise<ShlinkShortUrlIdentifier> => {
+    await apiClientFactory().deleteShortUrl({ shortCode, domain });
+    return { shortCode, domain };
+  },
+);
 
 export const shortUrlDeleted = createAction<ShlinkShortUrl>(`${REDUCER_PREFIX}/shortUrlDeleted`);
 
@@ -40,9 +48,10 @@ const { actions, reducer } = createSlice({
   extraReducers: (builder) => {
     builder.addCase(deleteShortUrlThunk.pending, () => ({ status: 'deleting' }));
     builder.addCase(deleteShortUrlThunk.rejected, (_, { error }) => ({ status: 'error', error: parseApiError(error) }));
-    builder.addCase(deleteShortUrlThunk.fulfilled, (_, { payload }) => (
-      { status: 'deleted', shortCode: payload.shortCode }
-    ));
+    builder.addCase(deleteShortUrlThunk.fulfilled, (_, { payload }) => ({
+      status: 'deleted',
+      shortCode: payload.shortCode,
+    }));
   },
 });
 

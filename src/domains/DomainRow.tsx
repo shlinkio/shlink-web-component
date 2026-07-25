@@ -17,7 +17,11 @@ interface DomainRowProps {
 const Nr: FC<{ fallback?: string | null }> = ({ fallback }) => (
   <span className="text-gray-500 dark:text-gray-400">
     {!fallback && <small>No redirect</small>}
-    {fallback && <>{fallback} <small>(as fallback)</small></>}
+    {fallback && (
+      <>
+        {fallback} <small>(as fallback)</small>
+      </>
+    )}
   </span>
 );
 const DefaultDomain: FC = () => {
@@ -45,7 +49,9 @@ export const DomainRow: FC<DomainRowProps> = ({ domain, checkDomainHealth, defau
   return (
     <Table.Row className="relative">
       <Table.Cell columnName="Is default domain:">{isDefault && <DefaultDomain />}</Table.Cell>
-      <Table.Cell columnName="Domain:"><b>{authority}</b></Table.Cell>
+      <Table.Cell columnName="Domain:">
+        <b>{authority}</b>
+      </Table.Cell>
       <Table.Cell columnName="Base path redirect:">
         {redirects?.baseUrlRedirect ?? <Nr fallback={defaultRedirects?.baseUrlRedirect} />}
       </Table.Cell>

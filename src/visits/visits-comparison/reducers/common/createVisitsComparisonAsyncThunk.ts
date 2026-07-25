@@ -12,9 +12,11 @@ interface VisitsComparisonAsyncThunkOptions<CreateLoadersParam extends LoadVisit
   shouldCancel: (getState: () => RootState) => boolean;
 }
 
-export const createVisitsComparisonAsyncThunk = <CreateLoadersParam extends LoadVisitsForComparison>(
-  { typePrefix, createLoaders, shouldCancel }: VisitsComparisonAsyncThunkOptions<CreateLoadersParam>,
-) => {
+export const createVisitsComparisonAsyncThunk = <CreateLoadersParam extends LoadVisitsForComparison>({
+  typePrefix,
+  createLoaders,
+  shouldCancel,
+}: VisitsComparisonAsyncThunkOptions<CreateLoadersParam>) => {
   const progressChanged = createAction<number>(`${typePrefix}/progressChanged`);
   const asyncThunk = createAsyncThunk(
     typePrefix,

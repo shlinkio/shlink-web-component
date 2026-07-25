@@ -1,7 +1,8 @@
 import {
   brandColor,
   brandColorAlpha,
-  formatNumber,  HIGHLIGHTED_COLOR,
+  formatNumber,
+  HIGHLIGHTED_COLOR,
   HIGHLIGHTED_COLOR_ALPHA,
   isDarkThemeEnabled,
 } from '@shlinkio/shlink-frontend-kit';
@@ -32,23 +33,32 @@ type HorizontalBarChartEntry = {
 
 const isHiddenLabel = (label: any) => typeof label !== 'string' || label.startsWith('hidden_');
 
-export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
-  { stats, prevStats, highlightedStats, highlightedLabel, max, onClick },
-) => {
-  const chartData = useMemo((): HorizontalBarChartEntry[] => Object.entries(stats).map(([name, amount]) => {
-    const highlightedAmount = highlightedStats?.[name] ?? 0;
-    const prevAmount = prevStats?.[name] ?? 0;
-    const isHidden = isHiddenLabel(name);
+export const HorizontalBarChart: FC<HorizontalBarChartProps> = ({
+  stats,
+  prevStats,
+  highlightedStats,
+  highlightedLabel,
+  max,
+  onClick,
+}) => {
+  const chartData = useMemo(
+    (): HorizontalBarChartEntry[] =>
+      Object.entries(stats).map(([name, amount]) => {
+        const highlightedAmount = highlightedStats?.[name] ?? 0;
+        const prevAmount = prevStats?.[name] ?? 0;
+        const isHidden = isHiddenLabel(name);
 
-    return {
-      name,
-      amount: Math.max(amount, prevAmount),
-      // Setting value `null` on "hidden" elements allows for them to be excluded from tooltips
-      nonHighlightedAmount: isHidden ? null : amount - highlightedAmount,
-      highlightedAmount: isHidden ? null : highlightedAmount,
-      prevAmount: isHidden ? null : prevAmount,
-    };
-  }), [stats, prevStats, highlightedStats]);
+        return {
+          name,
+          amount: Math.max(amount, prevAmount),
+          // Setting value `null` on "hidden" elements allows for them to be excluded from tooltips
+          nonHighlightedAmount: isHidden ? null : amount - highlightedAmount,
+          highlightedAmount: isHidden ? null : highlightedAmount,
+          prevAmount: isHidden ? null : prevAmount,
+        };
+      }),
+    [stats, prevStats, highlightedStats],
+  );
   const verticalAxisWidth = useMemo(() => {
     const longestNameLength = chartData.reduce((prev, { name }) => (prev > name.length ? prev : name.length), 0);
     // Set a size of around 7 times the longest text, unless it exceeds a maximum of 150
@@ -63,12 +73,7 @@ export const HorizontalBarChart: FC<HorizontalBarChartProps> = (
     <ChartWrapper {...wrapperDimensions}>
       {/* Using a ComposedChart instead of a PieChart because they have a more subtle hover effect */}
       <ComposedChart layout="vertical" data={chartData} barCategoryGap={3} {...dimensions}>
-        <XAxis
-          type="number"
-          dataKey="amount"
-          tickFormatter={formatNumber}
-          domain={max ? [0, max] : undefined}
-        />
+        <XAxis type="number" dataKey="amount" tickFormatter={formatNumber} domain={max ? [0, max] : undefined} />
         <YAxis
           type="category"
           dataKey="name"

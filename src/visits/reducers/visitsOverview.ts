@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import type { ShlinkVisitsSummary } from '../../api-contract';
 import { useAppDispatch, useAppSelector } from '../../store';
 import type { WithApiClient } from '../../store/helpers';
-import { createAsyncThunk,useApiClientFactory  } from '../../store/helpers';
+import { createAsyncThunk, useApiClientFactory } from '../../store/helpers';
 import { groupNewVisitsByType } from '../helpers';
 import type { CreateVisit } from '../types';
 import { createNewVisits } from './visitCreation';
@@ -15,11 +15,13 @@ export type ParsedVisitsOverview = {
   orphanVisits: ShlinkVisitsSummary;
 };
 
-export type VisitsOverview = {
-  status: 'idle' | 'loading' | 'error';
-} | (ParsedVisitsOverview & {
-  status: 'loaded';
-});
+export type VisitsOverview =
+  | {
+      status: 'idle' | 'loading' | 'error';
+    }
+  | (ParsedVisitsOverview & {
+      status: 'loaded';
+    });
 
 const initialState: VisitsOverview = {
   status: 'idle',

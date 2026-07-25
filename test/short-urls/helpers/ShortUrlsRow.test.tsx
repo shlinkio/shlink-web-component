@@ -43,30 +43,28 @@ describe('<ShortUrlsRow />', () => {
     },
   };
 
-  const setUp = (
-    { title, tags = [], meta = {}, settings = {}, search, hasRedirectRules }: SetUpOptions = {},
-  ) => renderWithStore(
-    <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
-      <SettingsProvider value={fromPartial(settings)}>
-        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-        <Card>
-          <Table header={<></>}>
-            <ShortUrlsRow
-              shortUrl={{ ...shortUrl, title, tags, hasRedirectRules, meta: { ...shortUrl.meta, ...meta } }}
-              onTagClick={() => null}
-              useTimeoutToggle={useTimeoutToggle}
-              ColorGenerator={colorGeneratorMock}
-            />
-          </Table>
-        </Card>
-      </SettingsProvider>
-    </MemoryRouter>,
-  );
+  const setUp = ({ title, tags = [], meta = {}, settings = {}, search, hasRedirectRules }: SetUpOptions = {}) =>
+    renderWithStore(
+      <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
+        <SettingsProvider value={fromPartial(settings)}>
+          {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+          <Card>
+            <Table header={<></>}>
+              <ShortUrlsRow
+                shortUrl={{ ...shortUrl, title, tags, hasRedirectRules, meta: { ...shortUrl.meta, ...meta } }}
+                onTagClick={() => null}
+                useTimeoutToggle={useTimeoutToggle}
+                ColorGenerator={colorGeneratorMock}
+              />
+            </Table>
+          </Card>
+        </SettingsProvider>
+      </MemoryRouter>,
+    );
 
-  it.each([
-    { hasRedirectRules: true },
-    { hasRedirectRules: false },
-  ])('passes a11y checks', (options) => checkAccessibility(setUp(options)));
+  it.each([{ hasRedirectRules: true }, { hasRedirectRules: false }])('passes a11y checks', (options) =>
+    checkAccessibility(setUp(options)),
+  );
 
   it.each([
     [null, 7],
@@ -108,7 +106,10 @@ describe('<ShortUrlsRow />', () => {
 
   it.each([
     [[], ['No tags']],
-    [['nodejs', 'reactjs'], ['nodejs', 'reactjs']],
+    [
+      ['nodejs', 'reactjs'],
+      ['nodejs', 'reactjs'],
+    ],
   ])('renders list of tags in fourth row', (tags, expectedContents) => {
     setUp({ tags });
     const cell = screen.getAllByRole('cell')[3];
@@ -155,16 +156,16 @@ describe('<ShortUrlsRow />', () => {
     expect(statusIcon).toMatchSnapshot();
   });
 
-  it.each([
-    { hasRedirectRules: true },
-    { hasRedirectRules: false },
-  ])('shows indicator when a short URL has redirect rules', ({ hasRedirectRules }) => {
-    setUp({ hasRedirectRules });
+  it.each([{ hasRedirectRules: true }, { hasRedirectRules: false }])(
+    'shows indicator when a short URL has redirect rules',
+    ({ hasRedirectRules }) => {
+      setUp({ hasRedirectRules });
 
-    if (hasRedirectRules) {
-      expect(screen.getByTitle('This short URL has dynamic redirect rules')).toBeInTheDocument();
-    } else {
-      expect(screen.queryByTitle('This short URL has dynamic redirect rules')).not.toBeInTheDocument();
-    }
-  });
+      if (hasRedirectRules) {
+        expect(screen.getByTitle('This short URL has dynamic redirect rules')).toBeInTheDocument();
+      } else {
+        expect(screen.queryByTitle('This short URL has dynamic redirect rules')).not.toBeInTheDocument();
+      }
+    },
+  );
 });

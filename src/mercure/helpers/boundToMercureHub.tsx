@@ -29,10 +29,13 @@ export function boundToMercureHub<T extends object>(
         return closeEventSource;
       }
 
-      const timer = setInterval(() => {
-        createNewVisits([...pendingUpdates]);
-        pendingUpdates.clear();
-      }, interval * 1000 * 60);
+      const timer = setInterval(
+        () => {
+          createNewVisits([...pendingUpdates]);
+          pendingUpdates.clear();
+        },
+        interval * 1000 * 60,
+      );
 
       return () => {
         clearInterval(timer);

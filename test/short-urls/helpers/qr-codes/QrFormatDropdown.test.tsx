@@ -9,12 +9,14 @@ describe('<QrFormatDropdown />', () => {
 
   it.each([
     [setUp],
-    [async () => {
-      const { user, container } = setUp();
-      await user.click(screen.getByRole('button'));
+    [
+      async () => {
+        const { user, container } = setUp();
+        await user.click(screen.getByRole('button'));
 
-      return { container };
-    }],
+        return { container };
+      },
+    ],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders initial state', async () => {

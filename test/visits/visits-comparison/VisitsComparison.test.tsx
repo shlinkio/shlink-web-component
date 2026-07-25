@@ -10,7 +10,7 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
   loading?: boolean;
-  visitsGroups?: Record<string, ShlinkVisit[]>
+  visitsGroups?: Record<string, ShlinkVisit[]>;
 };
 
 describe('<VisitsComparison />', () => {
@@ -18,16 +18,17 @@ describe('<VisitsComparison />', () => {
   const visit = fromPartial<ShlinkVisit>({ date: '2020-01-01' });
   const getVisitsForComparison = vi.fn();
   const cancelGetVisitsComparison = vi.fn();
-  const setUp = ({ loading = false, visitsGroups = {} }: SetUpOptions = {}) => renderWithEvents(
-    <MemoryRouter>
-      <VisitsComparison
-        title="Comparing visits"
-        getVisitsForComparison={getVisitsForComparison}
-        cancelGetVisitsComparison={cancelGetVisitsComparison}
-        visitsComparisonInfo={loading ? { status: 'loading', progress: null } : { status: 'loaded', visitsGroups }}
-      />
-    </MemoryRouter>,
-  );
+  const setUp = ({ loading = false, visitsGroups = {} }: SetUpOptions = {}) =>
+    renderWithEvents(
+      <MemoryRouter>
+        <VisitsComparison
+          title="Comparing visits"
+          getVisitsForComparison={getVisitsForComparison}
+          cancelGetVisitsComparison={cancelGetVisitsComparison}
+          visitsComparisonInfo={loading ? { status: 'loading', progress: null } : { status: 'loaded', visitsGroups }}
+        />
+      </MemoryRouter>,
+    );
 
   it.each([
     [{}],
@@ -53,16 +54,15 @@ describe('<VisitsComparison />', () => {
     }
   });
 
-  it.each([
-    [{}],
-    [{ foo: [] }],
-    [{ foo: [], bar: [], baz: [] }],
-  ])('shows fallback when all visits groups are empty', (visitsGroups) => {
-    setUp({ loading: false, visitsGroups });
+  it.each([[{}], [{ foo: [] }], [{ foo: [], bar: [], baz: [] }]])(
+    'shows fallback when all visits groups are empty',
+    (visitsGroups) => {
+      setUp({ loading: false, visitsGroups });
 
-    expect(screen.queryByText('Visits over time')).not.toBeInTheDocument();
-    expect(screen.getByText('There are no visits matching current filter')).toBeInTheDocument();
-  });
+      expect(screen.queryByText('Visits over time')).not.toBeInTheDocument();
+      expect(screen.getByText('There are no visits matching current filter')).toBeInTheDocument();
+    },
+  );
 
   it('loads visits every time filters change', async () => {
     const { user } = setUp();

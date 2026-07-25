@@ -2,12 +2,7 @@ import { Dropdown } from '@shlinkio/shlink-frontend-kit';
 import { useCallback, useMemo } from 'react';
 import { DateRangeRow } from './DateRangeRow';
 import type { DateInterval, DateRange } from './helpers/dateIntervals';
-import {
-  DATE_INTERVALS,
-  intervalToDateRange,
-  rangeIsInterval,
-  rangeOrIntervalToString,
-} from './helpers/dateIntervals';
+import { DATE_INTERVALS, intervalToDateRange, rangeIsInterval, rangeOrIntervalToString } from './helpers/dateIntervals';
 
 export interface DateRangeSelectorProps {
   dateRangeOrInterval?: DateInterval | DateRange;
@@ -22,26 +17,32 @@ export interface DateRangeSelectorProps {
   disabled?: boolean;
 }
 
-export const DateRangeSelector = (
-  { onDatesChange, dateRangeOrInterval, defaultText, disabled }: DateRangeSelectorProps,
-) => {
+export const DateRangeSelector = ({
+  onDatesChange,
+  dateRangeOrInterval,
+  defaultText,
+  disabled,
+}: DateRangeSelectorProps) => {
   const text = useMemo(
     () => rangeOrIntervalToString(dateRangeOrInterval) ?? defaultText,
     [dateRangeOrInterval, defaultText],
   );
-  const [activeDateRange, activeInterval] = useMemo((): [DateRange | undefined, DateInterval | undefined] => (
-    rangeIsInterval(dateRangeOrInterval)
-      ? [undefined, dateRangeOrInterval]
-      : [dateRangeOrInterval, undefined]
-  ), [dateRangeOrInterval]);
+  const [activeDateRange, activeInterval] = useMemo(
+    (): [DateRange | undefined, DateInterval | undefined] =>
+      rangeIsInterval(dateRangeOrInterval) ? [undefined, dateRangeOrInterval] : [dateRangeOrInterval, undefined],
+    [dateRangeOrInterval],
+  );
 
-  const updateDateRangeOrInterval = useCallback((newDateRangeOrInterval: DateRange | DateInterval) => {
-    if (rangeIsInterval(newDateRangeOrInterval)) {
-      onDatesChange(intervalToDateRange(newDateRangeOrInterval), newDateRangeOrInterval);
-    } else {
-      onDatesChange(newDateRangeOrInterval);
-    }
-  }, [onDatesChange]);
+  const updateDateRangeOrInterval = useCallback(
+    (newDateRangeOrInterval: DateRange | DateInterval) => {
+      if (rangeIsInterval(newDateRangeOrInterval)) {
+        onDatesChange(intervalToDateRange(newDateRangeOrInterval), newDateRangeOrInterval);
+      } else {
+        onDatesChange(newDateRangeOrInterval);
+      }
+    },
+    [onDatesChange],
+  );
 
   return (
     <Dropdown
@@ -55,17 +56,15 @@ export const DateRangeSelector = (
         {defaultText}
       </Dropdown.Item>
       <Dropdown.Separator />
-      {DATE_INTERVALS.map(
-        (interval) => (
-          <Dropdown.Item
-            key={interval}
-            selected={activeInterval === interval}
-            onClick={() => updateDateRangeOrInterval(interval)}
-          >
-            {rangeOrIntervalToString(interval)}
-          </Dropdown.Item>
-        ),
-      )}
+      {DATE_INTERVALS.map((interval) => (
+        <Dropdown.Item
+          key={interval}
+          selected={activeInterval === interval}
+          onClick={() => updateDateRangeOrInterval(interval)}
+        >
+          {rangeOrIntervalToString(interval)}
+        </Dropdown.Item>
+      ))}
       <Dropdown.Separator />
       <Dropdown.Misc>
         <DateRangeRow

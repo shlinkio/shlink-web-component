@@ -12,23 +12,13 @@ describe('helpers', () => {
     const size = 5;
 
     it('builds a range of specified size invike provided function', () => {
-      expect(rangeOf(size, func)).toEqual([
-        'result_1',
-        'result_2',
-        'result_3',
-        'result_4',
-        'result_5',
-      ]);
+      expect(rangeOf(size, func)).toEqual(['result_1', 'result_2', 'result_3', 'result_4', 'result_5']);
     });
 
     it('builds a range starting at provided pos', () => {
       const startAt = 3;
 
-      expect(rangeOf(size, func, startAt)).toEqual([
-        'result_3',
-        'result_4',
-        'result_5',
-      ]);
+      expect(rangeOf(size, func, startAt)).toEqual(['result_3', 'result_4', 'result_5']);
     });
   });
 

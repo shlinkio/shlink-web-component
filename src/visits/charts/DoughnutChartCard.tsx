@@ -15,14 +15,14 @@ export const DoughnutChartCard: FC<DoughnutChartCardProps> = ({ title, ...rest }
 
   return (
     <ChartCard
-      title={(
+      title={
         <SpaceBetweenContainer>
           {title}
           <LabelledToggle checked={showNumbersInLegend} onChange={toggleShowNumbersInLegend}>
             Show numbers
           </LabelledToggle>
         </SpaceBetweenContainer>
-      )}
+      }
     >
       <DoughnutChart {...rest} showNumbersInLegend={showNumbersInLegend} />
     </ChartCard>

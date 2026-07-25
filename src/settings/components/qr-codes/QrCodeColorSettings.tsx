@@ -18,7 +18,11 @@ export const QrCodeColorSettings: FC<QrCodeColorSettingsProps> = ({ onChange, cl
     <SimpleCard title="Colors" className={className} bodyClassName="flex flex-col gap-4">
       <LabelledInput
         label="Default color:"
-        helpText={<>QR codes will initially use <b data-testid="color">{color}</b> color.</>}
+        helpText={
+          <>
+            QR codes will initially use <b data-testid="color">{color}</b> color.
+          </>
+        }
         type="color"
         value={color}
         onChange={(e) => onChange({ ...qrCodesSettings, color: e.target.value })}
@@ -27,7 +31,11 @@ export const QrCodeColorSettings: FC<QrCodeColorSettingsProps> = ({ onChange, cl
 
       <LabelledInput
         label="Default background color:"
-        helpText={<>QR codes will initially use <b data-testid="bg-color">{bgColor}</b> background color.</>}
+        helpText={
+          <>
+            QR codes will initially use <b data-testid="bg-color">{bgColor}</b> background color.
+          </>
+        }
         type="color"
         value={bgColor}
         onChange={(e) => onChange({ ...qrCodesSettings, bgColor: e.target.value })}

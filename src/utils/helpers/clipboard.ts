@@ -13,7 +13,8 @@ export const copyToClipboard = async (
   navigator_: Navigator = navigator,
 ) => {
   const text = typeof textOrPromise === 'string' ? textOrPromise : await textOrPromise;
-  return navigator_.clipboard?.writeText(text)
+  return navigator_.clipboard
+    ?.writeText(text)
     .then(() => onCopy?.({ text, copied: true }))
     .catch(() => onCopy?.({ text, copied: false }));
 };

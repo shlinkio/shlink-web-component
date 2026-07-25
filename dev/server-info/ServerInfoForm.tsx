@@ -10,18 +10,24 @@ type ServerInfoFormProps = {
 
 export const ServerInfoForm: FC<ServerInfoFormProps> = ({ serverInfo, onChange }) => {
   const formDisabled = !!serverInfo.baseUrl && !!serverInfo.apiKey;
-  const handleSubmit = useCallback((e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
 
-    // @ts-expect-error - Entries is not recognized for some reason
-    onChange(Object.fromEntries(new FormData(e.target).entries()));
-  }, [onChange]);
+      // @ts-expect-error - Entries is not recognized for some reason
+      onChange(Object.fromEntries(new FormData(e.target).entries()));
+    },
+    [onChange],
+  );
   const resetForm = () => onChange({});
-  const inputRef = useCallback((el: HTMLInputElement | HTMLTextAreaElement | null, key: keyof typeof serverInfo) => {
-    if (el) {
-      el.value = serverInfo[key] ?? '';
-    }
-  }, [serverInfo]);
+  const inputRef = useCallback(
+    (el: HTMLInputElement | HTMLTextAreaElement | null, key: keyof typeof serverInfo) => {
+      if (el) {
+        el.value = serverInfo[key] ?? '';
+      }
+    },
+    [serverInfo],
+  );
 
   return (
     <form className="py-2 pl-2 flex gap-2" onSubmit={handleSubmit}>
@@ -39,8 +45,16 @@ export const ServerInfoForm: FC<ServerInfoFormProps> = ({ serverInfo, onChange }
         disabled={formDisabled}
         ref={(el) => inputRef(el, 'apiKey')}
       />
-      {!formDisabled && <Button type="submit" variant="secondary" solid>Load</Button>}
-      {formDisabled && <Button type="reset" variant="secondary" solid onClick={resetForm}>Reset</Button>}
+      {!formDisabled && (
+        <Button type="submit" variant="secondary" solid>
+          Load
+        </Button>
+      )}
+      {formDisabled && (
+        <Button type="reset" variant="secondary" solid onClick={resetForm}>
+          Reset
+        </Button>
+      )}
     </form>
   );
 };

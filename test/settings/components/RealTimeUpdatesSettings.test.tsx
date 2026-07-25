@@ -9,14 +9,15 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<RealTimeUpdatesSettings />', () => {
   const toggleRealTimeUpdates = vi.fn();
   const setRealTimeUpdatesInterval = vi.fn();
-  const setUp = (realTimeUpdates: Partial<RealTimeUpdatesSettingsOptions> = {}) => renderWithEvents(
-    <SettingsProvider value={fromPartial({ realTimeUpdates })}>
-      <RealTimeUpdatesSettings
-        toggleRealTimeUpdates={toggleRealTimeUpdates}
-        onIntervalChange={setRealTimeUpdatesInterval}
-      />
-    </SettingsProvider>,
-  );
+  const setUp = (realTimeUpdates: Partial<RealTimeUpdatesSettingsOptions> = {}) =>
+    renderWithEvents(
+      <SettingsProvider value={fromPartial({ realTimeUpdates })}>
+        <RealTimeUpdatesSettings
+          toggleRealTimeUpdates={toggleRealTimeUpdates}
+          onIntervalChange={setRealTimeUpdatesInterval}
+        />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -26,9 +27,7 @@ describe('<RealTimeUpdatesSettings />', () => {
     expect(screen.getByLabelText(/^Enable or disable real-time updates./)).toBeChecked();
     expect(screen.getByText(/^Real-time updates are currently being/)).toHaveTextContent('processed');
     expect(screen.getByText(/^Real-time updates are currently being/)).not.toHaveTextContent('ignored');
-    expect(screen.getByText('Real-time updates frequency (in minutes):')).not.toHaveClass(
-      'dark:text-gray-400',
-    );
+    expect(screen.getByText('Real-time updates frequency (in minutes):')).not.toHaveClass('dark:text-gray-400');
     expect(screen.getByLabelText('Real-time updates frequency (in minutes):')).not.toHaveAttribute('disabled');
     expect(screen.getByText('Updates will be reflected in the UI as soon as they happen.')).toBeInTheDocument();
   });
@@ -39,9 +38,7 @@ describe('<RealTimeUpdatesSettings />', () => {
     expect(screen.getByLabelText(/^Enable or disable real-time updates./)).not.toBeChecked();
     expect(screen.getByText(/^Real-time updates are currently being/)).not.toHaveTextContent('processed');
     expect(screen.getByText(/^Real-time updates are currently being/)).toHaveTextContent('ignored');
-    expect(screen.getByText('Real-time updates frequency (in minutes):')).toHaveClass(
-      'dark:text-gray-400',
-    );
+    expect(screen.getByText('Real-time updates frequency (in minutes):')).toHaveClass('dark:text-gray-400');
     expect(screen.getByLabelText('Real-time updates frequency (in minutes):')).toHaveAttribute('disabled');
     expect(screen.queryByText('Updates will be reflected in the UI as soon as they happen.')).not.toBeInTheDocument();
   });

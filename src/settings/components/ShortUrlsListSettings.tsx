@@ -26,7 +26,11 @@ export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = ({ onChange
       <LabelledToggle
         checked={confirmDeletions}
         onChange={(confirmDeletions) => onChange({ ...shortUrlsList, confirmDeletions })}
-        helpText={<>When deleting a short URL, confirmation <b>{confirmDeletions ? 'will' : 'won\'t'}</b> be required.</>}
+        helpText={
+          <>
+            When deleting a short URL, confirmation <b>{confirmDeletions ? 'will' : "won't"}</b> be required.
+          </>
+        }
       >
         Request confirmation before deleting a short URL.
       </LabelledToggle>
@@ -36,9 +40,9 @@ export const ShortUrlsListSettings: FC<ShortUrlsListSettingsProps> = ({ onChange
           buttonClassName="w-full"
           items={SHORT_URLS_ORDERABLE_FIELDS}
           order={shortUrlsList?.defaultOrdering ?? defaultOrdering}
-          onChange={(newOrder) => onChange(
-            { defaultOrdering: !newOrder.dir && !newOrder.field ? undefined : newOrder },
-          )}
+          onChange={(newOrder) =>
+            onChange({ defaultOrdering: !newOrder.dir && !newOrder.field ? undefined : newOrder })
+          }
         />
       </div>
     </SimpleCard>

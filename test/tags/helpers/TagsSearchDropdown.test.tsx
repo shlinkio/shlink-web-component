@@ -7,17 +7,18 @@ import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerato
 describe('<TagsSearchDropdown />', () => {
   const onTagsChange = vi.fn();
   const onModeChange = vi.fn();
-  const setUp = (selectedTags = ['foo', 'bar']) => renderWithEvents(
-    <TagsSearchDropdown
-      title="Tags"
-      prefix="Including"
-      tags={['foo', 'bar', 'baz']}
-      selectedTags={selectedTags}
-      onTagsChange={onTagsChange}
-      onModeChange={onModeChange}
-      ColorGenerator={colorGeneratorMock}
-    />,
-  );
+  const setUp = (selectedTags = ['foo', 'bar']) =>
+    renderWithEvents(
+      <TagsSearchDropdown
+        title="Tags"
+        prefix="Including"
+        tags={['foo', 'bar', 'baz']}
+        selectedTags={selectedTags}
+        onTagsChange={onTagsChange}
+        onModeChange={onModeChange}
+        ColorGenerator={colorGeneratorMock}
+      />,
+    );
   const setUpOpened = async (selectedTags?: string[]) => {
     const { user, ...rest } = setUp(selectedTags);
     await user.click(screen.getByRole('button'));
@@ -91,21 +92,22 @@ describe('<TagsSearchDropdown />', () => {
     expect(onTagsChange).toHaveBeenCalledWith([selectedOption]);
   });
 
-  it.each(
-    ['ba', 'noresults'],
-  )('stops keydown propagation when `Escape` is pressed in search while results are displayed', async (searchTerm) => {
-    const { user, container } = await setUpOpened([]);
+  it.each(['ba', 'noresults'])(
+    'stops keydown propagation when `Escape` is pressed in search while results are displayed',
+    async (searchTerm) => {
+      const { user, container } = await setUpOpened([]);
 
-    await user.type(screen.getByPlaceholderText('Search...'), searchTerm);
-    // Search results are displayed with a delay. Wait for them
-    await screen.findByRole('listbox');
+      await user.type(screen.getByPlaceholderText('Search...'), searchTerm);
+      // Search results are displayed with a delay. Wait for them
+      await screen.findByRole('listbox');
 
-    const listener = vi.fn();
-    container.addEventListener('keydown', listener);
-    await user.keyboard('{Escape}');
+      const listener = vi.fn();
+      container.addEventListener('keydown', listener);
+      await user.keyboard('{Escape}');
 
-    expect(listener).not.toHaveBeenCalled();
-  });
+      expect(listener).not.toHaveBeenCalled();
+    },
+  );
 
   it('does not stop keydown propagation when `Escape` is pressed in search if no results are displayed', async () => {
     const { user, container } = await setUpOpened([]);

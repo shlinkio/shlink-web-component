@@ -25,11 +25,12 @@ export const getOrphanVisitsThunk = createVisitsAsyncThunk({
     const apiClient = apiClientFactory();
     const { doIntervalFallback = false } = options;
 
-    const visitsLoader = async (query: ShlinkVisitsParams) => apiClient.getOrphanVisits({
-      ...query,
-      type: orphanVisitsType,
-      domain,
-    });
+    const visitsLoader = async (query: ShlinkVisitsParams) =>
+      apiClient.getOrphanVisits({
+        ...query,
+        type: orphanVisitsType,
+        domain,
+      });
     const lastVisitLoader = lastVisitLoaderForLoader(doIntervalFallback, (q) => apiClient.getOrphanVisits(q));
 
     return { visitsLoader, lastVisitLoader };

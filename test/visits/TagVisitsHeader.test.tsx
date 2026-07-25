@@ -12,11 +12,12 @@ describe('<TagVisitsHeader />', () => {
     tag: 'foo',
     visits: [{}, {}, {}, {}],
   });
-  const setUp = () => render(
-    <MemoryRouter>
-      <TagVisitsHeader tagVisits={tagVisits} colorGenerator={colorGeneratorMock} />
-    </MemoryRouter>,
-  );
+  const setUp = () =>
+    render(
+      <MemoryRouter>
+        <TagVisitsHeader tagVisits={tagVisits} colorGenerator={colorGeneratorMock} />
+      </MemoryRouter>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

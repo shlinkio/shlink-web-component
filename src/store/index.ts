@@ -47,40 +47,42 @@ import type { VisitsComparisonInfo } from '../visits/visits-comparison/reducers/
 // @ts-expect-error process is actually available in vite
 const isProduction = process.env.NODE_ENV === 'production';
 
-export const setUpStore = (preloadedState?: any) => configureStore<RootState>({
-  devTools: !isProduction,
-  reducer: combineReducers({
-    mercureInfo: mercureInfoReducer,
-    shortUrlsList: shortUrlsListReducer,
-    shortUrlCreation: shortUrlCreationReducer,
-    shortUrlDeletion: shortUrlDeletionReducer,
-    shortUrlEdition: shortUrlEditionReducer,
-    shortUrlsDetails: shortUrlsDetailsReducer,
-    shortUrlVisits: shortUrlVisitsReducer,
-    shortUrlVisitsDeletion: shortUrlVisitsDeletionReducer,
-    shortUrlVisitsComparison: shortUrlVisitsComparisonReducer,
-    tagVisits: tagVisitsReducer,
-    tagVisitsComparison: tagVisitsComparisonReducer,
-    domainVisits: domainVisitsReducer,
-    domainVisitsComparison: domainVisitsComparisonReducer,
-    orphanVisits: orphanVisitsReducer,
-    orphanVisitsDeletion: orphanVisitsDeletionReducer,
-    nonOrphanVisits: nonOrphanVisitsReducer,
-    tagsList: tagsListReducer,
-    tagDelete: tagDeleteReducer,
-    tagEdit: tagEditReducer,
-    domainsList: domainsListReducer,
-    visitsOverview: visitsOverviewReducer,
-    shortUrlRedirectRules: shortUrlRedirectRulesReducer,
-    shortUrlRedirectRulesSaving: shortUrlRedirectRulesSavingReducer,
-  }),
-  preloadedState,
-  middleware: (defaultMiddlewaresIncludingReduxThunk) => defaultMiddlewaresIncludingReduxThunk({
-    // State is too big for these
-    immutableCheck: false,
-    serializableCheck: false,
-  }),
-});
+export const setUpStore = (preloadedState?: any) =>
+  configureStore<RootState>({
+    devTools: !isProduction,
+    reducer: combineReducers({
+      mercureInfo: mercureInfoReducer,
+      shortUrlsList: shortUrlsListReducer,
+      shortUrlCreation: shortUrlCreationReducer,
+      shortUrlDeletion: shortUrlDeletionReducer,
+      shortUrlEdition: shortUrlEditionReducer,
+      shortUrlsDetails: shortUrlsDetailsReducer,
+      shortUrlVisits: shortUrlVisitsReducer,
+      shortUrlVisitsDeletion: shortUrlVisitsDeletionReducer,
+      shortUrlVisitsComparison: shortUrlVisitsComparisonReducer,
+      tagVisits: tagVisitsReducer,
+      tagVisitsComparison: tagVisitsComparisonReducer,
+      domainVisits: domainVisitsReducer,
+      domainVisitsComparison: domainVisitsComparisonReducer,
+      orphanVisits: orphanVisitsReducer,
+      orphanVisitsDeletion: orphanVisitsDeletionReducer,
+      nonOrphanVisits: nonOrphanVisitsReducer,
+      tagsList: tagsListReducer,
+      tagDelete: tagDeleteReducer,
+      tagEdit: tagEditReducer,
+      domainsList: domainsListReducer,
+      visitsOverview: visitsOverviewReducer,
+      shortUrlRedirectRules: shortUrlRedirectRulesReducer,
+      shortUrlRedirectRulesSaving: shortUrlRedirectRulesSavingReducer,
+    }),
+    preloadedState,
+    middleware: (defaultMiddlewaresIncludingReduxThunk) =>
+      defaultMiddlewaresIncludingReduxThunk({
+        // State is too big for these
+        immutableCheck: false,
+        serializableCheck: false,
+      }),
+  });
 
 export type StoreType = ReturnType<typeof setUpStore>;
 export type AppDispatch = StoreType['dispatch'];

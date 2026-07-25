@@ -7,9 +7,8 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<ShortUrlsFilterDropdown />', () => {
   const onChange = vi.fn();
-  const setUp = (selected: ShortUrlsFilter = {}) => renderWithEvents(
-    <ShortUrlsFilterDropdown onChange={onChange} selected={selected} />,
-  );
+  const setUp = (selected: ShortUrlsFilter = {}) =>
+    renderWithEvents(<ShortUrlsFilterDropdown onChange={onChange} selected={selected} />);
   const openMenu = (user: UserEvent) => user.click(screen.getByRole('button', { name: /^More/ }));
 
   const setUpOpened = async (selected?: ShortUrlsFilter) => {

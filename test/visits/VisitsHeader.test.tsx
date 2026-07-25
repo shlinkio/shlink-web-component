@@ -8,11 +8,12 @@ import { checkAccessibility } from '../__helpers__/accessibility';
 describe('<VisitsHeader />', () => {
   const visits: ShlinkVisit[] = [fromPartial({}), fromPartial({}), fromPartial({})];
   const title = 'My header title';
-  const setUp = () => render(
-    <MemoryRouter>
-      <VisitsHeader visits={visits} title={title} />
-    </MemoryRouter>,
-  );
+  const setUp = () =>
+    render(
+      <MemoryRouter>
+        <VisitsHeader visits={visits} title={title} />
+      </MemoryRouter>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

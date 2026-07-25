@@ -1,4 +1,4 @@
-import { createContext, Fragment , useContext, useMemo } from 'react';
+import { createContext, Fragment, useContext, useMemo } from 'react';
 import { ResponsiveContainer } from 'recharts';
 
 export type Dimensions = {
@@ -25,10 +25,16 @@ export type ChartDimensions = {
 
 export const useChartDimensions = (defaultHeight: number): ChartDimensions => {
   const dimensions = useContext(ChartDimensionsContext) ?? undefined;
-  const wrapperDimensions = useMemo(() => dimensions ? {} : {
-    width: '100%' as const,
-    height: defaultHeight,
-  }, [defaultHeight, dimensions]);
+  const wrapperDimensions = useMemo(
+    () =>
+      dimensions
+        ? {}
+        : {
+            width: '100%' as const,
+            height: defaultHeight,
+          },
+    [defaultHeight, dimensions],
+  );
   const ChartWrapper = dimensions ? Fragment : ResponsiveContainer;
 
   return { ChartWrapper, dimensions, wrapperDimensions };

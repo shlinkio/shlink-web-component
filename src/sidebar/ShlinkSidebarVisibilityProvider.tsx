@@ -1,6 +1,6 @@
 import { useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC, PropsWithChildren } from 'react';
-import { createContext,useContext  } from 'react';
+import { createContext, useContext } from 'react';
 
 export type SidebarVisibility = {
   sidebarVisible: boolean;
@@ -21,9 +21,5 @@ export const ShlinkSidebarVisibilityProvider: FC<PropsWithChildren> = ({ childre
   // a new one
   const providerValue = prevContext ?? { sidebarVisible, toggleSidebar, showSidebar, hideSidebar };
 
-  return (
-    <SidebarVisibilityContext.Provider value={providerValue}>
-      {children}
-    </SidebarVisibilityContext.Provider>
-  );
+  return <SidebarVisibilityContext.Provider value={providerValue}>{children}</SidebarVisibilityContext.Provider>;
 };

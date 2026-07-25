@@ -22,10 +22,7 @@ describe('visitsTypeHelpers', () => {
           fromPartial({ visit: {} }),
         ];
 
-        return [
-          [...orphanVisits, ...nonOrphanVisits],
-          { orphanVisits, nonOrphanVisits },
-        ];
+        return [[...orphanVisits, ...nonOrphanVisits], { orphanVisits, nonOrphanVisits }];
       })(),
       ((): [CreateVisit[], GroupedNewVisits] => {
         const orphanVisits: CreateVisit[] = [

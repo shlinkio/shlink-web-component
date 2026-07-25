@@ -32,11 +32,7 @@ describe('shortUrlsListReducer', () => {
     it('removes matching URL and reduces total on SHORT_URL_DELETED', () => {
       const state: ShortUrlsList = {
         shortUrls: fromPartial<ShlinkShortUrlsList>({
-          data: [
-            { shortCode },
-            { shortCode, domain: 'example.com' },
-            { shortCode: 'foo' },
-          ],
+          data: [{ shortCode }, { shortCode, domain: 'example.com' }, { shortCode: 'foo' }],
           pagination: { totalItems: 10 },
         }),
         status: 'loaded',
@@ -51,9 +47,10 @@ describe('shortUrlsListReducer', () => {
       });
     });
 
-    const createNewShortUrlVisit = (visitsCount: number) => fromPartial<CreateVisit>({
-      shortUrl: { shortCode: 'abc123', visitsSummary: { total: visitsCount } },
-    });
+    const createNewShortUrlVisit = (visitsCount: number) =>
+      fromPartial<CreateVisit>({
+        shortUrl: { shortCode: 'abc123', visitsSummary: { total: visitsCount } },
+      });
 
     it.each([
       [[createNewShortUrlVisit(11)], 11],
@@ -162,9 +159,11 @@ describe('shortUrlsListReducer', () => {
 
       const result = reducer(state, editShortUrlThunk.fulfilled(editedShortUrl, '', fromPartial({})));
 
-      expect(result).toEqual(expect.objectContaining({
-        shortUrls: expect.objectContaining({ data: expectedList }),
-      }));
+      expect(result).toEqual(
+        expect.objectContaining({
+          shortUrls: expect.objectContaining({ data: expectedList }),
+        }),
+      );
     });
   });
 

@@ -24,10 +24,13 @@ export type ShortUrlsRowProps = {
   useTimeoutToggle: TimeoutToggle;
 };
 
-const ShortUrlsRowBase: FC<ShortUrlsRowProps> = (
-  { shortUrl, onTagClick, ColorGenerator: colorGenerator, useTimeoutToggle },
-) => {
-  // eslint-disable-next-line react-compiler/react-compiler
+const ShortUrlsRowBase: FC<ShortUrlsRowProps> = ({
+  shortUrl,
+  onTagClick,
+  ColorGenerator: colorGenerator,
+  useTimeoutToggle,
+}) => {
+  // oxlint-disable-next-line react/react-compiler
   const [active, setActive] = useTimeoutToggle({ initialValue: false, delay: 500 });
   const isFirstRun = useRef(true);
   const [{ excludeBots }] = useShortUrlsQuery();

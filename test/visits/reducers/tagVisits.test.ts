@@ -26,10 +26,7 @@ describe('tagVisitsReducer', () => {
     const buildState = (data: Partial<TagVisits>) => fromPartial<TagVisits>(data);
 
     it('returns loading when idle', () => {
-      const { status } = reducer(
-        buildState({ status: 'idle' }),
-        getTagVisits.pending('', fromPartial({ tag: '' })),
-      );
+      const { status } = reducer(buildState({ status: 'idle' }), getTagVisits.pending('', fromPartial({ tag: '' })));
       expect(status).toEqual('loading');
     });
 
@@ -155,9 +152,10 @@ describe('tagVisitsReducer', () => {
 
   describe('getTagVisits', () => {
     const dispatchMock = vi.fn();
-    const getState = () => fromPartial<RootState>({
-      tagVisits: { status: 'idle' },
-    });
+    const getState = () =>
+      fromPartial<RootState>({
+        tagVisits: { status: 'idle' },
+      });
     const tag = 'foo';
 
     it('dispatches start and success when promise is resolved', async () => {
@@ -176,9 +174,11 @@ describe('tagVisitsReducer', () => {
       await getTagVisits(getVisitsParam)(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
-      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits, ...getVisitsParam },
-      }));
+      expect(dispatchMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { visits, ...getVisitsParam },
+        }),
+      );
       expect(getTagVisitsCall).toHaveBeenCalledOnce();
     });
 
@@ -194,31 +194,32 @@ describe('tagVisitsReducer', () => {
         3,
       ],
       [[], expect.objectContaining({ type: getTagVisits.fulfilled.toString() }), 2],
-    ])('dispatches fallback interval when the list of visits is empty', async (
-      lastVisits,
-      expectedSecondDispatch,
-      expectedDispatchCalls,
-    ) => {
-      const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisitsList => ({
-        data,
-        pagination: {
-          currentPage: 1,
-          pagesCount: 1,
-          totalItems: 1,
-        },
-      });
-      getTagVisitsCall
-        .mockResolvedValueOnce(buildVisitsResult())
-        .mockResolvedValueOnce(buildVisitsResult(lastVisits));
+    ])(
+      'dispatches fallback interval when the list of visits is empty',
+      async (lastVisits, expectedSecondDispatch, expectedDispatchCalls) => {
+        const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisitsList => ({
+          data,
+          pagination: {
+            currentPage: 1,
+            pagesCount: 1,
+            totalItems: 1,
+          },
+        });
+        getTagVisitsCall
+          .mockResolvedValueOnce(buildVisitsResult())
+          .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getTagVisits(
-        { tag, params: {}, options: { doIntervalFallback: true }, apiClientFactory },
-      )(dispatchMock, getState, {});
+        await getTagVisits({ tag, params: {}, options: { doIntervalFallback: true }, apiClientFactory })(
+          dispatchMock,
+          getState,
+          {},
+        );
 
-      expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
-      expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
-      expect(getTagVisitsCall).toHaveBeenCalledTimes(2);
-    });
+        expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
+        expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
+        expect(getTagVisitsCall).toHaveBeenCalledTimes(2);
+      },
+    );
 
     it.each([
       // Strict date range and loadPrevInterval: true -> prev visits are loaded
@@ -257,35 +258,38 @@ describe('tagVisitsReducer', () => {
         loadPrevInterval: false,
         expectsPrevVisits: false,
       },
-    ])('returns visits from prev interval when requested and possible', async (
-      { dateRange, loadPrevInterval, expectsPrevVisits },
-    ) => {
-      const getVisitsParam: WithApiClient<LoadTagVisits> = {
-        tag,
-        params: { dateRange },
-        options: { loadPrevInterval },
-        apiClientFactory,
-      };
-      const prevVisits = expectsPrevVisits ? visitsMocks.map(
-        (visit, index) => ({ ...visit, date: dateForVisit(index + 1 + visitsMocks.length) }),
-      ) : undefined;
+    ])(
+      'returns visits from prev interval when requested and possible',
+      async ({ dateRange, loadPrevInterval, expectsPrevVisits }) => {
+        const getVisitsParam: WithApiClient<LoadTagVisits> = {
+          tag,
+          params: { dateRange },
+          options: { loadPrevInterval },
+          apiClientFactory,
+        };
+        const prevVisits = expectsPrevVisits
+          ? visitsMocks.map((visit, index) => ({ ...visit, date: dateForVisit(index + 1 + visitsMocks.length) }))
+          : undefined;
 
-      getTagVisitsCall.mockResolvedValue({
-        data: visitsMocks,
-        pagination: {
-          currentPage: 1,
-          pagesCount: 1,
-          totalItems: 1,
-        },
-      });
+        getTagVisitsCall.mockResolvedValue({
+          data: visitsMocks,
+          pagination: {
+            currentPage: 1,
+            pagesCount: 1,
+            totalItems: 1,
+          },
+        });
 
-      await getTagVisits(getVisitsParam)(dispatchMock, getState, {});
+        await getTagVisits(getVisitsParam)(dispatchMock, getState, {});
 
-      expect(dispatchMock).toHaveBeenCalledTimes(2);
-      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits: visitsMocks, prevVisits, ...getVisitsParam },
-      }));
-      expect(getTagVisitsCall).toHaveBeenCalledTimes(expectsPrevVisits ? 2 : 1);
-    });
+        expect(dispatchMock).toHaveBeenCalledTimes(2);
+        expect(dispatchMock).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            payload: { visits: visitsMocks, prevVisits, ...getVisitsParam },
+          }),
+        );
+        expect(getTagVisitsCall).toHaveBeenCalledTimes(expectsPrevVisits ? 2 : 1);
+      },
+    );
   });
 });

@@ -14,20 +14,21 @@ describe('<ShortUrlVisitsHeader />', () => {
   const shortUrlVisits = fromPartial<ShortUrlVisits>({
     visits: [{}, {}, {}],
   });
-  const setUp = (title?: string | null) => renderWithEvents(
-    <MemoryRouter>
-      <ShortUrlVisitsHeader
-        loading={false}
-        shortUrlVisits={shortUrlVisits}
-        shortUrl={fromPartial<ShlinkShortUrl>({
-          shortUrl: 'https://s.test/abc123',
-          longUrl,
-          dateCreated,
-          title,
-        })}
-      />
-    </MemoryRouter>,
-  );
+  const setUp = (title?: string | null) =>
+    renderWithEvents(
+      <MemoryRouter>
+        <ShortUrlVisitsHeader
+          loading={false}
+          shortUrlVisits={shortUrlVisits}
+          shortUrl={fromPartial<ShlinkShortUrl>({
+            shortUrl: 'https://s.test/abc123',
+            longUrl,
+            dateCreated,
+            title,
+          })}
+        />
+      </MemoryRouter>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

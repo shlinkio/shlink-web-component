@@ -62,18 +62,25 @@ const TagsSearchDropdownBase: FC<TagsSearchDropdownProps> = ({
     [onTagsChange, selectedTags],
   );
 
-  const onClearTagsClick = useCallback((e: MouseEvent) => {
-    onTagsChange?.([]);
-    // Trigger `Esc` keydown so that the dropdown is closed
-    e.target.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-  }, [onTagsChange]);
+  const onClearTagsClick = useCallback(
+    (e: MouseEvent) => {
+      onTagsChange?.([]);
+      // Trigger `Esc` keydown so that the dropdown is closed
+      e.target.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    },
+    [onTagsChange],
+  );
 
   return (
     <Dropdown
       buttonContent={
-        selectedTags.length
-          ? <span>{prefix} <b>{formatNumber(selectedTags.length)}</b> tag{selectedTags.length > 1 && 's'}</span>
-          : <>{prefix} tags...</>
+        selectedTags.length ? (
+          <span>
+            {prefix} <b>{formatNumber(selectedTags.length)}</b> tag{selectedTags.length > 1 && 's'}
+          </span>
+        ) : (
+          <>{prefix} tags...</>
+        )
       }
       menuAlignment="right"
       menuClassName="min-w-72 w-full"
@@ -138,7 +145,9 @@ const TagsSearchDropdownBase: FC<TagsSearchDropdownProps> = ({
             <FontAwesomeIcon icon={faTags} /> All
           </Button>
         </div>
-        <Muted>{prefix} <b>{mode}</b> of the tags</Muted>
+        <Muted>
+          {prefix} <b>{mode}</b> of the tags
+        </Muted>
       </Dropdown.Misc>
     </Dropdown>
   );

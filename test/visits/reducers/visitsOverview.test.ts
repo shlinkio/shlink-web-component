@@ -29,15 +29,21 @@ describe('visitsOverviewReducer', () => {
     });
 
     it('return visits overview on GET_OVERVIEW', () => {
-      const action = loadVisitsOverview.fulfilled(fromPartial({
-        nonOrphanVisits: { total: 100 },
-      }), 'requestId', fromPartial({}));
+      const action = loadVisitsOverview.fulfilled(
+        fromPartial({
+          nonOrphanVisits: { total: 100 },
+        }),
+        'requestId',
+        fromPartial({}),
+      );
       const result = reducer(state({ status: 'loading' }), action);
 
-      expect(result).toEqual(expect.objectContaining({
-        status: 'loaded',
-        nonOrphanVisits: expect.objectContaining({ total: 100 }),
-      }));
+      expect(result).toEqual(
+        expect.objectContaining({
+          status: 'loaded',
+          nonOrphanVisits: expect.objectContaining({ total: 100 }),
+        }),
+      );
     });
 
     it.each([
@@ -59,10 +65,12 @@ describe('visitsOverviewReducer', () => {
         ]),
       );
 
-      expect(result).toEqual(expect.objectContaining({
-        nonOrphanVisits: expect.objectContaining({ total: 102 }),
-        orphanVisits: expect.objectContaining({ total: expectedOrphanVisitsCount }),
-      }));
+      expect(result).toEqual(
+        expect.objectContaining({
+          nonOrphanVisits: expect.objectContaining({ total: 102 }),
+          orphanVisits: expect.objectContaining({ total: expectedOrphanVisitsCount }),
+        }),
+      );
     });
 
     it.each([
@@ -90,33 +98,33 @@ describe('visitsOverviewReducer', () => {
         { total: 103, nonBots: 57 } satisfies Partial<ShlinkVisitsSummary>,
         { total: 203, nonBots: 101 } satisfies Partial<ShlinkVisitsSummary>,
       ],
-    ])('takes bots and non-bots into consideration when creating visits', (
-      initialNonOrphanVisits,
-      initialOrphanVisits,
-      expectedNonOrphanVisits,
-      expectedOrphanVisits,
-    ) => {
-      const result = reducer(
-        state({
-          status: 'loaded',
-          nonOrphanVisits: { total: 100, bots: 0, nonBots: 0, ...initialNonOrphanVisits },
-          orphanVisits: { total: 200, bots: 0, nonBots: 0, ...initialOrphanVisits },
-        }),
-        createNewVisits([
-          fromPartial({ visit: {} }),
-          fromPartial({ visit: { potentialBot: true } }),
-          fromPartial({ visit: { potentialBot: true } }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
-          fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url', potentialBot: true }) }),
-        ]),
-      );
+    ])(
+      'takes bots and non-bots into consideration when creating visits',
+      (initialNonOrphanVisits, initialOrphanVisits, expectedNonOrphanVisits, expectedOrphanVisits) => {
+        const result = reducer(
+          state({
+            status: 'loaded',
+            nonOrphanVisits: { total: 100, bots: 0, nonBots: 0, ...initialNonOrphanVisits },
+            orphanVisits: { total: 200, bots: 0, nonBots: 0, ...initialOrphanVisits },
+          }),
+          createNewVisits([
+            fromPartial({ visit: {} }),
+            fromPartial({ visit: { potentialBot: true } }),
+            fromPartial({ visit: { potentialBot: true } }),
+            fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
+            fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url' }) }),
+            fromPartial({ visit: fromPartial<ShlinkOrphanVisit>({ type: 'base_url', potentialBot: true }) }),
+          ]),
+        );
 
-      expect(result).toEqual(expect.objectContaining({
-        nonOrphanVisits: expect.objectContaining(expectedNonOrphanVisits),
-        orphanVisits: expect.objectContaining(expectedOrphanVisits),
-      }));
-    });
+        expect(result).toEqual(
+          expect.objectContaining({
+            nonOrphanVisits: expect.objectContaining(expectedNonOrphanVisits),
+            orphanVisits: expect.objectContaining(expectedOrphanVisits),
+          }),
+        );
+      },
+    );
   });
 
   describe('loadVisitsOverview', () => {

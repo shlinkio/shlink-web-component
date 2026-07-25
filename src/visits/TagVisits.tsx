@@ -17,37 +17,39 @@ export type TagVisitsProps = {
   ReportExporter: ReportExporter;
 };
 
-const TagVisitsBase = boundToMercureHub<TagVisitsProps>((
-  { ColorGenerator: colorGenerator, ReportExporter: reportExporter },
-) => {
-  const { domainsList } = useDomainsList();
-  const { tag = '' } = useParams();
-  const { getTagVisits, tagVisits, cancelGetTagVisits } = useTagVisits();
-  const loadVisits = useCallback(
-    (params: VisitsParams, options: GetVisitsOptions) => getTagVisits({
-      tag,
-      params,
-      options,
-      domain: params.filter?.domain,
-    }),
-    [getTagVisits, tag],
-  );
-  const exportCsv = useCallback(
-    (visits: NormalizedVisit[]) => reportExporter.exportVisits(`tag_${tag}_visits.csv`, visits),
-    [reportExporter, tag],
-  );
+const TagVisitsBase = boundToMercureHub<TagVisitsProps>(
+  ({ ColorGenerator: colorGenerator, ReportExporter: reportExporter }) => {
+    const { domainsList } = useDomainsList();
+    const { tag = '' } = useParams();
+    const { getTagVisits, tagVisits, cancelGetTagVisits } = useTagVisits();
+    const loadVisits = useCallback(
+      (params: VisitsParams, options: GetVisitsOptions) =>
+        getTagVisits({
+          tag,
+          params,
+          options,
+          domain: params.filter?.domain,
+        }),
+      [getTagVisits, tag],
+    );
+    const exportCsv = useCallback(
+      (visits: NormalizedVisit[]) => reportExporter.exportVisits(`tag_${tag}_visits.csv`, visits),
+      [reportExporter, tag],
+    );
 
-  return (
-    <VisitsStats
-      getVisits={loadVisits}
-      cancelGetVisits={cancelGetTagVisits}
-      visitsInfo={tagVisits}
-      exportCsv={exportCsv}
-      domains={domainsList.domains}
-    >
-      <TagVisitsHeader tagVisits={tagVisits} colorGenerator={colorGenerator} />
-    </VisitsStats>
-  );
-}, () => [Topics.visits]);
+    return (
+      <VisitsStats
+        getVisits={loadVisits}
+        cancelGetVisits={cancelGetTagVisits}
+        visitsInfo={tagVisits}
+        exportCsv={exportCsv}
+        domains={domainsList.domains}
+      >
+        <TagVisitsHeader tagVisits={tagVisits} colorGenerator={colorGenerator} />
+      </VisitsStats>
+    );
+  },
+  () => [Topics.visits],
+);
 
 export const TagVisits = withDependencies(TagVisitsBase, ['ColorGenerator', 'ReportExporter']);

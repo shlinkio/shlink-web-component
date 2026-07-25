@@ -28,7 +28,8 @@ describe('VisitsParser', () => {
       },
     }),
     fromPartial({
-      userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+      userAgent:
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
       potentialBot: false,
       visitedUrl: 'foo',
       visitLocation: {
@@ -37,7 +38,8 @@ describe('VisitsParser', () => {
       },
     }),
     fromPartial({
-      userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+      userAgent:
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
       referer: 'https://m.facebook.com',
       potentialBot: false,
       visitedUrl: 'foo',
@@ -49,7 +51,8 @@ describe('VisitsParser', () => {
       },
     }),
     fromPartial({
-      userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41',
+      userAgent:
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41',
       potentialBot: true,
     }),
   ];
@@ -75,7 +78,8 @@ describe('VisitsParser', () => {
     fromPartial({
       type: 'invalid_short_url',
       visitedUrl: 'bar',
-      userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+      userAgent:
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
       referer: 'https://m.facebook.com',
       visitLocation: {
         countryName: 'Spain',
@@ -205,7 +209,8 @@ describe('VisitsParser', () => {
           potentialBot: false,
         },
         {
-          userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+          userAgent:
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
           browser: 'Chrome',
           os: 'Linux',
           referer: 'Direct',
@@ -219,7 +224,8 @@ describe('VisitsParser', () => {
           visitedUrl: 'foo',
         },
         {
-          userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+          userAgent:
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
           browser: 'Chrome',
           os: 'Linux',
           referer: 'm.facebook.com',
@@ -233,7 +239,8 @@ describe('VisitsParser', () => {
           visitedUrl: 'foo',
         },
         {
-          userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41',
+          userAgent:
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41',
           browser: 'Opera',
           os: 'Linux',
           referer: 'Direct',
@@ -281,7 +288,8 @@ describe('VisitsParser', () => {
           potentialBot: true,
         },
         {
-          userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+          userAgent:
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
           browser: 'Chrome',
           os: 'Linux',
           referer: 'm.facebook.com',

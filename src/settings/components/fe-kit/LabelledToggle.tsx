@@ -3,10 +3,11 @@ import { Label, ToggleSwitch } from '@shlinkio/shlink-frontend-kit';
 import type { FC, PropsWithChildren } from 'react';
 import { Muted } from '../../../utils/components/Muted';
 
-export type LabelledToggleProps = ToggleSwitchProps & PropsWithChildren<{
-  helpText?: RequiredReactNode;
-  'data-testid'?: string
-}>;
+export type LabelledToggleProps = ToggleSwitchProps &
+  PropsWithChildren<{
+    helpText?: RequiredReactNode;
+    'data-testid'?: string;
+  }>;
 
 export const LabelledToggle: FC<LabelledToggleProps> = ({ children, helpText, 'data-testid': testId, ...rest }) => {
   return (

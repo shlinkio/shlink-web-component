@@ -3,9 +3,8 @@ import { VisitsSectionWithFallback } from '../../../src/visits/helpers/VisitsSec
 import { checkAccessibility } from '../../__helpers__/accessibility';
 
 describe('<VisitsSectionWithFallback />', () => {
-  const setUp = (showFallback: boolean) => render(
-    <VisitsSectionWithFallback showFallback={showFallback}>The children</VisitsSectionWithFallback>,
-  );
+  const setUp = (showFallback: boolean) =>
+    render(<VisitsSectionWithFallback showFallback={showFallback}>The children</VisitsSectionWithFallback>);
 
   it.each([[true], [false]])('passes a11y checks', (showFallback) => checkAccessibility(setUp(showFallback)));
 

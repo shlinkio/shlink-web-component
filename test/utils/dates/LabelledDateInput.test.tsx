@@ -7,9 +7,8 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<LabelledDateInput />', () => {
-  const setUp = ({ label = 'The date', ...props }: Partial<LabelledDateInputProps> = {}) => renderWithEvents(
-    <LabelledDateInput {...fromPartial(props)} label={label} />,
-  );
+  const setUp = ({ label = 'The date', ...props }: Partial<LabelledDateInputProps> = {}) =>
+    renderWithEvents(<LabelledDateInput {...fromPartial(props)} label={label} />);
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

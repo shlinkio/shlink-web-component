@@ -58,18 +58,22 @@ export const ManageDomains: FC = () => {
           </Result>
         ) : (
           <SimpleCard className="card">
-            <Table header={
-              <Table.Row>
-                {headers.map((column, index) => (
-                  <Table.Cell key={index}>
-                    <span className={column.isHidden ? 'sr-only' : undefined}>{column.value}</span>
-                  </Table.Cell>
-                ))}
-              </Table.Row>
-            }>
+            <Table
+              header={
+                <Table.Row>
+                  {headers.map((column, index) => (
+                    <Table.Cell key={index}>
+                      <span className={column.isHidden ? 'sr-only' : undefined}>{column.value}</span>
+                    </Table.Cell>
+                  ))}
+                </Table.Row>
+              }
+            >
               {domains.length < 1 && (
                 <Table.Row>
-                  <Table.Cell colSpan={headers.length} className="text-center">No results found</Table.Cell>
+                  <Table.Cell colSpan={headers.length} className="text-center">
+                    No results found
+                  </Table.Cell>
                 </Table.Row>
               )}
               {domains.map((domain) => (

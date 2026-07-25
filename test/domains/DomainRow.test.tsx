@@ -14,25 +14,26 @@ describe('<DomainRow />', () => {
     [fromPartial<ShlinkDomainRedirects>({ invalidShortUrlRedirect: 'bar' })],
     [fromPartial<ShlinkDomainRedirects>({ baseUrlRedirect: 'baz', regular404Redirect: 'foo' })],
     [
-      fromPartial<ShlinkDomainRedirects>(
-        { baseUrlRedirect: 'baz', regular404Redirect: 'bar', invalidShortUrlRedirect: 'foo' },
-      ),
+      fromPartial<ShlinkDomainRedirects>({
+        baseUrlRedirect: 'baz',
+        regular404Redirect: 'bar',
+        invalidShortUrlRedirect: 'foo',
+      }),
     ],
   ];
-  const setUp = (domain: Domain, defaultRedirects?: ShlinkDomainRedirects) => renderWithStore(
-    <MemoryRouter>
-      {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
-      <Card>
-        <Table header={<></>}>
-          <DomainRow domain={domain} defaultRedirects={defaultRedirects} checkDomainHealth={vi.fn()} />
-        </Table>
-      </Card>
-    </MemoryRouter>,
-  );
+  const setUp = (domain: Domain, defaultRedirects?: ShlinkDomainRedirects) =>
+    renderWithStore(
+      <MemoryRouter>
+        {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
+        <Card>
+          <Table header={<></>}>
+            <DomainRow domain={domain} defaultRedirects={defaultRedirects} checkDomainHealth={vi.fn()} />
+          </Table>
+        </Card>
+      </MemoryRouter>,
+    );
 
-  it('passes a11y checks', () => checkAccessibility(
-    setUp(fromPartial({ domain: 'domain', isDefault: true })),
-  ));
+  it('passes a11y checks', () => checkAccessibility(setUp(fromPartial({ domain: 'domain', isDefault: true }))));
 
   it.each(redirectsCombinations)('shows expected redirects', (redirects) => {
     setUp(fromPartial({ domain: '', isDefault: true, redirects }));
@@ -49,10 +50,7 @@ describe('<DomainRow />', () => {
     expect(screen.queryByText('(as fallback)')).not.toBeInTheDocument();
   });
 
-  it.each([
-    [undefined],
-    [fromPartial<ShlinkDomainRedirects>({})],
-  ])('shows expected "no redirects"', (redirects) => {
+  it.each([[undefined], [fromPartial<ShlinkDomainRedirects>({})]])('shows expected "no redirects"', (redirects) => {
     setUp(fromPartial({ domain: '', isDefault: true, redirects }));
 
     expect(screen.getAllByRole('cell', { name: 'No redirect' })).toHaveLength(3);

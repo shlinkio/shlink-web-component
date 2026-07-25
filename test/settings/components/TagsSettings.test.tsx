@@ -8,11 +8,12 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<TagsSettings />', () => {
   const setTagsSettings = vi.fn();
-  const setUp = (tags?: TagsSettingsOptions) => renderWithEvents(
-    <SettingsProvider value={fromPartial({ tags })}>
-      <TagsSettings onChange={setTagsSettings} />
-    </SettingsProvider>,
-  );
+  const setUp = (tags?: TagsSettingsOptions) =>
+    renderWithEvents(
+      <SettingsProvider value={fromPartial({ tags })}>
+        <TagsSettings onChange={setTagsSettings} />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

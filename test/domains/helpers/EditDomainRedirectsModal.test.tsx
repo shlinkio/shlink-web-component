@@ -14,10 +14,8 @@ describe('<EditDomainRedirectsModal />', () => {
     domain: 'foo.com',
     redirects: { baseUrlRedirect: 'baz' },
   });
-  const setUp = () => renderWithStore(
-    <EditDomainRedirectsModal domain={domain} isOpen onClose={onClose} />,
-    { apiClientFactory },
-  );
+  const setUp = () =>
+    renderWithStore(<EditDomainRedirectsModal domain={domain} isOpen onClose={onClose} />, { apiClientFactory });
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

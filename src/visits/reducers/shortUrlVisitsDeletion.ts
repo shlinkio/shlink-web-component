@@ -19,9 +19,11 @@ const initialState: ShortUrlVisitsDeletion = {
 
 export const deleteShortUrlVisitsThunk = createAsyncThunk(
   `${REDUCER_PREFIX}/deleteShortUrlVisits`,
-  async (
-    { shortCode, domain, apiClientFactory }: WithApiClient<ShlinkShortUrlIdentifier>,
-  ): Promise<DeleteVisitsResult> => {
+  async ({
+    shortCode,
+    domain,
+    apiClientFactory,
+  }: WithApiClient<ShlinkShortUrlIdentifier>): Promise<DeleteVisitsResult> => {
     const result = await apiClientFactory().deleteShortUrlVisits({ shortCode, domain });
     return { ...result, shortCode, domain };
   },
@@ -33,9 +35,10 @@ export const { reducer: shortUrlVisitsDeletionReducer } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(deleteShortUrlVisitsThunk.pending, () => ({ status: 'deleting' }));
-    builder.addCase(deleteShortUrlVisitsThunk.rejected, (_, { error }) => (
-      { status: 'error', error: parseApiError(error) }
-    ));
+    builder.addCase(deleteShortUrlVisitsThunk.rejected, (_, { error }) => ({
+      status: 'error',
+      error: parseApiError(error),
+    }));
     builder.addCase(deleteShortUrlVisitsThunk.fulfilled, (_, { payload }) => {
       const { shortCode, domain, deletedVisits } = payload;
       return { status: 'deleted', shortCode, domain, deletedVisits };

@@ -11,6 +11,8 @@ export type VisitsForComparisonLoaded = {
   params?: VisitsParams;
 };
 
-export type VisitsComparisonInfo = VisitsLoadingInfo | (VisitsForComparisonLoaded & {
-  status: 'loaded';
-});
+export type VisitsComparisonInfo =
+  | VisitsLoadingInfo
+  | (VisitsForComparisonLoaded & {
+      status: 'loaded';
+    });

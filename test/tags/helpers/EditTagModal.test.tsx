@@ -10,19 +10,20 @@ import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerato
 describe('<EditTagModal />', () => {
   const editTag = vi.fn().mockReturnValue(Promise.resolve());
   const onClose = vi.fn();
-  const setUp = (tagEdit: Partial<TagEdition> = {}) => renderWithStore(
-    <ContainerProvider
-      value={fromPartial({
-        apiClientFactory: () => fromPartial({ editTag }),
-        ColorGenerator: colorGeneratorMock,
-      })}
-    >
-      <EditTagModal tag="foo" isOpen onClose={onClose} />
-    </ContainerProvider>,
-    {
-      initialState: { tagEdit: fromPartial<TagEdition>(tagEdit) },
-    },
-  );
+  const setUp = (tagEdit: Partial<TagEdition> = {}) =>
+    renderWithStore(
+      <ContainerProvider
+        value={fromPartial({
+          apiClientFactory: () => fromPartial({ editTag }),
+          ColorGenerator: colorGeneratorMock,
+        })}
+      >
+        <EditTagModal tag="foo" isOpen onClose={onClose} />
+      </ContainerProvider>,
+      {
+        initialState: { tagEdit: fromPartial<TagEdition>(tagEdit) },
+      },
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

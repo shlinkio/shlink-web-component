@@ -1,5 +1,5 @@
 import { formatNumber } from '@shlinkio/shlink-frontend-kit';
-import { forwardRef , useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { ColorBullet } from '../../utils/components/ColorBullet';
 import type { VisitsList } from './LineChartCard';
 import { visitsListColor } from './LineChartCard';
@@ -19,7 +19,9 @@ export const LineChartLegend = forwardRef<HTMLUListElement, LineChartLegendProps
       {entries.map(([value, list], index) => (
         <li className="inline" key={`${value}${index}`}>
           <ColorBullet color={visitsListColor(list)} />
-          <strong>{value} ({formatNumber(list.length)})</strong>
+          <strong>
+            {value} ({formatNumber(list.length)})
+          </strong>
         </li>
       ))}
     </ul>

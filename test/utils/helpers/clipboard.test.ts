@@ -14,20 +14,20 @@ describe('clipboard', () => {
     expect(onCopy).not.toHaveBeenCalled();
   });
 
-  it.each([
-    defaultText,
-    Promise.resolve(defaultText),
-  ])('invokes callback with true when copying succeeds', async (text) => {
-    await copyToClipboard({ text, onCopy }, navigator);
-    expect(onCopy).toHaveBeenCalledWith({ text: defaultText, copied: true });
-  });
+  it.each([defaultText, Promise.resolve(defaultText)])(
+    'invokes callback with true when copying succeeds',
+    async (text) => {
+      await copyToClipboard({ text, onCopy }, navigator);
+      expect(onCopy).toHaveBeenCalledWith({ text: defaultText, copied: true });
+    },
+  );
 
-  it.each([
-    defaultText,
-    Promise.resolve(defaultText),
-  ])('invokes callback with false when copying fails', async (text) => {
-    writeText.mockRejectedValue(undefined);
-    await copyToClipboard({ text, onCopy }, navigator);
-    expect(onCopy).toHaveBeenCalledWith({ text: defaultText, copied: false });
-  });
+  it.each([defaultText, Promise.resolve(defaultText)])(
+    'invokes callback with false when copying fails',
+    async (text) => {
+      writeText.mockRejectedValue(undefined);
+      await copyToClipboard({ text, onCopy }, navigator);
+      expect(onCopy).toHaveBeenCalledWith({ text: defaultText, copied: false });
+    },
+  );
 });

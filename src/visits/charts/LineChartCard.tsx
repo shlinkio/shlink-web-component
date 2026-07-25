@@ -101,30 +101,21 @@ const determineInitialStep = (visitsGroups: Record<string, NormalizedVisit[]>): 
   return conditions.find(([matcher]) => matcher())?.[1] ?? 'monthly';
 };
 
-const countVisitsByDatePerGroup = (
-  step: Step,
-  visitsGroups: Record<string, NormalizedVisit[]>,
-) => Object.keys(visitsGroups).reduce<Record<string, Stats>>((countGroups, key) => {
-
-  countGroups[key] = countBy(
-    visitsGroups[key],
-    (visit) => STEP_TO_DATE_FORMAT[step](parseISO(visit.date)),
-  );
-  return countGroups;
-}, {});
+const countVisitsByDatePerGroup = (step: Step, visitsGroups: Record<string, NormalizedVisit[]>) =>
+  Object.keys(visitsGroups).reduce<Record<string, Stats>>((countGroups, key) => {
+    countGroups[key] = countBy(visitsGroups[key], (visit) => STEP_TO_DATE_FORMAT[step](parseISO(visit.date)));
+    return countGroups;
+  }, {});
 
 const visitsToDatasetGroups = (step: Step, visits: NormalizedVisit[]): Record<string, NormalizedVisit[]> =>
-  visits.reduce<Record<string, NormalizedVisit[]>>(
-    (acc, visit) => {
-      const key = STEP_TO_DATE_FORMAT[step](parseISO(visit.date));
+  visits.reduce<Record<string, NormalizedVisit[]>>((acc, visit) => {
+    const key = STEP_TO_DATE_FORMAT[step](parseISO(visit.date));
 
-      acc[key] = acc[key] ?? [];
-      acc[key].push(visit);
+    acc[key] = acc[key] ?? [];
+    acc[key].push(visit);
 
-      return acc;
-    },
-    {},
-  );
+    return acc;
+  }, {});
 
 const datesWithNoGaps = (step: Step, visitsGroups: Record<string, NormalizedVisit[]>): ChartPayloadEntry[] => {
   const nonEmptyVisitsLists = Object.values(visitsGroups)
@@ -174,10 +165,8 @@ export const visitsListColor = (v: VisitsList) => {
   return v.type ? typeColorMap[v.type] : brandColor();
 };
 
-const useVisitsWithType = (visitsGroups: Record<string, VisitsList>, type: VisitsList['type']) => useMemo(
-  () => Object.values(visitsGroups).find((g) => g.type === type) ?? [],
-  [visitsGroups, type],
-);
+const useVisitsWithType = (visitsGroups: Record<string, VisitsList>, type: VisitsList['type']) =>
+  useMemo(() => Object.values(visitsGroups).find((g) => g.type === type) ?? [], [visitsGroups, type]);
 
 const useActiveDot = (
   visitsGroups: Record<string, VisitsList>,
@@ -192,15 +181,20 @@ const useActiveDot = (
     () => (setSelectedVisits ? visitsToDatasetGroups(step, mainVisits) : {}),
     [setSelectedVisits, step, mainVisits],
   );
-  const onDotClick = useCallback((_: any, { payload }: { payload: ChartPayloadEntry }) => {
-    const visitsToHighlight = datasetsByPoint[payload.formattedDate] ?? [];
-    setSelectedVisits?.(visitsToHighlight === highlightedVisits ? [] : visitsToHighlight);
-  }, [datasetsByPoint, highlightedVisits, setSelectedVisits]);
+  const onDotClick = useCallback(
+    (_: any, { payload }: { payload: ChartPayloadEntry }) => {
+      const visitsToHighlight = datasetsByPoint[payload.formattedDate] ?? [];
+      setSelectedVisits?.(visitsToHighlight === highlightedVisits ? [] : visitsToHighlight);
+    },
+    [datasetsByPoint, highlightedVisits, setSelectedVisits],
+  );
 
-  return setSelectedVisits && {
-    cursor: 'pointer',
-    onClick: onDotClick as any,
-  };
+  return (
+    setSelectedVisits && {
+      cursor: 'pointer',
+      onClick: onDotClick as any,
+    }
+  );
 };
 
 export type LineChartCardProps = {
@@ -214,9 +208,12 @@ export type LineChartCardProps = {
   matchMedia?: MediaMatcher;
 };
 
-export const LineChartCard: FC<LineChartCardProps> = (
-  { visitsGroups, setSelectedVisits, matchMedia, onDateRangeChange },
-) => {
+export const LineChartCard: FC<LineChartCardProps> = ({
+  visitsGroups,
+  setSelectedVisits,
+  matchMedia,
+  onDateRangeChange,
+}) => {
   const [step, setStep] = useState<Step>(determineInitialStep(visitsGroups));
   const isMobile = useMaxResolution(767, matchMedia ?? window.matchMedia);
 
@@ -242,6 +239,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
 
   useLayoutEffect(() => {
     if (!isExpanded) {
+      // oxlint-disable-next-line react/react-compiler
       setWrapperHeight(isMobile ? 300 : 400);
       return () => {};
     }
@@ -271,18 +269,24 @@ export const LineChartCard: FC<LineChartCardProps> = (
     setSelectionStart(undefined);
     setSelectionEnd(undefined);
   }, []);
-  const resolveSelectionStart: CategoricalChartFunc = useCallback((e, mouseEvent) => {
-    const payload = e.activeIndex && chartData[e.activeIndex as number];
-    if ((mouseEvent as unknown as MouseEvent).button === 0 && payload) {
-      setSelectionStart(payload);
-    }
-  }, [chartData]);
-  const resolveSelectionEnd: CategoricalChartFunc = useCallback((e) => {
-    const payload = e.activeIndex && chartData[e.activeIndex as number];
-    if (selectionStart && payload) {
-      setSelectionEnd(payload);
-    }
-  }, [chartData, selectionStart]);
+  const resolveSelectionStart: CategoricalChartFunc = useCallback(
+    (e, mouseEvent) => {
+      const payload = e.activeIndex && chartData[e.activeIndex as number];
+      if ((mouseEvent as unknown as MouseEvent).button === 0 && payload) {
+        setSelectionStart(payload);
+      }
+    },
+    [chartData],
+  );
+  const resolveSelectionEnd: CategoricalChartFunc = useCallback(
+    (e) => {
+      const payload = e.activeIndex && chartData[e.activeIndex as number];
+      if (selectionStart && payload) {
+        setSelectionEnd(payload);
+      }
+    },
+    [chartData, selectionStart],
+  );
   const updateDateRange = useCallback(() => {
     if (!selectionStart || !selectionEnd) {
       resetSelection();
@@ -299,10 +303,7 @@ export const LineChartCard: FC<LineChartCardProps> = (
   }, [onDateRangeChange, resetSelection, selectionEnd, selectionStart]);
 
   return (
-    <Card
-      className={clsx({ 'fixed top-0 bottom-0 left-0 right-0 z-1030': isExpanded })}
-      data-testid="line-chart-card"
-    >
+    <Card className={clsx({ 'fixed top-0 bottom-0 left-0 right-0 z-1030': isExpanded })} data-testid="line-chart-card">
       <Card.Header role="heading" aria-level={4} className="flex justify-between items-center">
         Visits over time
         <div className="flex content-center gap-1">
@@ -345,18 +346,21 @@ export const LineChartCard: FC<LineChartCardProps> = (
             <YAxis tickFormatter={formatNumber} yAxisId="1" />
             <Tooltip formatter={chartTooltipFormatter} {...CHART_TOOLTIP_COMMON_PROPS} />
             <CartesianGrid strokeOpacity={isDarkThemeEnabled() ? 0.1 : 0.9} />
-            {Object.entries(visitsGroups).map(([dataKey, v]) => v.length > 0 && (
-              <Line
-                yAxisId="1"
-                key={dataKey}
-                dataKey={dataKey}
-                type="monotone"
-                stroke={visitsListColor(v)}
-                strokeWidth={2}
-                activeDot={v.type === 'previous' ? undefined : activeDot}
-                strokeDasharray={v.type === 'previous' ? '8 3' : undefined}
-              />
-            ))}
+            {Object.entries(visitsGroups).map(
+              ([dataKey, v]) =>
+                v.length > 0 && (
+                  <Line
+                    yAxisId="1"
+                    key={dataKey}
+                    dataKey={dataKey}
+                    type="monotone"
+                    stroke={visitsListColor(v)}
+                    strokeWidth={2}
+                    activeDot={v.type === 'previous' ? undefined : activeDot}
+                    strokeDasharray={v.type === 'previous' ? '8 3' : undefined}
+                  />
+                ),
+            )}
 
             {selectionStart && selectionEnd && (
               <ReferenceArea yAxisId="1" x1={selectionStart.formattedDate} x2={selectionEnd.formattedDate} />

@@ -17,10 +17,7 @@ export const QrCodeFormatSettings: FC<QrCodeFormatSettingsProps> = ({ onChange }
   return (
     <SimpleCard title="Format" className="card" bodyClassName="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <QrFormatDropdown
-          format={format}
-          onChange={(format) => onChange({ ...qrCodesSettings, format })}
-        />
+        <QrFormatDropdown format={format} onChange={(format) => onChange({ ...qrCodesSettings, format })} />
         <Muted size="sm">
           When downloading a QR code, it will use <b data-testid="format">{format}</b> format by default.
         </Muted>

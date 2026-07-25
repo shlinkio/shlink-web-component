@@ -49,10 +49,12 @@ export const createLoadVisitsForComparison = ({
   return async (query: NonPageVisitsParams): Promise<Record<string, ShlinkVisit[]>> => {
     // TODO Every loadVisits has a built-in batching logic, which is more or less "optimized" here by provided batchSize
     //      However, this Promise.all(...) may also need some batching if a large list of items is passed.
-    const visitsEntries = await Promise.all(loadVisitsEntries.map(async ([key, loadVisits]) => {
-      const visits = await loadVisits(query);
-      return [key, visits];
-    }));
+    const visitsEntries = await Promise.all(
+      loadVisitsEntries.map(async ([key, loadVisits]) => {
+        const visits = await loadVisits(query);
+        return [key, visits];
+      }),
+    );
 
     return Object.fromEntries(visitsEntries);
   };

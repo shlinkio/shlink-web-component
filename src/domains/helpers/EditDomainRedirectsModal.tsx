@@ -17,12 +17,12 @@ const FormGroup: FC<FormGroupProps> = ({ children, onChange, infoTitle, ...rest 
   <LabelledInput
     {...rest}
     onChange={(e) => onChange(e.target.value)}
-    label={(
+    label={
       <>
         <FontAwesomeIcon className="mr-1.5" icon={infoIcon} title={infoTitle} />
         {children}
       </>
-    )}
+    }
     type="url"
     placeholder="No redirect"
   />
@@ -60,6 +60,7 @@ export const EditDomainRedirectsModal: FC<EditDomainRedirectsModalProps> = ({ is
         setSaving(false);
       }
     },
+    // oxlint-disable-next-line react/react-compiler
     [editDomainRedirects, domain.domain, baseUrlRedirect, regular404Redirect, invalidShortUrlRedirect, onClose],
   );
 

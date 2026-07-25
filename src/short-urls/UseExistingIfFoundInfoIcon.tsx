@@ -1,6 +1,6 @@
 import { faInfoCircle as infoIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CardModal,useToggle  } from '@shlinkio/shlink-frontend-kit';
+import { CardModal, useToggle } from '@shlinkio/shlink-frontend-kit';
 import { UnstyledButton } from '../utils/components/UnstyledButton';
 
 const InfoModal = (props: { open: boolean; onClose: () => void }) => (
@@ -8,16 +8,15 @@ const InfoModal = (props: { open: boolean; onClose: () => void }) => (
     <div className="flex flex-col gap-y-2">
       <p>
         When the&nbsp;
-        <b><i>&quot;Use existing URL if found&quot;</i></b>
+        <b>
+          <i>&quot;Use existing URL if found&quot;</i>
+        </b>
         &nbsp;checkbox is checked, the server will return an existing short URL if it matches provided params.
       </p>
-      <p>
-        These are the checks performed by Shlink in order to determine if an existing short URL should be returned:
-      </p>
+      <p>These are the checks performed by Shlink in order to determine if an existing short URL should be returned:</p>
       <ul className="list-disc pl-5">
         <li>
-          When only the long URL is provided: The most recent match will be returned, or a new short URL will be
-          created
+          When only the long URL is provided: The most recent match will be returned, or a new short URL will be created
           if none is found.
         </li>
         <li>

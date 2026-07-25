@@ -8,9 +8,12 @@ export type ShortUrlFormCheckboxGroupProps = PropsWithChildren<{
   infoTooltip: string;
 }>;
 
-export const ShortUrlFormCheckboxGroup: FC<ShortUrlFormCheckboxGroupProps> = (
-  { children, infoTooltip, checked, onChange },
-) => (
+export const ShortUrlFormCheckboxGroup: FC<ShortUrlFormCheckboxGroupProps> = ({
+  children,
+  infoTooltip,
+  checked,
+  onChange,
+}) => (
   <div className="flex items-center gap-x-2">
     <Label className="inline-flex items-center gap-x-1.5">
       <Checkbox checked={checked} onChange={onChange} />

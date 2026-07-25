@@ -19,10 +19,13 @@ export const TagsTable: FC<TagsTableProps> = ({ sortedTags, orderByColumn, curre
   const isFirstLoad = useRef(true);
   const { page: pageFromQuery = 1 } = useParsedQuery<{ page?: number | string }>();
   const [page, setPage] = useQueryState<number>('page', Number(pageFromQuery));
-  const updatePage = useCallback((newPage: number) => {
-    setPage(newPage);
-    scrollTo(0, 0);
-  }, [setPage]);
+  const updatePage = useCallback(
+    (newPage: number) => {
+      setPage(newPage);
+      scrollTo(0, 0);
+    },
+    [setPage],
+  );
   const pages = splitEvery(sortedTags, TAGS_PER_PAGE);
   const showPaginator = pages.length > 1;
   const currentPage = pages[page - 1] ?? [];
@@ -58,10 +61,14 @@ export const TagsTable: FC<TagsTableProps> = ({ sortedTags, orderByColumn, curre
       >
         {currentPage.length === 0 && (
           <Table.Row>
-            <Table.Cell colSpan={4} className="text-center">No tags found</Table.Cell>
+            <Table.Cell colSpan={4} className="text-center">
+              No tags found
+            </Table.Cell>
           </Table.Row>
         )}
-        {currentPage.map((tag) => <TagsTableRow key={tag.tag} tag={tag} />)}
+        {currentPage.map((tag) => (
+          <TagsTableRow key={tag.tag} tag={tag} />
+        ))}
       </Table>
 
       {showPaginator && (

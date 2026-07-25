@@ -9,64 +9,59 @@ import { useUrlVisitsComparison } from './reducers/shortUrlVisitsComparison';
 import type { LoadVisitsForComparison, VisitsComparisonInfo } from './reducers/types';
 import { VisitsComparison } from './VisitsComparison';
 
-export const ShortUrlVisitsComparison = boundToMercureHub(() => {
-  const shortUrlIds = useArrayQueryParam('short-urls');
-  const identifiers = useMemo(() => shortUrlIds.map(queryToShortUrl), [shortUrlIds]);
-  const {
-    getShortUrlVisitsForComparison,
-    shortUrlVisitsComparison,
-    cancelGetShortUrlVisitsComparison,
-  } = useUrlVisitsComparison();
-  const getVisitsForComparison = useCallback(
-    (params: LoadVisitsForComparison) => getShortUrlVisitsForComparison({ ...params, shortUrls: identifiers }),
-    [getShortUrlVisitsForComparison, identifiers],
-  );
-  const { shortUrlsDetails, getShortUrlsDetails } = useUrlsDetails();
+export const ShortUrlVisitsComparison = boundToMercureHub(
+  () => {
+    const shortUrlIds = useArrayQueryParam('short-urls');
+    const identifiers = useMemo(() => shortUrlIds.map(queryToShortUrl), [shortUrlIds]);
+    const { getShortUrlVisitsForComparison, shortUrlVisitsComparison, cancelGetShortUrlVisitsComparison } =
+      useUrlVisitsComparison();
+    const getVisitsForComparison = useCallback(
+      (params: LoadVisitsForComparison) => getShortUrlVisitsForComparison({ ...params, shortUrls: identifiers }),
+      [getShortUrlVisitsForComparison, identifiers],
+    );
+    const { shortUrlsDetails, getShortUrlsDetails } = useUrlsDetails();
 
-  const shortUrls = shortUrlsDetails.status === 'loaded' ? shortUrlsDetails.shortUrls : undefined;
-  const loadedShortUrls = useMemo(() => [...shortUrls?.values() ?? []], [shortUrls]);
-  const visitsComparisonInfo = useMemo((): VisitsComparisonInfo => {
-    const { status } = shortUrlVisitsComparison;
+    const shortUrls = shortUrlsDetails.status === 'loaded' ? shortUrlsDetails.shortUrls : undefined;
+    const loadedShortUrls = useMemo(() => [...(shortUrls?.values() ?? [])], [shortUrls]);
+    const visitsComparisonInfo = useMemo((): VisitsComparisonInfo => {
+      const { status } = shortUrlVisitsComparison;
 
-    if (shortUrlsDetails.status === 'loading') {
-      const progress = status === 'loading' ? shortUrlVisitsComparison.progress : null;
-      return { status: 'loading', progress };
-    }
+      if (shortUrlsDetails.status === 'loading') {
+        const progress = status === 'loading' ? shortUrlVisitsComparison.progress : null;
+        return { status: 'loading', progress };
+      }
 
-    if (status !== 'loaded') {
-      return shortUrlVisitsComparison;
-    }
+      if (status !== 'loaded') {
+        return shortUrlVisitsComparison;
+      }
 
-    const { visitsGroups: baseVisitsGroups, ...rest } = shortUrlVisitsComparison;
-    const visitsGroups = loadedShortUrls.reduce<Record<string, ShlinkVisit[]>>(
-      (acc, shortUrl) => {
+      const { visitsGroups: baseVisitsGroups, ...rest } = shortUrlVisitsComparison;
+      const visitsGroups = loadedShortUrls.reduce<Record<string, ShlinkVisit[]>>((acc, shortUrl) => {
         acc[shortUrl.shortUrl] = baseVisitsGroups[shortUrlToQuery(shortUrl)] ?? [];
         return acc;
-      },
-      {},
+      }, {});
+
+      return { ...rest, visitsGroups };
+    }, [shortUrlVisitsComparison, shortUrlsDetails.status, loadedShortUrls]);
+
+    useEffect(() => {
+      if (identifiers.length > 0) {
+        getShortUrlsDetails(identifiers);
+      }
+    }, [getShortUrlsDetails, identifiers]);
+
+    return (
+      <VisitsComparison
+        title={
+          <span data-testid="title">
+            {shortUrlsDetails.status === 'loading' ? 'Loading...' : `Comparing ${loadedShortUrls.length} short URLs`}
+          </span>
+        }
+        getVisitsForComparison={getVisitsForComparison}
+        visitsComparisonInfo={visitsComparisonInfo}
+        cancelGetVisitsComparison={cancelGetShortUrlVisitsComparison}
+      />
     );
-
-    return { ...rest, visitsGroups };
-  }, [shortUrlVisitsComparison, shortUrlsDetails.status, loadedShortUrls]);
-
-  useEffect(() => {
-    if (identifiers.length > 0) {
-      getShortUrlsDetails(identifiers);
-    }
-  }, [getShortUrlsDetails, identifiers]);
-
-  return (
-    <VisitsComparison
-      title={(
-        <span data-testid="title">
-          {shortUrlsDetails.status === 'loading'
-            ? 'Loading...'
-            : `Comparing ${loadedShortUrls.length} short URLs`}
-        </span>
-      )}
-      getVisitsForComparison={getVisitsForComparison}
-      visitsComparisonInfo={visitsComparisonInfo}
-      cancelGetVisitsComparison={cancelGetShortUrlVisitsComparison}
-    />
-  );
-}, () => [Topics.visits]);
+  },
+  () => [Topics.visits],
+);

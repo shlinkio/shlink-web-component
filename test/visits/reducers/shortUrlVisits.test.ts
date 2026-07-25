@@ -176,14 +176,12 @@ describe('shortUrlVisitsReducer', () => {
 
   describe('getShortUrlVisits', () => {
     const dispatchMock = vi.fn();
-    const getState = () => fromPartial<RootState>({
-      shortUrlVisits: { status: 'idle' },
-    });
+    const getState = () =>
+      fromPartial<RootState>({
+        shortUrlVisits: { status: 'idle' },
+      });
 
-    it.each([
-      [undefined],
-      ['foobar.com'],
-    ])('dispatches start and success when promise is resolved', async (domain) => {
+    it.each([[undefined], ['foobar.com']])('dispatches start and success when promise is resolved', async (domain) => {
       const shortCode = 'abc123';
       const getVisitsParam = { shortCode, domain, params: {}, options: {}, apiClientFactory };
 
@@ -199,9 +197,11 @@ describe('shortUrlVisitsReducer', () => {
       await getShortUrlVisits(getVisitsParam)(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
-      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits: visitsMocks, ...getVisitsParam },
-      }));
+      expect(dispatchMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { visits: visitsMocks, ...getVisitsParam },
+        }),
+      );
       expect(getShortUrlVisitsCall).toHaveBeenCalledOnce();
     });
 
@@ -215,18 +215,24 @@ describe('shortUrlVisitsReducer', () => {
             pagesCount: expectedRequests,
             totalItems: 1,
           },
-        }));
+        }),
+      );
 
-      await getShortUrlVisits(
-        { shortCode: 'abc123', params: {}, options: {}, apiClientFactory },
-      )(dispatchMock, getState, {});
+      await getShortUrlVisits({ shortCode: 'abc123', params: {}, options: {}, apiClientFactory })(
+        dispatchMock,
+        getState,
+        {},
+      );
 
       expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(expectedRequests);
-      expect(dispatchMock).toHaveBeenNthCalledWith(3, expect.objectContaining({
-        payload: expect.objectContaining({
-          visits: [...visitsMocks, ...visitsMocks, ...visitsMocks],
+      expect(dispatchMock).toHaveBeenNthCalledWith(
+        3,
+        expect.objectContaining({
+          payload: expect.objectContaining({
+            visits: [...visitsMocks, ...visitsMocks, ...visitsMocks],
+          }),
         }),
-      }));
+      );
     });
 
     it.each([
@@ -241,31 +247,33 @@ describe('shortUrlVisitsReducer', () => {
         3,
       ],
       [[], expect.objectContaining({ type: getShortUrlVisits.fulfilled.toString() }), 2],
-    ])('dispatches fallback interval when the list of visits is empty', async (
-      lastVisits,
-      expectedSecondDispatch,
-      expectedDispatchCalls,
-    ) => {
-      const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisitsList => ({
-        data,
-        pagination: {
-          currentPage: 1,
-          pagesCount: 1,
-          totalItems: 1,
-        },
-      });
-      getShortUrlVisitsCall
-        .mockResolvedValueOnce(buildVisitsResult())
-        .mockResolvedValueOnce(buildVisitsResult(lastVisits));
+    ])(
+      'dispatches fallback interval when the list of visits is empty',
+      async (lastVisits, expectedSecondDispatch, expectedDispatchCalls) => {
+        const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisitsList => ({
+          data,
+          pagination: {
+            currentPage: 1,
+            pagesCount: 1,
+            totalItems: 1,
+          },
+        });
+        getShortUrlVisitsCall
+          .mockResolvedValueOnce(buildVisitsResult())
+          .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getShortUrlVisits(
-        { shortCode: 'abc123', params: {}, options: { doIntervalFallback: true }, apiClientFactory },
-      )(dispatchMock, getState, {});
+        await getShortUrlVisits({
+          shortCode: 'abc123',
+          params: {},
+          options: { doIntervalFallback: true },
+          apiClientFactory,
+        })(dispatchMock, getState, {});
 
-      expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
-      expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
-      expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(2);
-    });
+        expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
+        expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
+        expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(2);
+      },
+    );
 
     it.each([
       // Strict date range and loadPrevInterval: true -> prev visits are loaded
@@ -304,36 +312,39 @@ describe('shortUrlVisitsReducer', () => {
         loadPrevInterval: false,
         expectsPrevVisits: false,
       },
-    ])('returns visits from prev interval when requested and possible', async (
-      { dateRange, loadPrevInterval, expectsPrevVisits },
-    ) => {
-      const shortCode = 'abc123';
-      const getVisitsParam: WithApiClient<LoadShortUrlVisits> = {
-        shortCode,
-        params: { dateRange },
-        options: { loadPrevInterval },
-        apiClientFactory,
-      };
-      const prevVisits = expectsPrevVisits ? visitsMocks.map(
-        (visit, index) => ({ ...visit, date: dateForVisit(index + 1 + visitsMocks.length) }),
-      ) : undefined;
+    ])(
+      'returns visits from prev interval when requested and possible',
+      async ({ dateRange, loadPrevInterval, expectsPrevVisits }) => {
+        const shortCode = 'abc123';
+        const getVisitsParam: WithApiClient<LoadShortUrlVisits> = {
+          shortCode,
+          params: { dateRange },
+          options: { loadPrevInterval },
+          apiClientFactory,
+        };
+        const prevVisits = expectsPrevVisits
+          ? visitsMocks.map((visit, index) => ({ ...visit, date: dateForVisit(index + 1 + visitsMocks.length) }))
+          : undefined;
 
-      getShortUrlVisitsCall.mockResolvedValue({
-        data: visitsMocks,
-        pagination: {
-          currentPage: 1,
-          pagesCount: 1,
-          totalItems: 1,
-        },
-      });
+        getShortUrlVisitsCall.mockResolvedValue({
+          data: visitsMocks,
+          pagination: {
+            currentPage: 1,
+            pagesCount: 1,
+            totalItems: 1,
+          },
+        });
 
-      await getShortUrlVisits(getVisitsParam)(dispatchMock, getState, {});
+        await getShortUrlVisits(getVisitsParam)(dispatchMock, getState, {});
 
-      expect(dispatchMock).toHaveBeenCalledTimes(2);
-      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits: visitsMocks, prevVisits, ...getVisitsParam },
-      }));
-      expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(expectsPrevVisits ? 2 : 1);
-    });
+        expect(dispatchMock).toHaveBeenCalledTimes(2);
+        expect(dispatchMock).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            payload: { visits: visitsMocks, prevVisits, ...getVisitsParam },
+          }),
+        );
+        expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(expectsPrevVisits ? 2 : 1);
+      },
+    );
   });
 });

@@ -7,10 +7,12 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithStore } from '../../__helpers__/setUpTest';
 
 describe('<DomainVisitsComparison />', () => {
-  const getDomainVisits = vi.fn().mockResolvedValue(fromPartial<ShlinkVisitsList>({
-    data: [],
-    pagination: { pagesCount: 1, currentPage: 1, totalItems: 0 },
-  }));
+  const getDomainVisits = vi.fn().mockResolvedValue(
+    fromPartial<ShlinkVisitsList>({
+      data: [],
+      pagination: { pagesCount: 1, currentPage: 1, totalItems: 0 },
+    }),
+  );
   const setUp = async (domains = ['foo', 'bar', 'baz']) => {
     const renderResult = renderWithStore(
       <MemoryRouter initialEntries={[{ search: `?domains=${domains.join(',')}` }]}>
@@ -28,14 +30,13 @@ describe('<DomainVisitsComparison />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it.each([
-    [['foo']],
-    [['foo', 'bar']],
-    [['baz', 'something', 'whatever']],
-  ])('loads domains on mount', async (domains) => {
-    await setUp(domains);
-    expect(getDomainVisits).toHaveBeenCalledTimes(domains.length);
-  });
+  it.each([[['foo']], [['foo', 'bar']], [['baz', 'something', 'whatever']]])(
+    'loads domains on mount',
+    async (domains) => {
+      await setUp(domains);
+      expect(getDomainVisits).toHaveBeenCalledTimes(domains.length);
+    },
+  );
 
   it('cancels loading visits when unmounted', async () => {
     const { store } = await setUp();
@@ -46,14 +47,13 @@ describe('<DomainVisitsComparison />', () => {
     expect(isCanceled()).toBe(true);
   });
 
-  it.each([
-    [['foo']],
-    [['foo', 'bar']],
-    [['baz', 'something', 'whatever']],
-  ])('renders domains in title', async (domains) => {
-    const setUpPromise = setUp(domains);
-    expect(screen.getByRole('heading', { name: `Comparing "${domains.join('", "')}"` })).toBeInTheDocument();
+  it.each([[['foo']], [['foo', 'bar']], [['baz', 'something', 'whatever']]])(
+    'renders domains in title',
+    async (domains) => {
+      const setUpPromise = setUp(domains);
+      expect(screen.getByRole('heading', { name: `Comparing "${domains.join('", "')}"` })).toBeInTheDocument();
 
-    await setUpPromise;
-  });
+      await setUpPromise;
+    },
+  );
 });

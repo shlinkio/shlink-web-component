@@ -63,5 +63,5 @@ export type VisitsParams = {
 };
 
 export type HighlightableProps<T extends NormalizedVisit> = T extends NormalizedOrphanVisit
-  ? ('referer' | 'country' | 'city' | 'visitedUrl')
-  : ('referer' | 'country' | 'city');
+  ? 'referer' | 'country' | 'city' | 'visitedUrl'
+  : 'referer' | 'country' | 'city';

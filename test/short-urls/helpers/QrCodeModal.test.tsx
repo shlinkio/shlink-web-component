@@ -8,16 +8,17 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<QrCodeModal />', () => {
   const shortUrl = 'https://s.test/abc123';
-  const setUp = () => renderWithEvents(
-    <SettingsProvider value={{}}>
-      <QrCodeModal
-        isOpen
-        onClose={() => {}}
-        shortUrl={fromPartial({ shortUrl })}
-        qrDrawType="svg" // Render as SVG so that we can test certain functionalities via snapshots
-      />
-    </SettingsProvider>,
-  );
+  const setUp = () =>
+    renderWithEvents(
+      <SettingsProvider value={{}}>
+        <QrCodeModal
+          isOpen
+          onClose={() => {}}
+          shortUrl={fromPartial({ shortUrl })}
+          qrDrawType="svg" // Render as SVG so that we can test certain functionalities via snapshots
+        />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -63,7 +64,9 @@ describe('<QrCodeModal />', () => {
     {
       // Set custom logo
       applyChanges: async (user: UserEvent) => {
-        const byteCharacters = atob('iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII');
+        const byteCharacters = atob(
+          'iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII',
+        );
         const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
         const byteArray = new Uint8Array(byteNumbers);
         const logo = new File([byteArray], 'logo.png', { type: 'image/svg' });
@@ -78,11 +81,7 @@ describe('<QrCodeModal />', () => {
     expect(screen.getByTestId('qr-code-container')).toMatchSnapshot();
   });
 
-  it.each([
-    'logo.png',
-    'some-image.svg',
-    'whatever.jpg',
-  ])('allows logo to be seat and cleared', async (logoName) => {
+  it.each(['logo.png', 'some-image.svg', 'whatever.jpg'])('allows logo to be seat and cleared', async (logoName) => {
     const logo = new File([''], logoName, { type: 'image/svg' });
     const { user } = setUp();
 
@@ -109,12 +108,7 @@ describe('<QrCodeModal />', () => {
     await user.click(screen.getByRole('button', { name: /^Download/ }));
   });
 
-  it.each([
-    'png',
-    'svg',
-    'jpeg',
-    'webp',
-  ])('copies the QR data URI when clicking the Copy button', async (format) => {
+  it.each(['png', 'svg', 'jpeg', 'webp'])('copies the QR data URI when clicking the Copy button', async (format) => {
     const { user } = setUp();
     const writeText = vi.fn().mockResolvedValue(undefined);
 
@@ -128,8 +122,8 @@ describe('<QrCodeModal />', () => {
       await user.click(screen.getByRole('menuitem', { name: format }));
       // Copy to clipboard
       await user.click(screen.getByLabelText('Copy data URI'));
-      await waitFor(
-        () => expect(writeText).toHaveBeenCalledWith(expect.stringMatching(new RegExp(`^data:image/${format}`))),
+      await waitFor(() =>
+        expect(writeText).toHaveBeenCalledWith(expect.stringMatching(new RegExp(`^data:image/${format}`))),
       );
     } finally {
       vi.unstubAllGlobals();

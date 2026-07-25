@@ -7,37 +7,26 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<HighlightCard />', () => {
-  const setUp = (props: PropsWithChildren<Partial<HighlightCardProps>>) => renderWithEvents(
-    <MemoryRouter>
-      <HighlightCard link="" title="title" {...props} />
-    </MemoryRouter>,
-  );
+  const setUp = (props: PropsWithChildren<Partial<HighlightCardProps>>) =>
+    renderWithEvents(
+      <MemoryRouter>
+        <HighlightCard link="" title="title" {...props} />
+      </MemoryRouter>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp({ children: 'Something' })));
 
-  it.each([
-    ['foo'],
-    ['bar'],
-    ['baz'],
-  ])('renders provided title', (title) => {
+  it.each([['foo'], ['bar'], ['baz']])('renders provided title', (title) => {
     setUp({ title });
     expect(screen.getByRole('heading')).toHaveTextContent(title);
   });
 
-  it.each([
-    ['foo'],
-    ['bar'],
-    ['baz'],
-  ])('renders provided children', (children) => {
+  it.each([['foo'], ['bar'], ['baz']])('renders provided children', (children) => {
     setUp({ children });
     expect(screen.getByText(children)).toBeInTheDocument();
   });
 
-  it.each([
-    ['foo'],
-    ['bar'],
-    ['baz'],
-  ])('adds extra props when a link is provided', (link) => {
+  it.each([['foo'], ['bar'], ['baz']])('adds extra props when a link is provided', (link) => {
     setUp({ link });
 
     expect(screen.getByRole('img', { hidden: true })).toBeInTheDocument();

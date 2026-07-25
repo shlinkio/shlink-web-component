@@ -47,8 +47,9 @@ export const createLoadVisits = ({
 }: CreateLoadVisitsOptions) => {
   const loadVisitsInParallel = async (query: NonPageVisitsParams, pages: number[]): Promise<ShlinkVisit[]> =>
     Promise.all(
-      pages.map(async (page) => visitsLoader({ ...query, page, itemsPerPage: ITEMS_PER_PAGE })
-        .then(({ data }) => data)),
+      pages.map(async (page) =>
+        visitsLoader({ ...query, page, itemsPerPage: ITEMS_PER_PAGE }).then(({ data }) => data),
+      ),
     ).then((result) => result.flat());
 
   const loadPagesBlocks = async (
@@ -91,11 +92,9 @@ export const createLoadVisits = ({
   };
 };
 
-export const lastVisitLoaderForLoader = (
-  doIntervalFallback: boolean,
-  loader: (params: ShlinkVisitsParams) => Promise<ShlinkVisitsList>,
-): LastVisitLoader => async (excludeBots?: boolean) => (
-  !doIntervalFallback
-    ? Promise.resolve(undefined)
-    : loader({ page: 1, itemsPerPage: 1, excludeBots }).then(({ data }) => data[0])
-);
+export const lastVisitLoaderForLoader =
+  (doIntervalFallback: boolean, loader: (params: ShlinkVisitsParams) => Promise<ShlinkVisitsList>): LastVisitLoader =>
+  async (excludeBots?: boolean) =>
+    !doIntervalFallback
+      ? Promise.resolve(undefined)
+      : loader({ page: 1, itemsPerPage: 1, excludeBots }).then(({ data }) => data[0]);

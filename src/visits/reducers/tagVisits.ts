@@ -39,9 +39,10 @@ export const { reducer: tagVisitsReducer, cancelGetVisits: cancelGetTagVisits } 
   name: REDUCER_PREFIX,
   initialState: initialState as TagVisits,
   asyncThunk: getTagVisitsThunk,
-  filterCreatedVisits: (state, createdVisits) => state.status !== 'loaded'
-    ? createdVisits
-    : filterCreatedVisitsByTag(createdVisits, state.tag, state.params?.dateRange),
+  filterCreatedVisits: (state, createdVisits) =>
+    state.status !== 'loaded'
+      ? createdVisits
+      : filterCreatedVisitsByTag(createdVisits, state.tag, state.params?.dateRange),
 });
 
 export const useTagVisits = () => {

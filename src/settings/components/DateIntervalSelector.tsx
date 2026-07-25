@@ -34,12 +34,10 @@ export const DateIntervalSelector: FC<DateIntervalSelectorProps> = ({ onChange, 
       {allText}
     </Dropdown.Item>
     <Dropdown.Separator />
-    {Object.entries(INTERVAL_TO_STRING_MAP).map(
-      ([interval, name]) => (
-        <Dropdown.Item key={interval} selected={active === interval} onClick={() => onChange(interval as DateInterval)}>
-          {name}
-        </Dropdown.Item>
-      ),
-    )}
+    {Object.entries(INTERVAL_TO_STRING_MAP).map(([interval, name]) => (
+      <Dropdown.Item key={interval} selected={active === interval} onClick={() => onChange(interval as DateInterval)}>
+        {name}
+      </Dropdown.Item>
+    ))}
   </Dropdown>
 );

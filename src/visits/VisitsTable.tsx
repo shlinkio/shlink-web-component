@@ -71,76 +71,73 @@ const BotIconWithTooltip = () => {
   return (
     <>
       <FontAwesomeIcon icon={botIcon} {...anchor} />
-      <Tooltip {...tooltip}>
-        Potentially a visit from a bot or crawler
-      </Tooltip>
+      <Tooltip {...tooltip}>Potentially a visit from a bot or crawler</Tooltip>
     </>
   );
 };
 
 export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: VisitsTableProps) => {
   const [searchTerm, setSearchTerm] = useState<string>();
-  const updateSearchTerm = useCallback((newSearchTerm?: string) => {
-    setSearchTerm(newSearchTerm);
+  const [page, setPage] = useState(1);
+  const updateSearchTerm = useCallback(
+    (newSearchTerm?: string) => {
+      setSearchTerm(newSearchTerm);
 
-    // Move to first page and clear selected visits every time the search term changes
-    setPage(1);
-    setSelectedVisits([]);
-  }, [setSelectedVisits]);
+      // Move to first page and clear selected visits every time the search term changes
+      setPage(1);
+      setSelectedVisits([]);
+    },
+    [setSelectedVisits],
+  );
   const [order, setOrder] = useState<VisitsOrder>({});
   const visitsListSettings = useSetting('visitsList');
   const columns = useMemo(
-    () => mergeDeepRight(
-      defaultVisitsListColumns,
-      visitsListSettings?.columns ?? {},
-    ) as typeof defaultVisitsListColumns,
+    () =>
+      mergeDeepRight(defaultVisitsListColumns, visitsListSettings?.columns ?? {}) as typeof defaultVisitsListColumns,
     [visitsListSettings?.columns],
   );
   const paginator = useMemo(
     () => paginateVisits({ visits, searchTerm, order, searchInRawUserAgent: columns.userAgent }),
     [visits, searchTerm, order, columns.userAgent],
   );
-  const [page, setPage] = useState(1);
   const end = page * PAGE_SIZE;
   const start = end - PAGE_SIZE;
-  const showVisitedUrl = useMemo(
-    () => {
-      if (!columns.visitedUrl) {
-        return false;
-      }
+  const showVisitedUrl = useMemo(() => {
+    if (!columns.visitedUrl) {
+      return false;
+    }
 
-      return paginator.visitsGroups.length === 0 || !!paginator.visitsGroups[page - 1]?.[0]?.visitedUrl;
-    },
-    [columns.visitedUrl, page, paginator.visitsGroups],
-  );
+    return paginator.visitsGroups.length === 0 || !!paginator.visitsGroups[page - 1]?.[0]?.visitedUrl;
+  }, [columns.visitedUrl, page, paginator.visitsGroups]);
   // TODO Fix this value now that columns can be customized
   const fullSizeColSpan = 6 + Number(showVisitedUrl) + (columns.userAgent ? 1 : 2);
   const hasVisits = paginator.total > 0;
 
-  const orderByColumn = (field: OrderableFields) => setOrder(
-    determineOrder({ currentField: order.field, currentOrderDir: order.dir, newField: field }),
+  const orderByColumn = (field: OrderableFields) =>
+    setOrder(determineOrder({ currentField: order.field, currentOrderDir: order.dir, newField: field }));
+  const renderOrderIcon = (field: OrderableFields) => (
+    <TableOrderIcon currentOrder={order} field={field} className="float-right mt-[5px] ml-[5px]" />
   );
-  const renderOrderIcon = (field: OrderableFields) =>
-    <TableOrderIcon currentOrder={order} field={field} className="float-right mt-[5px] ml-[5px]" />;
 
   return (
     <SimpleCard
       // Adding a bottom padding to work around the fact that it's not possible to set border radius in internal table
       // elements, and we can also not hide the overflow of the table itself because then sticky elements get hidden
       bodyClassName="[&]:p-0 [&]:pb-1"
-      title="Visits list">
+      title="Visits list"
+    >
       <Table
         responsive={false}
         size="sm"
         className="w-full relative overflow-y-hidden bg-lm-primary dark:bg-dm-primary"
-        header={(
+        header={
           <>
             <Table.Row>
               <Table.Cell
                 className={clsx(headerCellsClass, '[&]:text-center')}
-                onClick={() => setSelectedVisits(
-                  selectedVisits.length < paginator.total ? paginator.visitsGroups.flat() : [],
-                )}
+                onClick={() =>
+                  setSelectedVisits(selectedVisits.length < paginator.total ? paginator.visitsGroups.flat() : [])
+                }
               >
                 <span className="sr-only">Is selected</span>
                 <FontAwesomeIcon
@@ -219,25 +216,26 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
               </Table.Cell>
             </Table.Row>
           </>
-        )}
-        footer={paginator.total > PAGE_SIZE ? (
-          <Table.Row>
-            <Table.Cell type="td" colSpan={fullSizeColSpan} className="md:sticky-cell-separated bottom-0">
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4 p-1">
-                <Paginator
-                  pagesCount={Math.ceil(paginator.total / PAGE_SIZE)}
-                  currentPage={page}
-                  onPageChange={setPage}
-                />
-                <div>
-                  Visits <b>{formatNumber(start + 1)}</b> to{' '}
-                  <b>{formatNumber(Math.min(end, paginator.total))}</b> of{' '}
-                  <b>{formatNumber(paginator.total)}</b>
+        }
+        footer={
+          paginator.total > PAGE_SIZE ? (
+            <Table.Row>
+              <Table.Cell type="td" colSpan={fullSizeColSpan} className="md:sticky-cell-separated bottom-0">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4 p-1">
+                  <Paginator
+                    pagesCount={Math.ceil(paginator.total / PAGE_SIZE)}
+                    currentPage={page}
+                    onPageChange={setPage}
+                  />
+                  <div>
+                    Visits <b>{formatNumber(start + 1)}</b> to <b>{formatNumber(Math.min(end, paginator.total))}</b> of{' '}
+                    <b>{formatNumber(paginator.total)}</b>
+                  </div>
                 </div>
-              </div>
-            </Table.Cell>
-          </Table.Row>
-        ) : undefined}
+              </Table.Cell>
+            </Table.Row>
+          ) : undefined
+        }
       >
         {!hasVisits && (
           <Table.Row>
@@ -252,23 +250,28 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
           return (
             <Table.Row
               key={index}
-              className={clsx('cursor-pointer', isSelected && [
-                'bg-lm-table-highlight hover:[&]:bg-lm-table-highlight',
-                'dark:bg-dm-table-highlight dark:hover:[&]:bg-dm-table-highlight',
-              ])}
-              onClick={() => setSelectedVisits(
-                isSelected ? selectedVisits.filter((v) => v !== visit) : [...selectedVisits, visit],
+              className={clsx(
+                'cursor-pointer',
+                isSelected && [
+                  'bg-lm-table-highlight hover:[&]:bg-lm-table-highlight',
+                  'dark:bg-dm-table-highlight dark:hover:[&]:bg-dm-table-highlight',
+                ],
               )}
+              onClick={() =>
+                setSelectedVisits(isSelected ? selectedVisits.filter((v) => v !== visit) : [...selectedVisits, visit])
+              }
             >
               <Table.Cell className="text-center">
                 {isSelected && <FontAwesomeIcon icon={checkIcon} className="text-lm-brand dark:text-dm-brand" />}
               </Table.Cell>
               {columns.potentialBot && (
-                <Table.Cell className="text-center">
-                  {visit.potentialBot && <BotIconWithTooltip />}
+                <Table.Cell className="text-center">{visit.potentialBot && <BotIconWithTooltip />}</Table.Cell>
+              )}
+              {columns.date && (
+                <Table.Cell>
+                  <Time date={visit.date} />
                 </Table.Cell>
               )}
-              {columns.date && <Table.Cell><Time date={visit.date} /></Table.Cell>}
               {columns.country && <Table.Cell>{visit.country}</Table.Cell>}
               {columns.region && <Table.Cell>{visit.region}</Table.Cell>}
               {columns.city && <Table.Cell>{visit.city}</Table.Cell>}

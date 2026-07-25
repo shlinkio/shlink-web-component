@@ -51,9 +51,11 @@ describe('tagEditReducer', () => {
       expect(colorGenerator.setColorForKey).toHaveBeenCalledWith(newName, color);
 
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { oldName, newName, color },
-      }));
+      expect(dispatch).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { oldName, newName, color },
+        }),
+      );
     });
   });
 });

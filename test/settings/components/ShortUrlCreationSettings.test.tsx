@@ -8,11 +8,12 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<ShortUrlCreationSettings />', () => {
   const setShortUrlCreationSettings = vi.fn();
-  const setUp = (shortUrlCreation?: ShortUrlsSettings) => renderWithEvents(
-    <SettingsProvider value={fromPartial({ shortUrlCreation })}>
-      <ShortUrlCreationSettings onChange={setShortUrlCreationSettings} />
-    </SettingsProvider>,
-  );
+  const setUp = (shortUrlCreation?: ShortUrlsSettings) =>
+    renderWithEvents(
+      <SettingsProvider value={fromPartial({ shortUrlCreation })}>
+        <ShortUrlCreationSettings onChange={setShortUrlCreationSettings} />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -41,11 +42,7 @@ describe('<ShortUrlCreationSettings />', () => {
 
   it.each([
     [{ tagFilteringMode: 'includes' } as ShortUrlsSettings, 'Suggest tags including input', 'including'],
-    [
-      { tagFilteringMode: 'startsWith' } as ShortUrlsSettings,
-      'Suggest tags starting with input',
-      'starting with',
-    ],
+    [{ tagFilteringMode: 'startsWith' } as ShortUrlsSettings, 'Suggest tags starting with input', 'starting with'],
     [undefined, 'Suggest tags starting with input', 'starting with'],
   ])('shows expected texts for tags suggestions', (shortUrlCreation, expectedText, expectedHint) => {
     setUp(shortUrlCreation);
@@ -54,13 +51,18 @@ describe('<ShortUrlCreationSettings />', () => {
     expect(screen.getByText(/^The list of suggested tags will contain those/)).toHaveTextContent(expectedHint);
   });
 
-  it.each([[true], [false]])('invokes setShortUrlCreationSettings when forward query toggle value changes', async (forwardQuery) => {
-    const { user } = setUp({ forwardQuery });
+  it.each([[true], [false]])(
+    'invokes setShortUrlCreationSettings when forward query toggle value changes',
+    async (forwardQuery) => {
+      const { user } = setUp({ forwardQuery });
 
-    expect(setShortUrlCreationSettings).not.toHaveBeenCalled();
-    await user.click(screen.getByLabelText(/^Make all new short URLs forward their query params to the long URL/));
-    expect(setShortUrlCreationSettings).toHaveBeenCalledWith(expect.objectContaining({ forwardQuery: !forwardQuery }));
-  });
+      expect(setShortUrlCreationSettings).not.toHaveBeenCalled();
+      await user.click(screen.getByLabelText(/^Make all new short URLs forward their query params to the long URL/));
+      expect(setShortUrlCreationSettings).toHaveBeenCalledWith(
+        expect.objectContaining({ forwardQuery: !forwardQuery }),
+      );
+    },
+  );
 
   it('invokes setShortUrlCreationSettings when dropdown value changes', async () => {
     const { user } = setUp();
@@ -72,13 +74,11 @@ describe('<ShortUrlCreationSettings />', () => {
     expect(setShortUrlCreationSettings).not.toHaveBeenCalled();
 
     await clickItem('Suggest tags including input');
-    expect(setShortUrlCreationSettings).toHaveBeenCalledWith(expect.objectContaining(
-      { tagFilteringMode: 'includes' },
-    ));
+    expect(setShortUrlCreationSettings).toHaveBeenCalledWith(expect.objectContaining({ tagFilteringMode: 'includes' }));
 
     await clickItem('Suggest tags starting with input');
-    expect(setShortUrlCreationSettings).toHaveBeenCalledWith(expect.objectContaining(
-      { tagFilteringMode: 'startsWith' },
-    ));
+    expect(setShortUrlCreationSettings).toHaveBeenCalledWith(
+      expect.objectContaining({ tagFilteringMode: 'startsWith' }),
+    );
   });
 });

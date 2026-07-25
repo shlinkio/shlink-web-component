@@ -81,19 +81,9 @@ describe('shortUrlVisitsComparisonReducer', () => {
       // // No query. No short URL match. No new visits prepended
       [{}, { shortCode: 'baz' }, visitsMocks.length, visitsMocks.length],
       // Query filter in the past. Short URL matches foo. No new visits prepended
-      [
-        { endDate: subDays(now, 1) },
-        { shortCode: 'foo' },
-        visitsMocks.length,
-        visitsMocks.length,
-      ],
+      [{ endDate: subDays(now, 1) }, { shortCode: 'foo' }, visitsMocks.length, visitsMocks.length],
       // Query filter in the future. Short URL matches foo. No new visits prepended
-      [
-        { startDate: addDays(now, 1) },
-        { shortCode: 'foo' },
-        visitsMocks.length,
-        visitsMocks.length,
-      ],
+      [{ startDate: addDays(now, 1) }, { shortCode: 'foo' }, visitsMocks.length, visitsMocks.length],
       // Query filter with start and end in the past. Short URL matches foo. No new visits prepended
       [
         { startDate: subDays(now, 5), endDate: subDays(now, 2) },
@@ -168,9 +158,11 @@ describe('shortUrlVisitsComparisonReducer', () => {
       await getShortUrlVisitsForComparison(getVisitsComparisonParams)(dispatch, getState, {});
 
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { ...getVisitsComparisonParams, visitsGroups },
-      }));
+      expect(dispatch).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { ...getVisitsComparisonParams, visitsGroups },
+        }),
+      );
       expect(getShortUrlVisitsCall).toHaveBeenCalledTimes(shortUrls.length);
 
       const containingShortCode = (shortCode: string) => expect.objectContaining({ shortCode });

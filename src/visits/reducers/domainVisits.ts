@@ -39,9 +39,10 @@ export const { reducer: domainVisitsReducer, cancelGetVisits: cancelGetDomainVis
   name: REDUCER_PREFIX,
   initialState: initialState as DomainVisits,
   asyncThunk: getDomainVisitsThunk,
-  filterCreatedVisits: (state, createdVisits) => state.status !== 'loaded'
-    ? createdVisits
-    : filterCreatedVisitsByDomain(createdVisits, state.domain, state.params?.dateRange),
+  filterCreatedVisits: (state, createdVisits) =>
+    state.status !== 'loaded'
+      ? createdVisits
+      : filterCreatedVisitsByDomain(createdVisits, state.domain, state.params?.dateRange),
 });
 
 export const useDomainVisits = () => {

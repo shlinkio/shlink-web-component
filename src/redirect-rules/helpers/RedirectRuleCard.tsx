@@ -1,6 +1,6 @@
 import { faArrowDown, faArrowUp, faGripVertical, faPencilAlt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, SimpleCard,useToggle  } from '@shlinkio/shlink-frontend-kit';
+import { Button, SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkRedirectRuleData } from '@shlinkio/shlink-js-sdk/api-contract';
 import type { FC } from 'react';
 import { ExternalLink } from 'react-external-link';
@@ -17,9 +17,15 @@ export type RedirectRuleCardProps = {
   onUpdate: (newData: ShlinkRedirectRuleData) => void;
 };
 
-export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
-  { priority, isLast, redirectRule, onDelete, onMoveUp, onMoveDown, onUpdate },
-) => {
+export const RedirectRuleCard: FC<RedirectRuleCardProps> = ({
+  priority,
+  isLast,
+  redirectRule,
+  onDelete,
+  onMoveUp,
+  onMoveDown,
+  onUpdate,
+}) => {
   const { flag: isModalOpen, setToTrue: openModal, setToFalse: closeModal } = useToggle();
 
   return (
@@ -55,22 +61,21 @@ export const RedirectRuleCard: FC<RedirectRuleCardProps> = (
           <div className="flex flex-col lg:flex-row gap-2">
             <b>Conditions:</b>
             {redirectRule.conditions.map((condition, condIndex) => (
-              <div
-                className="rounded-sm bg-gray-600 px-1 text-white"
-                key={`${condition.type}_${condIndex}`}
-              >
+              <div className="rounded-sm bg-gray-600 px-1 text-white" key={`${condition.type}_${condIndex}`}>
                 {condition.type === 'device' && <>Device is {condition.matchValue}</>}
                 {condition.type === 'language' && <>{condition.matchValue} language is accepted</>}
                 {condition.type === 'query-param' && (
-                  <>Query string contains &quot;{condition.matchKey}={condition.matchValue}&quot;</>
+                  <>
+                    Query string contains &quot;{condition.matchKey}={condition.matchValue}&quot;
+                  </>
                 )}
                 {condition.type === 'any-value-query-param' && (
                   <>Query string contains &quot;{condition.matchKey}&quot; param</>
                 )}
                 {condition.type === 'valueless-query-param' && (
                   <>
-                    Query string contains &quot;{condition.matchKey}&quot; param without a value
-                    (https://example.com?{condition.matchKey})
+                    Query string contains &quot;{condition.matchKey}&quot; param without a value (https://example.com?
+                    {condition.matchKey})
                   </>
                 )}
                 {condition.type === 'ip-address' && <>IP address matches {condition.matchValue}</>}

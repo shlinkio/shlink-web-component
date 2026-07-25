@@ -23,14 +23,12 @@ type AsideMenuItem = NavLinkProps & {
 const AsideMenuItem: FC<AsideMenuItem> = ({ children, to, active, ...rest }) => (
   <NavLink
     {...rest}
-    className={({ isActive }) => clsx(
-      'flex items-center gap-2',
-      'no-underline rounded-none px-5 py-2.5',
-      {
+    className={({ isActive }) =>
+      clsx('flex items-center gap-2', 'no-underline rounded-none px-5 py-2.5', {
         'text-white bg-lm-main dark:bg-dm-main': isActive || active,
         'highlight:bg-lm-secondary highlight:dark:bg-dm-secondary': !isActive && !active,
-      },
-    )}
+      })
+    }
     to={to}
   >
     {children}

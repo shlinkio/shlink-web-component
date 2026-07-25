@@ -1,4 +1,4 @@
-import { Button, SimpleCard,useToggle  } from '@shlinkio/shlink-frontend-kit';
+import { Button, SimpleCard, useToggle } from '@shlinkio/shlink-frontend-kit';
 import type { FC } from 'react';
 import { SpaceBetweenContainer } from '../../common/SpaceBetweenContainer';
 import type { VisitsDeletion } from '../reducers/types';
@@ -17,7 +17,9 @@ export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion
       <SpaceBetweenContainer>
         <dl className="m-0 mr-3">
           <dt>Delete visits.</dt>
-          <dd className="m-0">This will delete <b>all</b> visits, not only the ones matching current filter.</dd>
+          <dd className="m-0">
+            This will delete <b>all</b> visits, not only the ones matching current filter.
+          </dd>
         </dl>
         {!doubleConfirmed && (
           <Button variant="danger" solid className="whitespace-nowrap" onClick={setDoubleConfirmed}>
@@ -31,7 +33,7 @@ export const VisitsStatsOptions: FC<VisitsStatsOptionsProps> = ({ visitsDeletion
             disabled={deleting}
             className="whitespace-nowrap"
             onClick={deleteVisits}
-            // eslint-disable-next-line jsx-a11y/no-autofocus
+            // oxlint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
           >
             {!deleting && <>Click again to confirm</>}

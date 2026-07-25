@@ -14,7 +14,9 @@ export const LabelledDateInput: FC<LabelledDateInputProps> = ({ label, id, space
   const inputId = useId();
   return (
     <>
-      <label htmlFor={id ?? inputId} className={clsx(!spaceless && 'mb-1')}>{label}:</label>
+      <label htmlFor={id ?? inputId} className={clsx(!spaceless && 'mb-1')}>
+        {label}:
+      </label>
       <DateInput id={id ?? inputId} {...rest} />
     </>
   );

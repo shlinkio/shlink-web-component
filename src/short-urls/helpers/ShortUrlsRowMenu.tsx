@@ -57,10 +57,12 @@ export const ShortUrlsRowMenu: FC<ShortUrlsRowMenuProps> = ({ shortUrl }) => {
             <RowDropdown.Item
               className="gap-1.5"
               disabled={!visitsComparison.canAddItemWithName(shortUrl.shortUrl)}
-              onClick={() => visitsComparison.addItemToCompare({
-                name: shortUrl.shortUrl,
-                query: shortUrlToQuery(shortUrl),
-              })}
+              onClick={() =>
+                visitsComparison.addItemToCompare({
+                  name: shortUrl.shortUrl,
+                  query: shortUrlToQuery(shortUrl),
+                })
+              }
             >
               <FontAwesomeIcon icon={lineChartIcon} /> Compare visits
             </RowDropdown.Item>

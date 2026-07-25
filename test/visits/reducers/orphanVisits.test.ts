@@ -28,10 +28,7 @@ describe('orphanVisitsReducer', () => {
     const buildState = (data: Partial<VisitsInfo>) => fromPartial<VisitsInfo>(data);
 
     it('returns loading when idle', () => {
-      const { status } = reducer(
-        buildState({ status: 'idle' }),
-        getOrphanVisits.pending('', fromPartial({})),
-      );
+      const { status } = reducer(buildState({ status: 'idle' }), getOrphanVisits.pending('', fromPartial({})));
       expect(status).toEqual('loading');
     });
 
@@ -148,9 +145,10 @@ describe('orphanVisitsReducer', () => {
 
   describe('getOrphanVisits', () => {
     const dispatchMock = vi.fn();
-    const getState = () => fromPartial<RootState>({
-      orphanVisits: { status: 'idle' },
-    });
+    const getState = () =>
+      fromPartial<RootState>({
+        orphanVisits: { status: 'idle' },
+      });
 
     it('dispatches start and success when promise is resolved', async () => {
       const getVisitsParam = { params: {}, options: {}, apiClientFactory };
@@ -167,9 +165,11 @@ describe('orphanVisitsReducer', () => {
       await getOrphanVisits(getVisitsParam)(dispatchMock, getState, {});
 
       expect(dispatchMock).toHaveBeenCalledTimes(2);
-      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits: visitsMocks, ...getVisitsParam },
-      }));
+      expect(dispatchMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: { visits: visitsMocks, ...getVisitsParam },
+        }),
+      );
       expect(getOrphanVisitsCall).toHaveBeenCalledOnce();
     });
 
@@ -185,31 +185,32 @@ describe('orphanVisitsReducer', () => {
         3,
       ],
       [[], expect.objectContaining({ type: getOrphanVisits.fulfilled.toString() }), 2],
-    ])('dispatches fallback interval when the list of visits is empty', async (
-      lastVisits,
-      expectedSecondDispatch,
-      expectedDispatchCalls,
-    ) => {
-      const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisitsList => ({
-        data,
-        pagination: {
-          currentPage: 1,
-          pagesCount: 1,
-          totalItems: 1,
-        },
-      });
-      getOrphanVisitsCall
-        .mockResolvedValueOnce(buildVisitsResult())
-        .mockResolvedValueOnce(buildVisitsResult(lastVisits));
+    ])(
+      'dispatches fallback interval when the list of visits is empty',
+      async (lastVisits, expectedSecondDispatch, expectedDispatchCalls) => {
+        const buildVisitsResult = (data: ShlinkVisit[] = []): ShlinkVisitsList => ({
+          data,
+          pagination: {
+            currentPage: 1,
+            pagesCount: 1,
+            totalItems: 1,
+          },
+        });
+        getOrphanVisitsCall
+          .mockResolvedValueOnce(buildVisitsResult())
+          .mockResolvedValueOnce(buildVisitsResult(lastVisits));
 
-      await getOrphanVisits(
-        { params: {}, options: { doIntervalFallback: true }, apiClientFactory },
-      )(dispatchMock, getState, {});
+        await getOrphanVisits({ params: {}, options: { doIntervalFallback: true }, apiClientFactory })(
+          dispatchMock,
+          getState,
+          {},
+        );
 
-      expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
-      expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
-      expect(getOrphanVisitsCall).toHaveBeenCalledTimes(2);
-    });
+        expect(dispatchMock).toHaveBeenCalledTimes(expectedDispatchCalls);
+        expect(dispatchMock).toHaveBeenNthCalledWith(2, expectedSecondDispatch);
+        expect(getOrphanVisitsCall).toHaveBeenCalledTimes(2);
+      },
+    );
 
     it.each([
       // Strict date range and loadPrevInterval: true -> prev visits are loaded
@@ -252,39 +253,42 @@ describe('orphanVisitsReducer', () => {
         loadPrevInterval: false,
         expectsPrevVisits: false,
       },
-    ])('returns visits from prev interval when requested and possible', async (
-      { dateRange, loadPrevInterval, expectsPrevVisits, orphanVisitsType },
-    ) => {
-      const getVisitsParam: WithApiClient<LoadOrphanVisits> = {
-        params: { dateRange },
-        options: { loadPrevInterval },
-        orphanVisitsType,
-        apiClientFactory,
-      };
-      const expectedVisits = visitsMocks.map(
-        (visit) => (orphanVisitsType ? { ...visit, type: orphanVisitsType } : visit),
-      );
-      const prevVisits = expectsPrevVisits ? expectedVisits.map(
-        (visit, index) => ({ ...visit, date: dateForVisit(index + 1 + expectedVisits.length) }),
-      ) : undefined;
+    ])(
+      'returns visits from prev interval when requested and possible',
+      async ({ dateRange, loadPrevInterval, expectsPrevVisits, orphanVisitsType }) => {
+        const getVisitsParam: WithApiClient<LoadOrphanVisits> = {
+          params: { dateRange },
+          options: { loadPrevInterval },
+          orphanVisitsType,
+          apiClientFactory,
+        };
+        const expectedVisits = visitsMocks.map((visit) =>
+          orphanVisitsType ? { ...visit, type: orphanVisitsType } : visit,
+        );
+        const prevVisits = expectsPrevVisits
+          ? expectedVisits.map((visit, index) => ({ ...visit, date: dateForVisit(index + 1 + expectedVisits.length) }))
+          : undefined;
 
-      getOrphanVisitsCall.mockResolvedValue({
-        data: expectedVisits,
-        pagination: {
-          currentPage: 1,
-          pagesCount: 1,
-          totalItems: 1,
-        },
-      });
+        getOrphanVisitsCall.mockResolvedValue({
+          data: expectedVisits,
+          pagination: {
+            currentPage: 1,
+            pagesCount: 1,
+            totalItems: 1,
+          },
+        });
 
-      await getOrphanVisits(getVisitsParam)(dispatchMock, getState, {});
+        await getOrphanVisits(getVisitsParam)(dispatchMock, getState, {});
 
-      expect(dispatchMock).toHaveBeenCalledTimes(2);
-      expect(dispatchMock).toHaveBeenLastCalledWith(expect.objectContaining({
-        payload: { visits: expectedVisits, prevVisits, ...getVisitsParam },
-      }));
-      expect(getOrphanVisitsCall).toHaveBeenCalledTimes(expectsPrevVisits ? 2 : 1);
-      expect(getOrphanVisitsCall).toHaveBeenCalledWith(expect.objectContaining({ type: orphanVisitsType }));
-    });
+        expect(dispatchMock).toHaveBeenCalledTimes(2);
+        expect(dispatchMock).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            payload: { visits: expectedVisits, prevVisits, ...getVisitsParam },
+          }),
+        );
+        expect(getOrphanVisitsCall).toHaveBeenCalledTimes(expectsPrevVisits ? 2 : 1);
+        expect(getOrphanVisitsCall).toHaveBeenCalledWith(expect.objectContaining({ type: orphanVisitsType }));
+      },
+    );
   });
 });

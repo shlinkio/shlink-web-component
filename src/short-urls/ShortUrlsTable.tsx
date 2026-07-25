@@ -39,23 +39,22 @@ const ShortUrlsTableBody: FC<ShortUrlsTableBodyProps> = ({ shortUrlsList, onTagC
   }
 
   return shortUrlsList.shortUrls.data.map((shortUrl) => (
-    <ShortUrlsRow
-      key={shortUrl.shortUrl}
-      shortUrl={shortUrl}
-      onTagClick={onTagClick}
-    />
+    <ShortUrlsRow key={shortUrl.shortUrl} shortUrl={shortUrl} onTagClick={onTagClick} />
   ));
 };
 
-export const ShortUrlsTable: FC<ShortUrlsTableProps> = (
-  { orderByColumn, renderOrderIcon, shortUrlsList, onTagClick },
-) => {
+export const ShortUrlsTable: FC<ShortUrlsTableProps> = ({
+  orderByColumn,
+  renderOrderIcon,
+  shortUrlsList,
+  onTagClick,
+}) => {
   const columnsClasses = clsx({ 'cursor-pointer': !!orderByColumn });
 
   return (
     <Table
       className="mb-[-1px] w-full"
-      header={(
+      header={
         <Table.Row>
           <Table.Cell className={columnsClasses} onClick={orderByColumn?.('dateCreated')}>
             Created at {renderOrderIcon?.('dateCreated')}
@@ -78,7 +77,7 @@ export const ShortUrlsTable: FC<ShortUrlsTableProps> = (
           </Table.Cell>
           <Table.Cell colSpan={2} aria-hidden />
         </Table.Row>
-      )}
+      }
     >
       <ShortUrlsTableBody shortUrlsList={shortUrlsList} onTagClick={onTagClick} />
     </Table>

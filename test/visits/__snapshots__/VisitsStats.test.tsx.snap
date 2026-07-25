@@ -501,12 +501,12 @@ exports[`<VisitsStats /> > loads visits when mounted 1`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="768.8203125"
+                  x="770.640625"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="768.8203125"
+                    x="770.640625"
                   >
                     2020-02
                   </tspan>
@@ -1154,12 +1154,12 @@ exports[`<VisitsStats /> > loads visits when mounted 2`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="768.8203125"
+                  x="770.640625"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="768.8203125"
+                    x="770.640625"
                   >
                     2020-02
                   </tspan>
@@ -1807,12 +1807,12 @@ exports[`<VisitsStats /> > loads visits when mounted 3`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="768.8203125"
+                  x="770.640625"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="768.8203125"
+                    x="770.640625"
                   >
                     2020-02
                   </tspan>
@@ -2507,12 +2507,12 @@ exports[`<VisitsStats /> > loads visits when mounted 4`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="768.8203125"
+                  x="770.640625"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="768.8203125"
+                    x="770.640625"
                   >
                     2020-02
                   </tspan>
@@ -3221,12 +3221,12 @@ exports[`<VisitsStats /> > loads visits when mounted 5`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="768.8203125"
+                  x="770.640625"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="768.8203125"
+                    x="770.640625"
                   >
                     2020-02
                   </tspan>
@@ -3935,12 +3935,12 @@ exports[`<VisitsStats /> > loads visits when mounted 6`] = `
                   stroke="none"
                   text-anchor="middle"
                   width="730"
-                  x="768.8203125"
+                  x="770.640625"
                   y="273"
                 >
                   <tspan
                     dy="0.71em"
-                    x="768.8203125"
+                    x="770.640625"
                   >
                     2020-02
                   </tspan>

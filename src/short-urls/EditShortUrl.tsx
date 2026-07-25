@@ -33,7 +33,10 @@ export const EditShortUrl: FC = () => {
   if (status === 'error') {
     return (
       <Result variant="error">
-        <ShlinkApiError errorData={shortUrlsDetails.error} fallbackMessage="An error occurred while loading short URL detail :(" />
+        <ShlinkApiError
+          errorData={shortUrlsDetails.error}
+          fallbackMessage="An error occurred while loading short URL detail :("
+        />
       </Result>
     );
   }
@@ -45,7 +48,9 @@ export const EditShortUrl: FC = () => {
           <h4 className="sm:flex items-center text-4xl">
             <GoBackButton />
             <div className="text-center grow">
-              <small>Edit <ExternalLink href={shortUrl?.shortUrl ?? ''} /></small>
+              <small>
+                Edit <ExternalLink href={shortUrl?.shortUrl ?? ''} />
+              </small>
             </div>
           </h4>
         </SimpleCard>

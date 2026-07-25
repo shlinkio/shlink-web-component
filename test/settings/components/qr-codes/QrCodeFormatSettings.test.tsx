@@ -1,18 +1,19 @@
 import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { QrCodeSettings } from '../../../../src/settings';
-import { defaultQrCodeSettings , SettingsProvider } from '../../../../src/settings';
+import { defaultQrCodeSettings, SettingsProvider } from '../../../../src/settings';
 import { QrCodeFormatSettings } from '../../../../src/settings/components/qr-codes/QrCodeFormatSettings';
 import { checkAccessibility } from '../../../__helpers__/accessibility';
 import { renderWithEvents } from '../../../__helpers__/setUpTest';
 
 describe('<QrCodeFormatSettings />', () => {
   const onChange = vi.fn();
-  const setUp = (qrCodeSettings?: QrCodeSettings) => renderWithEvents(
-    <SettingsProvider value={{ qrCodes: qrCodeSettings }}>
-      <QrCodeFormatSettings onChange={onChange} />
-    </SettingsProvider>,
-  );
+  const setUp = (qrCodeSettings?: QrCodeSettings) =>
+    renderWithEvents(
+      <SettingsProvider value={{ qrCodes: qrCodeSettings }}>
+        <QrCodeFormatSettings onChange={onChange} />
+      </SettingsProvider>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

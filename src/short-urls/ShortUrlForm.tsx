@@ -45,45 +45,51 @@ export const ShortUrlForm: FC<ShortUrlFormConnectProps> = ({ basicMode = false, 
   }, []);
   const changeTags = useCallback((tags: string[]) => setShortUrlData((prev) => ({ ...prev, tags })), []);
 
-  const submit = useCallback(async (e: FormEvent) => {
-    e.preventDefault();
-    return onSave(shortUrlData)
-      .then((result) => isCreation && !isErrorAction(result) && reset())
-      .catch(() => {});
-  }, [isCreation, onSave, reset, shortUrlData]);
+  const submit = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      return onSave(shortUrlData)
+        .then((result) => isCreation && !isErrorAction(result) && reset())
+        .catch(() => {});
+    },
+    [isCreation, onSave, reset, shortUrlData],
+  );
 
-  const basicComponents = useMemo(() => (
-    <div className="flex flex-col gap-4">
-      <Input
-        size="lg"
-        type="url"
-        placeholder="URL to be shortened"
-        required
-        value={shortUrlData.longUrl}
-        onChange={(e) => setShortUrlData((prev) => ({ ...prev, longUrl: e.target.value }))}
-      />
-      <div className="flex flex-col lg:flex-row gap-4">
-        {basicMode && isCreation && (
-          <div className="w-full lg:w-1/2">
-            <Input
-              size="lg"
-              placeholder="Custom slug"
-              value={shortUrlData.customSlug ?? ''}
-              onChange={(e) => setShortUrlData((prev) => ({ ...prev, customSlug: e.target.value }))}
+  const basicComponents = useMemo(
+    () => (
+      <div className="flex flex-col gap-4">
+        <Input
+          size="lg"
+          type="url"
+          placeholder="URL to be shortened"
+          required
+          value={shortUrlData.longUrl}
+          onChange={(e) => setShortUrlData((prev) => ({ ...prev, longUrl: e.target.value }))}
+        />
+        <div className="flex flex-col lg:flex-row gap-4">
+          {basicMode && isCreation && (
+            <div className="w-full lg:w-1/2">
+              <Input
+                size="lg"
+                placeholder="Custom slug"
+                value={shortUrlData.customSlug ?? ''}
+                onChange={(e) => setShortUrlData((prev) => ({ ...prev, customSlug: e.target.value }))}
+              />
+            </div>
+          )}
+          <div className={clsx('w-full', { 'lg:w-1/2': basicMode })}>
+            <TagsSelector
+              tags={tagsList.tags}
+              selectedTags={shortUrlData.tags ?? []}
+              onChange={changeTags}
+              placeholder="Add tags to the URL"
             />
           </div>
-        )}
-        <div className={clsx('w-full', { 'lg:w-1/2': basicMode })}>
-          <TagsSelector
-            tags={tagsList.tags}
-            selectedTags={shortUrlData.tags ?? []}
-            onChange={changeTags}
-            placeholder="Add tags to the URL"
-          />
         </div>
       </div>
-    </div>
-  ), [basicMode, changeTags, isCreation, shortUrlData, tagsList.tags]);
+    ),
+    [basicMode, changeTags, isCreation, shortUrlData, tagsList.tags],
+  );
 
   return (
     <form name="shortUrlForm" onSubmit={submit} className="flex flex-col gap-4">
@@ -100,18 +106,16 @@ export const ShortUrlForm: FC<ShortUrlFormConnectProps> = ({ basicMode = false, 
 
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="w-full sm:w-1/2">
-              <SimpleCard
-                title="Customize the short URL"
-                bodyClassName="flex flex-col gap-4"
-                className="card h-full"
-              >
+              <SimpleCard title="Customize the short URL" bodyClassName="flex flex-col gap-4" className="card h-full">
                 <Input
                   placeholder="Title"
                   value={shortUrlData.title ?? ''}
-                  onChange={({ target }) => setShortUrlData((prev) => ({
-                    ...prev,
-                    title: setResettableValue(target.value, initialState.title),
-                  }))}
+                  onChange={({ target }) =>
+                    setShortUrlData((prev) => ({
+                      ...prev,
+                      title: setResettableValue(target.value, initialState.title),
+                    }))
+                  }
                 />
                 {isCreation && (
                   <>
@@ -178,10 +182,12 @@ export const ShortUrlForm: FC<ShortUrlFormConnectProps> = ({ basicMode = false, 
                   min={1}
                   placeholder="25..."
                   value={shortUrlData.maxVisits ?? ''}
-                  onChange={(e) => setShortUrlData((prev) => ({
-                    ...prev,
-                    maxVisits: !hasValue(e.target.value) ? null : Number(e.target.value),
-                  }))}
+                  onChange={(e) =>
+                    setShortUrlData((prev) => ({
+                      ...prev,
+                      maxVisits: !hasValue(e.target.value) ? null : Number(e.target.value),
+                    }))
+                  }
                 />
               </SimpleCard>
             </div>

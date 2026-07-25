@@ -75,8 +75,8 @@ describe('<ShortUrlsList />', () => {
     const paginatorLinks = screen.getByTestId('paginator').querySelectorAll('a');
 
     expect(paginatorLinks.length).toBeGreaterThan(0);
-    paginatorLinks.forEach(
-      (link) => expect(link).toHaveAttribute('href', expect.stringContaining('?tags=test%20tag&search=example.com')),
+    paginatorLinks.forEach((link) =>
+      expect(link).toHaveAttribute('href', expect.stringContaining('?tags=test%20tag&search=example.com')),
     );
   });
 
@@ -105,23 +105,31 @@ describe('<ShortUrlsList />', () => {
     await setUp({
       settings: { shortUrlsList: { defaultOrdering } },
     });
-    expect(listShortUrlsMock).toHaveBeenCalledWith(expect.objectContaining({
-      orderBy: { field, dir },
-    }));
+    expect(listShortUrlsMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        orderBy: { field, dir },
+      }),
+    );
   });
 
   it.each([
-    [fromPartial<Settings>({
-      shortUrlsList: {
-        defaultOrdering: { field: 'visits', dir: 'ASC' },
-      },
-    }), { field: 'visits', dir: 'ASC' }],
-    [fromPartial<Settings>({
-      shortUrlsList: {
-        defaultOrdering: { field: 'visits', dir: 'ASC' },
-      },
-      visits: { excludeBots: true },
-    }), { field: 'nonBotVisits', dir: 'ASC' }],
+    [
+      fromPartial<Settings>({
+        shortUrlsList: {
+          defaultOrdering: { field: 'visits', dir: 'ASC' },
+        },
+      }),
+      { field: 'visits', dir: 'ASC' },
+    ],
+    [
+      fromPartial<Settings>({
+        shortUrlsList: {
+          defaultOrdering: { field: 'visits', dir: 'ASC' },
+        },
+        visits: { excludeBots: true },
+      }),
+      { field: 'nonBotVisits', dir: 'ASC' },
+    ],
   ])('parses order by based on supported features version and config', async (settings, expectedOrderBy) => {
     await setUp({ settings });
     expect(listShortUrlsMock).toHaveBeenCalledWith(expect.objectContaining({ orderBy: expectedOrderBy }));

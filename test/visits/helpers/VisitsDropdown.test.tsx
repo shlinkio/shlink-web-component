@@ -8,32 +8,33 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
   selected?: DropdownOptions;
-  isOrphanVisits?: boolean
-  withPrevInterval?: boolean
+  isOrphanVisits?: boolean;
+  withPrevInterval?: boolean;
 };
 
 describe('<VisitsDropdown />', () => {
   const onChange = vi.fn();
-  const setUp = (
-    { selected = {}, isOrphanVisits = true, withPrevInterval = false }: SetUpOptions = {},
-  ) => renderWithEvents(
-    <VisitsDropdown
-      isOrphanVisits={isOrphanVisits}
-      withPrevInterval={withPrevInterval}
-      selected={selected}
-      onChange={onChange}
-    />,
-  );
+  const setUp = ({ selected = {}, isOrphanVisits = true, withPrevInterval = false }: SetUpOptions = {}) =>
+    renderWithEvents(
+      <VisitsDropdown
+        isOrphanVisits={isOrphanVisits}
+        withPrevInterval={withPrevInterval}
+        selected={selected}
+        onChange={onChange}
+      />,
+    );
   const openDropdown = (user: UserEvent) => user.click(screen.getByRole('button', { name: 'More' }));
 
   it.each([
     [setUp],
-    [async () => {
-      const { user, container } = setUp();
-      await openDropdown(user);
+    [
+      async () => {
+        const { user, container } = setUp();
+        await openDropdown(user);
 
-      return { container };
-    }],
+        return { container };
+      },
+    ],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('has expected text', () => {

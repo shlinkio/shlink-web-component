@@ -5,15 +5,11 @@ import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<DomainStatusIcon />', () => {
-  const setUp = (status: DomainStatus) => renderWithEvents(
-    <DomainStatusIcon status={status} />,
-  );
+  const setUp = (status: DomainStatus) => renderWithEvents(<DomainStatusIcon status={status} />);
 
-  it.each([
-    ['validating' as const],
-    ['invalid' as const],
-    ['valid' as const],
-  ])('passes a11y checks', (status) => checkAccessibility(setUp(status)));
+  it.each([['validating' as const], ['invalid' as const], ['valid' as const]])('passes a11y checks', (status) =>
+    checkAccessibility(setUp(status)),
+  );
 
   it.each([
     ['validating' as const, 'circle-notch'],
@@ -24,10 +20,7 @@ describe('<DomainStatusIcon />', () => {
     expect(screen.getByRole('img', { hidden: true })).toHaveAttribute('data-icon', expectedIcon);
   });
 
-  it.each([
-    ['invalid' as const],
-    ['valid' as const],
-  ])('renders proper tooltip based on state', async (status) => {
+  it.each([['invalid' as const], ['valid' as const]])('renders proper tooltip based on state', async (status) => {
     const { user } = setUp(status);
 
     await user.hover(screen.getByRole('img', { hidden: true }));

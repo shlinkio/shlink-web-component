@@ -15,13 +15,9 @@ describe('<ShlinkWebSettings />', () => {
     );
   };
 
-  it.each([
-    '/general',
-    '/short-urls',
-    '/visits',
-    '/tags',
-    '/qr-codes',
-  ])('passes a11y checks', (activeRoute) => checkAccessibility(setUp(activeRoute)));
+  it.each(['/general', '/short-urls', '/visits', '/tags', '/qr-codes'])('passes a11y checks', (activeRoute) =>
+    checkAccessibility(setUp(activeRoute)),
+  );
 
   it.each([
     {
@@ -37,17 +33,44 @@ describe('<ShlinkWebSettings />', () => {
     {
       activeRoute: '/visits',
       visibleComps: ['Visits', 'Visits list'],
-      hiddenComps: ['Short URLs form', 'Short URLs list', 'User interface', 'Real-time updates', 'Tags', 'Size', 'Colors', 'Format'],
+      hiddenComps: [
+        'Short URLs form',
+        'Short URLs list',
+        'User interface',
+        'Real-time updates',
+        'Tags',
+        'Size',
+        'Colors',
+        'Format',
+      ],
     },
     {
       activeRoute: '/tags',
       visibleComps: ['Tags'],
-      hiddenComps: ['User interface', 'Real-time updates', 'Short URLs form', 'Short URLs list', 'Size', 'Colors', 'Format', 'Visits', 'Visits list'],
+      hiddenComps: [
+        'User interface',
+        'Real-time updates',
+        'Short URLs form',
+        'Short URLs list',
+        'Size',
+        'Colors',
+        'Format',
+        'Visits',
+        'Visits list',
+      ],
     },
     {
       activeRoute: '/qr-codes',
       visibleComps: ['Size', 'Colors', 'Format'],
-      hiddenComps: ['Short URLs form', 'Short URLs list', 'User interface', 'Real-time updates', 'Tags', 'Visits', 'Visits list'],
+      hiddenComps: [
+        'Short URLs form',
+        'Short URLs list',
+        'User interface',
+        'Real-time updates',
+        'Tags',
+        'Visits',
+        'Visits list',
+      ],
     },
   ])('renders expected sections based on route', ({ activeRoute, visibleComps, hiddenComps }) => {
     setUp(activeRoute);

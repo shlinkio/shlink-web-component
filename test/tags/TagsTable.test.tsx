@@ -11,17 +11,18 @@ import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.m
 describe('<TagsTable />', () => {
   const orderByColumn = vi.fn();
   const tags = (amount: number) => rangeOf(amount, (i) => `tag_${i}`);
-  const setUp = (sortedTags: string[] = [], search = '') => renderWithStore(
-    <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
-      <ContainerProvider value={fromPartial({ ColorGenerator: colorGeneratorMock, apiClientFactory: vi.fn() })}>
-        <TagsTable
-          sortedTags={sortedTags.map((tag) => fromPartial({ tag }))}
-          currentOrder={{}}
-          orderByColumn={() => orderByColumn}
-        />
-      </ContainerProvider>
-    </MemoryRouter>,
-  );
+  const setUp = (sortedTags: string[] = [], search = '') =>
+    renderWithStore(
+      <MemoryRouter initialEntries={search ? [{ search }] : undefined}>
+        <ContainerProvider value={fromPartial({ ColorGenerator: colorGeneratorMock, apiClientFactory: vi.fn() })}>
+          <TagsTable
+            sortedTags={sortedTags.map((tag) => fromPartial({ tag }))}
+            currentOrder={{}}
+            orderByColumn={() => orderByColumn}
+          />
+        </ContainerProvider>
+      </MemoryRouter>,
+    );
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 

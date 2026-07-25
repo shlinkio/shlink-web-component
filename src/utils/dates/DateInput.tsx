@@ -11,12 +11,10 @@ export type DateInputProps = FilteredInputProps & {
   maxDate?: Date;
   value?: Date | null;
   onChange?: (newDate: Date | null) => void;
-  withTime?: boolean
+  withTime?: boolean;
 };
 
-export const DateInput: FC<DateInputProps> = (
-  { minDate, maxDate, value, onChange, withTime = false, ...rest },
-) => {
+export const DateInput: FC<DateInputProps> = ({ minDate, maxDate, value, onChange, withTime = false, ...rest }) => {
   const handleChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
       // When setting an empty value, immediately clear selected date

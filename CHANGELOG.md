@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * *Nothing*
 
 ### Fixed
-* *Nothing*
+* [#1024](https://github.com/shlinkio/shlink-web-component/issues/1024) Fix incorrect colSpan calculated in visits table depending on what columns have been enabled.
 
 
 ## [0.19.1] - 2026-06-24

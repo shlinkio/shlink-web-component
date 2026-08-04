@@ -109,8 +109,14 @@ export const VisitsTable = ({ visits, selectedVisits = [], setSelectedVisits }: 
 
     return paginator.visitsGroups.length === 0 || !!paginator.visitsGroups[page - 1]?.[0]?.visitedUrl;
   }, [columns.visitedUrl, page, paginator.visitsGroups]);
-  // TODO Fix this value now that columns can be customized
-  const fullSizeColSpan = 6 + Number(showVisitedUrl) + (columns.userAgent ? 1 : 2);
+  const fullSizeColSpan = useMemo(() => {
+    // Whether visitedUrl is displayed or not is computed separately, so we don't want to count that column here
+    const visibleColumns = Object.entries(columns).filter(
+      ([col, isEnabled]) => col !== ('visitedUrl' satisfies VisitsColumn) && isEnabled,
+    );
+    // Add one, as the first column is always visible
+    return 1 + Number(showVisitedUrl) + visibleColumns.length;
+  }, [columns, showVisitedUrl]);
   const hasVisits = paginator.total > 0;
 
   const orderByColumn = (field: OrderableFields) =>

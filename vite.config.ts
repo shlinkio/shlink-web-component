@@ -12,7 +12,7 @@ export default defineConfig({
     tailwindcss(),
     dts({
       compilerOptions: { rootDir: 'src' },
-      exclude: ['test', 'dev'],
+      exclude: ['test', 'dev', '**/*.config.ts'],
     }),
   ],
 
@@ -84,7 +84,10 @@ export default defineConfig({
 
     // Run tests in an actual browser
     browser: {
-      provider: playwright(),
+      provider: playwright({
+        // In CI, this instructs playwright to use a pre-existing Chrome instance
+        launchOptions: process.env.CI ? { channel: 'chrome' } : undefined,
+      }),
       enabled: true,
       headless: true,
       screenshotFailures: false,

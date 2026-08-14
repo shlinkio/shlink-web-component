@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
+import type { UserEvent } from 'vitest/browser';
 import { ContainerProvider } from '../../src/container/context';
 import { TagsTableRow } from '../../src/tags/TagsTableRow';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';

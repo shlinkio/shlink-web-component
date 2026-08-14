@@ -1,5 +1,5 @@
 import { screen, waitFor } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
+import type { UserEvent } from 'vitest/browser';
 import type { ShortUrlsFilter } from '../../../src/short-urls/helpers/ShortUrlsFilterDropdown';
 import { ShortUrlsFilterDropdown } from '../../../src/short-urls/helpers/ShortUrlsFilterDropdown';
 import { checkAccessibility } from '../../__helpers__/accessibility';

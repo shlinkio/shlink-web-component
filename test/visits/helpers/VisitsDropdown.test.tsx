@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
+import type { UserEvent } from 'vitest/browser';
 import type { ShlinkOrphanVisitType } from '../../../src/api-contract';
 import type { DropdownOptions } from '../../../src/visits/helpers/VisitsDropdown';
 import { VisitsDropdown } from '../../../src/visits/helpers/VisitsDropdown';

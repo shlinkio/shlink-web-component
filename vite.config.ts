@@ -5,6 +5,8 @@ import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vitest/config';
 import pack from './package.json' with { type: 'json' };
 
+const { dirname } = import.meta;
+
 export default defineConfig({
   plugins: [
     react(),
@@ -18,9 +20,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        index: './src/index.ts',
-        'api-contract': './src/api-contract/index.ts',
-        settings: './src/settings/index.ts',
+        index: resolve(dirname, 'src/index.ts'),
+        'api-contract': resolve(dirname, 'src/api-contract/index.ts'),
+        settings: resolve(dirname, 'src/settings/index.ts'),
       },
       name: 'shlink-web-component',
       formats: ['es'], // Generate ES module only
@@ -46,7 +48,6 @@ export default defineConfig({
       '@fortawesome/react-fontawesome',
       '@json2csv/plainjs',
       '@testing-library/react',
-      '@testing-library/user-event',
       '@shlinkio/data-manipulation',
       '@shlinkio/shlink-frontend-kit',
       '@shlinkio/shlink-js-sdk',

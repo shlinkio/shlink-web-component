@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
+import type { UserEvent } from 'vitest/browser';
 import type { VisitsListSettings } from '../../src/settings';
 import { defaultVisitsListColumns, SettingsProvider } from '../../src/settings';
 import { rangeOf } from '../../src/utils/helpers';

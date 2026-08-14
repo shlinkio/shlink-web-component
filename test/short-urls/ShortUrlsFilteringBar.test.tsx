@@ -1,10 +1,10 @@
 import { screen, waitFor } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO, parseISO } from 'date-fns';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
+import type { UserEvent } from 'vitest/browser';
 import { ContainerProvider } from '../../src/container/context';
 import { DEFAULT_DOMAIN } from '../../src/domains/data';
 import { SettingsProvider } from '../../src/settings';

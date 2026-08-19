@@ -4,6 +4,7 @@ import { parseISO } from 'date-fns';
 import type { LabelledDateInputProps } from '../../../src/utils/dates/LabelledDateInput';
 import { LabelledDateInput } from '../../../src/utils/dates/LabelledDateInput';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import { setNativeInputValue } from '../../__helpers__/input';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<LabelledDateInput />', () => {
@@ -23,11 +24,11 @@ describe('<LabelledDateInput />', () => {
     expect(input).toHaveAttribute('type', expectedType);
   });
 
-  it('parses date when value changes', async () => {
+  it('parses date when value changes', () => {
     const onChange = vi.fn();
-    const { user } = setUp({ onChange, label: 'bar' });
+    setUp({ onChange, label: 'bar' });
 
-    await user.type(screen.getByLabelText('bar:'), '2022-01-01');
+    setNativeInputValue(screen.getByLabelText('bar:'), '2022-01-01');
 
     expect(onChange).toHaveBeenCalledWith(new Date('2022-01-01'));
   });

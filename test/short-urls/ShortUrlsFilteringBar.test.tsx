@@ -4,7 +4,6 @@ import { formatISO, parseISO } from 'date-fns';
 import type { MemoryHistory } from 'history';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
-import type { UserEvent } from 'vitest/browser';
 import { ContainerProvider } from '../../src/container/context';
 import { DEFAULT_DOMAIN } from '../../src/domains/data';
 import { SettingsProvider } from '../../src/settings';
@@ -12,6 +11,7 @@ import { ShortUrlsFilteringBar } from '../../src/short-urls/ShortUrlsFilteringBa
 import { FeaturesProvider } from '../../src/utils/features';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
+import { setNativeInputValue } from '../__helpers__/input';
 import { renderWithStore } from '../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
@@ -90,11 +90,11 @@ describe('<ShortUrlsFilteringBar />', () => {
 
   it.each([
     [
-      (user: UserEvent) => user.type(screen.getByLabelText('Since:'), '2022-05-07'),
+      () => setNativeInputValue(screen.getByLabelText('Since:'), '2022-05-07'),
       `startDate=${uriEncodedISODate('2022-05-07')}`,
     ],
     [
-      (user: UserEvent) => user.type(screen.getByLabelText('Until:'), '2023-12-18'),
+      () => setNativeInputValue(screen.getByLabelText('Until:'), '2023-12-18'),
       `endDate=${uriEncodedISODate('2023-12-18T23:59:59')}`,
     ],
   ])('redirects to first page when date range changes', async (typeDates, expectedQuery) => {
@@ -105,7 +105,7 @@ describe('<ShortUrlsFilteringBar />', () => {
 
     expect(currentQuery()).toEqual('');
 
-    await typeDates(user);
+    typeDates();
     expect(currentPath()).toEqual('/list-short-urls/1');
     expect(currentQuery()).toEqual(`?${expectedQuery}`);
   });

@@ -1,8 +1,8 @@
 import type { ShlinkCreateShortUrlData } from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
+import type { UserEvent } from 'vitest/browser';
 import { ShortUrlForm } from '../../src/short-urls/ShortUrlForm';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';

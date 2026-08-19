@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
+import type { UserEvent } from 'vitest/browser';
 import { OpenMapModalBtn } from '../../../src/visits/helpers/OpenMapModalBtn';
 import type { CityStats } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';

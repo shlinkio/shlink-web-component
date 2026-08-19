@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
+import type { UserEvent } from 'vitest/browser';
 import { DomainSelector } from '../../src/domains/DomainSelector';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';

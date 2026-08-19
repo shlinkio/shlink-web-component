@@ -32,7 +32,7 @@ describe('<Tag />', () => {
       const { container } = setUp('foo');
       const { r, g, b } = hexToRgb(backgroundColor);
 
-      expect(container.firstChild).toHaveStyle({ 'background-color': `rgb(${r}, ${g}, ${b})` });
+      expect(container.firstChild).toHaveStyle({ backgroundColor: `rgb(${r}, ${g}, ${b})` });
     },
   );
 

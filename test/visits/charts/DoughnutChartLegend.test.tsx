@@ -30,7 +30,7 @@ describe('<DoughnutChartLegend />', () => {
     chartData.forEach(({ name, color, value }, index) => {
       const { r, g, b } = hexToRgb(color);
       expect(screen.getByTestId(`color-bullet-${index}`)).toHaveStyle({
-        'background-color': `rgb(${r}, ${g}, ${b})`,
+        backgroundColor: `rgb(${r}, ${g}, ${b})`,
       });
       expect(screen.getByTestId(`name-${index}`)).toHaveTextContent(
         showNumbers ? `${name} (${formatNumber(value)})` : name,

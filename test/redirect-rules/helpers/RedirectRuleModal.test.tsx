@@ -4,8 +4,8 @@ import type {
   ShlinkRedirectRuleData,
 } from '@shlinkio/shlink-js-sdk/api-contract';
 import { screen, waitFor } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
+import type { UserEvent } from 'vitest/browser';
 import { RedirectRuleModal } from '../../../src/redirect-rules/helpers/RedirectRuleModal';
 import { countryCodes } from '../../../src/utils/country-codes';
 import { FeaturesProvider } from '../../../src/utils/features';

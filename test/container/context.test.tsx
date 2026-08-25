@@ -7,7 +7,7 @@ describe('context', () => {
     let lastDependencies: unknown[];
 
     function TestComponent({ name }: { name: string }) {
-      // oxlint-disable-next-line react/react-compiler
+      // oxlint-disable-next-line react/globals
       lastDependencies = useDependencies(name);
       return null;
     }

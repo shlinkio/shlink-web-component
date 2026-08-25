@@ -8,7 +8,7 @@ describe('<ShlinkSidebarToggleButton />', () => {
   let currentVisibility: boolean = false;
 
   function VisibilityChecker() {
-    // oxlint-disable-next-line react/react-compiler
+    // oxlint-disable-next-line react/globals
     currentVisibility = useSidebarVisibility()!.sidebarVisible;
     return null;
   }

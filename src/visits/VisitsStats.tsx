@@ -191,14 +191,14 @@ export const VisitsStats: FC<VisitsStatsProps> = (props) => {
 
     getVisits({ dateRange: resolvedDateRange, filter }, options);
 
-    // oxlint-disable-next-line react/react-compiler
+    // oxlint-disable-next-line react/set-state-in-effect
     setSelectedVisits([]); // Reset selected visits every time we load visits
     isFirstLoad.current = false;
   }, [currentFallbackInterval, dateRange, getVisits, resolvedFilter, setSelectedVisits]);
   useEffect(() => {
     // As soon as the fallback is loaded, if the initial interval used the settings one, we do fall back
     if (fallbackInterval && currentFallbackInterval === (visitsSettings?.defaultInterval ?? 'last30Days')) {
-      // oxlint-disable-next-line react/react-compiler
+      // oxlint-disable-next-line react/set-state-in-effect
       setCurrentFallbackInterval(fallbackInterval);
     }
   }, [currentFallbackInterval, status, fallbackInterval, visitsSettings?.defaultInterval]);

@@ -13,6 +13,7 @@ import { formatIsoDate } from '../utils/dates/helpers/date';
 import { LabelledDateInput } from '../utils/dates/LabelledDateInput';
 import { hasValue } from '../utils/helpers';
 import { ShortUrlFormCheckboxGroup } from './helpers/ShortUrlFormCheckboxGroup';
+import { UtmParamsCard } from './helpers/UtmParamsCard';
 import { UseExistingIfFoundInfoIcon } from './UseExistingIfFoundInfoIcon';
 
 export interface ShortUrlFormProps<T extends ShlinkCreateShortUrlData | ShlinkEditShortUrlData> {
@@ -103,6 +104,11 @@ export const ShortUrlForm: FC<ShortUrlFormConnectProps> = ({ basicMode = false, 
               </SimpleCard>
             </div>
           </div>
+
+          <UtmParamsCard
+            longUrl={shortUrlData.longUrl ?? ''}
+            onLongUrlChange={(longUrl) => setShortUrlData((prev) => ({ ...prev, longUrl }))}
+          />
 
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="w-full sm:w-1/2">

@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* Add a "UTM parameters" card to the short URL form, allowing to set optional `utm_source`, `utm_medium`, `utm_campaign`, `utm_content` and `utm_term` params, which are appended to the long URL's query string.
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [0.19.2] - 2026-08-05
 ### Added
 * *Nothing*

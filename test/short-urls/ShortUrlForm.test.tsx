@@ -85,8 +85,8 @@ describe('<ShortUrlForm />', () => {
 
   it.each([
     { basicMode: true, expectedAmountOfCards: 0 },
-    { basicMode: false, expectedAmountOfCards: 5 },
-    { basicMode: false, isCreation: false, expectedAmountOfCards: 4 },
+    { basicMode: false, expectedAmountOfCards: 6 },
+    { basicMode: false, isCreation: false, expectedAmountOfCards: 5 },
   ])(
     'renders expected amount of cards based on server capabilities and mode',
     ({ basicMode, isCreation, expectedAmountOfCards }) => {
@@ -125,6 +125,21 @@ describe('<ShortUrlForm />', () => {
       );
     },
   );
+
+  it('appends UTM params to the long URL before saving', async () => {
+    const { user } = setUp();
+
+    await user.type(screen.getByPlaceholderText('URL to be shortened'), 'https://long-domain.com/foo/bar');
+    await user.type(screen.getByLabelText('utm_source'), 'newsletter');
+    await user.type(screen.getByLabelText('utm_campaign'), 'promo');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(createShortUrl).toHaveBeenCalledWith(
+      expect.objectContaining({
+        longUrl: 'https://long-domain.com/foo/bar?utm_source=newsletter&utm_campaign=promo',
+      }),
+    );
+  });
 
   it.each([
     { result: {}, initialValue: 'https://long-domain.com/foo/bar', expectedValueAfterSave: '' },

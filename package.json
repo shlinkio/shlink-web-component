@@ -93,7 +93,7 @@
     "@types/leaflet": "^1.9.22",
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
+    "@types/react-dom": "^19.2.5",
     "@typescript/typescript6": "^6.0.2",
     "@vitejs/plugin-react": "^6.0.5",
     "@vitest/browser": "^4.1.11",

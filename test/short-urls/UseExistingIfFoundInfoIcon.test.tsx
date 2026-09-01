@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
+import type { UserEvent } from 'vitest/browser';
 import { UseExistingIfFoundInfoIcon } from '../../src/short-urls/UseExistingIfFoundInfoIcon';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithEvents } from '../__helpers__/setUpTest';

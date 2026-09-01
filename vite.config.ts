@@ -46,7 +46,6 @@ export default defineConfig({
       '@fortawesome/react-fontawesome',
       '@json2csv/plainjs',
       '@testing-library/react',
-      '@testing-library/user-event',
       '@shlinkio/data-manipulation',
       '@shlinkio/shlink-frontend-kit',
       '@shlinkio/shlink-js-sdk',
@@ -72,6 +71,7 @@ export default defineConfig({
 
   test: {
     globals: true,
+    clearMocks: true,
     setupFiles: [
       './test/__helpers__/setup.ts',
       // Load styles in tests, as they affect how components look and behave, and are important for a11y contrast checks

@@ -27,6 +27,12 @@ describe('<MapModal />', () => {
 
   it('renders expected map', () => {
     setUp();
-    expect(screen.getByRole('dialog')).toMatchSnapshot();
+    const dialog = screen.getByRole('dialog');
+
+    expect(dialog).toContainElement(screen.getByRole('heading', { name: 'Foobar' }));
+    expect(dialog.querySelector('.leaflet-container')).toBeInTheDocument();
+    expect(screen.getAllByAltText('Marker')).toHaveLength(locations.length);
+    expect(screen.getByRole('button', { name: 'Zoom in' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Zoom out' })).toBeInTheDocument();
   });
 });

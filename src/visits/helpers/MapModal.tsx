@@ -34,32 +34,30 @@ const calculateMapProps = (locations: CityStats[]): MapContainerProps => {
   return { zoom: 10, center };
 };
 
-export const MapModal = ({ toggle, isOpen, title, locations = [] }: MapModalProps) => (
-  <CardModal open={isOpen} onClose={toggle} title={title} variant="cover">
-    <MapContainer {...calculateMapProps(locations)} className="h-full w-full">
-      <OpenStreetMapTile />
-      {locations.map(({ cityName, latLong, count }, index) => {
-        const visitsText = `visit${count > 1 ? 's' : ''} from`;
-        const markerLabel = `${count} ${visitsText} ${cityName}`;
-        const duplicateIndex = locations
-          .slice(0, index)
-          .filter(
-            ({ cityName: previousCity, count: previousCount, latLong: previousLatLong }) =>
-              previousCity === cityName &&
-              previousCount === count &&
-              previousLatLong[0] === latLong[0] &&
-              previousLatLong[1] === latLong[1],
-          ).length;
-        const markerKey = `${cityName}-${latLong.join('-')}-${count}-${duplicateIndex}`;
+export const MapModal = ({ toggle, isOpen, title, locations = [] }: MapModalProps) => {
+  const duplicateMarkersCounter = new Map<string, number>();
 
-        return (
-          <Marker key={markerKey} position={latLong} alt={markerLabel} title={markerLabel}>
-          <Popup>
-            <b>{count}</b> {visitsText} <b>{cityName}</b>
-          </Popup>
-        </Marker>
-        );
-      })}
-    </MapContainer>
-  </CardModal>
-);
+  return (
+    <CardModal open={isOpen} onClose={toggle} title={title} variant="cover">
+      <MapContainer {...calculateMapProps(locations)} className="h-full w-full">
+        <OpenStreetMapTile />
+        {locations.map(({ cityName, latLong, count }) => {
+          const visitsText = `visit${count > 1 ? 's' : ''} from`;
+          const markerLabel = `${count} ${visitsText} ${cityName}`;
+          const markerBaseKey = `${cityName}-${latLong.join('-')}-${count}`;
+          const duplicateIndex = duplicateMarkersCounter.get(markerBaseKey) ?? 0;
+          duplicateMarkersCounter.set(markerBaseKey, duplicateIndex + 1);
+          const markerKey = `${markerBaseKey}-${duplicateIndex}`;
+
+          return (
+            <Marker key={markerKey} position={latLong} alt={markerLabel} title={markerLabel}>
+              <Popup>
+                <b>{count}</b> {visitsText} <b>{cityName}</b>
+              </Popup>
+            </Marker>
+          );
+        })}
+      </MapContainer>
+    </CardModal>
+  );
+};

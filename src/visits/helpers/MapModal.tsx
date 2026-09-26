@@ -39,13 +39,14 @@ export const MapModal = ({ toggle, isOpen, title, locations = [] }: MapModalProp
     <MapContainer {...calculateMapProps(locations)} className="h-full w-full">
       <OpenStreetMapTile />
       {locations.map(({ cityName, latLong, count }) => {
-        const markerLabel = `${count} visit${count > 1 ? 's' : ''} from ${cityName}`;
+        const visitsText = `visit${count > 1 ? 's' : ''} from`;
+        const markerLabel = `${count} ${visitsText} ${cityName}`;
         const markerKey = `${cityName}-${latLong.join('-')}`;
 
         return (
           <Marker key={markerKey} position={latLong} alt={markerLabel} title={markerLabel}>
           <Popup>
-            <b>{count}</b> visit{count > 1 ? 's' : ''} from <b>{cityName}</b>
+            <b>{count}</b> {visitsText} <b>{cityName}</b>
           </Popup>
         </Marker>
         );

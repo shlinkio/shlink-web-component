@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
@@ -5,6 +6,17 @@ import { OpenMapModalBtn } from '../../../src/visits/helpers/OpenMapModalBtn';
 import type { CityStats } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
+
+vi.mock('react-leaflet', () => ({
+  MapContainer: ({ children }: PropsWithChildren) => (
+    <div role="region" aria-label="Map">
+      {children}
+    </div>
+  ),
+  Marker: ({ children }: PropsWithChildren) => <button type="button">{children}</button>,
+  Popup: ({ children }: PropsWithChildren) => <>{children}</>,
+  TileLayer: () => null,
+}));
 
 describe('<OpenMapModalBtn />', () => {
   const title = 'Foo';

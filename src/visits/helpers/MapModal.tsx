@@ -34,30 +34,17 @@ const calculateMapProps = (locations: CityStats[]): MapContainerProps => {
   return { zoom: 10, center };
 };
 
-export const MapModal = ({ toggle, isOpen, title, locations = [] }: MapModalProps) => {
-  const duplicateMarkersCounter = new Map<string, number>();
-
-  return (
-    <CardModal open={isOpen} onClose={toggle} title={title} variant="cover">
-      <MapContainer {...calculateMapProps(locations)} className="h-full w-full">
-        <OpenStreetMapTile />
-        {locations.map(({ cityName, latLong, count }) => {
-          const visitsText = `visit${count > 1 ? 's' : ''} from`;
-          const markerLabel = `${count} ${visitsText} ${cityName}`;
-          const markerBaseKey = `${cityName}-${latLong.join('-')}-${count}`;
-          const duplicateIndex = duplicateMarkersCounter.get(markerBaseKey) ?? 0;
-          duplicateMarkersCounter.set(markerBaseKey, duplicateIndex + 1);
-          const markerKey = `${markerBaseKey}-${duplicateIndex}`;
-
-          return (
-            <Marker key={markerKey} position={latLong} alt={markerLabel} title={markerLabel}>
-              <Popup>
-                <b>{count}</b> {visitsText} <b>{cityName}</b>
-              </Popup>
-            </Marker>
-          );
-        })}
-      </MapContainer>
-    </CardModal>
-  );
-};
+export const MapModal = ({ toggle, isOpen, title, locations = [] }: MapModalProps) => (
+  <CardModal open={isOpen} onClose={toggle} title={title} variant="cover">
+    <MapContainer {...calculateMapProps(locations)} className="h-full w-full">
+      <OpenStreetMapTile />
+      {locations.map(({ cityName, latLong, count }, index) => (
+        <Marker key={index} position={latLong}>
+          <Popup>
+            <b>{count}</b> visit{count > 1 ? 's' : ''} from <b>{cityName}</b>
+          </Popup>
+        </Marker>
+      ))}
+    </MapContainer>
+  </CardModal>
+);

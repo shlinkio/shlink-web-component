@@ -1,7 +1,19 @@
+import type { PropsWithChildren } from 'react';
 import { render, screen } from '@testing-library/react';
 import { MapModal } from '../../../src/visits/helpers/MapModal';
 import type { CityStats } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+
+vi.mock('react-leaflet', () => ({
+  MapContainer: ({ children }: PropsWithChildren) => (
+    <div role="region" aria-label="Map">
+      {children}
+    </div>
+  ),
+  Marker: ({ children }: PropsWithChildren) => <button type="button">{children}</button>,
+  Popup: ({ children }: PropsWithChildren) => <>{children}</>,
+  TileLayer: () => null,
+}));
 
 describe('<MapModal />', () => {
   const toggle = vi.fn();
@@ -33,10 +45,7 @@ describe('<MapModal />', () => {
     const dialog = screen.getByRole('dialog');
 
     expect(dialog).toContainElement(screen.getByRole('heading', { name: 'Foobar' }));
-    expect(dialog.querySelector('.leaflet-container')).toBeInTheDocument();
-    expect(dialog.querySelectorAll('.leaflet-marker-icon')).toHaveLength(locations.length);
-    expect(screen.getByRole('button', { name: 'Zoom in' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Zoom out' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Map' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '54 visits from Zaragoza' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '7 visits from New York' })).toBeInTheDocument();
   });

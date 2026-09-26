@@ -38,13 +38,17 @@ export const MapModal = ({ toggle, isOpen, title, locations = [] }: MapModalProp
   <CardModal open={isOpen} onClose={toggle} title={title} variant="cover">
     <MapContainer {...calculateMapProps(locations)} className="h-full w-full">
       <OpenStreetMapTile />
-      {locations.map(({ cityName, latLong, count }, index) => (
-        <Marker key={index} position={latLong}>
+      {locations.map(({ cityName, latLong, count }, index) => {
+        const markerLabel = `${count} visit${count > 1 ? 's' : ''} from ${cityName}`;
+
+        return (
+          <Marker key={index} position={latLong} alt={markerLabel} title={markerLabel}>
           <Popup>
             <b>{count}</b> visit{count > 1 ? 's' : ''} from <b>{cityName}</b>
           </Popup>
         </Marker>
-      ))}
+        );
+      })}
     </MapContainer>
   </CardModal>
 );

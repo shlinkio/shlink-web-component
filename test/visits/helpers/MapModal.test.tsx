@@ -34,5 +34,7 @@ describe('<MapModal />', () => {
     expect(dialog.querySelectorAll('.leaflet-marker-icon')).toHaveLength(locations.length);
     expect(screen.getByRole('button', { name: 'Zoom in' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Zoom out' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '54 visits from Zaragoza' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '7 visits from New York' })).toBeInTheDocument();
   });
 });

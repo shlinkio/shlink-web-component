@@ -61,6 +61,6 @@ describe('<OpenMapModalBtn />', () => {
     await user.click(screen.getByRole('menuitem', { name }));
     await screen.findByRole('dialog');
 
-    expect(screen.getAllByAltText('Marker')).toHaveLength(expectedMarkers);
+    expect(screen.getByRole('dialog').querySelectorAll('.leaflet-marker-icon')).toHaveLength(expectedMarkers);
   });
 });

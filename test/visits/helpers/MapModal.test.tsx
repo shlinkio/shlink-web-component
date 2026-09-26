@@ -10,7 +10,7 @@ vi.mock('react-leaflet', () => ({
       {children}
     </div>
   ),
-  Marker: ({ children }: PropsWithChildren) => <button type="button">{children}</button>,
+  Marker: ({ children }: PropsWithChildren) => <div data-testid="marker">{children}</div>,
   Popup: ({ children }: PropsWithChildren) => <>{children}</>,
   TileLayer: () => null,
 }));
@@ -43,11 +43,12 @@ describe('<MapModal />', () => {
   it('renders expected map', () => {
     setUp();
     const dialog = screen.getByRole('dialog');
+    const [zaragozaMarker, newYorkMarker] = screen.getAllByTestId('marker');
 
     expect(dialog).toContainElement(screen.getByRole('heading', { name: 'Foobar' }));
     expect(screen.getByRole('region', { name: 'Map' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '54 visits from Zaragoza' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '7 visits from New York' })).toBeInTheDocument();
+    expect(zaragozaMarker).toHaveTextContent('54 visits from Zaragoza');
+    expect(newYorkMarker).toHaveTextContent('7 visits from New York');
   });
 
   it('renders singular accessible labels for one-visit markers', () => {
@@ -59,6 +60,6 @@ describe('<MapModal />', () => {
       },
     ]);
 
-    expect(screen.getByRole('button', { name: '1 visit from London' })).toBeInTheDocument();
+    expect(screen.getByTestId('marker')).toHaveTextContent('1 visit from London');
   });
 });

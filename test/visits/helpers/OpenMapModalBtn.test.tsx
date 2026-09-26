@@ -13,7 +13,7 @@ vi.mock('react-leaflet', () => ({
       {children}
     </div>
   ),
-  Marker: ({ children }: PropsWithChildren) => <button type="button">{children}</button>,
+  Marker: ({ children }: PropsWithChildren) => <div data-testid="marker">{children}</div>,
   Popup: ({ children }: PropsWithChildren) => <>{children}</>,
   TileLayer: () => null,
 }));
@@ -73,6 +73,6 @@ describe('<OpenMapModalBtn />', () => {
     await user.click(screen.getByRole('menuitem', { name }));
     await screen.findByRole('dialog');
 
-    expect(screen.getAllByRole('button', { name: /visits? from /i })).toHaveLength(expectedMarkers);
+    expect(screen.getAllByTestId('marker')).toHaveLength(expectedMarkers);
   });
 });

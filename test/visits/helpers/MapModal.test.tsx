@@ -31,7 +31,7 @@ describe('<MapModal />', () => {
 
     expect(dialog).toContainElement(screen.getByRole('heading', { name: 'Foobar' }));
     expect(dialog.querySelector('.leaflet-container')).toBeInTheDocument();
-    expect(screen.getAllByAltText('Marker')).toHaveLength(locations.length);
+    expect(dialog.querySelectorAll('.leaflet-marker-icon')).toHaveLength(locations.length);
     expect(screen.getByRole('button', { name: 'Zoom in' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Zoom out' })).toBeInTheDocument();
   });

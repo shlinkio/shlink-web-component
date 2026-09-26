@@ -38,10 +38,19 @@ export const MapModal = ({ toggle, isOpen, title, locations = [] }: MapModalProp
   <CardModal open={isOpen} onClose={toggle} title={title} variant="cover">
     <MapContainer {...calculateMapProps(locations)} className="h-full w-full">
       <OpenStreetMapTile />
-      {locations.map(({ cityName, latLong, count }) => {
+      {locations.map(({ cityName, latLong, count }, index) => {
         const visitsText = `visit${count > 1 ? 's' : ''} from`;
         const markerLabel = `${count} ${visitsText} ${cityName}`;
-        const markerKey = `${cityName}-${latLong.join('-')}`;
+        const duplicateIndex = locations
+          .slice(0, index)
+          .filter(
+            ({ cityName: previousCity, count: previousCount, latLong: previousLatLong }) =>
+              previousCity === cityName &&
+              previousCount === count &&
+              previousLatLong[0] === latLong[0] &&
+              previousLatLong[1] === latLong[1],
+          ).length;
+        const markerKey = `${cityName}-${latLong.join('-')}-${count}-${duplicateIndex}`;
 
         return (
           <Marker key={markerKey} position={latLong} alt={markerLabel} title={markerLabel}>

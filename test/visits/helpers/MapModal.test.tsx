@@ -9,6 +9,8 @@ describe('<MapModal />', () => {
   const zaragozaLong = -0.876566;
   const newYorkLat = 40.73061;
   const newYorkLong = -73.935242;
+  const londonLat = 51.5072;
+  const londonLong = -0.1276;
   const locations: CityStats[] = [
     {
       cityName: 'Zaragoza',
@@ -21,7 +23,8 @@ describe('<MapModal />', () => {
       latLong: [newYorkLat, newYorkLong],
     },
   ];
-  const setUp = () => render(<MapModal toggle={toggle} isOpen title="Foobar" locations={locations} />);
+  const setUp = (locationsToRender = locations) =>
+    render(<MapModal toggle={toggle} isOpen title="Foobar" locations={locationsToRender} />);
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
@@ -36,5 +39,17 @@ describe('<MapModal />', () => {
     expect(screen.getByRole('button', { name: 'Zoom out' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '54 visits from Zaragoza' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '7 visits from New York' })).toBeInTheDocument();
+  });
+
+  it('renders singular accessible labels for one-visit markers', () => {
+    setUp([
+      {
+        cityName: 'London',
+        count: 1,
+        latLong: [londonLat, londonLong],
+      },
+    ]);
+
+    expect(screen.getByRole('button', { name: '1 visit from London' })).toBeInTheDocument();
   });
 });

@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { AsideMenu } from '../../src/common/AsideMenu';
 import { checkAccessibility } from '../__helpers__/accessibility';
+import { render } from '../__helpers__/setUpTest';
 
 describe('<AsideMenu />', () => {
   const setUp = () =>
@@ -13,13 +13,16 @@ describe('<AsideMenu />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('contains links to different sections', () => {
-    setUp();
+  it('contains links to different sections', async () => {
+    const screen = await setUp();
 
-    const links = screen.getAllByRole('link');
+    const links = screen.getByRole('link').all();
 
     expect.assertions(links.length + 1);
     expect(links).toHaveLength(5);
-    links.forEach((link) => expect(link.getAttribute('href')).toContain('abc123'));
+
+    await Promise.all(
+      links.map((link) => expect.element(link).toHaveAttribute('href', expect.stringContaining('abc123'))),
+    );
   });
 });

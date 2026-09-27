@@ -1,8 +1,7 @@
-import { render, screen } from '@testing-library/react';
 import { ShlinkSidebarToggleButton, ShlinkSidebarVisibilityProvider } from '../../src';
 import { useSidebarVisibility } from '../../src/sidebar/ShlinkSidebarVisibilityProvider';
 import { checkAccessibility } from '../__helpers__/accessibility';
-import { renderWithEvents } from '../__helpers__/setUpTest';
+import { render, renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<ShlinkSidebarToggleButton />', () => {
   let currentVisibility: boolean = false;
@@ -23,14 +22,14 @@ describe('<ShlinkSidebarToggleButton />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('throws when used outside of ShlinkSidebarVisibilityProvider', () => {
-    expect(() => render(<ShlinkSidebarToggleButton />)).toThrow(
+  it('throws when used outside of ShlinkSidebarVisibilityProvider', async () => {
+    await expect(() => render(<ShlinkSidebarToggleButton />)).rejects.toThrow(
       new Error('ShlinkSidebarToggleButton has to be used inside a ShlinkSidebarVisibilityProvider'),
     );
   });
 
   it('toggles visibility when clicked', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     expect(currentVisibility).toBe(false);
     await user.click(screen.getByLabelText('Toggle sidebar'));

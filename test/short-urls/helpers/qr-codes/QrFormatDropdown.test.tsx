@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { QrFormatDropdown } from '../../../../src/short-urls/helpers/qr-codes/QrFormatDropdown';
 import { checkAccessibility } from '../../../__helpers__/accessibility';
 import { renderWithEvents } from '../../../__helpers__/setUpTest';
@@ -11,7 +10,7 @@ describe('<QrFormatDropdown />', () => {
     [setUp],
     [
       async () => {
-        const { user, container } = setUp();
+        const { user, container, ...screen } = await setUp();
         await user.click(screen.getByRole('button'));
 
         return { container };
@@ -20,21 +19,21 @@ describe('<QrFormatDropdown />', () => {
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders initial state', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
     const btn = screen.getByRole('button');
 
-    expect(btn).toHaveTextContent('Format (svg');
+    await expect.element(btn).toHaveTextContent('Format (svg)');
     await user.click(btn);
-    const items = screen.getAllByRole('menuitem');
+    const items = screen.getByRole('menuitem').all();
 
-    expect(items[0]).toHaveAttribute('data-selected', 'false');
-    expect(items[1]).toHaveAttribute('data-selected', 'true');
-    expect(items[2]).toHaveAttribute('data-selected', 'false');
-    expect(items[3]).toHaveAttribute('data-selected', 'false');
+    await expect.element(items[0]).toHaveAttribute('data-selected', 'false');
+    await expect.element(items[1]).toHaveAttribute('data-selected', 'true');
+    await expect.element(items[2]).toHaveAttribute('data-selected', 'false');
+    await expect.element(items[3]).toHaveAttribute('data-selected', 'false');
   });
 
   it('invokes callback when items are clicked', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
     const clickItem = async (name: string) => {
       await user.click(screen.getByRole('button'));
       await user.click(screen.getByRole('menuitem', { name }));

@@ -1,30 +1,30 @@
-import { screen, waitFor } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import type { ShortUrlsFilter } from '../../../src/short-urls/helpers/ShortUrlsFilterDropdown';
 import { ShortUrlsFilterDropdown } from '../../../src/short-urls/helpers/ShortUrlsFilterDropdown';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import type { RenderWithEventsResult } from '../../__helpers__/setUpTest';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<ShortUrlsFilterDropdown />', () => {
   const onChange = vi.fn();
   const setUp = (selected: ShortUrlsFilter = {}) =>
     renderWithEvents(<ShortUrlsFilterDropdown onChange={onChange} selected={selected} />);
-  const openMenu = (user: UserEvent) => user.click(screen.getByRole('button', { name: /^More/ }));
+  const openMenu = ({ user, ...screen }: RenderWithEventsResult) =>
+    user.click(screen.getByRole('button', { name: /^More/ }));
 
   const setUpOpened = async (selected?: ShortUrlsFilter) => {
-    const { user, ...rest } = setUp(selected);
+    const screen = await setUp(selected);
 
-    await openMenu(user);
-    await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
+    await openMenu(screen);
+    await expect.element(screen.getByRole('menu')).toBeInTheDocument();
 
-    return { user, ...rest };
+    return screen;
   };
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('displays proper amount of menu items', async () => {
-    await setUpOpened();
-    expect(screen.getAllByRole('menuitem')).toHaveLength(4);
+    const screen = await setUpOpened();
+    expect(screen.getByRole('menuitem').all()).toHaveLength(4);
   });
 
   it.each([
@@ -59,19 +59,19 @@ describe('<ShortUrlsFilterDropdown />', () => {
       expectedSelection: { excludePastValidUntil: false },
     },
   ])('selects proper filters when options are clicked', async ({ clickedItem, selected, expectedSelection }) => {
-    const { user } = await setUpOpened(selected);
+    const { user, ...screen } = await setUpOpened(selected);
 
     await user.click(screen.getByText(clickedItem));
     expect(onChange).toHaveBeenCalledWith(expect.objectContaining(expectedSelection));
   });
 
   it('disables reset button when no selection is set', async () => {
-    await setUpOpened();
+    const screen = await setUpOpened();
     expect(screen.getByText('Reset to defaults')).toBeDisabled();
   });
 
   it('resets selection when rest button is clicked', async () => {
-    const { user } = await setUpOpened({ excludeBots: true });
+    const { user, ...screen } = await setUpOpened({ excludeBots: true });
 
     await user.click(screen.getByText('Reset to defaults'));
     expect(onChange).toHaveBeenCalledWith({

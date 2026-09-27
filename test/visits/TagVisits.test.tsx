@@ -1,6 +1,5 @@
 import { Card } from '@shlinkio/shlink-frontend-kit';
 import type { ShlinkVisitsList } from '@shlinkio/shlink-js-sdk/api-contract';
-import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO } from 'date-fns';
 import { SettingsProvider } from '../../src/settings';
@@ -17,8 +16,8 @@ describe('<TagVisits />', () => {
     pagination: { totalItems: 1, pagesCount: 1, currentPage: 1 },
   });
   const getTagVisits = vi.fn().mockResolvedValue(tagVisits);
-  const setUp = async () => {
-    const renderResult = renderWithStore(
+  const setUp = () =>
+    renderWithStore(
       <MemoryRouterWithParams params={{ tag: 'foo' }} splat>
         <SettingsProvider value={fromPartial({})}>
           {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
@@ -32,25 +31,21 @@ describe('<TagVisits />', () => {
       },
     );
 
-    await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument());
-
-    return renderResult;
-  };
-
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('wraps visits stats and header', async () => {
-    await setUp();
-    expect(screen.getAllByRole('heading')[0]).toHaveTextContent('Visits for');
+    const screen = await setUp();
+
+    await expect.element(screen.getByRole('heading').first()).toMatchTextContent('Visits for');
     expect(getTagVisits).toHaveBeenCalled();
   });
 
   it('exports visits when clicking the button', async () => {
-    const { user } = await setUp();
+    const { user, ...screen } = await setUp();
     const btn = screen.getByRole('button', { name: 'Export (1)' });
 
     expect(exportVisits).not.toHaveBeenCalled();
-    expect(btn).toBeInTheDocument();
+    await expect.element(btn).toBeInTheDocument();
 
     await user.click(btn);
     expect(exportVisits).toHaveBeenCalledWith('tag_foo_visits.csv', expect.anything());

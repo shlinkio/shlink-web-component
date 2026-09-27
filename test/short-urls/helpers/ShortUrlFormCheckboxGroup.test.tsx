@@ -1,7 +1,7 @@
-import { render } from '@testing-library/react';
 import type { ShortUrlFormCheckboxGroupProps } from '../../../src/short-urls/helpers/ShortUrlFormCheckboxGroup';
 import { ShortUrlFormCheckboxGroup } from '../../../src/short-urls/helpers/ShortUrlFormCheckboxGroup';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import { render } from '../../__helpers__/setUpTest';
 
 describe('<ShortUrlFormCheckboxGroup />', () => {
   const setUp = (props: Omit<ShortUrlFormCheckboxGroupProps, 'infoTooltip'> = {}) =>

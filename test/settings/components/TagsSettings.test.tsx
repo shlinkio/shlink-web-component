@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { TagsSettings as TagsSettingsOptions } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';
@@ -17,11 +16,11 @@ describe('<TagsSettings />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('renders expected amount of groups', () => {
-    setUp();
+  it('renders expected amount of groups', async () => {
+    const screen = await setUp();
 
-    expect(screen.getByText('Default ordering for tags list:')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Order by...' })).toBeInTheDocument();
+    await expect.element(screen.getByText('Default ordering for tags list:')).toBeInTheDocument();
+    await expect.element(screen.getByRole('button', { name: 'Order by...' })).toBeInTheDocument();
   });
 
   it.each([
@@ -30,9 +29,9 @@ describe('<TagsSettings />', () => {
     [{ defaultOrdering: {} }, 'Order by...'],
     [{ defaultOrdering: { field: 'tag', dir: 'DESC' } as const }, 'Order by: Tag - DESC'],
     [{ defaultOrdering: { field: 'visits', dir: 'ASC' } as const }, 'Order by: Visits - ASC'],
-  ])('shows expected ordering', (tags, expectedOrder) => {
-    setUp(tags);
-    expect(screen.getByRole('button', { name: expectedOrder })).toBeInTheDocument();
+  ])('shows expected ordering', async (tags, expectedOrder) => {
+    const screen = await setUp(tags);
+    await expect.element(screen.getByRole('button', { name: expectedOrder })).toBeInTheDocument();
   });
 
   it.each([
@@ -40,7 +39,7 @@ describe('<TagsSettings />', () => {
     ['Visits', 'visits', 'ASC'],
     ['Short URLs', 'shortUrls', 'ASC'],
   ])('invokes setTagsSettings when ordering changes', async (name, field, dir) => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     expect(setTagsSettings).not.toHaveBeenCalled();
     await user.click(screen.getByText('Order by...'));

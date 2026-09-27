@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import type { QrErrorCorrection } from '../../../../src/settings';
 import { QrErrorCorrectionDropdown } from '../../../../src/short-urls/helpers/qr-codes/QrErrorCorrectionDropdown';
 import { checkAccessibility } from '../../../__helpers__/accessibility';
@@ -16,7 +15,7 @@ describe('<QrErrorCorrectionDropdown />', () => {
     [setUp],
     [
       async () => {
-        const { user, container } = setUp();
+        const { user, container, ...screen } = await setUp();
         await user.click(screen.getByRole('button'));
 
         return { container };
@@ -25,21 +24,21 @@ describe('<QrErrorCorrectionDropdown />', () => {
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('renders initial state', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
     const btn = screen.getByRole('button');
 
-    expect(btn).toHaveTextContent('Error correction (Q)');
+    await expect.element(btn).toHaveTextContent('Error correction (Q)');
     await user.click(btn);
-    const items = screen.getAllByRole('menuitem');
+    const items = screen.getByRole('menuitem').all();
 
-    expect(items[0]).toHaveAttribute('data-selected', 'false');
-    expect(items[1]).toHaveAttribute('data-selected', 'false');
-    expect(items[2]).toHaveAttribute('data-selected', 'true');
-    expect(items[3]).toHaveAttribute('data-selected', 'false');
+    await expect.element(items[0]).toHaveAttribute('data-selected', 'false');
+    await expect.element(items[1]).toHaveAttribute('data-selected', 'false');
+    await expect.element(items[2]).toHaveAttribute('data-selected', 'true');
+    await expect.element(items[3]).toHaveAttribute('data-selected', 'false');
   });
 
   it('invokes callback when items are clicked', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
     const clickItem = async (name: string | RegExp) => {
       await user.click(screen.getByRole('button'));
       await user.click(screen.getByRole('menuitem', { name }));

@@ -1,7 +1,7 @@
 import type { OrderDir } from '@shlinkio/shlink-frontend-kit';
-import { render } from '@testing-library/react';
 import { TableOrderIcon } from '../../../src/utils/table/TableOrderIcon';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import { render } from '../../__helpers__/setUpTest';
 
 describe('<TableOrderIcon />', () => {
   const setUp = (field: string, currentDir?: OrderDir, className?: string) =>
@@ -13,13 +13,13 @@ describe('<TableOrderIcon />', () => {
     ['foo', undefined],
     ['bar', 'DESC' as OrderDir],
     ['bar', 'ASC' as OrderDir],
-  ])('renders empty when not all conditions are met', (field, dir) => {
-    const { container } = setUp(field, dir);
+  ])('renders empty when not all conditions are met', async (field, dir) => {
+    const { container } = await setUp(field, dir);
     expect(container.firstChild).toBeNull();
   });
 
-  it.each([['DESC' as OrderDir], ['ASC' as OrderDir]])('renders an icon when all conditions are met', (dir) => {
-    const { container } = setUp('foo', dir);
+  it.each([['DESC' as OrderDir], ['ASC' as OrderDir]])('renders an icon when all conditions are met', async (dir) => {
+    const { container } = await setUp('foo', dir);
 
     expect(container.firstChild).not.toBeNull();
     expect(container.firstChild).toMatchSnapshot();
@@ -29,8 +29,8 @@ describe('<TableOrderIcon />', () => {
     [undefined, 'ml-1'],
     ['foo', 'foo'],
     ['bar', 'bar'],
-  ])('renders expected classname', (className, expectedClassName) => {
-    const { container } = setUp('foo', 'ASC', className);
-    expect(container.firstChild).toHaveClass(expectedClassName);
+  ])('renders expected classname', async (className, expectedClassName) => {
+    const { container } = await setUp('foo', 'ASC', className);
+    await expect.element(container.firstChild as HTMLInputElement).toHaveClass(expectedClassName);
   });
 });

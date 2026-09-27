@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { QrCodeSettings } from '../../../../src/settings';
 import { defaultQrCodeSettings, SettingsProvider } from '../../../../src/settings';
@@ -28,13 +27,15 @@ describe('<QrCodeFormatSettings />', () => {
       expectedFormat: 'svg',
       expectedErrorCorrection: 'Q',
     },
-  ])('shows hints with expected colors', ({ settings, expectedFormat, expectedErrorCorrection }) => {
-    setUp(settings);
+  ])('shows hints with expected colors', async ({ settings, expectedFormat, expectedErrorCorrection }) => {
+    const screen = await setUp(settings);
 
-    expect(screen.getByTestId('format')).toHaveTextContent(expectedFormat);
-    expect(screen.getByRole('button', { name: `Format (${expectedFormat})` })).toBeInTheDocument();
-    expect(screen.getByTestId('error-correction')).toHaveTextContent(expectedErrorCorrection);
-    expect(screen.getByRole('button', { name: `Error correction (${expectedErrorCorrection})` })).toBeInTheDocument();
+    await expect.element(screen.getByTestId('format')).toHaveTextContent(expectedFormat);
+    await expect.element(screen.getByRole('button', { name: `Format (${expectedFormat})` })).toBeInTheDocument();
+    await expect.element(screen.getByTestId('error-correction')).toHaveTextContent(expectedErrorCorrection);
+    await expect
+      .element(screen.getByRole('button', { name: `Error correction (${expectedErrorCorrection})` }))
+      .toBeInTheDocument();
   });
 
   it('can change colors via color pickers', async () => {
@@ -42,7 +43,7 @@ describe('<QrCodeFormatSettings />', () => {
       format: 'svg',
       errorCorrection: 'Q',
     });
-    const { user } = setUp(settings);
+    const { user, ...screen } = await setUp(settings);
 
     expect(onChange).not.toHaveBeenCalled();
 

@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { useState } from 'react';
 import { useVisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
@@ -58,9 +57,9 @@ describe('useVisitsComparison', () => {
   const setUp = () => renderWithEvents(<FakeComponent />);
 
   it('can handle items to compare', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
-    expect(screen.queryByRole('listitem')).not.toBeInTheDocument();
+    expect(screen.getByRole('listitem')).not.toBeInTheDocument();
 
     // Can add items
     await user.click(screen.getByTestId('add-button'));
@@ -68,32 +67,32 @@ describe('useVisitsComparison', () => {
     await user.click(screen.getByTestId('add-button'));
     await user.click(screen.getByTestId('add-button'));
     await user.click(screen.getByTestId('add-button'));
-    expect(screen.getAllByRole('listitem')).toHaveLength(5);
+    expect(screen.getByRole('listitem').all()).toHaveLength(5);
 
     // Adding more items is ignored once maximum is reached
     await user.click(screen.getByTestId('add-button'));
     await user.click(screen.getByTestId('add-button'));
-    expect(screen.getAllByRole('listitem')).toHaveLength(5);
+    expect(screen.getByRole('listitem').all()).toHaveLength(5);
 
     // Can't add neither duplicated nor new items when maximum is reached
     await user.click(screen.getByTestId('can-add-new-button'));
-    expect(screen.getByTestId('can-add-items')).toHaveTextContent('No');
+    await expect.element(screen.getByTestId('can-add-items')).toHaveTextContent('No');
     await user.click(screen.getByTestId('can-add-duplicated-button'));
-    expect(screen.getByTestId('can-add-items')).toHaveTextContent('No');
+    await expect.element(screen.getByTestId('can-add-items')).toHaveTextContent('No');
 
     // Can remove items
     await user.click(screen.getByTestId('remove-button'));
     await user.click(screen.getByTestId('remove-button'));
-    expect(screen.getAllByRole('listitem')).toHaveLength(3);
+    expect(screen.getByRole('listitem').all()).toHaveLength(3);
 
     // Can add new items but not duplicated items when maximum is not reached
     await user.click(screen.getByTestId('can-add-new-button'));
-    expect(screen.getByTestId('can-add-items')).toHaveTextContent('Yes');
+    await expect.element(screen.getByTestId('can-add-items')).toHaveTextContent('Yes');
     await user.click(screen.getByTestId('can-add-duplicated-button'));
-    expect(screen.getByTestId('can-add-items')).toHaveTextContent('No');
+    await expect.element(screen.getByTestId('can-add-items')).toHaveTextContent('No');
 
     // Can clear all items
     await user.click(screen.getByTestId('clear-button'));
-    expect(screen.queryByRole('listitem')).not.toBeInTheDocument();
+    await expect.element(screen.getByRole('listitem')).not.toBeInTheDocument();
   });
 });

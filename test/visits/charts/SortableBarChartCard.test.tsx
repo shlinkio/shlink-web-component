@@ -1,5 +1,4 @@
 import { range } from '@shlinkio/data-manipulation';
-import { screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { SortableBarChartCard } from '../../../src/visits/charts/SortableBarChartCard';
 import type { Stats } from '../../../src/visits/types';
@@ -39,7 +38,7 @@ describe('<SortableBarChartCard />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it.each(['Name', 'Amount'])('renders properly ordered stats when ordering is set', async (orderField) => {
-    const { user, container } = setUp();
+    const { user, container, ...screen } = await setUp();
     const checkCoordinates = () => {
       const spans = Array.from(container.querySelectorAll('tspan'));
       const fooY = spans.find((span) => span.textContent === 'Foo')?.parentElement?.getAttribute('y');
@@ -75,7 +74,7 @@ describe('<SortableBarChartCard />', () => {
     [3, 0],
     ['Clear pagination', 0],
   ])('renders properly paginated stats when pagination is set', async (itemIndex, expectedPages) => {
-    const { user } = setUp({
+    const { user, ...screen } = await setUp({
       withPagination: true,
       extraStats: range(1, 200).reduce<Stats>((accum, value) => {
         accum[`key_${value}`] = value;
@@ -87,16 +86,16 @@ describe('<SortableBarChartCard />', () => {
     if (typeof itemIndex === 'string') {
       await user.click(screen.getByRole('menuitem', { name: itemIndex }));
     } else {
-      await user.click(screen.getAllByRole('menuitem', { name: /items per page$/ })[itemIndex]);
+      await user.click(screen.getByRole('menuitem', { name: /items per page$/ }).all()[itemIndex]);
     }
 
     if (expectedPages > 0) {
-      const pagination = screen.getByTestId('chart-paginator');
-      expect(pagination).toBeInTheDocument();
+      const pagination = screen.getByTestId('chart-paginator').element();
+      await expect.element(pagination).toBeInTheDocument();
       // Add one page for the `next` button
       expect(pagination.querySelectorAll('button')).toHaveLength(expectedPages + 1);
     } else {
-      expect(screen.queryByTestId('chart-paginator')).not.toBeInTheDocument();
+      await expect.element(screen.getByTestId('chart-paginator')).not.toBeInTheDocument();
     }
   });
 
@@ -105,8 +104,8 @@ describe('<SortableBarChartCard />', () => {
     { withHighlights: true, withPrev: false, expectedRectangles: 2 },
     { withHighlights: false, withPrev: true, expectedRectangles: 2 },
     { withHighlights: false, withPrev: false, expectedRectangles: 1 },
-  ])('renders highlighted and prev stats when provided', ({ withHighlights, withPrev, expectedRectangles }) => {
-    const { container } = setUp({
+  ])('renders highlighted and prev stats when provided', async ({ withHighlights, withPrev, expectedRectangles }) => {
+    const { container } = await setUp({
       highlightedStats: withHighlights
         ? {
             Foo: 25,
@@ -125,8 +124,8 @@ describe('<SortableBarChartCard />', () => {
     expect(container.querySelectorAll('.recharts-bar-rectangles')).toHaveLength(expectedRectangles);
   });
 
-  it('renders extra header content', () => {
-    setUp({
+  it('renders extra header content', async () => {
+    const screen = await setUp({
       extra: () => (
         <span>
           <span>Foo in header</span>
@@ -135,7 +134,9 @@ describe('<SortableBarChartCard />', () => {
       ),
     });
 
-    expect(screen.getByText('Foo in header')).toBeInTheDocument();
-    expect(screen.getByText('Bar in header')).toBeInTheDocument();
+    await Promise.all([
+      expect.element(screen.getByText('Foo in header')).toBeInTheDocument(),
+      expect.element(screen.getByText('Bar in header')).toBeInTheDocument(),
+    ]);
   });
 });

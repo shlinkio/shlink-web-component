@@ -1,5 +1,4 @@
 import type { ShlinkRedirectCondition } from '@shlinkio/shlink-js-sdk/api-contract';
-import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { RedirectRuleCardProps } from '../../../src/redirect-rules/helpers/RedirectRuleCard';
 import { RedirectRuleCard } from '../../../src/redirect-rules/helpers/RedirectRuleCard';
@@ -41,7 +40,7 @@ describe('<RedirectRuleCard />', () => {
     const onMoveUp = vi.fn();
     const onMoveDown = vi.fn();
 
-    const { user } = setUp({ onMoveUp, onMoveDown, priority: 2 });
+    const { user, ...screen } = await setUp({ onMoveUp, onMoveDown, priority: 2 });
 
     await user.click(screen.getByLabelText('Move rule with priority 2 up'));
     expect(onMoveUp).toHaveBeenCalledOnce();
@@ -50,48 +49,52 @@ describe('<RedirectRuleCard />', () => {
     expect(onMoveDown).toHaveBeenCalledOnce();
   });
 
-  it('disables up and down button for corner rules', () => {
-    setUp({ priority: 1, isLast: true });
+  it('disables up and down button for corner rules', async () => {
+    const screen = await setUp({ priority: 1, isLast: true });
 
-    expect(screen.getByLabelText('Move rule with priority 1 up')).toBeDisabled();
-    expect(screen.getByLabelText('Move rule with priority 1 down')).toBeDisabled();
+    await expect.element(screen.getByLabelText('Move rule with priority 1 up')).toBeDisabled();
+    await expect.element(screen.getByLabelText('Move rule with priority 1 down')).toBeDisabled();
   });
 
-  it('renders human-friendly conditions', () => {
-    setUp({
+  it('renders human-friendly conditions', async () => {
+    const screen = await setUp({
       redirectRule: fromPartial({ conditions }),
     });
 
-    expect(screen.getByText('Device is android')).toBeInTheDocument();
-    expect(screen.getByText('es-ES language is accepted')).toBeInTheDocument();
-    expect(screen.getByText('Query string contains "foo=bar"')).toBeInTheDocument();
-    expect(screen.getByText('Query string contains "foo-any-value" param')).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'Query string contains "foo-valueless" param without a value (https://example.com?foo-valueless)',
-      ),
-    ).toBeInTheDocument();
-    expect(screen.getByText('IP address matches 1.2.3.4')).toBeInTheDocument();
-    expect(screen.getByText('Country code is FR')).toBeInTheDocument();
-    expect(screen.getByText('City name is Paris')).toBeInTheDocument();
-    expect(screen.getByText('Date is before 2025-01-01 00:00')).toBeInTheDocument();
-    expect(screen.getByText('Date is after 2035-01-01 00:00')).toBeInTheDocument();
-    expect(screen.getByText('Browser is chrome')).toBeInTheDocument();
+    await Promise.all([
+      expect.element(screen.getByText('Device is android')).toBeInTheDocument(),
+      expect.element(screen.getByText('es-ES language is accepted')).toBeInTheDocument(),
+      expect.element(screen.getByText('Query string contains "foo=bar"')).toBeInTheDocument(),
+      expect.element(screen.getByText('Query string contains "foo-any-value" param')).toBeInTheDocument(),
+      expect
+        .element(
+          screen.getByText(
+            'Query string contains "foo-valueless" param without a value (https://example.com?foo-valueless)',
+          ),
+        )
+        .toBeInTheDocument(),
+      expect.element(screen.getByText('IP address matches 1.2.3.4')).toBeInTheDocument(),
+      expect.element(screen.getByText('Country code is FR')).toBeInTheDocument(),
+      expect.element(screen.getByText('City name is Paris')).toBeInTheDocument(),
+      expect.element(screen.getByText('Date is before 2025-01-01 00:00')).toBeInTheDocument(),
+      expect.element(screen.getByText('Date is after 2035-01-01 00:00')).toBeInTheDocument(),
+      expect.element(screen.getByText('Browser is chrome')).toBeInTheDocument(),
+    ]);
   });
 
   it('can delete the rule', async () => {
     const onDelete = vi.fn();
 
-    const { user } = setUp({ onDelete, priority: 4 });
+    const { user, ...screen } = await setUp({ onDelete, priority: 4 });
 
     await user.click(screen.getByLabelText('Delete rule with priority 4'));
     expect(onDelete).toHaveBeenCalledOnce();
   });
 
   it('opens modal to edit rule', async () => {
-    const { user } = setUp({ priority: 3 });
+    const { user, ...screen } = await setUp({ priority: 3 });
 
     await user.click(screen.getByLabelText('Edit rule with priority 3'));
-    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await expect.element(screen.getByRole('dialog')).toBeInTheDocument();
   });
 });

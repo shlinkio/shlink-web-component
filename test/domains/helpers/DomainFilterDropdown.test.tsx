@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { DEFAULT_DOMAIN } from '../../../src/domains/data';
 import type { DomainFilterDropdownProps } from '../../../src/domains/helpers/DomainFilterDropdown';
@@ -17,9 +16,9 @@ describe('<DomainFilterDropdown />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('disables button when list of domains is empty', () => {
-    setUp({ domains: [] });
-    expect(screen.getByRole('button')).toBeDisabled();
+  it('disables button when list of domains is empty', async () => {
+    const screen = await setUp({ domains: [] });
+    await expect.element(screen.getByRole('button')).toBeDisabled();
   });
 
   it.each([
@@ -27,7 +26,7 @@ describe('<DomainFilterDropdown />', () => {
     { name: /^example.com/, expectedNewDomain: DEFAULT_DOMAIN },
     { name: 's.test', expectedNewDomain: 's.test' },
   ])('selects expected domain when an item is clicked', async ({ name, value, expectedNewDomain }) => {
-    const { user } = setUp({ value });
+    const { user, ...screen } = await setUp({ value });
 
     await user.click(screen.getByRole('button'));
     await user.click(screen.getByRole('menuitem', { name }));
@@ -36,7 +35,7 @@ describe('<DomainFilterDropdown />', () => {
   });
 
   it('does not trigger onChange when already selected domain is clicked', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     await user.click(screen.getByRole('button'));
     await user.click(screen.getByRole('menuitem', { name: 'All domains' }));
@@ -47,8 +46,8 @@ describe('<DomainFilterDropdown />', () => {
   it.each([
     { selectedDomain: DEFAULT_DOMAIN, expectedText: 'example.com' },
     { selectedDomain: 's.test', expectedText: 's.test' },
-  ])(`displays default domain name when value is ${DEFAULT_DOMAIN}`, ({ selectedDomain, expectedText }) => {
-    setUp({ value: selectedDomain });
-    expect(screen.getByRole('button')).toHaveTextContent(`Domain: ${expectedText}`);
+  ])(`displays default domain name when value is ${DEFAULT_DOMAIN}`, async ({ selectedDomain, expectedText }) => {
+    const screen = await setUp({ value: selectedDomain });
+    await expect.element(screen.getByRole('button')).toHaveTextContent(`Domain: ${expectedText}`);
   });
 });

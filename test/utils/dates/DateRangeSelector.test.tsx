@@ -1,4 +1,3 @@
-import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { DateRangeSelectorProps } from '../../../src/utils/dates/DateRangeSelector';
 import { DateRangeSelector } from '../../../src/utils/dates/DateRangeSelector';
@@ -8,7 +7,7 @@ import { renderWithEvents } from '../../__helpers__/setUpTest';
 describe('<DateRangeSelector />', () => {
   const onDatesChange = vi.fn();
   const setUp = async (props: Partial<DateRangeSelectorProps> = {}) => {
-    const result = renderWithEvents(
+    const { user, ...screen } = await renderWithEvents(
       <DateRangeSelector
         {...fromPartial<DateRangeSelectorProps>(props)}
         defaultText="Default text"
@@ -16,15 +15,16 @@ describe('<DateRangeSelector />', () => {
       />,
     );
 
-    await result.user.click(screen.getByRole('button'));
-    await waitFor(() => screen.getByRole('menu'));
+    await user.click(screen.getByRole('button'));
+    // Wait for menu to be displayed
+    await screen.getByRole('menu').findElement();
 
-    return result;
+    return { user, ...screen };
   };
 
   it('renders proper amount of items', async () => {
-    await setUp();
-    expect(screen.getAllByRole('menuitem')).toHaveLength(8);
+    const screen = await setUp();
+    expect(screen.getByRole('menuitem').all()).toHaveLength(8);
   });
 
   it.each([
@@ -44,17 +44,17 @@ describe('<DateRangeSelector />', () => {
   });
 
   it('triggers onDatesChange callback when selecting an element', async () => {
-    const { user } = await setUp();
+    const { user, ...screen } = await setUp();
 
     await user.type(screen.getByLabelText('Since:'), '2020-01-01');
     await user.type(screen.getByLabelText('Until:'), '2022-01-01');
-    await user.click(screen.getAllByRole('menuitem')[0]);
+    await user.click(screen.getByRole('menuitem').first());
 
     expect(onDatesChange).toHaveBeenCalledTimes(3);
   });
 
   it('propagates default text to DateIntervalDropdownItems', async () => {
-    await setUp();
-    expect(screen.getAllByText('Default text')).toHaveLength(2);
+    const screen = await setUp();
+    expect(screen.getByText('Default text').all()).toHaveLength(2);
   });
 });

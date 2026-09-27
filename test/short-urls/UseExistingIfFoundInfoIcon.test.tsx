@@ -1,30 +1,29 @@
-import { screen } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { UseExistingIfFoundInfoIcon } from '../../src/short-urls/UseExistingIfFoundInfoIcon';
 import { checkAccessibility } from '../__helpers__/accessibility';
+import type { RenderWithEventsResult } from '../__helpers__/setUpTest';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<UseExistingIfFoundInfoIcon />', () => {
   const setUp = () => renderWithEvents(<UseExistingIfFoundInfoIcon />);
-  const openModal = (user: UserEvent) => user.click(screen.getByRole('button'));
+  const openModal = ({ user, ...screen }: RenderWithEventsResult) => user.click(screen.getByRole('button'));
 
   it.each([
     [setUp],
     [
       async () => {
-        const { user, container } = setUp();
-        await openModal(user);
+        const result = await setUp();
+        await openModal(result);
 
-        return { container };
+        return result;
       },
     ],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('shows modal when icon is clicked', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    await openModal(user);
-    expect(await screen.findByRole('dialog')).toBeInTheDocument();
+    await expect.element(screen.getByRole('dialog')).not.toBeInTheDocument();
+    await openModal({ user, ...screen });
+    await expect.element(screen.getByRole('dialog')).toBeInTheDocument();
   });
 });

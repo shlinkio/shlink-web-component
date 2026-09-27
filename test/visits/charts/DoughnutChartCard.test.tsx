@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { ChartDimensionsProvider } from '../../../src/visits/charts/ChartDimensionsContext';
 import { DoughnutChartCard } from '../../../src/visits/charts/DoughnutChartCard';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -16,18 +15,22 @@ describe('<DoughnutChartCard />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('allows amounts to be toggled from legend', async () => {
-    const { user } = setUp();
-    const listItemsBefore = screen.getAllByRole('listitem');
+    const { user, ...screen } = await setUp();
+    const listItemsBefore = screen.getByRole('listitem').all();
 
-    expect(listItemsBefore[0]).toHaveTextContent('foo');
-    expect(listItemsBefore[1]).toHaveTextContent('bar');
-    expect(listItemsBefore[0]).not.toHaveTextContent('foo (10)');
-    expect(listItemsBefore[1]).not.toHaveTextContent('bar (5,602)');
+    await Promise.all([
+      expect.element(listItemsBefore[0]).toHaveTextContent('foo'),
+      expect.element(listItemsBefore[1]).toHaveTextContent('bar'),
+      expect.element(listItemsBefore[0]).not.toHaveTextContent('foo (10)'),
+      expect.element(listItemsBefore[1]).not.toHaveTextContent('bar (5,602)'),
+    ]);
 
     await user.click(screen.getByLabelText('Show numbers'));
-    const listItemsAfter = screen.getAllByRole('listitem');
+    const listItemsAfter = screen.getByRole('listitem').all();
 
-    expect(listItemsAfter[0]).toHaveTextContent('foo (10)');
-    expect(listItemsAfter[1]).toHaveTextContent('bar (5,602)');
+    await Promise.all([
+      expect.element(listItemsAfter[0]).toHaveTextContent('foo (10)'),
+      expect.element(listItemsAfter[1]).toHaveTextContent('bar (5,602)'),
+    ]);
   });
 });

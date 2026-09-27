@@ -1,6 +1,6 @@
-import { fireEvent, screen } from '@testing-library/react';
 import { QrDimensionControl } from '../../../../src/short-urls/helpers/qr-codes/QrDimensionControl';
 import { checkAccessibility } from '../../../__helpers__/accessibility';
+import { setNativeInputValue } from '../../../__helpers__/input';
 import { renderWithEvents } from '../../../__helpers__/setUpTest';
 
 type SetUpOptions = {
@@ -15,25 +15,23 @@ describe('<QrDimensionControl />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it.each([{ value: undefined }, { value: 15 }])('shows a range slider', ({ value }) => {
-    setUp({ value });
-    expect(screen.getByRole('slider')).toBeInTheDocument();
+  it.each([{ value: undefined }, { value: 15 }])('shows a range slider', async ({ value }) => {
+    const screen = await setUp({ value });
+    await expect.element(screen.getByRole('slider')).toBeInTheDocument();
   });
 
-  it('can change selected value in slider', () => {
-    setUp({ value: 12 });
+  it('can change selected value in slider', async () => {
+    const screen = await setUp({ value: 12 });
 
-    fireEvent.change(screen.getByRole('slider'), {
-      target: { value: '30' },
-    });
+    setNativeInputValue(screen.getByRole('slider').element() as HTMLInputElement, '30');
     expect(onChange).toHaveBeenCalledWith(30);
   });
 
   it.each([
     { name: 'size', expectedLabelText: 'size: 15px' },
     { name: 'margin', expectedLabelText: 'margin: 15px' },
-  ])('shows name in slider', ({ name, expectedLabelText }) => {
-    setUp({ name, value: 15 });
-    expect(screen.getByText(expectedLabelText)).toBeInTheDocument();
+  ])('shows name in slider', async ({ name, expectedLabelText }) => {
+    const screen = await setUp({ name, value: 15 });
+    await expect.element(screen.getByText(expectedLabelText)).toBeInTheDocument();
   });
 });

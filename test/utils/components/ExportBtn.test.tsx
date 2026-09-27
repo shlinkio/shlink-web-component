@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
 import { ExportBtn } from '../../../src/utils/components/ExportBtn';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import { render } from '../../__helpers__/setUpTest';
 
 describe('<ExportBtn />', () => {
   const setUp = (amount?: number, loading = false) => render(<ExportBtn amount={amount} loading={loading} />);
@@ -11,14 +11,14 @@ describe('<ExportBtn />', () => {
     [true, 'Exporting...'],
     [false, 'Export (0)'],
   ])('renders loading state when expected', async (loading, text) => {
-    setUp(undefined, loading);
-    const btn = await screen.findByRole('button');
+    const screen = await setUp(undefined, loading);
+    const btn = screen.getByRole('button');
 
-    expect(btn).toHaveTextContent(text);
+    await expect.element(btn).toHaveTextContent(text);
     if (loading) {
-      expect(btn).toHaveAttribute('disabled');
+      await expect.element(btn).toHaveAttribute('disabled');
     } else {
-      expect(btn).not.toHaveAttribute('disabled');
+      await expect.element(btn).not.toHaveAttribute('disabled');
     }
   });
 
@@ -28,12 +28,12 @@ describe('<ExportBtn />', () => {
     [10_000, '10,000'],
     [10_000_000, '10,000,000'],
   ])('renders expected amount', async (amount, expectedRenderedAmount) => {
-    setUp(amount);
-    expect(await screen.findByRole('button')).toHaveTextContent(`Export (${expectedRenderedAmount})`);
+    const screen = await setUp(amount);
+    await expect.element(screen.getByRole('button')).toHaveTextContent(`Export (${expectedRenderedAmount})`);
   });
 
-  it('renders expected icon', () => {
-    setUp();
-    expect(screen.getByRole('img', { hidden: true })).toMatchSnapshot();
+  it('renders expected icon', async () => {
+    const screen = await setUp();
+    expect(screen.getByRole('img', { includeHidden: true }).element()).toMatchSnapshot();
   });
 });

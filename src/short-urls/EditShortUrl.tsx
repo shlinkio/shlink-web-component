@@ -27,7 +27,7 @@ export const EditShortUrl: FC = () => {
   }, [getShortUrlsDetails, identifier]);
 
   if (status === 'loading') {
-    return <Message loading />;
+    return <Message variant="loading" />;
   }
 
   if (status === 'error') {

@@ -1,4 +1,3 @@
-import { screen, waitFor } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { ProblemDetailsError } from '../../src/api-contract';
@@ -10,7 +9,7 @@ import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<ManageDomains />', () => {
   const setUp = async (domainsList: Partial<DomainsList> = {}) => {
-    const renderResult = renderWithStore(
+    const screen = await renderWithStore(
       <MemoryRouter>
         <ManageDomains />
       </MemoryRouter>,
@@ -23,18 +22,18 @@ describe('<ManageDomains />', () => {
     );
 
     // Wait for all domains to finish their health checks
-    await waitFor(() => expect(screen.queryByTestId('domain-health-loader')).not.toBeInTheDocument());
+    await expect.element(screen.getByTestId('domain-health-loader')).not.toBeInTheDocument();
 
-    return renderResult;
+    return screen;
   };
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('shows loading message while domains are loading', async () => {
-    await setUp({ status: 'loading' });
+    const screen = await setUp({ status: 'loading' });
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
-    expect(screen.queryByText('Error loading domains :(')).not.toBeInTheDocument();
+    await expect.element(screen.getByText('Loading...')).toBeInTheDocument();
+    await expect.element(screen.getByText('Error loading domains :(')).not.toBeInTheDocument();
   });
 
   it.each([
@@ -42,10 +41,10 @@ describe('<ManageDomains />', () => {
     [fromPartial<ProblemDetailsError>({}), 'Error loading domains :('],
     [fromPartial<ProblemDetailsError>({ detail: 'Foo error!!' }), 'Foo error!!'],
   ])('shows error result when domains loading fails', async (error, expectedErrorMessage) => {
-    await setUp({ status: 'error', error });
+    const screen = await setUp({ status: 'error', error });
 
-    expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
-    expect(screen.getByText(expectedErrorMessage)).toBeInTheDocument();
+    await expect.element(screen.getByText('Loading...')).not.toBeInTheDocument();
+    await expect.element(screen.getByText(expectedErrorMessage)).toBeInTheDocument();
   });
 
   it('filters domains when SearchField changes', async () => {
@@ -54,7 +53,7 @@ describe('<ManageDomains />', () => {
       fromPartial({ domain: 'bar' }),
       fromPartial({ domain: 'baz' }),
     ];
-    const { user } = await setUp(
+    const { user, ...screen } = await setUp(
       fromPartial({
         status: 'idle',
         domains,
@@ -62,21 +61,23 @@ describe('<ManageDomains />', () => {
       }),
     );
 
-    expect(screen.getAllByRole('row')).toHaveLength(3);
-    await user.type(screen.getByPlaceholderText('Search...'), 'ba');
-    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(2));
+    expect(screen.getByRole('row').all()).toHaveLength(3);
+    await user.type(screen.getByPlaceholder('Search...'), 'ba');
+    await expect.poll(() => screen.getByRole('row').all()).toHaveLength(2);
   });
 
   it('shows expected headers and one row when list of domains is empty', async () => {
-    await setUp();
+    const screen = await setUp();
 
     expect(
-      screen.getAllByRole('columnheader', {
-        // Tests are run in a mobile resolution, where table headers are hidden
-        hidden: true,
-      }),
+      screen
+        .getByRole('columnheader', {
+          // Tests are run in a mobile resolution, where table headers are hidden
+          includeHidden: true,
+        })
+        .all(),
     ).toHaveLength(7);
-    expect(screen.getByText('No results found')).toBeInTheDocument();
+    await expect.element(screen.getByText('No results found')).toBeInTheDocument();
   });
 
   it('has many rows if multiple domains are provided', async () => {
@@ -85,11 +86,11 @@ describe('<ManageDomains />', () => {
       fromPartial({ domain: 'bar' }),
       fromPartial({ domain: 'baz' }),
     ];
-    await setUp({ filteredDomains });
+    const screen = await setUp({ filteredDomains });
 
-    expect(screen.getAllByRole('row')).toHaveLength(filteredDomains.length);
-    expect(screen.getByText('foo')).toBeInTheDocument();
-    expect(screen.getByText('bar')).toBeInTheDocument();
-    expect(screen.getByText('baz')).toBeInTheDocument();
+    expect(screen.getByRole('row').all()).toHaveLength(filteredDomains.length);
+    await expect.element(screen.getByText('foo')).toBeInTheDocument();
+    await expect.element(screen.getByText('bar')).toBeInTheDocument();
+    await expect.element(screen.getByText('baz')).toBeInTheDocument();
   });
 });

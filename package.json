@@ -34,6 +34,7 @@
   ],
   "scripts": {
     "build": "vite build && cp ./src/tailwind.preset.css ./dist/tailwind.preset.css",
+    "vitest": "vitest",
     "test": "vitest run",
     "test:ci": "node --run test -- --coverage",
     "cs": "node --run lint && node --run format:check",
@@ -53,7 +54,7 @@
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
     "@fortawesome/react-fontawesome": "^3.0.0",
     "@reduxjs/toolkit": "^2.5.1",
-    "@shlinkio/shlink-frontend-kit": "^1.6.0",
+    "@shlinkio/shlink-frontend-kit": "^1.6.1",
     "@shlinkio/shlink-js-sdk": "^3.2.1",
     "react": "^19.1",
     "react-dom": "^19.1",
@@ -85,9 +86,6 @@
     "@shlinkio/eslint-config-js-coding-standard": "~4.2.0",
     "@shlinkio/shlink-js-sdk": "^3.1.0",
     "@tailwindcss/vite": "^4.3.3",
-    "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.4",
     "@total-typescript/shoehorn": "^0.1.2",
     "@total-typescript/ts-reset": "^0.6.1",
     "@types/leaflet": "^1.9.22",
@@ -109,7 +107,8 @@
     "typescript": "^7.0.2",
     "vite": "^8.3.0",
     "vite-plugin-dts": "^5.1.1",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.0",
+    "vitest-browser-react": "^2.3.0"
   },
   "browserslist": [
     ">0.2%",

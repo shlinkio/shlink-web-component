@@ -1,10 +1,10 @@
 import { formatNumber } from '@shlinkio/shlink-frontend-kit';
-import { render, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { DoughnutChartEntry } from '../../../src/visits/charts/DoughnutChart';
 import { DoughnutChartLegend } from '../../../src/visits/charts/DoughnutChartLegend';
 import { checkAccessibility } from '../../__helpers__/accessibility';
 import { hexToRgb } from '../../__helpers__/colors';
+import { render } from '../../__helpers__/setUpTest';
 
 describe('<DoughnutChartLegend />', () => {
   const chartData: DoughnutChartEntry[] = [
@@ -19,22 +19,26 @@ describe('<DoughnutChartLegend />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it.each([[true], [false]])('renders the expected amount of items with expected colors and labels', (showNumbers) => {
-    setUp(showNumbers);
+  it.each([[true], [false]])(
+    'renders the expected amount of items with expected colors and labels',
+    async (showNumbers) => {
+      const screen = await setUp(showNumbers);
+      const items = screen.getByRole('listitem').all();
 
-    const items = screen.getAllByRole('listitem');
+      expect.assertions(chartData.length * 2 + 1);
+      expect(items).toHaveLength(chartData.length);
 
-    expect.assertions(chartData.length * 2 + 1);
-    expect(items).toHaveLength(chartData.length);
-
-    chartData.forEach(({ name, color, value }, index) => {
-      const { r, g, b } = hexToRgb(color);
-      expect(screen.getByTestId(`color-bullet-${index}`)).toHaveStyle({
-        'background-color': `rgb(${r}, ${g}, ${b})`,
-      });
-      expect(screen.getByTestId(`name-${index}`)).toHaveTextContent(
-        showNumbers ? `${name} (${formatNumber(value)})` : name,
+      await Promise.all(
+        chartData.map(async ({ name, color, value }, index) => {
+          const { r, g, b } = hexToRgb(color);
+          await expect.element(screen.getByTestId(`color-bullet-${index}`)).toHaveStyle({
+            backgroundColor: `rgb(${r}, ${g}, ${b})`,
+          });
+          await expect
+            .element(screen.getByTestId(`name-${index}`))
+            .toHaveTextContent(showNumbers ? `${name} (${formatNumber(value)})` : name);
+        }),
       );
-    });
-  });
+    },
+  );
 });

@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { UiSettings } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';
@@ -27,21 +26,21 @@ describe('<UserInterfaceSettings />', () => {
     [{ theme: 'light' as const }, false, false],
     [undefined, false, false],
     [undefined, true, true],
-  ])('toggles switch if theme is dark', (ui, defaultDarkTheme, expectedChecked) => {
-    setUp(ui, defaultDarkTheme);
+  ])('toggles switch if theme is dark', async (ui, defaultDarkTheme, expectedChecked) => {
+    const screen = await setUp(ui, defaultDarkTheme);
 
     if (expectedChecked) {
-      expect(screen.getByLabelText('Use dark theme.')).toBeChecked();
+      await expect.element(screen.getByLabelText('Use dark theme.')).toBeChecked();
     } else {
-      expect(screen.getByLabelText('Use dark theme.')).not.toBeChecked();
+      await expect.element(screen.getByLabelText('Use dark theme.')).not.toBeChecked();
     }
   });
 
   it.each([[{ theme: 'dark' as const }], [{ theme: 'light' as const }], [undefined]])(
     'shows different icons based on theme',
-    (ui) => {
-      setUp(ui);
-      expect(screen.getByRole('img', { hidden: true })).toMatchSnapshot();
+    async (ui) => {
+      const screen = await setUp(ui);
+      expect(screen.getByRole('img', { includeHidden: true }).element()).toMatchSnapshot();
     },
   );
 
@@ -49,7 +48,7 @@ describe('<UserInterfaceSettings />', () => {
     ['light' as const, 'dark' as const],
     ['dark' as const, 'light' as const],
   ])('invokes setUiSettings when theme toggle value changes', async (initialTheme, expectedTheme) => {
-    const { user } = setUp({ theme: initialTheme });
+    const { user, ...screen } = await setUp({ theme: initialTheme });
 
     expect(setUiSettings).not.toHaveBeenCalled();
     await user.click(screen.getByLabelText('Use dark theme.'));

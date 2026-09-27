@@ -1,9 +1,9 @@
-import { fireEvent, screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { QrCodeSettings } from '../../../../src/settings';
 import { defaultQrCodeSettings, SettingsProvider } from '../../../../src/settings';
 import { QrCodeSizeSettings } from '../../../../src/settings/components/qr-codes/QrCodeSizeSettings';
 import { checkAccessibility } from '../../../__helpers__/accessibility';
+import { setNativeInputValue } from '../../../__helpers__/input';
 import { renderWithEvents } from '../../../__helpers__/setUpTest';
 
 describe('<QrCodeSizeSettings />', () => {
@@ -28,32 +28,30 @@ describe('<QrCodeSizeSettings />', () => {
       expectedSize: 580,
       expectedMargin: 20,
     },
-  ])('shows hints with expected sizes', ({ settings, expectedSize, expectedMargin }) => {
-    setUp(settings);
+  ])('shows hints with expected sizes', async ({ settings, expectedSize, expectedMargin }) => {
+    const screen = await setUp(settings);
 
-    expect(screen.getByTestId('size')).toHaveTextContent(`${expectedSize}x${expectedSize}px`);
-    expect(screen.getByLabelText('Default dimensions:')).toHaveValue(`${expectedSize}`);
-    expect(screen.getByTestId('margin')).toHaveTextContent(`${expectedMargin}px`);
-    expect(screen.getByLabelText('Default margin:')).toHaveValue(`${expectedMargin}`);
+    await Promise.all([
+      expect.element(screen.getByTestId('size')).toHaveTextContent(`${expectedSize}x${expectedSize}px`),
+      expect.element(screen.getByLabelText('Default dimensions:')).toHaveValue(`${expectedSize}`),
+      expect.element(screen.getByTestId('margin')).toHaveTextContent(`${expectedMargin}px`),
+      expect.element(screen.getByLabelText('Default margin:')).toHaveValue(`${expectedMargin}`),
+    ]);
   });
 
-  it('can change sizes via range inputs', () => {
+  it('can change sizes via range inputs', async () => {
     const settings = fromPartial<QrCodeSettings>({
       size: 800,
       margin: 35,
     });
-    setUp(settings);
+    const screen = await setUp(settings);
 
     expect(onChange).not.toHaveBeenCalled();
 
-    fireEvent.change(screen.getByLabelText('Default dimensions:'), {
-      target: { value: '200' },
-    });
+    setNativeInputValue(screen.getByLabelText('Default dimensions:').element() as HTMLInputElement, '200');
     expect(onChange).toHaveBeenLastCalledWith({ ...settings, size: 200 });
 
-    fireEvent.change(screen.getByLabelText('Default margin:'), {
-      target: { value: '40' },
-    });
+    setNativeInputValue(screen.getByLabelText('Default margin:').element() as HTMLInputElement, '40');
     expect(onChange).toHaveBeenLastCalledWith({ ...settings, margin: 40 });
   });
 });

@@ -1,9 +1,8 @@
-import { screen } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import type { ShlinkOrphanVisitType } from '../../../src/api-contract';
 import type { DropdownOptions } from '../../../src/visits/helpers/VisitsDropdown';
 import { VisitsDropdown } from '../../../src/visits/helpers/VisitsDropdown';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import type { RenderWithEventsResult } from '../../__helpers__/setUpTest';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
@@ -23,23 +22,24 @@ describe('<VisitsDropdown />', () => {
         onChange={onChange}
       />,
     );
-  const openDropdown = (user: UserEvent) => user.click(screen.getByRole('button', { name: 'More' }));
+  const openDropdown = ({ user, ...screen }: RenderWithEventsResult) =>
+    user.click(screen.getByRole('button', { name: 'More' }));
 
   it.each([
     [setUp],
     [
       async () => {
-        const { user, container } = setUp();
-        await openDropdown(user);
+        const result = await setUp();
+        await openDropdown(result);
 
-        return { container };
+        return result;
       },
     ],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
-  it('has expected text', () => {
-    setUp();
-    expect(screen.getByRole('button', { name: 'More' })).toBeInTheDocument();
+  it('has expected text', async () => {
+    const screen = await setUp();
+    await expect.element(screen.getByRole('button', { name: 'More' })).toBeInTheDocument();
   });
 
   it.each([
@@ -50,12 +50,12 @@ describe('<VisitsDropdown />', () => {
   ])(
     'renders expected amount of items',
     async (isOrphanVisits, withPrevInterval, expectedItemsAmount, expectedHeadersAmount) => {
-      const { user } = setUp({ isOrphanVisits, withPrevInterval });
+      const { user, ...screen } = await setUp({ isOrphanVisits, withPrevInterval });
 
-      await openDropdown(user);
+      await openDropdown({ user, ...screen });
 
-      expect(screen.getAllByRole('menuitem')).toHaveLength(expectedItemsAmount);
-      expect(screen.getAllByRole('heading', { hidden: true })).toHaveLength(expectedHeadersAmount);
+      expect(screen.getByRole('menuitem').all()).toHaveLength(expectedItemsAmount);
+      expect(screen.getByRole('heading', { includeHidden: true }).all()).toHaveLength(expectedHeadersAmount);
     },
   );
 
@@ -65,11 +65,11 @@ describe('<VisitsDropdown />', () => {
     ['regular_404' as ShlinkOrphanVisitType, 3, 1],
     [undefined, -1, 0],
   ])('sets expected item as active', async (orphanVisitsType, expectedSelectedIndex, expectedActiveItems) => {
-    const { user } = setUp({ selected: { orphanVisitsType } });
+    const { user, ...screen } = await setUp({ selected: { orphanVisitsType } });
 
-    await openDropdown(user);
+    await openDropdown({ user, ...screen });
 
-    const items = screen.getAllByRole('menuitem');
+    const items = screen.getByRole('menuitem').elements();
     const activeItem = items.filter((item) => item.dataset.selected === 'true');
 
     expect.assertions(expectedActiveItems + 1);
@@ -97,10 +97,10 @@ describe('<VisitsDropdown />', () => {
       { excludeBots: true },
     ],
   ])('invokes onChange with proper selection when an item is clicked', async (name, expectedSelection, selected) => {
-    const { user } = setUp({ selected, withPrevInterval: true });
+    const { user, ...screen } = await setUp({ selected, withPrevInterval: true });
 
     expect(onChange).not.toHaveBeenCalled();
-    await openDropdown(user);
+    await openDropdown({ user, ...screen });
     await user.click(screen.getByRole('menuitem', { name }));
     expect(onChange).toHaveBeenCalledWith(expectedSelection);
   });

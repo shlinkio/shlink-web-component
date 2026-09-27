@@ -1,9 +1,8 @@
-import { screen, waitFor } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { OpenMapModalBtn } from '../../../src/visits/helpers/OpenMapModalBtn';
 import type { CityStats } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import type { RenderWithEventsResult } from '../../__helpers__/setUpTest';
 import { renderWithEvents } from '../../__helpers__/setUpTest';
 
 describe('<OpenMapModalBtn />', () => {
@@ -14,53 +13,62 @@ describe('<OpenMapModalBtn />', () => {
   ];
   const setUp = (activeCities?: string[]) =>
     renderWithEvents(<OpenMapModalBtn modalTitle={title} locations={locations} activeCities={activeCities} />);
-  const openDropdown = (user: UserEvent) => user.click(screen.getByRole('button'));
+  const openDropdown = ({ user, ...screen }: RenderWithEventsResult) => user.click(screen.getByRole('button'));
 
   it.each([
     [setUp],
     [
       async () => {
-        const { user, container } = setUp();
-        await openDropdown(user);
+        const result = await setUp();
+        await openDropdown(result);
 
-        return { container };
+        return result;
       },
     ],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
 
   it('opens modal on click', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    await Promise.all([
+      expect.element(screen.getByRole('dialog')).not.toBeInTheDocument(),
+      expect.element(screen.getByRole('menu')).not.toBeInTheDocument(),
+    ]);
 
-    await openDropdown(user);
-    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    await openDropdown({ user, ...screen });
+
+    await Promise.all([
+      expect.element(screen.getByRole('dialog')).toBeInTheDocument(),
+      expect.element(screen.getByRole('menu')).not.toBeInTheDocument(),
+    ]);
   });
 
   it('opens dropdown instead of modal when a list of active cities has been provided', async () => {
-    const { user } = setUp(['bar']);
+    const { user, ...screen } = await setUp(['bar']);
 
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    await Promise.all([
+      expect.element(screen.getByRole('menu')).not.toBeInTheDocument(),
+      expect.element(screen.getByRole('dialog')).not.toBeInTheDocument(),
+    ]);
 
-    await openDropdown(user);
+    await openDropdown({ user, ...screen });
 
-    await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    await Promise.all([
+      expect.element(screen.getByRole('menu')).toBeInTheDocument(),
+      expect.element(screen.getByRole('dialog')).not.toBeInTheDocument(),
+    ]);
   });
 
   it.each([
     ['Show all locations', 2],
     ['Show locations in current page', 1],
   ])('filters out non-active cities from list of locations', async (name, expectedMarkers) => {
-    const { user } = setUp(['bar']);
+    const { user, ...screen } = await setUp(['bar']);
 
-    await openDropdown(user);
+    await openDropdown({ user, ...screen });
     await user.click(screen.getByRole('menuitem', { name }));
-    await screen.findByRole('dialog');
+    await screen.getByRole('dialog').findElement();
 
-    expect(screen.getAllByAltText('Marker')).toHaveLength(expectedMarkers);
+    expect(screen.getByAltText('Marker').all()).toHaveLength(expectedMarkers);
   });
 });

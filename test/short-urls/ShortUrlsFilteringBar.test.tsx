@@ -1,5 +1,3 @@
-import { screen, waitFor } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { formatISO, parseISO } from 'date-fns';
 import type { MemoryHistory } from 'history';
@@ -12,6 +10,8 @@ import { ShortUrlsFilteringBar } from '../../src/short-urls/ShortUrlsFilteringBa
 import { FeaturesProvider } from '../../src/utils/features';
 import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
+import { setNativeInputValue } from '../__helpers__/input';
+import type { RenderWithEventsResult } from '../__helpers__/setUpTest';
 import { renderWithStore } from '../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../utils/services/__mocks__/ColorGenerator.mock';
 
@@ -70,19 +70,19 @@ describe('<ShortUrlsFilteringBar />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('renders expected children components', () => {
-    setUp();
-    expect(screen.getByRole('button', { name: /^Export/ })).toBeInTheDocument();
+  it('renders expected children components', async () => {
+    const screen = await setUp();
+    await expect.element(screen.getByRole('button', { name: /^Export/ })).toBeInTheDocument();
   });
 
   it('redirects to first page when search field changes', async () => {
-    const { user } = setUp({ routesPrefix: '/server/1' });
+    const { user, ...screen } = await setUp({ routesPrefix: '/server/1' });
 
     expect(paramFromCurrentQuery('search')).toBeNull();
-    await user.type(screen.getByPlaceholderText('Search...'), 'search-term');
+    await user.type(screen.getByPlaceholder('Search...'), 'search-term');
 
     // Searching is deferred. Wait for query to be applied
-    await waitFor(() => expect(paramFromCurrentQuery('search')).toEqual('search-term'));
+    await expect.poll(() => paramFromCurrentQuery('search')).toEqual('search-term');
     expect(currentPath()).toEqual('/server/1/list-short-urls/1');
   });
 
@@ -90,22 +90,24 @@ describe('<ShortUrlsFilteringBar />', () => {
 
   it.each([
     [
-      (user: UserEvent) => user.type(screen.getByLabelText('Since:'), '2022-05-07'),
+      (screen: RenderWithEventsResult) =>
+        setNativeInputValue(screen.getByLabelText('Since:').element() as HTMLInputElement, '2022-05-07'),
       `startDate=${uriEncodedISODate('2022-05-07')}`,
     ],
     [
-      (user: UserEvent) => user.type(screen.getByLabelText('Until:'), '2023-12-18'),
+      (screen: RenderWithEventsResult) =>
+        setNativeInputValue(screen.getByLabelText('Until:').element() as HTMLInputElement, '2023-12-18'),
       `endDate=${uriEncodedISODate('2023-12-18T23:59:59')}`,
     ],
   ])('redirects to first page when date range changes', async (typeDates, expectedQuery) => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     await user.click(screen.getByRole('button', { name: 'All short URLs' }));
-    expect(await screen.findByRole('menu')).toBeInTheDocument();
+    await expect.element(screen.getByRole('menu')).toBeInTheDocument();
 
     expect(currentQuery()).toEqual('');
 
-    await typeDates(user);
+    typeDates({ user, ...screen });
     expect(currentPath()).toEqual('/list-short-urls/1');
     expect(currentQuery()).toEqual(`?${expectedQuery}`);
   });
@@ -121,10 +123,11 @@ describe('<ShortUrlsFilteringBar />', () => {
     ['excludePastValidUntil=false', /Exclude enabled in the past/, 'excludePastValidUntil=true'],
     ['excludePastValidUntil=true', /Exclude enabled in the past/, 'excludePastValidUntil=false'],
   ])('allows to toggle filters through "More" dropdown', async (search, menuItemName, expectedQuery) => {
-    const { user } = setUp({ search });
+    const { user, ...screen } = await setUp({ search });
     const toggleFilter = async (name: RegExp) => {
       await user.click(screen.getByRole('button', { name: /^More/ }));
-      await waitFor(() => screen.findByRole('menu'));
+      // Wait for menu to be fully displayed
+      await screen.getByRole('menu').findElement();
       await user.click(screen.getByRole('menuitem', { name }));
     };
 
@@ -133,10 +136,10 @@ describe('<ShortUrlsFilteringBar />', () => {
   });
 
   it('handles order through dropdown', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
     const clickMenuItem = async (name: string | RegExp) => {
       await user.click(screen.getByRole('button', { name: 'Order by...' }));
-      await user.click(await screen.findByRole('menuitem', { name }));
+      await user.click(screen.getByRole('menuitem', { name }));
     };
 
     await clickMenuItem(/^Short URL/);
@@ -149,84 +152,87 @@ describe('<ShortUrlsFilteringBar />', () => {
     expect(handleOrderBy).toHaveBeenCalledWith('longUrl', 'ASC');
   });
 
-  it.each([true, false])('shows domain dropdown if filtering by domain is supported', (filterByDomainSupported) => {
-    setUp({ filterByDomainSupported });
+  it.each([true, false])(
+    'shows domain dropdown if filtering by domain is supported',
+    async (filterByDomainSupported) => {
+      const screen = await setUp({ filterByDomainSupported });
 
-    if (filterByDomainSupported) {
-      expect(screen.getByRole('button', { name: 'All domains' })).toBeInTheDocument();
-    } else {
-      expect(screen.queryByRole('button', { name: 'All domains' })).not.toBeInTheDocument();
-    }
-  });
+      if (filterByDomainSupported) {
+        await expect.element(screen.getByRole('button', { name: 'All domains' })).toBeInTheDocument();
+      } else {
+        await expect.element(screen.getByRole('button', { name: 'All domains' })).not.toBeInTheDocument();
+      }
+    },
+  );
 
   it.each([
     { domain: /^example.com/, expectedQueryDomain: DEFAULT_DOMAIN },
     { domain: 's.test', expectedQueryDomain: 's.test' },
   ])('updates query params when selected domain changes', async ({ domain, expectedQueryDomain }) => {
-    const { user } = setUp({ filterByDomainSupported: true });
+    const { user, ...screen } = await setUp({ filterByDomainSupported: true });
 
     await user.click(screen.getByRole('button', { name: 'All domains' }));
-    expect(await screen.findByRole('menu')).toBeInTheDocument();
+    await expect.element(screen.getByRole('menu')).toBeInTheDocument();
 
     await user.click(screen.getByRole('menuitem', { name: domain }));
-    await waitFor(() => expect(paramFromCurrentQuery('domain')).toEqual(expectedQueryDomain));
+    await expect.poll(() => paramFromCurrentQuery('domain')).toEqual(expectedQueryDomain);
   });
 
   it('updates query params when tags change', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     await user.click(screen.getByRole('button', { name: 'With tags...' }));
-    const menu = await screen.findByRole('menu');
+    const menu = await screen.getByRole('menu').findElement();
 
     await user.type(menu.querySelector('[placeholder="Search..."]')!, 'f');
-    await user.click(await screen.findByRole('option', { name: 'foo' }));
+    await user.click(screen.getByRole('option', { name: 'foo' }));
 
-    await waitFor(() => expect(paramFromCurrentQuery('tags')).toEqual('foo'));
+    await expect.poll(() => paramFromCurrentQuery('tags')).toEqual('foo');
   });
 
   it('updates query params when tags mode changes', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     await user.click(screen.getByRole('button', { name: 'With tags...' }));
 
-    await user.click(await screen.findByRole('button', { name: 'Any' }));
-    await waitFor(() => expect(paramFromCurrentQuery('tagsMode')).toEqual('any'));
+    await user.click(screen.getByRole('button', { name: 'Any' }));
+    await expect.poll(() => paramFromCurrentQuery('tagsMode')).toEqual('any');
 
-    await user.click(await screen.findByRole('button', { name: 'All' }));
-    await waitFor(() => expect(paramFromCurrentQuery('tagsMode')).toEqual('all'));
+    await user.click(screen.getByRole('button', { name: 'All' }));
+    await expect.poll(() => paramFromCurrentQuery('tagsMode')).toEqual('all');
   });
 
-  it.each([true, false])('shows exclude tags dropdown if supported', (filterByExcludedTagSupported) => {
-    setUp({ filterByExcludedTagSupported });
+  it.each([true, false])('shows exclude tags dropdown if supported', async (filterByExcludedTagSupported) => {
+    const screen = await setUp({ filterByExcludedTagSupported });
 
     if (filterByExcludedTagSupported) {
-      expect(screen.getByRole('button', { name: 'Without tags...' })).toBeInTheDocument();
+      await expect.element(screen.getByRole('button', { name: 'Without tags...' })).toBeInTheDocument();
     } else {
-      expect(screen.queryByRole('button', { name: 'Without tags...' })).not.toBeInTheDocument();
+      await expect.element(screen.getByRole('button', { name: 'Without tags...' })).not.toBeInTheDocument();
     }
   });
 
   it('updates query params when excluded tags change', async () => {
-    const { user } = setUp({ filterByExcludedTagSupported: true });
+    const { user, ...screen } = await setUp({ filterByExcludedTagSupported: true });
 
     await user.click(screen.getByRole('button', { name: 'Without tags...' }));
-    const menu = await screen.findByRole('menu');
+    const menu = await screen.getByRole('menu').findElement();
 
     await user.type(menu.querySelector('[placeholder="Search..."]')!, 'ba');
-    await user.click(await screen.findByRole('option', { name: 'bar' }));
+    await user.click(screen.getByRole('option', { name: 'bar' }));
 
-    await waitFor(() => expect(paramFromCurrentQuery('excludeTags')).toEqual('bar'));
+    await expect.poll(() => paramFromCurrentQuery('excludeTags')).toEqual('bar');
   });
 
   it('updates query params when excluded tags mode changes', async () => {
-    const { user } = setUp({ filterByExcludedTagSupported: true });
+    const { user, ...screen } = await setUp({ filterByExcludedTagSupported: true });
 
     await user.click(screen.getByRole('button', { name: 'Without tags...' }));
 
-    await user.click(await screen.findByRole('button', { name: 'Any' }));
-    await waitFor(() => expect(paramFromCurrentQuery('excludeTagsMode')).toEqual('any'));
+    await user.click(screen.getByRole('button', { name: 'Any' }));
+    await expect.poll(() => paramFromCurrentQuery('excludeTagsMode')).toEqual('any');
 
-    await user.click(await screen.findByRole('button', { name: 'All' }));
-    await waitFor(() => expect(paramFromCurrentQuery('excludeTagsMode')).toEqual('all'));
+    await user.click(screen.getByRole('button', { name: 'All' }));
+    await expect.poll(() => paramFromCurrentQuery('excludeTagsMode')).toEqual('all');
   });
 });

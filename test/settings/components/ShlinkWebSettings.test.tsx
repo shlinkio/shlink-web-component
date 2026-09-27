@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
 import { ShlinkWebSettings } from '../../../src/settings';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import { render } from '../../__helpers__/setUpTest';
 
 describe('<ShlinkWebSettings />', () => {
   const setUp = (activeRoute = '/') => {
@@ -72,20 +72,24 @@ describe('<ShlinkWebSettings />', () => {
         'Visits list',
       ],
     },
-  ])('renders expected sections based on route', ({ activeRoute, visibleComps, hiddenComps }) => {
-    setUp(activeRoute);
+  ])('renders expected sections based on route', async ({ activeRoute, visibleComps, hiddenComps }) => {
+    const screen = await setUp(activeRoute);
 
-    visibleComps.forEach((name) => expect(screen.getByRole('heading', { name })).toBeInTheDocument());
-    hiddenComps.forEach((name) => expect(screen.queryByRole('heading', { name })).not.toBeInTheDocument());
+    await Promise.all([
+      ...visibleComps.map((name) => expect.element(screen.getByRole('heading', { name })).toBeInTheDocument()),
+      ...hiddenComps.map((name) => expect.element(screen.getByRole('heading', { name })).not.toBeInTheDocument()),
+    ]);
   });
 
-  it('renders expected menu', () => {
-    setUp();
+  it('renders expected menu', async () => {
+    const screen = await setUp();
 
-    expect(screen.getByRole('menuitem', { name: 'General' })).toHaveAttribute('href', '/general');
-    expect(screen.getByRole('menuitem', { name: 'Short URLs' })).toHaveAttribute('href', '/short-urls');
-    expect(screen.getByRole('menuitem', { name: 'Visits' })).toHaveAttribute('href', '/visits');
-    expect(screen.getByRole('menuitem', { name: 'Tags' })).toHaveAttribute('href', '/tags');
-    expect(screen.getByRole('menuitem', { name: 'QR codes' })).toHaveAttribute('href', '/qr-codes');
+    await Promise.all([
+      expect.element(screen.getByRole('menuitem', { name: 'General' })).toHaveAttribute('href', '/general'),
+      expect.element(screen.getByRole('menuitem', { name: 'Short URLs' })).toHaveAttribute('href', '/short-urls'),
+      expect.element(screen.getByRole('menuitem', { name: 'Visits' })).toHaveAttribute('href', '/visits'),
+      expect.element(screen.getByRole('menuitem', { name: 'Tags' })).toHaveAttribute('href', '/tags'),
+      expect.element(screen.getByRole('menuitem', { name: 'QR codes' })).toHaveAttribute('href', '/qr-codes'),
+    ]);
   });
 });

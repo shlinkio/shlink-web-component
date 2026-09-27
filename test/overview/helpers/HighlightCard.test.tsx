@@ -1,4 +1,3 @@
-import { screen, waitFor } from '@testing-library/react';
 import type { PropsWithChildren } from 'react';
 import { MemoryRouter } from 'react-router';
 import type { HighlightCardProps } from '../../../src/overview/helpers/HighlightCard';
@@ -16,27 +15,28 @@ describe('<HighlightCard />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp({ children: 'Something' })));
 
-  it.each([['foo'], ['bar'], ['baz']])('renders provided title', (title) => {
-    setUp({ title });
-    expect(screen.getByRole('heading')).toHaveTextContent(title);
+  it.each([['foo'], ['bar'], ['baz']])('renders provided title', async (title) => {
+    const screen = await setUp({ title });
+    await expect.element(screen.getByRole('heading')).toHaveTextContent(title);
   });
 
-  it.each([['foo'], ['bar'], ['baz']])('renders provided children', (children) => {
-    setUp({ children });
-    expect(screen.getByText(children)).toBeInTheDocument();
+  it.each([['foo'], ['bar'], ['baz']])('renders provided children', async (children) => {
+    const screen = await setUp({ children });
+    await expect.element(screen.getByText(children)).toBeInTheDocument();
   });
 
-  it.each([['foo'], ['bar'], ['baz']])('adds extra props when a link is provided', (link) => {
-    setUp({ link });
+  it.each([['foo'], ['bar'], ['baz']])('adds extra props when a link is provided', async (link) => {
+    const screen = await setUp({ link });
 
-    expect(screen.getByRole('img', { hidden: true })).toBeInTheDocument();
-    expect(screen.getByRole('link')).toHaveAttribute('href', `/${link}`);
+    await expect.element(screen.getByRole('img', { includeHidden: true })).toBeInTheDocument();
+    await expect.element(screen.getByRole('link')).toHaveAttribute('href', `/${link}`);
   });
 
   it('renders tooltip when provided', async () => {
-    const { user } = setUp({ children: 'Foo', tooltip: 'This is the tooltip' });
+    const { user, ...screen } = await setUp({ children: 'Foo', tooltip: 'This is the tooltip' });
 
     await user.hover(screen.getByText('Foo'));
-    await waitFor(() => expect(screen.getByText('This is the tooltip')).toBeInTheDocument());
+    await expect.element(screen.getByText(/This is the tooltip/)).toBeInTheDocument();
+    await user.unhover(screen.getByText('Foo'));
   });
 });

@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
 import { MapModal } from '../../../src/visits/helpers/MapModal';
 import type { CityStats } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import { render } from '../../__helpers__/setUpTest';
 
 describe('<MapModal />', () => {
   const toggle = vi.fn();
@@ -25,8 +25,8 @@ describe('<MapModal />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('renders expected map', () => {
-    setUp();
-    expect(screen.getByRole('dialog')).toMatchSnapshot();
+  it('renders expected map', async () => {
+    const screen = await setUp();
+    expect(screen.getByRole('dialog').element()).toMatchSnapshot();
   });
 });

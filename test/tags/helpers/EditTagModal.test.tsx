@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { ContainerProvider } from '../../../src/container/context';
 import { EditTagModal } from '../../../src/tags/helpers/EditTagModal';
@@ -28,7 +27,7 @@ describe('<EditTagModal />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('allows modal to be closed with different mechanisms', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -42,28 +41,28 @@ describe('<EditTagModal />', () => {
   it.each([
     [true, 'Saving...'],
     [false, 'Save'],
-  ])('renders submit button in expected state', (editing, name) => {
-    setUp({ status: editing ? 'editing' : 'idle' });
-    expect(screen.getByRole('button', { name })).toBeInTheDocument();
+  ])('renders submit button in expected state', async (editing, name) => {
+    const screen = await setUp({ status: editing ? 'editing' : 'idle' });
+    await expect.element(screen.getByRole('button', { name })).toBeInTheDocument();
   });
 
-  it('displays error result in case of error', () => {
-    setUp({ status: 'error', error: fromPartial({}) });
-    expect(screen.getByText('Something went wrong while editing the tag :(')).toBeInTheDocument();
+  it('displays error result in case of error', async () => {
+    const screen = await setUp({ status: 'error', error: fromPartial({}) });
+    await expect.element(screen.getByText('Something went wrong while editing the tag :(')).toBeInTheDocument();
   });
 
   it('updates tag value when text changes', async () => {
-    const { user } = setUp();
-    const getInput = () => screen.getByPlaceholderText('Tag');
+    const { user, ...screen } = await setUp();
+    const getInput = () => screen.getByPlaceholder('Tag');
 
-    expect(getInput()).toHaveValue('foo');
+    await expect.element(getInput()).toHaveValue('foo');
     await user.clear(getInput());
     await user.type(getInput(), 'bar');
-    expect(getInput()).toHaveValue('bar');
+    await expect.element(getInput()).toHaveValue('bar');
   });
 
   it('invokes all functions on form submit', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     expect(editTag).not.toHaveBeenCalled();
     expect(onClose).not.toHaveBeenCalled();

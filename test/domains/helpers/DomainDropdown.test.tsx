@@ -1,5 +1,3 @@
-import { screen } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { Domain } from '../../../src/domains/data';
@@ -10,6 +8,7 @@ import { RoutesPrefixProvider } from '../../../src/utils/routesPrefix';
 import type { VisitsComparison } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { VisitsComparisonProvider } from '../../../src/visits/visits-comparison/VisitsComparisonContext';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import type { RenderWithEventsResult } from '../../__helpers__/setUpTest';
 import { renderWithStore } from '../../__helpers__/setUpTest';
 
 type SetUpOptions = {
@@ -34,7 +33,7 @@ describe('<DomainDropdown />', () => {
       </MemoryRouter>,
     );
 
-  const openMenu = async (user: UserEvent) => {
+  const openMenu = async ({ user, ...screen }: RenderWithEventsResult) => {
     // Search by "Options" name, as that's the default aria-label
     await user.click(screen.getByRole('button', { name: 'Options' }));
   };
@@ -43,10 +42,10 @@ describe('<DomainDropdown />', () => {
     [setUp],
     [
       async () => {
-        const { user, container } = setUp({ visitsComparison: { itemsToCompare: [] } });
-        await openMenu(user);
+        const result = await setUp({ visitsComparison: { itemsToCompare: [] } });
+        await openMenu(result);
 
-        return { container };
+        return result;
       },
     ],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
@@ -54,16 +53,17 @@ describe('<DomainDropdown />', () => {
   it.each([{ filterShortUrlsByDomain: true }, { filterShortUrlsByDomain: false }])(
     'renders expected menu items',
     async ({ filterShortUrlsByDomain }) => {
-      const { user } = setUp({ filterShortUrlsByDomain });
-      await openMenu(user);
+      const screen = await setUp({ filterShortUrlsByDomain });
+      await openMenu(screen);
 
-      expect(screen.getByText('Visit stats')).toBeInTheDocument();
-      expect(screen.getByText('Compare visits')).toBeInTheDocument();
-      expect(screen.getByText('Edit redirects')).toBeInTheDocument();
+      await expect.element(screen.getByText('Visit stats')).toBeInTheDocument();
+      await expect.element(screen.getByText('Compare visits')).toBeInTheDocument();
+      await expect.element(screen.getByText('Edit redirects')).toBeInTheDocument();
+
       if (filterShortUrlsByDomain) {
-        expect(screen.getByText('Short URLs')).toBeInTheDocument();
+        await expect.element(screen.getByText('Short URLs')).toBeInTheDocument();
       } else {
-        expect(screen.queryByText('Short URLs')).not.toBeInTheDocument();
+        await expect.element(screen.getByText('Short URLs')).not.toBeInTheDocument();
       }
     },
   );
@@ -72,49 +72,52 @@ describe('<DomainDropdown />', () => {
     [true, '_DEFAULT'],
     [false, ''],
   ])('points visits link to the proper section', async (isDefault, expectedLink) => {
-    const { user } = setUp({ domain: fromPartial({ domain: 'foo.com', isDefault }) });
-    await openMenu(user);
-    expect(screen.getByText('Visit stats')).toHaveAttribute('href', `/server/123/domain/foo.com${expectedLink}/visits`);
+    const screen = await setUp({ domain: fromPartial({ domain: 'foo.com', isDefault }) });
+    await openMenu(screen);
+
+    await expect
+      .element(screen.getByText('Visit stats'))
+      .toHaveAttribute('href', `/server/123/domain/foo.com${expectedLink}/visits`);
   });
 
   it.each([
     [true, DEFAULT_DOMAIN],
     [false, 'foo.com'],
   ])('points short URLs link to the proper section', async (isDefault, expectedLink) => {
-    const { user } = setUp({ domain: fromPartial({ domain: 'foo.com', isDefault }) });
-    await openMenu(user);
-    expect(screen.getByText('Short URLs')).toHaveAttribute(
-      'href',
-      `/server/123/list-short-urls/1?domain=${expectedLink}`,
-    );
+    const screen = await setUp({ domain: fromPartial({ domain: 'foo.com', isDefault }) });
+    await openMenu(screen);
+
+    await expect
+      .element(screen.getByText('Short URLs'))
+      .toHaveAttribute('href', `/server/123/list-short-urls/1?domain=${expectedLink}`);
   });
 
   it.each([['foo.com'], ['bar.org'], ['baz.net']])('displays modal when editing redirects', async (domain) => {
-    const { user } = setUp({ domain: fromPartial({ domain, isDefault: false }) });
+    const { user, ...screen } = await setUp({ domain: fromPartial({ domain, isDefault: false }) });
 
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(screen.queryByRole('form')).not.toBeInTheDocument();
-    await openMenu(user);
+    await expect.element(screen.getByRole('dialog')).not.toBeInTheDocument();
+    await expect.element(screen.getByRole('form')).not.toBeInTheDocument();
+    await openMenu({ user, ...screen });
 
     await user.click(screen.getByText('Edit redirects'));
-    expect(await screen.findByRole('dialog')).toBeInTheDocument();
+    await expect.element(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   it('displays dropdown when clicked', async () => {
-    const { user } = setUp();
+    const screen = await setUp();
 
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
-    await openMenu(user);
-    expect(await screen.findByRole('menu')).toBeInTheDocument();
+    await expect.element(screen.getByRole('menu')).not.toBeInTheDocument();
+    await openMenu(screen);
+    await expect.element(screen.getByRole('menu')).toBeInTheDocument();
   });
 
   it.each([[undefined], [{ itemsToCompare: [{ name: 's.test', query: '' }], canAddItemWithName: () => false }]])(
     'disables compare visits item when it cannot be added',
     async (visitsComparison) => {
-      const { user } = setUp({ visitsComparison, domain: fromPartial({ domain: 's.test' }) });
-      await openMenu(user);
+      const screen = await setUp({ visitsComparison, domain: fromPartial({ domain: 's.test' }) });
+      await openMenu(screen);
 
-      expect(screen.getByRole('menuitem', { name: 'Compare visits' })).toBeDisabled();
+      await expect.element(screen.getByRole('menuitem', { name: 'Compare visits' })).toBeDisabled();
     },
   );
 
@@ -122,12 +125,12 @@ describe('<DomainDropdown />', () => {
     const addItemToCompare = vi.fn();
     const visitsComparison: Partial<VisitsComparison> = { itemsToCompare: [], addItemToCompare };
     const domain = 's.test';
-    const { user } = setUp({ visitsComparison, domain: fromPartial({ domain }) });
+    const { user, ...screen } = await setUp({ visitsComparison, domain: fromPartial({ domain }) });
 
-    await openMenu(user);
+    await openMenu({ user, ...screen });
     const item = screen.getByRole('menuitem', { name: 'Compare visits' });
 
-    expect(item).not.toHaveAttribute('disabled');
+    await expect.element(item).not.toHaveAttribute('disabled');
     await user.click(item);
 
     expect(addItemToCompare).toHaveBeenCalledWith({ name: domain, query: domain });

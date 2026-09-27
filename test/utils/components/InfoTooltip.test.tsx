@@ -1,4 +1,3 @@
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import type { InfoTooltipProps } from '../../../src/utils/components/InfoTooltip';
 import { InfoTooltip } from '../../../src/utils/components/InfoTooltip';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -10,13 +9,13 @@ describe('<InfoTooltip />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it.each([[undefined], ['foo'], ['bar']])('renders expected className on span', (className) => {
-    const { container } = setUp({ className });
+  it.each([[undefined], ['foo'], ['bar']])('renders expected className on span', async (className) => {
+    const { container } = await setUp({ className });
 
     if (className) {
-      expect(container.firstChild).toHaveClass(className);
+      await expect.element(container.firstChild as HTMLElement).toHaveClass(className);
     } else {
-      expect(container.firstChild).not.toHaveAttribute('class');
+      await expect.element(container.firstChild as HTMLElement).not.toHaveAttribute('class');
     }
   });
 
@@ -26,31 +25,30 @@ describe('<InfoTooltip />', () => {
     ['Hello', 'Hello'],
     [['One', 'Two', <span key={3} />], 'OneTwo'],
   ])('passes children down to the nested tooltip component', async (children, expectedContent) => {
-    const { user } = setUp({ children });
+    const { user, ...screen } = await setUp({ children });
     const anchor = screen.getByTestId('tooltip-anchor');
 
     await user.hover(anchor);
-    const tooltip = await screen.findByRole('tooltip');
+    const tooltip = await screen.getByRole('tooltip').findElement();
 
-    expect(tooltip).toHaveTextContent(expectedContent);
-
+    await expect.element(tooltip).toMatchTextContent(expectedContent);
     await user.unhover(anchor);
-    await waitForElementToBeRemoved(tooltip);
+    await expect.element(tooltip).not.toBeInTheDocument();
   });
 
   it.each([['right' as const], ['left' as const], ['top' as const], ['bottom' as const]])(
     'places tooltip where requested',
     async (placement) => {
-      const { user } = setUp({ placement });
+      const { user, ...screen } = await setUp({ placement });
       const anchor = screen.getByTestId('tooltip-anchor');
 
       await user.hover(anchor);
-      await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
+      await expect.element(screen.getByRole('tooltip')).toBeInTheDocument();
 
-      expect(anchor).toHaveAttribute('data-placement', placement);
+      await expect.element(anchor).toHaveAttribute('data-placement', placement);
 
       await user.unhover(anchor);
-      await waitForElementToBeRemoved(screen.getByRole('tooltip'));
+      await expect.element(screen.getByRole('tooltip')).not.toBeInTheDocument();
     },
   );
 });

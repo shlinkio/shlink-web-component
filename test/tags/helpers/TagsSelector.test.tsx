@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { TagFilteringMode } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';
@@ -34,9 +33,9 @@ describe('<TagsSelector />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('has an input for tags', () => {
-    setUp();
-    expect(screen.getByPlaceholderText('Add tags to the URL')).toBeInTheDocument();
+  it('has an input for tags', async () => {
+    const screen = await setUp();
+    await expect.element(screen.getByPlaceholder('Add tags to the URL')).toBeInTheDocument();
   });
 
   it.each([
@@ -44,11 +43,11 @@ describe('<TagsSelector />', () => {
     ['AnOTH   er  tag  ', [...tags, 'anoth-er-tag']],
     ['foo', tags], // Already added tags should be ignored
   ])('invokes onChange when new tags are added', async (newTag, expectedTags) => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     expect(onChange).not.toHaveBeenCalled();
-    await user.type(screen.getByPlaceholderText('Add tags to the URL'), newTag);
-    await user.type(screen.getByPlaceholderText('Add tags to the URL'), '{Enter}');
+    await user.type(screen.getByPlaceholder('Add tags to the URL'), newTag);
+    await user.type(screen.getByPlaceholder('Add tags to the URL'), '{Enter}');
     expect(onChange).toHaveBeenCalledWith(expectedTags);
   });
 });

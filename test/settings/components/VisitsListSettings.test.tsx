@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import type { Settings } from '../../../src/settings';
 import { defaultVisitsListColumns, SettingsProvider } from '../../../src/settings';
@@ -17,19 +16,19 @@ describe('<VisitsListSettings />', () => {
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  it('renders expected list of controls', () => {
-    setUp();
+  it('renders expected list of controls', async () => {
+    const screen = await setUp();
 
     const items = Object.entries(visitsListColumns);
 
-    expect(screen.getAllByRole('listitem')).toHaveLength(items.length);
-    items.forEach(([, name]) => {
-      expect(screen.getByLabelText(new RegExp(`^${name}`))).toBeInTheDocument();
-    });
+    expect(screen.getByRole('listitem').all()).toHaveLength(items.length);
+    await Promise.all(
+      items.map(([, name]) => expect.element(screen.getByLabelText(new RegExp(`^${name}`))).toBeInTheDocument()),
+    );
   });
 
   it('changes enabled columns when a toggle is clicked', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     await user.click(screen.getByLabelText('City'));
     expect(setVisitsSettings).toHaveBeenLastCalledWith(
@@ -43,7 +42,7 @@ describe('<VisitsListSettings />', () => {
   });
 
   it('changes excluded columns when a column with exclussions is toggled', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     await user.click(screen.getByLabelText(/^User agent/));
     expect(setVisitsSettings).toHaveBeenLastCalledWith(

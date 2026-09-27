@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
 import { Tags } from '../../../src/short-urls/helpers/Tags';
 import { checkAccessibility } from '../../__helpers__/accessibility';
+import { render } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
 describe('<Tags />', () => {
@@ -10,18 +10,20 @@ describe('<Tags />', () => {
     checkAccessibility(setUp(tags)),
   );
 
-  it('returns no tags when the list is empty', () => {
-    setUp([]);
-    expect(screen.getByText('No tags')).toBeInTheDocument();
+  it('returns no tags when the list is empty', async () => {
+    const screen = await setUp([]);
+    await expect.element(screen.getByText('No tags')).toBeInTheDocument();
   });
 
   it.each([[['foo', 'bar', 'baz']], [['one', 'two', 'three', 'four', 'five']]])(
     'returns expected tags based on provided list',
-    (tags) => {
-      setUp(tags);
+    async (tags) => {
+      const screen = await setUp(tags);
 
-      expect(screen.queryByText('No tags')).not.toBeInTheDocument();
-      tags.forEach((tag) => expect(screen.getByText(tag)).toBeInTheDocument());
+      await Promise.all([
+        expect.element(screen.getByText('No tags')).not.toBeInTheDocument(),
+        ...tags.map((tag) => expect.element(screen.getByText(tag)).toBeInTheDocument()),
+      ]);
     },
   );
 });

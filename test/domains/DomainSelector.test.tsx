@@ -1,8 +1,7 @@
-import { screen, waitFor } from '@testing-library/react';
-import type { UserEvent } from '@testing-library/user-event';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { DomainSelector } from '../../src/domains/DomainSelector';
 import { checkAccessibility } from '../__helpers__/accessibility';
+import type { RenderWithEventsResult } from '../__helpers__/setUpTest';
 import { renderWithEvents } from '../__helpers__/setUpTest';
 
 describe('<DomainSelector />', () => {
@@ -19,19 +18,19 @@ describe('<DomainSelector />', () => {
       />,
     );
 
-  const switchToInputMode = async (user: UserEvent) => {
+  const switchToInputMode = async ({ user, ...screen }: RenderWithEventsResult) => {
     await user.click(screen.getByRole('button', { name: 'Domain' }));
-    await user.click(await screen.findByText('New domain'));
+    await user.click(await screen.getByText('New domain').findElement());
   };
 
   it.each([
     [setUp],
     [
       async () => {
-        const { user, container } = setUp();
-        await switchToInputMode(user);
+        const renderResult = await setUp();
+        await switchToInputMode(renderResult);
 
-        return { container };
+        return renderResult;
       },
     ],
   ])('passes a11y checks', (setUp) => checkAccessibility(setUp()));
@@ -40,36 +39,36 @@ describe('<DomainSelector />', () => {
     ['', 'Domain', true],
     ['my-domain.com', 'Domain: my-domain.com', false],
   ])('shows dropdown by default', async (value, expectedText, hasPlaceholderClass) => {
-    const { user } = setUp(value);
+    const { user, ...screen } = await setUp(value);
     const btn = screen.getByRole('button', { name: expectedText });
 
-    expect(screen.queryByPlaceholderText('Domain')).not.toBeInTheDocument();
+    await expect.element(screen.getByPlaceholder('Domain')).not.toBeInTheDocument();
     if (hasPlaceholderClass) {
-      expect(btn).toHaveClass('text-placeholder');
+      await expect.element(btn).toHaveClass('text-placeholder');
     } else {
-      expect(btn).not.toHaveClass('text-placeholder');
+      await expect.element(btn).not.toHaveClass('text-placeholder');
     }
     await user.click(btn);
 
-    await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
-    expect(screen.getAllByRole('menuitem')).toHaveLength(4);
+    await expect.element(screen.getByRole('menu')).toBeInTheDocument();
+    expect(screen.getByRole('menuitem').all()).toHaveLength(4);
   });
 
   it('allows toggling between dropdown and input', async () => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
-    expect(screen.queryByPlaceholderText('Domain')).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Domain' })).toBeInTheDocument();
+    await expect.element(screen.getByPlaceholder('Domain')).not.toBeInTheDocument();
+    await expect.element(screen.getByRole('button', { name: 'Domain' })).toBeInTheDocument();
 
-    await switchToInputMode(user);
+    await switchToInputMode({ user, ...screen });
 
-    expect(screen.getByPlaceholderText('Domain')).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Domain' })).not.toBeInTheDocument();
+    await expect.element(screen.getByPlaceholder('Domain')).toBeInTheDocument();
+    await expect.element(screen.getByRole('button', { name: 'Domain' })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Back to domains list' }));
 
-    expect(screen.queryByPlaceholderText('Domain')).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Domain' })).toBeInTheDocument();
+    await expect.element(screen.getByPlaceholder('Domain')).not.toBeInTheDocument();
+    await expect.element(screen.getByRole('button', { name: 'Domain' })).toBeInTheDocument();
   });
 
   it.each([
@@ -77,11 +76,11 @@ describe('<DomainSelector />', () => {
     [1, 'foo.com'],
     [2, 'bar.com'],
   ])('shows expected content on every item', async (index, expectedContent) => {
-    const { user } = setUp();
+    const { user, ...screen } = await setUp();
 
     await user.click(screen.getByRole('button', { name: 'Domain' }));
-    const items = await screen.findAllByRole('menuitem');
+    const items = screen.getByRole('menuitem').all();
 
-    expect(items[index]).toHaveTextContent(expectedContent);
+    await expect.element(items[index]).toHaveTextContent(expectedContent);
   });
 });

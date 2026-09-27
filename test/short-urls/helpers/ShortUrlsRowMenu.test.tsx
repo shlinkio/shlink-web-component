@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import type { ShlinkShortUrl } from '../../../src/api-contract';
@@ -37,10 +36,10 @@ describe('<ShortUrlsRowMenu />', () => {
       },
     );
   const setUpAndOpen = async (options: SetUpOptions = {}) => {
-    const result = setUp(options);
-    await result.user.click(screen.getByRole('button'));
+    const { user, ...screen } = await setUp(options);
+    await user.click(screen.getByRole('button'));
 
-    return result;
+    return { user, ...screen };
   };
 
   it.each([
@@ -58,15 +57,15 @@ describe('<ShortUrlsRowMenu />', () => {
     [undefined, 5],
     [{ itemsToCompare: [] }, 6],
   ])('renders correct amount of menu items', async (visitsComparison, expectedMenuItems) => {
-    await setUpAndOpen({ visitsComparison });
-    expect(screen.getAllByRole('menuitem')).toHaveLength(expectedMenuItems);
+    const screen = await setUpAndOpen({ visitsComparison });
+    expect(screen.getByRole('menuitem').all()).toHaveLength(expectedMenuItems);
   });
 
   it.each([
     [{ name: shortUrl.shortUrl }, false],
     [{ name: 'something else' }, true],
   ])('disables visits comparison menu if short URL is already selected', async (visitToCompare, canAddItem) => {
-    await setUpAndOpen({
+    const screen = await setUpAndOpen({
       visitsComparison: fromPartial({
         itemsToCompare: [visitToCompare],
         canAddItemWithName: () => canAddItem,
@@ -75,15 +74,15 @@ describe('<ShortUrlsRowMenu />', () => {
     const button = screen.getByRole('menuitem', { name: 'Compare visits' });
 
     if (canAddItem) {
-      expect(button).not.toHaveAttribute('disabled');
+      await expect.element(button).not.toHaveAttribute('disabled');
     } else {
-      expect(button).toHaveAttribute('disabled');
+      await expect.element(button).toHaveAttribute('disabled');
     }
   });
 
   it('adds visit to compare when clicked', async () => {
     const addVisitToCompare = vi.fn();
-    const { user } = await setUpAndOpen({
+    const { user, ...screen } = await setUpAndOpen({
       visitsComparison: {
         itemsToCompare: [],
         addItemToCompare: addVisitToCompare,
@@ -117,7 +116,7 @@ describe('<ShortUrlsRowMenu />', () => {
   ])(
     'directly deletes short URL if confirmation is disabled',
     async ({ shortUrlsListSettings, shouldRequestConfirmation }) => {
-      const { user } = await setUpAndOpen({ shortUrlsListSettings });
+      const { user, ...screen } = await setUpAndOpen({ shortUrlsListSettings });
 
       await user.click(screen.getByRole('menuitem', { name: 'Delete short URL' }));
 

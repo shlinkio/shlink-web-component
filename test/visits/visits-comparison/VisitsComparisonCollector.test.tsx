@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
 import { rangeOf } from '../../../src/utils/helpers';
@@ -35,9 +34,9 @@ describe('<VisitsComparisonCollector />', () => {
 
   it.each([[undefined], [fromPartial<VisitsComparison>({ itemsToCompare: [] })]])(
     'does not render when no context or no items are defined',
-    (visitsComparison) => {
-      const { container } = setUp(visitsComparison);
-      expect(container).toBeEmptyDOMElement();
+    async (visitsComparison) => {
+      const { container } = await setUp(visitsComparison);
+      await expect.element(container).toBeEmptyDOMElement();
     },
   );
 
@@ -45,27 +44,27 @@ describe('<VisitsComparisonCollector />', () => {
     [1, true],
     [2, false],
     [5, false],
-  ])('disables compare button when there is only one selected item', (itemsAmount, isDisabled) => {
-    setUp(createVisitsComparison(itemsAmount));
+  ])('disables compare button when there is only one selected item', async (itemsAmount, isDisabled) => {
+    const screen = await setUp(createVisitsComparison(itemsAmount));
     const compareButton = screen.getByText(/^Compare/);
 
-    expect(screen.getAllByRole('listitem')).toHaveLength(itemsAmount);
+    expect(screen.getByRole('listitem').all()).toHaveLength(itemsAmount);
     if (isDisabled) {
-      expect(compareButton).toBeDisabled();
+      await expect.element(compareButton).toBeDisabled();
     } else {
-      expect(compareButton).not.toBeDisabled();
+      await expect.element(compareButton).not.toBeDisabled();
     }
   });
 
   it('can clear selected items', async () => {
-    const { user } = setUp(createVisitsComparison(5));
+    const { user, ...screen } = await setUp(createVisitsComparison(5));
 
     await user.click(screen.getByLabelText('Close compare'));
     expect(clearItemsToCompare).toHaveBeenCalled();
   });
 
   it.each([[1], [2], [4]])('can remove individual items', async (index) => {
-    const { user } = setUp(createVisitsComparison(5));
+    const { user, ...screen } = await setUp(createVisitsComparison(5));
 
     await user.click(screen.getByLabelText(`Remove foo${index}`));
     expect(removeItemToCompare).toHaveBeenCalledWith({ name: `foo${index}`, query: `bar${index}` });
@@ -73,12 +72,11 @@ describe('<VisitsComparisonCollector />', () => {
 
   it.each([['short-urls' as const], ['tags' as const], ['domains' as const]])(
     'redirects comparison to expected location',
-    (type) => {
-      setUp(createVisitsComparison(3), type);
-      expect(screen.getByText(/^Compare/)).toHaveAttribute(
-        'href',
-        `/${type}/compare-visits?${type}=${encodeURIComponent('bar1,bar2,bar3')}`,
-      );
+    async (type) => {
+      const screen = await setUp(createVisitsComparison(3), type);
+      await expect
+        .element(screen.getByText(/^Compare/))
+        .toHaveAttribute('href', `/${type}/compare-visits?${type}=${encodeURIComponent('bar1,bar2,bar3')}`);
     },
   );
 
@@ -86,19 +84,19 @@ describe('<VisitsComparisonCollector />', () => {
     [undefined, true],
     [{ color: 'red' }, true],
     [{ backgroundColor: 'red' }, false],
-  ])('adds fallback background class when provided styles do not have backgroundColor', (style, hasClass) => {
-    setUp(createVisitsComparison([{ name: 'foo', query: 'bar', style }]));
+  ])('adds fallback background class when provided styles do not have backgroundColor', async (style, hasClass) => {
+    const screen = await setUp(createVisitsComparison([{ name: 'foo', query: 'bar', style }]));
     const item = screen.getByRole('listitem');
 
     if (hasClass) {
-      expect(item).toHaveClass('bg-gray-500');
+      await expect.element(item).toHaveClass('bg-gray-500');
     } else {
-      expect(item).not.toHaveClass('bg-gray-500');
+      await expect.element(item).not.toHaveClass('bg-gray-500');
     }
   });
 
-  it.each([[1], [2], [3], [4], [5]])('shows how many items are selected for comparison', (itemsAmount) => {
-    setUp(createVisitsComparison(itemsAmount));
-    expect(screen.getByText(/^Compare/)).toHaveTextContent(`Compare (${itemsAmount}/5)`);
+  it.each([[1], [2], [3], [4], [5]])('shows how many items are selected for comparison', async (itemsAmount) => {
+    const screen = await setUp(createVisitsComparison(itemsAmount));
+    await expect.element(screen.getByText(/^Compare/)).toHaveTextContent(`Compare (${itemsAmount}/5)`);
   });
 });

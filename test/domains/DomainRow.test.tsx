@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router';
 import type { ShlinkDomainRedirects } from '../../src/api-contract';
 import type { Domain } from '../../src/domains/data';
 import { DomainRow } from '../../src/domains/DomainRow';
-import { checkAccessibility } from '../__helpers__/accessibility';
+import { checkAccessibilityWithUnhover } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
 describe('<DomainRow />', () => {
@@ -30,7 +30,8 @@ describe('<DomainRow />', () => {
       </MemoryRouter>,
     );
 
-  it('passes a11y checks', () => checkAccessibility(setUp(fromPartial({ domain: 'domain', isDefault: true }))));
+  it('passes a11y checks', () =>
+    checkAccessibilityWithUnhover(setUp(fromPartial({ domain: 'domain', isDefault: true }))));
 
   it.each(redirectsCombinations)('shows expected redirects', async (redirects) => {
     const screen = await setUp(fromPartial({ domain: '', isDefault: true, redirects }));

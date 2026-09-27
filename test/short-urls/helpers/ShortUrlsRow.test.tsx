@@ -7,7 +7,7 @@ import type { Settings } from '../../../src/settings';
 import { SettingsProvider } from '../../../src/settings';
 import { ShortUrlsRow } from '../../../src/short-urls/helpers/ShortUrlsRow';
 import { now, parseDate } from '../../../src/utils/dates/helpers/date';
-import { checkAccessibility } from '../../__helpers__/accessibility';
+import { checkAccessibilityWithUnhover } from '../../__helpers__/accessibility';
 import { renderWithStore } from '../../__helpers__/setUpTest';
 import { colorGeneratorMock } from '../../utils/services/__mocks__/ColorGenerator.mock';
 
@@ -62,7 +62,7 @@ describe('<ShortUrlsRow />', () => {
     );
 
   it.each([{ hasRedirectRules: true }, { hasRedirectRules: false }])('passes a11y checks', (options) =>
-    checkAccessibility(setUp(options)),
+    checkAccessibilityWithUnhover(setUp(options)),
   );
 
   it.each([

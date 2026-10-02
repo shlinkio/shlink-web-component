@@ -10,6 +10,11 @@ import { RoutesPrefixProvider } from '../../src/utils/routesPrefix';
 import { checkAccessibility } from '../__helpers__/accessibility';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
+type SetUpOptions = {
+  excludeBots?: boolean;
+  loading?: boolean;
+};
+
 describe('<Overview />', () => {
   const shortUrls = {
     data: [],
@@ -21,10 +26,10 @@ describe('<Overview />', () => {
   });
 
   const routesPrefix = '/server/123';
-  const setUp = async (visits: { excludeBots?: boolean } = {}) => {
-    const screen = await renderWithStore(
+  const setUp = ({ excludeBots, loading }: SetUpOptions = {}) =>
+    renderWithStore(
       <MemoryRouter>
-        <SettingsProvider value={fromPartial({ visits })}>
+        <SettingsProvider value={fromPartial({ visits: { excludeBots } })}>
           <RoutesPrefixProvider value={routesPrefix}>
             <ContainerProvider
               value={fromPartial({
@@ -43,26 +48,16 @@ describe('<Overview />', () => {
       </MemoryRouter>,
       {
         initialState: {
-          tagsList: fromPartial({ status: 'idle', tags: ['foo', 'bar', 'baz'] }),
+          tagsList: fromPartial(loading ? { status: 'loading' } : { status: 'idle', tags: ['foo', 'bar', 'baz'] }),
         },
       },
     );
 
-    // Wait until loading finishes
-    await expect.element(screen.getByText('Loading...')).not.toBeInTheDocument();
-
-    return screen;
-  };
-
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
-  // FIXME
-  it.skip('displays loading messages when still loading', async () => {
-    // const setUpPromise = setUp();
-    // expect(screen.getByText('Loading...').all().length).toBeGreaterThan(0);
-    //
-    // await setUpPromise;
-    // await expect.element(screen.getByText('Loading...')).not.toBeInTheDocument();
+  it('displays loading messages when still loading', async () => {
+    const screen = await setUp({ loading: true });
+    expect(screen.getByText('Loading...').all().length).toBeGreaterThan(0);
   });
 
   it.each([

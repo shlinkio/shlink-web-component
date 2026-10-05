@@ -13,10 +13,18 @@ type SetUpOptions = Partial<SetShortUrlRedirectRules> & {
 
 describe('<ShortUrlRedirectRules />', () => {
   const getShortUrlRedirectRules = vi.fn().mockResolvedValue({});
-  const getShortUrl = vi.fn().mockResolvedValue(fromPartial<ShlinkShortUrl>({ shortUrl: 'https://s.test/123' }));
+  const getShortUrl = vi.fn();
   const setShortUrlRedirectRules = vi.fn();
   const setUp = async ({ loading, ...data }: SetUpOptions = {}) => {
-    const screen = await renderWithStore(
+    const { promise, resolve } = Promise.withResolvers<ShlinkShortUrl>();
+    const resolveShortUrlsLoading = () => resolve(fromPartial<ShlinkShortUrl>({ shortUrl: 'https://s.test/123' }));
+
+    getShortUrl.mockReturnValue(promise);
+    if (!loading) {
+      resolveShortUrlsLoading();
+    }
+
+    const result = await renderWithStore(
       <MemoryRouter>
         {/* Wrap in Card so that it has the proper background color and passes a11y contrast checks */}
         <Card>
@@ -44,11 +52,7 @@ describe('<ShortUrlRedirectRules />', () => {
       },
     );
 
-    if (!loading) {
-      await expect.element(screen.getByText('Loading...')).not.toBeInTheDocument();
-    }
-
-    return screen;
+    return { resolveShortUrlsLoading, ...result };
   };
 
   it('passes a11y checks', () => checkAccessibility(setUp()));
@@ -111,10 +115,12 @@ describe('<ShortUrlRedirectRules />', () => {
     }
   });
 
-  // FIXME
-  it.skip('shows loading message while loading rules', async () => {
-    const screen = await setUp({ loading: true });
-    expect(screen.getByText(/Loading/).all()).toHaveLength(2);
+  it('shows loading message while loading rules', async () => {
+    const { resolveShortUrlsLoading, ...screen } = await setUp({ loading: true });
+    await expect.element(screen.getByText(/Loading/)).toBeInTheDocument();
+
+    // Avoid a dangling promise by resolving it
+    resolveShortUrlsLoading();
   });
 
   it('can open rule modal', async () => {

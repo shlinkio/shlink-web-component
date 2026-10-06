@@ -60,9 +60,6 @@ describe('<ShortUrlsList />', () => {
       },
     );
 
-    // Wait for loading to finish, when the paginator will show
-    await expect.element(screen.getByTestId('short-urls-paginator')).toBeInTheDocument();
-
     return { history, ...screen };
   };
 
@@ -81,13 +78,15 @@ describe('<ShortUrlsList />', () => {
     );
   });
 
-  // FIXME
-  it.skip('hides paginator while loading', async () => {
-    // const setUpPromise = setUp();
-    //
-    // await expect.element(screen.getByTestId('short-urls-paginator')).not.toBeInTheDocument();
-    // await setUpPromise;
-    // await expect.element(screen.getByTestId('short-urls-paginator')).toBeInTheDocument();
+  it('hides paginator while loading', async () => {
+    const { promise, resolve } = Promise.withResolvers<ShlinkShortUrlsList>();
+    listShortUrlsMock.mockReturnValue(promise);
+
+    const screen = await setUp();
+
+    await expect.element(screen.getByTestId('short-urls-paginator')).not.toBeInTheDocument();
+    resolve(shortUrlsApiResponse);
+    await expect.element(screen.getByTestId('short-urls-paginator')).toBeInTheDocument();
   });
 
   it('gets list refreshed every time a tag is clicked', async () => {

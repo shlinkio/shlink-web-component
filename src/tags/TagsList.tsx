@@ -40,7 +40,7 @@ export const TagsList = boundToMercureHub(
     const visitsComparison = useVisitsComparison();
 
     if (tagsList.status === 'loading') {
-      return <Message loading />;
+      return <Message variant="loading" />;
     }
 
     if (tagsList.status === 'error') {

@@ -133,7 +133,7 @@ export const ShortUrlRedirectRules: FC = () => {
         </Button>
       </div>
       <form onSubmit={onSubmit}>
-        {loading && <Message loading />}
+        {loading && <Message variant="loading" />}
         {rules.length === 0 && !loading && (
           <SimpleCard className="text-center">
             <i>This short URL has no dynamic redirect rules</i>

@@ -7,13 +7,9 @@ import { checkAccessibility } from '../__helpers__/accessibility';
 import { MemoryRouterWithParams } from '../__helpers__/MemoryRouterWithParams';
 import { renderWithStore } from '../__helpers__/setUpTest';
 
-type SetUpOptions = Partial<ShortUrlEdition> & {
-  loading?: boolean;
-};
-
 describe('<EditShortUrl />', () => {
   const getShortUrlsDetails = vi.fn();
-  const setUp = ({ loading, ...edition }: SetUpOptions = {}) =>
+  const setUp = (edition: Partial<ShortUrlEdition> = {}) =>
     renderWithStore(
       <MemoryRouterWithParams params={{ shortCode: 'abc123' }}>
         <SettingsProvider value={{}}>
@@ -23,7 +19,6 @@ describe('<EditShortUrl />', () => {
       {
         initialState: {
           shortUrlEdition: fromPartial(edition),
-          shortUrlsDetails: fromPartial({ status: loading ? 'loading' : 'idle' }),
         },
         apiClientFactory: () => fromPartial({ getShortUrl: getShortUrlsDetails }),
       },
@@ -39,10 +34,16 @@ describe('<EditShortUrl />', () => {
     checkAccessibility(setUp(edition)),
   );
 
-  // FIXME
-  it.skip('renders loading message while loading detail', async () => {
-    const screen = await setUp({ loading: true });
+  it('renders loading message while loading detail', async () => {
+    const { promise, resolve } = Promise.withResolvers<void>();
+    getShortUrlsDetails.mockReturnValue(promise);
+
+    const screen = await setUp();
+
+    await expect.element(screen.getByText(/Loading/)).toBeInTheDocument();
     await expect.element(screen.getByPlaceholder('URL to be shortened')).not.toBeInTheDocument();
+
+    resolve();
   });
 
   it('renders error when loading detail fails', async () => {

@@ -44,7 +44,7 @@ export const ManageDomains: FC = () => {
   const visitsComparison = useVisitsComparison();
 
   if (status === 'loading') {
-    return <Message loading />;
+    return <Message variant="loading" />;
   }
 
   return (

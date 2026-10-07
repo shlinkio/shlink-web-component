@@ -1,4 +1,5 @@
 import { fromPartial } from '@total-typescript/shoehorn';
+import { commands } from 'vitest/browser';
 import { SettingsProvider } from '../../../src/settings';
 import { QrCodeModal } from '../../../src/short-urls/helpers/QrCodeModal';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -104,10 +105,13 @@ describe('<QrCodeModal />', () => {
     await expect.element(screen.getByRole('button', { name: /^Clear logo/ })).not.toBeInTheDocument();
   });
 
-  // FIXME This test needs some investigation
-  it.skip('saves the QR code image when clicking the Download button', async () => {
+  it('saves the QR code image when clicking the Download button', async () => {
     const { user, ...screen } = await setUp();
+    const downloadPromise = commands.listenForFileDownload();
     await user.click(screen.getByRole('button', { name: /^Download/ }));
+
+    // If a download didn't happen, this promise will never resolve
+    await downloadPromise;
   });
 
   it.each(['png', 'svg', 'jpeg', 'webp'])('copies the QR data URI when clicking the Copy button', async (format) => {

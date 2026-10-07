@@ -1,6 +1,6 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import { playwright } from '@vitest/browser-playwright';
+import { defineBrowserCommand, playwright } from '@vitest/browser-playwright';
 import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vitest/config';
 import pack from './package.json' with { type: 'json' };
@@ -90,6 +90,9 @@ export default defineConfig({
       headless: true,
       screenshotFailures: false,
       instances: [{ browser: 'chromium' }],
+      commands: {
+        listenForFileDownload: defineBrowserCommand(({ page }) => page.waitForEvent('download')),
+      },
     },
 
     coverage: {

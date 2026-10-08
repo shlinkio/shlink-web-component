@@ -1,5 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 import { MemoryRouter } from 'react-router';
+import { page } from 'vitest/browser';
 import { ContainerProvider } from '../../src/container/context';
 import { TagsTable } from '../../src/tags/TagsTable';
 import { rangeOf } from '../../src/utils/helpers';
@@ -93,10 +94,14 @@ describe('<TagsTable />', () => {
     await expect.element(container.querySelector('[data-active="true"]') as HTMLElement).toHaveTextContent('5');
   });
 
-  // FIXME This test does not work because of the browser resolution. The headers that are clicked are not visible
-  it.skip('orders tags when column is clicked', async () => {
+  it('orders tags when column is clicked', async () => {
     const { user, ...screen } = await setUp(tags(100));
-    const headers = screen.getByRole('columnheader', { includeHidden: true }).all();
+
+    // By default, tests run in a mobile resolution, where table headers are hidden. Setting a bigger resolution so that
+    // columns are visible
+    await page.viewport(1280, 720);
+
+    const headers = screen.getByRole('columnheader').all();
 
     expect(orderByColumn).not.toHaveBeenCalled();
     await user.click(headers[0]);

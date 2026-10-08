@@ -1,12 +1,12 @@
 import type { MercureInfo } from '../reducers/mercureInfo';
 
 export const bindToMercureTopic = <T>(
-  mercureInfo: MercureInfo,
+  mercureInfo: MercureInfo & { version?: 'v0' | 'v1' },
   topics: string[],
   onMessage: (message: T) => void,
   onTokenExpired: () => void,
 ) => {
-  const { status } = mercureInfo;
+  const { status, version: mercureVersion = 'v0' } = mercureInfo;
 
   if (status !== 'loaded' || !mercureInfo.mercureHubUrl) {
     return undefined;
@@ -16,7 +16,7 @@ export const bindToMercureTopic = <T>(
 
   const subscriptions = topics.map((topic) => {
     const hubUrl = new URL(mercureInfo.mercureHubUrl);
-    hubUrl.searchParams.append('topic', topic);
+    hubUrl.searchParams.append(mercureVersion === 'v0' ? 'topic' : 'match', topic);
     hubUrl.searchParams.append('authorization', mercureInfo.token);
 
     const es = new EventSource(hubUrl);

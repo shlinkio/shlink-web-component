@@ -1,33 +1,34 @@
+import type { EventSourceMessage} from '@microsoft/fetch-event-source';
+import { fetchEventSource } from '@microsoft/fetch-event-source';
 import type { MercureInfo } from '../reducers/mercureInfo';
 
 export const bindToMercureTopic = <T>(
-  mercureInfo: MercureInfo & { version?: 'v0' | 'v1' },
+  mercureInfo: MercureInfo & { version?: 'legacy' | 'stable' },
   topics: string[],
   onMessage: (message: T) => void,
   onTokenExpired: () => void,
 ) => {
-  const { status, version: mercureVersion = 'v0' } = mercureInfo;
+  const { status, version: mercureVersion = 'legacy' } = mercureInfo;
 
   if (status !== 'loaded' || !mercureInfo.mercureHubUrl) {
     return undefined;
   }
 
-  const onEventSourceMessage = ({ data }: MessageEvent) => onMessage(JSON.parse(data) as T);
+  const onEventSourceMessage = ({ data }: EventSourceMessage) => onMessage(JSON.parse(data) as T);
+  const controller = new AbortController();
 
-  const subscriptions = topics.map((topic) => {
+  topics.forEach((topic) => {
     const hubUrl = new URL(mercureInfo.mercureHubUrl);
-    hubUrl.searchParams.append(mercureVersion === 'v0' ? 'topic' : 'match', topic);
-    hubUrl.searchParams.append('authorization', mercureInfo.token);
+    hubUrl.searchParams.append(mercureVersion === 'legacy' ? 'topic' : 'match', topic);
 
-    const es = new EventSource(hubUrl);
-
-    es.onmessage = onEventSourceMessage;
-    // When an error occurs, invoke onTokenExpired just in case that was the issue
-    // TODO Limit the amount of attempts
-    es.onerror = onTokenExpired;
-
-    return es;
+    fetchEventSource(hubUrl.toString(), {
+      signal: controller.signal,
+      headers: { Authorization: `Bearer ${mercureInfo.token}` },
+      onmessage: onEventSourceMessage,
+      // TODO Limit the amount of attempts
+      onerror: onTokenExpired,
+    }).catch((e) => console.warn(e));
   });
 
-  return () => subscriptions.forEach((es) => es.close());
+  return () => controller.abort();
 };

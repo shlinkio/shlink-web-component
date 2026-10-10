@@ -38,7 +38,6 @@ describe('helpers', () => {
       const hubUrl = new URL(mercureHubUrl);
 
       hubUrl.searchParams.append('topic', topic);
-      hubUrl.searchParams.append('authorization', token);
 
       const callback = bindToMercureTopic(
         {
@@ -51,7 +50,7 @@ describe('helpers', () => {
         onTokenExpired,
       );
 
-      expect(EventSourceMock).toHaveBeenCalledWith(hubUrl);
+      expect(EventSourceMock).toHaveBeenCalledWith(hubUrl, { withCredentials: true });
 
       const [es] = EventSourceMock.mock.instances as any[];
 

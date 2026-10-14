@@ -8,60 +8,59 @@ describe('helpers', () => {
   describe('bindToMercureTopic', () => {
     const onMessage = vi.fn();
     const onTokenExpired = vi.fn();
-    const EventSourceMock = vi.fn(
-      class {
-        close = vi.fn();
-      },
-    );
-
-    beforeEach(() => {
-      vi.stubGlobal('EventSource', EventSourceMock);
-    });
-    afterEach(() => vi.unstubAllGlobals());
+    const fetchEventSource = vi.fn().mockResolvedValue(undefined);
 
     it.each([
       [fromPartial<MercureInfo>({ status: 'error' })],
       [fromPartial<MercureInfo>({ status: 'loading' })],
       [fromPartial<MercureInfo>({ status: 'loaded', mercureHubUrl: undefined })],
     ])('does not bind an EventSource when loading, error or no hub URL', (mercureInfo) => {
-      bindToMercureTopic(mercureInfo, [''], noop, noop);
+      bindToMercureTopic(mercureInfo, ['topic'], noop, noop);
 
-      expect(EventSourceMock).not.toHaveBeenCalled();
+      expect(fetchEventSource).not.toHaveBeenCalled();
       expect(onMessage).not.toHaveBeenCalled();
       expect(onTokenExpired).not.toHaveBeenCalled();
     });
 
-    it('binds an EventSource when mercure info is properly loaded', () => {
-      const token = 'abc.123.efg';
+    it.each([
+      { version: 'legacy' as const, expectedTopicArg: 'topic' },
+      { version: 'stable' as const, expectedTopicArg: 'match' },
+    ])('binds an EventSource when mercure info is properly loaded', ({ version, expectedTopicArg }) => {
+      const token = 'abc.123.def';
       const mercureHubUrl = 'https://example.com/.well-known/mercure';
       const topic = 'foo';
       const hubUrl = new URL(mercureHubUrl);
 
-      hubUrl.searchParams.append('topic', topic);
-      hubUrl.searchParams.append('authorization', token);
+      hubUrl.searchParams.append(expectedTopicArg, topic);
 
-      const callback = bindToMercureTopic(
+      bindToMercureTopic(
         {
           status: 'loaded',
           mercureHubUrl,
           token,
+          version,
         },
         [topic],
         onMessage,
         onTokenExpired,
+        fetchEventSource,
       );
 
-      expect(EventSourceMock).toHaveBeenCalledWith(hubUrl);
+      expect(fetchEventSource).toHaveBeenCalledWith(
+        hubUrl.toString(),
+        expect.objectContaining({
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      );
 
-      const [es] = EventSourceMock.mock.instances as any[];
+      const [, args] = fetchEventSource.mock.lastCall as any[];
 
-      es.onmessage?.({ data: '{"foo": "bar"}' });
-      es.onerror?.();
+      args?.onmessage?.({ data: '{"foo": "bar"}' });
+      args?.onerror?.();
       expect(onMessage).toHaveBeenCalledWith({ foo: 'bar' });
       expect(onTokenExpired).toHaveBeenCalled();
-
-      callback?.();
-      expect(es.close).toHaveBeenCalled();
     });
   });
 });

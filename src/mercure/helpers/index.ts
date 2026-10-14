@@ -1,4 +1,4 @@
-import type { EventSourceMessage} from '@microsoft/fetch-event-source';
+import type { EventSourceMessage } from '@microsoft/fetch-event-source';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import type { MercureInfo } from '../reducers/mercureInfo';
 
@@ -7,6 +7,9 @@ export const bindToMercureTopic = <T>(
   topics: string[],
   onMessage: (message: T) => void,
   onTokenExpired: () => void,
+
+  /* Test seam */
+  _fetchEventSource: typeof fetchEventSource = fetchEventSource,
 ) => {
   const { status, version: mercureVersion = 'legacy' } = mercureInfo;
 
@@ -21,7 +24,7 @@ export const bindToMercureTopic = <T>(
     const hubUrl = new URL(mercureInfo.mercureHubUrl);
     hubUrl.searchParams.append(mercureVersion === 'legacy' ? 'topic' : 'match', topic);
 
-    fetchEventSource(hubUrl.toString(), {
+    _fetchEventSource(hubUrl.toString(), {
       signal: controller.signal,
       headers: { Authorization: `Bearer ${mercureInfo.token}` },
       onmessage: onEventSourceMessage,

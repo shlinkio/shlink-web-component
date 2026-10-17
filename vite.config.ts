@@ -75,6 +75,7 @@ export default defineConfig({
     setupFiles: [
       // Load styles in tests, as they affect how components look and behave, and are important for a11y contrast checks
       './dev/tailwind.css',
+      './test/setup.ts',
     ],
 
     // Propagate env vars from process.env, so that they can be accessed from tests via import.meta.env

@@ -219,9 +219,7 @@ describe('<VisitsStats />', () => {
     expect(history.location.search).toContain(`domain=${expectedFilter}`);
   });
 
-  // FIXME Snapshots do not match when run in CI, because it generate some slightly off coordinates.
-  //       I Need to investigate why.
-  it.skipIf(import.meta.env.CI).each([
+  it.each([
     { loadPrevInterval: undefined, prevVisits: undefined },
     { loadPrevInterval: true, prevVisits: undefined },
     { loadPrevInterval: false, prevVisits: undefined },
@@ -239,6 +237,10 @@ describe('<VisitsStats />', () => {
     });
 
     expect(getVisitsMock).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ loadPrevInterval }));
-    expect(screen.getByTestId('line-chart-container').element()).toMatchSnapshot();
+    if (prevVisits) {
+      await expect.element(screen.getByText(/Previous period \(/)).toBeInTheDocument();
+    } else {
+      await expect.element(screen.getByText(/Previous period \(/)).not.toBeInTheDocument();
+    }
   });
 });

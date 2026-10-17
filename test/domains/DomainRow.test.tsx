@@ -30,8 +30,7 @@ describe('<DomainRow />', () => {
       </MemoryRouter>,
     );
 
-  it('passes a11y checks', () =>
-    checkAccessibility(setUp(fromPartial({ domain: 'domain', isDefault: true }))));
+  it('passes a11y checks', () => checkAccessibility(setUp(fromPartial({ domain: 'domain', isDefault: true }))));
 
   it.each(redirectsCombinations)('shows expected redirects', async (redirects) => {
     const screen = await setUp(fromPartial({ domain: '', isDefault: true, redirects }));

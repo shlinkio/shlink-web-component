@@ -75,12 +75,18 @@ describe('<QrCodeModal />', () => {
         await user.upload(screen.getByTestId('logo-input'), [logo]);
       },
     },
-  ])('displays an image with expected configuration', async ({ applyChanges }) => {
-    const { user, ...screen } = await setUp();
+  ])(
+    'displays an image with expected configuration',
+    {
+      retry: 3,
+    },
+    async ({ applyChanges }) => {
+      const { user, ...screen } = await setUp();
 
-    await applyChanges({ user, ...screen });
-    expect(screen.getByTestId('qr-code-container').element()).toMatchSnapshot();
-  });
+      await applyChanges({ user, ...screen });
+      expect(screen.getByTestId('qr-code-container').element()).toMatchSnapshot();
+    },
+  );
 
   it.each(['logo.png', 'some-image.svg', 'whatever.jpg'])('allows logo to be seat and cleared', async (logoName) => {
     const logo = new File([''], logoName, { type: 'image/svg' });

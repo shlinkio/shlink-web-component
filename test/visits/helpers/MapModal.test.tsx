@@ -1,3 +1,4 @@
+import { page } from 'vitest/browser';
 import { MapModal } from '../../../src/visits/helpers/MapModal';
 import type { CityStats } from '../../../src/visits/types';
 import { checkAccessibility } from '../../__helpers__/accessibility';
@@ -26,6 +27,10 @@ describe('<MapModal />', () => {
   it('passes a11y checks', () => checkAccessibility(setUp()));
 
   it('renders expected map', async () => {
+    // By default, tests run in a mobile resolution. The map does some weird rendering there, so let's switch to desktop
+    // resolution.
+    await page.viewport(1280, 720);
+
     const screen = await setUp();
     expect(screen.getByRole('dialog').element()).toMatchSnapshot();
   });

@@ -106,7 +106,7 @@
     "playwright": "^1.64.0",
     "tailwindcss": "^4.1.5",
     "typescript": "^7.0.2",
-    "vite": "^8.3.4",
+    "vite": "^8.3.5",
     "vite-plugin-dts": "^5.1.2",
     "vitest": "^5.0.0",
     "vitest-browser-react": "^2.3.0"

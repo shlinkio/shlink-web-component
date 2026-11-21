@@ -81,7 +81,7 @@
     "react-external-link": "^2.8.0",
     "react-leaflet": "^5.0",
     "react-swipeable": "^7.0.2",
-    "recharts": "^3.10.1"
+    "recharts": "^3.11.0"
   },
   "devDependencies": {
     "@shlinkio/eslint-config-js-coding-standard": "~4.2.0",

@@ -48,11 +48,9 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
             <desc />
             <g
               class="recharts-zIndex-layer_-100"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_-50"
-              tabindex="-1"
             />
             <defs>
               <clippath
@@ -68,7 +66,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
             </defs>
             <g
               class="recharts-zIndex-layer_100"
-              tabindex="-1"
             >
               <g
                 class="recharts-layer recharts-pie"
@@ -98,39 +95,33 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 1`] = `
             </g>
             <g
               class="recharts-zIndex-layer_200"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_300"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_400"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_500"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_600"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_1000"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_1100"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_1200"
-              tabindex="-1"
+            />
+            <g
+              class="recharts-zIndex-layer_1900"
             />
             <g
               class="recharts-zIndex-layer_2000"
-              tabindex="-1"
             />
           </svg>
         </div>
@@ -236,11 +227,9 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
             <desc />
             <g
               class="recharts-zIndex-layer_-100"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_-50"
-              tabindex="-1"
             />
             <defs>
               <clippath
@@ -256,7 +245,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
             </defs>
             <g
               class="recharts-zIndex-layer_100"
-              tabindex="-1"
             >
               <g
                 class="recharts-layer recharts-pie"
@@ -311,39 +299,33 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 2`] = `
             </g>
             <g
               class="recharts-zIndex-layer_200"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_300"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_400"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_500"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_600"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_1000"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_1100"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_1200"
-              tabindex="-1"
+            />
+            <g
+              class="recharts-zIndex-layer_1900"
             />
             <g
               class="recharts-zIndex-layer_2000"
-              tabindex="-1"
             />
           </svg>
         </div>
@@ -449,11 +431,9 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
             <desc />
             <g
               class="recharts-zIndex-layer_-100"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_-50"
-              tabindex="-1"
             />
             <defs>
               <clippath
@@ -469,7 +449,6 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
             </defs>
             <g
               class="recharts-zIndex-layer_100"
-              tabindex="-1"
             >
               <g
                 class="recharts-layer recharts-pie"
@@ -532,39 +511,33 @@ exports[`<DoughnutChart /> > renders Doughnut with expected props 3`] = `
             </g>
             <g
               class="recharts-zIndex-layer_200"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_300"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_400"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_500"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_600"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_1000"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_1100"
-              tabindex="-1"
             />
             <g
               class="recharts-zIndex-layer_1200"
-              tabindex="-1"
+            />
+            <g
+              class="recharts-zIndex-layer_1900"
             />
             <g
               class="recharts-zIndex-layer_2000"
-              tabindex="-1"
             />
           </svg>
         </div>
